@@ -1,0 +1,58 @@
+#!/bin/bash
+#. /net/intel/compiler80/bin/ifortvars.sh
+bin='../bin'
+flags='-O3'
+#F77='g77'
+F77=ifort 
+F90=ifort
+echo 'Compiling feff85'
+$F77 $flags feff85L.f -o  ${bin}/feff85l
+echo 'Compiling eps2exc'
+$F77 $flags eps2exc_tot.f -o ${bin}/eps2exc
+echo 'Compiling rdinp'
+$F90 $flags rdinp_tot.f90 -o ${bin}/rdinp
+echo 'Compiling atomic'
+$F90 $flags atomic_tot.f90 -o ${bin}/atomic
+echo 'Compiling opconsat'
+$F90 $flags opconsat_tot.f90 -o ${bin}/opconsat
+cd ..
+echo '#!/bin/bash' > feff85_light
+echo "feffbin=${PWD}/bin" >> feff85_light
+echo "# Parameters for running MPSE." >> feff85_light
+echo "# NPoles: number of poles to represent loss function." >> feff85_light
+echo "NPoles=100" >> feff85_light
+echo "# IsMetal: If 'y', sets dielectric constant to metallic value, use n otherwise." >> feff85_light
+echo "IsMetal=y" >> feff85_light
+echo "# SetDielectricConstant: Only used if IsMetal='n'." >> feff85_light
+echo "# If 'y' user can set dielectric constant, if 'n' will use value obtained by opcons." >> feff85_light
+echo "SetDielectricConstant=n" >> feff85_light
+echo "# DielectricConstant: Value of dielectric constant. Only used if SetDielectricConstant='y'" >> feff85_light
+echo "DielectricConstant=1.0" >> feff85_light
+
+echo '# For now, just always run opconsat and eps2exc' >> feff85_light
+echo 'mkdir -p temp' >> feff85_light
+echo 'grep -iv SCF feff.inp |grep -iv MPSE > temp/feff.inp' >> feff85_light
+echo 'cd temp' >> feff85_light
+echo '${feffbin}/rdinp' >> feff85_light
+echo 'echo "run_opcons" > opcons.inp' >> feff85_light
+echo 'echo " T" >> opcons.inp' >> feff85_light
+echo 'echo "print_eps" >> opcons.inp' >> feff85_light
+echo 'echo " F" >> opcons.inp' >> feff85_light
+echo 'echo "NumDens(0:nphx)" >> opcons.inp' >> feff85_light
+echo 'echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp' >> feff85_light
+echo 'echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp' >> feff85_light
+echo 'echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp' >> feff85_light
+echo 'echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp' >> feff85_light
+echo 'echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp' >> feff85_light
+echo '${feffbin}/atomic' >> feff85_light
+echo '${feffbin}/opconsat' >> feff85_light
+echo 'cp loss.dat ../' >> feff85_light
+echo 'cd ..' >> feff85_light
+echo 'rm -r temp' >> feff85_light
+echo 'echo "$NPoles" > eps2exc.in' >> feff85_light
+echo 'echo "$IsMetal" >> eps2exc.in' >> feff85_light
+echo 'echo "$SetDielectricConstant" >> eps2exc.in' >> feff85_light
+echo 'echo "$DielectricConstant" >> eps2exc.in ' >> feff85_light
+echo '${feffbin}/eps2exc < eps2exc.in' >> feff85_light
+echo '${feffbin}/feff85l' >> feff85_light
+chmod u+x feff85_light

@@ -1,0 +1,38 @@
+#!/bin/bash
+feffbin=/phys/users/hebhop/Programs/Feff/Feff8.5/Feff8.5L/bin
+# Parameters for running MPSE.
+# NPoles: number of poles to represent loss function.
+NPoles=100
+# IsMetal: If 'y', sets dielectric constant to metallic value, use n otherwise.
+IsMetal=y
+# SetDielectricConstant: Only used if IsMetal='n'.
+# If 'y' user can set dielectric constant, if 'n' will use value obtained by opcons.
+SetDielectricConstant=n
+# DielectricConstant: Value of dielectric constant. Only used if SetDielectricConstant='y'
+DielectricConstant=1.0
+# For now, just always run opconsat and eps2exc
+mkdir -p temp
+grep -iv SCF feff.inp |grep -iv MPSE > temp/feff.inp
+cd temp
+${feffbin}/rdinp
+echo "run_opcons" > opcons.inp
+echo " T" >> opcons.inp
+echo "print_eps" >> opcons.inp
+echo " F" >> opcons.inp
+echo "NumDens(0:nphx)" >> opcons.inp
+echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp
+echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp
+echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp
+echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp
+echo "  -1.00000000000000       -1.00000000000000       -1.00000000000000     " >> opcons.inp
+${feffbin}/atomic
+${feffbin}/opconsat
+cp loss.dat ../
+cd ..
+rm -r temp
+echo "$NPoles" > eps2exc.in
+echo "$IsMetal" >> eps2exc.in
+echo "$SetDielectricConstant" >> eps2exc.in
+echo "$DielectricConstant" >> eps2exc.in 
+${feffbin}/eps2exc < eps2exc.in
+${feffbin}/feff85l
