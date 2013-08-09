@@ -1063,7 +1063,7 @@ c           Default set above is potlbl=' '
                  if(iinput.eq.2) spcol=3
  1011          continue ! Josh - Should these 1011 be 900? !KJ No.  Optional input.
               elseif(icnt.eq.4) then
-d                 read(words(1),30,err=900) xivec(1)  ! read direction of incoming beam
+c                 read(words(1),30,err=900) xivec(1)  ! read direction of incoming beam
                  read(words(2),30,err=900) xivec(2)  ! in arbitrary units
                  read(words(3),30,err=900) xivec(3)
                  xinorm=dsqrt(xivec(1)**2+xivec(2)**2+xivec(3)**2)
