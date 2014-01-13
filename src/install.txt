@@ -1,0 +1,89 @@
+
+Note: This set of instructions was updated 1/26/01 
+
+Follow these instructions for installation of a monolithic code feff8.
+These may be obsolete with the newer modulear versions in feff8.2;
+see the Readme files in the latest distribution for details. Complain
+to the developers if you encounter difficulties.
+
+Installation instructions for Feff8:
+
+Feff8 is distributed as fortran source code, and must be compiled and linked
+to make an executable program.  There are three different forms for the
+distributed source code here:
+
+   1. feff800_total.f:
+        A single file of all fortran source code. This form
+        is very easy to compile:
+           > f77 -o feff8 feff800_total.f
+
+        should work.  Check your Fortran compiler (or ask a local expert)
+        for the best switches to use.  We recommend a medium-level of
+        optimization.  The disadvantage of this approach is that the amount
+        of RAM memory required to run this version is large (~64Mb), and
+        difficult to change.
+
+
+   2. feff800.f and dim.h: 
+        Two source files, allowing easier customization of parameters so
+        that Feff can run on machines with less than 64Mb RAM.  After 
+        customizing dim.h (see note below),  this form will compile on most
+        systems with:
+           > f77 -o feff8 feff800.f
+
+        The extra file, dim.h, is automatically included in the main
+        source, feff800.f, and sets limits on arrays sizes.
+
+   3. feff800.tar.gz:
+        A unix-style distribution of broken-apart code, with Makefile.
+        Recommended for those interested in further customization, and
+        those used to using the 'make' utility.  To use this form, 
+        unpack the distribution kit:
+           > gunzip -c feff800.tar.gz | tar xvf -
+        move into the src directory,  
+           > cd src
+        You may want to alter the F77 definition in the Makefile, and 
+        dim.h (as noted below).  The build feff8:
+           > make
+
+----------------------------------------------------------------------
+Customizing Feff8 dimensions with dim.h:
+
+  For the two-source distribution (feff800.f + dim.h), the majority of the
+code is in feff800.f, and will not need alteration.  The smaller file,
+dim.h contains some of the size-definitions (as Fortran parameter
+statements) and should be altered if you cannot run feff800_total.f as
+distributed.  If you're not used to editing fortran programs, don't worry
+-- we've tried to make it as easy as possible.
+      
+The most important parameter to change is "nclusx" the first one listed
+(that is, listed on a line that does not begin with "c").  This sets the
+upper limit on the maximum number of atoms in a Full-Multiple-Scattering
+cluster.  As distributed this line is:
+
+       parameter (nclusx=80)
+
+For a 32Mb machine, you'll probably need to reduce nclusx to 50:
+
+       parameter (nclusx=50)
+ 
+Note that Fortran requires the 'p' in parameter to be on or after the 7th
+column in the line.  Fortran 'comment lines' begin with 'c', and you'll see
+several of them in dim.h.  
+
+You may also want to alter the second parameter (natx), which sets the
+maximum number of atoms in the EXAFS calculation.  As distributed, this
+is set to 1000 atoms:
+       parameter (natx =1000)
+
+We recommend _not_ changing any of the other dimensions listed in dim.h.
+
+The dim.h file is automatically included at many points in feff800.f, so
+after you've altered dim.h, recompiling feff with automatically take the
+new dimensions into account:
+  > f77 -o feff8  feff800.f
+
+
+
+
+

@@ -1,0 +1,11 @@
+#!/bin/bash
+#. /net/intel/compiler80/bin/ifortvars.sh
+bin='../../bin/Mono'
+flags=''
+#F77='g77'
+F77=ifort 
+$F77 $flags feff85L.f -o  ${bin}/feff
+
+echo -e "\n\n\tYou can use the script"
+echo -e "\t\tfeff"
+echo -e "\tlocated in ../ to run feff"

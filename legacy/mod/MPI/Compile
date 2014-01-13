@@ -1,0 +1,22 @@
+#!/bin/bash
+# This script will compile the paralell modular feff.
+# Please replace the FLAGS, and F77 variables with the 
+# appropriate values. 
+# The binaries will be located in $bin if $bin exists
+# else they will be located in the present directory.
+
+# mpi on intel
+FLAGS='-static-libcxa -O3 -xK -tpp7  -unroll:1'
+bin='../../bin/MPI'
+mods='rdinp pot ldos xsph fms path genfmt ff2x so2conv screen eels'
+F77='mpif77'
+
+if [ ! -e $bin ]
+then
+	bin='.'
+fi
+
+for mod in $mods
+do
+	$F77 $FLAGS ${mod}_tot.f -o $bin/${mod}
+done

@@ -1,0 +1,15 @@
+#!/bin/bash
+#. /net/intel/compiler80/bin/ifortvars.sh
+bin='../../bin/Seq/'
+flags=''
+#F77='ifort'
+F77='g77'
+mods='rdinp pot ldos xsph fms path genfmt ff2x screen so2conv eels'
+for mod in $mods
+do
+	$F77 $flags ${mod}_tot.f -o ${bin}/$mod
+done
+
+echo -e "\n\n\tYou can use the script"
+echo -e "\t\tfeff"
+echo -e "\tlocated in ../ to run feff"

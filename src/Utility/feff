@@ -1,0 +1,3 @@
+#!/bin/bash
+FeffPath=/phys/users/jorissen/check/feff85/src/Utility/Mono
+$FeffPath/feff

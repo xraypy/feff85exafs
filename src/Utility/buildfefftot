@@ -1,0 +1,29 @@
+#!/bin/bash
+cat cright.f feff.f \
+feffbd.f ffread.f ffsort.f ffmod1.f ffmod2.f ffmod3.f ffmod4.f \
+ffmod5.f ffmod6.f \
+afolp.f axafs.f bcoef.f besjn.f bjnser.f broydn.f ccrit.f \
+chopen.f corval.f cpl0.f cright.f csomm.f csomm2.f cubic.f diff.f \
+dist.f edp.f exconv.f exjlnl.f fermi.f ff2chi.f ff2gen.f ff2rho.f \
+ff2xmu.f conv.f ffq.f \
+feffdt.f fixdsp.f fixdsx.f fixvar.f fmtrxi.f \
+dfovrg.f frnrm.f genfmt.f getorb.f getxk.f \
+head.f heap.f imhl.f intout.f fmsie.f fmstot.f fmspack.f ovp2mt.f lu.f xprep.f \
+ipack.f istprm.f istval.f ldos.f mcrith.f mcritk.f \
+mkptz.f mmtr.f mmtrxi.f movrlp.f mpprmd.f mpprmp.f mrb.f \
+outcrt.f ovrlp.f padlib.f paths.f pathsd.f pertab.f phase.f \
+phash.f phmesh.f pijump.f pot.f polint.f xsph.f \
+prcrit.f quinn.f rdfbin.f rdhead.f rdinp.f rdpath.f \
+rhlbp.f rhl.f rot3i.f rphbin.f rpotph.f sclmz.f sdist.f \
+setedg.f setgam.f setkap.f setlam.f sidx.f sigms.f sigrem.f snlm.f somm.f \
+somm2.f sortix.f str.f str2dp.f strap.f sumax.f terp.f terpc.f timrep.f \
+trap.f vbh.f vlda.f wlog.f wphase.f wpot.f xcpot.f xscorr.f xsect.f \
+xstar.f  xx.f \
+scmt.f rhol.f rholie.f grids.f ff2g.f coulom.f\
+  aprdev.f aprdec.f akeato.f bkmrdf.f cofcon.f \
+  cwig3j.f dentfa.f dsordf.f dsordc.f etotal.f fdmocc.f \
+  fdrirk.f inmuat.f inmuac.f intdir.f lagdat.f \
+  messer.f muatco.f nucdev.f muatcc.f nucdec.f  ortdat.f \
+  ortdac.f potrdf.f potdvp.f potex.f potslw.f scfdat.f soldir.f \
+  solout.f solin.f s02at.f tabrat.f  \
+  wfirdf.f yzkrdf.f yzkteg.f wfirdc.f yzkrdc.f yzktec.f>fefftot.f

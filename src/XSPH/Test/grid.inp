@@ -1,0 +1,8 @@
+!     iGridType    GridMin    GridMax    GridStep
+!	egrid	-10	10	0.5
+	user
+		10.01
+		10.02
+		10.03
+	kgrid	last	15	0.5
+	expgrid last	10000   3.0

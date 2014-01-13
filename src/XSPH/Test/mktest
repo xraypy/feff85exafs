@@ -1,0 +1,2 @@
+g77 -c ../../COMMON/isnum.f ../../PAR/sequential.f ../../COMMON/str.f ../../COMMON/wlog.f ../../COMMON/chopen.f ../rdgrid.f ../phmesh.f ../phmesh2.f ../../COMMON/rdcmt.f; g77 -o test test.f *.o
+./test

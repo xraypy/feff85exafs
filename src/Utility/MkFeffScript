@@ -1,0 +1,42 @@
+#!/bin/bash 
+#
+cd ../bin/
+if [ "X$1" = "Xmpi" ]
+then
+	pd=`pwd`
+	echo $pd
+	echo '#!/bin/bash' > feffmpi	
+	l1="FeffPath=$pd/MPI"
+	l2='lamboot ${FeffPath}/mynodes;'
+	l3='mpirun -lamd  -c 1 -v -w $FeffPath/rdinp' 
+	l4='mpirun -lamd  C  -v -w $FeffPath/pot' 
+	l7='mpirun -lamd  -c 1 -v -w $FeffPath/xsph' 
+	l8='mpirun -lamd  -c 1 -v -w $FeffPath/path' 
+	l9='mpirun -lamd  -c 1 -v -w $FeffPath/genfmt'
+	l10='mpirun -lamd  -c 1 -v -w $FeffPath/ff2x'
+	echo -e "${l1}\n${l2}\n${l3}\n${l4}\n${l5}\n${l6}\n${l7}" >> feffmpi
+	echo -e "${l8}\n${l9}\n${l10}\n${l11}" >> feffmpi
+	chmod u+x feffmpi
+elif [ "X$1" = "Xseq" ]
+then
+	pd=`pwd`
+	echo '#!/bin/bash' > feff	
+        l1="FeffPath=$pd/Seq"
+	l2='$FeffPath/rdinp'
+	l3='$FeffPath/pot'
+	l6='$FeffPath/xsph'
+	l7='$FeffPath/path'
+	l8='$FeffPath/genfmt'
+	l9='$FeffPath/ff2x'
+	echo -e "${l1}\n${l2}\n${l3}\n${l4}\n${l5}\n${l6}\n${l7}" >> feff
+        echo -e "${l8}\n${l9}\n${l10}\n" >> feff
+	chmod u+x feff
+else
+	pd=`pwd`
+	echo '#!/bin/bash' > feff	
+        l1="FeffPath=${pd}/Mono"
+	l2='$FeffPath/feff'
+	echo -e "${l1}\n${l2}" >> feff
+	chmod u+x feff
+fi
+	

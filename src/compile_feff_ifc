@@ -1,0 +1,186 @@
+#!/bin/csh -f
+
+# Initialize file locations
+set loc = /phys/users/jorissen/feff85 #top of FEFF installation
+set bin = $loc/bin  #executables
+set src = $loc/src  #source files
+
+set dir = `pwd`
+
+# Initialize script control variables
+set all
+set refresh
+
+# Initialize compilation settings
+set compiler = ifc
+set options = "-O3 -mp1 -w -prec_div -pc80 -quiet"
+
+# Execution starts.
+cd $src
+
+# Process input options and execute instructions.
+alias sb 'shift; breaksw'
+while($#argv)
+switch ($1)
+case -h:   # display help message
+  goto help
+case -p:  #change path
+  set loc = $2 ; shift 
+  set bin = $loc/bin  #executables
+  set src = $loc/bin  #source files
+  cd $loc
+  sb
+case -b:  # change location of executables
+  set bin = $2 ; shift ; sb
+case -s: # change location of source files
+  set src = $2 ; shift ; sb
+case -n:
+  if ($?refresh) unset refresh ; sb
+case -r:
+  set refresh ; sb
+case -a:
+  set all ; sb
+case -c:   # change compiler
+  set compiler = $2 ; shift ; sb
+case -o:   # change compilation options
+  set options = $2 ; shift ; sb
+case -lib:   # compile libraries
+  if ($?all) unset all
+  cd PAR ; make src ; cd ..
+  cd ATOM ;  make src ; cd ..
+  cd COMMON ; make src ; cd ..
+  cd DEBYE ; make src ; cd ..
+  cd EXCH ; make src ; cd ..
+  cd MATH ; make src ; cd ..
+  cd FOVRG ; make src ; cd ..
+  cd TDLDA ; make src ; cd ..
+  sb
+case 0:
+  if ($?all) unset all
+  if ($?refresh) then 
+    cd RDINP ; make src ; cd ..
+  endif
+  $compiler $options      rdinp_tot.f -o   $bin/rdinp
+  echo "module 0 compiled - RDINP"
+  sb
+case 1:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd POT ; make src ; cd ..
+  endif
+  $compiler $options      pot_tot.f -o     $bin/ffmod1
+  echo "module 1 done - POT"
+  sb
+case 2:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd XSPH ; make src ; cd ..
+  endif
+  $compiler $options      xsph_tot.f -o    $bin/ffmod2
+  echo "module 2 done - XSPH"
+  sb
+case 3:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd FMS ; make src ; cd ..
+  endif
+  $compiler $options -FI  fms_tot.f -o     $bin/ffmod3
+  echo "module 3 done - FMS"
+  sb
+case 4:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd PATH ; make src ; cd ..
+  endif
+  $compiler $options      path_tot.f -o    $bin/ffmod4
+  echo "module 4 done - PATH"
+  sb
+case 5:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd GENFMT ; make src ; cd ..
+  endif
+  $compiler $options      genfmt_tot.f -o  $bin/ffmod5
+  echo "module 5 done - GENFMT"
+  sb 
+case 6:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd FF2X ; make src ; cd ..
+  endif
+  $compiler $options      ff2x_tot.f -o    $bin/ffmod6
+  echo "module 6 done - FF2X"
+  sb
+case 7:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd LDOS ; make src ; cd ..
+  endif
+  $compiler $options      ldos_tot.f -o    $bin/ldos
+  echo "module 7 done - DOS"
+  sb
+case 8:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd EELS ; make src ; cd ..
+  endif
+  $compiler $options  -132    eels_tot.f -o   $bin/ffmod8
+  echo "module 8 done - EELS"
+  sb
+case 9:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd SO2CONV ; make src ; cd ..
+  endif
+  $compiler $options  -132  so2_tot.f $EMS/src/ems.a -o   $bin/so2conv
+  echo "module 9 done - SO2CONV"
+  sb
+case 99:
+  if ($?all) unset all
+  if ($?refresh) then
+    cd MDFF ; make src ; cd ..
+  endif
+  $compiler $options  -132  mdff_tot.f $EMS/src/ems.a -o   $bin/ffmod99
+  echo "module 99 done - MDFF"
+  sb
+default:
+  echo "ignoring unknown switch :" $1
+  sb
+endsw
+end
+
+if ($?all) then
+ if ($?refresh) then
+  cd PAR ; make src ; cd ..
+  cd ATOM ;  make src ; cd ..
+  cd COMMON ; make src ; cd ..
+  cd DEBYE ; make src ; cd ..
+  cd EXCH ; make src ; cd ..
+  cd MATH ; make src ; cd ..
+  cd FOVRG ; make src ; cd ..
+  cd TDLDA ; make src ; cd ..
+  make src
+ endif
+ $compiler $options      rdinp_tot.f -o   $bin/rdinp
+ $compiler $options      pot_tot.f -o     $bin/ffmod1
+ $compiler $options      ldos_tot.f -o    $bin/ldos
+ $compiler $options      xsph_tot.f -o    $bin/ffmod2
+ $compiler $options -FI  fms_tot.f -o     $bin/ffmod3
+ $compiler $options      path_tot.f -o    $bin/ffmod4
+ $compiler $options      genfmt_tot.f -o  $bin/ffmod5
+ $compiler $options      ff2x_tot.f -o    $bin/ffmod6
+ $compiler $options -132 eels_tot.f -o    $bin/ffmod8
+ $compiler $options      so2_tot.f -o     $bin/so2conv
+ $compiler $options -132 mdff_tot.f $EMS/src/ems.a -o    $bin/ffmod99
+ echo "modules 0 to 8 done - FEFF"
+endif
+
+
+exit 0
+
+
+help:
+echo "Not ready yet - read the code :-)."
+
+exit 0
+ 

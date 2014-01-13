@@ -1,0 +1,13 @@
+lamboot ${FeffPath}/mynodes;
+mpirun -lamd  -c 2 -v -w $FeffPath/rdinp 
+mpirun -lamd  -c 2 -v -w $FeffPath/ffmod1 
+mpirun -lamd  -c 2 -v -w $FeffPath/ldos 
+mpirun -lamd  -c 2 -v -w $FeffPath/ffmod8
+mpirun -lamd  -c 2 -v -w $FeffPath/ffmod2 
+mpirun -lamd  -c 2 -v -w $FeffPath/ffmod3 
+mpirun -lamd  -c 2 -v -w $FeffPath/ffmod4 
+mpirun -lamd  -c 2 -v -w $FeffPath/ffmod5 
+mpirun -lamd  -c 2 -v -w $FeffPath/ffmod6
+mpirun -lamd  -c 2 -v -w $FeffPath/ffmod9
+wipe
+

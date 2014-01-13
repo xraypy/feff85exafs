@@ -1,0 +1,13 @@
+SCREEN:
+	1) Need to use SCF radius or something to change fms radius for screen.
+	   Gives error - not all representative atoms can be found.
+	
+EELS/S02: 1)  
+
+MPSE:	1) Warning if npoles > maxpoles
+
+S02CONV: 1) Warning if npoles > maxpoles 
+	 2) Use maxpoles from dim.h
+	 3) Use consistent naming scheme for SO2CONV maybe SFCONV
+
+General 1) Change modN.dat, logN.dat to named modules

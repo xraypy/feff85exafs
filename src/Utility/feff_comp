@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+ f77 -Ofast -LNO:opt=0  -IPA:INLINE=OFF rdinp_tot.f -o rdinp
+ echo 'rdinp is done'
+ f77 -Ofast -LNO:opt=0  -IPA:INLINE=OFF pot_tot.f -o ffmod1
+ echo 'pot is done'
+ f77 -Ofast -LNO:opt=0  -IPA:INLINE=OFF ldos_tot.f -o ldos
+ echo 'ldos is done'
+ f77 -Ofast -LNO:opt=0  -IPA:INLINE=OFF xsph_tot.f -o ffmod2
+ echo 'xsph is done'
+ f77 -Ofast -LNO:opt=0  fms_tot.f -o ffmod3
+ echo 'fms is done'
+ f77 -Ofast -LNO:opt=0  -IPA:INLINE=OFF path_tot.f -o ffmod4
+ echo 'path is done'
+ f77 -Ofast -LNO:opt=0  -IPA:INLINE=OFF genfmt_tot.f -o ffmod5
+ echo 'genfmt is done'
+ f77 -Ofast -LNO:opt=0  -IPA:INLINE=OFF ff2x_tot.f -o ffmod6

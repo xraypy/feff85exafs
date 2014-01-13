@@ -1,0 +1,3575 @@
+%% $Id: feff8.tex,v 1.1.1.1 2006/01/12 06:37:42 hebhop Exp $
+\documentclass[11pt,oneside]{report} % one-sided or two-sided hardcopy
+\usepackage{html} % it seems that this line must be in the main file
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% hypertext (pdf and dvi, html handled elsewhere):
+%%
+%% uncomment these two lines when running pdflatex (i.e. pdf output)
+%  \usepackage[pdftex]{color}
+%  \usepackage[pdftex,colorlinks,breaklinks,backref]{hyperref}
+%%
+%% uncomment this line when running normal latex (i.e. dvi output)
+  \usepackage{hyperref}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% all the rest of the feffdoc stuff:
+\usepackage{feffdoc}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% these lines handle html and pdf issues that cannot be addressed in
+%% the feffdoc.sty file
+\bodytext{bgcolor=white}
+%%\HTMLset{TITLE}{FEFF8 Documentation}
+\begin{latexonly}
+  \renewcommand{\htmlref}[2]{\hyperlink{#2}{#1}}
+  \renewcommand{\htmladdnormallink}[2]{\href{#2}{#1}}
+\end{latexonly}
+\begin{htmlonly}
+  \newcommand{hypertarget}[2]{}
+\end{htmlonly}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{roman}           % Roman numerals in front matter
+\MakeTitle                      % write out a title page
+
+\newchapter{}
+
+\begin{abstract}
+  {\it Ab initio} self-consistent real space multiple-scattering code for
+  simultaneous calculations of x-ray-absorption spectra and electronic
+  structure. Output includes extended x-ray-absorption fine structure
+  (EXAFS), full multiple scattering calculations of various x-ray absorption
+  spectra (XAS) and projected local densities of states (LDOS). The
+  spectra include x-ray absorption near edge structure (XANES),
+   x-ray natural circular dichroism (XNCD), and non-resonant x-ray
+   emission spectra.  Calculations of the x-ray scattering amplitude
+  (Thomson and anomalous parts) and spin dependent calculations of
+   x-ray magnetic circular dichroism (XMCD) and spin polarized x-ray
+  absorption spectra (SPXAS
+  and SPEXAFS) are also possible, but less automated.
+
+  This work has been supported in part by grants from the U. S.
+  Department of Energy and by the University of Washington
+  Office of Technology Transfer.  {\feff} is copyright \copyright\
+  1992--2002, The {\feff} Project, Department of Physics, University
+  of Washington, Seattle, WA 98195-1560.
+
+  \vspace*{\stretch{1}}
+
+  \noindent This document is copyright \copyright\ 2002 by A. Ankudinov,
+  B. Ravel, and J.J. Rehr.
+
+  \noindent Permission is granted to reproduce and distribute this
+  document in any form so long as the copyright notice and this
+  statement of permission are preserved on all copies.
+\end{abstract}
+
+\newchapter{}
+\tableofcontents
+\newchapter{}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\chapter{Synopsis} % -- PLEASE READ THIS ENTIRE SECTION}
+\label{sec:Synopsis}
+
+{\feffcur} calculates extended x-ray-absorption fine structure
+(EXAFS), x-ray-absorption near-edge structure (XANES), x-ray
+magnetic and natural circular dichroism (XMCD and XNCD),
+ nonresonant x-ray emission (XES) and electronic structure including local
+densities of states (LDOS), using an \textit{ab initio} self-consistent
+real space multiple scattering (RSMS) approach for clusters of atoms
+($Z < 99$), including polarization dependence.  Calculations are based
+on an all-electron, real space relativistic Green's function formalism
+with no symmetry requirements. The method combines both full multiple
+scattering based on LU or Lanczos algorithms and a high-order path
+expansion based on the Rehr--Albers multiple scattering formalism.
+Calculation of the x-ray elastic scattering amplitude $f=f_0+f'+if''$,
+spin dependent calculations of XMCD and 
+spin polarized x-ray absorption (SPXAS and SPEXAFS) are also
+available, but much less automated.
+For a quick start or self-guided tutorial
+we suggest that new users try a few of the examples in Section
+\ref{sec:Calc-Strat-Exampl}.  For details on use of the code, examples
+and suggestions for calculation strategies, see Sections
+\ref{sec:Input-File-Control-Cards}, \ref{sec:Input-and-Output-Files}, and
+\ref{sec:Calc-Strat-Exampl}.  For details about the algorithms used
+see the discussion for the appropriate module in Section
+\ref{sec:Input-File-Control-Cards} and, for more detail, the published
+references listed in Appendix~\ref{sec:Append-C.-Refer}.
+The principal investigators of the {\feff} project are:
+\begin{description}
+\item[John J.~Rehr, Principal Investigator]\hfill\\
+Department of Physics, BOX 351560 University of Washington, Seattle, WA 98195\\
+email: \htmladdnormallink{jjr@phys.washington.edu}
+{mailto:jjr@phys.washington.edu}\\
+telephone: (206) 543-8593,\  FAX: (206) 685-0635
+\item[Alexei L.~Ankudinov, Co-PI]\hfill\\
+Department of Physics, BOX 351560 University of Washington, Seattle, WA 98195\\
+email: \htmladdnormallink{alex@phys.washington.edu}
+{mailto:alex@phys.washington.edu}\\
+telephone: (206) 543-9420,\ FAX: (206) 685-0635
+\end{description}
+
+{\feff} is written in ANSI Fortran 77, with the non-standard extension
+of double precision complex (\texttt{complex*16}) variables. It requires at
+least 18 megabytes (MB) of available memory (RAM) to run. For XANES
+calculations, one generally needs more memory (about 60 MB of RAM for
+a cluster of 100 atoms, about 170 MB for a cluster of 200 atoms, and
+so on). See Appendix~\ref{sec:Append-B.-Inst} for installation instructions.
+
+Please contact the authors concerning any problems with the code.  See
+Appendix~\ref{sec:Appendix-F.-Trouble} for trouble-shooting hints and
+problem/bug reports or the FAQ on the FEFF WWW pages (see below).
+
+The full {\feffcur} code is copyright protected software and users must
+obtain a
+license from the University of Washington Office of Technology
+Transfer for its use. 
+See Appendix~\ref{sec:Append-A.-Copyr} for
+complete copyright notice and other details.  Documentation and
+information on how to obtain the code can be found at the {\feff}
+Project WWW URL:
+
+\centerline{\htmladdnormallink{http://leonardo.phys.washington.edu/feff/}
+  {http://leonardo.phys.washington.edu/feff/}}
+
+\noindent or by e-mail to the {\feff} Project Coordinator at
+\htmladdnormallink{feff@phys.washington.edu}{mailto:feff@phys.washington.edu}.
+
+
+Please cite {\feff} and an appropriate {\feff} reference if the code
+or its results are used in published work.  See
+Appendix~\ref{sec:Append-C.-Refer} for a list of appropriate
+citations. The main published reference for {\feffcur} is: \emph{ Real
+  Space Multiple Scattering Calculation and Interpretation of X-ray
+  Absorption Near Edge Structure}, A.L.~Ankudinov, B.~Ravel,
+J.J.~Rehr, and S.D.~Conradson Phys. Rev.  B\textbf{58}, 7565 (1998),
+and a manuscript dealing the improvements added in {\feff}8.20
+is A. L. Ankudinov, C. E. Bouldin, J. J. Rehr, J. Sims, and  H. Hung,
+Phys. Rev. B\textbf{65}, 104107 (2002).
+
+ {\bf FEFF Project Developers} -- Several developers contributed to
+the {\feff}8.00 code, and it's advanced versions {\feff}8.10 and {\feff}8.20.
+
+  Alexei Ankudinov (ALA) is the principal developer of {\feff}8 series.
+ALA implemented the automated self-consistent potential algorithm, and
+added calculations of LDOS, the Fermi level, and charge transfer.
+\htmladdnormallink{Bruce Ravel}{http://feff.phys.washington.edu/~ravel/} 
+is the principal developer of the full
+multiple scattering (FMS) algorithm in {\feff}8, which uses LU
+decomposition and
+is necessary for the SCF loop, DOS and for FMS/LU XANES calculations. 
+For version {\feff}8.10 ALA added calculations of elastic scattering
+amplitude, x-ray natural circular dichroism and nonresonant x-ray
+emission.  ALA is largely responsible for the new version {\feff}8.20, which 
+has an improved input/output structure to facilitate
+interaction with other codes. He also added quadrupolar transitions
+and implemented fast Lanczos methods for the iterative FMS algorithm.
+ In collaboration with A. Nesvizhskii, new routines for sum-rules
+applications have been added.  Anna Poiarkova and Patrick Konrad
+contributed new codes for calculating multiple-scattering Debye--Waller
+factors and anharmonic contributions.
+Matthew Newville added an improved padded ascii output structure
+to facilitate the interface to XAFS analysis codes and portability
+between different machines. Jim Sims (NIST) modified the code for
+MPI based parallel execution, in collaboration with C. Bouldin and
+JJR.
+
+ The high-order multiple-scattering
+routines, pathfinder, and input/output routines were largely developed by
+Steven Zabinsky and JJR for {\feff}5 and 6, and are still in use.  The
+Hedin--Lundqvist self-energy and phase shift routines were developed
+for early versions of {\feff} in collaboration with Jose Mustre de
+Leon, Dan Lu and R.C.~Albers and are still part of {\feffcur}.
+
+  The authors thank many users of experimental versions of the {\feffcur}
+code for feedback, suggestions and bug reports.  The authors also thank R.C.\
+Albers, K.\ Baberschke, C.\ Bouldin, C.\ Brouder, G.\ Brown,
+S.D.\ Conradson, F. Farges, G.\ Hug, M.\ Jaouen, J. Sims, and E.\ Stern
+for useful comments.
+
+\vspace*{\stretch{1}}
+\begin{table}[htbp]
+  \begin{center}
+    \begin{tabular}[h]{ll}
+      \hline\hline
+      \quad font & \quad denotes \\
+      \hline
+      \program{small caps} & names of programs\\
+      \texttt{typewriter font} &  contents of files\\
+      \file{quoted typewriter font} & file names\\
+      ROMAN CAPITALS & names of cards in the \file{feff.inp} file\\
+      \texttt{\textsl{slanted typewriter font}} &
+      commands executed at a command line \\
+      \hline\hline
+    \end{tabular}
+  \end{center}
+  \caption{Typographic conventions in this document}
+  \label{tab:typographic}
+\end{table}
+
+
+
+
+\chapter{Input File Control Cards}
+\label{sec:Input-File-Control-Cards}
+
+
+The main program {\feff} reads single file (\file{feff.inp})
+ created by the user and executes the various program
+modules described below.  An auxiliary FORTRAN program ({\atoms}), developed
+by \htmladdnormallink{Bruce
+  Ravel}{http://feff.phys.washington.edu/~ravel/}, is provided which
+can generate the \file{feff.inp} file from crystallographic input
+parameters. A perl-based graphical user interface to {\atoms} is
+also available.  Information about {\atoms} can be found on the WWW at
+
+\centerline{\htmladdnormallink
+{http://feff.phys.washington.edu/$\sim$ravel/atoms/}
+{http://feff.phys.washington.edu/~ravel/atoms/}}
+
+This section describes \file{feff.inp} and the commands that tell
+{\feff} what to do.  It may be helpful to look at one or more of the
+sample input files in Section \ref{sec:Calc-Strat-Exampl} while
+reading this section.  The input file for {\feffcur} is similar to
+{\feff} version 5 through 7, except that several additional options have been
+added to permit self-consistent potential generation, full multiple
+scattering XANES calculations, polarization dependence, and others
+listed in Section~\ref{sec:Complete-list-FEFF8}. However {\feffcur}
+is backwards compatible and supports earlier {\feff}5-7 style
+input files.
+
+The input file \file{feff.inp} is a loosely formated, line oriented
+text file.  Each type of input read by the program is on a line which
+starts with a \emph{card} or \emph{keyword} and, in
+some cases, is followed by alpha-numeric data.  All card arguments
+listed below inside square brackets are optional.  The sequence of
+keyword cards is arbitrary.  If any card or optional data is omitted,
+default values are used; an exception is the POTENTIALS card, which is
+always required.  Alpha-numeric values are listed in free format,
+separated by blanks.  Tab characters are \emph{not allowed} (due to
+Fortran 77 portability constraints) and may cause confusing error
+messages.  Any characters appearing after the card and any required or
+optional data on a given line are ignored by {\feff} and can be used
+as end-of-line comments.  All distances are in {\AA}ngstroms and
+energies in eV.  Spaces between lines (empty lines) are ignored.  Any
+line beginning with an asterisk (\texttt{*}) is regarded as a comment
+and is also ignored.
+
+
+
+After reading the \file{feff.inp} file, the calculations
+of various spectroscopies are done sequentially in six steps:
+
+\begin{enumerate}
+\item  The scattering potentials are calculated using atomic
+overlap (Mattheiss) prescription or self-consistently using
+an automated SCF loop. Absolute energies are estimated.
+(module {\bfseries POT}, potentials).
+\item  The scattering  phase shifts, dipole matrix
+elements, x-ray cross-section
+and angular momentum projected density of states (LDOS) are calculated.
+(module {\bfseries XSPH}, cross-section and phases).
+\item  Full multiple scattering XANES calculations are
+done for a specified cluster size.
+(module {\bfseries FMS}, full multiple scattering).
+\item  The leading multiple scattering paths for the cluster are enumerated.
+(module {\bfseries PATHS}).
+\item  The effective scattering amplitudes $f_{\rm eff}$ and other XAFS
+parameters are calculated for each scattering path.
+(module {\bfseries GENFMT}, general-path F-matrix calculation).
+\item  The XAFS parameters from one or more paths are combined to
+calculate a total XAFS or XANES spectrum.
+(module {\bfseries FF2CHI}, scattering
+amplitude to chi).
+\end{enumerate}
+
+
+This section describes how to control each module using the
+\file{feff.inp} file.
+
+
+
+\section{Complete list of FEFF8 control cards}
+\label{sec:Complete-list-FEFF8}
+
+
+
+
+The list of \file{feff.inp} options falls into three categories,
+\textsl{standard} options frequently and easily used, \textsl{useful}
+options that are often used, and \textsl{advanced} options that are
+seldom necessary but may be helpful in some cases.  Every card in
+\file{feff.inp} file will
+influence the calculations, starting from some module. Thus for better
+understanding how each module can be affected by the input cards, we
+list three categories (standard, useful, and advanced) for each
+module separately.
+
+
+\begin{description}
+  %%
+  %% Module 0
+\item[\large\textbf{Module 0}]\dotfill\  {\large\textrm{RDINP}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Read input data
+  \item[\textbf{Standard cards:}] \htmlref{ATOMS}{card:ato},
+    \htmlref{CONTROL}{card:con}, \htmlref{PRINT}{card:pri}, and
+    \htmlref{TITLE}{card:tit}
+  \item[\textbf{Useful Cards:}] \htmlref{END}{card:end},
+    and \htmlref{RMULTIPLIER}{card:rmu}
+  \item[\textbf{Advanced Cards:}] \htmlref{CFAVERAGE}{card:cfa} and
+    \htmlref{OVERLAP}{card:ove}
+  \end{description}
+  %%
+  %% Module 1
+\item[\large\textbf{Module 1}]\dotfill\  {\large\textrm{POT}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate (self-consistent)
+    scattering potentials and Fermi energy
+  \item[\textbf{Standard cards:}] \htmlref{POTENTIALS}{card:pot},
+    \htmlref{AFOLP}{card:afo}, \htmlref{S02}{card:s02}
+  \item[\textbf{Useful Cards:}] \htmlref{EXCHANGE}{card:exc},
+    \htmlref{NOHOLE}{card:noh}, \htmlref{RGRID}{card:rgr},
+    \htmlref{SCF}{card:scf}, and  \htmlref{UNFREEZEF}{card:unf}
+  \item[\textbf{Advanced Cards:}] \htmlref{FOLP}{card:fol},
+    \htmlref{INTERSTITIAL}{card:int},
+    \htmlref{ION}{card:ion}, and \htmlref{SPIN}{card:spi}
+  \end{description}
+  %%
+  %% Module 2
+\item[\large\textbf{Module 2}]\dotfill\  {\large\textrm{XSPH}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate cross-section and phase
+    shifts and $\ell$DOS
+  \item[\textbf{Standard cards:}] \htmlref{EXAFS}{card:exa},
+    \htmlref{XANES}{card:xan}, \htmlref{EDGE}{card:edg} and
+    \htmlref{HOLE}{card:hol},
+  \item[\textbf{Useful Cards:}] \htmlref{ELLIPTICITY}{card:ell},
+    \htmlref{POLARIZATION}{card:pol}, \htmlref{MULTIPOLE}{card:mul},
+     and \htmlref{LDOS}{card:ldo}
+  \item[\textbf{Advanced Cards:}] \htmlref{RPHASES}{card:rph},
+    \htmlref{DANES}{card:dan}, \htmlref{FPRIME}{card:fpr},
+    \htmlref{XES}{card:xes}, \htmlref{XNCD}{card:xnc}
+  \end{description}
+  %%
+  %% Module 3
+\item[\large\textbf{Module 3}]\dotfill\  {\large\textrm{FMS}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate full multiple
+    scattering for XAS
+  \item[\textbf{Standard cards:}] \htmlref{FMS}{card:fms}
+  \item[\textbf{Useful Cards:}] \htmlref{DEBYE}{card:deb1}
+  \item[\textbf{Advanced Cards:}]
+  \end{description}
+  %%
+  %% Module 4
+\item[\large\textbf{Module 4}]\dotfill\  {\large\textrm{PATHS}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Path enumeration
+  \item[\textbf{Standard cards:}] \htmlref{RPATH}{card:rpa}
+  \item[\textbf{Useful Cards:}] \htmlref{NLEG}{card:nle}
+  \item[\textbf{Advanced Cards:}] \htmlref{PCRITERIA}{card:pcr} and
+    \htmlref{SS}{card:ss}
+  \end{description}
+  %%
+  %% Module 5
+\item[\large\textbf{Module 5}]\dotfill\  {\large\textrm{GENFMT}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate scattering amplitudes
+    and other XAFS parameters
+  \item[\textbf{Standard cards:}]
+  \item[\textbf{Useful Cards:}] \htmlref{CRITERIA}{card:cri}
+  \item[\textbf{Advanced Cards:}] \htmlref{IORDER}{card:ior} and
+    \htmlref{NSTAR}{card:nst}
+  \end{description}
+  %%
+  %% Module 6
+\item[\large\textbf{Module 6}]\dotfill\  {\large\textrm{FF2CHI}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate final output. 
+  \item[\textbf{Standard cards:}] \htmlref{DEBYE}{card:deb2}
+  \item[\textbf{Useful Cards:}] \htmlref{CORRECTIONS}{card:cor} and
+    \htmlref{SIG2}{card:sig}
+  \item[\textbf{Advanced Cards:}]
+  \end{description}
+  %%
+\end{description}
+
+
+These data types are listed below in the same order as in the table above.
+Each description is of this form:
+
+\begin{Card}{CARD}{argument list}{type}{}
+  The type is one of \textsl{Standard}, \textsl{Useful}, or
+  \textsl{Advanced}.  The argument list is a brief statement of the
+  valid arguments to the card.  The text description will explain the
+  arguments and their uses more fully.  Example uses of the card look
+  like this:
+\begin{verbatim}
+  * brief description of the example
+  CARD  argument list
+\end{verbatim}
+\end{Card}
+
+
+
+\section{Main Control Cards}
+\label{sec:Main-Control-Cards}
+
+
+These cards in this section are not associated with any particular
+module, but are used throughout the {\feff} calculation.  The ATOMS
+card is used to specify the absorbing atom and its environment.  (If
+atomic coordinates are not known, then the OVERLAP card can be used to
+construct approximate potentials).  Without this structural
+information no calculations can be done.  The CONTROL card is used to
+selectively run parts of {\feff}.  The PRINT card controls which
+output files are written by the modules.
+
+
+
+\begin{Card}{ATOMS}{}{Standard}{ato}
+  Cartesian coordinates (in \AA ngstroms) and unique potential indices
+  of each atom in the cluster are entered following the ATOMS card,
+  one per line.  See the discussion of the
+  \htmlref{POTENTIALS}{card:pot} card.  An auxiliary code, {\atoms}
+  written by \htmladdnormallink{Bruce Ravel}
+  {http://feff.phys.washington.edu/~ravel/}, is supplied with
+  {\feff} to generate the ATOMS list from crystallographic data.  See
+  the document file for {\atoms} for more information.
+\begin{verbatim}
+  ATOMS
+  * x      y      z     ipot     SF6 molecule
+    0.0    0.0    0.0     0      S K-shell hole
+
+    1.56   0.00   0.00    1      F 1st shell atoms
+    0.00   1.56   0.00    1
+    0.00   0.00   1.56    1
+   -1.56   0.00   0.00    1
+    0.00  -1.56   0.00    1
+    0.00   0.00  -1.56    1
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{CONTROL}{ipot ixsph ifms ipaths igenfmt iff2chi}{Standard}{con}
+  The CONTROL card lets you run one or more of the modules separately.
+  There is a switch for each module: 0 means not to run that module, 1
+  meaning to run it.  You can do the whole run in sequence, one module
+  at a time, but you \emph{must} run all modules sequentially.
+  \emph{Do not} skip modules: \hbox{\texttt{CONTROL 1 1 1 0 0 1}}
+  is incorrect.  The default is \hbox{\texttt{CONTROL 1 1 1 1 1 1}},
+  i.e.\ run all 6 modules.
+\begin{verbatim}
+
+  * example 1
+  * calculate self consistent potentials, phase shifts and fms only
+  CONTROL  1 1 1 0 0 0   ipot  ixsph  ifms   ipaths  igenfmt  iff2chi
+
+  * example 2
+  * run paths, genfmt and ff2chi; do not run pot, xsph, fms
+  * this run assumes previous modules have already been run and
+  * adds MS paths between rfms  and rpath to the MS expansion
+  CONTROL  0 0 0 1 1 1    ipot  ixsph  ifms   ipaths  igenfmt  iff2chi
+\end{verbatim}
+
+\end{Card}
+
+
+%% the use of \vspace{-4ex} in PRINT is a crufty hack to avoid having to
+%% use the array package
+\begin{Card}{PRINT}{ppot pxsph pfms ppaths pgenfmt pff2chi}{Standard}{pri}
+  The PRINT card determines which output files are printed by each
+  module.  The default is print level 0 for each module.  See
+  Section~\ref{sec:Input-and-Output-Files} for details about the contents of
+  these files.
+\begin{verbatim}
+  * add crit.dat and feffNNNN.dat files to minimum output
+  PRINT  0  0  0  1  0  3
+\end{verbatim}
+  The print levels for each module are summarized in
+  Table~\ref{tab:printlevels} on page \pageref{tab:printlevels}.
+\end{Card}
+
+
+
+%% the use of \vspace{-4ex} in this table is a crufty hack to avoid
+%% having to use the array package
+\begin{table}[htbp]
+  \begin{center}
+    \begin{tabular}[h]{p{0.1\linewidth}p{0.8\linewidth}}
+      module & \hspace{5em} print levels \\
+      \hline \hline
+      \texttt{pot} &
+      \vspace{-4ex}
+      \begin{itemize}
+        \tightlist
+      \item[0] write \file{pot.bin} and \file{log1.dat} only
+      \item[1] add \file{misc.dat}
+      \item[2] add \file{pot.dat}
+      \item[3] add \file{fpf0.dat}
+      \item[5] add \file{atomNN.dat}
+      \end{itemize}\\
+      %%
+      \texttt{xsph} &
+      \vspace{-4ex}
+      \begin{itemize}
+        \tightlist
+      \item[0] \file{phase.bin}, \file{xsect.bin} and \file{log2.dat} only;
+            with LDOS card add \file{ldosNN.dat} and \file{logdos.dat} 
+      \item[1] add \file{psisqNN.dat} and \file{axafs.dat}
+      \item[2] add \file{phase.dat} and \file{phmin.dat}
+      \item[3] add \file{ratio.dat} for XMCD normalization
+      \end{itemize} \\
+      %%
+      \texttt{fms} &
+      \vspace{-4ex}
+      \begin{itemize}
+        \tightlist
+      \item[0] \file{fms.bin}
+      \end{itemize}\\
+      %%
+      \texttt{paths} &
+      \vspace{-4ex}
+      \begin{itemize}
+        \tightlist
+      \item[0] \file{paths.dat} only
+      \item[1] add \file{crit.dat}
+      \item[3] add \file{fbeta} files (plane wave $|f(\beta)|$ approximations)
+      \item[5] Write only \file{crit.dat}  and do not write \file{paths.dat}.
+        (This is useful when exploring the importance of paths for large runs.)
+      \end{itemize}\\
+      %%
+      \texttt{genfmt} &
+      \vspace{-4ex}
+      \begin{itemize}
+        \tightlist
+      \item[0] \file{list.dat}, all paths with importance greater than
+        or equal to two thirds of the curved wave importance criterion
+        written to \file{feff.bin}
+      \item[1] keep paths written to \file{feff.bin}
+      \end{itemize}\\
+      %%
+      \texttt{ff2chi} &
+      \vspace{-4ex}
+      \begin{itemize}
+        \tightlist
+      \item[0] \file{chi.dat} and \file{xmu.dat}
+      \item[1] add \file{sig2.dat} with Debye--Waller factors;
+      \item[2] add \file{chiNNNN.dat} ($\chi(k)$ from each path
+        individually) This can quickly fill up your disk if you're doing
+        a large run.
+      \item[3] add \file{feffNNNN.dat} (input files for Matt Newville's
+        {\feffit} program), and do not add \file{chiNNNN.dat} files.
+      \end{itemize}\\
+      \hline \hline
+    \end{tabular}
+    \caption[Print levels]{Print levels controlling output files
+      from the modules.}
+    \label{tab:printlevels}
+  \end{center}
+\end{table}
+
+
+
+\begin{Card}{TITLE}{title\_line}{Standard}{tit}
+  User supplied title lines.  You may have up to 10 of these.  Titles
+  may have up to 75 characters.  Leading blanks in the titles will be
+  removed.
+\begin{verbatim}
+TITLE  Andradite  (Novak and Gibbs, Am.Mineral 56,791 1971)
+TITLE  K-shell 300K
+\end{verbatim}
+\end{Card}
+
+
+
+
+\begin{Card}{END}{}{Useful}{end}
+  The END card marks the end of portion of the \file{feff.inp} file
+  read by {\feff}.  All data following the END card is ignored.
+  Without an END card, the entire input file is read.
+\begin{verbatim}
+END    ignore any lines in feff.inp that follow this card
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{RMULTIPLIER}{rmult}{Useful}{rmu}
+  With RMULTIPLIER all atomic coordinates are multiplied by the
+  supplied value.  This is useful to adjust lattice spacing, for
+  example, when fractional unit cell coordinates are used.  By
+  default, \texttt{rmult}=1.
+\begin{verbatim}
+*increase distances by 1%
+RMULTIPLIER 1.01
+\end{verbatim}
+\end{Card}
+
+
+
+\begin{Card}{CFAVERAGE}{iphabs nabs rclabs}{Advanced}{cfa}
+
+  A ``configuration'' average over absorbers is done if the CFAVERAGE
+  card is given.  CFAVERAGE currently assumes phase transferability,
+  which is usually good for EXAFS calculations, but may not be accurate for
+  XANES.  Note that the CFAVERAGE card is currently incompatible with
+  the DEBYE card for options other than
+  correlated Debye model ($\texttt{idwopt} > 0$).
+  \begin{description}
+  \item[\texttt{iphabs}] potential index for the type of absorber to
+    over which to make the configuration average (potential 0 is also
+    allowed)
+  \item[\texttt{nabs}]\hfill\\ the configuration average is made over
+    the first \texttt{nabs} absorbers in the \file{feff.inp} file of
+    type \texttt{iphabs}.  You don't have to have potential of index 0
+    in your input file when using the CFAVERAGE card, but you must
+    have the same type of potential for iph=0 and iph=iphabs.  The
+    configurational average is done over ALL atoms of type
+    \texttt{iphabs}, if \texttt{nabs} is less or equal zero.
+  \item[\texttt{rclabs}]\hfill\\ radius to make small atom list from a
+    bigger one allowed in \file{feff.inp}.  Currently the parameter
+    controlling the maximum size of the list, \texttt{natxx}, is
+    100,000 but can be increased.  The pathfinder will choke on too
+    big an atoms list.  You must choose \texttt{rclabs} to have less
+    than 1,000 atoms in small atom list.  If your cluster is less 1000
+    atoms simply use \texttt{rclabs}=0 or negative always to include
+    all atoms.
+  \end{description}
+  Default values are \texttt{iphabs}=0, \texttt{nabs}=1,
+  \texttt{rclabs}=0 (where $\mathtt{rclabs}=0$ means to consider an
+  infinite cluster size).
+\begin{verbatim}
+*average over all atoms with iph=2 in feff.inp with less than 1000 atoms
+CFAVERAGE 2  0  0
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{OVERLAP}{iph}{Advanced}{ove}
+  The OVERLAP card can be used to construct approximate overlapped
+  atom potentials when atomic coordinates are not known or specified.
+  If the atomic positions are listed following the ATOMS cards, the
+  OVERLAP cards are not needed.  {\feffcur} will stop if both ATOMS and
+  OVERLAP cards are used.  The OVERLAP card contains the potential
+  index of the atom being overlapped and is followed by a list
+  specifying the potential index, number of atoms of a given type to
+  be overlapped and their distance to the atom being overlapped.  The
+  examples below demonstrate the use of an OVERLAP list.  This option
+  can be useful for initial single scattering XAFS calculations in
+  complex materials where very little is known about the structure.
+
+  You should verify that the coordination chemistry built in using the
+  OVERLAP cards is realistic. It is particularly important to specify
+  all the nearest neighbors of a typical atom in the shell to be
+  overlapped. The most important factor in determining the scattering
+  amplitudes is the atomic number of the scatterer, but the
+  coordination chemistry should be approximately correct to ensure
+  good scattering potentials. Thus it is important to specify as
+  accurately as possible the coordination environment of the
+  scatterer.  Note: If you use the OVERLAP card then you cannot use
+  the FMS or SCF cards. Also the pathfinder won't be called and you
+  must explicitly specify single scattering paths using SS card, which
+  is described in Section~\ref{sec:Path-enum-modul}.
+
+\begin{verbatim}
+* Example 1. Simple usage
+* Determine approximate overlap for central and 1st nn in Cu
+OVERLAP 0         determine overlap for central atom of Cu
+  *iphovr   novr   rovr       * ipot, number in shell, distance
+   1        12     2.55266
+OVERLAP 1         determine approximate overlap for 1st shell atoms
+  *iphovr   novr   rovr       * ipot, number in shell, distance
+   0        12     2.55266
+
+* Example 2. More precise usage
+* Determine approximate overlap for 3rd shell atoms of Cu
+OVERLAP 3
+  0  1 2.55266    ipot, number in shell, distance
+  1  4 2.55266
+  2  7 2.55266
+  2  6 3.61000
+  2 24 4.42133
+\end{verbatim}
+\end{Card}
+
+
+\section{POT: Scattering potentials}
+\label{sec:Scatt-potent-modul}
+
+Initially the free atom potentials of each atomic type are calculated
+as if the atoms were isolated in space using a relativistic
+Dirac--Fock atom code.  Scattering potentials are
+calculated by overlapping the free atom densities within the muffin tin
+approximation (Mattheiss prescription), and then including the
+Hedin--Lundqvist/Quinn self energy for excited states.  Non
+overlapping muffin-tin radii are determined automatically from
+the calculated Norman radii.  Automatic overlapping of muffin tin
+spheres (see the AFOLP card) is done by default, since it typically
+leads to better results than non overlapping muffin-tin spheres.
+{\feffcur} can also calculate self-consistent potentials by  successively
+calculating the electron density of states, electron density and Fermi
+level at each stage within a small cluster and then iterating, using
+the Mattheiss prescription for the initial iteration.
+
+XAFS spectra are referenced to the threshold Fermi level.  This
+quantity is best determined with the self-consistent field procedure (typically
+to within a fraction of an eV), or (less accurately but faster) can be
+estimated from the electron
+gas result at the mean interstitial density within Mattheiss prescription, as
+in {\feff}7.  An absolute energy scale is obtained by an atomic
+calculation of the total energy of the system with and without the
+core-hole.  Atomic configurations and core-hole lifetimes are built
+in, and mean free paths are determined from the imaginary part of the
+average interstitial potential, including self-energy and lifetime
+contributions.
+
+The potential calculations need as input only the atomic number of the
+atoms, and, for the absorbing atom, the type of the core hole being
+considered.  To do the overlapping of the unique potentials, the
+neighboring atoms must be identified, either by position (from a list
+of the Cartesian coordinates of each atom) or by explicit overlapping
+instructions using the OVERLAP card described in
+Section~\ref{sec:Scatt-potent-modul}.
+
+To save time the code calculates the overlapped atom potential for each
+unique potential only once, using as a sample geometry for an atom with
+a a given unique potential index that for the atom that is closest to
+the absorbing atom.  Thus it is essential that the neighborhood of each
+sample atom be appropriate.
+
+
+\begin{Card}{AFOLP}{folpx}{Standard}{afo}
+  This automatically overlaps all muffin-tins to a specified
+  maximum value (default \texttt{folpx}=1.15) to reduce the effects of
+  potential discontinuities at the muffin-tins.  Automatic overlapping
+  is done by default and is useful in highly inhomogeneous materials.
+  Typical values of the overlapping fraction should be between 1.0 and
+  1.3.  See FOLP for a non-automated version.  Automatic overlapping
+  is done by default; to switch overlapping off, use 1.0 as the
+  argument for AFOLP.
+\begin{verbatim}
+* touching muffin-tins; do not use automatic overlapping
+AFOLP  1.0
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{EDGE}{label s02}{Standard}{edg}
+  The EDGE card is equivalent to the HOLE card, but you don't have to
+  look up the appropriate integer index. Simply use the hole label:
+  \texttt{NO} means no hole, \texttt{K} means $K$-shell, \texttt{L1}
+  means $L_{I}$, and so on. Calculations with very shallow edges,
+  e.g. $M$-shells and higher are not well tested; please complain to the
+  authors if you encounter problems.  As with the HOLE card you may also use
+  the integer index instead of the label.  All comments for HOLE card
+  are valid for EDGE card - see the description below. Thus if the
+  entry for $S_0^2$ is less than 0.1, $S_0^2$ will be estimated from
+  atomic overlap integrals.
+\begin{verbatim}
+* L1-shell core hole, S02 = 1
+  EDGE  L1   1.0
+\end{verbatim}
+\end{Card}
+
+\begin{Card}{HOLE}{ihole s02}{Standard}{hol}
+  The HOLE card includes the hole-code index and the amplitude
+  reduction factor $S_0^2$. If the entry for $S_0^2$ is less than 0.1,
+  then $S_0^2$ will be estimated from atomic overlap
+  integrals.  Experimental values of $S_0^2$ are typically
+  between 0.8 and 1.0.  The defaults if the HOLE card is omitted are
+  \texttt{ihole}=1 for the $K$ shell and $S_0^2$=1.  The hole codes
+  are shown in Table~\ref{tab:holecodes}.
+
+  {\feff} is designed to calculate absorption from completely filled
+  shells.  You can try to simulate absorption from valence electrons
+  with {\feff}, but you may get unreliable results. If you
+  encounter difficulties and need valence shell absorption, please
+  contact the authors.
+
+  For $\texttt{ihole}>4$, the core-hole lifetime parameter
+  ($\gamma_{\textrm{ch}}$) is not tabulated in {\feff} and is set
+  equal to 0.1 eV, since the final state losses are then dominated by
+  the self-energy. Use the \htmlref{EXCHANGE}{card:exc} card to make
+  adjustments ($\gamma_{\textrm{ch}} = 0.1 + 2\cdot\mathtt{vi0}$).
+
+\begin{verbatim}
+* K-shell core hole, S02 estimated by overlap integrals
+  HOLE  1   0.0
+\end{verbatim}
+\end{Card}
+
+\begin{table}[htbp]
+  \begin{center}
+    \begin{tabular}[h]{|c>{\ttfamily}c|c>{\ttfamily}c|c>{\ttfamily}c|c>{\ttfamily}c|}
+      \hline
+      index & \textrm{edge} & index & \textrm{edge} & index &
+      \textrm{edge} & index & \textrm{edge} \\
+      \hline
+      0  & NO & 7  & M3 & 14 & N5 & 21 & O5 \\
+      1  & K  & 8  & M4 & 15 & N6 & 22 & O6 \\
+      2  & L1 & 9  & M5 & 16 & N7 & 23 & O7 \\
+      3  & L2 & 10 & N1 & 17 & O1 & 24 & P1 \\
+      4  & L3 & 11 & N2 & 18 & O2 & 25 & P2 \\
+      5  & M1 & 12 & N3 & 19 & O3 & 26 & P3 \\
+      6  & M2 & 13 & N4 & 20 & O4 &    &    \\
+      \hline
+    \end{tabular}
+    \caption[Available hole codes]{Available hole codes.  The entries
+      in the columns marked edge are written as they are recognized by
+      the EDGE card.  Index 0, \texttt{NO}, is the no hole option
+      described in the \htmlref{NOHOLE}{card:noh} card.}
+    \label{tab:holecodes}
+  \end{center}
+\end{table}
+
+\begin{Card}{POTENTIALS}{}{Standard}{pot}
+  The POTENTIALS card is followed by a list which assigns a unique
+  potential index to each distinguishable atom. The potential index
+  ipot is the index of the potential to be used for the phase shift
+  calculation.  The list is of this form
+\begin{verbatim}
+  *    ipot   Z   [tag   lmax1   lmax2  xnatph]
+\end{verbatim}
+  The required list entries are the unique potential index
+  \texttt{ipot} and the atomic number \texttt{Z}.  The \texttt{tag} is
+  at most 6 characters and is used to identify the unique potential in
+  the \file{paths.dat} output file.  The optional list entries
+  \texttt{lmax1} and \texttt{lmax2} are used to limit the angular
+  momentum bases of the self-consistent potentials (XSPH) and full
+  multiple scattering calculations (FMS).  If a negative number (e.g.,
+  $\mathtt{lmax1}=-1$) is specified for either \texttt{lmax1} or
+  \texttt{lmax2}, {\feff} will automatically use a default based upon the
+  atomic number of the species normally lmax(atomic).  The last
+  optional entry \texttt{xnatph} can be used to specify the
+  stoichiometric number of each unique potential in the unit cell of a
+  crystalline material.  This helps in the calculation of the Fermi
+  level.  In the case of an infinite solid, $\mathtt{xnatph}=0.01$
+  (default value) is a suitable value for the absorbing atom.
+
+  The absorbing atom must be given unique potential index 0.  These
+  unique potential indices are simply labels, so the order is not
+  important, except that the absorbing atom is index 0, and you may not
+  have missing indices (i.e., if you use index 3, you must also have
+  defined unique potentials 1 and 2).
+
+  To save time the code calculates the overlapped atom potential for
+  each unique potential only once, using as a sample geometry the
+  first atom in the atom list with a given unique potential index.
+  Thus it is essential that the neighborhood of that sample atom be
+  representative.  Failure to do so may cause the code to generate
+  inaccurate potentials and phase shifts and poor XAS results.
+
+  It is often useful to assume that the potential for a given shell of
+  atoms is the same as that of a previously calculated shell in order
+  to save calculation time. For example, in Cu it is a good
+  approximation to determine potentials only for the central atom and
+  the first shell and to use the first shell potential
+  ($\mathtt{ipot}=1$) for all higher shells.  Such approximations should
+  be checked in each case, however.
+\begin{verbatim}
+  * molecular SF6  Sulfur K edge, lamx1=default, lmax2=3 (spdf basis)
+  POTENTIALS
+  *   ipot     Z  tag  lmax1 lmax2
+       0      16   S    -1    3  1
+       1       9   F    -1    3  6
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{S02}{s02}{Standard}{s02}
+  The S02 card specifies the amplitude reduction factor $S_0^2$. If
+  the entry for $S_0^2$ is less than 0.1, then the value of $S_0^2$ is
+  estimated from atomic overlap integrals.  Experimental values of
+  $S_0^2$ are typically between 0.8 and 1.0.
+
+  Alternatively, you can specify the value of $S_0^2$ in the HOLE or
+  EDGE card; however, the meaning of the parameters in the
+  \file{feff.inp} file is more clear if you use the S02 card.
+\begin{verbatim}
+  * let FEFF calculate S02
+  S02    0.0
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{FOLP}{ipot folp}{Useful}{fol}
+  The FOLP card sets a parameter which determines by what factor the
+  muffin-tin radii are overlapped.  We recommend that the AFOLP card
+  be used (default overlap = 1.15) in cases with severe anisotropy,
+  and FOLP be used with caution, for example for Hydrogen or for 
+  fitting AXAFS.  Typically only values larger than 1 and less than 1.3
+  should be used, except for hydrogen atoms, where we recommend
+  the value 0.8. The AFOLP card is ignored when FOLP
+  is used for  a particular potential type.
+\begin{verbatim}
+*  +20% overlap of muffin tin with unique potential 1
+*  -20% overlap of muffin tin with unique potential 2
+FOLP 1  1.2    ! adjust overlap to fit AXAFS
+FOLP 2  0.8    ! use 0.8 for hydrogen
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{EXCHANGE}{ixc vr0 vi0 [ixc0]}{Useful}{exc}
+  The EXCHANGE card specifies the energy dependent exchange
+  correlation potential to be used for the fine structure and for the
+  atomic background.  \texttt{ixc} is an index specifying the
+  potential model to use for the fine structure and the optional
+  \texttt{ixc0} is the index of the model to use for the background
+  function.  The calculated potential can be corrected by adding a
+  constant shift to the Fermi level given by \texttt{vr0} and to a
+  pure imaginary ``optical'' potential (i.e., uniform decay)
+  given by \texttt{vi0}. Typical errors in {\feff}'s self-consistent
+  Fermi level estimate are about 1 eV.  (The
+  \htmlref{CORRECTIONS}{card:cor} card in Section~\ref{sec:Comb-contr-from} is
+  similar but allows the user to make small changes in \texttt{vi0}
+  and \texttt{vr0} {\it after}  the rest of the calculation is completed,
+  for example in a fitting process.)  The
+  Hedin--Lundqvist self-energy is used by default and appears to be the
+  best choice for most applications we have tested in detail.  The
+  partially nonlocal model (ixc=5) gives slightly better results in some
+  cases, but has not been tested extensively.
+
+  Another useful exchange model is the Dirac-Hara exchange correlation
+  potential with a specified imaginary potential vi0.  This may be
+  useful to correct the typical error in non-self-consistent estimates of
+  the Fermi level of about +3 eV and to add final state and
+  instrumental broadening.
+
+  Defaults if EXCHANGE card is omitted are: \texttt{ixc}=0
+  (Hedin--Lundquist), vr0=0.0, vi0=0.0.  For XANES, the ground state
+  potential (\texttt{ixc0}=0) is used for the background function and
+  for EXAFS the Hedin--Lundqvist (\texttt{ixc0}=0) is used.
+
+  Indices for the available exchange models:
+  \begin{itemize}
+    \tightlist
+  \item[ \texttt{0}\quad] Hedin--Lundqvist + a constant imaginary part
+  \item[ \texttt{1}\quad] Dirac--Hara + a constant imaginary part
+  \item[ \texttt{2}\quad] ground state + a constant imaginary part
+  \item[ \texttt{3}\quad] Dirac--Hara + HL imag part + a constant
+    imaginary part
+  \item[ \texttt{5}\quad] Partially nonlocal: Dirac--Fock for core +
+    HL for valence electrons + a constant imaginary part
+  \end{itemize}
+\begin{verbatim}
+*Hedin-Lundqvist -2eV edge shift and 1eV expt broadening
+EXCHANGE 0 2. 1.
+
+*Dirac-Hara exchange -3 eV edge shift and 5 eV optical potential
+EXCHANGE 1 3. 5.
+\end{verbatim}
+
+
+\end{Card}
+
+
+\begin{Card}{NOHOLE}{}{Useful}{noh}
+  This card roughly simulates the effect of complete core-hole
+  screening.  It is useful to test the final state rule for
+  calculated XAS, and to compare with other calculations (such as band
+  structure or other codes) that do not have a core hole.
+   The code will use as the final state that specified by the HOLE card
+   for the matrix element calculation --- the NOHOLE card will cause
+  {\feff} to calculate potentials and phase shifts as if
+  there is no core hole.  For $d$DOS and $L_{II}$ or $L_{III}$
+  absorption calculations, for example,  NOHOLE often gives better
+  agreement for white line intensities. Conversely NOHOLE tends to give
+  poor XANES intensities for K-shell absorption in insulators.
+\end{Card}
+
+
+\begin{Card}{RGRID}{delta}{Useful}{rgr}
+  The radial grid used for the potential and phase shift calculation
+  is $$r(i) = \exp(-8.8 + (i-1)\cdot\delta)$$ with $\mathtt{delta} =
+  0.05$ by default.  The default is sufficient for most cases.  However,
+  occasionally there are
+  convergence problems in the atomic background at very high
+  energies (the background curves upward) and in the phase
+  shifts for very large atoms.  If such convergence problems are encountered
+  we suggest reducing \texttt{delta} to 0.03 or even 0.01. This will solve
+  these problems at the cost of longer computation times (the time is
+  proportional to $1/\delta $).  This option is also useful for testing
+  and improving convergence of atomic background calculations.
+\end{Card}
+\begin{verbatim}
+RGRID 0.03    !  reduce grid for more accurate background at high energy
+\end{verbatim}
+
+
+\begin{Card}{SCF}{rfms1 [lfms1 nscmt ca nmix]}{Useful}{scf}
+  This card controls {\feff}'s automated self-consistent potential
+  calculations. Thus all fields except rfms1 are optional.
+  If this card is not specified then all calculations are done with the
+  non self-consistent (overlapped atomic) potential.
+ By default \texttt{lfms1}=0, \texttt{nscmt}=30 and \texttt{ca}=0.2.
+  \begin{description}
+  \item[\texttt{rfms1}]\hfill\\ This specifies the radius of cluster
+    for full multiple scattering during the self-consistency loop.
+    Typically one needs about 30 atoms within sphere specified by
+    \texttt{rfms1}. Usually this value is smaller than the value \texttt{rfms}
+    used in the FMS card, but should be larger than the radius of
+    the second coordination shell.
+  \item[\texttt{lfms1}]\hfill\\ The default value 0 is appropriate for
+    solids; in this case the sphere defined by \texttt{rfms1} is
+    located on the atom for which the density of states is calculated.
+    The value 1 is appropriate for molecular calculations and will
+    probably save computation time, but may lead to inaccurate
+    potentials for solids. When $\mathtt{lfms1} = 1$ the center of the
+    sphere is located on absorbing atom.
+  \item[\texttt{nscmt}]\hfill\\ This is the maximum number of iterations
+    the potential will be recalculated.  A value of 0 leads to
+    non-self consistent potentials and Fermi energy estimates.  A value of
+    1 also yields non-self consistent potentials but the Fermi energy is
+    estimated more reliably from calculations of the LDOS.
+    Otherwise, the value of \texttt{nscmt} sets an
+    upper bound on the number of iterations in the self-consistency
+    loop.  Usually self-consistency is reached in about 10 iterations.
+  \item[\texttt{ca}]\hfill\\ The convergence accelerator factor.  This
+    is needed only for the first iteration, since {\feff} uses
+    the Broyden algorithm to reach self-consistency. A typical value
+    is 0.2; however, you may want to try smaller values if there are
+    problems with convergence.  After a new density is calculated from
+    new Fermi level, the density after the first iteration is
+    $\rho_\mathrm{next} = ca*\rho_\mathrm{new} +
+    (1-ca)*\rho_\mathrm{old}$.  $\mathtt{ca}=1.0$ is extremely unstable
+    and should not be used.
+  \item[\texttt{nmix}]\hfill\\ The nmix specifies how many iteration to do 
+    with mixing algorithm, before starting Broyden algorithm.
+    The calculations of SCF in materials
+    which contain f-elements may not converge. We encountered such
+    problem for Pu. However, SCF procedure converged if we started
+    Broyden algorithm after 10 iterations with mixing algorithm with
+    ca=0.05. 
+  \end{description}
+
+\begin{verbatim}
+* Automated FMS SCF potentials for a molecule of radius 3.1 Angstroms
+  SCF  3.1 1
+
+* To reach SCF for f-elements and UNFREEZEF we sometimes had to use
+  SCF  3.7 0  30  0.05  10
+\end{verbatim}
+\end{Card}
+
+\begin{Card}{UNFREEZEF}{}{Useful}{unf}
+In many applications of $f$-electron
+systems, we found that it is usually preferable to freeze the $f$-electron
+density to that for atomic calculations in order to achieve well converged
+SCF potentials. This is the default in {\feff}8.2. If one still wants
+to attempt calculating the $f$-DOS self-consistently,
+as in {\feff}8.00 and 8.10, the UNFREEZEF card should be used.
+\begin{verbatim}
+* To include f-electrons in SCF calculations use
+  UNFREEZEF 
+\end{verbatim}
+\end{Card}
+
+\begin{Card}{INTERSTITIAL}{inters  vtot}{Advanced}{int}
+  The construction of interstitial potential and density may be
+  changed by using INTERSTITIAL card. inters = ipot + 2*irav + 6*irmt.
+  ipot=1 might be useful when only the surroundings of the absorbing
+  atom are specified in \file{feff.inp}.  irav and irmt are described only
+  for completeness and nonzero values are strongly not recommended.
+  \begin{description}
+  \item[\texttt{ipot}]\hfill\\ defines how to find interstitial
+    potential: ipot=0 (default) the interstitial potential is found by
+    averaging over the entire extended cluster in \file{feff.inp}.  ipot = 1
+    the interstitial potential is found locally around absorbing atom.
+  \item[\texttt{irav}]\hfill\\ also changes how interstitial potential
+    is found.  0 (default) equation for V\_int is constructed at
+    rav=r\_nrm, 1 - at rav=(r\_mt+r\_nrm)/2 , 2 - at rav=r\_mt
+  \item[\texttt{irmt}]\hfill\\ 0 : Norman prescription for mt radii
+    (default) 1 : Matching point prescription for mt radii (do not
+    use)
+  \item[\texttt{vtot}]\hfill\\ is the volume per atom normalized
+   by ratmin$^3$ ($vtot$=(volume per atom)/ratmin$^3$),
+    where ratmin is the shortest bond for the absorbing atom.
+    This quantity defines total volume (needed to
+    calculate interstitial density) of the extended cluster specified
+    in \file{feff.inp}.  If \texttt{vtot} $\leq0$ then the total volume is
+    calculated as a sum of norman sphere volumes. Otherwise,
+    $total volume = nat * (vtot*ratmin^3)$;
+    where nat is a number of atoms in extended cluster.
+    Thus vtot=1.0 is appropriate for cubic structures, such as NaCl.
+    The INTERSTITIAL card may be useful for open systems
+    (e.g.  those which have ZnS structure.
+  \end{description}
+
+\begin{verbatim}
+* improve interstitial density for ZnS structures.
+* vtot = (unit_cell_volume/number_of_atoms_in_unit_cell)/ratmin**3)=1.54
+INTERSTITIAL  0 1.54
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{ION}{ipot ionization}{Advanced}{ion}
+  The ION card ionizes all atoms with unique potential index
+  \texttt{ipot}.  Negative values and non-integers are permitted,
+  however ionicities larger than 2 and less than $-1$ often yield
+  unphysical results.  Our experience with charge transfers using the
+  SCF card suggests values for \texttt{ionization} about 5--10 times
+  smaller than the formal oxidation state.  The ION card is probably
+  not needed if the potential is self-consistent.  However, it can be
+  used to put some total charge on a cluster. In this case we suggest
+  using the same ionicity for all atoms in cluster (i.e. total
+  ionization divided by number of atoms).  For example, for diatomics
+  like Br2, the fully relaxed configuration has a formal ionization of
+  1 on the scattering atom.  Because of charge transfer, the actual
+  degree of ionization is will be much smaller. In non-self-consistent
+  calculations the default (non-ionized) scattering potentials are
+  often superior to those empirically ionized, and the results should
+  be checked both ways.  The default if ION cards are omitted is that
+  the atoms are not ionized.
+\begin{verbatim}
+* Simulates effective ionization for formal valence state +1
+* ipot, ionization
+  ION  1  0.2
+\end{verbatim}
+\end{Card}
+
+
+
+\begin{Card}{SPIN}{ispin [x  y  z] }{Advanced}{spi}
+  This card is used to specify the type of spin-dependent calculation
+  (ispin) for spin along (x, y, z) direction. By default the 
+  spin is assumed along z-axis. Default ispin=0 is used for spin
+  independent calculations. Ispin=1 and ispin=-1 are used for
+  XMCD calculations, while ispin=2 and ispin=-2 are used to calculate
+  spin-polarized LDOS and SPXAS. 
+
+  The details of spin-dependent calculations are given in
+  Section~\ref{sec:Spin-depend-calc}.
+\end{Card}
+
+
+
+\section{XSPH: Cross-section and phase shifts}
+\label{sec:Cross-section-phase}
+
+
+Relativistic dipole matrix elements (alpha form) are calculated using
+atomic core and normalized continuum wave functions.  Polarization
+dependence is optionally incorporated in the dipole-operator.
+Scattering phase shifts are determined by matching at the muffin-tin
+radius.  Additionally, $\ell$-projected density of states can be
+calculated in this module, but it is of limited quality due to finite
+cluster calculations and neglect of nonspherical corrections.
+
+
+\begin{Card}{ELLIPTICITY}{ellipticity x y z}{Useful}{ell}
+  This card is used with the POLARIZATION card (see below).
+  The \texttt{ellipticity} is the ratio of amplitudes of electric
+  field in the two orthogonal directions of elliptically polarized
+  light.  Only the absolute value of the ratio is important for
+  nonmagnetic materials.  The present code can distinguish left- and
+  right-circular polarization only with the XMCD or XNCD cards.
+  A zero value of the ellipticity corresponds to linear polarization,
+  and unity to circular polarization.  The default value is zero.
+
+  \texttt{x}, \texttt{y}, \texttt{z} are coordinates of any nonzero
+  vector in the direction of incident beam. This vector should be
+  approximately normal to the polarization vector.
+\begin{verbatim}
+* Average over linear polarization in the xy-plane
+  ELLIPTICITY  1.0  0.0  0.0  -2.0
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{POLARIZATION}{x y z}{Useful}{pol}
+  This card specifies the direction of the electric field of the
+  incident beam or the main axis of the ellipse in the case of
+  elliptical polarization.  \texttt{x}, \texttt{y}, \texttt{z} are the
+  coordinates of the nonzero polarization vector.  The ELLIPTICITY
+  card is not needed for linear polarization.  If the POLARIZATION
+  card is omitted, spherically averaged xafs will be calculated.
+
+  Note that polarization reduces the degeneracy of the paths,
+  increasing the calculation time.  Choosing polarization in the
+  directions of symmetry axes will result in a faster calculation.
+\begin{verbatim}
+POLARIZATION  1.0  2.5  0.0
+\end{verbatim}
+\end{Card}
+
+\begin{Card}{MULTIPOLE}{le2 [l2lp]}{Useful}{mul}
+  Specifies which multipole transitions to include into the calculations.
+Only dipole: le2=0 (default), dipole and quadrupole (le2=2), dipole and
+magnetic dipole(le2=1). 
+
+Additional field l2lp can be used to calculate individual dipolar contributions
+coming from $L \rightarrow L+1$ (l2lp=1) and from $L \rightarrow L-1$ 
+(l2lp=-1).  Notice that in polarization dependent data there will be also a
+cross term, which will be calculated only when l2lp=0.
+\begin{verbatim}
+MULTIPOLE  2  0   *combine dipole and quadrupole transitions.
+MULTIPOLE  0  -1  *calculate dipolar L -> L-1 transitions
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{LDOS}{emin   emax   eimag}{Useful}{ldo}
+  The angular momentum projected density of states is placed by
+  default on a standard grid currently fixed at 84 points.  \texttt{emin} and
+  \texttt{emax} are the minimum and maximum energies of the $\ell$DOS
+  calculation and \texttt{eimag} is the imaginary part of potential
+  used in the calculations.  This is equivalent to Lorentzian
+  broadening of the $\ell$DOS with half-width = \texttt{eimag}.  If
+  \texttt{eimag} is negative, the code automatically sets it to be 1/3
+  of the energy step.  The output will be written again into
+  \file{ldosNN.dat} files. To obtain LDOS you must run the second module by
+  setting the second CONTROL argument to 1.  If 84 points are not
+  enough, you can divide the energy range by 2 and run the code twice.
+  The LDOS card is very useful when examining densities of states for
+  interpreting XANES or when the self-consistency loop fails or gives
+  very strange results.  For crystals our LDOS will always
+  be broadened due to the effect of finite cluster size.
+\begin{verbatim}
+*       emin emax eimag
+  LDOS  -20  20   0.2
+\end{verbatim}
+\end{Card}
+
+\begin{Card}{EXAFS}{[xkmax]}{Standard}{exa}
+  The EXAFS card is used to change the maximum value of $k$ for
+EXAFS calculations.  Default value is 20 \AA$^-1$. Now code can calculate
+even to higher values, however user will be prompted to increase
+dimensions in \file{dim.h} file and recompile the code.
+For high $k$ calculations it might be necessary to make smaller steps
+using RGRID card.
+\begin{verbatim}
+EXAFS 25
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{XANES}{[xkmax xkstep estep]}{Standard}{xan}
+  The XANES card is used when a calculation of the near edge structure
+  including the atomic background and absolute energies are desired.
+
+  The XANES calculation is currently limited to the (extended) continuum
+  spectrum beyond the Fermi level. Thus bound states are not generally
+  included; however, in molecules weakly bound states that are below the
+  vacuum but above the muffin-tin zero will show up as resonances.  The
+  absolute energies are based on atomic total energy calculations
+  using the Dirac-Fock-Desclaux atom code.  The accuracy of this approximation
+  varies from a few eV at low Z to a few hundred eV for very large Z.
+  All parameters are optional.  Default: XANES not calculated unless
+  card is present.
+
+  The optional parameters are used to change the output energy mesh
+  for the XANES calculation.  \texttt{xkstep} specifies the size of
+  the output $k$ grid far from the edge.  \texttt{xkmax} is the
+  maximum $k$ value of the XANES calculation. FMS calculations
+  are not accurate beyond about $k=6$; for larger values of $k$, e.g.
+  $k=20$ with the path expansion, FMS must be turned off.  The grid at the edge
+  will be regular in energy with a step size of \texttt{estep}.  The
+  default values are $\mathtt{xkstep}=0.07$, $\mathtt{xkmax}=8$, and
+  $\mathtt{estep}= \gamma_{\mathrm{ch}}/4+\mathtt{vi0}/2$, where
+  \texttt{vi0} is given by the EXCHANGE card described in
+  Section~\ref{sec:Scatt-potent-modul}.
+
+\begin{verbatim}
+* finer grid for XANES calculation
+XANES  6. .05 .3
+\end{verbatim}
+\end{Card}
+
+\begin{Card}{DANES}{[xkmax xkstep estep]}{Advanced}{dan}
+  To calculate x-ray scattering amplitude $f'$ instead of absorption $f''$, 
+  including solid state effects. Calculate contribution from specified
+  edge and grid, which is specified as in the XANES card.
+  This card is still experimental.
+\end{Card}
+ 
+\begin{Card}{FPRIME}{emin  emax estep}{Advanced}{fpr}
+  To calculate x-ray scattering factor $f'$ far from the edge
+   (only atomic part).
+  The energy grid is regular in energy with estep between emin and emax.
+  This is typically needed to find out contribution from other edges
+  to the edge calculated with DANES card. Later it may be automated.
+  total scattering amplitude  $f'(Q,E) = f_0(Q) + f'(E) +if''(E)$
+  In the dipole approximation $f'$ and $f''$ do not depend on $Q$, but
+  this does not
+  hold with quadrupole transitions added. This is currently neglected
+  and $f'(E)={\rm DANES(edge)+FPRIME(all\ other\ edges)}$ +
+  $total\ energy\ term$
+  in \file{fpf0.dat}. $f_0(Q)$ is also tabulated in \file{fpf0.dat};
+  $f''$ is printed out
+  by FPRIME in electronic units, and can be used to obtain total $f'$.
+  The total energy correction to $f'$ is given in first line of
+  \file{fpf0.dat}
+  in Cromer-Liberman, and the more accurate Kissel-Pratt form. See our paper
+  on elastic scattering amplitude for references and details.
+\end{Card}
+
+\begin{Card}{XES}{emin  emax estep}{Advanced}{xes}
+  To calculate nonresonant x-ray emission spectra (XES) for a specified
+  grid. XES may be compared to the occupied DOS.
+\end{Card}
+
+\begin{Card}{XMCD or XNCD}{[xkmax xkstep estep]}{Advanced}{xnc}
+  Use either of the cards to calculate x-ray circular dichroism
+  (the output will contain both magnetic and natural).
+  The code calculates XMCD and XNCD from specified
+  edge and grid, which is specified by auxiliary fields exactly as in XANES card.
+
+  The XNCD  originates from cross dipole-quadrupole contribution
+ for special types of crystals and will change sign for opposite
+ direction of propagation (use ELLIPTICITY card to do that). It 
+ can be present even for nonmagnetic systems but with low symmetry.
+
+ The XMCD (dipolar and quadrupolar) does not change sign under the
+change of direction of x-ray propagation, and is zero for nonmagnetic
+systems. The origin of the effect is that due to spin-orbit coupling
+the right circular polarized light will produce more electrons
+with spin along or opposite to the direction of x-ray propagation.
+Thus it is important to use spin-dependent calculations for XMCD
+calculations. 
+\end{Card}
+ 
+\begin{Card}{RPHASES}{}{Advanced}{rph}
+  If this card is present, real phase shifts rather than complex phase
+  shifts will be used.  The results of the calculation will not be
+  accurate.  This option is intended to allow users to obtain real
+  scattering phase shifts for use with other programs, or for
+  diagnostic purposes.  The phase shifts can be written to output
+  files \file{phaseNN.dat} using the PRINT card.  If the RPHASES card
+  is present, these will be the real phase shifts.
+\end{Card}
+
+
+\begin{Card}{RSIGMA}{}{Advanced}{rsi}
+  If this card is present, the imaginary part of self-energy will be neglected.
+  It might be useful for calculations in XANES region, since the imaginary
+  part of Hedin -Lundqvist self-energy tends to overestimate losses in this
+  region.
+\end{Card}
+
+
+\section{FMS: Full multiple scattering}
+\label{sec:Full-mult-scatt}
+
+This module carries out a full multiple scattering XANES calculation
+for a cluster centered on the absorbing atom.  Thus all
+multiple-scattering paths within this cluster are summed to infinite
+order.  This is useful for XANES calculations, but usually cannot be
+used for EXAFS analysis.  FMS loses accuracy beyond $k =
+(l_{\mathrm{max}}+1)/r_{\mathrm{mt}}$, which is typically about 4
+\AA$^{-1}$ since the muffin-tin radius $r_{\mathrm{mt}}$ is
+typically about 1 \AA.
+
+
+\begin{Card}{FMS}{rfms  lfms2 [minv toler1 toler2 rdirec]}{Standard}{fms}
+  Compute full multiple scattering within a sphere of radius
+  \texttt{rfms} centered on the absorbing atom.  If you don't use FMS
+  card, the multiple scattering path expansion is used.
+
+  \texttt{rfms} is the cluster radius used in all modules but POT.
+  Specifically is is used for in the LDOS, FMS, and as the lower limit
+  of pathfinder calculations.  Typically a converged XANES calculation requires
+  about 50-150 atoms in a cluster.  The FMS module sums all MS paths within
+  the specified cluster.  The number of atoms in this
+  cluster is limited to 87 by default, but one can manually increase
+  the dimension parameter \texttt{nclusx} in the ancillary {\feffcur} source code
+  file \file{dim.h} to alter the maximum cluster size.  If there are more than
+  \texttt{nclusx} atoms within the specified cluster size, {\feff}
+  will reduce the cluster size and issue a warning.
+
+  For EXAFS analysis one typically calculates to $k=20$, but FMS results
+  are not accurate at high energies.  Thus if you are running
+  {\feffcur} for EXAFS you should not use FMS and XANES cards.  It is,
+  however, desirable to calculate self-consistent potentials even for
+  EXAFS calculations as in the example below:
+\begin{verbatim}
+   *calculate EXAFS with SCF potentials and paths to R=6 angstroms
+   CONTROL  1  1  1  1  1  1
+   *FMS
+   SCF   3.1
+   RPATH 6.0
+   EXAFS
+\end{verbatim}
+
+  If the value of RPATH as described in
+  Section~\ref{sec:Path-enum-modul} is greater than \texttt{rfms}, the
+  pathfinder will look for paths which extend beyond the cluster used
+  for the FMS and add them to the FMS calculation of the $\ell$DOS and
+  XANES:
+  $$G_{\mathrm{tot}}=G_{\mathtt{fms}} + G_0t_iG_0 +
+  G_0t_iG_0t_jG_0+\cdots$$
+  where at least one atoms $i$ in the path is outside the FMS cluster
+  and the value of RPATH is the maximum half path length for LDOS, FMS and
+  pathfinder modules. Note: this approximation may not be accurate
+  and should be used with caution.
+
+  The MS expansion sometimes does not converge well in the XANES energy
+  region.  Thus one should avoid adding paths for LDOS and XANES, and
+  RPATH should be less than \texttt{rfms}.  Adding single scattering
+  path only (NLEG 2) usually works well to check the convergence of
+  FMS. But adding double scattering (NLEG 3) often leads to very bad
+  results in XANES.  Thus RPATH is useful for EXAFS or for XANES only
+  when the path expansion is stable.
+
+  The optional \texttt{lfms2} argument is a logical flag which defines
+  how the FMS is done, similar to the flag \texttt{lfms1} in the
+  SCF card.  With the default value of 0 (appropriate for
+  solids), the FMS is calculated for a cluster of size \texttt{rfms}
+  around each representative unique potential.  With \texttt{lfms}=1
+  (appropriate for molecules), FMS is done only once
+  for a cluster of size \texttt{rfms} around absorbing atom only.
+  The proper use of this flag can lead to a considerable time
+  savings.
+
+  For example, if you calculate FMS for a molecule smaller than 40
+  atoms, there is no need to invert $\mathtt{nph}+1$ matrices, and
+  $\mathtt{lfms1}=1$ will reduce time for calculations by factor
+  ($\mathtt{nph}+1$), where \texttt{nph} is a number of unique
+  potentials listed in POTENTIAL card).
+
+  A typical use of the FMS card uses $\mathtt{lfms2}=0$, for example,
+
+\begin{verbatim}
+     FMS  6.0     ! for XANES and LDOS need about 100 atom cluster
+     RPATH 8.0    ! usually use rpath < rfms
+     NLEG  2      ! adds 2 leg paths between 6 and 8 angstroms
+\end{verbatim}
+
+  For molecules of less than 30 atoms of radius 4.0 {\AA} we suggest
+  using $\mathtt{lfms2}=\mathtt{lfms1}=1$, as in
+
+ \begin{verbatim}
+     FMS  5.0 1
+     RPATH  -1
+ \end{verbatim}
+
+  The optional \texttt{minv} index defines the FMS algorithm used
+in the calculations.
+By default (minv=0)
+ the FMS matrix inversion is performed using LU decomposition. However,
+several alternative have been designed for FMS algorithm that start to
+work faster than LU decomposition for clusters of more than a 100 atoms.
+(See the {\feff}8.2 reference).
+We strongly recommend the Lanczos recursion method (minv=2) which is very robust
+and speeds the calculations by a factor of 3 or more.
+The Broyden algorithm (minv=3) is faster, but less reliable, and 
+may fail to converge, if the FMS matrix has large eigenvalues.
+
+  The optional \texttt{toler1} defines the tolerance to stop
+recursion and Broyden algorithm. The default value 0.001 gives results
+in agreement with LU decomposition to within a linewidth. 
+
+  The optional \texttt{toler2} sets the matrix element of $Gt$ matrix
+to zero if its value is less than toler2 (default 0.001).
+
+  The optional \texttt{rdirec} sets the matrix element of the $Gt$ matrix
+to zero if the distance between atoms is larger than rdirec.
+
+The last two variables can make the matrix $Gt$ very sparse so both recursion
+and Broyden algorithms work faster. For example for large Si calculations
+with the Lanczos algorithm, we used
+ \begin{verbatim}
+     FMS  29.4 0  2  0.001 0.001 40.0
+ \end{verbatim}
+\end{Card}
+
+
+\begin{Card}{DEBYE}{temp thetad [idwopt]}{Useful}{deb1}
+  See the full description in Section~\ref{sec:Comb-contr-from} for details.
+  The effect of temperature on FMS is approximated by multiplying each free
+  propagator by $\exp(-\sigma^2 k^2)$, which gives correct DW
+  factors for single scattering. The DW factors for multiple
+  scattering are not exact, but their contribution is reduced both by
+  thermal factors and by the mean free path.  Also if you are running
+  the FMS module, then you can only obtain XANES, where this approximate
+  treatment of thermal effect is probably adequate.
+\end{Card}
+
+
+\section{PATHS: Path enumeration}
+\label{sec:Path-enum-modul}
+
+The code uses a constructive algorithm with several path importance
+filters to explore all significant multiple-scattering paths in order
+of increasing path length.  The paths are determined from the list of
+atomic coordinates in \file{feff.inp}.  An efficient degeneracy
+checker is used to identify equivalent paths (based on similar
+geometry, path reversal symmetry, and space inversion symmetry). To
+avoid roundoff errors, the degeneracy checker is conservative and
+occasionally treats two degenerate paths as not degenerate.
+These errors occur in the third or fourth decimal place (less than
+0.001 Ang) but are fail safe; that is, no paths will be lost.  Of course,
+all paths which are completely inside the FMS cluster are automatically
+excluded from paths list.
+
+The criteria used in filtering are based on increasingly accurate
+estimates of each path's amplitude.  The earliest filters, the
+pathfinder heap and keep filters, are applied as the paths are being
+searched for.  A plane wave filter based on the plane wave approximation
+(plus a curved wave correction for multiple-scattering paths) and
+accurate to about 30\% is applied after the paths have been enumerated
+and sorted.  Finally, an accurate curved wave filter is applied to
+all remaining paths.
+
+
+\begin{Card}{PCRITERIA}{keep-criterion heap-criterion}{Advanced}{pcr}
+  These criteria, like those described in the CRITERIA card, also
+  limit the number of paths. However, they are applied in the
+  pathfinder and eliminate unimportant paths while the pathfinder is
+  doing its search.  The pathfinder criteria (pcrit's) do not know the
+  degeneracy of a path and are therefore much less reliable than the
+  curved wave and plane wave criteria in the CRITERIA card above.
+  These path finder criteria (keep and heap) are turned off by
+  default, and we recommend that they be used only with very large
+  runs, and then with caution.
+
+  The keep-criterion looks at the amplitude of chi (in the plane wave
+  approx) for the current path and compares it to a single scattering
+  path of the same effective length.  To set this value, consider the
+  maximum degeneracy you expect and divide your plane wave criterion
+  by this number.  For example, in fcc Cu, typical degeneracies are
+  196 for paths with large r, and the minimum degeneracy is 6.  So a
+  keep criterion of 0.08\% is appropriate for a pw criteria of 2.5\%.
+
+  The heap-criterion filters paths as the pathfinder puts all paths
+  into a heap (a partially ordered data structure), then removes them
+  in order of increasing total path length.  Each path that is removed
+  from the heap is modified and then considered again as part of the
+  search algorithm. The heap filter is used to decide if a path has
+  enough amplitude in it to be worth further consideration.  If we can
+  eliminate a path at this point, entire trees of derivative paths can
+  be neglected, leading to enormous time savings.  This test does not
+  come into play until paths with at least 4 legs are being
+  considered, so single scattering and triangular (2 and 3 legged)
+  paths will always pass this test.  Because only a small part of a
+  path is used for this criterion, it is difficult to predict what
+  appropriate values will be.  To use this (it is only necessary if
+  your heap is filling up, and if limiting rpath doesn't help), study
+  the results in \file{crit.dat} from runs with shorter rpath and experiment
+  with the heap criterion accordingly.  In the future, we hope to
+  improve this filter.
+
+  Before using these criteria, study the output in the file
+  \file{crit.dat} (use print option 1 for paths, see
+  Table~\ref{tab:printlevels}), which has the values of critpw, keep
+  factor and heap factor for all paths which pass the critpw filter.
+
+  Default: If this card is omitted, the keep and heap criteria are set
+  to zero, that is, no filtering will be done at this step in the
+  calculation.
+
+\begin{verbatim}
+* fcc Cu had degeneracies from 6 to 196, so correct for this by
+* dividing pw-crit of 2.5% by 30 to get 0.08 for keep crit.  Check this
+* empirically by running with pcrits turned off and studying crit.dat.
+* After studying crit.dat, choose 0.5 for heap crit.
+PCRITERIA   0.08  0.5
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{RPATH}{rpath}{Useful}{rpa}
+  The RPATH card determines the maximum effective (half-path)
+  distance, \texttt{rpath}, of a given path. RPATH is equivalent to
+  the RMAX card in the {\feff}7 code. We changed the name because it provides
+  a clearer distinction between the max distance in the MS path expansion
+  and that for FMS calculations.
+  Typically \texttt{rpath} is needed for EXAFS calculations only to
+  set limits on the number of calculated paths.  Note that
+  \texttt{rpath} is one-half of the total path length in
+  multiple-scattering paths.  Setting this too large can cause the
+  heap in the pathfinder to fill up.  Default is \texttt{rpath} = 2.2
+  times the nearest neighbor distance.  Since the multiple scattering
+  expansion is unstable close to the absorption edge, the path (MS)
+  expansion should be used only for EXAFS calculations or for
+  diagnosing the XANES or LDOS calculations.  If you use FMS for XANES
+  calculations, better results are obtained without the MS
+  contribution.  For EXAFS analysis this card is extremely useful,
+  since rpath cuts off long paths which give contribution only at high
+  R values in R-space.
+\begin{verbatim}
+* include MS paths with effective length up to 5.10 Ang
+RPATH     5.10
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{SS}{index ipot deg rss}{Advanced}{ss}
+  The SS card can {\it only} be used with OVERLAP cards when the atomic
+  structure is unknown but one does know the distance and coordination
+  numbers and wants to generate an approximate EXAFS contribution.
+  Thus the pathfinder cannot be used in this
+  case. Instead the user has to specify explicitly the single
+  scattering paths and their degeneracy.  OVERLAP cards must be used
+  to construct the potentials for the use with SS card.  The
+  parameters are a shell index, which is a label used for
+  \file{feffNNNN.dat} file name, a unique potential index \texttt{ipot}
+  identifying the unique potential of the scattering atom, the
+  degeneracy (or multiplicity) of the single scattering path,
+  and the distance to central atom \texttt{rss}.
+
+  This information is used to write the file \file{paths.dat} and is not
+  needed when ATOMS card is used.  To generate SS paths with ATOMS use
+  (NLEG 2) card.
+\begin{verbatim}
+*  index  ipot   deg  rss    generate single scattering results
+SS   29     1     48  5.98       parameters for 19th shell of Cu
+\end{verbatim}
+\end{Card}
+
+
+
+
+\section{GENFMT: XAFS parameters}
+\label{sec:Calc-contr-from}
+
+For each path the code calculates the effective scattering amplitude
+($f_{\mathrm{eff}}$ from which {\feff} gets its name, see
+Section~\ref{sec:Vari-EXAFS-form}) and the total scattering phase
+shift along with other XAFS parameters using the scattering matrix
+algorithm of Rehr and Albers.  Once the scattering phase shifts and
+the paths are determined, no other input is necessary for this
+calculation.
+
+
+\begin{Card}{CRITERIA}{critcw critpw}{Useful}{cri}
+
+  Since the number of multiple scattering paths gets large very
+  quickly, it is necessary to eliminate as many paths as possible.
+  Fortunately, we have found that most multiple scattering paths have
+  small amplitudes and can be neglected.  Various cutoff criteria
+  are used in {\feffcur} to limit the number of paths to consider.  These
+  criteria are based on the importance of the path, defined as the
+  integral over the full energy range of $\chi(k)\cdot\mathtt{dk}$.
+  Very close to the edge these cutoff criteria should be examined
+ with care and in some cases reduced from the values used for EXAFS.
+
+  \texttt{critcw} is the cutoff for a full curved wave calculation.  A
+  typical curved wave calculation requires a complete spherical wave
+  calculation, which typically takes seconds of CPU time per path.
+  The default value of \texttt{critcw} is 4\%, meaning that any path
+  with mean amplitude exceeding 4\% of largest path will be used in
+  calculation of chi. The criterion \texttt{critcw} is used by GENFMT.
+  Since the XAFS parameter calculation is already done, the savings is
+  not in computer time, but in disk space and ease of analysis.  The
+  values of critcw for each path are written in the file \file{list.dat}
+  written by module GENFMT.
+
+  \texttt{critpw} is a plane-wave approximation to $\chi$.  This is
+  extremely fast to calculate, and is used in the pathfinder.  The
+  default value of critpw is 2.5, meaning that any path with mean
+  amplitude 2.5\% of largest path, including degeneracy factors, (in
+  plane wave approximation) will be kept. Any path that does not meet
+  this criterion will not be written to \file{paths.dat}, and there
+  is no need to calculate the XAFS parameters for this path.  The
+  default for \texttt{critpw} is less than that for \texttt{critcw}
+  since some paths are more important when the full curved wave
+  calculation is done than they appear in the plane wave
+  approximation.  Since the plane wave estimate is extremely fast, use
+  this to filter out as many paths as you can.  The file
+  \file{crit.dat} (written by the module PATHS) tells you
+  \texttt{critpw} for each path that passes the criterion.
+
+  The method of calculation of these importance factors has been
+  improved for {\feffcur}, so don't worry if the values for
+  some paths have changed slightly from previous versions.  (Default
+  values critcw=4.\% critpw=2.5\%)
+
+\begin{verbatim}
+CRITERIA  6.0  3.0   * critcw 6%, critpw 3%
+CRITERIA  0    0     * use all paths (cw and pw criteria turned off)
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{NLEG}{nleg}{Useful}{nle}
+  The NLEG card limits the number of scattering paths to
+  \texttt{nleg}. If \texttt{nleg} is set to 2, only single scattering
+  paths are found. The default is nleg = 8.
+
+\begin{verbatim}
+* only single scattering paths (i.e. 2 legged paths)
+NLEG 2
+\end{verbatim}
+\end{Card}
+
+
+
+
+\begin{Card}{IORDER}{iord}{Advanced}{ior}
+  Order of the approximation used in module GENFMT.  {\feff} uses
+  order 2 by default which is correct to terms of order $1/(pR)^2$,
+  and corresponds to 6x6 scattering matrices in the Rehr--Albers
+  formalism.  Single scattering is calculated exactly to this order.
+  The 6x6 approximation is accurate to within a few percent in every
+  case we have tried (that is, higher order doesn't change the result
+  more than a few percent). However $M_{\mathit{IV}}$ shells and
+  higher shells may require increased iorder for coupling the matrix
+  elements.  Changing the default values requires some familiarity
+  with the Rehr--Albers paper and the structure of the module GENFMT.
+  To do so, follow the instructions in the {\feff} source code in
+  subroutine \texttt{setlam}.  The key \texttt{iord} is passed to
+  \texttt{setlam} for processing.  You may need to change the code
+  parameter \texttt{lamtot} if you want to do higher order
+  calculations.  For details of the algorithm used by GENFMT, see the
+  paper by J.J. Rehr and R.C.  Albers (see the references in
+  Appendix~\ref{sec:Append-C.-Refer}).  For the
+  $M_{\mathit{IV}}$ and higher edges, you may receive the error
+  message like: \texttt{Lambda array overfilled}.  In that case the
+  calculations should be repeated with IORDER -70202 (10x10 matrices).
+\begin{verbatim}
+* change iorder for M4 calculations
+IORDER -70202
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{NSTAR}{}{Advanced}{nst}
+  When this card is present, GENFMT will write the file
+  \file{nstar.dat} with the effective coordination number $N^\star$
+  which is the coordination number weighted by $\cos^2(\theta)$ to
+  correct for polarization dependence in SEXAFS calculations.
+\end{Card}
+
+
+
+
+\section{FF2CHI: XAFS spectrum}
+\label{sec:Comb-contr-from}
+
+The module FF2CHI constructs the XAS spectrum $\chi(k)$ or $\mu$ using the
+XAFS parameters described in Section~\ref{sec:Vari-EXAFS-form} from
+one or more paths, including any FMS contributions.
+Single and multiple scattering Debye--Waller
+factors are calculated using, for example, the correlated Debye model.
+Output from this module is the total XAFS spectrum and optionally, the
+contribution to the XAFS from each path individually.  Numerous
+options for filtering, Debye--Waller factors, and other corrections are
+available.
+
+
+\begin{Card}{DEBYE}{temperature  Debye-temperature [idwopt]}{Standard}{deb2}
+  The Debye card is used to calculate Debye--Waller factors for each
+  path using the correlated Debye Model. The model is best suited for
+  homogeneous systems, where it is quite accurate.  CAUTION: in
+  heterogeneous systems the model only gives approximate values which
+  can easily be off by factors of two or more.  Temperatures are in
+  kelvin.  If this card is present, the correlated Debye model
+  Debye--Waller factors will be summed with the DW factors from the
+  SIG2 card and from the \file{list.dat} file, if present.
+
+\begin{verbatim}
+*Debye-Waller factors for Cu at 190K with correlated Debye Model
+  DEBYE  190 315
+\end{verbatim}
+
+  By default, \texttt{idwopt}=0 specifies that the correlated Debye model is used
+  to calculate EXAFS Debye--Waller factors. Two additional models for
+  calculating DW factors are available in {\feffcur} based on the information
+  about the harmonic force constants in the material.  \texttt{idwopt}=1
+  means the equation of motion (EM) method is used to get Debye--Waller
+  factors and \texttt{idwopt}=2 means the recursion method (RM) which
+  is an improved correlated Einstein model.  Both
+  methods are faster than molecular dynamics simulations, and the
+  recursion method is much faster than the equation of motion method.
+  However, the equation of motion method leads to somewhat more accurate
+  results than the recursion. These additional methods seem to be superior to
+  correlated Debye model in cases with tetrahedral
+  coordination, such as solid Ge or many biological materials.  Both EM and RM
+  methods need additional input (the force constants) and a complete
+  description of both is given in Anna Poiarkova's thesis (see the
+  {\feff} Project web site (http://feff.phys.washington.edu) and
+  in the associated documentation.
+\begin{verbatim}
+* Calculate Debye-Waller factors for Cu at 190K with equation of motion
+  DEBYE  190 0 1
+\end{verbatim}
+
+\end{Card}
+
+
+\begin{Card}{CORRECTIONS}{real-energy-shift imaginary-energy-shift}{Useful}{cor}
+  The real energy shift moves $E_0$ in the final $\chi(k)$ and the
+  imaginary energy shift adds broadening to the result.  The real
+  energy shift is useful to correct the error in {\feff}'s Fermi
+  level estimate and the imaginary part can be used to correct
+  for experimental resolution or errors in the core-hole lifetime.
+  This error in the Fermi level is typically about 1 eV with self-consistent
+  calculations and about 3 eV with overlapped atom potentials.  The imaginary
+  energy is typically used to correct for instrument broadening or as
+  a correction to the mean free path calculated by {\feff}. This
+  affects only the module FF2CHI, which combines the results in all of
+  the \file{feffNNNN.dat} files.  This card is useful in fitting loops
+  because you can simply make such energy corrections and see the results
+  without redoing the entire XAFS parameter calculation. CAUTION: the
+  results are not as accurate as those obtained with the EXCHANGE card.
+  Both energies are in eV.
+  (See also the EXCHANGE card in Section~\ref{sec:Scatt-potent-modul}).
+\begin{verbatim}
+* Reduce E0 by 3.0 eV and add 1 eV of broadening (full width)
+* This will only affect module 4, ff2chi
+CORRECTIONS   3.0   1.0       real shift, imag shift
+\end{verbatim}
+\end{Card}
+
+
+\begin{Card}{SIG2}{sig2}{Useful}{sig}
+  Specify a global Debye--Waller factor to be used or added to
+  Debye--Waller calculations (see DEBYE card) for all paths.  This
+  value will be summed with the correlated Debye model value (if the
+  DEBYE card is present) and any value added to \file{list.dat}.  Units are
+  \AA$^2$.  This card can be used, for example to add Debye--Waller
+  factors from structural disorder.
+
+\begin{verbatim}
+SIG2 0.001    add 0.001 globally to all DW factors
+\end{verbatim}
+\end{Card}
+
+
+
+\chapter{Input and Output Files}
+\label{sec:Input-and-Output-Files}
+
+Other files required by the various modules are created by {\feff}
+from \file{feff.inp}.  Some of these other files may be edited by the
+user as a way to modify the input data to the modules, see
+Section~\ref{sec:Addit-progr-contr}.  See the PRINT card in
+Section~\ref{sec:Main-Control-Cards} to obtain various diagnostic
+files.  Section~\ref{sec:File-structure-code} summarizes this
+structure, the rest of this section describes the structure in more
+detail.
+
+
+\section{Module Input and Output Files}
+\label{sec:File-structure-code}
+
+\begin{description}
+  %%
+  %% Module 0
+\item[\large\textbf{Module 0}]\dotfill\  {\large\textrm{RDINP}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Read input data
+  \item[\textbf{Input files:}] \file{feff.inp}
+  \item[\textbf{Output files:}] \file{geom.dat global.dat modN.inp (N=1-6)}
+  \item[\textbf{Other output:}] \file{paths.dat} (only if SS card is used)
+  \item[\textbf{Description:}] Reads the \file{feff.inp} file, makes
+    appropriate operations on the data, and writes resulting
+    information into several output files, that
+    contain formatted data needed for all modules.
+
+  \end{description}
+  %%
+  %% Module 1
+\item [\large\textbf{Module 1}]\dotfill\  {\large\textrm{POT}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate embedded atomic
+    potentials for the photoelectron
+  \item[\textbf{Input files:}] \file{mod1.inp} and \file{geom.dat}
+  \item[\textbf{Output files:}] \file{pot.bin}
+  \item[\textbf{Other output:}] diagnostic files (see
+    Table~\ref{tab:printlevels} on page \pageref{tab:printlevels})
+  \item[\textbf{Description:}] Reads \file{mod1.inp} and calculates potentials
+    for the photoelectron which are written into \file{pot.bin}.
+    Optionally, POT will write other diagnostic files with information
+    about the potentials.
+  \end{description}
+  %%
+  %% Module 2
+\item [\large\textbf{Module 2}]\dotfill\  {\large\textrm{XSPH}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate cross-section and phase
+    shifts
+  \item[\textbf{Input files:}] \file{mod2.inp}, \file{geom.dat},
+    \file{global.dat} and \file{pot.bin}
+  \item[\textbf{Output files:}] \file{phase.bin}, and \file{xsect.bin},
+  \item[\textbf{Other output:}] diagnostic files (see
+  Table~\ref{tab:printlevels} on page \pageref{tab:printlevels}),
+    \file{axafs.dat}, and \file{ldosNN.dat} ($\ell$DOS)
+  \item[\textbf{Description:}]  XSPH writes the binary file
+    \file{phase.bin}, which contains the scattering phase shifts and
+    other information needed by PATHS and GENFMT.  
+    The  atomic  cross-section data is written in \file{xsect.bin} and
+     used in final module (FF2CHI) for overall normalization.
+    Optionally, XSPH will write other diagnostic files with information
+     about the phase shift calculations.
+  \end{description}
+  %%
+  %% Module 3
+\item [\large\textbf{Module 3}]\dotfill\  {\large\textrm{FMS}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate full multiple
+  scattering for XANES and $\ell$DOS
+  \item[\textbf{Input files:}] \file{mod3.inp}, \file{global.dat},
+     \file{geom.dat}, and \file{phase.bin}, 
+  \item[\textbf{Output files:}] \file{fms.bin}
+  \item[\textbf{Other output:}]
+  \item[\textbf{Description:}]  Performs full multiple scattering
+    algorithm.
+    Writes output into \file{fms.bin} for the FF2CHI module, which
+    contains the $\chi(k)$ from FMS.
+  \end{description}
+  %%
+  %% Module 4
+\item [\large\textbf{Module 4}]\dotfill\  {\large\textrm{PATHS}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Path enumeration
+  \item[\textbf{Input files:}] \file{mod4.inp}, \file{geom.dat},
+     \file{global.dat} and \file{phase.bin}
+  \item[\textbf{Output files:}] \file{paths.dat}
+  \item[\textbf{Other output:}] \file{crit.dat}
+  \item[\textbf{Description:}] PATHS writes \file{paths.dat} for use by
+    GENFMT and as a complete description of each path for use of the
+    user.  PATHS will optionally write other diagnostic files.  The
+    file \file{crit.dat} is particularly useful when studying large
+    numbers of paths.  When studying large numbers of paths, this
+    module will optionally write only \file{crit.dat} and 
+    not writing \file{paths.dat}.
+  \end{description}
+  %%
+  %% Module 5
+\item [\large\textbf{Module 5}]\dotfill\  {\large\textrm{GENFMT}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate scattering amplitudes and other
+    XAFS parameters
+  \item[\textbf{Input files:}] \file{mod5.inp},
+    \file{global.dat}, \file{phase.bin}, and \file{paths.dat}
+  \item[\textbf{Output files:}] \file{feff.bin}, and \file{list.dat}
+  \item[\textbf{Other output:}]
+  \item[\textbf{Description:}] GENFMT reads input files, and writes a file
+    \file{feff.bin} which contains all the EXAFS information for the
+    paths, and \file{list.dat} which tells you some basic information
+    about them.  These files are the main output of {\feff} for EXAFS
+    analysis.  To read
+    \file{feff.bin} into your own program, use the subroutine feffdt
+    as an example.
+  \end{description}
+  %%
+  %% Module 6
+\item [\large\textbf{Module 6}]\dotfill\  {\large\textrm{FF2CHI}}
+  \begin{description}
+  \item[\textbf{Purpose of Module:}] Calculate specified x-ray spectrum
+  \item[\textbf{Input files:}] \file{mod6.inp}, \file{global.dat},
+    \file{list.dat}, \file{feff.bin}, \file{fms.bin}, \file{xsect.bin}
+  \item[\textbf{Output files:}] \file{chi.dat} and \file{xmu.dat}
+  \item[\textbf{Other output:}] \file{chipNNNN.dat} and \file{feffNNNN.dat}
+  \item[\textbf{Description:}] FF2CHI reads \file{list.dat},
+    \file{fms.bin}, \file{feff.bin}, and writes \file{chi.dat}
+    with the total XAFS from the paths specified in \file{list.dat}.
+    Additional instructions are passed to FF2CHI from \file{feff.ior}, so you
+    can change S02, Debye temperature and some other parameters
+    without re-doing the whole calculation.  The file \file{list.dat}
+    can be edited by hand to change the paths being considered, and
+    individual \file{chipNNNN.dat} files with $\chi(k)$ from each path are
+    optionally written. If the XANES, DANES, FPRIME or XNCD card is specified,
+     FF2CHI will write the calculated requested data in
+    \file{xmu.dat}.  Various  corrections are
+    possible at this point --- see input cards above.
+  \end{description}
+  %%
+\end{description}
+
+
+There is an internal limit on the number of paths (set to 1200) that
+will be read from \file{feff.bin}.  This limit was chosen to handle
+any reasonable problem without using an excessive amount of memory.
+If you must use more paths, change the parameter \texttt{npx} in the
+{\feff} source in subroutine \texttt{ff2chi} to whatever you need.  It
+will need more memory.  We have not had a case where the filter
+criteria were not able to solve the problem with fewer than 1200
+paths.
+
+
+
+
+
+
+\section{Descriptions of output files}
+\label{sec:Descr-Outp-Files}
+
+\subsection{Intermediate output files}
+\label{sec:Interm-Outp-Files}
+
+\begin{description}
+\item[\file{modN.inp} and \file{ldos.inp}]\hfill\\ This ASCII file contains
+   basic information 
+  from \file{feff.inp} for a particular module. They still can be edited,
+  for example to take advantage of the symmetries.
+\item[\file{global.dat} ]\hfill\\ This ASCII file contains
+   global information  about x-ray polarization and about
+   configurational averaging.
+\item[\file{geom.dat} ]\hfill\\ This ASCII file contains
+   Cartesian coordinates of all atoms and first-bounce information 
+   for the  degeneracy reduction in pathfinder.
+\item[\file{pot.bin}]\hfill\\ Charge density and potential (SCF or not) for
+  all types of atoms. This file is used by XSPH module.
+\item[\file{phase.bin}]\hfill\\ This is a binary file with the scattering
+  phase shifts for each unique potential and with relativistic dipole matrix
+  elements, normalized to total cross section in \file{xsect.bin}.
+  It is used by the FMS, pathfinder and GENFMT.
+\item[\file{xsect.bin}]\hfill\\ Total atomic cross section for x-ray
+  absorption. This is ASCII file, but highly sensitive to format. Information
+  can be viewed, by the editing of this file is highly not recommended.
+\item[\file{ldosNN.dat}]\hfill\\ $\ell$-projected density of sates for the
+  NN$^{\mathrm{th}}$ potential index (see the LDOS card)
+\item[\file{fms.bin}]\hfill\\ contains the results of FMS calculations. Used
+  by FF2CHI to get total XAFS or XANES.
+\item[\file{paths.dat}]\hfill\\ Written by the pathfinder, this is a
+  description of all the paths that fit the criteria used by the
+  pathfinder.  It is used by GENFMT. The path descriptions include
+  Cartesian coordinates of atoms in the path, scattering angles, leg
+  lengths and degeneracy. For details on editing this by hand, see
+  Section~\ref{sec:Addit-progr-contr}.  \file{pathNN.dat} files are
+  created during the LDOS calculations for each type of potential, but
+  they are deleted after use.
+\item[\file{crit.dat}]\hfill\\ Values of the quantities tested against the
+  various criteria in the pathfinder.
+\item[\file{list.dat}]\hfill\\ List of paths to use for the final calculations.
+  Written by GENFMT when the xafs parameters are calculated and used
+  by FF2CHI.  It contains the curved wave importance ratios, which
+  you may wish to study. For details on editing this by hand, see
+  Section~\ref{sec:Addit-progr-contr}.
+
+  The curved wave importance ratios are the importance of a particular
+  path relative to the shortest single scattering path.
+\end{description}
+
+
+
+\subsection{Diagnostic files from XSPH}
+\label{sec:Diagn-Files-from}
+
+\begin{description}
+\item[\file{misc.dat}]\hfill\\ Header file for quick reference.
+\item[\file{phaseNN.dat}] \hfill\\ Complex phase shifts for each
+  shell.
+\item[\file{phminNN.dat}] \hfill\\ Real part of phase shifts for
+  $\ell$=0,1,2 only. They are smaller versions of corresponding
+  \file{phaseNN.dat}.
+\item[\file{potNN.dat}]\hfill\\  Detailed atomic potentials and
+  densities.
+\item[\file{atomNN.dat}] \hfill\\ Diagnostic information on Desclaux
+  free atom NN.
+\end{description}
+
+
+
+\subsection{Main output data}
+\label{sec:Final-Results-Calc}
+
+\begin{description}
+\item[\file{chi.dat}]\hfill\\ Standard xafs data containing $k$,
+  $\chi(k)$, $|\chi(k)|$ relative to threshold ($k=0$).  The header
+  also contains enough information to specify what model was used to
+  create this file.
+\item[\file{xmu.dat}]\hfill\\ The file \file{xmu.dat} contains both XANES and
+  XAFS data $\mu$, $\mu_0$, and $\tilde \chi = \chi \mu_0/\mu_0({\rm edge} +
+  50 {\rm eV} $ as functions of absolute energy
+  $E$, relative energy $E-E_f$ and wave number $k$.
+\item[\file{feff.bin}] \hfill\\ A binary file that contains all the
+  information about the XAFS from all of the paths.  This replaces the
+  old \file{feffNNNN.dat} files (which you can make using the PRINT
+  card).  If you want to use this file with your own analysis package,
+  use the code in subroutine feffdt as an example of how to read it.
+\item[\file{feffNNNN.dat}]\hfill\\ You have to use the PRINT option to
+  obtain these files.  Effective scattering amplitude and phase shift
+  data, with $k$ referenced to threshold for shell nn: $k$, $\phi_c$,
+  $|F_{\mathrm{eff}}|$, $\phi_{\mathrm{eff}}$, the reduction factor,
+  $\lambda$, $\Re(p)$.
+
+  If you need these, use the \htmlref{PRINT}{card:pri} option for FF2CHI
+  greater than 3, which will read \file{feff.bin} and write the
+  \file{feffNNNN.dat} files in exactly the form you're used to.
+\item[\file{fpf0.dat}] \hfill\\ Thompson scattering amplitude $f_0(Q)$
+  and constant contribution to f' from total energy term.
+\item[\file{ratio.dat}] \hfill\\ Ratio $\mu_0(E)$, $ \rho_0(E)$ and
+  their ratio versus energy, for XMCD sum rules normalization.
+\end{description}
+
+
+
+
+\subsection{Variables in the EXAFS and XANES formulae}
+\label{sec:Vari-EXAFS-form}
+
+\begin{Reflist}
+\item[$k$] The wave number in units of \AA$^{-1}$.
+  $k=\sqrt{E-E_f}$ where $E$ is energy and $E_f$ is the Fermi level
+  computed from electron gas theory at the average interstitial charge
+  density.
+\item[$\chi(k)$]
+  $$ \chi(k) = S_0^2  \mathcal{R}  \sum\limits_{\mathrm{shells}}
+  \frac{NF_\mathrm{eff}}{kR^2} \exp(-2r/\lambda)
+  \sin(2kR + \phi_{\mathrm{eff}} + \phi_c)
+  \exp(-2k^2\sigma^2) \notag $$
+\item[$\phi_c$]
+  The total central atom phase shift, $\phi_c=2\delta_{\ell,c} - \ell\pi$
+\item[$F_{\mathrm{eff}}$]
+  The effective curved-wave backscattering amplitude in the EXAFS
+  formula for each shell.
+\item[$\phi_{\mathrm{eff}}$]
+  The phase shift for each shell
+\item[$\mathcal{R}$]
+  The total central atom loss factor, $\mathcal{R}=\exp(-2\Im(\delta_c))$
+\item[$R$]
+  The distance to central atom for each shell
+\item[$N$]
+  The mean number atoms in each shell
+\item[$\sigma^2$]
+  The mean square fluctuation in $R$ for each shell
+\item[$\lambda$]
+  The mean free path in \AA, $\lambda = {1/ |\Im p |}$
+\item[$k_f$]
+  The Fermi momentum at the average interstitial charge density
+\item[$p(r)$]
+  The local momentum, $p^2(r)=k^2+k_f^2(r)+\Sigma-\Sigma_f$
+\item[$\Sigma(E)$]
+  The energy dependent self energy at energy, $\Sigma_f$ is the self
+  energy at the Fermi energy.
+\item[$\mu(E)$]
+  The total absorption cross-section
+\item[$\mu_0(E)$]
+  The embedded atomic background absorption
+\end{Reflist}
+
+
+
+
+
+\section{Program control using intermediate output files}
+\label{sec:Addit-progr-contr}
+
+
+
+
+In addition to the CONTROL card and other options in \file{feff.inp},
+some parameters in the files read by the various modules can be
+changed.  For example, you can create your own paths by editing
+\file{paths.dat} and explicit change Debye--Waller factors in the
+final result by editing \file{list.dat}.
+
+Users may edit the some files as a quick and sometimes convenient way
+to prepare a given run.  It is easiest to use an existing file as a
+template as the code which reads these files is fussy about the format
+of the files.
+
+
+
+\subsection{Using \file{paths.dat}}
+\label{sec:paths.dat}
+
+You can modify a path, or even invent new ones, such as paths
+with more than the pathfinder maximum of 8 legs.  For example, you
+could make a path to determine the effect of a focusing atom on a
+distant scatterer.  Whatever index you enter for the path will be used
+in the filename given to the \file{feffnnnn.dat} file.  For example,
+for the choice of index 845, the EXAFS parameters will appear in
+\file{feff0845.dat}.
+A handy way to add a single scattering path of length $R$ is to make a
+2-leg path with the central atom at (0, 0, 0) and the scatterer at
+($R$, 0, 0).
+
+GENFMT will need the positions, unique potentials, and character tags
+for each atom in the path.  The angles and leg lengths are printed out
+for your information, and you can omit them when creating your own
+paths by hand.  The label lines in the file are required (there is code
+that skips them, and if they're missing, you'll get wrong results).
+
+
+
+
+
+
+\subsection{Using \file{list.dat}}
+\label{sec:list.dat}
+
+This is the list of files that ff2chi uses to calculate chi.  It
+includes the paths written by module GENFMT, curved wave importance
+factors, and user-defined Debye--Waller factors.  If you want to set
+Debye--Waller factors for individual paths, you may edit this file to
+set them.  FF2CHI will sum the Debye--Waller factors in this file with
+the correlated Debye model $\sigma^2$ and the global $\sigma^2$, if
+present.  You may also delete paths from this file if you want to
+combine some particular set of paths.  (CAUTION: Save the original, or
+you'll have to re-run GENFMT!)
+
+
+
+\subsection{Using \file{geom.dat}}
+\label{sec:geom.dat}
+
+This file can be manually edited to take advantages of the paths
+symmetries. See the NOGEOM card.
+
+
+
+
+\chapter{Calculation Strategies and Examples}
+\label{sec:Calc-Strat-Exampl}
+
+
+
+
+
+\section{General comments}
+\label{sec:EXAFS-Calculations}
+
+
+Self-consistent or overlapped atom potentials are necessary
+for the calculation of the scattering phase shifts. Self-consistent
+calculations take more time, and are often essential for XANES,
+especially for cases with significant charge transfer.
+Although the effect of self-consistency on EXAFS is small,
+such calculations give an accurate determination of $E_0$,
+thus eliminating an important parameter in EXAFS
+distance determinations.
+
+Scattering phase shifts for each unique potential are necessary for
+FMS, PATHS and GENFMT.  They are needed for the importance filters in
+PATHS and are the basis of the XAFS parameters calculation in GENFMT.
+This part of the calculation is relatively slow, so it is usually best to run
+it only once and use the results while studying the paths and XAFS.
+
+To enumerate the necessary paths, the pathfinder module PATHS needs the
+atomic positions of any atoms from which scattering is expected.  If
+the structure is completely unknown, only single-scattering paths can be
+created explicitly.  Because the number of possible paths increases
+exponentially with total path length, one should start with a short total path
+length, examine the few paths (representing scattering from the nearest
+neighbors), and gradually increase the total path length, possibly
+studying the path importance coefficients and using the filters to
+limit the number of paths.  This process is not automated, and if done
+carelessly can yield so many paths that no analysis will be possible.
+
+Finally, use GENFMT to calculate the XAFS parameters, and FF2CHI to
+assemble the results into a chi curve.  Here, the slow part is GENFMT
+and FF2CHI is very fast.  Therefore, to explore parameters such as
+Debye--Waller factors, mean free path and energy zero shifts, various
+combinations of paths and coordination numbers, run only module FF2CHI
+using the results saved from GENFMT.
+
+There are three ways to modify the Debye--Waller factor, all of which affect
+only the module FF2CHI.  The DEBYE card
+calculates a Debye--Waller factor for each path.  The SIG2 card adds
+a constant Debye--Waller factor to each path.  And you can edit \file{list.dat}
+to add a particular Debye--Waller factor to a particular path.  These three
+Debye--Waller factors are summed, so if the DEBYE and SIG2 cards are present,
+and if you have added a Debye--Waller factor to a particular path, the Debye-
+Waller factor used will be the sum of all three.  See documentation below
+for details.
+
+If your model changes significantly, the phase shifts (which are based
+in part on the structure of the material) should be recalculated.
+Any time the phase shifts change, the XAFS parameters will also have to be
+re-calculated.  If the path filters have been used, the path list will
+also have to be recomputed.
+
+
+
+
+\section{EXAFS calculation}
+\label{sec:EXAFS-calculation}
+
+
+
+
+
+\subsection{SF$_6$ Molecule}
+\label{sec:Molecule}
+
+
+SF6 Molecule. This is the simplest example of running {\feff} to obtain
+EXAFS.  Only 2 input cards are necessary. Only \file{chi.dat} file is
+produced.
+
+\begin{verbatim}
+TITLE Molecular SF6
+
+POTENTIALS
+*    ipot    z   tag
+       0    16   S        absorbing atom must be unique pot 0
+       1     9   F
+
+ATOMS
+*  x      y      z     ipot
+   0      0      0       0          S absorber
+   1.56   0      0       1          6 F backscatters
+   0      1.56   0       1
+   0      0      1.56    1
+  -1.56   0      0       1
+   0     -1.56   0       1
+   0      0     -1.56    1
+\end{verbatim}
+
+
+
+
+\subsection{Solids}
+\label{sec:Solid}
+
+
+\subsubsection{Cu metal}
+\label{sec:Cu-metal}
+
+Cu, fcc metal, 4 shells.  The list of atomic coordinates
+(\htmlref{ATOMS}{card:ato} card) for crystals can be produced by program
+{\atoms}. Thus instead of giving long atoms list, we present a short
+\file{atoms.inp} file.  For connection with EXAFS fitting programs see
+Section~\ref{sec:Input-and-Output-Files} and also the \htmlref{PRINT}{card:pri}
+card on page \pageref{card:pri}.
+
+\begin{verbatim}
+TITLE Cu crystal, 4 shells
+* Cu is fcc, lattice parameter a=3.61 (Kittel)
+
+*Cu at 190K, Debye temp 315K (Ashcroft & Mermin)
+DEBYE  190  315 0
+
+POTENTIALS
+  0  29  Cu0
+  1  29  Cu
+
+ATOMS
+atoms list generated using atoms.inp file below
+--------------------------------------------
+title Cu  metal  fcc a=3.6032
+fcc                   ! shorthand for F M 3 M
+rmax= 11.13   a=3.6032
+out=feff.inp          ! index=true
+geom = true
+atom
+!   At.type    x    y    z
+Cu       0.0  0.0  0.0
+--------------------------------------------
+\end{verbatim}
+
+
+
+\subsubsection{YBCO High-Tc superconductor}
+\label{sec:YBCO-High-Tc}
+
+
+\begin{verbatim}
+TITLE  YBCO: Y Ba2 Cu3 O7      Cu2 core hole
+
+CONTROL  1  1  1  1  1  1
+PRINT    0  0  0  0  0  0
+
+RPATH   4.5
+
+POTENTIALS
+*    ipot  z  tag
+      0   29  Cu2
+      1    8  O
+      2   39  Y
+      3   29  Cu1
+      4   56  Ba
+
+ATOMS
+atoms list generated by the following atoms.inp file
+-----------------------------------
+title YBCO: Y Ba2 Cu3 O7  (1-2-3 structure)
+space P M M M
+rmax=5.2         a=3.823  b=3.886  c=11.681
+core = Cu1
+atom
+! At.type  x     y     z       tag
+  Y       0.5   0.5   0.5
+  Ba      0.5   0.5   0.184
+  Cu      0     0     0        Cu1
+  Cu      0     0     0.356    Cu2
+  O       0     0.5   0        O1
+  O       0     0     0.158    O2
+  O       0     0.5   0.379    O3
+  O       0.5   0     0.377    O4
+--------------------------------------
+\end{verbatim}
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Estimate of S$_0^2$}
+\label{sec:S02-estimate}
+
+
+All above examples yield calculations for K edge (default). To do
+calculations for other edges use EDGE (or HOLE) cards. These cards
+will also yield an estimate of $S_0^2$ from atomic calculations if you
+set $\mathtt{S02}=0$ by the one of three possible ways shown below.
+\begin{verbatim}
+       EDGE   L3    0.0
+       HOLE    4   0.0
+       S02     0.0
+\end{verbatim}
+
+The result for S02 is given in \file{chi.dat} or \file{xmu.dat} files.
+$S_0^2$ is a square of determinant of overlap integrals for core
+orbitals calculated with and without core hole. The core-valence
+separation can be changed by editing subroutine \texttt{getorb}, but
+it is currently set by default to the most chemically reasonable one.
+
+
+\subsection{Configuration averaging over absorbers}
+\label{sec:Aver-over-absorb}
+
+
+In amorphous materials or materials with distortions from regular
+crystals the absorbing atoms (with the same number in periodic table)
+may have different surroundings. Thus one may want to average the
+calculation over different types of sites for the same atom or even
+over all atoms in the \file{feff.inp} file. This can be accomplished using
+CFAVERAGE card of Section~\ref{sec:Main-Control-Cards}.
+
+
+
+
+\subsection{Adding self-consistency}
+\label{sec:Adding-self-cons}
+
+
+Self-consistency is expected to be more important for the XANES
+calculations, but even for EXAFS one may want to have more reliable
+determination of Fermi level or to account for the charge transfers in
+order to do fits with single energy shift $E_0$. Our experience shows
+that reliable EXAFS phase shifts are best achieved by using SCF card.
+
+\begin{verbatim}
+       SCF   3.8
+\end{verbatim}
+
+The above example works for
+solids or large molecules, but for molecules with less than 30 atoms
+calculations can be done faster if you set $\mathtt{lfms1}=1$,
+\begin{verbatim}
+       SCF   10.0  1
+\end{verbatim}
+
+For details see SCF and FMS cards in
+Sections~\ref{sec:Scatt-potent-modul} and \ref{sec:Full-mult-scatt}.
+
+
+\section{XANES calculations}
+\label{sec:XANES-calculations}
+
+\subsection{Need for SCF and additional difficulties for XANES}
+\label{sec:Addit-diff}
+
+XANES calculations are usually more challenging than EXAFS calculations.
+They usually take more time and require more experience from the user.
+Fortunately {\feffcur} automates many steps in the procedure and includes
+important full multiple scattering terms and self-consistency. This improves
+on the high order path expansion approach to XANES in {\feff}7 which
+only allowed the maximum number of paths of amplitude larger than a plane wave
+criteria in PCRITERIA  card. To account for the poor electron gas estimates of
+the Fermi level, CORRECTIONS cards were needed.  Moreover, to obtain
+good results for the spectra, one had also to play with AFOLP, EXCHANGE
+and ION cards, which alter the way the scattering potential is constructed
+in somewhat uncontrolled ways.
+
+One of the main advantages of {\feffcur}, is that it yields self-consistent
+potentials using the SCF card. The use of the SCF card also gives a
+more reliable estimate of Fermi level (the CORRECTIONS card
+can still be used, since the error in Fermi level position is only a few eV).
+{\feffcur} thus automatically accounts for charge transfer.
+The ION card should be used only
+to specify the total charge of a cluster. AFOLP in general
+leads to better results for XANES and is done by default. With
+{\feff}7 we also had to use EXCHANGE 5 model for Pu hydrates,
+but with the self-consistent {\feffcur} the standard EXCHANGE 0
+works well.  Thus the use of self-consistency leads to
+closer results for different exchange correlation models.
+
+The use of the high order MS path expansion and PCRITERIA  can
+lead to unreliable XANES calculations when the MS series converges
+poorly (for example, near the Fermi level). Thus the inclusion
+of FMS capabilities in {\feffcur} is essential for calculations of LDOS and
+electronic densities and is often an improvement on path calculations
+of XANES.  Actually we suggest that for LDOS calculations
+one uses FMS exclusively and uses path expansion for testing it's convergence.
+This will cost CPU time, but will lead to more
+reliable XANES results. The FMS calculations for a cluster of 87 atoms
+typically take more time and memory than the other 5 modules. The
+results can be somewhat better with larger clusters, but typically
+one achieves convergence with about 50-200 atoms and calculational
+time scales as a third power of number of atoms in a cluster and
+quickly becomes prohibitive.
+Below we present several sample input files for XANES calculations.
+
+
+\subsection{GeCl$_4$ Molecule}
+\label{sec:Molecule-1}
+
+This is a historically first molecule for which EXAFS was calculated
+by Hartree, Kronig and Peterson (1934), using the short range order
+theory.
+
+\begin{verbatim}
+TITLE   GeCl_4  r=2.09 /AA
+
+NOHOLE
+HOLE 1   1.0
+RSIGMA
+
+CONTROL   1  1  1  1  1  1
+
+ SCF    3.0  1
+ FMS    3.0  1
+ RPATH  1.0
+ XANES  8.0 0.05
+
+ AFOLP  1.30
+
+POTENTIALS
+ *   ipot   z  label
+       0   32   Ge  3 3
+       1   17   Cl  3 3
+ATOMS
+*     x          y          z     ipot atom           distance
+   0.0000     0.0000     0.0000     0   Ge
+   1.2100     1.2100     1.2100     1   Cl
+   1.2100    -1.2100    -1.2100     1   Cl
+  -1.2100     1.2100    -1.2100     1   Cl
+  -1.2100    -1.2100     1.2100     1   Cl
+END
+\end{verbatim}
+
+
+\subsection{Solid: XANES and LDOS}
+\label{sec:Solid-1}
+
+BN crystal has a zinc sulfide structure, and is a case in which a
+multiple scattering expansion does not converge near the Fermi level.
+Using the full multiple scattering approach leads to good agreement
+with experiment.
+
+\begin{verbatim}
+ TITLE   BN cubic zinc sulfide structure
+ CONTROL   1 1 1 1 1 1
+ PRINT     5 0 0 0 0 0
+
+ SCF  3.1
+ HOLE 1   1.0     1=k edge, s0^2=1.0
+ EXCHANGE  0  0  1.0
+ LDOS -20  10  0.5
+ FMS  5.1
+ RPATH   1.0
+ XANES 4.0
+
+ INTERSTITIAL 0  1.54
+
+ POTENTIALS
+*   ipot   z  label lmax1  lmax2
+       0    5   B     2    2  0.1
+       1    7   N     2    2  1
+       2    5   B     2    2  1
+
+ ATOMS
+list generated by ATOMS program
+-------------------------------------
+title BN (zincblende structure)
+Space  zns
+a=3.615 rmax=8.0   core=B
+atom
+! At.type  x        y       z      tag
+   B      0.0      0.0     0.0
+   N      0.25     0.25    0.25
+----------------------------------------
+\end{verbatim}
+
+
+\subsection{Absolute cross-section}
+\label{sec:Absol-cross-sect}
+
+The absolute cross section can be obtained from the output in
+\file{xmu.dat}.  Look for this line:
+
+\begin{verbatim}
+xsedge+100, used to normalize mu           2.5908E-04
+\end{verbatim}
+
+Since our distances are in \AA, we report cross section also in \AA$^2$.
+If you multiply the 4-th or 5-th column by this normalization value
+you will obtain the cross section in \AA$^2$. Often the absolute
+cross section are reported in barns , which has simple connection
+with our units (1 \AA$^2 = 100 \mathrm{Mbarn}$)
+
+\section{Spin dependent calculations}
+\label{sec:Spin-depend-calc}
+
+\subsection{General description}
+\label{sec:General-description}
+
+These calculations are not currently automated. Code is not
+self-consistent with respect to spin variables and one has to specify
+the relative spin alignment and/or amplitudes by editing \texttt{ovrlp}
+subroutine. The default amplitudes are set in \texttt{getorb} subroutine.
+Ferromagnetic (all spins in the same direction) spin order is assumed
+for default, which is probably good enough to get corrections for the
+sum rules described below.
+Thus results in XANES may be
+questionable, but are often better than those obtained with other
+codes. Thus this code gave the best result to date for XMCD at Fe K
+edge, both in XANES and EXAFS, when compared to other calculations and
+experiment.
+
+One can easily make mistakes in spin-dependent calculations with our code.
+It is probably best to ask Alexei Ankudinov for assistance. However, if you
+want to do them on your own, the spin-dependent calculations are described
+below. We plan to automate spin-dependent calculation in future
+versions of {\feff}.
+
+To accommodate spin dependent calculations, the \htmlref{SPIN}{card:spi}
+card is added to {\feff}.  The values of the \texttt{ispin}
+argument correspond to:
+
+\begin{table}[htbp]
+  \begin{center}
+    \begin{tabular}[h]{rl}
+      \hline\hline
+      \texttt{ispin} & \quad meaning \\
+      \hline
+      $-2$ & Calculate the spin-down SPXAS and LDOS\\
+      2    & Calculate the spin-up SPXAS and LDOS\\
+      $-1$ & Make the spin-down portion of XMCD calculations \\
+      1    & Make the spin-up portion of XMCD calculations \\
+      \hline\hline
+    \end{tabular}
+    \caption{Allowed values of the \texttt{ispin} argument of the SPIN card.}
+    \label{tab:spin}
+  \end{center}
+\end{table}
+
+To get the XMCD signal you have to combine data from two \file{xmu.dat}
+files. A simple program to do this, \file{spin.f} is available on the
+{\feff} web site, and also printed below.
+
+These subroutines may need to be modified by the user:
+\begin{description}
+\item[\texttt{getorb}]\hfill\\ The default values for spin amplitudes
+  are set in this subroutine. The approximate atomic Hund's rule has
+  been used to set values for d and f elements. Spin 1/2 is assigned for
+  s, and p elements. This does not affect much XMCD calculations, however
+  nonzero value is needed to get finite integration correction for
+  these elements. You can reset the spin amplitudes by editing this subroutine
+  and recompiling the code.
+\item[\texttt{ovrlp}]\hfill\\ overlaps atomic densities and construct
+  the total density magnetization, relative to the central atom. 
+  (SPIN card is used to define the sign of central atom density
+  magnetization.) This subroutine requires user's attention, since
+  the code is set for ferromagnets.
+  There are commented out examples for antiferromagnet
+  and ferrimagnet inside this subroutine. 
+  In later versions the relative spin orientation should be specified in
+  \file{feff.inp} (add 7-th column in POTENTIAL card). Currently it does
+  not overlap magnetization, thus in interstitial region it is zero.
+  It should be fine for antiferromagnets and f-element ferromagnets,
+  but can lead to important corrections for d-element ferromagnets.
+\end{description}
+
+
+
+The spin-dependent
+potentials are calculated from the spin-dependent densities,
+using von Barth-Hedin results for the uniform electron gas.
+
+We use the rough prescription to construct the spin-dependent
+muffin-tin potential. It should be fine for EXAFS where small details of
+the potential are irrelevant, but may be not good enough in the XANES region,
+where the self-consistent spin-dependent muffin-tin potential can lead to
+better results.
+
+In order to use this spin dependent program you have to: 1) Check the
+construction of atomic density magnetization in the subroutine GETORB;
+2) Check the construction of spin-dependent potential by OVRLP (examples
+for ferromagnets and antiferromagnets are there). 
+3) Be especially careful with antiferromagnets, since you may want to use
+the parity of iph to specify the relative directions of spin.
+4) Now you can simply use the
+SPIN card to calculate SPXAS and XMCD. An additional simple program
+\file{spin.f} is needed to take care of the different normalizations
+and give the finite results. If this experimental version will work,
+then later versions of {\feff} will be automated to work with the SPIN
+card and the 7-th column of POTENTIALS to specify the relative spin
+directions on atoms.
+
+An auxiliary program \file{spin.f} can be used to get XMCD or SPXAS
+\begin{verbatim}
+      implicit double precision (a-h,o-z)
+c     This program read two xmu.dat files for spin -up and -down,
+c     calculated with Feff8.20 for the SAME paths list.
+c     spin-up file is fort.1, spin-down file is fort.2
+c     Both have to be edited: All lines should be deleted except
+c       1) line: xsedge+100, used to normalize mu           1.3953E-04
+c          leave only on this line:  1.3953E-04
+c       2) 6-column data lines
+c     The output will be written in fort.3 in 6 columns
+c     E+shift1  E(edge)+shift2  xk cmd_total cmd_background  cmd_fs
+c     where total = atomic background + fine structure
+
+c     There are 3 possibilities
+c     case 1) you want XMCD signal and used SPIN \pm 1
+c     case 2) you want XMCD signal and used SPIN \pm 2, in order
+c       to use non-relativistic formula for XMCD
+c       factor li/2j+1 which was not convenient to do in a program
+c     case 3) you want SPXAFS and used  SPIN \pm 2
+c     ENTER your case here (icase is positive integer only)
+      icase = 2
+
+c     if icase=2 ENTER factor=(-1)**(L+1/2-J) * L/(2*J+1)
+c     where L,J are for your edge (ex. for L3 L=1 J=3/2, for L2 L=1 J=1/2)
+c     for L3
+      factor = 0.25
+c     for L2
+c     factor = -0.5
+
+c     ENTER the energy shift you want for columns 1 and 2 in xmu.dat
+      shift1 = 0
+      shift2 = 0
+
+c     everything below is automated further
+      read (1,*,end=10) ap
+      read (2,*,end=10) am
+      xnorm = 0.5 *(ap+am)
+c     read the data
+   3     read(1,*,end=10)   x1, x2, ek, y1, y2, y3
+         read(2,*,end=10)  x1, x2, ek, z1, z2, z3
+         if (icase.eq.1) then
+c           no xafs in this case:xfs - atomic part of XMCD
+            t1 = (y1*ap + z1*am)/xnorm
+            t2 = (y2*ap + z2*am)/xnorm
+            t3 = (y3*ap + z3*am) /xnorm
+
+         elseif (icase.eq.2) then
+            t1 = (y1*ap - z1*am)*factor /xnorm
+            t2 = (y2*ap - z2*am)*factor /xnorm
+            t3 = (y3*ap - z3*am)*factor /xnorm
+
+         elseif (icase.eq.3) then
+c           factor=0.5 always for SPXAFS
+            t1 = (y1*ap - z1*am)/2.0/xnorm
+            t2 = (y2*ap - z2*am)/2.0/xnorm
+            t3 = (y3*ap - z3*am)/2.0/xnorm
+c           you may want average total XAS as output in last column
+c           t3 = (y1*ap + z1*am)/2.0/xnorm
+         endif
+         x1 =x1 + shift1
+         x2 =x2 + shift2
+         write(3,5)    x1, x2, ek, t1, t2, t3
+   5     format (6e13.5)
+      goto 3
+  10  continue
+      stop
+      end
+\end{verbatim}
+
+
+You really want to have the same paths used for spin up and down
+calculation, otherwise the difference between 2 calculations may be
+due to different paths used. Typically the paths list in
+\file{paths.dat} should be generated by running the usual EXAFS
+calculations and comparing with experiment (to make sure that all
+important paths included). Then when running with SPIN turn off the
+pathfinder module using CONTROL card.  This is probably the only place
+when you have to skip the pathfinder module.  There is no rule without
+exception.
+
+
+\subsection{XMCD}
+\label{sec:XMCD}
+
+XMCD has recently become popular due, in part, to the utility of
+many sum rules in XANES region. The EXAFS region can be used
+to determine the position of spins relative to magnetic field.
+The XMCD card has to present in \file{feff.inp} for these
+calculations with {\feff}8.20. Also  the editing of two xmu.dat files
+and the use of spin.f can be avoided, if the code is compiled
+with dimension nspx=2. Then the output \file{xmu.dat} will contain
+final result. This will also add the contribution from spin-flip
+processes (which we find typically very small), but will require
+4 times the memory and 8 times the execution time for XANES region.
+Thus in general we would recommend the use of nspx=1 dimension,
+unless spin-flip processes are expected to be significant
+(e.g. for 5f elements). 
+
+
+Gd L1  edge.
+
+\begin{verbatim}
+ TITLE   Gd  l1  hcp
+
+ HOLE 2   1.0     2=l1 edge, s0^2=1.0
+ SPIN    1
+ EXCHANGE  2   0.0  0.0
+
+ CONTROL   1      1     1     1    1    1
+
+ RPATH    7.29
+ PRINT   5 0 0 0 0 3
+
+ CRITERIA   0.0  0.0  curved   plane
+ DEBYE   150    176   temp     debye-temp
+ XANES
+ XMCD
+
+ POTENTIALS
+ *   ipot   z  label
+       0   64   Gd
+       1   64   Gd
+
+ ATOMS
+the list of atoms is created by ATOMS program
+---------------------------------------------
+title    Gd , hcp
+! Wycoff, vol.1 p.331
+space  hcp
+rmax = 9.0
+a = 3.6354
+c = 5.7817
+atom
+  Gd   0.33333   0.66667   0.25   center
+-----------------------------------
+\end{verbatim}
+
+\subsection{XMCD sum rule normalization}
+\label{sec:XMCDNORM}
+
+Use PRINT card option to print \file{ratio.dat}, which contains 
+$\rho_0$, $\mu_0$ and their ratio.  Calculations has to be performed
+without SPIN card. The correction due to the difference between $j+$ and $j- $
+DOS is already included into the calculated ratio.
+This correction practically does not affect S$_z$, but may increase
+L$_z$ by 10 \% .
+No correction is added (or needed) for K and other l=0 edges.
+
+To get finite integration range correction you will have to run
+the code 4 times (will automate later): 1) Two times for SPIN +/- 1 to get
+estimate values of S$_z$ and L$_z$ (will be reported on the screen) 
+ideally one has to adjust amplitudes in subroutine getorb to have
+approximately right value for Sz but the correction is few per cent
+and does not depend much once you are in the vicinity of correct value;
+2) Two times for SPIN +/- 1 and Fermi level shifted 
+to the end of integration range, which can be easily done
+using EXCHANGE card: e.g EXCHANGE 2  20 0  2 
+if you stopped integration 20 eV from the edge. The nonzero
+values for S$_z$ and L$_z$ are the corrections. dS$_z$= S$_z$' - S$_z$.
+We suggest to take ratio and appropriately scale S$_z$ and L$_z$.
+This is usually negligible correction for L$_z$, but increase S$_z$ 
+up to 5 per cent.
+
+\subsection{XNCD}
+\label{sec:XNCD}
+
+XNCD calculations due in nonmagnetic materials due
+to E1-E2 mechanism is performed, i.e. due to
+cross electric dipole-quadrupole transitions. It has to be used with
+XANES card. We performed calculations for LiIO$_3$ and found results
+very similar to previous multiple scattering XNCD calculations.
+The XNCD calculations is the same as XMCD and the output will actually
+contain both. For nonmagnetic systems only XNCD mechanism is possible,
+while for magnetic materials with high symmetry only XMCD is present.
+Both will be present for magnetic materials with low symmetry, and
+will have to use x-ray direction (ELLIPTICITY card) to disentangle 
+two contributions.
+
+\subsection{SPXAS}
+\label{sec:SPXAS}
+
+For antiferromagnets, the XMCD should be zero.  SPXAS is a different technique
+where you measure spin-up and spin-down signal by measuring intensity of two
+spin-split Kbeta lines. This corresponds to measuring spin-order relative to
+the spin on the absorber ( not relative to the external magnetic field as
+in XMCD). As an example, let us look at the Mn K edge of antiferromagnetic
+MnF$_2$.  Our calculations agree well with experiment in EXAFS region.
+
+Here is the input file for MnF$_2$.
+
+\begin{verbatim}
+ TITLE   MnF2 (rutile) cassiterite (Wykoff)
+
+ HOLE 1   1.0     1=k edge, s0^2=1.0
+ SPIN  -2
+
+ CONTROL   1      1     1     1     1     1
+ PRINT     0      0     0     2     0     4
+ EXCHANGE  0  0.0  0.0
+ CORRECTIONS  0.0   0.0
+
+ RPATH  10.0
+ XANES
+
+ PCRITERIA       0.8     40.0
+ *CRITERIA     curved   plane
+ CRITERIA       0.0     0.0
+ *DEBYE        temp     debye-temp
+  DEBYE        300       350
+ NLEG         4
+
+ POTENTIALS
+ *   ipot   z  label
+       0   25   Mnup
+       1    9   F
+       2   25   Mnup
+       3   25   Mndown
+
+ ATOMS
+   0.0000     0.0000     0.0000    0   Mnup             0.0000
+   1.4864     1.4864     0.0000    1   F                2.1021
+  -1.4864    -1.4864     0.0000    1   F                2.1021
+   0.9503    -0.9503     1.6550    1   F                2.1319
+   0.9503    -0.9503    -1.6550    1   F                2.1319
+  -0.9503     0.9503     1.6550    1   F                2.1319
+  -0.9503     0.9503    -1.6550    1   F                2.1319
+   0.0000     0.0000    -3.3099    3   Mndown           3.3099
+   0.0000     0.0000     3.3099    3   Mndown           3.3099
+  -3.3870     1.4864     0.0000    1   F                3.6988
+   3.3870    -1.4864     0.0000    1   F                3.6988
+   1.4864    -3.3870     0.0000    1   F                3.6988
+  -1.4864     3.3870     0.0000    1   F                3.6988
+   2.4367     2.4367    -1.6550    2   Mnup             3.8228
+  -2.4367    -2.4367    -1.6550    2   Mnup             3.8228
+   2.4367    -2.4367    -1.6550    3   Mndown           3.8228
+  -2.4367    -2.4367     1.6550    3   Mndown           3.8228
+  -2.4367     2.4367    -1.6550    3   Mndown           3.8228
+   2.4367     2.4367     1.6550    3   Mndown           3.8228
+   2.4367    -2.4367     1.6550    2   Mnup             3.8228
+  -2.4367     2.4367     1.6550    2   Mnup             3.8228
+ ...
+END
+
+\end{verbatim}
+
+\section{Elastic Scattering Amplitudes}
+\label{sec:DANES}
+
+All necessary components to obtain  the elastic scattering amplitude
+can be calculated with the {\feff}8.2 code. Thus Thomson scattering
+amplitudes are written in file \file{fpf0.dat}, elastic amplitude
+near some specific edge are calculated with DANES card while far from
+the edge with FPRIME card which neglects solid state effects on $f'$.
+The $f''$ can be obtained with XANES card. The formula connecting
+$f''$ and the absorption cross section $\sigma $ is (in atomic units)
+$f'' = \omega c \sigma /4/\pi $.   For calculations at energies
+well above the absorption edge we found that ground state potentials
+yields better results, and also that quadrupolar transitions 
+have to be included.
+
+\section{X-ray Emission Spectra XES}
+\label{sec:XES}
+
+The nonresonant x-ray emission spectra (fluorescence spectra) 
+are treated in the same way as the x-ray absorption process
+for states below the Fermi level. To perform these calculations one simply
+replaces the XANES card with XES.  Preliminary comparisons with experiment
+for phosphorus K$_{\beta}$ line show good agreement with experiment for various
+compounds.  Further tests are in progress. Please report any problems with
+this card to the authors.
+
+\appendix
+
+\chapter{Copyright Information,  Restrictions and License}
+\label{sec:Append-A.-Copyr}
+
+\section{Restrictions and license information}
+\label{sec:Restr-License-Inform}
+
+The full {\feff} distribution is copyrighted software and a
+license from the University of
+Washington Office of Technology Transfer must be obtained for its use.
+This is necessary to protect the interests both of users and the
+University of Washington.  Both academic/non-profit and commercial
+licenses are available --- see Section~\ref{sec:ADDEND-Governm-Copyr}
+to this document for details.  New users should request the latest
+version of this code.  The license form may be
+obtained from the {\feff} WWW pages,
+
+\centerline{\htmladdnormallink{http://leonardo.phys.washington.edu/feff/}
+  {http://leonardo.phys.washington.edu/feff/}}
+
+\noindent or by writing or sending a FAX to
+\begin{quotation}
+\noindent The {\feff} Project\\
+c/o Gail Chiarello \\
+Department of Physics\\
+BOX 351560\\
+University of Washington\\
+Seattle, WA 98195\\[2ex]
+E-mail: \htmladdnormallink{feff@phys.washington.edu}
+{mailto:feff@phys.washington.edu}\\
+telephone: (206) 543-5459 \\
+FAX (206) 685-0635
+\end{quotation}
+
+
+\section{ADDENDUM: Government Copyrights}
+\label{sec:ADDEND-Governm-Copyr}
+
+This work was supported in part by Grants from DOE. In accordance with
+the DOE FAR rules part 600.33 ``Rights in Technical Data - Modified
+Short Form'' the following clause applies to {\feff}:
+
+(c)(1)The grantee agrees to and does hereby grant to the U.S.
+Government and to others acting on its behalf:
+
+(i) A royalty-free, nonexclusive, irrevocable, world-wide license for
+Governmental purposes to reproduce, distribute, display, and perform
+all copyrightable material first produced or composed in the
+performance of this grant by the grantee, its employees or any
+individual or concern specifically employed or assigned to originate
+and prepare such material and to prepare derivative works based
+thereon,
+
+(ii) A license as aforesaid under any and all copyrighted or
+copyrightable work not first produced or composed by the grantee in the
+performance of this grant but which is incorporated in the material
+furnished under the grant, provided that such license shall be only to
+the extent the grantee now has, or prior to completion or close-out of
+the grant, may acquire the right to grant such license without becoming
+liable to pay compensation to others solely because of such grant.
+
+(c)(2) The grantee agrees that it will not knowingly include any
+material copyrighted by others in any written or copyrightable material
+furnished or delivered under this grant without a license as provided
+for in paragraph (c)(1)(ii) of this section, or without the consent of
+the copyright owner, unless it obtains specific written approval of the
+Contracting Officer for the inclusion of such copyright material.
+
+\section{FEFF8 LICENSE}
+\label{sec:F8license}
+
+ FEFF PROGRAMS (referred below as a System)
+ Copyright (c) 1986-2002, University of Washington.
+
+ END-USER LICENSE
+
+ A signed End-user License Agreement from the University of Washington
+ Office of Technology Transfer is required to use these programs and
+ subroutines.
+
+ See the URL: http://leonardo.phys.washington.edu/feff/
+
+ USE RESTRICTIONS:
+
+ 1. The End-user agrees that neither the System, nor any of its
+ components shall be used as the basis of a commercial product, and
+ that the System shall not be rewritten or otherwise adapted to
+ circumvent the need for obtaining additional license rights.
+ Components of the System subject to other license agreements are
+ excluded from this restriction.
+
+ 2. Modification of the System is permitted, e.g., to facilitate
+ its performance by the End-user. Use of the System or any of its
+ components for any purpose other than that specified in this Agreement
+ requires prior approval in writing from the University of Washington.
+
+ 3. The license granted hereunder and the licensed System may not be
+ assigned, sublicensed, or otherwise transferred by the End-user.
+
+ 4. The End-user shall take reasonable precautions to ensure that
+ neither the System nor its components are copied, or transferred out
+ side of his/her current academic or government affiliated laboratory
+ or disclosed to parties other than the End-user.
+
+ 5. In no event shall the End-user install or provide this System
+ on any computer system on which the End-user purchases or sells
+ computer-related services.
+
+ 6. Nothing in this agreement shall be construed as conferring rights
+ to use in advertising, publicity, or otherwise any trademark or the
+ names of the System or the UW.   In published accounts of the use or
+ application of FEFF the System should be referred to  by this name,
+ with an appropriate literature reference:
+
+ FEFF8: A.L. Ankudinov, B. Ravel, J.J. Rehr, and S.D. Conradson,
+        Phys. Rev. B 58, pp. 7565-7576 (1998).
+
+ LIMITATION OF LIABILITY:
+
+ 1.   THE UW MAKES NO WARRANTIES , EITHER EXPRESSED OR IMPLIED, AS TO
+ THE CONDITION OF THE SYSTEM, ITS MERCHANTABILITY, OR ITS FITNESS FOR
+ ANY PARTICULAR PURPOSE.  THE END-USER AGREES TO ACCEPT THE SYSTEM
+ 'AS IS' AND IT IS UNDERSTOOD THAT THE UW IS NOT OBLIGATED TO PROVIDE
+ MAINTENANCE, IMPROVEMENTS, DEBUGGING OR SUPPORT OF ANY KIND.
+
+ 2. THE UW SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL,
+ INCIDENTAL OR CONSEQUENTIAL DAMAGES SUFFERED BY THE END-USER OR ANY
+ OTHER PARTIES FROM THE USE OF THE SYSTEM.
+
+ 3.  The End-user agrees to indemnify the UW for liability resulting
+ from the use of the System by End-user. The End-user and the UW each
+ agree to hold the other harmless for their own negligence.
+
+ TITLE:
+
+ 1.  Title patent, copyright and trademark rights to the System are
+ retained by the UW. The End-user shall take all reasonable precautions
+ to preserve these rights.
+
+ 2.  The UW reserves the right to license or grant any other rights to
+ the System to other persons or entities.
+
+
+Note: According to the terms of the above End-user license, 
+no part of the standard distributions of {\feff} can be included in other
+codes without a license or permission from the authors. However, some subroutines
+in {\feff} explicitly contain such a license, and all components subject to
+other license agreements are excluded from the restrictions of the
+End-user license. Moreover, we are willing to collaborate with other code
+developers, and our development version with all the
+comments (and subroutines in individual files!) can be made available,
+although it makes use of some features that are not standard FORTRAN.
+Also we cannot guarantee that any new version of {\feff} will be compatible 
+with these subroutines or with any changes you make in the codes.
+
+\chapter{Installation Instructions}
+\label{sec:Append-B.-Inst}
+
+The program {\feff}8.20 is provided as a single file \file{feff82.f}.
+An experimental modular form consisting of eight source files 
+\file{rdinp-tot.f}, \file{pot-tot.f}, \file{ldos-tot.f}, \file{xsph-tot.f},
+\file{fms-tot.f}, \file{path-tot.f}, \file{genfmt-tot.f} and 
+\file{ff2x-tot.f} is available by request.
+LDOS calculations are still executed in second module XSPH, even though
+it is now separate program. This is done for compatibility with other
+feff8 input files. The modular code has  requires less memory
+and yields more effective compilation and execution on small machines;
+however, the CFAVERAGE card is disabled in the modular version.
+Parallel execution on MPI clusters has been tested for modular code only
+and is still experimental. For details, please contact the authors.
+
+ Each file contains a main program and all necessary
+subroutines.  Simply compile (and link) every program on your system
+using a Fortran 77 compiler (and your usual linker), e.g., for any
+UNIX system the command \command{f77 -o module module.f} is usually
+sufficient, but may be augmented by optimization flags.
+
+For the monolithic version, there is only a single executable to run.
+For the modular code, the 8  executable files  
+must be run in the order listed: rdinp, pot, ldos,
+xsph, fms, path, genfmt, ff2x, so that the necessary input files
+for each successive module are produced.
+We suggest that you write a small script (named feff8),
+that executes all modules on your OS, if you use the modular code. 
+Samples are available from the authors. Parallel versions of the
+modules and appropriate compile and run scripts are also available
+and require a working version of the MPI libraries. Please contact
+the authors for details.
+
+  Typically the monolithic {\feffcur} requires about 64 MB of RAM to run for
+clusters of up to 87 atoms. To adjust the required memory to your
+computer, you should change the \texttt{nclusx} parameter {\it globally}.
+The required memory scales approximately as $\mathtt{nclusx}^2$.
+For larger clusters, you may wish to reduce the maximum angular
+momentum \texttt{lx} to keep the total size reasonable, e.g., set
+$\mathtt{nclusx}=300$, $\mathtt{lx}=2$ globally in all subroutines.
+
+{\feffcur} will also run on older \file{feff.inp} files for {\feff}7
+(and also {\feff}6) and will yield results for EXAFS and XANES comparable
+to older versions of {\feff}.  The first module of {\feff}7 has now
+been split into 3 modules and therefore {\feffcur} will use the first
+value in {\feff}7 CONTROL and PRINT cards for the first 3 modules of
+{\feffcur}.  But we suggest that users make use of the SCF, FMS,
+LDOS  and other cards to take advantage of {\feffcur}'s new capabilities.
+
+The {\feff} code is written in ANSI Fortran 77, except that
+\texttt{complex*16} variables are required.  Since data type
+\texttt{complex*16} is not part of the ANSI standard, minor
+compiler-dependent modification may be necessary.  We have used the
+VAX extensions to ANSI Fortran 77 since they seem to be the most
+portable.  The non-standard statements and intrinsic functions used
+are: \texttt{complex*16} variables and arrays; \texttt{dimag(arg)}
+returns a double precision imaginary part of it argument;
+\texttt{dcmplx(arg)} returns a \texttt{complex*16} version of its
+argument; \texttt{DBLE(arg)} returns a double precision real part of
+its argument; \texttt{sqrt}, \texttt{exp}, \texttt{abs} and other
+generic math functions are assumed to accept \texttt{complex*16}
+arguments and return double precision or \texttt{complex*16} results.
+
+Files are opened with the \texttt{open} statement.  As the ANSI
+definition gives some leeway in how the \texttt{open} statement
+interacts with the operating system, we have chosen file names and
+conventions that work on UNIX, VAX/VMS, IBM PCs (and clones) with MS
+FORTRAN, CRAY, MAC's and CDC machines.  It may be necessary to
+modify the open statements on other systems.
+
+\section{UNIX}
+\label{sec:UNIX-machines}
+We have endeavored to make {\feff} portable to all UNIX (including
+HP, AIX, LINUX, Alpha, BSD and CRAY) machines without any modification. 
+If your machine does not reproduce the test output files \file{xmu.dat}
+and/or \file{chi.dat} to high accuracy,
+please let us know.  Also, please report any compiler problems or warning
+messages to the authors, as this will help us achieve full
+portability.
+
+On SGI machines a significant increase in speed may be achieved with
+the following optimization flags
+\begin{center}
+  \command{f77 -Ofast -LNO:opt=0 -IPA:INLINE=OFF module.f -o module}
+\end{center}
+ Inlining is a potentially dangerous operation which modifies the
+source code, so the output (\file{xmu.dat}) should be checked.
+Switching off inlining may slow down the code, as we found
+for the FMS module, but some other modules would not operate properly
+with inlining.
+
+On many UNIX systems it may be necessary to increase the memory stack
+size to allow calculations on large clusters.  For example, for 200
+atom clusters, you should execute the following command before running
+{\feffcur} for the \program{csh} or one of its derivatives
+\begin{center}
+  \command{limit stacksize 170000}
+\end{center}
+\noindent or, if you use the Bourne shell or one of its
+derivatives, the following
+\begin{center}
+  \command{ulimit -s 170000}
+\end{center}
+
+If you use the GNU g77 compiler, for example, on LINUX, BSD, and
+other systems try for example:
+\begin{center}
+  \command{g77 -O2 -ffast-math -m486 -Wall -g -fno-silent}
+\end{center}
+
+or (since the compile flags often change ) simply
+\begin{center}
+  \command{g77 -O2 }
+\end{center}
+\noindent Do not use the \command{-pedantic} flag, although a casual
+reading of the g77 document would suggest it is a good idea.
+\command{-pedantic} does not allow the use of double complex which
+is essential in {\feff}.
+
+On some AIX machines, the intrinsic real functions need to be promoted 
+to double precision (e.g. -qautodbl=dbl option on RS6000). 
+
+
+\section{CRAY, SGI-CRAY, and CDC UNIX}
+\label{sec:CRAYusers}
+
+ For CRAY, SGI-CRAY and CDC  UNIX, please keep in mind the following
+points: Floating point calculations in {\feff are usually done to 64 bit
+precision. Thus for 32 bit word machines, the code uses double precision
+variables throughout, i.e.,
+\texttt{real*8} for real numbers and \texttt{complex*16} for complex
+numbers.  If your machine uses 8 bytes (64 bits) for single precision floating
+point numbers and integers (for example, CRAYs and some CDC machines), you
+should use the CRAY  FORTRAN compiler option to ignore double precision
+statements in the code.  The compile flags depend on machine vintage
+(see the cf77 or f90 man pages for details) and are of the form:
+\begin{center}
+  \command{f90 -c -dp}
+or
+  \command{cf77 -c -Wf"-dp"}
+\end{center}
+
+\section{MS-DOS, WIN-NT,9X,ME,2K, etc}
+\label{sec:Win32-users}
+
+Because of the awkwardness of DOS, many users do not have FORTRAN
+compilers and many of those compilers are difficult to use with large
+codes.  Thus we have made executable versions of {\feff} for PCs
+available.  You will need an 486 with a math coprocessor or pentium
+chip and at least 64 MB of RAM in addition to that needed for DOS and any
+resident utilities.  Further details are supplied with the
+executables.
+
+If you prefer your own compiler (e.g., Compaq Visual
+Fortran), or are using an operating system other
+than DOS, simply compile the source code using your FORTRAN compiler
+and linker as you would for any other machine.
+
+\section{Macintosh}
+\label{sec:MAC-users}
+
+{\feff} is often difficult to compile on Macintosh machines with
+Mac OS 9 and below, but
+executable versions of {\feff} for Macintosh computers including
+the G4 are available from the FEFF Project.
+
+For Mac OS X UNIX use the following options with Absoft's \program{f}77 compiler
+\begin{center}
+  \command{f77 -N113 -N11 -f -O  module.f}
+\end{center}
+\command{-f} makes \program{f}77 case insensitive.  \command{-N113} 
+ promotes intrinsic routines from real to double precision.
+\command{-N11} allows 32 bit operations, and \command{-O} makes basic
+optimizations.
+
+There is another option for Mac OS X UNIX. At  least one user has found that
+f2c and the cc compiler can be made to work.
+
+\section{Other Machines: VMS, NEXT, etc}
+\label{sec:VMS-machines}
+
+To compile {\feffcur} on VMS (6.0 to 6.2 versions) machine we had to increase
+virtual memory using \program{sysgen} from a SYSTEM account.
+\begin{center}
+  \begin{minipage}[h]{0.7\linewidth}
+    \begin{flushleft}
+      \command{\$mc sysgen}\\
+      \command{\quad  sysgen> use current}\\
+      \command{\quad  sysgen>show virtualpagecnt}\\
+      \command{\quad  sysgen>set virtualpagecnt  (value + 25\%)}\\
+      \command{\quad  sysgen>write current}\\
+      \command{\quad  sysgen>exit}\\
+      \command{\$reboot}
+    \end{flushleft}
+  \end{minipage}
+\end{center}
+
+If the code still does not compile one should further increase virtual
+memory.  It may be impossible to compile the full code on old VAX
+stations.  To run {\feffcur} on VMS machines, you may need to increase
+quotas (\command{pgflquo=500,000}) for the users using
+\program{authorize} from a SYSTEM account.
+\begin{center}
+  \begin{minipage}[h]{0.7\linewidth}
+    \begin{flushleft}
+      \command{\$run authorize}\\
+      \command{\quad authorize> modify  username /pgflquo=500000}\\
+      \command{\quad authorize>exit}\\
+      \command{\$reboot}
+    \end{flushleft}
+  \end{minipage}
+\end{center}
+
+
+Use the following options with Absoft's \program{f}77 for NeXT
+\begin{center}
+  \command{f77 -N53 -f -s -O  module.f}
+\end{center}
+\command{-f} makes \program{f}77 case insensitive.  \command{-s} makes
+a code for units larger than 512K.  \command{-N53} uses the 68030/68040
+processors with 68881/2 math coprocessor.  \command{-O} is an
+optimization flag.
+
+
+\chapter{References}
+\label{sec:Append-C.-Refer}
+
+Please cite at least one of the following articles if
+{\feff} is used in published work.
+
+\begin{Reflist}
+\item[{\feff}8] {\it Main {\feff}8 reference} A.L. Ankudinov, B. Ravel,
+  J.J. Rehr, and S.D. Conradson, \emph{Real Space Multiple Scattering
+    Calculation of XANES}, Phys.\ Rev.\ B \textbf{58}, 7565 (1998).
+  %%
+\item[{\feff}8.1] A.L.\ Ankudinov, and
+  J.J.\ Rehr, \emph{Theory of solid state contributions to the x-ray
+  elastic scattering amplitude}, Phys.\ Rev.\ B \textbf{62}, 2437 (2000).
+  %%
+\item[{\feff}8.2] A.L. Ankudinov, C. Bouldin, J.J. Rehr, J. Sims, H. Hung,
+   \emph{Parallel calculation of electron multiple scattering 
+   using Lanczos algorithms}, Phys.\ Rev.\ B \textbf{65}, 104107 (2002).
+  %%
+\item[{\feff}7] A.L. Ankudinov and J.J. Rehr, \emph{Relativistic
+    Spin-dependent X-ray Absorption Theory}, Phys.\ Rev.\ B \textbf{56},
+  R1712 (1997).
+  %%
+  A.L.\ Ankudinov, PhD Thesis, \emph{Relativistic Spin-dependent
+    X-ray Absorption Theory}, University of Washington, (1996); this
+  contains a review of x-ray absorption theory, a whole chapter
+  of information about {\feff} for expert users, example
+  applications, and the full {\feff}7 program tree.
+  %%
+\item[{\feff}6] S.I.\ Zabinsky, J.J.\ Rehr, A.\ Ankudinov, R.C.\
+  Albers and M.J.\ Eller, \emph{Multiple Scattering Calculations of
+    X-ray Absorption Spectra}, Phys.\ Rev.\ B \textbf{52}, 2995 (1995).
+  %%
+\item[{\feff}5] J.J.\ Rehr, S.I.\ Zabinsky and R.C.\ Albers,
+  \emph{High-order multiple scattering calculations of
+    x-ray-absorption fine structure}, Phys.\ Rev.\ Lett.\ \textbf{69},
+  3397 (1992).
+  %%
+\item[{\feff}3 and {\feff}4] J.\ Mustre de Leon, J.J.\ Rehr, S.I.\
+  Zabinsky, and R.C.\ Albers, \emph{Ab initio curved-wave
+    x-ray-absorption fine structure}, Phys.\ Rev.\ B \textbf{44}, 4146
+  (1991).
+  %%
+\item[{\feff}3] J.J.\ Rehr, J.\ Mustre de Leon, S.I.\ Zabinsky, and
+  R.C.\ Albers, \emph{Theoretical X-ray Absorption Fine Structure
+    Standards}, J. Am. Chem. Soc. \textbf{113}, 5135 (1991).
+  %%
+\item[{\feff} Review] J.J.\ Rehr and R.C.\ Albers, \emph{Modern
+Theory of XAFS}, Rev.\ Mod.\ Phys.\  \textbf{72}, 621 (2000).
+  %%
+\item[ Sum rule normalization procedure in {\feff}8.2]
+A.I.\ Nesvizhskii, A.L.\ Ankudinov, and J.J.\ Rehr,
+  \emph{Normalization and convergence of x-ray absorption sum
+  rules}, Phys.\ Rev.\ B \textbf{63}, 094412 (2001).
+  %%
+\item[Multiple Scattering theory in {\feff}] J.J.\ Rehr and R.C.\ Albers,
+  \emph{Scattering-matrix formulation of curved-wave
+    multiple-scattering theory: Application to x-ray-absorption fine
+    structure}, Phys.\ Rev.\ B \textbf{41}, 8139 (1990).
+  %%
+\item[Dirac--Fock atom code] A.L.\ Ankudinov, S.I.\ Zabinsky and J.J.\
+  Rehr, \emph{Single configuration Dirac-Fock atom code}, Comp.\ Phys.\
+  Comm.\ \textbf{98}, 359 (1996).
+
+\end{Reflist}
+
+\chapter{Code Variables and Dimensions}
+\label{sec:Appendix-D.-Code}
+
+The array names in {\feff} are a bit cryptic due to the six character
+limit in standard FORTRAN --- the comments given
+ in the source code and explain what the names mean.  If you need
+to run larger problems than the dimension statements in the code
+allow, simply change the dimensions in all the relevant parameter
+statements and recompile.  The main parameters to change are nclusx,
+which specifies the maximum cluster size for full multiple scattering
+and lx which specifies the maximum angular momentum in SCF potentials.
+These and other user changeable parameters are listed in \file{dim.h},
+which is now incorporated explicitly in the code.  If you need help to
+modify the {\feff} code, please contact the authors.
+
+\begin{verbatim}
+
+c      header file dim.h
+c      caution: changing parameters other than nclusx and lx  may
+c      break the code; when in doubt contact the authors
+c
+c      maximum number of atoms for FMS. Reduce nclusx if you need
+c      smaller executable.
+       parameter (nclusx=87)
+c      max number of spins: 1 for spin average; 2 for spin-dep
+       parameter (nspx=1)
+c      max number of atoms in problem for the pathfinder
+       parameter (natx =1000)
+c      max number of atoms in problem for the rdinp and ffsort
+       parameter (nattx =10000)
+c      max orbital momentum for FMS module.
+       parameter (lx=3)
+c      max number of unique potentials (potph)
+       parameter (nphx = 7)
+c      max number of ang mom (arrays 1:ltot+1)
+       parameter (ltot = 24)
+c      Loucks r grid used through overlap and in phase work arrays
+       parameter (nrptx = 1251)
+c      Number of energy points genfmt, etc.
+       parameter (nex = 150)
+c      Max number of distinct lambda's for genfmt
+c      15 handles iord 2 and exact ss
+       parameter (lamtot=15)
+c      vary mmax and nmax independently
+       parameter (mtot=4, ntot=2)
+c      max number of path atoms, used in path finder, NOT in genfmt
+       parameter (npatx = 8)
+c      matches path finder, used in GENFMT
+       parameter (legtot=npatx+1)
+c      max number of overlap shells (OVERLAP card)
+       parameter (novrx=8)
+c      max number of header lines
+       parameter (nheadx=30)
+
+\end{verbatim}
+
+\chapter{Changes From Previous Versions of FEFF}
+\label{sec:Appendix-E.-Changes}
+
+
+{\feff}8.20  extends the calculation of quadrupolar transitions
+and x-ray emission spectra calculations, and also permits
+faster XANES calculations using iterative Lanczos FMS algorithms.
+Improved potentials for $f$-electron materials are also included.
+The code has been restructured to simply future developments and 
+is also available as separate modules which can be
+run on parallel machines.
+
+{\feff}8.10 fixes a few bugs
+(notably that for polarization dependent
+calculations for initial states other than $s$-character; i.e.,
+L2, L3 edges,etc) and adds some new capabilities. The code 
+has been extended to calculate elastic scattering
+amplitude and x-ray natural dichroism. An additional output file has been
+added \file{ratio.dat} for use in our procedure for sum-rule
+normalization.
+
+{\feff}8 potentials can now be calculated self-consistently (SCF
+card) which also gives a more accurate Fermi level position and
+accounts for the charge transfer.  Full multiple scattering capability
+was also added (FMS card).  This is essential for SCF potentials,
+L-projected density of states (LDOS also is a new card) and often
+XANES. All these new cards are not essential for EXAFS calculations,
+but the SCF potential can be used to reduce number of EXAFS fitting
+parameters by calculating the Fermi level and non-integral charge
+counts on each site.  The possibility of calculating
+multiple-scattering Debye--Waller factors from force constants and/or
+dynamical matrices has also been added.  The possibility of
+configurational averages (CFAVERAGE card) of EXAFS (or XANES) over
+different absorbers of the same type has been added.  The CONTROL
+structure has been changed to accommodate the new cards, but backward
+compatibility has been maintained.  Also several cards (e.g.\ EXAFS,
+XANES and POTENTIALS) now have additional optional fields.
+
+\chapter{Trouble-Shooting FEFF Problems and Bug Reports}
+\label{sec:Appendix-F.-Trouble}
+
+{\feffcur} has been extensively tested on many different architectures,
+but occasionally new bugs show up.  In an effort to maintain portable
+and trouble-free codes we take all bug reports seriously.  Please
+let us know if you encounter any compilation error  or warning messages.
+Often we receive reports by users of older
+versions of {\feff} of bugs that have been fixed in more recent
+releases. Other code failures can often be traced to input file
+errors, sometimes quite subtle, and some are compiler bugs, for which
+we try to find a workaround.
+
+To  report a bug, please tell us the version of the code you are using
+and which operating system and compiler you have. Please include a
+\file{feff.inp} if the problem occurs after compilation
+and enough detail concerning the warning or error messages or
+other difficulties you have so that we can attempt to reproduce the problem.
+
+Some known and commonly encountered difficulties are:
+\begin{itemize}
+\item Non-physical, widely spaced distributions of atoms. Symptoms of
+  this common problem are very large muffin-tin radii (see the header
+  of any \file{.dat} file) and possibly a failure of the phase-shift
+  program to converge.  This gives error message \texttt{hard test
+    fails in fovrg}.
+\item An error in assigning potential indices; the first atom with a
+  given potential index must have the geometry representative of this
+  potential type. This is sometimes fixed by using a somewhat larger
+  cluster; in fact it is usually desirable to have a larger cluster
+  for potential construction than that used in the XAFS calculation
+  due to errors in the potentials at surfaces.  Unless the atom
+  distribution is physically possible, you can expect the code to have
+  problems.
+\item Hash collision in the pathfinder. This is now rare, but can
+  usually be corrected simply by changing distances in the fourth
+  decimal place.
+\item For the $M_{\mathit{IV}}$ and higher edges you may receive the
+  error message like: \texttt{Lambda array overfilled}. The
+  calculations should be repeated with IORDER -70202 card.
+\end{itemize}
+
+
+}
+%\chapter{Advanced applications}
+
+\end{document}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

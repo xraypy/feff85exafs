@@ -1,0 +1,1 @@
+gfortran -O3 -ffree-line-length-none -finit-local-zero
