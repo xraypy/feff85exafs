@@ -1,0 +1,8 @@
+
+StaticLibrary('libpha', Split('aprdec.f aprdep.f dfovrg.f diff.f dsordc.f    \
+                               inmuac.f intout.f  muatcc.f nucdec.f ortdac.f \
+                               potdvp.f potex.f solin.f solout.f wfirdc.f    \
+                               yzkrdc.f yzktec.f'),
+        LIBS = ['com', 'feffmath'], \
+        LIBPATH = ['../COMMON', '../MATH'])
+

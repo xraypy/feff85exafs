@@ -1,0 +1,8 @@
+
+Program('path', Split('ffmod4.f   ccrit.f   heap.f    ipack.f   mcrith.f  mcritk.f  mpprmd.f \
+                       mpprmp.f   mrb.f     outcrt.f  repath.f  paths.f   pathsd.f  phash.f  \
+                       prcrit.f   sortix.f  timrep.f'),
+        LIBS = ['com', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../MATH', '../PAR'])
+
+

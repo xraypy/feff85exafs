@@ -1,0 +1,6 @@
+
+StaticLibrary('libatom', Split('akeato.f  cofcon.f  etotal.f  fpf0.f   lagdat.f  nucdev.f  potslw.f  soldir.f \
+                                wfirdf.f  aprdev.f  dentfa.f  fdmocc.f inmuat.f  messer.f  ortdat.f  s02at.f  \
+                                tabrat.f  yzkrdf.f  bkmrdf.f  dsordf.f fdrirk.f  intdir.f  muatco.f  potrdf.f \
+                                scfdat.f  vlda.f    yzkteg.f'))
+

@@ -1,0 +1,6 @@
+
+Program('genfmt', Split('ffmod5.f  fmtrxi.f  genfmt.f  mmtr.f  mmtrxi.f  rdpath.f  regenf.f  rot3i.f \
+                         sclmz.f  setlam.f  snlm.f  xstar.f'),
+        LIBS = ['com', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../MATH', '../PAR'])
+

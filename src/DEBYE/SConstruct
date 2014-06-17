@@ -1,0 +1,2 @@
+
+StaticLibrary('libdw', Split('sigcl.f  sigm3.f  sigms.f  sigrem.f  sigte3.f'))

@@ -1,0 +1,3 @@
+
+StaticLibrary('libexch', Split('csigma.f  csigz.f  cubic.f  edp.f  ffq.f  fndsng.f  imhl.f  mpse.f \
+                                qsorti.f  quinn.f  rhl.f  rhlbp.f  vbh.f  xcpot.f'))

@@ -1,0 +1,7 @@
+
+
+StaticLibrary('libfms', Split('fmsie.f fmspack.f gglu.f ggbi.f ggrm.f gggm.f ggtf.f yprep.f xstaff.f'))
+
+Program('libfms', Split('ffmod3.f fmstot.f reafms.f xprep.f'), \
+        LIBS    = ['fms', 'dw', 'com', 'feffmath', 'feffpar'], \
+        LIBPATH = ['.', '../DEBYE', '../COMMON', '../MATH', '../PAR'])

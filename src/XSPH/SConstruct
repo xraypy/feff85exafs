@@ -1,0 +1,8 @@
+
+
+Program('xsph', Split('acoef.f   ffmod2.f  getedg.f  phmesh.f   radint.f  rexsph.f  rholsz.f  \
+                       wphase.f  xmult.f   xsph.f    axafs.f    fmssz.f   phase.f   phmesh2.f \
+                       rdgrid.f  rholat.f  szlz.f    wrxsph.f   xsect.f'),
+        LIBS = ['com', 'feffmath', 'atom', 'exch', 'pha', 'fms', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../PAR'])
+

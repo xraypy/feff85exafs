@@ -1,0 +1,3 @@
+
+StaticLibrary('libfeffpar', Split('sequential.f'))
+

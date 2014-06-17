@@ -1,0 +1,8 @@
+
+StaticLibrary('libint', Split('istprm.f movrlp.f ovp2mt.f fermi.f sidx.f'))
+
+Program('pot', Split('ffmod1.f pot.f scmtmp.f afolp.f broydn.f corval.f coulom.f ff2g.f frnrm.f  \
+                      grids.f inipot.f istval.f moveh.f ovrlp.f reapot.f rholie.f \
+                      scmt.f sumax.f wpot.f wrpot.f'),
+        LIBS = ['pha', 'atom', 'int', 'feffcom', 'feffmath', 'exch', 'fms', 'feffpar'], \
+        LIBPATH = ['.', '../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../PAR'])

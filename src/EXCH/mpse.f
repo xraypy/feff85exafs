@@ -1,6 +1,7 @@
       SUBROUTINE mpse(edens,jIntrs,E,iPl,Mu)
       IMPLICIT NONE
       include '../HEADERS/dim.h'
+      include '../HEADERS/const.h'
 c     Josh Kas - This subroutine calculates the many pole self
 c     energy at each energy pt and at a few r pts
 !     and saves it in mpse.bin to be used later by xcpot
@@ -8,9 +9,10 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Input Variables:
 c     densty - density for all unique potentials
 c     Mu     - Fermi Energy
-      DOUBLE PRECISION edens(251,0:nphx), Mu
+      DOUBLE PRECISION edens(251,0:nphx)
+      DOUBLE PRECISION Mu, E, MaxDens, MinDens
 c     jIntrs - index of the last point before intersitial level
-      INTEGER jIntrs
+      INTEGER jIntrs, iPl
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Parameters:
       INTEGER NRPts
@@ -20,7 +22,8 @@ c     Local Variables:
       INTEGER iR, iph, iPole
       INTEGER ios, jIntr1, RsMax, RsMin, Rs, RsInt
       DOUBLE PRECISION WpCorr(MxPole), Gamma(MxPole), AmpFac(MxPole),
-     &     MinDns, MaxDns, Densty, dR
+     &     MinDns, MaxDns, Densty, dR, delrHL(NRPts), deliHL(NRPts),
+     &     Rs1(NRPts)
       COMPLEX*16 ZRnrm, ZTemp
 
 c     Read exc.dat
@@ -31,7 +34,7 @@ c     Read exc.dat
          READ(47,*,END=5) WpCorr(iPole), Gamma(iPole), AmpFac(iPole)
          Gamma(iPole)  = Gamma(iPole)/hart
          WpCorr(iPole) = (WpCorr(iPole)/hart) /
-     &        SQRT(3.d0/((3 / (4*pi*edens(jIntrs+1))) ** third)**3)
+     &        SQRT(3.d0/((3 / (4*pi*edens(jIntrs+1,1))) ** third)**3)
       END DO
  5    CONTINUE
       WpCorr(iPole) = -1.d30
@@ -51,7 +54,7 @@ c     find the minimum and maximum densities and calculate RsMin, RsMax
 c     Calculate RsMax(MinDens), RsMin(MaxDens)
       RsMax = MIN( 10.d0, (3 / (4*pi*MinDens)) ** third )
       RsMin = MAX( 0.001d0, (3 / (4*pi*MaxDens)) ** third )
-      RsInt = (3 / (4*pi*edens(jIntrs+1))) ** third
+      RsInt = (3 / (4*pi*edens(jIntrs+1,1))) ** third
       
 c     Calculate Sigma on a grid of NRPts points from RsMin to RsMax
 c     and write to mpse.bin

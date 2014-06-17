@@ -1,0 +1,5 @@
+
+StaticLibrary('libfeffcom', Split('chopen.f  fixvar.f  head.f    itoken.f  pertab.f  rdcmt.f   rdxsph.f  str.f    \
+                                   xx.f      fixdsp.f  getorb.f  iniptz.f  nxtunt.f  pijump.f  rdhead.f  setgam.f \
+                                   str2dp.f  fixdsx.f  getxk.f   isnum.f   padlib.f  qsorti.f  rdpot.f   setkap.f \
+                                   wlog.f'))

@@ -1,0 +1,8 @@
+*.o
+*.a
+*.sconsign.dblite
+fort.*
+log*.dat
+
+## compiled programs
+src/POT/pot
