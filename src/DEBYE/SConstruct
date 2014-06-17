@@ -1,2 +1,8 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
 
-StaticLibrary('libdw', Split('sigcl.f  sigm3.f  sigms.f  sigrem.f  sigte3.f'))
+Import('env')
+
+lib_src = Split('sigcl.f  sigm3.f  sigms.f  sigrem.f  sigte3.f')
+
+env.StaticLibrary('libdw', lib_src)

@@ -14,6 +14,10 @@
     compilation to finish.  That seems unlikely....
 
 
+# General confusion
+
+ 1. What is `libtd.a`?
+
 # For Josh
 
  1. In file `EXCH/mpse.f`, `mpse.f` does not compile with rank

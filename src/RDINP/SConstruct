@@ -3,10 +3,9 @@
 
 Import('env')
 
-bin_src = Split('ffmod5.f  fmtrxi.f  genfmt.f  mmtr.f  mmtrxi.f  rdpath.f  regenf.f  rot3i.f \
-                 sclmz.f   setlam.f  snlm.f    xstar.f')
+bin_src = Split('rdinp_l.f  ffsort.f iniall.f  mkptz.f  rdline.f  setedg.f wrtall.f')
 
-env.Program('genfmt', bin_src,
+env.Program('rdinp', bin_src,
         LIBS = ['feffcom', 'feffmath', 'feffpar'], \
         LIBPATH = ['../COMMON', '../MATH', '../PAR'])
 

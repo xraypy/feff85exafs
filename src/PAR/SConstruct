@@ -1,3 +1,9 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
 
-StaticLibrary('libfeffpar', Split('sequential.f'))
+Import('env')
 
+env.StaticLibrary('libfeffpar', 'sequential.f')
+
+## this is what would be needed for MPI compilation...
+## StaticLibrary('libfeffpar', 'parallel.f')

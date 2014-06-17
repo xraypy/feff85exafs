@@ -1,8 +1,15 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
 
+Import('env')
 
-Program('xsph', Split('acoef.f   ffmod2.f  getedg.f  phmesh.f   radint.f  rexsph.f  rholsz.f  \
-                       wphase.f  xmult.f   xsph.f    axafs.f    fmssz.f   phase.f   phmesh2.f \
-                       rdgrid.f  rholat.f  szlz.f    wrxsph.f   xsect.f'),
-        LIBS = ['com', 'feffmath', 'atom', 'exch', 'pha', 'fms', 'feffpar'], \
-        LIBPATH = ['../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../PAR'])
+bin_src = Split('acoef.f   ffmod2.f  getedg.f  phmesh.f   radint.f  rexsph.f  rholsz.f  \
+                 wphase.f  xmult.f   xsph.f    axafs.f    fmssz.f   phase.f   phmesh2.f \
+                 rdgrid.f  rholat.f  szlz.f    wrxsph.f   xsect.f')
+
+other_objects = ['../FF2X/xscorr.o', '../POT/grids.o']
+
+env.Program('xsph', bin_src + other_objects,
+        LIBS = ['int', 'pha', 'atom', 'feffcom', 'exch', 'feffmath', 'fms', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../POT', '../PAR'])
 

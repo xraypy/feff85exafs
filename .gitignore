@@ -1,8 +1,16 @@
 *.o
 *.a
 *.sconsign.dblite
+
+## nonesense that Feff writes out
 fort.*
 log*.dat
+global.dat
 
 ## compiled programs
 src/POT/pot
+src/GENFMT/genfmt
+src/PATH/path
+src/XSPH/xsph
+src/FMS/fms
+src/RDINP/rdinp

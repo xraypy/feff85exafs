@@ -1,8 +1,12 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
 
-StaticLibrary('libpha', Split('aprdec.f aprdep.f dfovrg.f diff.f dsordc.f    \
-                               inmuac.f intout.f  muatcc.f nucdec.f ortdac.f \
-                               potdvp.f potex.f solin.f solout.f wfirdc.f    \
-                               yzkrdc.f yzktec.f'),
+Import('env')
+
+lib_src = Split('aprdec.f aprdep.f dfovrg.f diff.f dsordc.f inmuac.f intout.f  muatcc.f nucdec.f ortdac.f \
+                 potdvp.f potex.f solin.f solout.f wfirdc.f yzkrdc.f yzktec.f')
+
+env.StaticLibrary('libpha', lib_src,
         LIBS = ['com', 'feffmath'], \
         LIBPATH = ['../COMMON', '../MATH'])
 

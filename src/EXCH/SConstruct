@@ -1,3 +1,9 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
 
-StaticLibrary('libexch', Split('csigma.f  csigz.f  cubic.f  edp.f  ffq.f  fndsng.f  imhl.f  mpse.f \
-                                qsorti.f  quinn.f  rhl.f  rhlbp.f  vbh.f  xcpot.f'))
+Import('env')
+
+lib_src = Split('csigma.f  csigz.f  cubic.f  edp.f  ffq.f  fndsng.f  imhl.f  mpse.f \
+                 qsorti.f  quinn.f  rhl.f  rhlbp.f  vbh.f  xcpot.f')
+
+env.StaticLibrary('libexch', lib_src)

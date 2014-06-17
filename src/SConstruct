@@ -1,0 +1,36 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
+
+env = Environment()
+print '\n\tFortran compiler is ' + env['FORTRAN'] + '\n'
+
+if env['FORTRAN'] == 'gfortran':
+    env = Environment(FORTRANFLAGS = '-O3 -ffree-line-length-none')   ## -finit-local-zero
+elif env['FORTRAN'] == 'g77':
+    env = Environment(FORTRANFLAGS = '-Wall -O2')
+elif env['FORTRAN'] == 'xlf':
+    env = Environment(FORTRANFLAGS = '-qextern=trap')
+elif env['FORTRAN'] == 'ifort':
+    env = Environment(FORTRANFLAGS = '-O3')
+
+
+Export('env')
+SConscript(['PAR/SConstruct',    \
+            'COMMON/SConstruct', \
+            'MATH/SConstruct',   \
+            'ATOM/SConstruct',   \
+            'DEBYE/SConstruct',  \
+            'EXCH/SConstruct',   \
+            'FOVRG/SConstruct',  \
+            'RDINP/SConstruct',  \
+            'POT/SConstruct',    \
+            'XSPH/SConstruct',   \
+            'FMS/SConstruct',    \
+            'PATH/SConstruct',   \
+            'GENFMT/SConstruct'], exports='env') 
+
+# POT    -> module 1
+# XSPH   -> module 2
+# FMS    -> module 3
+# PATH   -> module 4
+# GENFMT -> module 5

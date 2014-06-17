@@ -1,3 +1,7 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
 
-Object(Split('exconv.f  feffdt.f  ff2afs.f  ff2chi.f  ff2gen.f  ff2xmu.f  ffmod6.f  fprime.f \
-              rdfbin.f  reff2x.f  xscorr.f'))
+Import('env')
+
+env.Object(Split('exconv.f  feffdt.f  ff2afs.f  ff2chi.f  ff2gen.f  ff2xmu.f  ffmod6.f  fprime.f \
+                  rdfbin.f  reff2x.f  xscorr.f'))
