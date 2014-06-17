@@ -78,7 +78,6 @@ c  add to the total potential and correct it's development coefficients
            dv(i) = dv(i) +vxcvl/cl
         endif
  90   continue
- 999  continue
 
       return
       end

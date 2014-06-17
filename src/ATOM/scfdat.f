@@ -76,7 +76,7 @@ c  initialize the data and test parameters
       ibgp = 10
       numerr = 0
       nz = iz
- 11   call inmuat (ihole, xion, iunf, xnval, iholep, xmag, indorb)
+      call inmuat (ihole, xion, iunf, xnval, iholep, xmag, indorb)
 
       idfock = 1
 c     idfock = 2
@@ -261,7 +261,8 @@ c        tabulation of the results
          iorb = 0
 c        use to test SIC
 c         do 505 iorb = 1,norb
- 505       call vlda (iorb, xnval, srho, srhovl, dmag, ilast, idfock)
+         call vlda (iorb, xnval, srho, srhovl, dmag, ilast, idfock)
+c 505       call vlda (iorb, xnval, srho, srhovl, dmag, ilast, idfock)
          ecorr =2.0
          call somm(dr,dmag,dmag,hx, ecorr,0,idim)
          eatom = (eatom-ecorr/4.0) 

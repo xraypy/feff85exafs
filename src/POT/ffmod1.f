@@ -109,8 +109,8 @@ c     additional output files can be obtained using PRINT card
 c--   Time at end of run
       call seconds(wall_end)
       if (master .and. parallel_run) then
-	write (6,*) 'total time    ', wall_end - wall_start
-	write (6,*) 'communicate time', wall_comm
+        write (6,*) 'total time    ', wall_end - wall_start
+        write (6,*) 'communicate time', wall_comm
       endif
       call par_end
 

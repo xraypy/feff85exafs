@@ -111,41 +111,41 @@ c       if (nsp.gt.nspx) call par_stop(' FMS: increase nspx and rerun.')
         ltrace = .false.
 !KJ 1-06  I added the do-loop around the call to bcoef for ELNES calcul.
             do i1=1,8
-	    do i2=0,1
-	    do i3=-lx,lx
-	    do i4=1,8
-	    do i5=0,1
-	    do i6=-lx,lx
-	    do ip=ipmin,ipmax
-	      bmat(i6,i5,i4,i3,i2,i1,ip)=dcmplx(0,0)
-	    enddo
-	    enddo
-	    enddo
-	    enddo
-	    enddo
-	    enddo
-	    enddo
+            do i2=0,1
+            do i3=-lx,lx
+            do i4=1,8
+            do i5=0,1
+            do i6=-lx,lx
+            do ip=ipmin,ipmax
+              bmat(i6,i5,i4,i3,i2,i1,ip)=dcmplx(0,0)
+            enddo
+            enddo
+            enddo
+            enddo
+            enddo
+            enddo
+            enddo
         do ip=ipmin,ipmax,ipstep
-	        open(7,file='ptz.dat',form='formatted',status='unknown')
+                open(7,file='ptz.dat',form='formatted',status='unknown')
             if (elnes.eq.1) call iniptz(ptz,ip,2)  !KJ Only change ptz for ELNES !!
             call bcoef(kinit, ipol, ptz, le2, ltrace, ispin, angks, 
      1           kind, lind, bmat0)
                 do i=-1,1
-		write(7,'(i3,6f10.3)') ip,(ptz(i,i1),i1=-1,1)
-		enddo
+                write(7,'(i3,6f10.3)') ip,(ptz(i,i1),i1=-1,1)
+                enddo
             do i1=1,8
-	    do i2=0,1
-	    do i3=-lx,lx
-	    do i4=1,8
-	    do i5=0,1
-	    do i6=-lx,lx
-	      bmat(i6,i5,i4,i3,i2,i1,ip)=bmat0(i6,i5,i4,i3,i2,i1)
-	    enddo
-	    enddo
-	    enddo
-	    enddo
-	    enddo
-	    enddo
+            do i2=0,1
+            do i3=-lx,lx
+            do i4=1,8
+            do i5=0,1
+            do i6=-lx,lx
+              bmat(i6,i5,i4,i3,i2,i1,ip)=bmat0(i6,i5,i4,i3,i2,i1)
+            enddo
+            enddo
+            enddo
+            enddo
+            enddo
+            enddo
 !!                 bmat(:,:,:,:,:,:,ip)=bmat0(:,:,:,:,:,:)
         enddo
 c !KJ end my changes to the call to bcoef        
@@ -215,9 +215,9 @@ c !KJ end my changes
           
           if (worker) then
             isize = isize + 1
-	    do ip=ipmin,ipmax
+            do ip=ipmin,ipmax
             gtrloc(ip,isize) = gtr(ip,ie)  !KJ added :,  1-06
-	    enddo
+            enddo
           endif
  90     continue
         if (worker) par_type = 2
@@ -257,7 +257,7 @@ c-- Receive buffer from i
 c                 Josh Kas - changed gtrloc(ipmin:ipmax,indx)
                   do ip=ipmin,ipmax
                   gtr(ip,j) = gtrloc(ip,indx) !indx:indx+nip-1) !KJ used to be gtr(j)=gtrloc(indx) 
-		  enddo
+                  enddo
                   indx = indx + 1  !KJ replaced 1 by nip   1-06 - Josh Kas - nip back to 1
                 endif
               enddo

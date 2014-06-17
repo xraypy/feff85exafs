@@ -32,7 +32,7 @@ c     open the log file, unit 11.  See subroutine wlog.
         open (unit=11, file='log3.dat', status='unknown', iostat=ios)
         call chopen (ios, 'log3.dat', 'feff')
       else
-	par_type = 2
+        par_type = 2
       endif
 
 c     read  INPUT: files geom.dat, global.dat and mod3.inp

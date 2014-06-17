@@ -18,7 +18,7 @@ cc    atoms.dat
         integer  natt
         integer iphatx(nattx)
         double precision  ratx(3,nattx)
-	logical doptz  !KJ 1-06 : call mkptz or not?	
+        logical doptz  !KJ 1-06 : call mkptz or not?    
 cc    global.dat
 c       configuration average
         integer nabs, iphabs
