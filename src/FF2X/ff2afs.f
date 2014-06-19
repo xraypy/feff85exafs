@@ -88,13 +88,13 @@ c     get gtr - result of FMS
       endif
       close (unit=1)
 !KJ Next lines my addition to read several spectra at once. 1-06
-	i=1
-	do iip=ipmin,ipmax
-	do j=1,ne
-        gtrful(iip,j)=gtrtemp(i+j-1)
-	enddo
-	  i=i+ne
-	enddo
+      i=1
+      do iip=ipmin,ipmax
+         do j=1,ne
+            gtrful(iip,j)=gtrtemp(i+j-1)
+         enddo
+         i=i+ne
+      enddo
 !KJ Now we don't need gtrtemp anymore.  End my changes
 
 
@@ -107,34 +107,34 @@ c !KJ xsect.bin
       
 c !KJ choose different filename for each spectrum.
         if(iip.eq.1) then
-	  f1(1:9)='chi.dat  '
-	  f2(1:9)='xmu.dat  '
-	  f0(1:10)='feff.bin  '
-	  f3(1:10)='list.dat  ' 	  
-	elseif(iip.eq.10) then
-	  f1(1:9)='chi10.dat'
-	  f2(1:9)='xmu10.dat'
-	  f0(1:10)='feff10.bin'
-	  f3(1:10)='list10.dat'	  
-	elseif(iip.gt.1.and.iip.lt.10) then
-	  f1(1:4)='chi0'
-	  f1(5:5)= char(48+iip)
-	  f1(6:9)='.dat'
-	  f2(1:4)='xmu0'
-	  f2(5:5)= char(48+iip)
-	  f2(6:9)='.dat'
-	  f0(1:5)='feff0'
-	  f0(6:6)= char(48+iip)
-	  f0(7:10)='.bin'	
-	  f3(1:5)='list0'
-	  f3(6:6)= char(48+iip)
-	  f3(7:10)='.dat'
-	else
-	  stop 'crazy iip in ff2xmu'
-	endif
-	do i=1,nex
-	gtr(i)=gtrful(iip,i)
-	enddo
+           f1(1:9)='chi.dat  '
+           f2(1:9)='xmu.dat  '
+           f0(1:10)='feff.bin  '
+           f3(1:10)='list.dat  '
+        elseif(iip.eq.10) then
+           f1(1:9)='chi10.dat'
+           f2(1:9)='xmu10.dat'
+           f0(1:10)='feff10.bin'
+           f3(1:10)='list10.dat'
+        elseif(iip.gt.1.and.iip.lt.10) then
+           f1(1:4)='chi0'
+           f1(5:5)= char(48+iip)
+           f1(6:9)='.dat'
+           f2(1:4)='xmu0'
+           f2(5:5)= char(48+iip)
+           f2(6:9)='.dat'
+           f0(1:5)='feff0'
+           f0(6:6)= char(48+iip)
+           f0(7:10)='.bin'
+           f3(1:5)='list0'
+           f3(6:6)= char(48+iip)
+           f3(7:10)='.dat'
+        else
+           stop 'crazy iip in ff2xmu'
+        endif
+        do i=1,nex
+           gtr(i)=gtrful(iip,i)
+        enddo
 !KJ
 
 
@@ -361,7 +361,7 @@ c        normalize to xsec at 50 eV above edge
 c        and prepare the output energy grid omega
          edg50 = efermi + 50 / hart
          call terp (omega, xsnorm,  ne1, 1, edg50, xsedge)
-         if (absolu.eq.1) xsedge=dble(1)  !KJ 4-06 don't normalize	 
+         if (absolu.eq.1) xsedge=dble(1)  !KJ 4-06 don't normalize
          write(8,660)  coment, xsedge 
   660    format (a2,' xsedge+ 50, used to normalize mu ', 1pe20.4)
          write(8,610) coment
@@ -378,12 +378,12 @@ c           add alpha**2 to convert to units for f'
   670    continue
 
          do i=1,nex
-	 if (.not.cross) then !KJ I added this block 4-06
-	   kxsec(i)=xsec(i)
-	 else
-	   kxsec(i)=dcmplx(0,0)
-	 endif !KJ end my code
-	 enddo
+            if (.not.cross) then !KJ I added this block 4-06
+               kxsec(i)=xsec(i)
+            else
+               kxsec(i)=dcmplx(0,0)
+            endif               !KJ end my code
+         enddo
 
 
 c        do correction using brouder method
