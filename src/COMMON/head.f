@@ -1,7 +1,7 @@
       subroutine sthead (ntitle, title, nph, iz, rmt, rnrm,
-     1                  xion, ihole, ixc,
-     2                  vr0, vi0, gamach, xmu, xf, vint, rs,
-     2                  nohole, lreal,  rgrd)
+     1     xion, ihole, ixc,
+     2     vr0, vi0, gamach, xmu, xf, vint, rs,
+     2     lreal,  rgrd)
 
 c     SeT HEAD
 c     This routine makes the file header, returned in head array.
@@ -79,11 +79,6 @@ c     add more title lines
   130 format('Abs   Z=',i2, ' Rmt=',f6.3, ' Rnm=',f6.3,
      1       ' Ion=',f5.2,  1x,a10)
   140 format('Abs   Z=',i2,' Rmt=',f6.3,' Rnm=',f6.3, 1x,a10)
-c     if (nohole.ge.0)  then
-c        ntitle = ntitle + 1
-c        write(title(ntitle),142)
-c 142    format ('Calculations done with no core hole.')
-c     endif
       if (lreal.ge.1 .or. (abs(rgrd - 0.05) .gt. 1.0e-5)) then
         ntitle = ntitle + 1
         s1 = ' '

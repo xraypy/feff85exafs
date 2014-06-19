@@ -147,7 +147,7 @@ c  update header, since e.g. one may use diff ixc for the same potential
         call sthead (ntitle, title, nph, iz, rmt, rnrm,
      1          xion, ihole, ixc,
      2          vr0, vi0, gamach, xmu, xf, vint, rs,
-     2          nohole, lreal, rgrd)
+     2          lreal, rgrd)
 c     Make energy mesh
       edge = xmu - vr0
       if (.not.lopt) emu = emu - vr0
