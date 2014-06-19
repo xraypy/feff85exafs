@@ -52,9 +52,9 @@ c           using FMS+Paths method
          else
 c           using MS Paths expansion
             call ff2chi (ispec, ipr6, idwopt, critcw, s02, sig2g, 
-     1                   tk, thetad, mbconv, absolu,  !KJ added absolu 3-06
-     1                   vrcorr, vicorr, alphat, thetae, iabs, nabs,
-     4            elnes,ipmin,ipmax,ipstep)   !KJ added this line 1-06     
+     1           tk, thetad, mbconv, absolu, !KJ added absolu 3-06
+     1           vrcorr, vicorr, alphat, thetae, iabs, nabs,
+     4           ipmin,ipmax,ipstep) !KJ added this line 1-06     
          endif
          call wlog(' Done with module 6: DW + final sum over paths.')
       endif
