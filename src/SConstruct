@@ -24,6 +24,7 @@ SConscript(['PAR/SConstruct',    \
             'FOVRG/SConstruct',  \
             'RDINP/SConstruct',  \
             'POT/SConstruct',    \
+	    'FF2X/SConstruct',   \
             'XSPH/SConstruct',   \
             'FMS/SConstruct',    \
             'PATH/SConstruct',   \
