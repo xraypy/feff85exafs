@@ -57,7 +57,7 @@ c              Relen = Energy - Mu + EFermi
 c     SigTot - Total many pole deltaSigma = Sigma(E,k(E))-Sigma(EF,kF)
 c     DelHF  - Sigma_HartreeFock(k) - Sigma_HartreeFock(kF)      
       DOUBLE PRECISION kFermi, EFermi, Wp, Gam
-      COMPLEX*16 ckF, ck0, Sig, SigmaF, Sigma0,
+      COMPLEX*16 ckF, ck0, SigmaF, Sigma0,
      &     RelEn, SigTot, DelHF
       INTEGER i1, i2
 
@@ -65,7 +65,7 @@ c     Parameters:
       DOUBLE PRECISION DPZero, h
       PARAMETER(DPZero = 0.d0, h = 1.d-3)
       INTEGER MxIter
-      LOGICAL MPole
+
       PARAMETER(MxIter = 1)
 
 c     Externals:
@@ -168,7 +168,7 @@ c     HLInt2 - Integral of r1 (second integral in eq. 13 of H.L.)
 c     HLInt3 - Integral of r1 or r3 (3rd or 4th integral)
 c     XSing  - Array of singularities of integrand (used by cgratr)      
       INTEGER NSing, NCalls, MaxNR
-      DOUBLE PRECISION DPPar(10), Wp, Beta
+      DOUBLE PRECISION DPPar(10), Beta
       COMPLEX*16 CPar(10), Limit1, Limit2, HLInt1, HLInt2, HLInt3,
      &     XSing(20)
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -190,8 +190,8 @@ c     Externals:
 c     cgratr      - integration routine
 c     dr1,dr2,dr3 - functions to integrate
 c     HFExc       - Calculates Hartree Fock exchange      
-      COMPLEX*16 cgratr, r1, r2, r3, HFExc, Intgrl
-      EXTERNAL cgratr, r1, r2, r3, HFExc, Intgrl
+      COMPLEX*16 cgratr, r1, r2, r3, HFExc
+      EXTERNAL cgratr, r1, r2, r3, HFExc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc      
 c     Initialization:
       NSing  = 0
@@ -583,7 +583,7 @@ c     xe, xeg, xwg, xgam
       complex*16 cpar(2)
 
 c     Local Variables:
-      complex*16 fq,fqq,fiq,a1,a2,a3,a4,t1,t2,q,ck,xe
+      complex*16 fq,fqq,fiq,a1,a2,a3,a4,t1,q,ck,xe
       external fq
 
       ck=CPar(1)
@@ -599,8 +599,7 @@ c     print*,'fqq=', fqq
       a2=(ck+q)**2-xe+fqq - coni*1.d-10
       a3=(ck-q)**2-xe-fqq - coni*1.d-10
       a4=1.d0+xeg-xe+fqq - coni*1.d-10
-c     print*,'a1,a2,a3,a4,t1,t2',a1,a2,a3,a4,t1,t2
-c      t1=t1/t2
+
       dr1 = -fiq*(1.d0/a1+1.d0/a2-1.d0/a3-1.d0/a4)
 c     Test with r=E
 c      dr1=1.d0
@@ -634,7 +633,7 @@ c      xeg = DPPar(4)
       r2=fiq*(log(a1)-log(a2))
 c     Test with r=E
 c      r2=xe      
-30    return
+      return
       end
 c**********************************************************************
       complex*16 function dr2(q,dppar,cpar)
@@ -663,7 +662,7 @@ c      xeg = DPPar(4)
 c     Test with r=E
 c      dr2=1.d0      
 c      write(52,*) dble(q), dble(dr2)
-30    return
+      return
       end  
 c**********************************************************************
       complex*16 function r3(q,dppar,cpar)
@@ -720,7 +719,7 @@ c     valid only for k<kf, q<kf-k ?
 c     Test with r=E
 c      dr3=1.d0
 c      write(53,*) dble(q), dble(dr2)
-30    return
+      return
       end     
 c**********************************************************************
       complex*16 function fq(q,dppar)
@@ -751,37 +750,6 @@ c     uncomment the following 4 lines to use the old dispersion relation.
       return
       end
 
-      FUNCTION Intgrl(func, a, b, NPts, DpPar, CPar)
-c     Function Integ integrates func by trapezoidal rule from a to b
-c     using NPts steps size.
-      COMPLEX*16 Intgrl, a, b, CPar(10)
-      DOUBLE PRECISION DpPar(10)
-      INTEGER NPts
-      COMPLEX*16 func
-      EXTERNAL func
-
-      INTEGER i1
-      COMPLEX*16 dx, sum, y1, y2, x1, x2
-
-
-      sum = 0.d0
-      dx = (b-a)/DBLE(NPts-1)
-      
-      x1 = a
-      y1 = func(x1, DpPar, CPar)
-      
-      DO i1 = 1, NPts
-         x2 = a + i*dx
-         y2 = func(x2, DpPar, CPar)
-         sum = sum + (y1+y2)
-         y1 = y2
-         x1 = x2
-      END DO
-
-      Intgrl = sum*dx/2.d0
-
-      RETURN
-      END
                
 c*********************************************************************
 c   This is Steve White's rewrite of Mike Teter's integration routine.  

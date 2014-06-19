@@ -43,7 +43,8 @@ c     get oscillator strengths
 c     always will use first spot to represent initial state
       nosc=1
       np = 251
-
+      xmult1 = 0.0d0
+      xmult2 = 0.0d0
       do 30 iorb =1, norb
         if (xnel(iorb) .gt.0.d0) then
 c         it is core orbital, check if it satisfies dipole selection

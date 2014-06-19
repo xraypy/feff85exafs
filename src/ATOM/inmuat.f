@@ -85,5 +85,5 @@ c           stop
             if (nre(j).gt.0.or.nre(i).gt.0) ipl=ipl+1
  385     continue
  401  continue
- 999  return
+      return
       end

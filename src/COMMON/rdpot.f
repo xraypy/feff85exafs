@@ -71,7 +71,6 @@ c     wp     - estimate of plasmon frequency from rhoint
       dimension dum(13)
 
   10  format(a)
-   20 format (bn, i15)
 
       open (unit=3, file='pot.bin', status='old')
       read(3,30) ntitle, nph, npadx, nohole, ihole, inters, iafolp,

@@ -13,10 +13,11 @@ c#mn
        external cwig3j
 
       do 511 i=1,30
-      do 511 j=1,30
-      do 511 k=0,3
- 511  afgk(i,j,k)=0.0d 00
- 601  do 701 i=1,norb
+         do 511 j=1,30
+            do 511 k=0,3
+               afgk(i,j,k)=0.0d00
+ 511  continue 
+      do 701 i=1,norb
          li= abs(kap(i))*2-1
          do 701 j=1,i
             lj= abs(kap(j))*2-1

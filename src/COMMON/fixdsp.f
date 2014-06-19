@@ -13,7 +13,7 @@ c     for the xsect code.
 
       dimension xorg(nrptx), xnew(nrptx)
 
-      parameter (xx00 = 8.8)
+      parameter (xx00 = 8.8d0)
 
 c     statement functions to do indexing.  delta is 'dx' for current
 c     grid.  jjj is index of grid point immediately before 'r'
@@ -32,6 +32,7 @@ c     jj = (log(r) + xx00) / delta + 1; this is j immediately BELOW r
 
 c     The dgc and dpc arrays are zero beyond a certain point, usually
 c     inside the muffin tin radius.  Find this distance.
+      imax = 0
       do 100  i = 251, 1, -1
          if ( abs(dgc0(i)) .ge. 1.0d-11 .or. 
      1        abs(dpc0(i)) .ge. 1.0d-11 )  then
@@ -43,8 +44,7 @@ c     inside the muffin tin radius.  Find this distance.
    16 continue
 c     jmax is the first point where both dpc and dgc are zero in
 c     the original grid
-      jmax = imax + 1
-      if (jmax.gt.251) jmax = 251
+      jmax = min(imax, 250) + 1
 
       delta = dxorg
       do 10  j = 1, jmax
@@ -68,8 +68,8 @@ c     interpolate to new grid using x, only inside of rmax
 
 c     and zero the arrays past rmax
       do 32  j = jnew+1, nrptx
-         dgcx(j) = 0
-         dpcx(j) = 0
+         dgcx(j) = zero
+         dpcx(j) = zero
    32 continue
 
       return
