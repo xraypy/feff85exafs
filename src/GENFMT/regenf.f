@@ -64,11 +64,11 @@ c     read eels.inp
       elnes=0
       open(file='eels.inp',unit=3,status='old',err=900)
         read(3,*,err=900,end=900) 
-	read(3,20,err=900,end=900) elnes
+        read(3,20,err=900,end=900) elnes
         read(3,*,err=900,end=900)
         read(3,*,err=900,end=900)
-	read(3,*,err=900,end=900)
-	read(3,20,err=900,end=900) ipmin,ipstep,ipmax
+        read(3,*,err=900,end=900)
+        read(3,20,err=900,end=900) ipmin,ipstep,ipmax
       close(3)
       goto 901
 900   continue
@@ -76,8 +76,8 @@ c     read eels.inp
 901   continue
       if(elnes.eq.0) then
         ipstep=1
-	ipmax=1
-	ipmin=1
+        ipmax=1
+        ipmin=1
       endif
                
 c  !KJ end my changes

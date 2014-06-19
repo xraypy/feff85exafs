@@ -150,22 +150,22 @@ c  initialize character strings - Josh Kas
       
 c  initialize EELS variables !KJ 1-06
       ebeam=dzero
-	aconv=dzero
-	acoll=dzero
-	nqr=0
-	nqf=0
-	magic=0
-	emagic=dzero
-	eels=0
-	relat=1
-	cross=1
-	aver=0
+        aconv=dzero
+        acoll=dzero
+        nqr=0
+        nqf=0
+        magic=0
+        emagic=dzero
+        eels=0
+        relat=1
+        cross=1
+        aver=0
       thetax=dzero
-	thetay=dzero
-	ipmin=1
-	ipmax=9
-	ipstep=1
-	iinput=1  !5/6
+        thetay=dzero
+        ipmin=1
+        ipmax=9
+        ipstep=1
+        iinput=1  !5/6
        spcol=4
 c KJ 
 

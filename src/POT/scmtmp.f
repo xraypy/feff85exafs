@@ -124,7 +124,7 @@ c     slow loop for MPI execution
       ietot = ietot0 + this_process
       if (ie .gt. n2) go to 200
         ipr = 1 + ie - n1
-	if (worker) par_type = 3
+        if (worker) par_type = 3
 
 c       print *,'process n1 n2 ietot',this_process,n1,n2,ietot
 
@@ -219,34 +219,34 @@ c-- Send buffer
             call par_send_cmplx(gtr(0,0,ipr),ixl,0,this_process)
             call par_send_dc(xrhoce(0,0,ipr),ixl, 0, this_process)
             call par_send_dc(xrhole(0,0,ipr),ixl, 0, this_process)
-	  endif
-	  if (ixly .ne. 0)  
+          endif
+          if (ixly .ne. 0)  
      .      call par_send_dc(yrhole(1,0,0,ipr),ixly, 0, this_process)
-	  if (ixlc .ne. 0)  
+          if (ixlc .ne. 0)  
      .      call par_send_dc(yrhoce(1,0,ipr),ixlc, 0, this_process)
         else if (master) then
-	  do i = 1,n2-n1
+          do i = 1,n2-n1
 c-- Receive pointers for gtr buffer from i
-	    call par_recv_int(ixl,1,i,i)
-	    call par_recv_int(ixly,1,i,i)
-	    call par_recv_int(ixlc,1,i,i)
+            call par_recv_int(ixl,1,i,i)
+            call par_recv_int(ixly,1,i,i)
+            call par_recv_int(ixlc,1,i,i)
 c-- Receive buffer from i
-	    if (ixl .ne. 0) then
-	      call par_recv_cmplx(gtr(0,0,i+1),ixl,i,i)
-	      call par_recv_dc(xrhoce(0,0,i+1),ixl,i,i)
+            if (ixl .ne. 0) then
+              call par_recv_cmplx(gtr(0,0,i+1),ixl,i,i)
+              call par_recv_dc(xrhoce(0,0,i+1),ixl,i,i)
               call par_recv_dc(xrhole(0,0,i+1),ixl,i,i)
-	    endif
-	    if (ixly .ne. 0)
+            endif
+            if (ixly .ne. 0)
      .        call par_recv_dc(yrhole(1,0,0,i+1),ixly,i,i)
-	    if (ixlc .ne. 0)
+            if (ixlc .ne. 0)
      .        call par_recv_dc(yrhoce(1,0,i+1),ixlc,i,i)
-	  enddo
-	endif
+          enddo
+        endif
 c-- Broadcast gtr
 c-- Needed here since we aren't done yet
-	ilen = ixl * (n2 - n1 + 1)
-	ileny = ilen * 251
-	ilenc = (nph + 1) * (n2 - n1 + 1) * 251
+        ilen = ixl * (n2 - n1 + 1)
+        ileny = ilen * 251
+        ilenc = (nph + 1) * (n2 - n1 + 1) * 251
         call par_bcast_cmplx(gtr(0,0,1),ilen,0)
         call par_bcast_dc(xrhoce(0,0,1),ilen,0)
         call par_bcast_dc(xrhole(0,0,1),ilen,0)

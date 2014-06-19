@@ -1,0 +1,14 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
+
+Import('env')
+
+bin_src = Split('ffmod4.f   ccrit.f   heap.f    ipack.f   mcrith.f  mcritk.f  mpprmd.f \
+                 mpprmp.f   mrb.f     outcrt.f  repath.f  paths.f   pathsd.f  phash.f  \
+                 prcrit.f   sortix.f  timrep.f')
+
+env.Program('path', bin_src,
+        LIBS = ['feffcom', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../MATH', '../PAR'])
+
+

@@ -24,7 +24,7 @@ c     the polarization tensor
 
       do i=1,3
       do j=1,3
-	unity(i,j)=dble(0)
+        unity(i,j)=dble(0)
       enddo
       unity(i,i)=dble(1)/dble(3)
       enddo
@@ -40,10 +40,10 @@ c     the polarization tensor
 
          if(iptz.eq.10) then
         do i=-1,1
-	do j=-1,1
-	   ptz(i,j)=unity(i+2,j+2)
+        do j=-1,1
+           ptz(i,j)=unity(i+2,j+2)
         enddo
-	enddo
+        enddo
          else
             i=(iptz-1)/3+1  ! row index
             j=iptz-3*(i-1)  ! column index
@@ -58,11 +58,11 @@ c     the polarization tensor
 
       if (iptz.eq.10) then ! orientation averaged spectrum
         do i=-1,1
-	do j=-1,1
-	   ptz(i,j)=unity(i+2,j+2)
+        do j=-1,1
+           ptz(i,j)=unity(i+2,j+2)
         enddo
-	enddo
-	
+        enddo
+        
         elseif (iptz.eq.1) then   ! x x*
           ptz(1,1)=one/dble(2)
         ptz(-1,-1)=one/dble(2)

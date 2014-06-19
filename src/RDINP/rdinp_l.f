@@ -743,11 +743,11 @@ c           Default set above is potlbl=' '
                  read(words(2),20,err=1011) aver ! average over sample to beam orientation?
                  read(words(3),20,err=1011) cross ! calculate cross terms?
                  read(words(4),20,err=1011) relat ! use relativistic q-vector?
-		 read(words(5),20,err=1012) iinput ! read xmu.dat or opconsKK.dat or ... ?   !KJ 5/6
+                 read(words(5),20,err=1012) iinput ! read xmu.dat or opconsKK.dat or ... ?   !KJ 5/6
                  read(words(6),20,err=1013) spcol !column that has spectrum
-		 if (aver.eq.1) icnt=icnt-1 !skip the line for beam orientation
+                 if (aver.eq.1) icnt=icnt-1 !skip the line for beam orientation
                  goto 1011
- 1012		 iinput=1		 
+ 1012            iinput=1                
  1013            spcol=4
                  if(iinput.eq.2) spcol=3
  1011          continue ! Josh - Should these 1011 be 900? !KJ No.  Optional input.
@@ -756,15 +756,15 @@ c           Default set above is potlbl=' '
                  read(words(2),30,err=900) xivec(2)  ! in arbitrary units
                  read(words(3),30,err=900) xivec(3)
                  xinorm=dsqrt(xivec(1)**2+xivec(2)**2+xivec(3)**2)
-		 if (xinorm.gt.0.0) then
-		    do i=1,3
+                 if (xinorm.gt.0.0) then
+                    do i=1,3
                        xivec(i)=xivec(i)/xinorm    ! normalize this vector.
-		    enddo
-		 elseif(.not.(aver.eq.1)) then
-		    call wlog('WARNING : beam direction unspecified
+                    enddo
+                 elseif(.not.(aver.eq.1)) then
+                    call wlog('WARNING : beam direction unspecified
      1                  in orientation sensitive EELS calculation.
      2                  Please correct before running EELS module.')
-		 endif
+                 endif
              elseif(icnt.eq.3) then
                  read(words(1),30,err=900) acoll  ! collection semiangle in mrad
                  read(words(2),30,err=900) aconv  ! convergence semiangle in mrad
@@ -772,8 +772,8 @@ c           Default set above is potlbl=' '
              elseif(icnt.eq.2) then
                  read(words(1),20,err=900) nqr    ! specify q-mesh, radial parameter
                  read(words(2),20,err=900) nqf    ! specify q-mesh, angular parameter
-		 if(nqr*nqf.eq.0) then
-		    call wlog('WARNING : zero q-mesh points specified
+                 if(nqr*nqf.eq.0) then
+                    call wlog('WARNING : zero q-mesh points specified
      1               for EELS calculation.  Please correct before
      2               running EELS module.')
                  endif

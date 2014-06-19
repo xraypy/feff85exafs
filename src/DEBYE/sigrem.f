@@ -1407,7 +1407,7 @@ c        Read spring.inp and build dynamical matrix
      1           rintr, iprdos, nnl)
 
          if (ipath.ne.0) then
-	    if(ir1_open) then
+            if(ir1_open) then
 c             Echo title cards to s2_rm2.dat
               do 10  i = 1, ntitle
                 write(ir1,12)  title(i)(1:ltit(i))

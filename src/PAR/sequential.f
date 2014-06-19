@@ -46,8 +46,8 @@ c     Then everyone will call par_end and stop
         call wlog(string)
         close(unit=11)
       else if (string .ne. ' ') then
-	print *,string
-	print *,'Abnormal termination on processor ',this_process
+        print *,string
+        print *,'Abnormal termination on processor ',this_process
       endif
 
       stop ' '

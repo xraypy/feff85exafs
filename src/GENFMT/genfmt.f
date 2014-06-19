@@ -90,25 +90,25 @@ c        average over two spin direction
 
 c!KJ added loop over ip for ELNES calculations.  1-06
       do ip=ipmin,ipmax,ipstep
-	    if (elnes.eq.1) call iniptz(ptz,ip,2)  !KJ Only change ptz for ELNES !!
+            if (elnes.eq.1) call iniptz(ptz,ip,2)  !KJ Only change ptz for ELNES !!
             !KJ the call to iniptz changes the polarization matrix ptz
 c           !KJ choose different filename for each spectrum.
             if(ip.eq.1) then
-	      f1(1:10)='feff.bin  '
-	      f2(1:10)='list.dat  '
-	    elseif(ip.eq.10) then
-	      f1(1:10)='feff10.bin'
-	      f2(1:10)='list10.dat'
-	    elseif(ip.gt.1.and.ip.lt.10) then
-	      f1(1:5)='feff0'
-	      f1(6:6)= char(48+ip)
-	      f1(7:10)='.bin'
-	      f2(1:5)='list0'
-	      f2(6:6)= char(48+ip)
-	      f2(7:10)='.dat'
-	    else
-	      stop 'crazy ip in ff2xmu'
-	    endif
+              f1(1:10)='feff.bin  '
+              f2(1:10)='list.dat  '
+            elseif(ip.eq.10) then
+              f1(1:10)='feff10.bin'
+              f2(1:10)='list10.dat'
+            elseif(ip.gt.1.and.ip.lt.10) then
+              f1(1:5)='feff0'
+              f1(6:6)= char(48+ip)
+              f1(7:10)='.bin'
+              f2(1:5)='list0'
+              f2(6:6)= char(48+ip)
+              f2(7:10)='.dat'
+            else
+              stop 'crazy ip in ff2xmu'
+            endif
           !KJ the rest of this loop follows the old (non-elnes) scheme
        write(*,*) 'doing ip = ',ip
 

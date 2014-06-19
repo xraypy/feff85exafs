@@ -1,0 +1,14 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
+
+Import('env')
+
+lib_src = Split('fmsie.f fmspack.f gglu.f ggbi.f ggrm.f gggm.f ggtf.f yprep.f xstaff.f')
+
+bin_src = Split('ffmod3.f fmstot.f reafms.f xprep.f')
+
+env.StaticLibrary('libfms', lib_src)
+
+env.Program('fms', bin_src, \
+        LIBS    = ['fms', 'dw', 'feffcom', 'feffmath', 'feffpar'], \
+        LIBPATH = ['.', '../DEBYE', '../COMMON', '../MATH', '../PAR'])

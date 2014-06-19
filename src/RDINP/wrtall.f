@@ -157,25 +157,25 @@ cc    so2.inp - Josh Kas
 cc    eels.inp        !KJ 1-06 write EELS data to file
       open(file='eels.inp',unit=3,status='unknown',iostat=ios)
         write(3,10) 'calculate ELNES?'
-	write(3,20) eels
+        write(3,20) eels
         write(3,10) 'average? relativistic? cross-terms? Which input?'
         write(3,20) aver, relat, cross, iinput, spcol
-	write(3,10) 'polarizations to be used ; min step max'
-	write(3,20) ipmin,ipstep,ipmax
-	write(3,10) 'beam energy in eV'
-	write(3,30) ebeam
-	write(3,10) 'beam direction in arbitrary units'
-	write(3,30) xivec
-	write(3,10) 'collection and convergence semiangle in rad'
-	write(3,30) acoll,aconv
-	write(3,10) 'qmesh - radial and angular grid size'
-	write(3,20) nqr,nqf
-	write(3,10) 'detector positions - two angles in rad'
-	write(3,30) thetax,thetay
-	write(3,10) 'calculate magic angle if magic=1'
-	write(3,20) magic
-	write(3,10) 'energy for magic angle - eV above threshold'
-	write(3,30) emagic
+        write(3,10) 'polarizations to be used ; min step max'
+        write(3,20) ipmin,ipstep,ipmax
+        write(3,10) 'beam energy in eV'
+        write(3,30) ebeam
+        write(3,10) 'beam direction in arbitrary units'
+        write(3,30) xivec
+        write(3,10) 'collection and convergence semiangle in rad'
+        write(3,30) acoll,aconv
+        write(3,10) 'qmesh - radial and angular grid size'
+        write(3,20) nqr,nqf
+        write(3,10) 'detector positions - two angles in rad'
+        write(3,30) thetax,thetay
+        write(3,10) 'calculate magic angle if magic=1'
+        write(3,20) magic
+        write(3,10) 'energy for magic angle - eV above threshold'
+        write(3,30) emagic
       close(3)
 c KJ      
       return

@@ -1,0 +1,12 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
+
+Import('env')
+
+bin_src = Split('ffmod5.f  fmtrxi.f  genfmt.f  mmtr.f  mmtrxi.f  rdpath.f  regenf.f  rot3i.f \
+                 sclmz.f   setlam.f  snlm.f    xstar.f')
+
+env.Program('genfmt', bin_src,
+        LIBS = ['feffcom', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../MATH', '../PAR'])
+

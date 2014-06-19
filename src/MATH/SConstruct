@@ -1,0 +1,11 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
+
+Import('env')
+
+lib_src = Split('bcoef.f   besjn.f   conv.f    csomm.f   cwig3j.f  determ.f  exjlnl.f  phamp.f \
+                 quartc.f  sdist.f   somm2.f   terp.f    trap.f    besjh.f   bjnser.f  cpl0.f  \
+                 csomm2.f  czeros.f  dist.f    lu.f      polint.f  rotwig.f  somm.f    strap.f \
+                 terpc.f')
+
+env.StaticLibrary('libfeffmath', lib_src)

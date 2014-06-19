@@ -1,0 +1,11 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
+
+Import('env')
+
+bin_src = Split('rdinp_l.f  ffsort.f iniall.f  mkptz.f  rdline.f  setedg.f wrtall.f')
+
+env.Program('rdinp', bin_src,
+        LIBS = ['feffcom', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../MATH', '../PAR'])
+

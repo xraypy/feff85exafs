@@ -21,8 +21,8 @@ c       global polarization data
 cc    mod4.inp
         integer  mpath, ms, nncrit, nlegxx, ipr4
         real critpw, pcritk, pcrith,  rmax, rfms2
-	
-	integer eels !KJ added 5/06
+        
+        integer eels !KJ added 5/06
 
 
 c     Local stuff
@@ -96,7 +96,7 @@ c     read eels.inp
       eels=0
       open(file='eels.inp',unit=3,status='old',err=900)
         read(3,*,err=900,end=900) 
-	read(3,20,err=900,end=900) eels
+        read(3,20,err=900,end=900) eels
       close(3)
       goto 901
 900   continue
