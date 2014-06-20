@@ -14,24 +14,26 @@ c    written by alexei ankoudinov. 11.07.96
      1nq(30),kap(30),nmax(30)
       common/tabtes/hx,dr(251),test1,test2,ndor,np,nes,method,idim
  
-      do 10 i = 1,251
-        srhovl(i) = 0.0d0
- 10     srho(i) = 0.0d0
- 
+      do 10 i = 1, 251
+        srho(i)   = zero
+        srhovl(i) = zero
+ 10   continue 
 c  find total and valence densities. Remove self-interaction if SIC
       do 50 j = 1, norb
-        a = xnel(j)
-        b = xnval(j)
-c      use to test SIC
+         a = xnel(j)
+         b = xnval(j)
+c     use to test SIC
 c       if (j .eq. ia) a=a-1.0d0
 c       if (j .eq. ia) b=b-1.0d0
-      do 50 i = 1,nmax(j)
-        srho(i) = srho(i) + a * (cg(i,j)**2+cp(i,j)**2)
- 50     srhovl(i) = srhovl(i) + b * (cg(i,j)**2+cp(i,j)**2)
+         do 50 i = 1, nmax(j)
+            srho(i)   = srho(i)   + a * (cg(i,j)**2+cp(i,j)**2)
+            srhovl(i) = srhovl(i) + b * (cg(i,j)**2+cp(i,j)**2)
+ 50   continue 
 
 c  constract lda potential. Put your favorite model into vbh.f.
 c  exch=5,6 correspond to 2 ways of core-valence separation of V_xc.
-      do 90 i = 1,251
+      rhoc = zero
+      do 90 i = 1, 251
         rho = srho(i) / (dr(i)**2)
         if (idfock.eq.5) then
 c          for exch=5 valence density*4*pi
@@ -40,18 +42,18 @@ c          for exch=5 valence density*4*pi
 c          for exch=6 core density*4*pi
            rhoc = (srho(i)-srhovl(i)) / (dr(i)**2)
         elseif (idfock.eq.1) then
-           rhoc = 0.0d0
+           rhoc = zero
         elseif (idfock.eq.2) then
            rhoc = srho(i) / (dr(i)**2)
         else
             call par_stop(' undefined idfock in subroutine vlda')
         endif
 
-        if (rho .gt. 0.0 ) then
+        if (rho .gt. zero ) then
            rs = (rho/3)**(-third)
-           rsc =101.0
-           if (rhoc .gt.0.0) rsc = (rhoc/3)**(-third)
-           xm = 1.0d0
+           rsc = 101.d0
+           if (rhoc .gt.zero) rsc = (rhoc/3)**(-third)
+           xm = one
 c          vbh and edp in Hartrees
            if (idfock.eq.5 .or. idfock.eq.2) then
 c             for exch=5, 2
@@ -64,7 +66,7 @@ c             for exch=6
               vxcvl = vvbh - vdh
            elseif (idfock.eq.1) then
 c          for pure Dirac-Fock
-              vxcvl = 0.0d0
+              vxcvl = zero
            endif
 
 c   contribution to the total energy from V_xc:=\int d^3 r V_xc * rho/2

@@ -77,7 +77,7 @@ c     Rs1(NRPts) - Array of Rs points for interpolation
       complex*16  delta, deltav, ZRnrm, ZTemp
       character*512 slog
       logical csig, rdmpse
-      integer NRPts, iexist, lastPl
+      integer NRPts, lastPl
       parameter (tol=0.0004)
       parameter (NRPts=10)
       double precision WpCorr(MxPole), rsTmp, WpTmp, 
@@ -150,24 +150,6 @@ c     Now calculate delta sigma as a function of Rs and energy
       if (csig) then
          do i= NRPts, 1, -1
             rdmpse = .false.
-c            if((ifirst.eq.0).and.(i.eq.NRPts)) then
-c               open(unit=23,file='mpse.bin',status='old',iostat=iexist)
-c               if(iexist.eq.0) then
-c                  rdmpse = .true.
-c               else
-c                  open(unit=23,file='mpse.bin',status='replace',
-c     &                 iostat=iexist)
-c               end if
-c            end if
-c            if(rdmpse) then
-c               read(23,*) RsTmp, Rs1(i), delrHL(i), deliHL(i), ZTemp
-c               if(abs(1-abs(RsTmp/DBLE(em))).gt.0.001) then
-c                  goto 16
-c               else
-c                  goto 17
-c               end if
-c            end if
-c 16         continue
             delrHL(i) = 0.d0
             deliHL(i) = 0.d0
             Rs1(i)=rscore+DBLE(i-1)*DRs
@@ -401,7 +383,6 @@ c	 Josh END
          ompm1 = omp
          delavg = delavg + volume*delta
  20   continue
- 25   continue
       write(39,*)
       
       ifirst = 1

@@ -29,7 +29,7 @@ c---------------------------------------------------------------------
       subroutine sigem (sig2mx, sig2x, iem, tk, ipath, nleg, rat, sig2)
       implicit double precision (a-h, o-z)
 
-      include 'dwpar.h'
+      parameter (natxdw = 200, nlegx1 = 9, nphx1=7)
       include '../HEADERS/parallel.h'
 
 c feff parameters (from dim.h):
@@ -40,7 +40,7 @@ c     parameter (nphx = 7)
       parameter (natx = natxdw)
 
 c local parameters:
-      parameter (amu0  = 1.660 54)
+      parameter (amu0  = 1.660 54d0)
       parameter (pi = 3.14159 26535 89793 23846 26433d0)
       parameter (nwx = 700)
 
@@ -430,7 +430,7 @@ c     (here we need only coordinates and potentials)
 
       implicit double precision (a-h, o-z)
 
-      include 'dwpar.h'
+      parameter (natxdw = 200, nlegx1 = 9, nphx1=7)
 
 c feff parameters:
 c     parameter (nphx = 7)
@@ -603,10 +603,10 @@ cc             Change mode and process current card.
                call wlog(slog)
                call par_stop('DWRDIN-3')
             endif
-            read(words(2),20,err=900)  izph(iph)
+            read(words(2), 20, err=900)  izph(iph)
 cc          No potential label if user didn't give us one
 cc          Default set above is potlbl=' '
-            if (nwords .ge. 3)  potlbl(iph) = words(3)
+            if (nwords .ge. 3)  potlbl(iph) = words(3)(:6)
          else
             write(slog,'(a,i8)') 
      .        'DWRDIN-4: Mode unrecognized, mode ', mode
@@ -709,7 +709,7 @@ c     build dynamical matrix.
 
       implicit double precision (a-h, o-z)
 
-      include 'dwpar.h'
+      parameter (natxdw = 200, nlegx1 = 9, nphx1=7)
       include '../HEADERS/parallel.h'
 
 c feff parameters:
@@ -861,6 +861,8 @@ c              Change mode and process current card.
             j=jj+1
             call chekin (jj, natom, line)
             read(words(3),30,err=900) str(i,j)
+            ix = 1
+            jx = 1
             if (str(i,j).lt.strx) then
                strx=str(i,j)
                ix=i
@@ -1196,7 +1198,7 @@ c*displacements)
 
       implicit double precision (a-h, o-z)
 
-      include 'dwpar.h'
+      parameter (natxdw = 200, nlegx1 = 9, nphx1=7)
 
       parameter (natx = natxdw)
 
@@ -1334,7 +1336,7 @@ c---------------------------------------------------------------------
       subroutine sigrm (sig2mx, sig2x,ir1, ir2, tk,ipath,nleg,rat,sig2)
       implicit double precision (a-h, o-z)
 
-      include 'dwpar.h'
+      parameter (natxdw = 200, nlegx1 = 9, nphx1=7)
 
 c feff parameters (from dim.h):
 c     parameter (legtot=9) 

@@ -7,6 +7,7 @@ c     returns 0 if not a token, otherwise returns token
       character*20 flname
       integer itoken
 
+      itoken = 0
       w = word(1:4)
       call upper(w)
       

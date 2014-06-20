@@ -1,4 +1,4 @@
-      double precision function akeato (i,j,k)
+      double precision function akeato(i,j,k)
 c     angular coefficient by the direct coulomb integral fk for orbitals
 c     i and j
       implicit double precision (a-h,o-z)
@@ -20,7 +20,7 @@ c        max=max(i,j) min=min(i,j)
       entry bkeato (i,j,k)
 c     angular coefficient at the exchange coulomb integral gk
  
-      bkeato=0.0d 00
+      bkeato=0.0d0
       if (i .lt. j) then
          bkeato=afgk(j,i,k/2)
       elseif (i.gt.j) then

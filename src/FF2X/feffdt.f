@@ -59,7 +59,6 @@ c        text(itext) does not have carriage control
       call wlog (slog)
 
 c     make files.dat
-  150 format (a)
   160 format (1x, a)
   170 format (1x, 71('-'))
 
@@ -163,7 +162,6 @@ c           remove 2 pi jumps in phases
             endif
             phffo = phff
             cdelto = cdelt
-
 c           write 1 k, momentum wrt fermi level k=sqrt(p**2-kf**2)
 c                 2 central atom phase shift (real part),
 c                 3 magnitude of feff,

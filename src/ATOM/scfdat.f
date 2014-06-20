@@ -42,9 +42,9 @@ c ibgp first dimension of the arrays bg and bp
       common/comdir/ cl, dz, gg(251), ag(10), gp(251), ap(10), bid(783)
 c  gg,gp are the output from soldir
       common/itescf/ testy, rap(2), teste, nz, norb, norbsc
-      common/mulabk/ afgk
+cXX   common/mulabk/ afgk
       common/inelma/ nem
-      dimension afgk(30, 30, 0:3)
+cXX      dimension afgk(30, 30, 0:3)
       common/messag/ dlabpr, numerr
       character*8 dprlab, dlabpr
       common/ratom1/ xnel(30), en(30), scc(30), scw(30), sce(30),
@@ -72,6 +72,7 @@ c        call head (16)
       endif
 
 c  initialize the data and test parameters
+      open_16 = .false.
       jfail = 0
       ibgp = 10
       numerr = 0

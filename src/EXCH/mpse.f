@@ -20,9 +20,9 @@ c     Parameters:
       
 c     Local Variables:
       INTEGER iR, iph, iPole
-      INTEGER ios, jIntr1, RsMax, RsMin, Rs, RsInt
+      INTEGER ios, RsMax, RsMin, Rs, RsInt
       DOUBLE PRECISION WpCorr(MxPole), Gamma(MxPole), AmpFac(MxPole),
-     &     MinDns, MaxDns, Densty, dR, delrHL(NRPts), deliHL(NRPts),
+     &     MinDns, Densty, dR, delrHL(NRPts), deliHL(NRPts),
      &     Rs1(NRPts)
       COMPLEX*16 ZRnrm, ZTemp
 

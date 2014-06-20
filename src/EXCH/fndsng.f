@@ -53,7 +53,7 @@ c     Order  - Used to order singulaties from smallest to largest
       INTEGER NSol, Order(100)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Loop variables
-      INTEGER i1, i2
+      INTEGER i1
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Initialization
       NSing = 0
