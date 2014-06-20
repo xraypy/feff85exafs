@@ -1,0 +1,699 @@
+
+FTNCHEK Version 3.3 November 2004
+
+File csigma.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+Warning in module CSIGMA in file csigma.f: Variables declared but never
+ referenced:
+    GAMMA declared at line 32 file csigma.f (dummy argument)
+    MPOLE declared at line 68 file csigma.f
+    SIG declared at line 60 file csigma.f
+
+Warning in module CSIGMA in file csigma.f: Variables set but never used:
+    DPZERO set at line 66 file csigma.f
+    H set at line 66 file csigma.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    245             XSing(i2) = (1.d0,0)*XSing(i2)
+                                     ^
+Warning near line 245 col 30 file csigma.f: different precision in real and
+ imaginary parts
+    263             XSing(i2) = (1.d0,0)*XSing(i2)
+                                     ^
+Warning near line 263 col 30 file csigma.f: different precision in real and
+ imaginary parts
+    290                XSing(i2) = (1.d0,0)*XSing(i2)
+                                        ^
+Warning near line 290 col 33 file csigma.f: different precision in real and
+ imaginary parts
+    305                XSing(i2) = (1.d0,0)*XSing(i2)
+                                        ^
+Warning near line 305 col 33 file csigma.f: different precision in real and
+ imaginary parts
+
+Warning in module SIGMA1 in file csigma.f: Variables declared but never
+ referenced:
+    WP declared at line 171 file csigma.f
+
+Warning in module SIGMA1 in file csigma.f: Variables used before set
+    BETA used at line 313 file csigma.f; never set
+    ERROR used at line 243 file csigma.f; never set
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    403       DPPar(3) = Energy/EFermi
+                       ^
+Warning near line 403 col 16 file csigma.f: dcpx expr ENERGY/EFERMI truncated
+ to dble DPPAR
+    442             XSing(i2) = (1.d0,0)*XSing(i2)
+                                     ^
+Warning near line 442 col 30 file csigma.f: different precision in real and
+ imaginary parts
+    458             XSing(i2) = (1.d0,0)*XSing(i2)
+                                     ^
+Warning near line 458 col 30 file csigma.f: different precision in real and
+ imaginary parts
+    486                XSing(i2) = (1.d0,0)*XSing(i2)
+                                        ^
+Warning near line 486 col 33 file csigma.f: different precision in real and
+ imaginary parts
+    500                XSing(i2) = (1.d0,0)*XSing(i2)
+                                        ^
+Warning near line 500 col 33 file csigma.f: different precision in real and
+ imaginary parts
+
+Warning in module DSIGMA in file csigma.f: Variables declared but never
+ referenced:
+    WP declared at line 368 file csigma.f
+
+Warning in module DSIGMA in file csigma.f: Variables used before set
+    BETA used at line 508 file csigma.f; never set
+    ERROR used at line 440 file csigma.f; never set
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    559       fiq=1./(q*fqq)
+                    ^
+Warning near line 559 col 13 file csigma.f: promotion may not give desired
+ precision: real const 1. / cplx*16 expr (Q*FQQ)
+
+Warning in module R1 in file csigma.f: Variables set but never used:
+    T1 set at line 564 file csigma.f
+    T2 set at line 565 file csigma.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    597       fiq=1./(q*fqq)
+                    ^
+Warning near line 597 col 13 file csigma.f: promotion may not give desired
+ precision: real const 1. / cplx*16 expr (Q*FQQ)
+
+Warning in module DR1 in file csigma.f: Variables declared but never
+ referenced:
+    T1 declared at line 586 file csigma.f
+    T2 declared at line 586 file csigma.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+Warning in module R2 in file csigma.f: Labels defined but not used:
+    <30> defined at line 637 file csigma.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+Warning in module DR2 in file csigma.f: Labels defined but not used:
+    <30> defined at line 666 file csigma.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+Warning in module R3 in file csigma.f: Labels defined but not used:
+    <30> defined at line 694 file csigma.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+Warning in module DR3 in file csigma.f: Labels defined but not used:
+    <30> defined at line 723 file csigma.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+Warning in module INTGRL in file csigma.f: Variables used before set
+    I used at line 774 file csigma.f; never set
+    822       data dx/0.1127016653792583  ,0.5  ,0.8872983346207417  /
+                      ^
+Warning near line 822 col 15 file csigma.f: Single-precision real constant has
+ more digits than are stored
+                                                 ^
+Warning near line 822 col 42 file csigma.f: Single-precision real constant has
+ more digits than are stored
+    823       data wt/0.277777777777777778  ,0.4444444444444444444  ,
+                      ^
+Warning near line 823 col 15 file csigma.f: Single-precision real constant has
+ more digits than are stored
+                                             ^
+Warning near line 823 col 38 file csigma.f: Single-precision real constant has
+ more digits than are stored
+    824      1     0.2777777777777777778  /
+                   ^
+Warning near line 824 col 12 file csigma.f: Single-precision real constant has
+ more digits than are stored
+    825       data wt9/0.0616938806304841571  ,0.108384229110206161  ,
+                       ^
+Warning near line 825 col 16 file csigma.f: Single-precision real constant has
+ more digits than are stored
+                                               ^
+Warning near line 825 col 40 file csigma.f: Single-precision real constant has
+ more digits than are stored
+    826      1     0.0398463603260281088  ,0.175209035316976464  ,
+                   ^
+Warning near line 826 col 12 file csigma.f: Single-precision real constant has
+ more digits than are stored
+                                           ^
+Warning near line 826 col 36 file csigma.f: Single-precision real constant has
+ more digits than are stored
+    827      2     0.229732989232610220  ,0.175209035316976464  ,
+                   ^
+Warning near line 827 col 12 file csigma.f: Single-precision real constant has
+ more digits than are stored
+                                          ^
+Warning near line 827 col 35 file csigma.f: Single-precision real constant has
+ more digits than are stored
+    828      3     0.0398463603260281088  ,0.108384229110206161  ,
+                   ^
+Warning near line 828 col 12 file csigma.f: Single-precision real constant has
+ more digits than are stored
+                                           ^
+Warning near line 828 col 36 file csigma.f: Single-precision real constant has
+ more digits than are stored
+    829      4     0.0616938806304841571  /
+                   ^
+Warning near line 829 col 12 file csigma.f: Single-precision real constant has
+ more digits than are stored
+    839       error=0.  
+                   ^
+Warning near line 839 col 12 file csigma.f: real const 0. promoted to dble 
+ ERROR: may not give desired precision
+    840       cgratr=0.  
+                    ^
+Warning near line 840 col 13 file csigma.f: real const 0. promoted to cplx*16 
+ CGRATR: may not give desired precision
+    868       xleft(nstack+1)=xleft(nstack)+del*dx(1)*2.
+                                                     ^
+Warning near line 868 col 46 file csigma.f: promotion may not give desired
+ precision: dcpx expr DEL*DX(1) * real const 2.
+    869       xleft(nstack+2)=xleft(nstack+3)-del*dx(1)*2.
+                                                       ^
+Warning near line 869 col 48 file csigma.f: promotion may not give desired
+ precision: dcpx expr DEL*DX(1) * real const 2.
+    880       value=0.  
+                   ^
+Warning near line 880 col 12 file csigma.f: real const 0. promoted to cplx*16 
+ VALUE: may not give desired precision
+    881       valu=0.  
+                  ^
+Warning near line 881 col 11 file csigma.f: real const 0. promoted to cplx*16 
+ VALU: may not give desired precision
+    898       frac = del / (xmax - xmin)
+                   ^
+Warning near line 898 col 12 file csigma.f: cplx*16 expr DEL/(XMAX-XMIN) 
+ truncated to dble FRAC
+    900       if(frac .le. 1.0e-8) atsing = .true.
+                      ^
+Warning near line 900 col 15 file csigma.f: comparison mixes terms of
+ different precision: dble FRAC .LE. real const 1.0E-8
+    903      2     (frac .le. 1.0e-15 .or. dif .le. abr*0.1  ))) then
+                         ^
+Warning near line 903 col 18 file csigma.f: comparison mixes terms of
+ different precision: dble FRAC .LE. real const 1.0E-15
+                                                       ^
+Warning near line 903 col 48 file csigma.f: promotion may not give desired
+ precision: dble ABR * real const 0.1
+
+Warning in module CGRATR at line 839 file csigma.f: Function modifies argument 
+ ERROR
+
+Warning in module CGRATR at line 838 file csigma.f: Function modifies argument 
+ MAXNS
+
+Warning in module CGRATR at line 859 file csigma.f: Function modifies argument 
+ NUMCAL
+
+ 0 syntax errors detected in file csigma.f
+ 62 warnings issued in file csigma.f
+
+File csigz.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    155       SigTot = ZTot*(SigTot)
+                             ^
+Possibly misleading appearance near line 155 col 22 file csigz.f: Extraneous
+ parentheses
+
+Warning in module CSIGZ in file csigz.f: Variables declared but never
+ referenced:
+    GAMMA declared at line 32 file csigz.f (dummy argument)
+
+Warning in module CSIGZ in file csigz.f: Variables set but never used:
+    DPZERO set at line 69 file csigz.f
+
+ 0 syntax errors detected in file csigz.f
+ 4 warnings issued in file csigz.f
+
+File cubic.f:
+     29       qz1 = 2*s1 - a2/3
+                  ^
+Warning near line 29 col 11 file cubic.f: dcpx expr 2*S1-A2/3 truncated to 
+ dble QZ1
+     31       qz3 = -(s1 - sqrt(three)*dimag(s1) + a2/3)
+                  ^
+Warning near line 31 col 11 file cubic.f: dcpx expr -(S1-SQRT(THREE)*DIMAG(S 
+ .. truncated to dble QZ3
+
+ 0 syntax errors detected in file cubic.f
+ 2 warnings issued in file cubic.f
+
+File edp.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     18       if (rs .le. 100.0) then
+                     ^
+Warning near line 18 col 14 file edp.f: comparison mixes terms of different
+ precision: dble RS .LE. real const 100.0
+     26         x = x + 1.0e-5
+                      ^
+Warning near line 26 col 15 file edp.f: promotion may not give desired
+ precision: dble X + real const 1.0E-5
+     28         if (x .lt. 1.00001) x = 1.00001
+                      ^
+Warning near line 28 col 15 file edp.f: comparison mixes terms of different
+ precision: dble X .LT. real const 1.00001
+                                      ^
+Warning near line 28 col 31 file edp.f: real const 1.00001 promoted to dble X:
+ may not give desired precision
+
+ 0 syntax errors detected in file edp.f
+ 5 warnings issued in file edp.f
+
+File ffq.f:
+ 0 syntax errors detected in file ffq.f
+File fndsng.f:
+
+Warning in module FNDSNG in file fndsng.f: Variables declared but never
+ referenced:
+    I2 declared at line 56 file fndsng.f
+
+ 0 syntax errors detected in file fndsng.f
+ 1 warning issued in file fndsng.f
+
+File imhl.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     17       parameter (alph = 4.0 / 3.0)
+                                ^
+Warning near line 17 col 25 file imhl.f: real expr 4.0/3.0 promoted to dble 
+ ALPH: may not give desired precision
+     27       if (xk0 .lt. 1.00001) then
+                      ^
+Warning near line 27 col 15 file imhl.f: comparison mixes terms of different
+ precision: dble XK0 .LT. real const 1.00001
+     28          xk0 = 1.00001
+                     ^
+Warning near line 28 col 14 file imhl.f: real const 1.00001 promoted to dble 
+ XK0: may not give desired precision
+     36       if (xs .lt. 0.)  then
+                     ^
+Warning near line 36 col 14 file imhl.f: comparison mixes terms of different
+ precision: dble XS .LT. real const 0.
+
+ 0 syntax errors detected in file imhl.f
+ 5 warnings issued in file imhl.f
+
+File mpse.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     55       RsMax = MIN( 10.d0, (3 / (4*pi*MinDens)) ** third )
+                    ^
+Warning near line 55 col 13 file mpse.f: dble expr MIN(10.D0,(3/(4*PI*MINDE .. 
+ truncated to intg RSMAX
+     56       RsMin = MAX( 0.001d0, (3 / (4*pi*MaxDens)) ** third )
+                    ^
+Warning near line 56 col 13 file mpse.f: dble expr MAX(0.001D0,(3/(4*PI*MAX .. 
+ truncated to intg RSMIN
+     57       RsInt = (3 / (4*pi*edens(jIntrs+1,1))) ** third
+                    ^
+Warning near line 57 col 13 file mpse.f: dble expr (3/(4*PI*EDENS(JINTRS+1, .. 
+ truncated to intg RSINT
+     63       dR = (RsMax - RsMin)/(NRPts - 1)
+                 ^
+Warning near line 63 col 10 file mpse.f: integer quotient expr 
+ (RSMAX-RSMIN)/(NRPTS-1)  converted to real
+     67          Rs = RsMin + (iR-1)*dR
+                    ^
+Warning near line 67 col 13 file mpse.f: dble expr RSMIN+(IR-1)*DR truncated
+ to intg RS
+
+Warning in module MPSE in file mpse.f: Variables declared but never
+ referenced:
+    JINTR1 declared at line 23 file mpse.f
+    MAXDNS declared at line 25 file mpse.f
+    MINDNS declared at line 25 file mpse.f
+
+Warning in module MPSE in file mpse.f: Variables set but never used:
+    RSINT set at line 57 file mpse.f
+    ZRNRM set at line 78 file mpse.f
+
+ 0 syntax errors detected in file mpse.f
+ 8 warnings issued in file mpse.f
+
+File qsorti.f:
+     70       X=A(ORD(P))
+               ^
+Warning near line 70 col 8 file qsorti.f: dble A truncated to intg X
+     71       Z=A(ORD(Q))
+               ^
+Warning near line 71 col 8 file qsorti.f: dble A truncated to intg Z
+     89       X=A(ORD(P))
+               ^
+Warning near line 89 col 8 file qsorti.f: dble A truncated to intg X
+     99       Z=A(ORD(Q))
+               ^
+Warning near line 99 col 8 file qsorti.f: dble A truncated to intg Z
+    105       X=A(ORD(P))
+               ^
+Warning near line 105 col 8 file qsorti.f: dble A truncated to intg X
+
+ 0 syntax errors detected in file qsorti.f
+ 5 warnings issued in file qsorti.f
+
+File quinn.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     34       pfq = pisqrt / (32 * (alphaq*rs)**1.5)
+                                              ^
+Warning near line 34 col 39 file quinn.f: promotion may not give desired
+ precision: dble expr (ALPHAQ*RS) ** real const 1.5
+     44       wkc = (1 + (6./5.) * wkc / wp**2) * wp * ef
+                                 ^
+Warning near line 44 col 26 file quinn.f: promotion may not give desired
+ precision: real expr (6./5.) * dble WKC
+     56       arg = (eabs-ekc) / (0.3*ekc)
+                                     ^
+Warning near line 56 col 30 file quinn.f: promotion may not give desired
+ precision: real const 0.3 * dble EKC
+
+ 0 syntax errors detected in file quinn.f
+ 4 warnings issued in file quinn.f
+
+File rhlbp.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     19       ef = xf *xf / 2.  
+                          ^
+Warning near line 19 col 19 file rhlbp.f: promotion may not give desired
+ precision: dble expr XF*XF / real const 2.
+     28          xmesh(1) = 0.0
+                          ^
+Warning near line 28 col 19 file rhlbp.f: real const 0.0 promoted to dble 
+ XMESH: may not give desired precision
+     30             sigma (irs, 1, 1) = 0.0
+                                      ^
+Warning near line 30 col 31 file rhlbp.f: real const 0.0 promoted to dble 
+ SIGMA: may not give desired precision
+     31             sigma (irs, 1, 2) = 0.0
+                                      ^
+Warning near line 31 col 31 file rhlbp.f: real const 0.0 promoted to dble 
+ SIGMA: may not give desired precision
+
+ 0 syntax errors detected in file rhlbp.f
+ 5 warnings issued in file rhlbp.f
+
+File rhl.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     63       dwp = wp/3.0
+                      ^
+Warning near line 63 col 15 file rhl.f: promotion may not give desired
+ precision: dble WP / real const 3.0
+     72       if (xx .lt. 1.00001) then
+                     ^
+Warning near line 72 col 14 file rhl.f: comparison mixes terms of different
+ precision: dble XX .LT. real const 1.00001
+     73           xx = 1.00001
+                     ^
+Warning near line 73 col 14 file rhl.f: real const 1.00001 promoted to dble XX
+ : may not give desired precision
+     76       deltae = ((xx**2-1.0)*ef - wp-dwp)/dwp
+                              ^
+Warning near line 76 col 23 file rhl.f: promotion may not give desired
+ precision: dble expr XX**2 - real const 1.0
+     79       if (rs .lt. 0.2) then
+                     ^
+Warning near line 79 col 14 file rhl.f: comparison mixes terms of different
+ precision: dble RS .LT. real const 0.2
+     81       elseif (rs .lt. 1.0) then
+                         ^
+Warning near line 81 col 18 file rhl.f: comparison mixes terms of different
+ precision: dble RS .LT. real const 1.0
+     83       elseif (rs .lt. 5.0) then
+                         ^
+Warning near line 83 col 18 file rhl.f: comparison mixes terms of different
+ precision: dble RS .LT. real const 5.0
+     97       if (icusp .ne. 1 .or. abs(deltae).lt.1.0) then
+                                               ^
+Warning near line 97 col 40 file rhl.f: comparison mixes terms of different
+ precision: dble expr ABS(DELTAE) .LT. real const 1.0
+    100             cleft(j) = rcfl(mrs,1,j)*rs + rcfl(mrs,2,j)*rs**1.5
+                                                                  ^
+Warning near line 100 col 59 file rhl.f: promotion may not give desired
+ precision: dble RS ** real const 1.5
+    111       if(icusp .eq. 1 .or. abs(deltae).lt.1.0) then
+                                              ^
+Warning near line 111 col 39 file rhl.f: comparison mixes terms of different
+ precision: dble expr ABS(DELTAE) .LT. real const 1.0
+    117          if (abs(deltae).lt.1.0) then
+                                ^
+Warning near line 117 col 25 file rhl.f: comparison mixes terms of different
+ precision: dble expr ABS(DELTAE) .LT. real const 1.0
+    119                wr = (1.0 + deltae)**2/2.0
+                                 ^
+Warning near line 119 col 26 file rhl.f: promotion may not give desired
+ precision: real const 1.0 + dble DELTAE
+                                             ^
+Warning near line 119 col 38 file rhl.f: promotion may not give desired
+ precision: dble expr (1.0+DELTAE)**2 / real const 2.0
+    121                wr = 1.0 - (1.0-deltae)**2/2.0
+                                      ^
+Warning near line 121 col 31 file rhl.f: promotion may not give desired
+ precision: real const 1.0 - dble DELTAE
+                                                 ^
+Warning near line 121 col 42 file rhl.f: promotion may not give desired
+ precision: dble expr (1.0-DELTAE)**2 / real const 2.0
+                                ^
+Warning near line 121 col 25 file rhl.f: promotion may not give desired
+ precision: real const 1.0 - dble expr (1.0-DELTAE)**2/2.0
+    123             erl=wr*erlr + (1.0-wr)*erl
+                                      ^
+Warning near line 123 col 31 file rhl.f: promotion may not give desired
+ precision: real const 1.0 - dble WR
+
+ 0 syntax errors detected in file rhl.f
+ 18 warnings issued in file rhl.f
+
+File vbh.f:
+     14       parameter (gamma = 5.129762802484097 )
+                                 ^
+Warning near line 14 col 26 file vbh.f: Single-precision real constant has
+ more digits than are stored
+                                 ^
+Warning near line 14 col 26 file vbh.f: real const 5.129762802484097 promoted
+ to dble GAMMA: may not give desired precision
+     16       vxc = 0.0
+                  ^
+Warning near line 16 col 11 file vbh.f: real const 0.0 promoted to dble VXC:
+ may not give desired precision
+     18       epc = -0.0504 * flarge(rs/30)
+                            ^
+Warning near line 18 col 21 file vbh.f: promotion may not give desired
+ precision: real const 0.0504 * dble expr FLARGE(RS/30)
+     19       efc = -0.0254 * flarge(rs/75)
+                            ^
+Warning near line 19 col 21 file vbh.f: promotion may not give desired
+ precision: real const 0.0254 * dble expr FLARGE(RS/75)
+     20       xmup = -0.0504*log(1.0+30.0/rs)
+                                         ^
+Warning near line 20 col 34 file vbh.f: promotion may not give desired
+ precision: real const 30.0 / dble RS
+                                    ^
+Warning near line 20 col 29 file vbh.f: promotion may not give desired
+ precision: real const 1.0 + dble expr 30.0/RS
+                            ^
+Warning near line 20 col 21 file vbh.f: promotion may not give desired
+ precision: real const 0.0504 * dble expr LOG(1.0+30.0/RS)
+     25       alg = -1.22177412/rs + vu
+                     ^
+Warning near line 25 col 14 file vbh.f: Single-precision real constant has
+ more digits than are stored
+                               ^
+Warning near line 25 col 24 file vbh.f: promotion may not give desired
+ precision: real const 1.22177412 / dble RS
+     27       vxc = alg*xmag**(1.0/3.0) + blg
+                            ^
+Warning near line 27 col 21 file vbh.f: promotion may not give desired
+ precision: dble XMAG ** real expr (1.0/3.0)
+     39         flarge = (1+x**3)*log(1+1/x) + x/2 - x**2 - 1.0/3.0
+                                                          ^
+Warning near line 39 col 51 file vbh.f: promotion may not give desired
+ precision: dble expr (1+X**3)*LOG(1+1/X)+X/2- .. - real expr 1.0/3.0
+
+ 0 syntax errors detected in file vbh.f
+ 12 warnings issued in file vbh.f
+
+File xcpot.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     81       parameter (tol=0.0004)
+                             ^
+Warning near line 81 col 22 file xcpot.f: real const 0.0004 promoted to dble 
+ TOL: may not give desired precision
+    245             if ( denval(i) .gt. 0.00001) then
+                                   ^
+Warning near line 245 col 28 file xcpot.f: comparison mixes terms of different
+ precision: dble DENVAL .GT. real const 0.00001
+    247                if (rsval.gt.10.0) rsval=10.0
+                                ^
+Warning near line 247 col 25 file xcpot.f: comparison mixes terms of different
+ precision: dble RSVAL .GT. real const 10.0
+                                               ^
+Warning near line 247 col 40 file xcpot.f: real const 10.0 promoted to dble 
+ RSVAL: may not give desired precision
+    249                rsval = 10.0
+                             ^
+Warning near line 249 col 22 file xcpot.f: real const 10.0 promoted to dble 
+ RSVAL: may not give desired precision
+    254                rscore = 101.0
+                              ^
+Warning near line 254 col 23 file xcpot.f: real const 101.0 promoted to dble 
+ RSCORE: may not give desired precision
+    263             xk = xf * 1.00001
+                            ^
+Warning near line 263 col 21 file xcpot.f: promotion may not give desired
+ precision: dble XF * real const 1.00001
+    278                xkpp = xfval * 1.00001
+                                    ^
+Warning near line 278 col 29 file xcpot.f: promotion may not give desired
+ precision: dble XFVAL * real const 1.00001
+
+Warning in module XCPOT in file xcpot.f: Variables declared but never
+ referenced:
+    IEXIST declared at line 80 file xcpot.f
+    WPTMP declared at line 83 file xcpot.f
+
+Warning in module XCPOT in file xcpot.f: Variables set but never used:
+    IXCTMP set at line 114 file xcpot.f
+    RDMPSE set at line 152 file xcpot.f
+    RIINT set at line 212 file xcpot.f
+    RSTMP set at line 109 file xcpot.f
+    TOL set at line 81 file xcpot.f
+    XKM set at line 307 file xcpot.f
+
+Warning in module XCPOT in file xcpot.f: Variables used before set
+    RSCORR used at line 109 file xcpot.f; never set
+
+Warning in module XCPOT in file xcpot.f: Labels defined but not used:
+    <25> defined at line 404 file xcpot.f
+
+ 0 syntax errors detected in file xcpot.f
+ 13 warnings issued in file xcpot.f
+
+No main program found
+Warning: Subprogram CSIGMA argument data type mismatch at position 1:
+    Dummy arg ENERGY in module CSIGMA line 1 file csigma.f is type cplx*16
+    Actual arg E in module MPSE line 80 file mpse.f is type dble
+
+Warning: Subprogram CSIGMA argument usage mismatch at position 3:
+    Dummy arg RS in module CSIGMA line 1 file csigma.f is used before set
+    Actual arg RS1(IR) in module MPSE line 80 file mpse.f is not set
+
+Warning: Subprogram CSIGZ argument data type mismatch at position 1:
+    Dummy arg ENERGY in module CSIGZ line 1 file csigz.f is type cplx*16
+    Actual arg E in module MPSE line 70 file mpse.f is type dble
+  and at position 3:
+    Dummy arg RS in module CSIGZ line 1 file csigz.f is type dble
+    Actual arg RS in module MPSE line 70 file mpse.f is type intg
+
+Warning: Subprogram CCUBIC never defined
+    Invoked in module FNDSNG line 90 file fndsng.f
+
+Warning: Subprogram CQDRTC never defined
+    Invoked in module FNDSNG line 113 file fndsng.f
+
+Warning: Subprogram QSORTI argument data type mismatch at position 3:
+    Dummy arg A in module QSORTI line 22 file qsorti.f is type dble
+    Actual arg XSING in module FNDSNG line 131 file fndsng.f is type cplx*16
+
+Warning: Subprogram CHOPEN never defined
+    Invoked in module MPSE line 62 file mpse.f
+
+Warning: Subprogram RDCMT never defined
+    Invoked in module MPSE line 33 file mpse.f
+
+Warning: Subprogram TERP2D argument arrayness mismatch at position 3:
+    Dummy arg Z in module TERP2D line 60 file rhlbp.f is whole array
+    Actual arg SIGMA(1,1,1) in module RHLBP line 48 file rhlbp.f is array
+ element
+
+Warning: Subprogram TERP2D argument arrayness mismatch at position 3:
+    Dummy arg Z in module TERP2D line 60 file rhlbp.f is whole array
+    Actual arg SIGMA(1,1,2) in module RHLBP line 49 file rhlbp.f is array
+ element
+
+Warning: Subprogram LOCAT never defined
+    Invoked in module TERP2D line 74 file rhlbp.f
+    (possibly it is an array which was not declared)
+
+Warning: Subprogram PAR_STOP never defined
+    Invoked in module TERP2D line 78 file rhlbp.f
+
+Warning: Subprogram TERP never defined
+    Invoked in module XCPOT line 231 file xcpot.f
+
+Warning: Subprogram WLOG never defined
+    Invoked in module XCPOT line 330 file xcpot.f

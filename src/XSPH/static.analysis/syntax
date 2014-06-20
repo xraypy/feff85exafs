@@ -1,0 +1,831 @@
+
+FTNCHEK Version 3.3 November 2004
+
+File acoef.f:
+Including file ../HEADERS/dim.h:
+ 0 syntax errors detected in file acoef.f
+File axafs.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+ 0 syntax errors detected in file axafs.f
+ 1 warning issued in file axafs.f
+
+File ffmod2.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/parallel.h:
+ 0 syntax errors detected in file ffmod2.f
+File fmssz.f:
+Including file ../HEADERS/dim.h:
+
+Warning in module FMSSZ in file fmssz.f: Variables declared but never
+ referenced:
+    IPH declared at line 18 file fmssz.f
+
+ 0 syntax errors detected in file fmssz.f
+ 1 warning issued in file fmssz.f
+
+File getedg.f:
+Including file ../HEADERS/dim.h:
+     81      1                          -1.0,-1.0,-1.0,-1.0,-1.0,
+             ^
+Possibly misleading appearance near line 81 col 6 file getedg.f: Continuation
+ follows comment or blank line
+    725       if(exmu(iz,ihole).gt.0.) emu = exmu(iz,ihole) / hart
+                               ^
+Warning near line 725 col 24 file getedg.f: comparison mixes terms of
+ different precision: dble EXMU .GT. real const 0.
+
+Warning in module GETEDG in file getedg.f: Variables set but never used:
+    BOHR set at line 7 file getedg.f
+
+ 0 syntax errors detected in file getedg.f
+ 3 warnings issued in file getedg.f
+
+File phase.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     89       lmax = prefac * rmt * xkmax
+                   ^
+Warning near line 89 col 12 file phase.f: dble expr PREFAC*RMT*XKMAX truncated
+ to intg LMAX
+    103       imt = (log(rmt) + x0) / dx  +  1
+                  ^
+Warning near line 103 col 11 file phase.f: dble expr (LOG(RMT)+X0)/DX+1 
+ truncated to intg IMT
+    178             if (il*dx.gt.0.50) then
+                             ^
+Warning near line 178 col 22 file phase.f: comparison mixes terms of different
+ precision: dble expr IL*DX .GT. real const 0.50
+    240             if (abs(ph(ie,ll)) .lt. 1.0e-6 .and. ll.ge.4)  goto 220
+                                       ^
+Warning near line 240 col 32 file phase.f: comparison mixes terms of different
+ precision: real*8 expr ABS(PH(IE,LL)) .LT. real const 1.0E-6
+    242             if(abs(exp((0,2)*ph(ie,ll))-1.).lt.1.0e-5) ph(ie,ll)=0
+                                    ^
+Warning near line 242 col 29 file phase.f: promotion may not give desired
+ precision: cplx const (0,2) * cplx*16 PH
+                                               ^
+Warning near line 242 col 40 file phase.f: promotion may not give desired
+ precision: cplx*16 expr EXP((0,2)*PH(IE,LL)) - real const 1.
+                                                   ^
+Warning near line 242 col 44 file phase.f: comparison mixes terms of different
+ precision: real*8 expr ABS(EXP((0,2)*PH(IE,LL)) .. .LT. real const 1.0E-5
+    243             if (abs(ph(ie,ll)) .lt. 1.0e-5 .and. ll.ge.4)  goto 220
+                                       ^
+Warning near line 243 col 32 file phase.f: comparison mixes terms of different
+ precision: real*8 expr ABS(PH(IE,LL)) .LT. real const 1.0E-5
+
+Warning in module PHASE in file phase.f: Variables declared but never
+ referenced:
+    GAMACH declared at line 4 file phase.f (dummy argument)
+    JLP declared at line 58 file phase.f
+    NLP declared at line 58 file phase.f
+    VI0 declared at line 4 file phase.f (dummy argument)
+    XKMTP declared at line 57 file phase.f
+
+ 0 syntax errors detected in file phase.f
+ 10 warnings issued in file phase.f
+
+File phmesh2.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     68       xloss = MAX(gamach/2.d0 + vi0, 0.02/hart)
+                                                 ^
+Warning near line 68 col 42 file phmesh2.f: promotion may not give desired
+ precision: real const 0.02 / dble HART
+     71       IF(vixan.gt.0.0001) THEN
+                      ^
+Warning near line 71 col 15 file phmesh2.f: comparison mixes terms of
+ different precision: dble VIXAN .GT. real const 0.0001
+
+Warning in module PHMESH2 in file phmesh2.f: Variables declared but never
+ referenced:
+    DELTAK declared at line 47 file phmesh2.f
+    IOS declared at line 48 file phmesh2.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    224       estep0 = 0.01/hart
+                           ^
+Warning near line 224 col 20 file phmesh2.f: promotion may not give desired
+ precision: real const 0.01 / dble HART
+    233       n1 = NINT(LOG(xloss/estep0)/del - 0.5)
+                                              ^
+Warning near line 233 col 39 file phmesh2.f: promotion may not give desired
+ precision: dble expr LOG(XLOSS/ESTEP0)/DEL - real const 0.5
+    253          em(ne+i1) = (0,1)*em(ne+i1)
+                                  ^
+Warning near line 253 col 27 file phmesh2.f: promotion may not give desired
+ precision: cplx const (0,1) * cplx*16 EM
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    305       PARAMETER (small = 1.d-20)
+                                 ^
+Warning near line 305 col 26 file phmesh2.f: dble const 1.D-20 truncated to 
+ real SMALL
+    334       xkmax2 = xkmin + (NPts)*deltak*1.01d0
+                                ^
+Possibly misleading appearance near line 334 col 25 file phmesh2.f: Extraneous
+ parentheses
+
+Warning in module EXAFSGRID84 in file phmesh2.f: Variables declared but never
+ referenced:
+    EPS declared at line 304 file phmesh2.f
+
+Warning in module EXAFSGRID84 in file phmesh2.f: Variables set but never used:
+    SMALL set at line 305 file phmesh2.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    400       If( (xkstep*(n2+1))**2 .gt. (n1)*2*xim ) n1 = n1+1
+                                           ^
+Possibly misleading appearance near line 400 col 36 file phmesh2.f: Extraneous
+ parentheses
+                                     ^
+Warning near line 400 col 30 file phmesh2.f: comparison mixes terms of
+ different precision: dble expr (XKSTEP*(N2+1))**2 .GT. real expr (N1)*2*XIM
+
+Warning in module XANESGRID84 in file phmesh2.f: Variables used before set
+    XIM used at line 400 file phmesh2.f; never set
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    472             em(i1) = emin + (i1)*estep
+                                     ^
+Possibly misleading appearance near line 472 col 30 file phmesh2.f: Extraneous
+ parentheses
+    489          IF(DBLE(em(ne1+i1)).gt.0.d0) del2 = em(ne1+i1)*
+                                                   ^
+Warning near line 489 col 44 file phmesh2.f: dcpx expr 
+ EM(NE1+I1)*(EXP(LOG(ELIM .. truncated to dble DEL2
+
+Warning in module REVERSEGRID in file phmesh2.f: Variables declared but never
+ referenced:
+    I2 declared at line 509 file phmesh2.f
+    595             em(iStart + i1) = isgn*(xkmin + deltak*(i1))**2/2
+                                                            ^
+Possibly misleading appearance near line 595 col 53 file phmesh2.f: Extraneous
+ parentheses
+
+ 0 syntax errors detected in file phmesh2.f
+ 22 warnings issued in file phmesh2.f
+
+File phmesh.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     21       xvert = max(xloss, 0.02/hart)
+                                     ^
+Warning near line 21 col 30 file phmesh.f: promotion may not give desired
+ precision: real const 0.02 / dble HART
+     26       if (vixan.gt.0.0001) xim = vixan
+                       ^
+Warning near line 26 col 16 file phmesh.f: comparison mixes terms of different
+ precision: dble VIXAN .GT. real const 0.0001
+    115      1      dep=em(ne1+i)*(exp( log( elimit/em(ne1+i) ) / (ne3-i) ) -1)
+                       ^
+Warning near line 115 col 16 file phmesh.f: dcpx expr EM(NE1+I)*(EXP(LOG(ELIMI 
+ .. truncated to dble DEP
+
+Warning in module PHMESH in file phmesh.f: Variables declared but never
+ referenced:
+    ECV declared at line 7 file phmesh.f (dummy argument)
+
+ 0 syntax errors detected in file phmesh.f
+ 5 warnings issued in file phmesh.f
+
+File radint.f:
+Including file ../HEADERS/dim.h:
+ 0 syntax errors detected in file radint.f
+File rdgrid.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+Warning in module RDGRID in file rdgrid.f: Variables declared but never
+ referenced:
+    IEMAX declared at line 70 file rdgrid.f
+    IEMIN declared at line 70 file rdgrid.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    223       RETURN
+Error near line 223 file rdgrid.f: No path to this statement
+
+ 1 syntax error detected in file rdgrid.f
+ 3 warnings issued in file rdgrid.f
+
+File rexsph.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     85           ptz(-1,i)= cmplx(a1,b1)
+                           ^
+Warning near line 85 col 20 file rexsph.f: cplx expr CMPLX(A1,B1) promoted to 
+ cplx*16 PTZ: may not give desired precision
+     86           ptz(0,i) = cmplx(a2,b2)
+                           ^
+Warning near line 86 col 20 file rexsph.f: cplx expr CMPLX(A2,B2) promoted to 
+ cplx*16 PTZ: may not give desired precision
+     87           ptz(1,i) = cmplx(a3,b3)
+                           ^
+Warning near line 87 col 20 file rexsph.f: cplx expr CMPLX(A3,B3) promoted to 
+ cplx*16 PTZ: may not give desired precision
+    132       rfms2 = rfms2 / bohr
+                            ^
+Warning near line 132 col 21 file rexsph.f: promotion may not give desired
+ precision: real RFMS2 / dble BOHR
+                    ^
+Warning near line 132 col 13 file rexsph.f: dble expr RFMS2/BOHR truncated to 
+ real RFMS2
+
+Warning in module REXSPH in file rexsph.f: Variables set but never used:
+    ELPTY set at line 76 file rexsph.f
+    EVEC set at line 80 file rexsph.f
+    I1B set at line 61 file rexsph.f
+    IDUM set at line 61 file rexsph.f
+    IOS set at line 45 file rexsph.f
+    IPHABS set at line 72 file rexsph.f
+    NABS set at line 72 file rexsph.f
+    RCLABS set at line 72 file rexsph.f
+    SPVEC set at line 80 file rexsph.f
+    XIVEC set at line 80 file rexsph.f
+
+ 0 syntax errors detected in file rexsph.f
+ 7 warnings issued in file rexsph.f
+
+File rholat.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     78       imt  = (log(rmt) + x0) / dx  +  1
+                   ^
+Warning near line 78 col 12 file rholat.f: dble expr (LOG(RMT)+X0)/DX+1 
+ truncated to intg IMT
+     82       inrm = (log(rnrm) + x0) / dx  +  1
+                   ^
+Warning near line 82 col 12 file rholat.f: dble expr (LOG(RNRM)+X0)/DX+1 
+ truncated to intg INRM
+     88       jlast1=(log(rlast) + x0)/ dx + 2
+                    ^
+Warning near line 88 col 13 file rholat.f: dble expr (LOG(RLAST)+X0)/DX+2 
+ truncated to intg JLAST1
+    108         if (xinorm.lt.0.99 .and. icount.eq.2) then
+                          ^
+Warning near line 108 col 19 file rholat.f: comparison mixes terms of
+ different precision: dble XINORM .LT. real const 0.99
+    121       nr05= (log(rnrm) + x0) / 0.05d0 + 5
+                  ^
+Warning near line 121 col 11 file rholat.f: dble expr (LOG(RNRM)+X0)/0.05D0+5 
+ truncated to intg NR05
+    332              if (ikap .eq. 1 .and. (dble(em) +12.0/hart)
+                                                          ^
+Warning near line 332 col 51 file rholat.f: promotion may not give desired
+ precision: real const 12.0 / dble HART
+    333      1          .lt. 1.0/hart) then
+                                ^
+Warning near line 333 col 25 file rholat.f: promotion may not give desired
+ precision: real const 1.0 / dble HART
+    388           if ((dble(em) +12.0/hart) .lt. 1.0/hart) then
+                                     ^
+Warning near line 388 col 30 file rholat.f: promotion may not give desired
+ precision: real const 12.0 / dble HART
+                                                    ^
+Warning near line 388 col 45 file rholat.f: promotion may not give desired
+ precision: real const 1.0 / dble HART
+
+Warning in module RHOLAT in file rholat.f: Variables declared but never
+ referenced:
+    RI05 first occurrence at line 41 file rholat.f
+    XCK declared at line 53 file rholat.f
+    XKMI declared at line 65 file rholat.f
+
+Warning in module RHOLAT in file rholat.f: Variables set but never used:
+    XQ set at line 100 file rholat.f
+
+ 0 syntax errors detected in file rholat.f
+ 12 warnings issued in file rholat.f
+
+File rholsz.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     72       imt  = (log(rmt) + x0) / dx  +  1
+                   ^
+Warning near line 72 col 12 file rholsz.f: dble expr (LOG(RMT)+X0)/DX+1 
+ truncated to intg IMT
+     75       inrm = (log(rnrm) + x0) / dx  +  1
+                   ^
+Warning near line 75 col 12 file rholsz.f: dble expr (LOG(RNRM)+X0)/DX+1 
+ truncated to intg INRM
+     79       nr05= (log(rnrm) + x0) / 0.05d0 + 5
+                  ^
+Warning near line 79 col 11 file rholsz.f: dble expr (LOG(RNRM)+X0)/0.05D0+5 
+ truncated to intg NR05
+
+Warning in module RHOLSZ in file rholsz.f: Variables declared but never
+ referenced:
+    RI05 first occurrence at line 41 file rholsz.f
+    XCK declared at line 53 file rholsz.f
+
+ 0 syntax errors detected in file rholsz.f
+ 5 warnings issued in file rholsz.f
+
+File szlz.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    106         jri = (log(rmt(iph)) + x0) / rgrd + 2
+                    ^
+Warning near line 106 col 13 file szlz.f: dble expr (LOG(RMT(IPH))+X0)/RGRD+ 
+ .. truncated to intg JRI
+    110   40    vtotph(i) = vtotph(i) - eref
+                          ^
+Warning near line 110 col 19 file szlz.f: dcpx expr VTOTPH(I)-EREF truncated
+ to dble VTOTPH
+    113   50       vvalph(i) = vvalph(i) - eref
+                             ^
+Warning near line 113 col 22 file szlz.f: dcpx expr VVALPH(I)-EREF truncated
+ to dble VVALPH
+
+Warning in module SZLZ in file szlz.f: Variables may be used before set:
+    FR used at line 178 file szlz.f
+    FR set at line 179 file szlz.f
+
+ 0 syntax errors detected in file szlz.f
+ 5 warnings issued in file szlz.f
+
+File wphase.f:
+Including file ../HEADERS/dim.h:
+ 0 syntax errors detected in file wphase.f
+File wrxsph.f:
+Including file ../HEADERS/dim.h:
+ 0 syntax errors detected in file wrxsph.f
+File xmult.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+ 0 syntax errors detected in file xmult.f
+ 1 warning issued in file xmult.f
+
+File xsect.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+    112       imt = (log(rmt) + x0) / dx  +  1
+                  ^
+Warning near line 112 col 11 file xsect.f: dble expr (LOG(RMT)+X0)/DX+1 
+ truncated to intg IMT
+    118       inrm = (log(rnrm) + x0) / dx + 1
+                   ^
+Warning near line 118 col 12 file xsect.f: dble expr (LOG(RNRM)+X0)/DX+1 
+ truncated to intg INRM
+    135       if (del .gt. 1.e-2) then
+                      ^
+Warning near line 135 col 15 file xsect.f: comparison mixes terms of different
+ precision: dble DEL .GT. real const 1.E-2
+    307             if (omega.le.0.0) goto 300
+                             ^
+Warning near line 307 col 22 file xsect.f: comparison mixes terms of different
+ precision: dble OMEGA .LE. real const 0.0
+    341             sign = -1.0
+                         ^
+Warning near line 341 col 18 file xsect.f: real expr -1.0 promoted to dble 
+ SIGN: may not give desired precision
+    342             if (ikap.gt.0) sign = 1.0
+                                        ^
+Warning near line 342 col 33 file xsect.f: real const 1.0 promoted to dble 
+ SIGN: may not give desired precision
+    648         if (omega.gt.0.0) then
+                         ^
+Warning near line 648 col 18 file xsect.f: comparison mixes terms of different
+ precision: dble OMEGA .GT. real const 0.0
+    697         edg50 = emu +50.0 / hart
+                                  ^
+Warning near line 697 col 27 file xsect.f: promotion may not give desired
+ precision: real const 50.0 / dble HART
+
+Warning in module XSECT in file xsect.f: Variables declared but never
+ referenced:
+    EORB declared at line 9 file xsect.f (dummy argument)
+    GAMACH declared at line 5 file xsect.f (dummy argument)
+    IFXC declared at line 9 file xsect.f (dummy argument)
+    KAPPA declared at line 9 file xsect.f (dummy argument)
+    NEG first occurrence at line 100 file xsect.f
+    RHOJ first occurrence at line 100 file xsect.f
+    VI0 declared at line 5 file xsect.f (dummy argument)
+    XKMTP declared at line 81 file xsect.f
+    XM1 declared at line 86 file xsect.f
+    XM2 declared at line 86 file xsect.f
+    XM3 declared at line 86 file xsect.f
+    XM4 declared at line 86 file xsect.f
+    YVEC declared at line 79 file xsect.f
+
+Warning in module XSECT in file xsect.f: Variables set but never used:
+    MATSIZE set at line 289 file xsect.f
+    MAXSIZE set at line 288 file xsect.f
+    P2F set at line 212 file xsect.f
+    SFUN set at line 290 file xsect.f
+
+Warning in module XSECT in file xsect.f: Variables used before set
+    ENG used at line 295 file xsect.f; never set
+
+ 0 syntax errors detected in file xsect.f
+ 12 warnings issued in file xsect.f
+
+File xsph.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+    229         corr = 1.0
+                     ^
+Warning near line 229 col 14 file xsph.f: real const 1.0 promoted to dble CORR
+ : may not give desired precision
+
+Warning in module XSPH in file xsph.f: Variables declared but never
+ referenced:
+    IBASIS declared at line 6 file xsph.f (dummy argument)
+    IEXIST declared at line 114 file xsph.f
+    IGRID declared at line 5 file xsph.f (dummy argument)
+
+ 0 syntax errors detected in file xsph.f
+ 3 warnings issued in file xsph.f
+
+Warning: Common block TIMING unused anywhere
+
+Warning: Common block PARALLEL No elements are set, but some are used.
+
+Warning: Subprogram CWIG3J never defined
+    Invoked in module ACOEF line 42 file acoef.f
+
+Warning: Subprogram AXAFS argument arrayness mismatch at position 3:
+    Dummy arg XSEC in module AXAFS line 1 file axafs.f is whole array
+    Actual arg XSEC(1,1) in module XSPH line 489 file xsph.f is array element
+
+Warning: Subprogram DETERM never defined
+    Invoked in module AXAFS line 81 file axafs.f
+    (possibly it is an array which was not declared)
+
+Warning: Subprogram PAR_BEGIN never defined
+    Invoked in module FFMOD2 line 50 file ffmod2.f
+
+Warning: Subprogram CHOPEN never defined
+    Invoked in module FFMOD2 line 55 file ffmod2.f
+
+Warning: Subprogram WLOG never defined
+    Invoked in module FFMOD2 line 73 file ffmod2.f
+
+Warning: Subprogram PAR_BARRIER never defined
+    Invoked in module FFMOD2 line 80 file ffmod2.f
+
+Warning: Subprogram PAR_END never defined
+    Invoked in module FFMOD2 line 81 file ffmod2.f
+
+Warning: Subprogram FMSSZ argument usage mismatch at position 1:
+    Dummy arg IPH0 in module FMSSZ line 1 file fmssz.f may be modified
+    Actual arg IPH0 in module SZLZ line 168 file szlz.f is active DO index
+
+Warning: Subprogram YPREP never defined
+    Invoked in module FMSSZ line 48 file fmssz.f
+
+Warning: Subprogram FMS never defined
+    Invoked in module FMSSZ line 78 file fmssz.f
+
+Warning: Subprogram PHASE argument arrayness mismatch at position 25:
+    Dummy arg ADGC in module PHASE line 2 file phase.f is whole array
+    Actual arg ADGC(1,1,IPH) in module XSPH line 439 file xsph.f is array
+ element
+  and at position 26:
+    Dummy arg ADPC in module PHASE line 2 file phase.f is whole array
+    Actual arg ADPC(1,1,IPH) in module XSPH line 439 file xsph.f is array
+ element
+  and at position 27:
+    Dummy arg EREF in module PHASE line 2 file phase.f is whole array
+    Actual arg EREF(1,ISP) in module XSPH line 439 file xsph.f is array
+ element
+ etc...
+
+Warning: Subprogram PHASE argument usage mismatch at position 1:
+    Dummy arg IPH in module PHASE line 2 file phase.f may be modified
+    Actual arg IPH in module XSPH line 439 file xsph.f is active DO index
+
+Warning: Subprogram BESJN never defined
+    Invoked in module PHASE line 165 file phase.f
+
+Warning: Subprogram PAR_STOP never defined
+    Invoked in module PHASE line 106 file phase.f
+
+Warning: Subprogram RDCMT never defined
+    Invoked in module PHASE line 116 file phase.f
+
+Warning: Subprogram XCPOT never defined
+    Invoked in module PHASE line 147 file phase.f
+
+Warning: Subprogram DFOVRG never defined
+    Invoked in module PHASE line 221 file phase.f
+
+Warning: Subprogram PHAMP never defined
+    Invoked in module PHASE line 236 file phase.f
+
+Warning: Subprogram PHMESH2 never invoked
+    Defined in module PHMESH2 line 1 file phmesh2.f
+
+Warning: Subprogram GETXK never defined
+    Invoked in module PHMESH2 line 186 file phmesh2.f
+
+Warning: Subprogram EXAFSGRID84 never invoked
+    Defined in module EXAFSGRID84 line 281 file phmesh2.f
+
+Warning: Subprogram XANESGRID84 never invoked
+    Defined in module XANESGRID84 line 341 file phmesh2.f
+
+Warning: Subprogram FPRIMEGRID84 never invoked
+    Defined in module FPRIMEGRID84 line 429 file phmesh2.f
+
+Warning: Subprogram RDGRID never invoked
+    Defined in module RDGRID line 1 file rdgrid.f
+
+Warning: Subprogram MKEMESH never invoked
+    Defined in module MKEMESH line 524 file phmesh2.f
+
+Warning: Subprogram MKKMESH never invoked
+    Defined in module MKKMESH line 564 file phmesh2.f
+
+Warning: Subprogram MKEXPMESH never invoked
+    Defined in module MKEXPMESH line 260 file phmesh2.f
+
+Warning: Subprogram SORTE never invoked
+    Defined in module SORTE line 625 file phmesh2.f
+
+Warning: Subprogram REVERSEGRID never invoked
+    Defined in module REVERSEGRID line 498 file phmesh2.f
+
+Warning: Subprogram MKVGRID84 never invoked
+    Defined in module MKVGRID84 line 194 file phmesh2.f
+
+Warning: Subprogram WRTE never invoked
+    Defined in module WRTE line 606 file phmesh2.f
+
+Warning: Subprogram QSORTI never defined
+    Invoked in module SORTE line 657 file phmesh2.f
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 1 file radint.f may be modified
+    Actual arg MULT in module XSECT line 372 file xsect.f is active DO index
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 1 file radint.f may be modified
+    Actual arg MULT in module XSECT line 475 file xsect.f is active DO index
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 1 file radint.f may be modified
+    Actual arg MULT in module XSECT line 611 file xsect.f is active DO index
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 1 file radint.f may be modified
+    Actual arg MULT in module XSECT line 616 file xsect.f is active DO index
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(1) in module RADINT line 76 file radint.f may be same as arg 
+ 6: XM(2)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(2) in module RADINT line 76 file radint.f may be same as arg 
+ 5: XM(1)
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(3) in module RADINT line 77 file radint.f may be same as arg 
+ 6: XM(4)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(4) in module RADINT line 77 file radint.f may be same as arg 
+ 5: XM(3)
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(1) in module RADINT line 82 file radint.f may be same as arg 
+ 6: XM(2)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(2) in module RADINT line 82 file radint.f may be same as arg 
+ 5: XM(1)
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(1) in module RADINT line 85 file radint.f may be same as arg 
+ 6: XM(2)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(2) in module RADINT line 85 file radint.f may be same as arg 
+ 5: XM(1)
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 98 file radint.f is array element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 125 file radint.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 126 file radint.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 149 file radint.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 156 file radint.f is array
+ element
+
+Warning: Subprogram CSOMM never defined
+    Invoked in module RADINT line 177 file radint.f
+
+Warning: Subprogram ISNUM never defined
+    Invoked in module RDGRID line 142 file rdgrid.f
+
+Warning: Subprogram UNTAB never defined
+    Invoked in module RDGRID line 136 file rdgrid.f
+
+Warning: Subprogram BWORDS never defined
+    Invoked in module RDGRID line 137 file rdgrid.f
+
+Warning: Subprogram SETGRIDMIN never invoked
+    Defined in module SETGRIDMIN line 182 file rdgrid.f
+
+Warning: Subprogram GRIDERROR never invoked
+    Defined in module GRIDERROR line 216 file rdgrid.f
+
+Warning: Subprogram RDHEAD never defined
+    Invoked in module REXSPH line 48 file rexsph.f
+
+Warning: Subprogram RHOLAT argument arrayness mismatch at position 11:
+    Dummy arg XNVAL in module RHOLAT line 1 file rholat.f is whole array
+    Actual arg XNVAL(1,IPH) in module SZLZ line 125 file szlz.f is array
+ element
+  and at position 12:
+    Dummy arg IORB in module RHOLAT line 1 file rholat.f is whole array
+    Actual arg IORB(-4,IPH) in module SZLZ line 125 file szlz.f is array
+ element
+  and at position 16:
+    Dummy arg ADGC in module RHOLAT line 1 file rholat.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SZLZ line 125 file szlz.f is array
+ element
+ etc...
+
+Warning: Subprogram SOMM2 never defined
+    Invoked in module RHOLAT line 107 file rholat.f
+
+Warning: Subprogram EXJLNL never defined
+    Invoked in module RHOLAT line 414 file rholat.f
+
+Warning: Subprogram CSOMM2 never defined
+    Invoked in module RHOLAT line 377 file rholat.f
+
+Warning: Subprogram RHOLSZ argument arrayness mismatch at position 10:
+    Dummy arg XNVAL in module RHOLSZ line 1 file rholsz.f is whole array
+    Actual arg XNVAL(1,IPH) in module SZLZ line 133 file szlz.f is array
+ element
+  and at position 14:
+    Dummy arg ADGC in module RHOLSZ line 1 file rholsz.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SZLZ line 133 file szlz.f is array
+ element
+  and at position 15:
+    Dummy arg ADPC in module RHOLSZ line 1 file rholsz.f is whole array
+    Actual arg ADPC(1,1,IPH) in module SZLZ line 133 file szlz.f is array
+ element
+ etc...
+
+Warning: Subprogram SZLZ argument arrayness mismatch at position 12:
+    Dummy arg DMAG in module SZLZ line 1 file szlz.f has 2 dims size 3263
+    Actual arg DMAG in module XSPH line 321 file xsph.f has 2 dims size 3012
+  and at position 29:
+    Dummy arg ADGC in module SZLZ line 1 file szlz.f has 3 dims size 3900
+    Actual arg ADGC in module XSPH line 321 file xsph.f has 3 dims size 3600
+  and at position 30:
+    Dummy arg ADPC in module SZLZ line 1 file szlz.f has 3 dims size 3900
+    Actual arg ADPC in module XSPH line 321 file xsph.f has 3 dims size 3600
+ etc...
+
+Warning: Subprogram SETKAP never defined
+    Invoked in module SZLZ line 48 file szlz.f
+
+Warning: Subprogram GRIDS never defined
+    Invoked in module SZLZ line 70 file szlz.f
+
+Warning: Subprogram FIXVAR never defined
+    Invoked in module SZLZ line 99 file szlz.f
+
+Warning: Subprogram FIXDSX never defined
+    Invoked in module SZLZ line 105 file szlz.f
+
+Warning: Subprogram ISTRLN never defined
+    Invoked in module WPHASE line 37 file wphase.f
+    (possibly it is an array which was not declared)
+
+Warning: Subprogram WRPADD never defined
+    Invoked in module WRXSPH line 52 file wrxsph.f
+
+Warning: Subprogram WRPADX never defined
+    Invoked in module WRXSPH line 84 file wrxsph.f
+
+Warning: Subprogram XSECT argument arrayness mismatch at position 31:
+    Dummy arg ADGC in module XSECT line 2 file xsect.f is whole array
+    Actual arg ADGC(1,1,IPH) in module XSPH line 348 file xsph.f is array
+ element
+  and at position 32:
+    Dummy arg ADPC in module XSECT line 2 file xsect.f is whole array
+    Actual arg ADPC(1,1,IPH) in module XSPH line 348 file xsph.f is array
+ element
+  and at position 33:
+    Dummy arg XSEC in module XSECT line 2 file xsect.f is whole array
+    Actual arg XSEC(1,ISP) in module XSPH line 348 file xsph.f is array
+ element
+ etc...
+
+Warning: Subprogram SOMM never defined
+    Invoked in module XSECT line 133 file xsect.f
+
+Warning: Subprogram BCOEF never defined
+    Invoked in module XSECT line 156 file xsect.f
+
+Warning: Subprogram BJNSER never defined
+    Invoked in module XSECT line 237 file xsect.f
+
+Warning: Subprogram XSCORR never defined
+    Invoked in module XSECT line 688 file xsect.f
+
+Warning: Subprogram TERP never defined
+    Invoked in module XSECT line 698 file xsect.f
+
+Warning: Subprogram RDPOT never defined
+    Invoked in module XSPH line 126 file xsph.f
+
+Warning: Subprogram STHEAD never defined
+    Invoked in module XSPH line 147 file xsph.f
+
+Warning: Subprogram WTHEAD never defined
+    Invoked in module XSPH line 249 file xsph.f
+
+Warning: Subprogram ISTPRM never defined
+    Invoked in module XSPH line 299 file xsph.f
+
+Warning: Subprogram FIXDSP never defined
+    Invoked in module XSPH line 344 file xsph.f

@@ -14,3 +14,9 @@ src/PATH/path
 src/XSPH/xsph
 src/FMS/fms
 src/RDINP/rdinp
+
+doc/feff8.aux
+doc/feff8.log
+doc/feff8.out
+doc/feff8.pdf
+doc/feff8.toc

@@ -1,0 +1,2070 @@
+
+FTNCHEK Version 3.3 November 2004
+
+File bcoef.f:
+Including file ../HEADERS/dim.h:
+     68       parameter (coni = (0,1))
+                                ^
+Warning near line 68 col 25 file bcoef.f: cplx const (0,1) promoted to cplx*16 
+ CONI: may not give desired precision
+
+ 0 syntax errors detected in file bcoef.f
+ 1 warning issued in file bcoef.f
+
+File besjh.f:
+Including file ../HEADERS/dim.h:
+     47       parameter (coni=(0,1))
+                              ^
+Warning near line 47 col 23 file besjh.f: cplx const (0,1) promoted to cplx*16 
+ CONI: may not give desired precision
+    155             tlxp1 = float(2*l+1)
+                          ^
+Warning near line 155 col 19 file besjh.f: real expr FLOAT(2*L+1) promoted to 
+ dble TLXP1: may not give desired precision
+
+ 0 syntax errors detected in file besjh.f
+ 2 warnings issued in file besjh.f
+
+File besjn.f:
+Including file ../HEADERS/dim.h:
+    150             tlxp1 = float(2*l+1)
+                          ^
+Warning near line 150 col 19 file besjn.f: real expr FLOAT(2*L+1) promoted to 
+ dble TLXP1: may not give desired precision
+
+ 0 syntax errors detected in file besjn.f
+ 1 warning issued in file besjn.f
+
+File bjnser.f:
+     40       parameter (niter = 160, tol = 1.e-15)
+                                            ^
+Warning near line 40 col 37 file bjnser.f: real const 1.E-15 promoted to dble 
+ TOL: may not give desired precision
+     46       if (dble(x).lt. 0.) then
+                         ^
+Warning near line 46 col 18 file bjnser.f: comparison mixes terms of different
+ precision: dble expr DBLE(X) .LT. real const 0.
+
+ 0 syntax errors detected in file bjnser.f
+ 2 warnings issued in file bjnser.f
+
+File conv.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     33          xsec0(ie) = xsec0(ie) /real(pi)
+                                       ^
+Warning near line 33 col 32 file conv.f: promotion may not give desired
+ precision: cplx*16 XSEC0 / real expr REAL(PI)
+     47       parameter (coni = (0.0,1.0))
+                                ^
+Warning near line 47 col 25 file conv.f: cplx const (0.0,1.0) promoted to 
+ cplx*16 CONI: may not give desired precision
+     49       d = (x2-x1) / 2.0
+                          ^
+Warning near line 49 col 19 file conv.f: promotion may not give desired
+ precision: dble expr (X2-X1) / real const 2.0
+     50       a = dble(y2-y1) / 2.0
+                              ^
+Warning near line 50 col 23 file conv.f: promotion may not give desired
+ precision: dble expr DBLE(Y2-Y1) / real const 2.0
+     51       b = dble(y2+y1) / 2.0
+                              ^
+Warning near line 51 col 23 file conv.f: promotion may not give desired
+ precision: dble expr DBLE(Y2+Y1) / real const 2.0
+     53       if (abs(t) .ge. 0.1) then
+                         ^
+Warning near line 53 col 18 file conv.f: comparison mixes terms of different
+ precision: real*8 expr ABS(T) .GE. real const 0.1
+     54          dum = 2.0*a + (b - a/t) * log((1+t)/(1-t))
+                          ^
+Warning near line 54 col 19 file conv.f: promotion may not give desired
+ precision: real const 2.0 * cplx*16 A
+     56          dum = 2.0*b*(t+t**3 / 3.0) - 2.0/3.0 * a*t**2
+                          ^
+Warning near line 56 col 19 file conv.f: promotion may not give desired
+ precision: real const 2.0 * cplx*16 B
+                                     ^
+Warning near line 56 col 30 file conv.f: promotion may not give desired
+ precision: cplx*16 expr T**3 / real const 3.0
+                                                      ^
+Warning near line 56 col 47 file conv.f: promotion may not give desired
+ precision: real expr 2.0/3.0 * cplx*16 A
+     60       d = (x2-x1) / 2.0
+                          ^
+Warning near line 60 col 19 file conv.f: promotion may not give desired
+ precision: dble expr (X2-X1) / real const 2.0
+     61       a = dimag(y2-y1) / 2.0
+                               ^
+Warning near line 61 col 24 file conv.f: promotion may not give desired
+ precision: dble expr DIMAG(Y2-Y1) / real const 2.0
+     62       b = dimag(y2+y1) / 2.0
+                               ^
+Warning near line 62 col 24 file conv.f: promotion may not give desired
+ precision: dble expr DIMAG(Y2+Y1) / real const 2.0
+     64       if (abs(t) .ge. 0.1) then
+                         ^
+Warning near line 64 col 18 file conv.f: comparison mixes terms of different
+ precision: real*8 expr ABS(T) .GE. real const 0.1
+     65          dum = 2.0*a + (b - a/t) * log((1+t)/(1-t))
+                          ^
+Warning near line 65 col 19 file conv.f: promotion may not give desired
+ precision: real const 2.0 * cplx*16 A
+     67          dum = 2.0*b*(t+t**3 / 3.0) - 2.0/3.0 * a*t**2
+                          ^
+Warning near line 67 col 19 file conv.f: promotion may not give desired
+ precision: real const 2.0 * cplx*16 B
+                                     ^
+Warning near line 67 col 30 file conv.f: promotion may not give desired
+ precision: cplx*16 expr T**3 / real const 3.0
+                                                      ^
+Warning near line 67 col 47 file conv.f: promotion may not give desired
+ precision: real expr 2.0/3.0 * cplx*16 A
+
+ 0 syntax errors detected in file conv.f
+ 19 warnings issued in file conv.f
+
+File cpl0.f:
+ 0 syntax errors detected in file cpl0.f
+File csomm2.f:
+     14       da=0.0
+                ^
+Warning near line 14 col 9 file csomm2.f: real const 0.0 promoted to cplx*16 
+ DA: may not give desired precision
+     15       db=0.0
+                ^
+Warning near line 15 col 9 file csomm2.f: real const 0.0 promoted to dble DB:
+ may not give desired precision
+     44       dd=exp(dpas)-1.0
+                          ^
+Warning near line 44 col 19 file csomm2.f: promotion may not give desired
+ precision: dble expr EXP(DPAS) - real const 1.0
+     45       db=d1*(d1+1.0)*dd*exp((d1-1.0)*dpas)
+                       ^
+Warning near line 45 col 16 file csomm2.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                                       ^
+Warning near line 45 col 32 file csomm2.f: promotion may not give desired
+ precision: dble D1 - real const 1.0
+     47       dd=(dr(1))*(1.0+1.0/(dd*(d1+1.0)))/d1
+                  ^
+Possibly misleading appearance near line 47 col 11 file csomm2.f: Extraneous
+ parentheses
+                                         ^
+Warning near line 47 col 34 file csomm2.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                                 ^
+Warning near line 47 col 26 file csomm2.f: promotion may not give desired
+ precision: real const 1.0 / dble expr (DD*(D1+1.0))
+                             ^
+Warning near line 47 col 22 file csomm2.f: promotion may not give desired
+ precision: real const 1.0 + dble expr 1.0/(DD*(D1+1.0))
+
+ 0 syntax errors detected in file csomm2.f
+ 9 warnings issued in file csomm2.f
+
+File csomm.f:
+     12       d1=da+mm
+                ^
+Warning near line 12 col 9 file csomm.f: cplx*16 expr DA+MM truncated to dble 
+ D1
+     13       da=0.0
+                ^
+Warning near line 13 col 9 file csomm.f: real const 0.0 promoted to cplx*16 DA
+ : may not give desired precision
+     14       db=0.0
+                ^
+Warning near line 14 col 9 file csomm.f: real const 0.0 promoted to dble DB:
+ may not give desired precision
+     26       dd=exp(dpas)-1.0
+                          ^
+Warning near line 26 col 19 file csomm.f: promotion may not give desired
+ precision: dble expr EXP(DPAS) - real const 1.0
+     27       db=d1*(d1+1.0)*dd*exp((d1-1.0)*dpas)
+                       ^
+Warning near line 27 col 16 file csomm.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                                       ^
+Warning near line 27 col 32 file csomm.f: promotion may not give desired
+ precision: dble D1 - real const 1.0
+     29       dd=(dr(1)**mm)*(1.0+1.0/(dd*(d1+1.0)))/d1
+                                             ^
+Warning near line 29 col 38 file csomm.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                                     ^
+Warning near line 29 col 30 file csomm.f: promotion may not give desired
+ precision: real const 1.0 / dble expr (DD*(D1+1.0))
+                                 ^
+Warning near line 29 col 26 file csomm.f: promotion may not give desired
+ precision: real const 1.0 + dble expr 1.0/(DD*(D1+1.0))
+
+ 0 syntax errors detected in file csomm.f
+ 9 warnings issued in file csomm.f
+
+File cwig3j.f:
+ 0 syntax errors detected in file cwig3j.f
+File czeros.f:
+     29          Root = Sqrt(Coef(2)**2-4.d0*Coef(1)*Coef(3))
+                      ^
+Warning near line 29 col 15 file czeros.f: dcpx expr SQRT(COEF(2)**2-4.D0*COE 
+ .. truncated to real ROOT
+     31          q    = -0.5d0*(Coef(2) + Sgn*Root)
+                                             ^
+Warning near line 31 col 38 file czeros.f: promotion may not give desired
+ precision: dble SGN * real ROOT
+     84             Sgn = SIGN(1.d0, DBLE(CONJG(R)*SQRT(R**2-Q**3)))
+                                                  ^
+Warning near line 84 col 43 file czeros.f: promotion may not give desired
+ precision: cplx expr CONJG(R) * cplx*16 expr SQRT(R**2-Q**3)
+
+ 0 syntax errors detected in file czeros.f
+ 3 warnings issued in file czeros.f
+
+File determ.f:
+     11       determ = 1.
+                     ^
+Warning near line 11 col 14 file determ.f: real const 1. promoted to dble 
+ DETERM: may not give desired precision
+     19         determ = 0.
+                       ^
+Warning near line 19 col 16 file determ.f: real const 0. promoted to dble 
+ DETERM: may not give desired precision
+     23           saved = array(i,j)
+                        ^
+Warning near line 23 col 17 file determ.f: dble ARRAY truncated to real SAVED
+     25   120   array(i,k) = saved
+                           ^
+Warning near line 25 col 20 file determ.f: real SAVED promoted to dble ARRAY:
+ may not give desired precision
+
+Warning in module DETERM at line 24 file determ.f: Function modifies argument 
+ ARRAY
+
+ 0 syntax errors detected in file determ.f
+ 5 warnings issued in file determ.f
+
+File dist.f:
+ 0 syntax errors detected in file dist.f
+File exjlnl.f:
+     24       if (abs(z) .lt. 0.3)  then
+                         ^
+Warning near line 24 col 18 file exjlnl.f: comparison mixes terms of different
+ precision: real*8 expr ABS(Z) .LT. real const 0.3
+
+ 0 syntax errors detected in file exjlnl.f
+ 1 warning issued in file exjlnl.f
+
+File lu.f:
+     97       IF( M.EQ.0 .OR. N.EQ.0 )                                          &
+                                                                                ^
+Possibly misleading appearance near line 97 col 73 file lu.f: characters past
+ 72 columns
+    122             IF( INFO.EQ.0 .AND. IINFO.GT.0 )                            &
+                                                                                ^
+Possibly misleading appearance near line 122 col 73 file lu.f: characters past
+ 72 columns
+    136                CALL CLASWP( N-J-JB+1, A( 1, J+JB ), LDA, J, J+JB-1,     &
+                                                                                ^
+Possibly misleading appearance near line 136 col 73 file lu.f: characters past
+ 72 columns
+    141              CALL CTRSM( 'Left', 'Lower', 'No transpose', 'Unit', JB,   &
+                                                                                ^
+Possibly misleading appearance near line 141 col 73 file lu.f: characters past
+ 72 columns
+    142      &                   N-J-JB+1, ONE, A( J, J ), LDA, A( J, J+JB ),   &
+                                                                                ^
+Possibly misleading appearance near line 142 col 73 file lu.f: characters past
+ 72 columns
+    148                 CALL CGEMM( 'No transpose', 'No transpose', M-J-JB+1,   &
+                                                                                ^
+Possibly misleading appearance near line 148 col 73 file lu.f: characters past
+ 72 columns
+    149      &                       N-J-JB+1, JB, -ONE, A( J+JB, J ), LDA,     &
+                                                                                ^
+Possibly misleading appearance near line 149 col 73 file lu.f: characters past
+ 72 columns
+    150      &                       A( J, J+JB ), LDA, ONE, A( J+JB, J+JB ),   &
+                                                                                ^
+Possibly misleading appearance near line 150 col 73 file lu.f: characters past
+ 72 columns
+    224       PARAMETER          ( ONE = ( 1.0E+0, 0.0E+0 ),                    &
+                                                                                ^
+Possibly misleading appearance near line 224 col 73 file lu.f: characters past
+ 72 columns
+    259       IF( M.EQ.0 .OR. N.EQ.0 )                                          &
+                                                                                ^
+Possibly misleading appearance near line 259 col 73 file lu.f: characters past
+ 72 columns
+    272             IF( JP.NE.J )                                               &
+                                                                                ^
+Possibly misleading appearance near line 272 col 73 file lu.f: characters past
+ 72 columns
+    277             IF( J.LT.M )                                                &
+                                                                                ^
+Possibly misleading appearance near line 277 col 73 file lu.f: characters past
+ 72 columns
+    289             CALL CGERU( M-J, N-J, -ONE, A( J+1, J ), 1, A( J, J+1 ),    &
+                                                                                ^
+Possibly misleading appearance near line 289 col 73 file lu.f: characters past
+ 72 columns
+    385       IF( .NOT.NOTRAN .AND. .NOT.LSAME( TRANS, 'T' ) .AND. .NOT.        &
+                                                                                ^
+Possibly misleading appearance near line 385 col 73 file lu.f: characters past
+ 72 columns
+    404       IF( N.EQ.0 .OR. NRHS.EQ.0 )                                       &
+                                                                                ^
+Possibly misleading appearance near line 404 col 73 file lu.f: characters past
+ 72 columns
+    417          CALL CTRSM( 'Left', 'Lower', 'No transpose', 'Unit', N, NRHS,  &
+                                                                                ^
+Possibly misleading appearance near line 417 col 73 file lu.f: characters past
+ 72 columns
+    422          CALL CTRSM( 'Left', 'Upper', 'No transpose', 'Non-unit', N,    &
+                                                                                ^
+Possibly misleading appearance near line 422 col 73 file lu.f: characters past
+ 72 columns
+    430          CALL CTRSM( 'Left', 'Upper', TRANS, 'Non-unit', N, NRHS, ONE,  &
+                                                                                ^
+Possibly misleading appearance near line 430 col 73 file lu.f: characters past
+ 72 columns
+    435          CALL CTRSM( 'Left', 'Lower', TRANS, 'Unit', N, NRHS, ONE, A,   &
+                                                                                ^
+Possibly misleading appearance near line 435 col 73 file lu.f: characters past
+ 72 columns
+    488  9999 FORMAT( ' ** On entry to ', A6, ' parameter number ',I2,' had ',  &
+                                                                                ^
+Possibly misleading appearance near line 488 col 73 file lu.f: characters past
+ 72 columns
+    671       IF( ( M.EQ.0 ).OR.( N.EQ.0 ).OR.( ALPHA.EQ.ZERO ) )               &
+                                                                                ^
+Possibly misleading appearance near line 671 col 73 file lu.f: characters past
+ 72 columns
+    782       IF( INCX.EQ.0 )                                                   &
+                                                                                ^
+Possibly misleading appearance near line 782 col 73 file lu.f: characters past
+ 72 columns
+    792             IF( IP.NE.I )                                               &
+                                                                                ^
+Possibly misleading appearance near line 792 col 73 file lu.f: characters past
+ 72 columns
+    798             IF( IP.NE.I )                                               &
+                                                                                ^
+Possibly misleading appearance near line 798 col 73 file lu.f: characters past
+ 72 columns
+    805             IF( IP.NE.I )                                               &
+                                                                                ^
+Possibly misleading appearance near line 805 col 73 file lu.f: characters past
+ 72 columns
+    816       SUBROUTINE CTRSM ( SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA,A,LDA,   &
+                                                                                ^
+Possibly misleading appearance near line 816 col 73 file lu.f: characters past
+ 72 columns
+    980       IF(      ( .NOT.LSIDE                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 980 col 73 file lu.f: characters past
+ 72 columns
+    983       ELSE IF( ( .NOT.UPPER                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 983 col 73 file lu.f: characters past
+ 72 columns
+    986       ELSE IF( ( .NOT.LSAME( TRANSA, 'N' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 986 col 73 file lu.f: characters past
+ 72 columns
+    987      &         ( .NOT.LSAME( TRANSA, 'T' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 987 col 73 file lu.f: characters past
+ 72 columns
+    990       ELSE IF( ( .NOT.LSAME( DIAG  , 'U' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 990 col 73 file lu.f: characters past
+ 72 columns
+   1009       IF( N.EQ.0 )                                                      &
+                                                                                ^
+Possibly misleading appearance near line 1009 col 73 file lu.f: characters
+ past 72 columns
+   1039                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 1039 col 73 file lu.f: characters
+ past 72 columns
+   1056                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 1056 col 73 file lu.f: characters
+ past 72 columns
+   1078                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 1078 col 73 file lu.f: characters
+ past 72 columns
+   1084                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 1084 col 73 file lu.f: characters
+ past 72 columns
+   1098                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 1098 col 73 file lu.f: characters
+ past 72 columns
+   1104                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 1104 col 73 file lu.f: characters
+ past 72 columns
+   1234       SUBROUTINE CGEMM ( TRANSA, TRANSB, M, N, K, ALPHA, A, LDA,B,LDB,  &
+                                                                                ^
+Possibly misleading appearance near line 1234 col 73 file lu.f: characters
+ past 72 columns
+   1410       IF(      ( .NOT.NOTA                 ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 1410 col 73 file lu.f: characters
+ past 72 columns
+   1411      &         ( .NOT.CONJA                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 1411 col 73 file lu.f: characters
+ past 72 columns
+   1414       ELSE IF( ( .NOT.NOTB                 ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 1414 col 73 file lu.f: characters
+ past 72 columns
+   1415      &         ( .NOT.CONJB                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 1415 col 73 file lu.f: characters
+ past 72 columns
+   1438       IF( ( M.EQ.0 ).OR.( N.EQ.0 ).OR.                                  &
+                                                                                ^
+Possibly misleading appearance near line 1438 col 73 file lu.f: characters
+ past 72 columns
+   1439      &    ( ( ( ALPHA.EQ.ZERO ).OR.( K.EQ.0 ) ).AND.( BETA.EQ.ONE )))   &
+                                                                                ^
+Possibly misleading appearance near line 1439 col 73 file lu.f: characters
+ past 72 columns
+
+Warning in module CGEMM in file lu.f: Variables set but never used:
+    NCOLA set at line 1396 file lu.f
+   1650       INTEGER          FUNCTION ILAENV( ISPEC, NAME, OPTS, N1, N2, N3,  &
+                                                                                ^
+Possibly misleading appearance near line 1650 col 73 file lu.f: characters
+ past 72 columns
+   1785                IF( IC.GE.97 .AND. IC.LE.122 )                           &
+                                                                                ^
+Possibly misleading appearance near line 1785 col 73 file lu.f: characters
+ past 72 columns
+   1794          IF( ( IC.GE.129 .AND. IC.LE.137 ) .OR.                         &
+                                                                                ^
+Possibly misleading appearance near line 1794 col 73 file lu.f: characters
+ past 72 columns
+   1795      &       ( IC.GE.145 .AND. IC.LE.153 ) .OR.                         &
+                                                                                ^
+Possibly misleading appearance near line 1795 col 73 file lu.f: characters
+ past 72 columns
+   1800                IF( ( IC.GE.129 .AND. IC.LE.137 ) .OR.                   &
+                                                                                ^
+Possibly misleading appearance near line 1800 col 73 file lu.f: characters
+ past 72 columns
+   1801      &             ( IC.GE.145 .AND. IC.LE.153 ) .OR.                   &
+                                                                                ^
+Possibly misleading appearance near line 1801 col 73 file lu.f: characters
+ past 72 columns
+   1802      &             ( IC.GE.162 .AND. IC.LE.169 ) )                      &
+                                                                                ^
+Possibly misleading appearance near line 1802 col 73 file lu.f: characters
+ past 72 columns
+   1815                IF( IC.GE.225 .AND. IC.LE.250 )                          &
+                                                                                ^
+Possibly misleading appearance near line 1815 col 73 file lu.f: characters
+ past 72 columns
+   1824       IF( .NOT.( CNAME .OR. SNAME ) )                                   &
+                                                                                ^
+Possibly misleading appearance near line 1824 col 73 file lu.f: characters
+ past 72 columns
+   1849          ELSE IF( C3.EQ.'QRF' .OR. C3.EQ.'RQF' .OR. C3.EQ.'LQF' .OR.    &
+                                                                                ^
+Possibly misleading appearance near line 1849 col 73 file lu.f: characters
+ past 72 columns
+   1905             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 1905 col 73 file lu.f: characters
+ past 72 columns
+   1906      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 1906 col 73 file lu.f: characters
+ past 72 columns
+   1911             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 1911 col 73 file lu.f: characters
+ past 72 columns
+   1912      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 1912 col 73 file lu.f: characters
+ past 72 columns
+   1919             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 1919 col 73 file lu.f: characters
+ past 72 columns
+   1920      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 1920 col 73 file lu.f: characters
+ past 72 columns
+   1925             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 1925 col 73 file lu.f: characters
+ past 72 columns
+   1926      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 1926 col 73 file lu.f: characters
+ past 72 columns
+   1993          IF( C3.EQ.'QRF' .OR. C3.EQ.'RQF' .OR. C3.EQ.'LQF' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 1993 col 73 file lu.f: characters
+ past 72 columns
+   2035             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2035 col 73 file lu.f: characters
+ past 72 columns
+   2036      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2036 col 73 file lu.f: characters
+ past 72 columns
+   2041             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2041 col 73 file lu.f: characters
+ past 72 columns
+   2042      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2042 col 73 file lu.f: characters
+ past 72 columns
+   2049             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2049 col 73 file lu.f: characters
+ past 72 columns
+   2050      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2050 col 73 file lu.f: characters
+ past 72 columns
+   2055             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2055 col 73 file lu.f: characters
+ past 72 columns
+   2056      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2056 col 73 file lu.f: characters
+ past 72 columns
+   2071          IF( C3.EQ.'QRF' .OR. C3.EQ.'RQF' .OR. C3.EQ.'LQF' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2071 col 73 file lu.f: characters
+ past 72 columns
+   2101             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2101 col 73 file lu.f: characters
+ past 72 columns
+   2102      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2102 col 73 file lu.f: characters
+ past 72 columns
+   2109             IF( C4.EQ.'QR' .OR. C4.EQ.'RQ' .OR. C4.EQ.'LQ' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2109 col 73 file lu.f: characters
+ past 72 columns
+   2110      &          C4.EQ.'QL' .OR. C4.EQ.'HR' .OR. C4.EQ.'TR' .OR.         &
+                                                                                ^
+Possibly misleading appearance near line 2110 col 73 file lu.f: characters
+ past 72 columns
+
+Warning in module ILAENV in file lu.f: Variables declared but never
+ referenced:
+    N3 declared at line 1660 file lu.f (dummy argument)
+    OPTS declared at line 1659 file lu.f (dummy argument)
+   2239       IF( LSAME )                                                       &
+                                                                                ^
+Possibly misleading appearance near line 2239 col 73 file lu.f: characters
+ past 72 columns
+   2267          IF( INTA.GE.129 .AND. INTA.LE.137 .OR.                         &
+                                                                                ^
+Possibly misleading appearance near line 2267 col 73 file lu.f: characters
+ past 72 columns
+   2268      &       INTA.GE.145 .AND. INTA.LE.153 .OR.                         &
+                                                                                ^
+Possibly misleading appearance near line 2268 col 73 file lu.f: characters
+ past 72 columns
+   2270          IF( INTB.GE.129 .AND. INTB.LE.137 .OR.                         &
+                                                                                ^
+Possibly misleading appearance near line 2270 col 73 file lu.f: characters
+ past 72 columns
+   2271      &       INTB.GE.145 .AND. INTB.LE.153 .OR.                         &
+                                                                                ^
+Possibly misleading appearance near line 2271 col 73 file lu.f: characters
+ past 72 columns
+   2584             CALL CTRMV( 'Upper', 'No transpose', DIAG, J-1, A, LDA,     &
+                                                                                ^
+Possibly misleading appearance near line 2584 col 73 file lu.f: characters
+ past 72 columns
+   2603                CALL CTRMV( 'Lower', 'No transpose', DIAG, N-J,          &
+                                                                                ^
+Possibly misleading appearance near line 2603 col 73 file lu.f: characters
+ past 72 columns
+   2734       IF     ( .NOT.LSAME( UPLO , 'U' ).AND.                            &
+                                                                                ^
+Possibly misleading appearance near line 2734 col 73 file lu.f: characters
+ past 72 columns
+   2737       ELSE IF( .NOT.LSAME( TRANS, 'N' ).AND.                            &
+                                                                                ^
+Possibly misleading appearance near line 2737 col 73 file lu.f: characters
+ past 72 columns
+   2738      &         .NOT.LSAME( TRANS, 'T' ).AND.                            &
+                                                                                ^
+Possibly misleading appearance near line 2738 col 73 file lu.f: characters
+ past 72 columns
+   2741       ELSE IF( .NOT.LSAME( DIAG , 'U' ).AND.                            &
+                                                                                ^
+Possibly misleading appearance near line 2741 col 73 file lu.f: characters
+ past 72 columns
+   2758       IF( N.EQ.0 )                                                      &
+                                                                                ^
+Possibly misleading appearance near line 2758 col 73 file lu.f: characters
+ past 72 columns
+   2788                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2788 col 73 file lu.f: characters
+ past 72 columns
+   2802                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2802 col 73 file lu.f: characters
+ past 72 columns
+   2816                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2816 col 73 file lu.f: characters
+ past 72 columns
+   2831                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2831 col 73 file lu.f: characters
+ past 72 columns
+   2847                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2847 col 73 file lu.f: characters
+ past 72 columns
+   2853                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2853 col 73 file lu.f: characters
+ past 72 columns
+   2867                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2867 col 73 file lu.f: characters
+ past 72 columns
+   2874                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2874 col 73 file lu.f: characters
+ past 72 columns
+   2890                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2890 col 73 file lu.f: characters
+ past 72 columns
+   2896                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2896 col 73 file lu.f: characters
+ past 72 columns
+   2910                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2910 col 73 file lu.f: characters
+ past 72 columns
+   2917                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 2917 col 73 file lu.f: characters
+ past 72 columns
+   3004       SUBROUTINE CGEMV ( TRANS, M, N, ALPHA, A, LDA, X, INCX,           &
+                                                                                ^
+Possibly misleading appearance near line 3004 col 73 file lu.f: characters
+ past 72 columns
+   3129       IF     ( .NOT.LSAME( TRANS, 'N' ).AND.                            &
+                                                                                ^
+Possibly misleading appearance near line 3129 col 73 file lu.f: characters
+ past 72 columns
+   3130      &         .NOT.LSAME( TRANS, 'T' ).AND.                            &
+                                                                                ^
+Possibly misleading appearance near line 3130 col 73 file lu.f: characters
+ past 72 columns
+   3151       IF( ( M.EQ.0 ).OR.( N.EQ.0 ).OR.                                  &
+                                                                                ^
+Possibly misleading appearance near line 3151 col 73 file lu.f: characters
+ past 72 columns
+   3152      &    ( ( ALPHA.EQ.ZERO ).AND.( BETA.EQ.ONE ) ) )                   &
+                                                                                ^
+Possibly misleading appearance near line 3152 col 73 file lu.f: characters
+ past 72 columns
+   3209       IF( ALPHA.EQ.ZERO )                                               &
+                                                                                ^
+Possibly misleading appearance near line 3209 col 73 file lu.f: characters
+ past 72 columns
+   3293       SUBROUTINE DGEMM ( TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB,&
+                                                                                ^
+Possibly misleading appearance near line 3293 col 73 file lu.f: characters
+ past 72 columns
+   3462       IF(      ( .NOT.NOTA                 ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 3462 col 73 file lu.f: characters
+ past 72 columns
+   3463      &         ( .NOT.LSAME( TRANSA, 'C' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 3463 col 73 file lu.f: characters
+ past 72 columns
+   3466       ELSE IF( ( .NOT.NOTB                 ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 3466 col 73 file lu.f: characters
+ past 72 columns
+   3467      &         ( .NOT.LSAME( TRANSB, 'C' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 3467 col 73 file lu.f: characters
+ past 72 columns
+   3490       IF( ( M.EQ.0 ).OR.( N.EQ.0 ).OR.                                  &
+                                                                                ^
+Possibly misleading appearance near line 3490 col 73 file lu.f: characters
+ past 72 columns
+   3491      &    ( ( ( ALPHA.EQ.ZERO ).OR.( K.EQ.0 ) ).AND.( BETA.EQ.ONE ) ) ) &
+                                                                                ^
+Possibly misleading appearance near line 3491 col 73 file lu.f: characters
+ past 72 columns
+
+Warning in module DGEMM in file lu.f: Variables set but never used:
+    NCOLA set at line 3448 file lu.f
+   3718       IF( ( M.EQ.0 ).OR.( N.EQ.0 ).OR.( ALPHA.EQ.ZERO ) )               &
+                                                                                ^
+Possibly misleading appearance near line 3718 col 73 file lu.f: characters
+ past 72 columns
+   3862       SUBROUTINE DTRSM ( SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A, LDA, &
+                                                                                ^
+Possibly misleading appearance near line 3862 col 73 file lu.f: characters
+ past 72 columns
+   4020       IF(      ( .NOT.LSIDE                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 4020 col 73 file lu.f: characters
+ past 72 columns
+   4023       ELSE IF( ( .NOT.UPPER                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 4023 col 73 file lu.f: characters
+ past 72 columns
+   4026       ELSE IF( ( .NOT.LSAME( TRANSA, 'N' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 4026 col 73 file lu.f: characters
+ past 72 columns
+   4027      &         ( .NOT.LSAME( TRANSA, 'T' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 4027 col 73 file lu.f: characters
+ past 72 columns
+   4030       ELSE IF( ( .NOT.LSAME( DIAG  , 'U' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 4030 col 73 file lu.f: characters
+ past 72 columns
+   4049       IF( N.EQ.0 )                                                      &
+                                                                                ^
+Possibly misleading appearance near line 4049 col 73 file lu.f: characters
+ past 72 columns
+   4079                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 4079 col 73 file lu.f: characters
+ past 72 columns
+   4096                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 4096 col 73 file lu.f: characters
+ past 72 columns
+   4116                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 4116 col 73 file lu.f: characters
+ past 72 columns
+   4128                      IF( NOUNIT )                                       &
+                                                                                ^
+Possibly misleading appearance near line 4128 col 73 file lu.f: characters
+ past 72 columns
+   4353       SUBROUTINE ZGEMM ( TRANSA, TRANSB, M, N, K, ALPHA, A, LDA, B, LDB,&
+                                                                                ^
+Possibly misleading appearance near line 4353 col 73 file lu.f: characters
+ past 72 columns
+   4528       IF(      ( .NOT.NOTA                 ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 4528 col 73 file lu.f: characters
+ past 72 columns
+   4529      &         ( .NOT.CONJA                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 4529 col 73 file lu.f: characters
+ past 72 columns
+   4532       ELSE IF( ( .NOT.NOTB                 ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 4532 col 73 file lu.f: characters
+ past 72 columns
+   4533      &         ( .NOT.CONJB                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 4533 col 73 file lu.f: characters
+ past 72 columns
+   4556       IF( ( M.EQ.0 ).OR.( N.EQ.0 ).OR.                                  &
+                                                                                ^
+Possibly misleading appearance near line 4556 col 73 file lu.f: characters
+ past 72 columns
+   4557      &    ( ( ( ALPHA.EQ.ZERO ).OR.( K.EQ.0 ) ).AND.( BETA.EQ.ONE ) ) ) &
+                                                                                ^
+Possibly misleading appearance near line 4557 col 73 file lu.f: characters
+ past 72 columns
+   4697                      TEMP = TEMP +                                      &
+                                                                                ^
+Possibly misleading appearance near line 4697 col 73 file lu.f: characters
+ past 72 columns
+
+Warning in module ZGEMM in file lu.f: Variables set but never used:
+    NCOLA set at line 4514 file lu.f
+   4880       IF( ( M.EQ.0 ).OR.( N.EQ.0 ).OR.( ALPHA.EQ.ZERO ) )               &
+                                                                                ^
+Possibly misleading appearance near line 4880 col 73 file lu.f: characters
+ past 72 columns
+   4990       SUBROUTINE ZTRSM ( SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A, LDA, &
+                                                                                ^
+Possibly misleading appearance near line 4990 col 73 file lu.f: characters
+ past 72 columns
+   5150       IF(      ( .NOT.LSIDE                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 5150 col 73 file lu.f: characters
+ past 72 columns
+   5153       ELSE IF( ( .NOT.UPPER                ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 5153 col 73 file lu.f: characters
+ past 72 columns
+   5156       ELSE IF( ( .NOT.LSAME( TRANSA, 'N' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 5156 col 73 file lu.f: characters
+ past 72 columns
+   5157      &         ( .NOT.LSAME( TRANSA, 'T' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 5157 col 73 file lu.f: characters
+ past 72 columns
+   5160       ELSE IF( ( .NOT.LSAME( DIAG  , 'U' ) ).AND.                       &
+                                                                                ^
+Possibly misleading appearance near line 5160 col 73 file lu.f: characters
+ past 72 columns
+   5179       IF( N.EQ.0 )                                                      &
+                                                                                ^
+Possibly misleading appearance near line 5179 col 73 file lu.f: characters
+ past 72 columns
+   5209                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 5209 col 73 file lu.f: characters
+ past 72 columns
+   5226                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 5226 col 73 file lu.f: characters
+ past 72 columns
+   5248                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 5248 col 73 file lu.f: characters
+ past 72 columns
+   5254                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 5254 col 73 file lu.f: characters
+ past 72 columns
+   5268                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 5268 col 73 file lu.f: characters
+ past 72 columns
+   5274                         IF( NOUNIT )                                    &
+                                                                                ^
+Possibly misleading appearance near line 5274 col 73 file lu.f: characters
+ past 72 columns
+   5471       PARAMETER          ( CZERO = ( 0.0E0, 0.0E0 ),                    &
+                                                                                ^
+Possibly misleading appearance near line 5471 col 73 file lu.f: characters
+ past 72 columns
+   5521             X( I ) = CMPLX( REAL( X( I ) ) / ABSXI,                     &
+                                                                                ^
+Possibly misleading appearance near line 5521 col 73 file lu.f: characters
+ past 72 columns
+   5558       IF( EST.LE.ESTOLD )                                               &
+                                                                                ^
+Possibly misleading appearance near line 5558 col 73 file lu.f: characters
+ past 72 columns
+   5564             X( I ) = CMPLX( REAL( X( I ) ) / ABSXI,                     &
+                                                                                ^
+Possibly misleading appearance near line 5564 col 73 file lu.f: characters
+ past 72 columns
+   5580       IF( ( ABS( X( JLAST ) ).NE.ABS( X( J ) ) ) .AND.                  &
+                                                                                ^
+Possibly misleading appearance near line 5580 col 73 file lu.f: characters
+ past 72 columns
+   5705       PARAMETER          ( ONE = ( 1.0D+0, 0.0D+0 ),                    &
+                                                                                ^
+Possibly misleading appearance near line 5705 col 73 file lu.f: characters
+ past 72 columns
+   5749       IF( M.EQ.0 .OR. N.EQ.0 )                                          &
+                                                                                ^
+Possibly misleading appearance near line 5749 col 73 file lu.f: characters
+ past 72 columns
+   5788             IF( JP.NE.1 )                                               &
+                                                                                ^
+Possibly misleading appearance near line 5788 col 73 file lu.f: characters
+ past 72 columns
+   5789      &         CALL ZSWAP( JU-J+1, AB( KV+JP, J ), LDAB-1,              &
+                                                                                ^
+Possibly misleading appearance near line 5789 col 73 file lu.f: characters
+ past 72 columns
+   5799                IF( JU.GT.J )                                            &
+                                                                                ^
+Possibly misleading appearance near line 5799 col 73 file lu.f: characters
+ past 72 columns
+   5800      &            CALL ZGERU( KM, JU-J, -ONE, AB( KV+2, J ), 1,         &
+                                                                                ^
+Possibly misleading appearance near line 5800 col 73 file lu.f: characters
+ past 72 columns
+   5801      &                        AB( KV, J+1 ), LDAB-1, AB( KV+1, J+1 ),   &
+                                                                                ^
+Possibly misleading appearance near line 5801 col 73 file lu.f: characters
+ past 72 columns
+   5809             IF( INFO.EQ.0 )                                             &
+                                                                                ^
+Possibly misleading appearance near line 5809 col 73 file lu.f: characters
+ past 72 columns
+   5907       PARAMETER          ( ONE = ( 1.0D+0, 0.0D+0 ),                    &
+                                                                                ^
+Possibly misleading appearance near line 5907 col 73 file lu.f: characters
+ past 72 columns
+   5913       INTEGER            I, I2, I3, II, IP, J, J2, J3, JB, JJ, JM, JP,  &
+                                                                                ^
+Possibly misleading appearance near line 5913 col 73 file lu.f: characters
+ past 72 columns
+   5918       COMPLEX*16         WORK13( LDWORK, NBMAX ),                       &
+                                                                                ^
+Possibly misleading appearance near line 5918 col 73 file lu.f: characters
+ past 72 columns
+   5926       EXTERNAL           XERBLA, ZCOPY, ZGBTF2, ZGEMM, ZGERU, ZLASWP,   &
+                                                                                ^
+Possibly misleading appearance near line 5926 col 73 file lu.f: characters
+ past 72 columns
+   5960       IF( M.EQ.0 .OR. N.EQ.0 )                                          &
+                                                                                ^
+Possibly misleading appearance near line 5960 col 73 file lu.f: characters
+ past 72 columns
+   6058                         CALL ZSWAP( JB, AB( KV+1+JJ-J, J ), LDAB-1,     &
+                                                                                ^
+Possibly misleading appearance near line 6058 col 73 file lu.f: characters
+ past 72 columns
+   6065                         CALL ZSWAP( JJ-J, AB( KV+1+JJ-J, J ), LDAB-1,   &
+                                                                                ^
+Possibly misleading appearance near line 6065 col 73 file lu.f: characters
+ past 72 columns
+   6067                         CALL ZSWAP( J+JB-JJ, AB( KV+1, JJ ), LDAB-1,    &
+                                                                                ^
+Possibly misleading appearance near line 6067 col 73 file lu.f: characters
+ past 72 columns
+   6074                   CALL ZSCAL( KM, ONE / AB( KV+1, JJ ), AB( KV+2, JJ ), &
+                                                                                ^
+Possibly misleading appearance near line 6074 col 73 file lu.f: characters
+ past 72 columns
+   6082                   IF( JM.GT.JJ )                                        &
+                                                                                ^
+Possibly misleading appearance near line 6082 col 73 file lu.f: characters
+ past 72 columns
+   6083      &               CALL ZGERU( KM, JM-JJ, -ONE, AB( KV+2, JJ ), 1,    &
+                                                                                ^
+Possibly misleading appearance near line 6083 col 73 file lu.f: characters
+ past 72 columns
+   6084      &                           AB( KV, JJ+1 ), LDAB-1,                &
+                                                                                ^
+Possibly misleading appearance near line 6084 col 73 file lu.f: characters
+ past 72 columns
+   6091                   IF( INFO.EQ.0 )                                       &
+                                                                                ^
+Possibly misleading appearance near line 6091 col 73 file lu.f: characters
+ past 72 columns
+   6098                IF( NW.GT.0 )                                            &
+                                                                                ^
+Possibly misleading appearance near line 6098 col 73 file lu.f: characters
+ past 72 columns
+   6099      &            CALL ZCOPY( NW, AB( KV+KL+1-JJ+J, JJ ), 1,            &
+                                                                                ^
+Possibly misleading appearance near line 6099 col 73 file lu.f: characters
+ past 72 columns
+   6112                CALL ZLASWP( J2, AB( KV+1-JB, J+JB ), LDAB-1, 1, JB,     &
+                                                                                ^
+Possibly misleading appearance near line 6112 col 73 file lu.f: characters
+ past 72 columns
+   6143                   CALL ZTRSM( 'Left', 'Lower', 'No transpose', 'Unit',  &
+                                                                                ^
+Possibly misleading appearance near line 6143 col 73 file lu.f: characters
+ past 72 columns
+   6144      &                        JB, J2, ONE, AB( KV+1, J ), LDAB-1,       &
+                                                                                ^
+Possibly misleading appearance near line 6144 col 73 file lu.f: characters
+ past 72 columns
+   6151                      CALL ZGEMM( 'No transpose', 'No transpose', I2, J2,&
+                                                                                ^
+Possibly misleading appearance near line 6151 col 73 file lu.f: characters
+ past 72 columns
+   6152      &                           JB, -ONE, AB( KV+1+JB, J ), LDAB-1,    &
+                                                                                ^
+Possibly misleading appearance near line 6152 col 73 file lu.f: characters
+ past 72 columns
+   6153      &                           AB( KV+1-JB, J+JB ), LDAB-1, ONE,      &
+                                                                                ^
+Possibly misleading appearance near line 6153 col 73 file lu.f: characters
+ past 72 columns
+   6161                      CALL ZGEMM( 'No transpose', 'No transpose', I3, J2,&
+                                                                                ^
+Possibly misleading appearance near line 6161 col 73 file lu.f: characters
+ past 72 columns
+   6162      &                           JB, -ONE, WORK31, LDWORK,              &
+                                                                                ^
+Possibly misleading appearance near line 6162 col 73 file lu.f: characters
+ past 72 columns
+   6163      &                           AB( KV+1-JB, J+JB ), LDAB-1, ONE,      &
+                                                                                ^
+Possibly misleading appearance near line 6163 col 73 file lu.f: characters
+ past 72 columns
+   6181                   CALL ZTRSM( 'Left', 'Lower', 'No transpose', 'Unit',  &
+                                                                                ^
+Possibly misleading appearance near line 6181 col 73 file lu.f: characters
+ past 72 columns
+   6182      &                        JB, J3, ONE, AB( KV+1, J ), LDAB-1,       &
+                                                                                ^
+Possibly misleading appearance near line 6182 col 73 file lu.f: characters
+ past 72 columns
+   6189                      CALL ZGEMM( 'No transpose', 'No transpose', I2, J3,&
+                                                                                ^
+Possibly misleading appearance near line 6189 col 73 file lu.f: characters
+ past 72 columns
+   6190      &                           JB, -ONE, AB( KV+1+JB, J ), LDAB-1,    &
+                                                                                ^
+Possibly misleading appearance near line 6190 col 73 file lu.f: characters
+ past 72 columns
+   6191      &                           WORK13, LDWORK, ONE, AB( 1+JB, J+KV ), &
+                                                                                ^
+Possibly misleading appearance near line 6191 col 73 file lu.f: characters
+ past 72 columns
+   6199                      CALL ZGEMM( 'No transpose', 'No transpose', I3, J3,&
+                                                                                ^
+Possibly misleading appearance near line 6199 col 73 file lu.f: characters
+ past 72 columns
+   6200      &                           JB, -ONE, WORK31, LDWORK, WORK13,      &
+                                                                                ^
+Possibly misleading appearance near line 6200 col 73 file lu.f: characters
+ past 72 columns
+   6235                      CALL ZSWAP( JJ-J, AB( KV+1+JJ-J, J ), LDAB-1,      &
+                                                                                ^
+Possibly misleading appearance near line 6235 col 73 file lu.f: characters
+ past 72 columns
+   6241                      CALL ZSWAP( JJ-J, AB( KV+1+JJ-J, J ), LDAB-1,      &
+                                                                                ^
+Possibly misleading appearance near line 6241 col 73 file lu.f: characters
+ past 72 columns
+   6249                IF( NW.GT.0 )                                            &
+                                                                                ^
+Possibly misleading appearance near line 6249 col 73 file lu.f: characters
+ past 72 columns
+   6250      &            CALL ZCOPY( NW, WORK31( 1, JJ-J+1 ), 1,               &
+                                                                                ^
+Possibly misleading appearance near line 6250 col 73 file lu.f: characters
+ past 72 columns
+   6323       PARAMETER          ( ONE = ( 1.0D+0, 0.0D+0 ),                    &
+                                                                                ^
+Possibly misleading appearance near line 6323 col 73 file lu.f: characters
+ past 72 columns
+   6358       IF( M.EQ.0 .OR. N.EQ.0 )                                          &
+                                                                                ^
+Possibly misleading appearance near line 6358 col 73 file lu.f: characters
+ past 72 columns
+   6371             IF( JP.NE.J )                                               &
+                                                                                ^
+Possibly misleading appearance near line 6371 col 73 file lu.f: characters
+ past 72 columns
+   6376             IF( J.LT.M )                                                &
+                                                                                ^
+Possibly misleading appearance near line 6376 col 73 file lu.f: characters
+ past 72 columns
+   6388             CALL ZGERU( M-J, N-J, -ONE, A( J+1, J ), 1, A( J, J+1 ),    &
+                                                                                ^
+Possibly misleading appearance near line 6388 col 73 file lu.f: characters
+ past 72 columns
+   6493       IF( M.EQ.0 .OR. N.EQ.0 )                                          &
+                                                                                ^
+Possibly misleading appearance near line 6493 col 73 file lu.f: characters
+ past 72 columns
+   6518             IF( INFO.EQ.0 .AND. IINFO.GT.0 )                            &
+                                                                                ^
+Possibly misleading appearance near line 6518 col 73 file lu.f: characters
+ past 72 columns
+   6532                CALL ZLASWP( N-J-JB+1, A( 1, J+JB ), LDA, J, J+JB-1,     &
+                                                                                ^
+Possibly misleading appearance near line 6532 col 73 file lu.f: characters
+ past 72 columns
+   6537                CALL ZTRSM( 'Left', 'Lower', 'No transpose', 'Unit', JB, &
+                                                                                ^
+Possibly misleading appearance near line 6537 col 73 file lu.f: characters
+ past 72 columns
+   6538      &                     N-J-JB+1, ONE, A( J, J ), LDA, A( J, J+JB ), &
+                                                                                ^
+Possibly misleading appearance near line 6538 col 73 file lu.f: characters
+ past 72 columns
+   6544                   CALL ZGEMM( 'No transpose', 'No transpose', M-J-JB+1, &
+                                                                                ^
+Possibly misleading appearance near line 6544 col 73 file lu.f: characters
+ past 72 columns
+   6545      &                        N-J-JB+1, JB, -ONE, A( J+JB, J ), LDA,    &
+                                                                                ^
+Possibly misleading appearance near line 6545 col 73 file lu.f: characters
+ past 72 columns
+   6546      &                        A( J, J+JB ), LDA, ONE, A( J+JB, J+JB ),  &
+                                                                                ^
+Possibly misleading appearance near line 6546 col 73 file lu.f: characters
+ past 72 columns
+   6644       IF( .NOT.NOTRAN .AND. .NOT.LSAME( TRANS, 'T' ) .AND. .NOT.        &
+                                                                                ^
+Possibly misleading appearance near line 6644 col 73 file lu.f: characters
+ past 72 columns
+   6663       IF( N.EQ.0 .OR. NRHS.EQ.0 )                                       &
+                                                                                ^
+Possibly misleading appearance near line 6663 col 73 file lu.f: characters
+ past 72 columns
+   6676          CALL ZTRSM( 'Left', 'Lower', 'No transpose', 'Unit', N, NRHS,  &
+                                                                                ^
+Possibly misleading appearance near line 6676 col 73 file lu.f: characters
+ past 72 columns
+   6681          CALL ZTRSM( 'Left', 'Upper', 'No transpose', 'Non-unit', N,    &
+                                                                                ^
+Possibly misleading appearance near line 6681 col 73 file lu.f: characters
+ past 72 columns
+   6689          CALL ZTRSM( 'Left', 'Upper', TRANS, 'Non-unit', N, NRHS, ONE,  &
+                                                                                ^
+Possibly misleading appearance near line 6689 col 73 file lu.f: characters
+ past 72 columns
+   6694          CALL ZTRSM( 'Left', 'Lower', TRANS, 'Unit', N, NRHS, ONE, A,   &
+                                                                                ^
+Possibly misleading appearance near line 6694 col 73 file lu.f: characters
+ past 72 columns
+   6923       IF( M.EQ.0 .OR. N.EQ.0 )                                          &
+                                                                                ^
+Possibly misleading appearance near line 6923 col 73 file lu.f: characters
+ past 72 columns
+   6936             IF( JP.NE.J )                                               &
+                                                                                ^
+Possibly misleading appearance near line 6936 col 73 file lu.f: characters
+ past 72 columns
+   6941             IF( J.LT.M )                                                &
+                                                                                ^
+Possibly misleading appearance near line 6941 col 73 file lu.f: characters
+ past 72 columns
+   6953             CALL DGER( M-J, N-J, -ONE, A( J+1, J ), 1, A( J, J+1 ), LDA,&
+                                                                                ^
+Possibly misleading appearance near line 6953 col 73 file lu.f: characters
+ past 72 columns
+   7058       IF( M.EQ.0 .OR. N.EQ.0 )                                          &
+                                                                                ^
+Possibly misleading appearance near line 7058 col 73 file lu.f: characters
+ past 72 columns
+   7083             IF( INFO.EQ.0 .AND. IINFO.GT.0 )                            &
+                                                                                ^
+Possibly misleading appearance near line 7083 col 73 file lu.f: characters
+ past 72 columns
+   7097                CALL DLASWP( N-J-JB+1, A( 1, J+JB ), LDA, J, J+JB-1,     &
+                                                                                ^
+Possibly misleading appearance near line 7097 col 73 file lu.f: characters
+ past 72 columns
+   7102                CALL DTRSM( 'Left', 'Lower', 'No transpose', 'Unit', JB, &
+                                                                                ^
+Possibly misleading appearance near line 7102 col 73 file lu.f: characters
+ past 72 columns
+   7103      &                     N-J-JB+1, ONE, A( J, J ), LDA, A( J, J+JB ), &
+                                                                                ^
+Possibly misleading appearance near line 7103 col 73 file lu.f: characters
+ past 72 columns
+   7109                   CALL DGEMM( 'No transpose', 'No transpose', M-J-JB+1, &
+                                                                                ^
+Possibly misleading appearance near line 7109 col 73 file lu.f: characters
+ past 72 columns
+   7110      &                        N-J-JB+1, JB, -ONE, A( J+JB, J ), LDA,    &
+                                                                                ^
+Possibly misleading appearance near line 7110 col 73 file lu.f: characters
+ past 72 columns
+   7111      &                        A( J, J+JB ), LDA, ONE, A( J+JB, J+JB ),  &
+                                                                                ^
+Possibly misleading appearance near line 7111 col 73 file lu.f: characters
+ past 72 columns
+   7209       IF( .NOT.NOTRAN .AND. .NOT.LSAME( TRANS, 'T' ) .AND. .NOT.        &
+                                                                                ^
+Possibly misleading appearance near line 7209 col 73 file lu.f: characters
+ past 72 columns
+   7228       IF( N.EQ.0 .OR. NRHS.EQ.0 )                                       &
+                                                                                ^
+Possibly misleading appearance near line 7228 col 73 file lu.f: characters
+ past 72 columns
+   7241          CALL DTRSM( 'Left', 'Lower', 'No transpose', 'Unit', N, NRHS,  &
+                                                                                ^
+Possibly misleading appearance near line 7241 col 73 file lu.f: characters
+ past 72 columns
+   7246          CALL DTRSM( 'Left', 'Upper', 'No transpose', 'Non-unit', N,    &
+                                                                                ^
+Possibly misleading appearance near line 7246 col 73 file lu.f: characters
+ past 72 columns
+   7254          CALL DTRSM( 'Left', 'Upper', 'Transpose', 'Non-unit', N, NRHS, &
+                                                                                ^
+Possibly misleading appearance near line 7254 col 73 file lu.f: characters
+ past 72 columns
+   7259          CALL DTRSM( 'Left', 'Lower', 'Transpose', 'Unit', N, NRHS, ONE,&
+                                                                                ^
+Possibly misleading appearance near line 7259 col 73 file lu.f: characters
+ past 72 columns
+   7442       IF( N.LE.0 )                                                      &
+                                                                                ^
+Possibly misleading appearance near line 7442 col 73 file lu.f: characters
+ past 72 columns
+   7444       IF( INCX.EQ.1 )                                                   &
+                                                                                ^
+Possibly misleading appearance near line 7444 col 73 file lu.f: characters
+ past 72 columns
+   7532       IF( N.LT.1 )                                                      &
+                                                                                ^
+Possibly misleading appearance near line 7532 col 73 file lu.f: characters
+ past 72 columns
+   7535       IF( N.EQ.1 )                                                      &
+                                                                                ^
+Possibly misleading appearance near line 7535 col 73 file lu.f: characters
+ past 72 columns
+   7537       IF( INCX.EQ.1 )                                                   &
+                                                                                ^
+Possibly misleading appearance near line 7537 col 73 file lu.f: characters
+ past 72 columns
+   7546          IF( CABS1( CX( IX ) ).LE.SMAX )                                &
+                                                                                ^
+Possibly misleading appearance near line 7546 col 73 file lu.f: characters
+ past 72 columns
+   7560          IF( CABS1( CX( I ) ).LE.SMAX )                                 &
+                                                                                ^
+Possibly misleading appearance near line 7560 col 73 file lu.f: characters
+ past 72 columns
+   7612       REAL               NAN1, NAN2, NAN3, NAN4, NAN5, NAN6, NEGINF,    &
+                                                                                ^
+Possibly misleading appearance near line 7612 col 73 file lu.f: characters
+ past 72 columns
+   7671       IF( ISPEC.EQ.0 )                                                  &
+                                                                                ^
+Possibly misleading appearance near line 7671 col 73 file lu.f: characters
+ past 72 columns
+   7772       REAL               BASE, EMAX, EMIN, EPS, PREC, RMACH, RMAX, RMIN,&
+                                                                                ^
+Possibly misleading appearance near line 7772 col 73 file lu.f: characters
+ past 72 columns
+   7783       SAVE               FIRST, EPS, SFMIN, BASE, T, RND, EMIN, RMIN,   &
+                                                                                ^
+Possibly misleading appearance near line 7783 col 73 file lu.f: characters
+ past 72 columns
+   7971          LBETA = C + QTR
+                       ^
+Warning near line 7971 col 16 file lu.f: real expr C+QTR truncated to intg 
+ LBETA
+   7986          IF( ( LRND ) .AND. ( C.EQ.A ) )                                &
+                       ^
+Possibly misleading appearance near line 7986 col 16 file lu.f: Extraneous
+ parentheses
+                                                                                ^
+Possibly misleading appearance near line 7986 col 73 file lu.f: characters
+ past 72 columns
+   8102       INTEGER            GNMIN, GPMIN, I, LBETA, LEMAX, LEMIN, LT,      &
+                                                                                ^
+Possibly misleading appearance near line 8102 col 73 file lu.f: characters
+ past 72 columns
+   8104       REAL               A, B, C, HALF, LEPS, LRMAX, LRMIN, ONE, RBASE, &
+                                                                                ^
+Possibly misleading appearance near line 8104 col 73 file lu.f: characters
+ past 72 columns
+   8118       SAVE               FIRST, IWARN, LBETA, LEMAX, LEMIN, LEPS, LRMAX,&
+                                                                                ^
+Possibly misleading appearance near line 8118 col 73 file lu.f: characters
+ past 72 columns
+   8158          IF( B.LT.LEPS )                                                &
+                                                                                ^
+Possibly misleading appearance near line 8158 col 73 file lu.f: characters
+ past 72 columns
+   8176          IF( A.LT.LEPS )                                                &
+                                                                                ^
+Possibly misleading appearance near line 8176 col 73 file lu.f: characters
+ past 72 columns
+   8224          ELSE IF( ( ABS( NGPMIN-NGNMIN ).EQ.1 ) .AND.                   &
+                                                                                ^
+Possibly misleading appearance near line 8224 col 73 file lu.f: characters
+ past 72 columns
+   8281  9999 FORMAT( / / ' WARNING. The value EMIN may be incorrect:-',        &
+                                                                                ^
+Possibly misleading appearance near line 8281 col 73 file lu.f: characters
+ past 72 columns
+   8282      &      '  EMIN = ', I8, /                                          &
+                                                                                ^
+Possibly misleading appearance near line 8282 col 73 file lu.f: characters
+ past 72 columns
+   8283      &      ' If, after inspection, the value EMIN looks',              &
+                                                                                ^
+Possibly misleading appearance near line 8283 col 73 file lu.f: characters
+ past 72 columns
+   8284      &      ' acceptable please comment out ',                          &
+                                                                                ^
+Possibly misleading appearance near line 8284 col 73 file lu.f: characters
+ past 72 columns
+   8285      &      / ' the IF block as marked within the code of routine',     &
+                                                                                ^
+Possibly misleading appearance near line 8285 col 73 file lu.f: characters
+ past 72 columns
+   8388       IF( ( C1.EQ.A ) .AND. ( C2.EQ.A ) .AND. ( D1.EQ.A ) .AND.         &
+                                                                                ^
+Possibly misleading appearance near line 8388 col 73 file lu.f: characters
+ past 72 columns
+   8556          IF( Y.LT.ONE )                                                 &
+                                                                                ^
+Possibly misleading appearance near line 8556 col 73 file lu.f: characters
+ past 72 columns
+   8560       IF( Y.GE.ONE )                                                    &
+                                                                                ^
+Possibly misleading appearance near line 8560 col 73 file lu.f: characters
+ past 72 columns
+
+ 0 syntax errors detected in file lu.f
+ 265 warnings issued in file lu.f
+
+File phamp.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+
+ 0 syntax errors detected in file phamp.f
+ 1 warning issued in file phamp.f
+
+File polint.f:
+ 0 syntax errors detected in file polint.f
+File quartc.f:
+     22       PARAMETER(Tto1O3 = 1.259921049894873, Tto2O3 = 1.587401051968199)
+                                 ^
+Warning near line 22 col 26 file quartc.f: Single-precision real constant has
+ more digits than are stored
+                                 ^
+Warning near line 22 col 26 file quartc.f: real const 1.259921049894873 
+ promoted to dble TTO1O3: may not give desired precision
+                                                             ^
+Warning near line 22 col 54 file quartc.f: Single-precision real constant has
+ more digits than are stored
+                                                             ^
+Warning near line 22 col 54 file quartc.f: real const 1.587401051968199 
+ promoted to dble TTO2O3: may not give desired precision
+     23       PARAMETER(Root6 = 2.449489742783178)
+                                ^
+Warning near line 23 col 25 file quartc.f: Single-precision real constant has
+ more digits than are stored
+                                ^
+Warning near line 23 col 25 file quartc.f: real const 2.449489742783178 
+ promoted to dble ROOT6: may not give desired precision
+
+Warning in module QUARTIC in file quartc.f: Variables set but never used:
+    ONE set at line 17 file quartc.f
+
+ 0 syntax errors detected in file quartc.f
+ 7 warnings issued in file quartc.f
+
+File rotwig.f:
+     40          isign = (-1)**( (m1-m2)/ient ) 
+                             ^
+Warning near line 40 col 22 file rotwig.f: integer quotient expr 
+ ((M1-M2)/IENT) used in exponent
+     45          isign = (-1)**( (m2-m1)/ient ) 
+                             ^
+Warning near line 45 col 22 file rotwig.f: integer quotient expr 
+ ((M2-M1)/IENT) used in exponent
+     67           temp = temp + (-1)**(it/ient)*exp(factor)
+                                    ^
+Warning near line 67 col 29 file rotwig.f: integer quotient expr (IT/IENT) 
+ used in exponent
+     69           temp = temp + (-1)**(it/ient)*zeta**m(9)*exp(factor)
+                                    ^
+Warning near line 69 col 29 file rotwig.f: integer quotient expr (IT/IENT) 
+ used in exponent
+     71           temp = temp + (-1)**(it/ient)*eta**m(10)*exp(factor)
+                                    ^
+Warning near line 71 col 29 file rotwig.f: integer quotient expr (IT/IENT) 
+ used in exponent
+     74           temp = temp+ (-1)**(it/ient)*zeta**m(9)*eta**m(10)*exp(factor)
+                                   ^
+Warning near line 74 col 28 file rotwig.f: integer quotient expr (IT/IENT) 
+ used in exponent
+
+ 0 syntax errors detected in file rotwig.f
+ 6 warnings issued in file rotwig.f
+
+File sdist.f:
+ 0 syntax errors detected in file sdist.f
+File somm2.f:
+     15       da=0.0
+                ^
+Warning near line 15 col 9 file somm2.f: real const 0.0 promoted to dble DA:
+ may not give desired precision
+     16       db=0.0
+                ^
+Warning near line 16 col 9 file somm2.f: real const 0.0 promoted to dble DB:
+ may not give desired precision
+     45       dd=exp(dpas)-1.0
+                          ^
+Warning near line 45 col 19 file somm2.f: promotion may not give desired
+ precision: dble expr EXP(DPAS) - real const 1.0
+     46       db=d1*(d1+1.0)*dd*exp((d1-1.0)*dpas)
+                       ^
+Warning near line 46 col 16 file somm2.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                                       ^
+Warning near line 46 col 32 file somm2.f: promotion may not give desired
+ precision: dble D1 - real const 1.0
+     48       dd=(dr(1)**mm)*(1.0+1.0/(dd*(d1+1.0)))/d1
+                                             ^
+Warning near line 48 col 38 file somm2.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                                     ^
+Warning near line 48 col 30 file somm2.f: promotion may not give desired
+ precision: real const 1.0 / dble expr (DD*(D1+1.0))
+                                 ^
+Warning near line 48 col 26 file somm2.f: promotion may not give desired
+ precision: real const 1.0 + dble expr 1.0/(DD*(D1+1.0))
+
+ 0 syntax errors detected in file somm2.f
+ 8 warnings issued in file somm2.f
+
+File somm.f:
+     12       da=0.0
+                ^
+Warning near line 12 col 9 file somm.f: real const 0.0 promoted to dble DA:
+ may not give desired precision
+     13       db=0.0
+                ^
+Warning near line 13 col 9 file somm.f: real const 0.0 promoted to dble DB:
+ may not give desired precision
+     30       da = dpas * (da + db) / 3.0
+                                    ^
+Warning near line 30 col 29 file somm.f: promotion may not give desired
+ precision: dble expr DPAS*(DA+DB) / real const 3.0
+     31       dc=exp(dpas)-1.0
+                          ^
+Warning near line 31 col 19 file somm.f: promotion may not give desired
+ precision: dble expr EXP(DPAS) - real const 1.0
+     32       db=d1*(d1+1.0)*dc*exp((d1-1.0)*dpas)
+                       ^
+Warning near line 32 col 16 file somm.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                                       ^
+Warning near line 32 col 32 file somm.f: promotion may not give desired
+ precision: dble D1 - real const 1.0
+     34       dc=(dr(1)**mm)*(1.0+1.0/(dc*(d1+1.0)))/d1
+                                             ^
+Warning near line 34 col 38 file somm.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                                     ^
+Warning near line 34 col 30 file somm.f: promotion may not give desired
+ precision: real const 1.0 / dble expr (DC*(D1+1.0))
+                                 ^
+Warning near line 34 col 26 file somm.f: promotion may not give desired
+ precision: real const 1.0 + dble expr 1.0/(DC*(D1+1.0))
+
+ 0 syntax errors detected in file somm.f
+ 9 warnings issued in file somm.f
+
+File strap.f:
+ 0 syntax errors detected in file strap.f
+File terpc.f:
+ 0 syntax errors detected in file terpc.f
+File terp.f:
+     65       y0 = y(i) +  (x0 - x(i)) * (y(i+1) - y(i)) / (x(i+1) - x(i))
+                               ^
+Warning near line 65 col 24 file terp.f: promotion may not give desired
+ precision: dble X0 - real X
+                                       ^
+Warning near line 65 col 32 file terp.f: promotion may not give desired
+ precision: dble expr (X0-X(I)) * real expr (Y(I+1)-Y(I))
+                                                         ^
+Warning near line 65 col 50 file terp.f: promotion may not give desired
+ precision: dble expr (X0-X(I))*(Y(I+1)-Y(I)) / real expr (X(I+1)-X(I))
+                        ^
+Warning near line 65 col 17 file terp.f: promotion may not give desired
+ precision: real Y + dble expr (X0-X(I))*(Y(I+1)-Y(I))/ ..
+     88          if (x .lt. xx(m))  then
+                       ^
+Warning near line 88 col 16 file terp.f: comparison mixes terms of different
+ precision: dble X .LT. real XX
+
+ 0 syntax errors detected in file terp.f
+ 5 warnings issued in file terp.f
+
+File trap.f:
+ 0 syntax errors detected in file trap.f
+No main program found
+Warning: Subprogram WLOG never defined
+    Invoked in module BJNSER line 48 file bjnser.f
+
+Warning: Subprogram CQDRTC argument arrayness mismatch at position 2:
+    Dummy arg SOL in module CQDRTC line 1 file czeros.f has 1 dim size 2
+    Actual arg SOL in module CCUBIC line 68 file czeros.f has 1 dim size 4
+
+Warning: Subprogram CGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module CGEMM line 1234 file lu.f is whole array
+    Actual arg A(J+JB,J) in module CGETRF line 148 file lu.f is array element
+  and at position 9:
+    Dummy arg B in module CGEMM line 1234 file lu.f is whole array
+    Actual arg A(J,J+JB) in module CGETRF line 148 file lu.f is array element
+  and at position 12:
+    Dummy arg C in module CGEMM line 1234 file lu.f is whole array
+    Actual arg A(J+JB,J+JB) in module CGETRF line 148 file lu.f is array
+ element
+
+Warning: Subprogram CGEMM argument usage mismatch at position 12:
+    Dummy arg C in module CGEMM line 1234 file lu.f is modified
+    Actual arg A(J+JB,J+JB) in module CGETRF line 148 file lu.f may be same as
+ arg 9: A(J,J+JB)
+
+Warning: Subprogram CGETF2 argument arrayness mismatch at position 3:
+    Dummy arg A in module CGETF2 line 162 file lu.f is whole array
+    Actual arg A(J,J) in module CGETRF line 118 file lu.f is array element
+  and at position 5:
+    Dummy arg IPIV in module CGETF2 line 162 file lu.f is whole array
+    Actual arg IPIV(J) in module CGETRF line 118 file lu.f is array element
+
+Warning: Subprogram CLASWP argument arrayness mismatch at position 2:
+    Dummy arg A in module CLASWP line 716 file lu.f is whole array
+    Actual arg A(1,J+JB) in module CGETRF line 136 file lu.f is array element
+
+Warning: Subprogram CTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module CTRSM line 816 file lu.f is whole array
+    Actual arg A(J,J) in module CGETRF line 141 file lu.f is array element
+  and at position 10:
+    Dummy arg B in module CTRSM line 816 file lu.f is whole array
+    Actual arg A(J,J+JB) in module CGETRF line 141 file lu.f is array element
+
+Warning: Subprogram CTRSM argument usage mismatch at position 10:
+    Dummy arg B in module CTRSM line 816 file lu.f is modified
+    Actual arg A(J,J+JB) in module CGETRF line 141 file lu.f may be same as
+ arg 8: A(J,J)
+
+Warning: Subprogram ICAMAX argument arrayness mismatch at position 2:
+    Dummy arg CX in module ICAMAX line 2158 file lu.f is whole array
+    Actual arg A(J,J) in module CGETF2 line 266 file lu.f is array element
+
+Warning: Subprogram CGERU argument arrayness mismatch at position 4:
+    Dummy arg X in module CGERU line 558 file lu.f is whole array
+    Actual arg A(J+1,J) in module CGETF2 line 289 file lu.f is array element
+  and at position 6:
+    Dummy arg Y in module CGERU line 558 file lu.f is whole array
+    Actual arg A(J,J+1) in module CGETF2 line 289 file lu.f is array element
+  and at position 8:
+    Dummy arg A in module CGERU line 558 file lu.f is whole array
+    Actual arg A(J+1,J+1) in module CGETF2 line 289 file lu.f is array element
+
+Warning: Subprogram CGERU argument usage mismatch at position 8:
+    Dummy arg A in module CGERU line 558 file lu.f is modified
+    Actual arg A(J+1,J+1) in module CGETF2 line 289 file lu.f may be same as
+ arg 6: A(J,J+1)
+
+Warning: Subprogram CSCAL argument arrayness mismatch at position 3:
+    Dummy arg CX in module CSCAL line 530 file lu.f is whole array
+    Actual arg A(1,J) in module CTRTI2 line 2586 file lu.f is array element
+
+Warning: Subprogram CSCAL argument arrayness mismatch at position 3:
+    Dummy arg CX in module CSCAL line 530 file lu.f is whole array
+    Actual arg A(J+1,J) in module CTRTI2 line 2605 file lu.f is array element
+
+Warning: Subprogram CSCAL argument arrayness mismatch at position 3:
+    Dummy arg CX in module CSCAL line 530 file lu.f is whole array
+    Actual arg A(J+1,J) in module CGETF2 line 278 file lu.f is array element
+
+Warning: Subprogram CSWAP argument arrayness mismatch at position 2:
+    Dummy arg CX in module CSWAP line 494 file lu.f is whole array
+    Actual arg A(I,1) in module CLASWP line 793 file lu.f is array element
+  and at position 4:
+    Dummy arg CY in module CSWAP line 494 file lu.f is whole array
+    Actual arg A(IP,1) in module CLASWP line 793 file lu.f is array element
+
+Warning: Subprogram CSWAP argument usage mismatch at position 2:
+    Dummy arg CX in module CSWAP line 494 file lu.f is modified
+    Actual arg A(I,1) in module CLASWP line 793 file lu.f may be same as arg 4
+ : A(IP,1)
+  and at position 4:
+    Dummy arg CY in module CSWAP line 494 file lu.f is modified
+    Actual arg A(IP,1) in module CLASWP line 793 file lu.f may be same as arg 
+ 2: A(I,1)
+
+Warning: Subprogram CSWAP argument arrayness mismatch at position 2:
+    Dummy arg CX in module CSWAP line 494 file lu.f is whole array
+    Actual arg A(I,1) in module CLASWP line 799 file lu.f is array element
+  and at position 4:
+    Dummy arg CY in module CSWAP line 494 file lu.f is whole array
+    Actual arg A(IP,1) in module CLASWP line 799 file lu.f is array element
+
+Warning: Subprogram CSWAP argument usage mismatch at position 2:
+    Dummy arg CX in module CSWAP line 494 file lu.f is modified
+    Actual arg A(I,1) in module CLASWP line 799 file lu.f may be same as arg 4
+ : A(IP,1)
+  and at position 4:
+    Dummy arg CY in module CSWAP line 494 file lu.f is modified
+    Actual arg A(IP,1) in module CLASWP line 799 file lu.f may be same as arg 
+ 2: A(I,1)
+
+Warning: Subprogram CSWAP argument arrayness mismatch at position 2:
+    Dummy arg CX in module CSWAP line 494 file lu.f is whole array
+    Actual arg A(I,1) in module CLASWP line 806 file lu.f is array element
+  and at position 4:
+    Dummy arg CY in module CSWAP line 494 file lu.f is whole array
+    Actual arg A(IP,1) in module CLASWP line 806 file lu.f is array element
+
+Warning: Subprogram CSWAP argument usage mismatch at position 2:
+    Dummy arg CX in module CSWAP line 494 file lu.f is modified
+    Actual arg A(I,1) in module CLASWP line 806 file lu.f may be same as arg 4
+ : A(IP,1)
+  and at position 4:
+    Dummy arg CY in module CSWAP line 494 file lu.f is modified
+    Actual arg A(IP,1) in module CLASWP line 806 file lu.f may be same as arg 
+ 2: A(I,1)
+
+Warning: Subprogram CSWAP argument arrayness mismatch at position 2:
+    Dummy arg CX in module CSWAP line 494 file lu.f is whole array
+    Actual arg A(J,1) in module CGETF2 line 273 file lu.f is array element
+  and at position 4:
+    Dummy arg CY in module CSWAP line 494 file lu.f is whole array
+    Actual arg A(JP,1) in module CGETF2 line 273 file lu.f is array element
+
+Warning: Subprogram CSWAP argument usage mismatch at position 2:
+    Dummy arg CX in module CSWAP line 494 file lu.f is modified
+    Actual arg A(J,1) in module CGETF2 line 273 file lu.f may be same as arg 4
+ : A(JP,1)
+  and at position 4:
+    Dummy arg CY in module CSWAP line 494 file lu.f is modified
+    Actual arg A(JP,1) in module CGETF2 line 273 file lu.f may be same as arg 
+ 2: A(J,1)
+
+Warning: Subprogram CTRMV argument arrayness mismatch at position 7:
+    Dummy arg X in module CTRMV line 2615 file lu.f is whole array
+    Actual arg A(1,J) in module CTRTI2 line 2584 file lu.f is array element
+
+Warning: Subprogram CTRMV argument usage mismatch at position 7:
+    Dummy arg X in module CTRMV line 2615 file lu.f is modified
+    Actual arg A(1,J) in module CTRTI2 line 2584 file lu.f may be same as arg 
+ 5: A
+
+Warning: Subprogram CTRMV argument arrayness mismatch at position 5:
+    Dummy arg A in module CTRMV line 2615 file lu.f is whole array
+    Actual arg A(J+1,J+1) in module CTRTI2 line 2603 file lu.f is array
+ element
+  and at position 7:
+    Dummy arg X in module CTRMV line 2615 file lu.f is whole array
+    Actual arg A(J+1,J) in module CTRTI2 line 2603 file lu.f is array element
+
+Warning: Subprogram CTRMV argument usage mismatch at position 7:
+    Dummy arg X in module CTRMV line 2615 file lu.f is modified
+    Actual arg A(J+1,J) in module CTRTI2 line 2603 file lu.f may be same as
+ arg 5: A(J+1,J+1)
+
+Warning: Subprogram DGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module DGEMM line 3293 file lu.f is whole array
+    Actual arg A(J+JB,J) in module DGETRF line 7109 file lu.f is array element
+  and at position 9:
+    Dummy arg B in module DGEMM line 3293 file lu.f is whole array
+    Actual arg A(J,J+JB) in module DGETRF line 7109 file lu.f is array element
+  and at position 12:
+    Dummy arg C in module DGEMM line 3293 file lu.f is whole array
+    Actual arg A(J+JB,J+JB) in module DGETRF line 7109 file lu.f is array
+ element
+
+Warning: Subprogram DGEMM argument usage mismatch at position 12:
+    Dummy arg C in module DGEMM line 3293 file lu.f is modified
+    Actual arg A(J+JB,J+JB) in module DGETRF line 7109 file lu.f may be same
+ as arg 9: A(J,J+JB)
+
+Warning: Subprogram DGER argument arrayness mismatch at position 4:
+    Dummy arg X in module DGER line 3606 file lu.f is whole array
+    Actual arg A(J+1,J) in module DGETF2 line 6953 file lu.f is array element
+  and at position 6:
+    Dummy arg Y in module DGER line 3606 file lu.f is whole array
+    Actual arg A(J,J+1) in module DGETF2 line 6953 file lu.f is array element
+  and at position 8:
+    Dummy arg A in module DGER line 3606 file lu.f is whole array
+    Actual arg A(J+1,J+1) in module DGETF2 line 6953 file lu.f is array
+ element
+
+Warning: Subprogram DGER argument usage mismatch at position 8:
+    Dummy arg A in module DGER line 3606 file lu.f is modified
+    Actual arg A(J+1,J+1) in module DGETF2 line 6953 file lu.f may be same as
+ arg 6: A(J,J+1)
+
+Warning: Subprogram DSCAL argument arrayness mismatch at position 3:
+    Dummy arg DX in module DSCAL line 3763 file lu.f is whole array
+    Actual arg A(J+1,J) in module DGETF2 line 6942 file lu.f is array element
+
+Warning: Subprogram DSWAP argument arrayness mismatch at position 2:
+    Dummy arg DX in module DSWAP line 3806 file lu.f is whole array
+    Actual arg A(J,1) in module DGETF2 line 6937 file lu.f is array element
+  and at position 4:
+    Dummy arg DY in module DSWAP line 3806 file lu.f is whole array
+    Actual arg A(JP,1) in module DGETF2 line 6937 file lu.f is array element
+
+Warning: Subprogram DSWAP argument usage mismatch at position 2:
+    Dummy arg DX in module DSWAP line 3806 file lu.f is modified
+    Actual arg A(J,1) in module DGETF2 line 6937 file lu.f may be same as arg 
+ 4: A(JP,1)
+  and at position 4:
+    Dummy arg DY in module DSWAP line 3806 file lu.f is modified
+    Actual arg A(JP,1) in module DGETF2 line 6937 file lu.f may be same as arg 
+ 2: A(J,1)
+
+Warning: Subprogram DTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module DTRSM line 3862 file lu.f is whole array
+    Actual arg A(J,J) in module DGETRF line 7102 file lu.f is array element
+  and at position 10:
+    Dummy arg B in module DTRSM line 3862 file lu.f is whole array
+    Actual arg A(J,J+JB) in module DGETRF line 7102 file lu.f is array element
+
+Warning: Subprogram DTRSM argument usage mismatch at position 10:
+    Dummy arg B in module DTRSM line 3862 file lu.f is modified
+    Actual arg A(J,J+JB) in module DGETRF line 7102 file lu.f may be same as
+ arg 8: A(J,J)
+
+Warning: Subprogram IDAMAX argument arrayness mismatch at position 2:
+    Dummy arg DX in module IDAMAX line 4240 file lu.f is whole array
+    Actual arg A(J,J) in module DGETF2 line 6930 file lu.f is array element
+
+Warning: Subprogram IZAMAX argument arrayness mismatch at position 2:
+    Dummy arg ZX in module IZAMAX line 4279 file lu.f is whole array
+    Actual arg A(J,J) in module ZGETF2 line 6365 file lu.f is array element
+
+Warning: Subprogram IZAMAX argument arrayness mismatch at position 2:
+    Dummy arg ZX in module IZAMAX line 4279 file lu.f is whole array
+    Actual arg AB(KV+1,JJ) in module ZGBTRF line 6048 file lu.f is array
+ element
+
+Warning: Subprogram IZAMAX argument arrayness mismatch at position 2:
+    Dummy arg ZX in module IZAMAX line 4279 file lu.f is whole array
+    Actual arg AB(KV+1,J) in module ZGBTF2 line 5781 file lu.f is array
+ element
+
+Warning: Subprogram ZCOPY argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZCOPY line 4320 file lu.f is whole array
+    Actual arg AB(KV+KL+1-JJ.. in module ZGBTRF line 6099 file lu.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZCOPY line 4320 file lu.f is whole array
+    Actual arg WORK31(1,JJ-J.. in module ZGBTRF line 6099 file lu.f is array
+ element
+
+Warning: Subprogram ZCOPY argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZCOPY line 4320 file lu.f is whole array
+    Actual arg WORK31(1,JJ-J.. in module ZGBTRF line 6250 file lu.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZCOPY line 4320 file lu.f is whole array
+    Actual arg AB(KV+KL+1-JJ.. in module ZGBTRF line 6250 file lu.f is array
+ element
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg A(J+JB,J) in module ZGETRF line 6544 file lu.f is array element
+  and at position 9:
+    Dummy arg B in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg A(J,J+JB) in module ZGETRF line 6544 file lu.f is array element
+  and at position 12:
+    Dummy arg C in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg A(J+JB,J+JB) in module ZGETRF line 6544 file lu.f is array
+ element
+
+Warning: Subprogram ZGEMM argument usage mismatch at position 12:
+    Dummy arg C in module ZGEMM line 4353 file lu.f is modified
+    Actual arg A(J+JB,J+JB) in module ZGETRF line 6544 file lu.f may be same
+ as arg 9: A(J,J+JB)
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg AB(KV+1+JB,J) in module ZGBTRF line 6151 file lu.f is array
+ element
+  and at position 9:
+    Dummy arg B in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 6151 file lu.f is array
+ element
+  and at position 12:
+    Dummy arg C in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg AB(KV+1,J+JB) in module ZGBTRF line 6151 file lu.f is array
+ element
+
+Warning: Subprogram ZGEMM argument usage mismatch at position 12:
+    Dummy arg C in module ZGEMM line 4353 file lu.f is modified
+    Actual arg AB(KV+1,J+JB) in module ZGBTRF line 6151 file lu.f may be same
+ as arg 9: AB(KV+1-JB,J+..
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 9:
+    Dummy arg B in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 6161 file lu.f is array
+ element
+  and at position 12:
+    Dummy arg C in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg AB(KV+KL+1-JB.. in module ZGBTRF line 6161 file lu.f is array
+ element
+
+Warning: Subprogram ZGEMM argument usage mismatch at position 12:
+    Dummy arg C in module ZGEMM line 4353 file lu.f is modified
+    Actual arg AB(KV+KL+1-JB.. in module ZGBTRF line 6161 file lu.f may be
+ same as arg 9: AB(KV+1-JB,J+..
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg AB(KV+1+JB,J) in module ZGBTRF line 6189 file lu.f is array
+ element
+  and at position 12:
+    Dummy arg C in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg AB(1+JB,J+KV) in module ZGBTRF line 6189 file lu.f is array
+ element
+
+Warning: Subprogram ZGEMM argument usage mismatch at position 12:
+    Dummy arg C in module ZGEMM line 4353 file lu.f is modified
+    Actual arg AB(1+JB,J+KV) in module ZGBTRF line 6189 file lu.f may be same
+ as arg 7: AB(KV+1+JB,J)
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 12:
+    Dummy arg C in module ZGEMM line 4353 file lu.f is whole array
+    Actual arg AB(1+KL,J+KV) in module ZGBTRF line 6199 file lu.f is array
+ element
+
+Warning: Subprogram ZGERU argument arrayness mismatch at position 4:
+    Dummy arg X in module ZGERU line 4768 file lu.f is whole array
+    Actual arg A(J+1,J) in module ZGETF2 line 6388 file lu.f is array element
+  and at position 6:
+    Dummy arg Y in module ZGERU line 4768 file lu.f is whole array
+    Actual arg A(J,J+1) in module ZGETF2 line 6388 file lu.f is array element
+  and at position 8:
+    Dummy arg A in module ZGERU line 4768 file lu.f is whole array
+    Actual arg A(J+1,J+1) in module ZGETF2 line 6388 file lu.f is array
+ element
+
+Warning: Subprogram ZGERU argument usage mismatch at position 8:
+    Dummy arg A in module ZGERU line 4768 file lu.f is modified
+    Actual arg A(J+1,J+1) in module ZGETF2 line 6388 file lu.f may be same as
+ arg 6: A(J,J+1)
+
+Warning: Subprogram ZGERU argument arrayness mismatch at position 4:
+    Dummy arg X in module ZGERU line 4768 file lu.f is whole array
+    Actual arg AB(KV+2,JJ) in module ZGBTRF line 6083 file lu.f is array
+ element
+  and at position 6:
+    Dummy arg Y in module ZGERU line 4768 file lu.f is whole array
+    Actual arg AB(KV,JJ+1) in module ZGBTRF line 6083 file lu.f is array
+ element
+  and at position 8:
+    Dummy arg A in module ZGERU line 4768 file lu.f is whole array
+    Actual arg AB(KV+1,JJ+1) in module ZGBTRF line 6083 file lu.f is array
+ element
+
+Warning: Subprogram ZGERU argument usage mismatch at position 8:
+    Dummy arg A in module ZGERU line 4768 file lu.f is modified
+    Actual arg AB(KV+1,JJ+1) in module ZGBTRF line 6083 file lu.f may be same
+ as arg 6: AB(KV,JJ+1)
+
+Warning: Subprogram ZGERU argument arrayness mismatch at position 4:
+    Dummy arg X in module ZGERU line 4768 file lu.f is whole array
+    Actual arg AB(KV+2,J) in module ZGBTF2 line 5800 file lu.f is array
+ element
+  and at position 6:
+    Dummy arg Y in module ZGERU line 4768 file lu.f is whole array
+    Actual arg AB(KV,J+1) in module ZGBTF2 line 5800 file lu.f is array
+ element
+  and at position 8:
+    Dummy arg A in module ZGERU line 4768 file lu.f is whole array
+    Actual arg AB(KV+1,J+1) in module ZGBTF2 line 5800 file lu.f is array
+ element
+
+Warning: Subprogram ZGERU argument usage mismatch at position 8:
+    Dummy arg A in module ZGERU line 4768 file lu.f is modified
+    Actual arg AB(KV+1,J+1) in module ZGBTF2 line 5800 file lu.f may be same
+ as arg 6: AB(KV,J+1)
+
+Warning: Subprogram ZSCAL argument arrayness mismatch at position 3:
+    Dummy arg ZX in module ZSCAL line 4925 file lu.f is whole array
+    Actual arg A(J+1,J) in module ZGETF2 line 6377 file lu.f is array element
+
+Warning: Subprogram ZSCAL argument arrayness mismatch at position 3:
+    Dummy arg ZX in module ZSCAL line 4925 file lu.f is whole array
+    Actual arg AB(KV+2,JJ) in module ZGBTRF line 6074 file lu.f is array
+ element
+
+Warning: Subprogram ZSCAL argument arrayness mismatch at position 3:
+    Dummy arg ZX in module ZSCAL line 4925 file lu.f is whole array
+    Actual arg AB(KV+2,J) in module ZGBTF2 line 5795 file lu.f is array
+ element
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg A(J,1) in module ZGETF2 line 6372 file lu.f is array element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg A(JP,1) in module ZGETF2 line 6372 file lu.f is array element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is modified
+    Actual arg A(J,1) in module ZGETF2 line 6372 file lu.f may be same as arg 
+ 4: A(JP,1)
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is modified
+    Actual arg A(JP,1) in module ZGETF2 line 6372 file lu.f may be same as arg 
+ 2: A(J,1)
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 6058 file lu.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+JP+JJ-J.. in module ZGBTRF line 6058 file lu.f is array
+ element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is modified
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 6058 file lu.f may be
+ same as arg 4: AB(KV+JP+JJ-J..
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is modified
+    Actual arg AB(KV+JP+JJ-J.. in module ZGBTRF line 6058 file lu.f may be
+ same as arg 2: AB(KV+1+JJ-J,J)
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 6065 file lu.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg WORK31(JP+JJ-.. in module ZGBTRF line 6065 file lu.f is array
+ element
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+1,JJ) in module ZGBTRF line 6067 file lu.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+JP,JJ) in module ZGBTRF line 6067 file lu.f is array
+ element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is modified
+    Actual arg AB(KV+1,JJ) in module ZGBTRF line 6067 file lu.f may be same as
+ arg 4: AB(KV+JP,JJ)
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is modified
+    Actual arg AB(KV+JP,JJ) in module ZGBTRF line 6067 file lu.f may be same
+ as arg 2: AB(KV+1,JJ)
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 6235 file lu.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+JP+JJ-J.. in module ZGBTRF line 6235 file lu.f is array
+ element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is modified
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 6235 file lu.f may be
+ same as arg 4: AB(KV+JP+JJ-J..
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is modified
+    Actual arg AB(KV+JP+JJ-J.. in module ZGBTRF line 6235 file lu.f may be
+ same as arg 2: AB(KV+1+JJ-J,J)
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 6241 file lu.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg WORK31(JP+JJ-.. in module ZGBTRF line 6241 file lu.f is array
+ element
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+JP,J) in module ZGBTF2 line 5789 file lu.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is whole array
+    Actual arg AB(KV+1,J) in module ZGBTF2 line 5789 file lu.f is array
+ element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 4954 file lu.f is modified
+    Actual arg AB(KV+JP,J) in module ZGBTF2 line 5789 file lu.f may be same as
+ arg 4: AB(KV+1,J)
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 4954 file lu.f is modified
+    Actual arg AB(KV+1,J) in module ZGBTF2 line 5789 file lu.f may be same as
+ arg 2: AB(KV+JP,J)
+
+Warning: Subprogram ZTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module ZTRSM line 4990 file lu.f is whole array
+    Actual arg A(J,J) in module ZGETRF line 6537 file lu.f is array element
+  and at position 10:
+    Dummy arg B in module ZTRSM line 4990 file lu.f is whole array
+    Actual arg A(J,J+JB) in module ZGETRF line 6537 file lu.f is array element
+
+Warning: Subprogram ZTRSM argument usage mismatch at position 10:
+    Dummy arg B in module ZTRSM line 4990 file lu.f is modified
+    Actual arg A(J,J+JB) in module ZGETRF line 6537 file lu.f may be same as
+ arg 8: A(J,J)
+
+Warning: Subprogram ZTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module ZTRSM line 4990 file lu.f is whole array
+    Actual arg AB(KV+1,J) in module ZGBTRF line 6143 file lu.f is array
+ element
+  and at position 10:
+    Dummy arg B in module ZTRSM line 4990 file lu.f is whole array
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 6143 file lu.f is array
+ element
+
+Warning: Subprogram ZTRSM argument usage mismatch at position 10:
+    Dummy arg B in module ZTRSM line 4990 file lu.f is modified
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 6143 file lu.f may be
+ same as arg 8: AB(KV+1,J)
+
+Warning: Subprogram ZTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module ZTRSM line 4990 file lu.f is whole array
+    Actual arg AB(KV+1,J) in module ZGBTRF line 6181 file lu.f is array
+ element
+
+Warning: Subprogram ZLASWP argument arrayness mismatch at position 2:
+    Dummy arg A in module ZLASWP line 6707 file lu.f is whole array
+    Actual arg A(1,J+JB) in module ZGETRF line 6532 file lu.f is array element
+
+Warning: Subprogram ZLASWP argument arrayness mismatch at position 2:
+    Dummy arg A in module ZLASWP line 6707 file lu.f is whole array
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 6112 file lu.f is array
+ element
+  and at position 6:
+    Dummy arg IPIV in module ZLASWP line 6707 file lu.f is whole array
+    Actual arg IPIV(J) in module ZGBTRF line 6112 file lu.f is array element
+
+Warning: Subprogram ZGETF2 argument arrayness mismatch at position 3:
+    Dummy arg A in module ZGETF2 line 6261 file lu.f is whole array
+    Actual arg A(J,J) in module ZGETRF line 6514 file lu.f is array element
+  and at position 5:
+    Dummy arg IPIV in module ZGETF2 line 6261 file lu.f is whole array
+    Actual arg IPIV(J) in module ZGETRF line 6514 file lu.f is array element
+
+Warning: Subprogram DGETF2 argument arrayness mismatch at position 3:
+    Dummy arg A in module DGETF2 line 6827 file lu.f is whole array
+    Actual arg A(J,J) in module DGETRF line 7079 file lu.f is array element
+  and at position 5:
+    Dummy arg IPIV in module DGETF2 line 6827 file lu.f is whole array
+    Actual arg IPIV(J) in module DGETRF line 7079 file lu.f is array element
+
+Warning: Subprogram DLASWP argument arrayness mismatch at position 2:
+    Dummy arg A in module DLASWP line 7272 file lu.f is whole array
+    Actual arg A(1,J+JB) in module DGETRF line 7097 file lu.f is array element
+
+Warning: Subprogram POLINT argument arrayness mismatch at position 1:
+    Dummy arg XA in module POLINT line 1 file polint.f is whole array
+    Actual arg X(K) in module TERP line 14 file terp.f is array element
+  and at position 2:
+    Dummy arg YA in module POLINT line 1 file polint.f is whole array
+    Actual arg Y(K) in module TERP line 14 file terp.f is array element
+
+Warning: Subprogram POLINC argument arrayness mismatch at position 1:
+    Dummy arg XA in module POLINC line 20 file terpc.f is whole array
+    Actual arg X(K) in module TERPC line 15 file terpc.f is array element
+  and at position 2:
+    Dummy arg YA in module POLINC line 20 file terpc.f is whole array
+    Actual arg Y(K) in module TERPC line 15 file terpc.f is array element

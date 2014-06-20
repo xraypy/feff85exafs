@@ -1,0 +1,388 @@
+
+FTNCHEK Version 3.3 November 2004
+
+File akeato.f:
+ 0 syntax errors detected in file akeato.f
+File aprdev.f:
+ 0 syntax errors detected in file aprdev.f
+File bkmrdf.f:
+ 0 syntax errors detected in file bkmrdf.f
+File cofcon.f:
+     15  11   if (b .ge. 0.2) b = b - 0.1
+                    ^
+Warning near line 15 col 13 file cofcon.f: comparison mixes terms of different
+ precision: dble B .GE. real const 0.2
+                                    ^
+Warning near line 15 col 29 file cofcon.f: promotion may not give desired
+ precision: dble B - real const 0.1
+     18  21   if (b .le. 0.8) b = b + 0.1
+                    ^
+Warning near line 18 col 13 file cofcon.f: comparison mixes terms of different
+ precision: dble B .LE. real const 0.8
+                                    ^
+Warning near line 18 col 29 file cofcon.f: promotion may not give desired
+ precision: dble B + real const 0.1
+     20  31   a = 1.0 - b
+                      ^
+Warning near line 20 col 15 file cofcon.f: promotion may not give desired
+ precision: real const 1.0 - dble B
+
+ 0 syntax errors detected in file cofcon.f
+ 5 warnings issued in file cofcon.f
+
+File dentfa.f:
+     10       w=dr*(dz+ch)**(1./3.)
+                          ^
+Warning near line 10 col 19 file dentfa.f: promotion may not give desired
+ precision: dble expr (DZ+CH) ** real expr (1./3.)
+     11       w=sqrt(w/0.8853)
+                      ^
+Warning near line 11 col 15 file dentfa.f: promotion may not give desired
+ precision: dble W / real const 0.8853
+     12       t=w*(0.60112*w+1.81061)+1.
+                          ^
+Warning near line 12 col 19 file dentfa.f: promotion may not give desired
+ precision: real const 0.60112 * dble W
+                            ^
+Warning near line 12 col 21 file dentfa.f: promotion may not give desired
+ precision: dble expr 0.60112*W + real const 1.81061
+                                     ^
+Warning near line 12 col 30 file dentfa.f: promotion may not give desired
+ precision: dble expr W*(0.60112*W+1.81061) + real const 1.
+     13       w=w*(w*(w*(w*(0.04793*w+0.21465)+0.77112)+1.39515)+1.81061)+1
+                                   ^
+Warning near line 13 col 28 file dentfa.f: promotion may not give desired
+ precision: real const 0.04793 * dble W
+                                     ^
+Warning near line 13 col 30 file dentfa.f: promotion may not give desired
+ precision: dble expr 0.04793*W + real const 0.21465
+                                              ^
+Warning near line 13 col 39 file dentfa.f: promotion may not give desired
+ precision: dble expr W*(0.04793*W+0.21465) + real const 0.77112
+                                                       ^
+Warning near line 13 col 48 file dentfa.f: promotion may not give desired
+ precision: dble expr W*(W*(0.04793*W+0.21465) .. + real const 1.39515
+                                                                ^
+Warning near line 13 col 57 file dentfa.f: promotion may not give desired
+ precision: dble expr W*(W*(W*(0.04793*W+0.214 .. + real const 1.81061
+
+ 0 syntax errors detected in file dentfa.f
+ 10 warnings issued in file dentfa.f
+
+File dsordf.f:
+
+Warning in module DSORDF at line 61 file dsordf.f: Function modifies common
+ variable AP
+
+ 0 syntax errors detected in file dsordf.f
+ 1 warning issued in file dsordf.f
+
+File etotal.f:
+
+Warning in module ETOTAL in file etotal.f: Variables set but never used:
+    MBI set at line 93 file etotal.f
+    MII set at line 94 file etotal.f
+    MJJ set at line 95 file etotal.f
+    MK set at line 52 file etotal.f
+
+ 0 syntax errors detected in file etotal.f
+ 1 warning issued in file etotal.f
+
+File fdmocc.f:
+     11          fdmocc=fdmocc*a/(a-1.0)
+                                   ^
+Warning near line 11 col 28 file fdmocc.f: promotion may not give desired
+ precision: dble A - real const 1.0
+
+ 0 syntax errors detected in file fdmocc.f
+ 1 warning issued in file fdmocc.f
+
+File fdrirk.f:
+
+Warning in module FDRIRK at line 37 file fdrirk.f: Function modifies common
+ variable AG
+
+Warning in module FDRIRK at line 26 file fdrirk.f: Function may modify 
+ argument I
+
+Warning in module FDRIRK at line 26 file fdrirk.f: Function may modify 
+ argument J
+
+Warning in module FDRIRK at line 26 file fdrirk.f: Function may modify 
+ argument K
+
+ 0 syntax errors detected in file fdrirk.f
+ 4 warnings issued in file fdrirk.f
+
+File fpf0.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/parallel.h:
+     24         fpcorr =  -(iz/82.5)**2.37
+                       ^
+Warning near line 24 col 16 file fpf0.f: real expr -(IZ/82.5)**2.37 promoted
+ to dble FPCORR: may not give desired precision
+    107       dq=0.5*bohr 
+                    ^
+Warning near line 107 col 13 file fpf0.f: promotion may not give desired
+ precision: real const 0.5 * dble BOHR
+
+Warning in module FPF0 in file fpf0.f: Variables set but never used:
+    IOS set at line 23 file fpf0.f
+
+ 0 syntax errors detected in file fpf0.f
+ 4 warnings issued in file fpf0.f
+
+File inmuat.f:
+     32       rap(1)=100.
+                    ^
+Warning near line 32 col 13 file inmuat.f: real const 100. promoted to dble 
+ RAP: may not give desired precision
+     33       rap(2)=10.
+                    ^
+Warning near line 33 col 13 file inmuat.f: real const 10. promoted to dble RAP
+ : may not give desired precision
+     45       if ( abs(nz-xionin-xk) .gt. 0.001) then
+                                     ^
+Warning near line 45 col 30 file inmuat.f: comparison mixes terms of different
+ precision: dble expr ABS(NZ-XIONIN-XK) .GT. real const 0.001
+     80          scc(i)=0.3
+                       ^
+Warning near line 80 col 16 file inmuat.f: real const 0.3 promoted to dble SCC
+ : may not give desired precision
+     82          if (xnel(i) .lt. 0.5)  scc(i)=1.0
+                             ^
+Warning near line 82 col 22 file inmuat.f: comparison mixes terms of different
+ precision: dble XNEL .LT. real const 0.5
+                                              ^
+Warning near line 82 col 39 file inmuat.f: real const 1.0 promoted to dble SCC
+ : may not give desired precision
+
+Warning in module INMUAT in file inmuat.f: Labels defined but not used:
+    <999> defined at line 88 file inmuat.f
+
+ 0 syntax errors detected in file inmuat.f
+ 7 warnings issued in file inmuat.f
+
+File intdir.f:
+     57             if (ec .gt. -0.0003) then
+                           ^
+Warning near line 57 col 20 file intdir.f: comparison mixes terms of different
+ precision: dble EC .GT. real expr -0.0003
+
+ 0 syntax errors detected in file intdir.f
+ 1 warning issued in file intdir.f
+
+File lagdat.f:
+
+Warning in module LAGDAT in file lagdat.f: Variables set but never used:
+    NI set at line 21 file lagdat.f
+    NJ set at line 22 file lagdat.f
+
+ 0 syntax errors detected in file lagdat.f
+ 1 warning issued in file lagdat.f
+
+File messer.f:
+ 0 syntax errors detected in file messer.f
+File muatco.f:
+
+Warning in module MUATCO in file muatco.f: Labels defined but not used:
+    <601> defined at line 19 file muatco.f
+
+ 0 syntax errors detected in file muatco.f
+ 1 warning issued in file muatco.f
+
+File nucdev.f:
+     24       a = 0.0
+                ^
+Warning near line 24 col 9 file nucdev.f: real const 0.0 promoted to dble A:
+ may not give desired precision
+     25       epai = 0.0
+                   ^
+Warning near line 25 col 12 file nucdev.f: real const 0.0 promoted to dble 
+ EPAI: may not give desired precision
+     30          a=dz*(a**(1./3.))*2.2677d-05
+                        ^
+Warning near line 30 col 17 file nucdev.f: promotion may not give desired
+ precision: dble A ** real expr (1./3.)
+     36             nuc=3+2*int(b/2.0)
+                                 ^
+Warning near line 36 col 26 file nucdev.f: promotion may not give desired
+ precision: dble B / real const 2.0
+     56       if (epai.le.0.0) then
+                      ^
+Warning near line 56 col 15 file nucdev.f: comparison mixes terms of different
+ precision: dble EPAI .LE. real const 0.0
+
+ 0 syntax errors detected in file nucdev.f
+ 5 warnings issued in file nucdev.f
+
+File ortdat.f:
+ 0 syntax errors detected in file ortdat.f
+File potrdf.f:
+ 0 syntax errors detected in file potrdf.f
+File potslw.f:
+     12       das=dpas/24.0
+                      ^
+Warning near line 12 col 15 file potslw.f: promotion may not give desired
+ precision: dble DPAS / real const 24.0
+     17       dp(2)=dr(1)*(d(2)-d(1)*dlo2)/(12.0*(dlo-1.0))
+                                                     ^
+Warning near line 17 col 46 file potslw.f: promotion may not give desired
+ precision: dble DLO - real const 1.0
+                                                ^
+Warning near line 17 col 41 file potslw.f: promotion may not give desired
+ precision: real const 12.0 * dble expr (DLO-1.0)
+     18       dp(1)=dv(1)/3.0-dp(2)/dlo2
+                         ^
+Warning near line 18 col 18 file potslw.f: promotion may not give desired
+ precision: dble DV / real const 3.0
+     19       dp(2)=dv(2)/3.0-dp(2)*dlo2
+                         ^
+Warning near line 19 col 18 file potslw.f: promotion may not give desired
+ precision: dble DV / real const 3.0
+     22    20 dp(i)=dp(i-1)+das*(13.0*(dv(i)+dv(i-1))-(dv(i-2)+dv(i+1)))
+                                     ^
+Warning near line 22 col 30 file potslw.f: promotion may not give desired
+ precision: real const 13.0 * dble expr (DV(I)+DV(I-1))
+     28    30 dv(k)=dv(k+1)/dlo+das*(13.0*(dp(k+1)/dlo+dp(k))-(dp(k+2)/dlo2+dp
+                                         ^
+Warning near line 28 col 34 file potslw.f: promotion may not give desired
+ precision: real const 13.0 * dble expr (DP(K+1)/DLO+DP(K))
+     30       dv(1)=dv(3)/dlo2+dpas*(dp(1)+4.0*dp(2)/dlo+dp(3)/dlo2)/3.0
+                                              ^
+Warning near line 30 col 39 file potslw.f: promotion may not give desired
+ precision: real const 4.0 * dble DP
+                                                                    ^
+Warning near line 30 col 61 file potslw.f: promotion may not give desired
+ precision: dble expr DPAS*(DP(1)+4.0*DP(2)/DL .. / real const 3.0
+
+ 0 syntax errors detected in file potslw.f
+ 9 warnings issued in file potslw.f
+
+File s02at.f:
+      6       dval = 1.0
+                   ^
+Warning near line 6 col 12 file s02at.f: real const 1.0 promoted to dble DVAL:
+ may not give desired precision
+     17             m1(i,i) = 1.0
+                            ^
+Warning near line 17 col 21 file s02at.f: real const 1.0 promoted to dble M1:
+ may not give desired precision
+     18   20        m2(i,i) = 1.0
+                            ^
+Warning near line 18 col 21 file s02at.f: real const 1.0 promoted to dble M2:
+ may not give desired precision
+     83                d2(i,j) = 1.0
+                               ^
+Warning near line 83 col 24 file s02at.f: real const 1.0 promoted to dble D2:
+ may not give desired precision
+
+ 0 syntax errors detected in file s02at.f
+ 4 warnings issued in file s02at.f
+
+File scfdat.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/parallel.h:
+    120  41   scw(i) = 0.
+                     ^
+Warning near line 120 col 14 file scfdat.f: real const 0. promoted to dble SCW
+ : may not give desired precision
+    175          pr = 0.
+                    ^
+Warning near line 175 col 13 file scfdat.f: real const 0. promoted to dble PR:
+ may not give desired precision
+    218          pr = 0.
+                    ^
+Warning near line 218 col 13 file scfdat.f: real const 0. promoted to dble PR:
+ may not give desired precision
+    228          pr = 0.
+                    ^
+Warning near line 228 col 13 file scfdat.f: real const 0. promoted to dble PR:
+ may not give desired precision
+    266          ecorr =2.0
+                       ^
+Warning near line 266 col 16 file scfdat.f: real const 2.0 promoted to dble 
+ ECORR: may not give desired precision
+    268          eatom = (eatom-ecorr/4.0) 
+                                     ^
+Warning near line 268 col 30 file scfdat.f: promotion may not give desired
+ precision: dble ECORR / real const 4.0
+    291   530    dmag(i) = 0.0
+                         ^
+Warning near line 291 col 18 file scfdat.f: real const 0.0 promoted to dble 
+ DMAG: may not give desired precision
+    366   710            ovpint(j,i) = 0.0
+                                     ^
+Warning near line 366 col 30 file scfdat.f: real const 0.0 promoted to dble 
+ OVPINT: may not give desired precision
+    367               ovpint(i,i) = 1.0
+                                  ^
+Warning near line 367 col 27 file scfdat.f: real const 1.0 promoted to dble 
+ OVPINT: may not give desired precision
+
+Warning in module SCFDAT in file scfdat.f: Variables set but never used:
+    IOS set at line 64 file scfdat.f
+
+ 0 syntax errors detected in file scfdat.f
+ 10 warnings issued in file scfdat.f
+
+File soldir.f:
+     73       emin=0.0
+                  ^
+Warning near line 73 col 11 file soldir.f: real const 0.0 promoted to dble 
+ EMIN: may not give desired precision
+     78       if (emin .ge. 0.0) then
+                       ^
+Warning near line 78 col 16 file soldir.f: comparison mixes terms of different
+ precision: dble EMIN .GE. real const 0.0
+
+ 0 syntax errors detected in file soldir.f
+ 2 warnings issued in file soldir.f
+
+File tabrat.f:
+ 0 syntax errors detected in file tabrat.f
+File vlda.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     50         if (rho .gt. 0.0 ) then
+                        ^
+Warning near line 50 col 17 file vlda.f: comparison mixes terms of different
+ precision: dble RHO .GT. real const 0.0
+     52            rsc =101.0
+                       ^
+Warning near line 52 col 16 file vlda.f: real const 101.0 promoted to dble RSC
+ : may not give desired precision
+     53            if (rhoc .gt.0.0) rsc = (rhoc/3)**(-third)
+                            ^
+Warning near line 53 col 21 file vlda.f: comparison mixes terms of different
+ precision: dble RHOC .GT. real const 0.0
+
+Warning in module VLDA in file vlda.f: Variables declared but never
+ referenced:
+    IA declared at line 1 file vlda.f (dummy argument)
+
+ 0 syntax errors detected in file vlda.f
+ 5 warnings issued in file vlda.f
+
+
+File wfirdf.f:
+     37       dr1= nz*exp(-8.8)
+                 ^
+Warning near line 37 col 10 file wfirdf.f: real expr NZ*EXP(-8.8) promoted to 
+ dble DR1: may not give desired precision
+
+ 0 syntax errors detected in file wfirdf.f
+ 1 warning issued in file wfirdf.f
+
+File yzkrdf.f:
+ 0 syntax errors detected in file yzkrdf.f
+File yzkteg.f:
+ 0 syntax errors detected in file yzkteg.f

@@ -1,0 +1,120 @@
+
+Warning: Subprogram CCRIT argument arrayness mismatch at position 2:
+    Dummy arg IPAT in module CCRIT line 1 file ccrit.f is whole array
+    Actual arg IPAT(1,IP) in module PATHS line 231 file paths.f is array
+ element
+
+Warning: Subprogram CCRIT argument arrayness mismatch at position 2:
+    Dummy arg IPAT in module CCRIT line 1 file ccrit.f is whole array
+    Actual arg IPAT(1,IP) in module PATHS line 323 file paths.f is array
+ element
+
+Warning: Subprogram CCRIT argument arrayness mismatch at position 2:
+    Dummy arg IPAT in module CCRIT line 1 file ccrit.f is whole array
+    Actual arg IPAT(1,IP) in module PATHS line 369 file paths.f is array
+ element
+
+Warning: Subprogram PAR_BEGIN never defined
+    Invoked in module FFMOD4 line 44 file ffmod4.f
+
+Warning: Subprogram CHOPEN never defined
+    Invoked in module FFMOD4 line 49 file ffmod4.f
+
+Warning: Subprogram WLOG never defined
+    Invoked in module FFMOD4 line 98 file ffmod4.f
+
+Warning: Subprogram PAR_BARRIER never defined
+    Invoked in module FFMOD4 line 102 file ffmod4.f
+
+Warning: Subprogram PAR_END never defined
+    Invoked in module FFMOD4 line 103 file ffmod4.f
+
+Warning: Subprogram SWAP argument usage mismatch at position 1:
+    Dummy arg A in module SWAP line 60 file heap.f is modified
+    Actual arg H(I) in module HDOWN line 51 file heap.f may be same as arg 2: 
+ H(J)
+  and at position 2:
+    Dummy arg B in module SWAP line 60 file heap.f is modified
+    Actual arg H(J) in module HDOWN line 51 file heap.f may be same as arg 1: 
+ H(I)
+
+Warning: Subprogram SWAP argument usage mismatch at position 1:
+    Dummy arg A in module SWAP line 60 file heap.f is modified
+    Actual arg H(I) in module HUP line 19 file heap.f may be same as arg 2: 
+ H(J)
+  and at position 2:
+    Dummy arg B in module SWAP line 60 file heap.f is modified
+    Actual arg H(J) in module HUP line 19 file heap.f may be same as arg 1: 
+ H(I)
+
+Warning: Subprogram ISWAP argument usage mismatch at position 1:
+    Dummy arg I in module ISWAP line 67 file heap.f is modified
+    Actual arg IH(I) in module HDOWN line 52 file heap.f may be same as arg 2: 
+ IH(J)
+  and at position 2:
+    Dummy arg J in module ISWAP line 67 file heap.f is modified
+    Actual arg IH(J) in module HDOWN line 52 file heap.f may be same as arg 1: 
+ IH(I)
+
+Warning: Subprogram ISWAP argument usage mismatch at position 1:
+    Dummy arg I in module ISWAP line 67 file heap.f is modified
+    Actual arg IH(I) in module HUP line 20 file heap.f may be same as arg 2: 
+ IH(J)
+  and at position 2:
+    Dummy arg J in module ISWAP line 67 file heap.f is modified
+    Actual arg IH(J) in module HUP line 20 file heap.f may be same as arg 1: 
+ IH(I)
+
+Warning: Subprogram PAR_STOP never defined
+    Invoked in module IPACK line 19 file ipack.f
+
+Warning: Subprogram UPACK argument arrayness mismatch at position 1:
+    Dummy arg IOUT in module UPACK line 34 file ipack.f is whole array
+    Actual arg IOUT(1,IP) in module PATHSD line 151 file pathsd.f is array
+ element
+
+Warning: Subprogram UPACK argument arrayness mismatch at position 1:
+    Dummy arg IOUT in module UPACK line 34 file ipack.f is whole array
+    Actual arg IOUT(1,INDEX(.. in module PATHSD line 190 file pathsd.f is
+ array element
+
+Warning: Subprogram UPACK argument arrayness mismatch at position 1:
+    Dummy arg IOUT in module UPACK line 34 file ipack.f is whole array
+    Actual arg IOUT(1,INDEX(.. in module PATHSD line 197 file pathsd.f is
+ array element
+
+Warning: Subprogram SDIST never defined
+    Invoked in module MPPRMD line 113 file mpprmd.f
+
+Warning: Subprogram DOTCOS argument arrayness mismatch at position 1:
+    Dummy arg RM1 in module DOTCOS line 65 file mrb.f is whole array
+    Actual arg RAT(1,JM1AT) in module MRB line 54 file mrb.f is array element
+  and at position 2:
+    Dummy arg R in module DOTCOS line 65 file mrb.f is whole array
+    Actual arg RAT(1,JAT) in module MRB line 54 file mrb.f is array element
+  and at position 3:
+    Dummy arg RP1 in module DOTCOS line 65 file mrb.f is whole array
+    Actual arg RAT(1,JP1AT) in module MRB line 54 file mrb.f is array element
+
+Warning: Subprogram OUTCRT argument arrayness mismatch at position 2:
+    Dummy arg IPAT in module OUTCRT line 1 file outcrt.f has 1 dim size 8
+    Actual arg IPAT0 in module PATHSD line 258 file pathsd.f has 1 dim size 9
+
+Warning: Subprogram STRAP never defined
+    Invoked in module OUTCRT line 70 file outcrt.f
+
+Warning: Subprogram ISTRLN never defined
+    Invoked in module PATHSD line 93 file pathsd.f
+    (possibly it is an array which was not declared)
+
+Warning: Subprogram RDXSPH never defined
+    Invoked in module PRCRIT line 53 file prcrit.f
+
+Warning: Subprogram CPL0 never defined
+    Invoked in module PRCRIT line 92 file prcrit.f
+
+Warning: Subprogram RDHEAD never defined
+    Invoked in module REPATH line 43 file repath.f
+
+Warning: Subprogram SORTII never invoked
+    Defined in module SORTII line 68 file sortix.f

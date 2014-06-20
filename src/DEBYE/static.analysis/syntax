@@ -1,0 +1,773 @@
+
+FTNCHEK Version 3.3 November 2004
+
+File sigcl.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    137       parameter (con = 48.508 459 393 094)
+                               ^
+Warning near line 137 col 24 file sigcl.f: Single-precision real constant has
+ more digits than are stored
+                               ^
+Warning near line 137 col 24 file sigcl.f: real const 48.508 459 393 094 
+ promoted to dble CON: may not give desired precision
+    155       fac=(3/2.)*con/(thetad*sqrt(ami*amj))
+                        ^
+Warning near line 155 col 17 file sigcl.f: promotion may not give desired
+ precision: real expr (3/2.) * dble CON
+    170       if(w.lt.1.e-20) return
+                  ^
+Warning near line 170 col 11 file sigcl.f: comparison mixes terms of different
+ precision: dble W .LT. real const 1.E-20
+    172       if(x.gt.0.) fac=sin(w*x)/x
+                  ^
+Warning near line 172 col 11 file sigcl.f: comparison mixes terms of different
+ precision: dble X .GT. real const 0.
+    198       parameter(nmax = 10, tol = 1.e-5)
+                                         ^
+Warning near line 198 col 34 file sigcl.f: real const 1.E-5 promoted to dble 
+ TOL: may not give desired precision
+    202       del=1.
+                 ^
+Warning near line 202 col 10 file sigcl.f: real const 1. promoted to dble DEL:
+ may not give desired precision
+    211       sum=0.
+                 ^
+Warning near line 211 col 10 file sigcl.f: real const 0. promoted to dble SUM:
+ may not give desired precision
+
+ 0 syntax errors detected in file sigcl.f
+ 10 warnings issued in file sigcl.f
+
+File sigm3.f:
+     15       z=exp(- thetae/tk)
+               ^
+Warning near line 15 col 8 file sigm3.f: dble expr EXP(-THETAE/TK) truncated
+ to real Z
+     16       sig02= (1-z)/ (1+z) * sig2
+                                  ^
+Warning near line 16 col 27 file sigm3.f: promotion may not give desired
+ precision: real expr (1-Z)/(1+Z) * dble SIG2
+                   ^
+Warning near line 16 col 12 file sigm3.f: dble expr (1-Z)/(1+Z)*SIG2 truncated
+ to real SIG02
+     17       sig01 = alphat * sig02 * threequater
+                             ^
+Warning near line 17 col 22 file sigm3.f: promotion may not give desired
+ precision: dble ALPHAT * real SIG02
+                    ^
+Warning near line 17 col 13 file sigm3.f: dble expr ALPHAT*SIG02*THREEQUATER 
+ .. truncated to real SIG01
+     18       sig1 = sig01 * sig2 / sig02
+                           ^
+Warning near line 18 col 20 file sigm3.f: promotion may not give desired
+ precision: real SIG01 * dble SIG2
+                                  ^
+Warning near line 18 col 27 file sigm3.f: promotion may not give desired
+ precision: dble expr SIG01*SIG2 / real SIG02
+     19       sig3 = (2- fourthird * (sig02/sig2) **2)* sig1 * sig2
+                                           ^
+Warning near line 19 col 36 file sigm3.f: promotion may not give desired
+ precision: real SIG02 / dble SIG2
+
+ 0 syntax errors detected in file sigm3.f
+ 8 warnings issued in file sigm3.f
+
+File sigms.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+    136       parameter (con = 48.508 459 393 094)
+                               ^
+Warning near line 136 col 24 file sigms.f: Single-precision real constant has
+ more digits than are stored
+                               ^
+Warning near line 136 col 24 file sigms.f: real const 48.508 459 393 094 
+ promoted to dble CON: may not give desired precision
+    154       fac=(3/2.)*con/(thetad*sqrt(ami*amj))
+                        ^
+Warning near line 154 col 17 file sigms.f: promotion may not give desired
+ precision: real expr (3/2.) * dble CON
+    169       if(w.lt.1.e-20) return
+                  ^
+Warning near line 169 col 11 file sigms.f: comparison mixes terms of different
+ precision: dble W .LT. real const 1.E-20
+    171       if(x.gt.0.) fac=sin(w*x)/x
+                  ^
+Warning near line 171 col 11 file sigms.f: comparison mixes terms of different
+ precision: dble X .GT. real const 0.
+    172       emwy=0.
+                  ^
+Warning near line 172 col 11 file sigms.f: real const 0. promoted to dble EMWY
+ : may not give desired precision
+    173       if(yinv.gt.0.0125) emwy=exp(-w/yinv)
+                     ^
+Warning near line 173 col 14 file sigms.f: comparison mixes terms of different
+ precision: dble YINV .GT. real const 0.0125
+    196       parameter(nmax = 10, tol = 1.e-5)
+                                         ^
+Warning near line 196 col 34 file sigms.f: real const 1.E-5 promoted to dble 
+ TOL: may not give desired precision
+    200       del=1.
+                 ^
+Warning near line 200 col 10 file sigms.f: real const 1. promoted to dble DEL:
+ may not give desired precision
+    209       sum=0.
+                 ^
+Warning near line 209 col 10 file sigms.f: real const 0. promoted to dble SUM:
+ may not give desired precision
+
+ 0 syntax errors detected in file sigms.f
+ 12 warnings issued in file sigms.f
+
+File sigrem.f:
+Including file dwpar.h:
+Including file ../HEADERS/parallel.h:
+     43       parameter (amu0  = 1.660 54)
+                                 ^
+Warning near line 43 col 26 file sigrem.f: real const 1.660 54 promoted to 
+ dble AMU0: may not give desired precision
+    122       dt=2.*pi/wmaxx/15.
+                   ^
+Warning near line 122 col 12 file sigrem.f: promotion may not give desired
+ precision: real const 2. * dble PI
+                            ^
+Warning near line 122 col 21 file sigrem.f: promotion may not give desired
+ precision: dble expr 2.*PI/WMAXX / real const 15.
+    124       cutoff=2.*sqrt(2.*acut)/res/wmaxx 
+                               ^
+Warning near line 124 col 24 file sigrem.f: promotion may not give desired
+ precision: real const 2. * dble ACUT
+                       ^
+Warning near line 124 col 16 file sigrem.f: promotion may not give desired
+ precision: real const 2. * dble expr SQRT(2.*ACUT)
+    125       nstep=cutoff/dt
+                   ^
+Warning near line 125 col 12 file sigrem.f: dble expr CUTOFF/DT truncated to 
+ intg NSTEP
+    126       xlam=acut/(cutoff)**2
+                         ^
+Possibly misleading appearance near line 126 col 18 file sigrem.f: Extraneous
+ parentheses
+    127       wl=0.0000001
+                ^
+Warning near line 127 col 9 file sigrem.f: real const 0.0000001 promoted to 
+ dble WL: may not give desired precision
+    130       dw=0.01 
+                ^
+Warning near line 130 col 9 file sigrem.f: real const 0.01 promoted to dble DW
+ : may not give desired precision
+    131       nw=(wm-wl)/dw + 1
+                ^
+Warning near line 131 col 9 file sigrem.f: dble expr (WM-WL)/DW+1 truncated to 
+ intg NW
+    136       nfit = dosfit*nw/20.
+                              ^
+Warning near line 136 col 23 file sigrem.f: promotion may not give desired
+ precision: dble expr DOSFIT*NW / real const 20.
+                   ^
+Warning near line 136 col 12 file sigrem.f: dble expr DOSFIT*NW/20. truncated
+ to intg NFIT
+    168          nq0(i)=0.
+                       ^
+Warning near line 168 col 16 file sigrem.f: real const 0. truncated to intg 
+ NQ0
+    175    91    q0(n,i)=0.
+                        ^
+Warning near line 175 col 17 file sigrem.f: real const 0. promoted to dble Q0:
+ may not give desired precision
+    179                l=nint(100.*rat(n,jl))
+                                  ^
+Warning near line 179 col 27 file sigrem.f: promotion may not give desired
+ precision: real const 100. * dble RAT
+    180                l1=nint(100.*rat1(n,i))
+                                   ^
+Warning near line 180 col 28 file sigrem.f: promotion may not give desired
+ precision: real const 100. * dble RAT1
+    197       atmu=0.
+                  ^
+Warning near line 197 col 11 file sigrem.f: real const 0. promoted to dble 
+ ATMU: may not give desired precision
+    215          atmu=atmu + 0.25*( rnn(n,i,im)+rnn(n,i,ip) )**2 /atmass
+                                 ^
+Warning near line 215 col 26 file sigrem.f: promotion may not give desired
+ precision: real const 0.25 * dble expr (RNN(N,I,IM)+RNN(N,I,IP) ..
+    217       atmu=1./atmu
+                     ^
+Warning near line 217 col 14 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble ATMU
+    225   115 q0(n,i)=0.
+                     ^
+Warning near line 225 col 14 file sigrem.f: real const 0. promoted to dble Q0:
+ may not give desired precision
+    236          q0(n,i)=q0(n,i)+sqrt(atmu/atmass)*(rnn(n,im,i)-rnn(n,i,ip))/2.
+                                                                            ^
+Warning near line 236 col 69 file sigrem.f: promotion may not give desired
+ precision: dble expr SQRT(ATMU/ATMASS)*(RNN(N .. / real const 2.
+    240       q0q0=0.
+                  ^
+Warning near line 240 col 11 file sigrem.f: real const 0. promoted to dble 
+ Q0Q0: may not give desired precision
+    253       wnorm=100.*w0/sqrt(amu0*10.) 
+                        ^
+Warning near line 253 col 17 file sigrem.f: promotion may not give desired
+ precision: real const 100. * dble W0
+                                     ^
+Warning near line 253 col 30 file sigrem.f: promotion may not give desired
+ precision: dble AMU0 * real const 10.
+    255       a0=0.
+                ^
+Warning near line 255 col 9 file sigrem.f: real const 0. promoted to dble A0:
+ may not give desired precision
+    267          gr(kw) = 0.
+                        ^
+Warning near line 267 col 17 file sigrem.f: real const 0. promoted to dble GR:
+ may not give desired precision
+    296       t=dt/2.
+                  ^
+Warning near line 296 col 11 file sigrem.f: promotion may not give desired
+ precision: dble DT / real const 2.
+    300          xat=0.
+                    ^
+Warning near line 300 col 13 file sigrem.f: real const 0. promoted to dble XAT
+ : may not give desired precision
+    311   175    ff(n,i)=0.
+                        ^
+Warning near line 311 col 17 file sigrem.f: real const 0. promoted to dble FF:
+ may not give desired precision
+    330             put=2.*uu(n,i)-up(n,i)+dt2*ff(n,i)
+                          ^
+Warning near line 330 col 19 file sigrem.f: promotion may not give desired
+ precision: real const 2. * dble UU
+    337       afit = 0.
+                   ^
+Warning near line 337 col 12 file sigrem.f: real const 0. promoted to dble 
+ AFIT: may not give desired precision
+    339          if (w(nfit).ne.0.) afit=gr(nfit)/(w(nfit)**4)
+                            ^
+Warning near line 339 col 21 file sigrem.f: comparison mixes terms of
+ different precision: dble W .NE. real const 0.
+    350       gr(nw)=0.
+                    ^
+Warning near line 350 col 13 file sigrem.f: real const 0. promoted to dble GR:
+ may not give desired precision
+    351       if (gr(1).lt.0.) gr(1)=0.
+                       ^
+Warning near line 351 col 16 file sigrem.f: comparison mixes terms of
+ different precision: dble GR .LT. real const 0.
+                                    ^
+Warning near line 351 col 29 file sigrem.f: real const 0. promoted to dble GR:
+ may not give desired precision
+    352       xx=(gr(1)+gr(nw))*dw/2.
+                                  ^
+Warning near line 352 col 27 file sigrem.f: promotion may not give desired
+ precision: dble expr (GR(1)+GR(NW))*DW / real const 2.
+    354          if (gr(kw).lt.0.) gr(kw)=0.
+                           ^
+Warning near line 354 col 20 file sigrem.f: comparison mixes terms of
+ different precision: dble GR .LT. real const 0.
+                                         ^
+Warning near line 354 col 34 file sigrem.f: real const 0. promoted to dble GR:
+ may not give desired precision
+    356       cn1=1./xx
+                    ^
+Warning near line 356 col 13 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble XX
+    360          wnorm=100.*w0/sqrt(amu0*10.) 
+                           ^
+Warning near line 360 col 20 file sigrem.f: promotion may not give desired
+ precision: real const 100. * dble W0
+                                        ^
+Warning near line 360 col 33 file sigrem.f: promotion may not give desired
+ precision: dble AMU0 * real const 10.
+    367             write(25,360) w(kw)*wnorm*100./6./pi, gr(kw)*cn1/wnorm
+                                             ^
+Warning near line 367 col 38 file sigrem.f: promotion may not give desired
+ precision: dble expr W(KW)*WNORM * real const 100.
+                                                  ^
+Warning near line 367 col 43 file sigrem.f: promotion may not give desired
+ precision: dble expr W(KW)*WNORM*100. / real const 6.
+    374       wt=tk/187.64/w0
+                   ^
+Warning near line 374 col 12 file sigrem.f: promotion may not give desired
+ precision: dble TK / real const 187.64
+    376       check0 = abs((2./pi - cn1)/(2./pi))
+                              ^
+Warning near line 376 col 23 file sigrem.f: promotion may not give desired
+ precision: real const 2. / dble PI
+                                            ^
+Warning near line 376 col 37 file sigrem.f: promotion may not give desired
+ precision: real const 2. / dble PI
+    377       check0=check0*100.
+                           ^
+Warning near line 377 col 20 file sigrem.f: promotion may not give desired
+ precision: dble CHECK0 * real const 100.
+    378       coef = ccc*0.5*0.2587926/atmu/w0
+                        ^
+Warning near line 378 col 17 file sigrem.f: promotion may not give desired
+ precision: dble CCC * real const 0.5
+                            ^
+Warning near line 378 col 21 file sigrem.f: promotion may not give desired
+ precision: dble expr CCC*0.5 * real const 0.2587926
+    380       cth=0.
+                 ^
+Warning near line 380 col 10 file sigrem.f: real const 0. promoted to dble CTH
+ : may not give desired precision
+    381       s2=0.
+                ^
+Warning near line 381 col 9 file sigrem.f: real const 0. promoted to dble S2:
+ may not give desired precision
+    384          cth = 1./tanh( w(kw)/(2.*wt) )
+                                         ^
+Warning near line 384 col 34 file sigrem.f: promotion may not give desired
+ precision: real const 2. * dble WT
+                         ^
+Warning near line 384 col 18 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble expr TANH(W(KW)/(2.*WT))
+    400       if (sig2.gt.1.0) then
+                      ^
+Warning near line 400 col 15 file sigrem.f: comparison mixes terms of
+ different precision: dble SIG2 .GT. real const 1.0
+    409       if (check0.gt.5.0) then
+                        ^
+Warning near line 409 col 17 file sigrem.f: comparison mixes terms of
+ different precision: dble CHECK0 .GT. real const 5.0
+Including file dwpar.h:
+    459       parameter (big = 1.0e5)
+                               ^
+Warning near line 459 col 24 file sigrem.f: real const 1.0E5 promoted to dble 
+ BIG: may not give desired precision
+    520                   title(ntitle) = line(6:)
+                                        ^
+Warning near line 520 col 33 file sigrem.f: char*145 LINE truncated to char*71 
+ TITLE
+    609             if (nwords .ge. 3)  potlbl(iph) = words(3)
+                                                    ^
+Warning near line 609 col 45 file sigrem.f: char*20 WORDS truncated to char*6 
+ POTLBL
+
+Warning in module DWRDIN in file sigrem.f: Variables set but never used:
+    IATPH set at line 477 file sigrem.f
+    NPH set at line 475 file sigrem.f
+    NSSX set at line 457 file sigrem.f
+    POTLBL set at line 479 file sigrem.f
+Including file dwpar.h:
+Including file ../HEADERS/parallel.h:
+    755          str(i,j)=0.
+                         ^
+Warning near line 755 col 18 file sigrem.f: real const 0. promoted to dble STR
+ : may not give desired precision
+    756          drij(i,j)=0.02
+                          ^
+Warning near line 756 col 19 file sigrem.f: real const 0.02 promoted to dble 
+ DRIJ: may not give desired precision
+    759          ang(na)=0.
+                        ^
+Warning near line 759 col 17 file sigrem.f: real const 0. promoted to dble ANG
+ : may not give desired precision
+    760          dang(na)=0.
+                         ^
+Warning near line 760 col 18 file sigrem.f: real const 0. promoted to dble 
+ DANG: may not give desired precision
+    769       acut=3.
+                  ^
+Warning near line 769 col 11 file sigrem.f: real const 3. promoted to dble 
+ ACUT: may not give desired precision
+    770       res=0.05
+                 ^
+Warning near line 770 col 10 file sigrem.f: real const 0.05 promoted to dble 
+ RES: may not give desired precision
+    771       dosfit=0.
+                    ^
+Warning near line 771 col 13 file sigrem.f: real const 0. promoted to dble 
+ DOSFIT: may not give desired precision
+    772       wmax=1.
+                  ^
+Warning near line 772 col 11 file sigrem.f: real const 1. promoted to dble 
+ WMAX: may not give desired precision
+    775       strx=10000.
+                  ^
+Warning near line 775 col 11 file sigrem.f: real const 10000. promoted to dble 
+ STRX: may not give desired precision
+    778       ddrij=0.02
+                   ^
+Warning near line 778 col 12 file sigrem.f: real const 0.02 promoted to dble 
+ DDRIJ: may not give desired precision
+    779       ddang=0.02
+                   ^
+Warning near line 779 col 12 file sigrem.f: real const 0.02 promoted to dble 
+ DDANG: may not give desired precision
+    873             drij(i,j) = abs(ddrij)/100.
+                                          ^
+Warning near line 873 col 35 file sigrem.f: promotion may not give desired
+ precision: dble expr ABS(DDRIJ) / real const 100.
+    874             drij(j,i) = abs(ddrij)/100.
+                                          ^
+Warning near line 874 col 35 file sigrem.f: promotion may not give desired
+ precision: dble expr ABS(DDRIJ) / real const 100.
+    896             dang(na) = abs(ddang)/100.
+                                         ^
+Warning near line 896 col 34 file sigrem.f: promotion may not give desired
+ precision: dble expr ABS(DDANG) / real const 100.
+    928          if (aa.eq.0.) go to 321
+                       ^
+Warning near line 928 col 16 file sigrem.f: comparison mixes terms of
+ different precision: dble AA .EQ. real const 0.
+    934                comp = abs(rij/rkl - 1.)
+                                          ^
+Warning near line 934 col 35 file sigrem.f: promotion may not give desired
+ precision: dble expr RIJ/RKL - real const 1.
+    974                comp1 = abs(rrij/rij - 1.)
+                                            ^
+Warning near line 974 col 37 file sigrem.f: promotion may not give desired
+ precision: dble expr RRIJ/RIJ - real const 1.
+    975                comp2 = abs(rrkj/rkj - 1.)
+                                            ^
+Warning near line 975 col 37 file sigrem.f: promotion may not give desired
+ precision: dble expr RRKJ/RKJ - real const 1.
+    977                   comp1 = abs(rrkj/rij - 1.)
+                                               ^
+Warning near line 977 col 40 file sigrem.f: promotion may not give desired
+ precision: dble expr RRKJ/RIJ - real const 1.
+    978                   comp2 = abs(rrij/rkj - 1.)
+                                               ^
+Warning near line 978 col 40 file sigrem.f: promotion may not give desired
+ precision: dble expr RRIJ/RKJ - real const 1.
+    988                if (dacos(cosijk).eq.0.) go to 322
+                                        ^
+Warning near line 988 col 33 file sigrem.f: comparison mixes terms of
+ different precision: dble expr DACOS(COSIJK) .EQ. real const 0.
+    989                   comp = abs( dacos(cssijk)/dacos(cosijk) -1.)
+                                                                  ^
+Warning near line 989 col 59 file sigrem.f: promotion may not give desired
+ precision: dble expr DACOS(CSSIJK)/DACOS(COSI .. - real const 1.
+   1017          rshell(i,nshell)=0.
+                                 ^
+Warning near line 1017 col 26 file sigrem.f: real const 0. promoted to dble 
+ RSHELL: may not give desired precision
+   1021       rintr=0.
+                   ^
+Warning near line 1021 col 12 file sigrem.f: real const 0. promoted to dble 
+ RINTR: may not give desired precision
+   1032             b = real(rshell(i,ish))
+                      ^
+Warning near line 1032 col 15 file sigrem.f: real expr REAL(RSHELL(I,ISH)) 
+ promoted to dble B: may not give desired precision
+   1033             dif=1.
+                       ^
+Warning near line 1033 col 16 file sigrem.f: real const 1. promoted to dble 
+ DIF: may not give desired precision
+   1034             if (b.ne.0.) dif = abs(rij -b)/b
+                         ^
+Warning near line 1034 col 18 file sigrem.f: comparison mixes terms of
+ different precision: dble B .NE. real const 0.
+   1043          rnn(n,i,j)=0.
+                           ^
+Warning near line 1043 col 20 file sigrem.f: real const 0. promoted to dble 
+ RNN: may not give desired precision
+   1045             dmstr(n,m,i,j)=0.
+                                  ^
+Warning near line 1045 col 27 file sigrem.f: real const 0. promoted to dble 
+ DMSTR: may not give desired precision
+   1046             dma(n,m,i,j)=0.
+                                ^
+Warning near line 1046 col 25 file sigrem.f: real const 0. promoted to dble 
+ DMA: may not give desired precision
+   1047             dm(n,m,i,j)=0.
+                               ^
+Warning near line 1047 col 24 file sigrem.f: real const 0. promoted to dble DM
+ : may not give desired precision
+   1063       zshell=0.
+                    ^
+Warning near line 1063 col 13 file sigrem.f: real const 0. promoted to dble 
+ ZSHELL: may not give desired precision
+   1079             rrij = abs( dr/rshell(1,1) -1.)
+                                               ^
+Warning near line 1079 col 40 file sigrem.f: promotion may not give desired
+ precision: dble expr DR/RSHELL(1,1) - real const 1.
+   1083                if (i1.eq.0.and.str(i,j).ne.0.) i1 = j
+                                               ^
+Warning near line 1083 col 40 file sigrem.f: comparison mixes terms of
+ different precision: dble STR .NE. real const 0.
+   1095          if(ang(na).eq.0.) go to 355
+                           ^
+Warning near line 1095 col 20 file sigrem.f: comparison mixes terms of
+ different precision: dble ANG .EQ. real const 0.
+   1123          dmi=0.
+                    ^
+Warning near line 1123 col 13 file sigrem.f: real const 0. promoted to dble 
+ DMI: may not give desired precision
+   1142       sumdm=0.
+                   ^
+Warning near line 1142 col 12 file sigrem.f: real const 0. promoted to dble 
+ SUMDM: may not give desired precision
+   1156       atmu = 1./(1./atwtd(iz(i0)) + 1./atwtd(iz(i1)))
+                           ^
+Warning near line 1156 col 20 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble expr ATWTD(IZ(I0))
+                                              ^
+Warning near line 1156 col 39 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble expr ATWTD(IZ(I1))
+                       ^
+Warning near line 1156 col 16 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble expr (1./ATWTD(IZ(I0))+1./ATW ..
+   1157       a0=0.
+                ^
+Warning near line 1157 col 9 file sigrem.f: real const 0. promoted to dble A0:
+ may not give desired precision
+   1167          atmass = 1./atwtd(iz(l))/atwtd(iz(m))
+                            ^
+Warning near line 1167 col 21 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble expr ATWTD(IZ(L))
+   1173       if (w0.eq.0.) then
+                    ^
+Warning near line 1173 col 13 file sigrem.f: comparison mixes terms of
+ different precision: dble W0 .EQ. real const 0.
+   1174          atmux = 1./(1./atwtd(iz(ix)) + 1./atwtd(iz(jx)))
+                               ^
+Warning near line 1174 col 24 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble expr ATWTD(IZ(IX))
+                                                  ^
+Warning near line 1174 col 43 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble expr ATWTD(IZ(JX))
+                           ^
+Warning near line 1174 col 20 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble expr (1./ATWTD(IZ(IX))+1./ATW ..
+Including file dwpar.h:
+   1207       dji=0.
+                 ^
+Warning near line 1207 col 10 file sigrem.f: real const 0. promoted to dble 
+ DJI: may not give desired precision
+   1208       djk=0.
+                 ^
+Warning near line 1208 col 10 file sigrem.f: real const 0. promoted to dble 
+ DJK: may not give desired precision
+   1209       dik=0.
+                 ^
+Warning near line 1209 col 10 file sigrem.f: real const 0. promoted to dble 
+ DIK: may not give desired precision
+   1216          si(m) = 0.
+                       ^
+Warning near line 1216 col 16 file sigrem.f: real const 0. promoted to dble SI
+ : may not give desired precision
+   1217          sj(m) = 0.
+                       ^
+Warning near line 1217 col 16 file sigrem.f: real const 0. promoted to dble SJ
+ : may not give desired precision
+   1218          sk(m) = 0.
+                       ^
+Warning near line 1218 col 16 file sigrem.f: real const 0. promoted to dble SK
+ : may not give desired precision
+   1224       dotj=0.
+                  ^
+Warning near line 1224 col 11 file sigrem.f: real const 0. promoted to dble 
+ DOTJ: may not give desired precision
+   1234       rj=1.
+                ^
+Warning near line 1234 col 9 file sigrem.f: real const 1. promoted to dble RJ:
+ may not give desired precision
+   1257       d1 = 0.
+                 ^
+Warning near line 1257 col 10 file sigrem.f: real const 0. promoted to dble D1
+ : may not give desired precision
+   1258       d2 = 0.
+                 ^
+Warning near line 1258 col 10 file sigrem.f: real const 0. promoted to dble D2
+ : may not give desired precision
+   1259       d3 = 0.
+                 ^
+Warning near line 1259 col 10 file sigrem.f: real const 0. promoted to dble D3
+ : may not give desired precision
+   1275       vv1=0.
+                 ^
+Warning near line 1275 col 10 file sigrem.f: real const 0. promoted to dble 
+ VV1: may not give desired precision
+   1276       vv2=0.
+                 ^
+Warning near line 1276 col 10 file sigrem.f: real const 0. promoted to dble 
+ VV2: may not give desired precision
+   1277       scal=0.
+                  ^
+Warning near line 1277 col 11 file sigrem.f: real const 0. promoted to dble 
+ SCAL: may not give desired precision
+Including file dwpar.h:
+   1347       parameter (amu0  = 1.660 54)
+                                 ^
+Warning near line 1347 col 26 file sigrem.f: real const 1.660 54 promoted to 
+ dble AMU0: may not give desired precision
+   1469          nq0(i)=0.
+                       ^
+Warning near line 1469 col 16 file sigrem.f: real const 0. truncated to intg 
+ NQ0
+   1476             q1(n,i)=0.
+                           ^
+Warning near line 1476 col 20 file sigrem.f: real const 0. promoted to dble Q1
+ : may not give desired precision
+   1477    91    q0(n,i)=0.
+                        ^
+Warning near line 1477 col 17 file sigrem.f: real const 0. promoted to dble Q0
+ : may not give desired precision
+   1481                l=nint(100.*rat(n,jl))
+                                  ^
+Warning near line 1481 col 27 file sigrem.f: promotion may not give desired
+ precision: real const 100. * dble RAT
+   1482                l1=nint(100.*rat1(n,i))
+                                   ^
+Warning near line 1482 col 28 file sigrem.f: promotion may not give desired
+ precision: real const 100. * dble RAT1
+   1492       atmu=0.
+                  ^
+Warning near line 1492 col 11 file sigrem.f: real const 0. promoted to dble 
+ ATMU: may not give desired precision
+   1522          atmu=atmu + 0.25*( rnn(n,i,im)+rnn(n,i,ip) )**2 /atmass
+                                 ^
+Warning near line 1522 col 26 file sigrem.f: promotion may not give desired
+ precision: real const 0.25 * dble expr (RNN(N,I,IM)+RNN(N,I,IP) ..
+   1524       atmu=1./atmu
+                     ^
+Warning near line 1524 col 14 file sigrem.f: promotion may not give desired
+ precision: real const 1. / dble ATMU
+   1529   115 q0(n,i)=0.
+                     ^
+Warning near line 1529 col 14 file sigrem.f: real const 0. promoted to dble Q0
+ : may not give desired precision
+   1540          q0(n,i)=q0(n,i)+sqrt(atmu/atmass)*(rnn(n,im,i)-rnn(n,i,ip))/2.
+                                                                            ^
+Warning near line 1540 col 69 file sigrem.f: promotion may not give desired
+ precision: dble expr SQRT(ATMU/ATMASS)*(RNN(N .. / real const 2.
+   1544       q0q0=0.
+                  ^
+Warning near line 1544 col 11 file sigrem.f: real const 0. promoted to dble 
+ Q0Q0: may not give desired precision
+   1550       p00=nint(q0q0*1000.)/1000.
+                           ^
+Warning near line 1550 col 20 file sigrem.f: promotion may not give desired
+ precision: dble Q0Q0 * real const 1000.
+                 ^
+Warning near line 1550 col 10 file sigrem.f: real expr NINT(Q0Q0*1000.)/1000. 
+ promoted to dble P00: may not give desired precision
+   1557       wnorm=100.*w0/sqrt(amu0*10.) 
+                        ^
+Warning near line 1557 col 17 file sigrem.f: promotion may not give desired
+ precision: real const 100. * dble W0
+                                     ^
+Warning near line 1557 col 30 file sigrem.f: promotion may not give desired
+ precision: dble AMU0 * real const 10.
+   1559       a0=0.
+                ^
+Warning near line 1559 col 9 file sigrem.f: real const 0. promoted to dble A0:
+ may not give desired precision
+   1579             q1i=0.
+                       ^
+Warning near line 1579 col 16 file sigrem.f: real const 0. promoted to dble 
+ Q1I: may not give desired precision
+   1588       b0=0.
+                ^
+Warning near line 1588 col 9 file sigrem.f: real const 0. promoted to dble B0:
+ may not give desired precision
+   1594       a1=0.
+                ^
+Warning near line 1594 col 9 file sigrem.f: real const 0. promoted to dble A1:
+ may not give desired precision
+   1598          q2=0.
+                   ^
+Warning near line 1598 col 12 file sigrem.f: real const 0. promoted to dble Q2
+ : may not give desired precision
+   1613       dd = (a0+a1)**2 - 4.*(a0*a1-b0)
+                                  ^
+Warning near line 1613 col 27 file sigrem.f: promotion may not give desired
+ precision: real const 4. * dble expr (A0*A1-B0)
+   1614       x1 = (a0+a1+sqrt(dd))/2.
+                                   ^
+Warning near line 1614 col 28 file sigrem.f: promotion may not give desired
+ precision: dble expr (A0+A1+SQRT(DD)) / real const 2.
+   1615       x2 = (a0+a1-sqrt(dd))/2.
+                                   ^
+Warning near line 1615 col 28 file sigrem.f: promotion may not give desired
+ precision: dble expr (A0+A1-SQRT(DD)) / real const 2.
+   1621       s1 = 3.1746/(atmu*w1*tanh(w1*7.6383/2./tk))
+                                          ^
+Warning near line 1621 col 35 file sigrem.f: promotion may not give desired
+ precision: dble W1 * real const 7.6383
+                                                 ^
+Warning near line 1621 col 42 file sigrem.f: promotion may not give desired
+ precision: dble expr W1*7.6383 / real const 2.
+                         ^
+Warning near line 1621 col 18 file sigrem.f: promotion may not give desired
+ precision: real const 3.1746 / dble expr (ATMU*W1*TANH(W1*7.6383/ ..
+   1622       s2 = 3.1746/(atmu*w2*tanh(w2*7.6383/2./tk))
+                                          ^
+Warning near line 1622 col 35 file sigrem.f: promotion may not give desired
+ precision: dble W2 * real const 7.6383
+                                                 ^
+Warning near line 1622 col 42 file sigrem.f: promotion may not give desired
+ precision: dble expr W2*7.6383 / real const 2.
+                         ^
+Warning near line 1622 col 18 file sigrem.f: promotion may not give desired
+ precision: real const 3.1746 / dble expr (ATMU*W2*TANH(W2*7.6383/ ..
+   1624       sig2e = 3.1746/(atmu*we*tanh(we*7.6383/2./tk))
+                                             ^
+Warning near line 1624 col 38 file sigrem.f: promotion may not give desired
+ precision: dble WE * real const 7.6383
+                                                    ^
+Warning near line 1624 col 45 file sigrem.f: promotion may not give desired
+ precision: dble expr WE*7.6383 / real const 2.
+                            ^
+Warning near line 1624 col 21 file sigrem.f: promotion may not give desired
+ precision: real const 3.1746 / dble expr (ATMU*WE*TANH(WE*7.6383/ ..
+
+ 0 syntax errors detected in file sigrem.f
+ 152 warnings issued in file sigrem.f
+
+File sigte3.f:
+     16       parameter (con = 48.508 459 393 094)
+                               ^
+Warning near line 16 col 24 file sigte3.f: Single-precision real constant has
+ more digits than are stored
+                               ^
+Warning near line 16 col 24 file sigte3.f: real const 48.508 459 393 094 
+ promoted to dble CON: may not give desired precision
+     17       parameter (hbar = 1.054 572 666 e-34)
+                                ^
+Warning near line 17 col 25 file sigte3.f: Single-precision real constant has
+ more digits than are stored
+                                ^
+Warning near line 17 col 25 file sigte3.f: real const 1.054 572 666 E-34 
+ promoted to dble HBAR: may not give desired precision
+     18       parameter (amu = 1.660 540 e-27)
+                               ^
+Warning near line 18 col 24 file sigte3.f: real const 1.660 540 E-27 promoted
+ to dble AMU: may not give desired precision
+     19       parameter (xkb = 1.380 6581 e-23)
+                               ^
+Warning near line 19 col 24 file sigte3.f: real const 1.380 6581 E-23 promoted
+ to dble XKB: may not give desired precision
+     29       xk3 = xks**2 * reff * alphat / (3 * xkb)
+                           ^
+Warning near line 29 col 20 file sigte3.f: promotion may not give desired
+ precision: dble expr XKS**2 * real REFF
+     32       sig3 = 2 - (4.0/3.0) * (sig02 / sig2)**2
+                                   ^
+Warning near line 32 col 28 file sigte3.f: promotion may not give desired
+ precision: real expr (4.0/3.0) * dble expr (SIG02/SIG2)**2
+
+Warning in module SIGTE3 in file sigte3.f: Variables set but never used:
+    CON set at line 16 file sigte3.f
+
+ 0 syntax errors detected in file sigte3.f
+ 9 warnings issued in file sigte3.f

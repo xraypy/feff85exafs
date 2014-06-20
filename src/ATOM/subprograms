@@ -1,0 +1,116 @@
+Warning: Subprogram CWIG3J never defined
+    Invoked in module BKMRDF line 25 file bkmrdf.f
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module LAGDAT line 43 file lagdat.f same as arg 2: L
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module LAGDAT line 43 file lagdat.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module LAGDAT line 43 file lagdat.f same as arg 1: L
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module LAGDAT line 43 file lagdat.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 2:
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module LAGDAT line 55 file lagdat.f same as arg 4: L
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module LAGDAT line 55 file lagdat.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg I in module ETOTAL line 50 file etotal.f same as arg 2: I
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg I in module ETOTAL line 50 file etotal.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg I in module ETOTAL line 50 file etotal.f same as arg 1: I
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg I in module ETOTAL line 50 file etotal.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg I in module ETOTAL line 73 file etotal.f same as arg 3: I
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg I in module ETOTAL line 73 file etotal.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 73 file etotal.f same as arg 4: J
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 73 file etotal.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 96 file etotal.f same as arg 2: J
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 96 file etotal.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 96 file etotal.f same as arg 1: J
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 96 file etotal.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module ETOTAL line 134 file etotal.f same as arg 3: L
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module ETOTAL line 134 file etotal.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 134 file etotal.f same as arg 4: J
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 134 file etotal.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 137 file etotal.f same as arg 3: J
+    Dummy arg I in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg J in module ETOTAL line 137 file etotal.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module ETOTAL line 137 file etotal.f same as arg 4: L
+    Dummy arg J in module FDRIRK line 1 file fdrirk.f may be modified
+    Actual arg L in module ETOTAL line 137 file etotal.f is active DO index
+
+Warning: Subprogram SOMM never defined
+    Invoked in module FPF0 line 118 file fpf0.f
+
+Warning: Subprogram GETORB never defined
+    Invoked in module INMUAT line 40 file inmuat.f
+
+Warning: Subprogram PAR_STOP never defined
+    Invoked in module INMUAT line 76 file inmuat.f
+
+Warning: Subprogram INTDIR argument usage mismatch at position 1:
+    Dummy arg GG in module INTDIR line 1 file intdir.f is aliased to common
+ var 3: BID1 in block COMDIR
+    Dummy arg GG in module INTDIR line 1 file intdir.f is modified
+    Actual arg GG in module SOLDIR line 107 file soldir.f is in common block 
+ COMDIR
+  and at position 2:
+    Dummy arg GP in module INTDIR line 1 file intdir.f is aliased to common
+ var 5: AV in block COMDIR
+    Dummy arg GP in module INTDIR line 1 file intdir.f is modified
+    Actual arg GP in module SOLDIR line 107 file soldir.f is in common block 
+ COMDIR
+  and at position 3:
+    Dummy arg AG in module INTDIR line 1 file intdir.f is aliased to common
+ var 4: DV in block COMDIR
+    Dummy arg AG in module INTDIR line 1 file intdir.f is modified
+    Actual arg AG in module SOLDIR line 107 file soldir.f is in common block 
+ COMDIR
+ etc...
+
+Warning: Subprogram WLOG never defined
+    Invoked in module MESSER line 12 file messer.f
+
+Warning: Subprogram DETERM never defined
+    Invoked in module S02AT line 56 file s02at.f
+    (possibly it is an array which was not declared)
+
+Warning: Subprogram VBH never defined
+    Invoked in module VLDA line 61 file vlda.f
+
+Warning: Subprogram EDP never defined
+    Invoked in module VLDA line 63 file vlda.f

@@ -1,0 +1,277 @@
+Warning: Common block MOD7 Elements set but never used:
+    EMIN EMAX EIMAG MLDOS
+
+Warning: Common block MOD3 Elements never used, never set:
+    RPREC
+
+Warning: Common block MOD4 Elements used but never set:
+    NNCRIT
+
+Warning: Common block EELSVA unused in the following modules:
+    Unused in module WRTALL line 2812 file feff85L.f
+
+Warning: Common block EELSVA Elements set but never used:
+    THETAX THETAY EMAGIC RELAT SPCOL IPMIN IPMAX IPSTEP
+
+Warning: Common block TIMING unused in the following modules:
+    Unused in module PAR_STOP line 57874 file feff85L.f
+    Unused in module PAR_BEGIN line 57842 file feff85L.f
+    Unused in module WLOG line 56718 file feff85L.f
+    Unused in module FPF0 line 37479 file feff85L.f
+    Unused in module SCFDAT line 35950 file feff85L.f
+    Unused in module RDSPR line 34571 file feff85L.f
+    Unused in module SIGEM line 33864 file feff85L.f
+    Unused in module FFMOD6 line 29907 file feff85L.f
+    Unused in module FFMOD5 line 27195 file feff85L.f
+    Unused in module FFMOD4 line 24016 file feff85L.f
+    Unused in module FMS line 20765 file feff85L.f
+    Unused in module FFMOD2 line 14183 file feff85L.f
+    Unused in module FFMOD9 line 8157 file feff85L.f
+    Unused in module POT line 7021 file feff85L.f
+    Unused in module WRTALL line 2714 file feff85L.f
+    Unused in module FFSORT line 1603 file feff85L.f
+    Unused in module RDINP line 327 file feff85L.f
+
+Warning: Common block TIMING Elements never used, never set:
+    TIME_COMM
+
+Warning: Common block PARALLEL unused in the following modules:
+    Unused in module FFSORT line 1604 file feff85L.f
+
+Warning: Common block CONVSF unused in the following modules:
+    Unused in module INTERPSF line 8607 file feff85L.f
+
+Warning: Common block ENERGIES unused in the following modules:
+    Unused in module XINTXSAT line 8762 file feff85L.f
+    Unused in module INTERPSF line 8609 file feff85L.f
+
+Warning: Common block FF unused in the following modules:
+    Unused in module XIENERGIES line 11565 file feff85L.f
+
+Warning: Common block LIMITS Elements set but never used:
+    WMIN1 WMAX1
+
+Warning: Common block FLAG unused in the following modules:
+    Unused in module FINDSING line 11485 file feff85L.f
+    Unused in module DBRSIGMA line 10892 file feff85L.f
+    Unused in module BRSIGMA line 10267 file feff85L.f
+
+Warning: Common block BELOWQF unused in the following modules:
+    Unused in module XIENERGIES line 11567 file feff85L.f
+    Unused in module MKSPECTF line 9201 file feff85L.f
+
+Warning: Common block FQSO2 unused anywhere
+
+Warning: Common block MOREWRITE unused in the following modules:
+    Unused in module RSEINT1 line 12084 file feff85L.f
+    Unused in module RENERGIES line 10187 file feff85L.f
+
+Warning: Common block MOREWRITE Elements set but never used: all
+
+Warning: Common block XSTRUC unused in the following modules:
+    Unused in module XANLM line 23536 file feff85L.f
+    Unused in module ROTINT line 23203 file feff85L.f
+    Unused in module XGLLM line 21351 file feff85L.f
+
+Warning: Common block ROTX unused in the following modules:
+    Unused in module YPREP line 23703 file feff85L.f
+    Unused in module XANLM line 23549 file feff85L.f
+    Unused in module ROTINT line 23216 file feff85L.f
+    Unused in module XGLLM line 21364 file feff85L.f
+
+Warning: Common block ROTSAV unused in the following modules:
+    Unused in module YPREP line 23711 file feff85L.f
+    Unused in module XANLM line 23557 file feff85L.f
+    Unused in module XGLLM line 21372 file feff85L.f
+    Unused in module FMS line 20805 file feff85L.f
+
+Warning: Common block LNLM unused in the following modules:
+    Unused in module YPREP line 23716 file feff85L.f
+    Unused in module ROTINT line 23232 file feff85L.f
+    Unused in module ROTXAN line 22965 file feff85L.f
+    Unused in module FMS line 20811 file feff85L.f
+
+Warning: Common block XDWF unused in the following modules:
+    Unused in module XANLM line 23569 file feff85L.f
+    Unused in module ROTINT line 23238 file feff85L.f
+    Unused in module ROTXAN line 22971 file feff85L.f
+    Unused in module XGLLM line 21384 file feff85L.f
+
+Warning: Common block T3J Elements used but never set: all
+
+Warning: Common block AFCTR Elements set but never used:
+    FLZERO
+
+Warning: Common block ATOMS unused in the following modules:
+    Unused in module TIMREP line 27023 file feff85L.f
+
+Warning: Common block NLM unused in the following modules:
+    Unused in module GENFMT line 27599 file feff85L.f
+
+Warning: Common block ROTMAT unused in the following modules:
+    Unused in module MMTRXI line 28384 file feff85L.f
+    Unused in module GENFMT line 27603 file feff85L.f
+
+Warning: Common block STR unused in the following modules:
+    Unused in module XSTAR line 29679 file feff85L.f
+    Unused in module SETLAM line 29361 file feff85L.f
+    Unused in module ROT3I line 29027 file feff85L.f
+    Unused in module MMTRXI line 28398 file feff85L.f
+    Unused in module MMTR line 28175 file feff85L.f
+    Unused in module FMTRXI line 27361 file feff85L.f
+
+Warning: Common block XY unused in the following modules:
+    Unused in module BINGRT2 line 35812 file feff85L.f
+    Unused in module BINGRT line 33775 file feff85L.f
+
+Warning: Common block MULABK unused in the following modules:
+    Unused in module SCFDAT line 35986 file feff85L.f
+
+Warning: Common block INELMA unused in the following modules:
+    Unused in module SCFDAT line 35987 file feff85L.f
+
+Warning: Common block SCRHF1 unused in the following modules:
+    Unused in module CDOS line 62252 file feff85L.f
+    Unused in module PHISCF line 61621 file feff85L.f
+    Unused in module DFOVRG line 38809 file feff85L.f
+
+Warning: Common block PRINT Elements used but never set: all
+
+Warning: Common block MULABC unused in the following modules:
+    Unused in module DFOVRG line 38802 file feff85L.f
+
+Warning: Common block SNOYAC unused in the following modules:
+    Unused in module CDOS line 62253 file feff85L.f
+    Unused in module PHISCF line 61622 file feff85L.f
+    Unused in module DFOVRG line 38810 file feff85L.f
+
+Warning: Common block TABTEC Elements never used, never set:
+    TEST1 TEST2 NES METHOD
+
+Warning: Common block TIMING not SAVED consistently
+    is SAVED in module SIGEM line 33864 file feff85L.f
+    is not SAVED in module RDINP line 327 file feff85L.f
+
+Warning: Common block PARALLEL not SAVED consistently
+    is SAVED in module SIGEM line 33865 file feff85L.f
+    is not SAVED in module RDINP line 328 file feff85L.f
+
+Warning: Common block STKETS not SAVED consistently
+    is SAVED in module FMS line 20838 file feff85L.f
+    is not SAVED in module GGLU line 21486 file feff85L.f
+
+Warning: Common block COMDIR not SAVED consistently
+    is SAVED in module INTDIR line 36400 file feff85L.f
+    is not SAVED in module SCFDAT line 35983 file feff85L.f
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 36696 file feff85L.f
+    Has 7 variables in module DSORDF line 37340 file feff85L.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 36696 file feff85L.f has size 251
+    Variable BIDCOM in module DSORDF line 37340 file feff85L.f has size 783
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 36696 file feff85L.f
+    Has 7 variables in module ORTDAT line 37029 file feff85L.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 36696 file feff85L.f has size 251
+    Variable BIDCOM in module ORTDAT line 37029 file feff85L.f has size 783
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 36696 file feff85L.f
+    Has 7 variables in module FDRIRK line 36923 file feff85L.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 36696 file feff85L.f has size 251
+    Variable BIDCOM in module FDRIRK line 36923 file feff85L.f has size 783
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 36696 file feff85L.f
+    Has 7 variables in module YZKRDF line 36841 file feff85L.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 36696 file feff85L.f has size 251
+    Variable BIDCOM in module YZKRDF line 36841 file feff85L.f has size 783
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 36696 file feff85L.f
+    Has 6 variables in module INTDIR line 36400 file feff85L.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 3:
+    Variable DG in module POTRDF line 36696 file feff85L.f has size 251
+    Variable BID1 in module INTDIR line 36400 file feff85L.f has size 522
+  and at position 4:
+    Variable AG in module POTRDF line 36696 file feff85L.f has size 10
+    Variable DV in module INTDIR line 36400 file feff85L.f has size 251
+  and at position 5:
+    Variable DP in module POTRDF line 36696 file feff85L.f has size 251
+    Variable AV in module INTDIR line 36400 file feff85L.f has size 10
+ etc...
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 36696 file feff85L.f
+    Has 7 variables in module SCFDAT line 35983 file feff85L.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 36696 file feff85L.f has size 251
+    Variable BID in module SCFDAT line 35983 file feff85L.f has size 783
+
+Warning: Common block INELMA not SAVED consistently
+    is SAVED in module FDRIRK line 36926 file feff85L.f
+    is not SAVED in module SCFDAT line 35987 file feff85L.f
+
+Warning: Common block MESSAG not SAVED consistently
+    is SAVED in module INTDIR line 36403 file feff85L.f
+    is not SAVED in module SCFDAT line 35989 file feff85L.f
+
+Warning: Common block RATOM1 not SAVED consistently
+    is SAVED in module FDRIRK line 36921 file feff85L.f
+    is not SAVED in module SCFDAT line 35991 file feff85L.f
+
+Warning: Common block TABTES not SAVED consistently
+    is SAVED in module INTDIR line 36401 file feff85L.f
+    is not SAVED in module SCFDAT line 35995 file feff85L.f
+
+Warning: Common block COMDIC varying length:
+    Has 12 variables in module INTOUT line 39375 file feff85L.f
+    Has 9 variables in module CDOS line 62243 file feff85L.f
+
+Warning: Common block COMDIC array dimen/size mismatch at position 9:
+    Variable EG in module INTOUT line 39375 file feff85L.f has size 1251
+    Variable BID in module CDOS line 62243 file feff85L.f has size 2522
+
+Warning: Common block COMDIC varying length:
+    Has 12 variables in module INTOUT line 39375 file feff85L.f
+    Has 9 variables in module PHISCF line 61612 file feff85L.f
+
+Warning: Common block COMDIC array dimen/size mismatch at position 9:
+    Variable EG in module INTOUT line 39375 file feff85L.f has size 1251
+    Variable BID in module PHISCF line 61612 file feff85L.f has size 2522
+
+Warning: Common block COMDIC varying length:
+    Has 12 variables in module INTOUT line 39375 file feff85L.f
+    Has 7 variables in module YZKTD line 61057 file feff85L.f
+
+Warning: Common block COMDIC array dimen/size mismatch at position 7:
+    Variable DV in module INTOUT line 39375 file feff85L.f has size 1251
+    Variable BIDCOM in module YZKTD line 61057 file feff85L.f has size 3783
+
+Warning: Common block COMDIC varying length:
+    Has 12 variables in module INTOUT line 39375 file feff85L.f
+    Has 7 variables in module YZKRDC line 40716 file feff85L.f
+
+Warning: Common block COMDIC array dimen/size mismatch at position 7:
+    Variable DV in module INTOUT line 39375 file feff85L.f has size 1251
+    Variable BIDCOM in module YZKRDC line 40716 file feff85L.f has size 3783
+
+Warning: Common block COMDIC varying length:
+    Has 12 variables in module INTOUT line 39375 file feff85L.f
+    Has 9 variables in module DFOVRG line 38798 file feff85L.f
+
+Warning: Common block COMDIC array dimen/size mismatch at position 9:
+    Variable EG in module INTOUT line 39375 file feff85L.f has size 1251
+    Variable BID in module DFOVRG line 38798 file feff85L.f has size 2522
+
