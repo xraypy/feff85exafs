@@ -1,0 +1,91 @@
+
+Warning: Common block MULABK unused in the following modules:
+    Unused in module SCFDAT line 45 file scfdat.f
+
+Warning: Common block INELMA unused in the following modules:
+    Unused in module SCFDAT line 46 file scfdat.f
+
+Warning: Common block PRINT Elements used but never set: all
+
+Warning: Common block TIMING unused anywhere
+
+Warning: Common block PARALLEL Elements used but never set:
+    MASTER
+
+Warning: Common block PARALLEL Elements never used, never set:
+    NUMPROCS MY_RANK THIS_PROCESS WORKER PARALLEL_RUN PAR_TYPE
+
+Warning: Common block RATOM1 not SAVED consistently
+    is SAVED in module FDRIRK line 15 file fdrirk.f
+    is not SAVED in module BKMRDF line 10 file bkmrdf.f
+
+Warning: Common block COMDIR not SAVED consistently
+    is SAVED in module FDRIRK line 17 file fdrirk.f
+    is not SAVED in module DSORDF line 25 file dsordf.f
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 6 file potrdf.f
+    Has 7 variables in module YZKRDF line 20 file yzkrdf.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 6 file potrdf.f has size 251
+    Variable BIDCOM in module YZKRDF line 20 file yzkrdf.f has size 783
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 6 file potrdf.f
+    Has 7 variables in module SCFDAT line 42 file scfdat.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 6 file potrdf.f has size 251
+    Variable BID in module SCFDAT line 42 file scfdat.f has size 783
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 6 file potrdf.f
+    Has 7 variables in module ORTDAT line 11 file ortdat.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 6 file potrdf.f has size 251
+    Variable BIDCOM in module ORTDAT line 11 file ortdat.f has size 783
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 6 file potrdf.f
+    Has 6 variables in module INTDIR line 14 file intdir.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 3:
+    Variable DG in module POTRDF line 6 file potrdf.f has size 251
+    Variable BID1 in module INTDIR line 14 file intdir.f has size 522
+  and at position 4:
+    Variable AG in module POTRDF line 6 file potrdf.f has size 10
+    Variable DV in module INTDIR line 14 file intdir.f has size 251
+  and at position 5:
+    Variable DP in module POTRDF line 6 file potrdf.f has size 251
+    Variable AV in module INTDIR line 14 file intdir.f has size 10
+ etc...
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 6 file potrdf.f
+    Has 7 variables in module FDRIRK line 17 file fdrirk.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 6 file potrdf.f has size 251
+    Variable BIDCOM in module FDRIRK line 17 file fdrirk.f has size 783
+
+Warning: Common block COMDIR varying length:
+    Has 12 variables in module POTRDF line 6 file potrdf.f
+    Has 7 variables in module DSORDF line 25 file dsordf.f
+
+Warning: Common block COMDIR array dimen/size mismatch at position 7:
+    Variable DV in module POTRDF line 6 file potrdf.f has size 251
+    Variable BIDCOM in module DSORDF line 25 file dsordf.f has size 783
+
+Warning: Common block TABTES not SAVED consistently
+    is SAVED in module FDRIRK line 21 file fdrirk.f
+    is not SAVED in module DSORDF line 29 file dsordf.f
+
+Warning: Common block INELMA not SAVED consistently
+    is SAVED in module FDRIRK line 20 file fdrirk.f
+    is not SAVED in module ETOTAL line 29 file etotal.f
+
+Warning: Common block MESSAG not SAVED consistently
+    is SAVED in module INTDIR line 17 file intdir.f
+    is not SAVED in module MESSER line 4 file messer.f
