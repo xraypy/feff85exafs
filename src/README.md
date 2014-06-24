@@ -12,20 +12,18 @@ integrated into [Larch](https://github.com/xraypy/xraylarch).
 Once all these scons scripts are working correctly, it should be as
 simple as typing `scons` after cd-ing into the `src/` folder.
 
-The topmost `SConstruct` file has a bit of logic for specifying
+You can also cd into one of the subfolders and do `scons` to build
+just that piece.
+
+The file `FortranCompilation` has a bit of logic for specifying
 compilation flags, which may be attractive for optimization or other
-reasons.  Except for gfortran, the initial guesses for compilation
-flags were taken from the top level Makefile that came from the Feff
+reasons.  This is then imported by each of the lower-level SConstruct
+files.  Except for gfortran, the initial guesses for compilation flags
+were taken from the top level Makefile that came from the Feff
 Project.  The gfortran flags were selected by Bruce after playing
 around on his Ubuntu system.
 
 # Build Issues
 
- 1. The SConstruct files in the subfolders all import the `env`
-    variable.  This means that they do not work if you cd into the
-    subfolder and run scons.  This needs fixing
-	
- 2. What is the purpose of RDINP?
- 
- 3. The targets in FF2X are not yet handled sensibly.
+ 1. What is the purpose of RDINP?
  
