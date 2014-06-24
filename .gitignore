@@ -1,6 +1,8 @@
 *.o
 *.a
 *.sconsign.dblite
+*~
+*.pyc
 
 ## nonesense that Feff writes out
 fort.*
@@ -14,6 +16,7 @@ src/PATH/path
 src/XSPH/xsph
 src/FMS/fms
 src/RDINP/rdinp
+src/FF2X/ff2x
 
 doc/feff8.aux
 doc/feff8.log

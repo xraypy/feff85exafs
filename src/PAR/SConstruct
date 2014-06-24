@@ -1,7 +1,12 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FortranCompilation import CompilationEnvironment
+
+env = CompilationEnvironment()
 
 env.StaticLibrary('libfeffpar', 'sequential.f')
 

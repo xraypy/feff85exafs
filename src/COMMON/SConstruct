@@ -1,7 +1,12 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FortranCompilation import CompilationEnvironment
+
+env = CompilationEnvironment()
 
 lib_src = Split('chopen.f  fixvar.f  head.f    itoken.f  pertab.f  rdcmt.f   rdxsph.f  str.f    \
                  xx.f      fixdsp.f  getorb.f  iniptz.f  nxtunt.f  pijump.f  rdhead.f  setgam.f \

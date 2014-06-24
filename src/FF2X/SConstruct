@@ -1,7 +1,16 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FortranCompilation import CompilationEnvironment
 
-env.Object(Split('exconv.f  feffdt.f  ff2afs.f  ff2chi.f  ff2gen.f  ff2xmu.f  ffmod6.f  fprime.f \
-                  rdfbin.f  reff2x.f  xscorr.f'))
+env = CompilationEnvironment()
+
+bin_src = Split('exconv.f  feffdt.f  ff2afs.f  ff2chi.f  ff2gen.f  ff2xmu.f  ffmod6.f  fprime.f \
+                 rdfbin.f  reff2x.f  xscorr.f')
+
+env.Program('ff2x', bin_src, \
+        LIBS = ['dw', 'feffcom', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../DEBYE', '../COMMON', '../MATH', '../PAR'])
