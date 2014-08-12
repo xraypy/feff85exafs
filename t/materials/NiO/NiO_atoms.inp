@@ -1,0 +1,16 @@
+title name:     NiO
+title formula:  NiO
+title sites:    Ni1,O1
+title refer1:   wyckoff 1,III,88
+title refer2:
+title schoen:
+title notes1:   salt, halite
+space  f m 3 m
+a    = 4.1684
+alpha= 90
+rmax = 6.00
+core = Ni1
+atom
+Ni     0.00000   0.00000   0.00000  Ni1
+O      0.50000   0.50000   0.50000  O1
+------
