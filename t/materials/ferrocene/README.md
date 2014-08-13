@@ -16,9 +16,9 @@ This example represents the sort of problem of interest to biologist
 and biochemists.
 
 
-![Schematic representation of the macrocycle, including the Fe atoms surrounded by two ferrocenylene units (image from Dinnebier et al.)](uraninite.gif) -- [image from the ChemTube3D website](http://www.chemtube3d.com/solidstate/SS-ZrSiO4.htm)
+![Schematic representation of the macrocycle, including the Fe atoms surrounded by two ferrocenylene units, image from Dinnebier et al.](uraninite.gif) -- [image from the ChemTube3D website](http://www.chemtube3d.com/solidstate/SS-ZrSiO4.htm)
 
 
-* [Atoms input file for ferrocene macrocycle (positions from Table 2 in Dinnebier et al.)](ferrocene-macrocycle_atoms.inp)
+* [Atoms input file for ferrocene macrocycle, positions from Table 2 in Dinnebier et al.](ferrocene-macrocycle_atoms.inp)
 * [template for feff input file (generated from atoms input file file)](ferrocene-macrocycle.mustache) -- uses the [mustache](http://mustache.github.io/) templating system
 
