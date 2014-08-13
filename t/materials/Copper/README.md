@@ -16,9 +16,9 @@ this measurement 22 years later:
 https://github.com/XraySpectroscopy/XAS-Data-Interchange/issues/29
 
 
-* [Atoms input file for copper](cu_atoms.inp)
-* [template for feff input file (generated from the atoms input file)](cu.mustache) -- uses the [mustache](http://mustache.github.io/) templating system
-* [XDI data file: chi(k)](cu.012.chik)
+* [Atoms input file for copper](Copper_atoms.inp)
+* [template for feff input file (generated from the atoms input file)](Copper.mustache) -- uses the [mustache](http://mustache.github.io/) templating system
+* [XDI data file: chi(k)](Copper.chik)
 * [The raw data file](cu.012)
-* [Athena project file](cu.prj) -- Data processed with a pre-release of Demeter 0.9.21 using the larch (0.9.23) backend and XDI 1.0
+* [Athena project file](Copper.prj) -- Data processed with a pre-release of Demeter 0.9.21 using the larch (0.9.23) backend and XDI 1.0
 

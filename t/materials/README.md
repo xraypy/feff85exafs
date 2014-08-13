@@ -1,53 +1,69 @@
 List of materials for unit testing
 ==================================
 
-## copper metal
+For each example material, several files are provided:
 
-Because copper
+ 1. structural data, either in the form of an
+    [Atoms input file](http://bruceravel.github.io/demeter/artug/feff/index.html#crystaldata),
+    a [CIF file](http://www.iucr.org/resources/cif), or a
+    [Feff input file](http://monalisa.phys.washington.edu/feff/wiki/static/f/e/f/FEFFinp_4993.html).
 
-  * `cu10k.chi`: copper metal data at 10K
-  * `cu_atoms.inp`: atoms input file
-  * `cu.inp`: feff8 input file
+ 2. Where crystal data is given in the form of an Atoms input or CIF
+    file, the crystal data has been converted into a Feff input file.
 
-## nickel oxide
+ 3. The Feff input files are not yet in a form ready for running feff.
+    Each one is in a form used by the
+    [Mustache](http://mustache.github.io/) templating system.  A few
+    bits of input data have been replaced by tokens that look like
+    this: `{{scf}}`.  These tokens will be replaced by values
+    appropriate to the test being performed.
 
-This is a simple, cubic, metal oxide
+ 4. For test which have data associated with them and, so, will
+    included results of fits to EXAFS data as part of their test, the
+    data is provided in the form of an
+    [Athena project file](http://bruceravel.github.io/demeter/aug/output/project.html)
+    and as a column ASCII data containing chi(k).  The column data
+    file is in the
+    [XDI format](https://github.com/XraySpectroscopy/XAS-Data-Interchange).
 
-  * `NiO_atoms.inp`: atoms input file
-  * `NiO.inp`: feff8 input file
-  
-## uraninite
+ 5. Most of the material folders also contain some kind of image
+    showing the nature of the coordination environment about the absorbing atom.
 
-This is an f-electron system
+ 6. Each materials folder has a folder containing the baseline Feff
+    calculation.  This is a run of Feff 8.5 as delivered by the Feff
+    Project.  The sense in which this is a baseline is that, as
+    changes are made to the Feff85EXAFS code base, those changes can
+    be tested against this original state of the software.  Changes to
+    the code base should not result in changes to output of Feff.
+    This baseline can also serve as a platform for testing changes
+    across versions of Feff, allowing us to probe in a systematic way
+    the differences in EXAFS analysis between versions 6 through 9 or
+    Feff.
 
-  * `UO2.cif`: CIF file
-  * `UO2.inp`: feff8 input file
-  * `UO2.chik`: chi(k) data file
-  
-## zircon
 
-This has a 4d metal and Si, good for testing at each edge
+The testing infratructure will be a tool written in python using
+[Larch](https://github.com/xraypy/xraylarch).  Details to come...
 
-  * `ZrSiO4.inp`: atoms input file
-  * `zircon.inp`: feff8 input file
-  
-## bromoadamantane
+The testing infratructure will be designed so that it is easy to add
+new tests, so long as an appropriate set of files is provided for each
+new test.
 
-This is a small molecule which can be fit with a fairly simple model
-of four paths, but for which the 6 nearby hydrogen scatterers seem to
-play a big role in the fit.
 
-  * `bromoadamantane.inp`: feff input file
-  * `bromoadamantane.chik`: chi(k) data for bromoadamantane
-  * `bromoadamantane.png`: a picture of the bromoadamantane molecule
+## Materials:
 
-## ferrocene macrocycle
+1. **copper metal**: because copper
 
-This is a iron organometallic from Dinnebier et al, Organometallics
-2001, 20, 5642-5647, doi:10.1021/om0105066
+2. **nickel oxide, NiO**: this is a simple, cubic, metal oxide.  It
+   represents a problem slightly more complicated than copper metal.
 
-It has Fe in between two 5 member carbon rings, so it has 10 C
-neighbors at a range of distances from 2.026 A to 2.099 A
+3. **uraninite, UO2**: this is an f-electron system
 
-  * `ferrocene-macrocycle_atoms.inp`: atoms input file
-  * `ferrocene-macrocycle.inp`: feff8 input file
+4. **zircon, ZrSiO4**: this has Si, a tender energy absorber, with a 4d backscatterer
+
+5. **bromoadamantane**: this is a small molecule which can be fit with a
+   fairly simple model of four paths, but for which the 6 nearby hydrogen
+   scatterers play a big role in the fit.
+
+6. **ferrocene macrocycle**: this is a iron organometallic with Fe in
+   between two 5 member carbon rings, so it has 10 C neighbors at a range
+   of distances from 2.026 A to 2.099 A
