@@ -4,7 +4,7 @@
 *~
 *.pyc
 
-## nonesense that Feff writes out
+## nonsense that Feff writes out
 fort.*
 log*.dat
 global.dat
