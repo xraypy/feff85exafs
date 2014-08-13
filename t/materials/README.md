@@ -16,7 +16,8 @@ For each example material, several files are provided:
     [Mustache](http://mustache.github.io/) templating system.  A few
     bits of input data have been replaced by tokens that look like
     this: `{{scf}}`.  These tokens will be replaced by values
-    appropriate to the test being performed.
+    appropriate to the test being performed.  Those values are taken
+    from a `.json` file with the same name as the folder itself.
 
  4. For test which have data associated with them and, so, will
     included results of fits to EXAFS data as part of their test, the
@@ -48,6 +49,26 @@ The testing infratructure will be designed so that it is easy to add
 new tests, so long as an appropriate set of files is provided for each
 new test.
 
+Please note that the file naming comventions for the test files are
+quite strict.  If you introduce a new material, say Ceria (CeO2), and
+you name the folder containing its files either `Ceria`, then the
+following must be true:
+
+1. The structure file **must** be `Ceria.<extension>` or
+   `Ceria_atoms.inp`.  Here `<extension>` is something like `cif` or
+   `sdf`.
+2. The Mustache template file **must** be called `Ceria.mustache`.
+3. The chi(k) **must** be called `Ceria.chik`, the first data column
+   **must** be wavenumber and the second column **must** be
+   un-k-weighted chi(k).
+4. The JSON file with the configuration for the Feff run **must** be
+   called `Ceria.json`.
+5. If you provide an Athena project file, is should be called
+   Ceria.prj.
+6. You should provide a `README.md` file with basic information in
+   markdown format.  Any other files, for instance images displayed in
+   the `README.md` file can have any name (since they will not be used
+   in testing)
 
 ## Materials:
 
