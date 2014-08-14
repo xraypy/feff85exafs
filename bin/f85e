@@ -8,7 +8,7 @@ module() {
     mod=$1
     folder=$(echo "$mod" | tr '[:lower:]' '[:upper:]')
 
-    echo "======= running module $count: $folder ====================================================" | tee  -a $logfile
+    echo "\n======= running module $count: $folder ====================================================" | tee  -a $logfile
     $FeffRoot/$folder/$mod  2>&1 | tee -a $logfile
 }
 
