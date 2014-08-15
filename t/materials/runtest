@@ -1,0 +1,32 @@
+#!/usr/bin/python
+
+import sys
+from   os      import unlink, makedirs, chdir
+from   os.path import isdir,  realpath, join
+
+from Feff85UnitTests import runfeff, compare_nnnn
+
+import larch
+#from larch import add_plugin
+#add_plugin('Feff85UnitTests')
+
+folder = sys.argv[-1]
+
+# from larch import use_plugin_path
+# use_plugin_path('xafs')
+# from feffdat import feffpath
+# use_plugin_path('wx')
+# from plotter import _newplot, _plot
+
+
+repotop = realpath(join('..','..'))
+if folder[-1] == '/': folder = folder[:-1]
+
+mylarch = larch.Interpreter()
+
+#runfeff(folder, _larch=mylarch)
+
+compare_nnnn(folder, 1, 'mag_feff', _larch=mylarch)
+
+compare_nnnn(folder, 1, 'pha_feff', _larch=mylarch)
+
