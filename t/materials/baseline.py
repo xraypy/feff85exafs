@@ -6,20 +6,40 @@ from   os.path import isdir,  realpath, join
 from   shutil  import rmtree
 import pystache, json
 
+from optparse import OptionParser
+parser = OptionParser()
+parser.add_option("-f", "--folder", dest="folder",
+                  help="perform test for FOLDER", metavar="FOLDER")
+
+parser.add_option("-s", "--scf",
+                  action="store_true", dest="doscf", default=False,
+                  help="perform Feff calculation with SCF (default is no SCF)")
+
+
+(options, args) = parser.parse_args()
+
+scf = 'noSCF'
+if options.doscf: scf = 'withSCF'
 
 repotop = realpath(join('..','..'))
-folder = sys.argv[1]
-if folder[-1] == '/': folder = folder[:-1]
+if options.folder[-1] == '/': options.folder = options.folder[:-1]
 
 ## write the feff.inp file
-target = join(folder, 'baseline')
+target = join(options.folder, 'baseline', scf)
+
+mat_json = json.load(open(join(options.folder, options.folder + '.json')))
+
+mat_json['doscf']='* '
+if options.doscf: mat_json['doscf']=''
+
 if isdir(target): rmtree(target)
 makedirs(target)
 renderer = pystache.Renderer()
 
+
 with open(join(target,'feff.inp'), 'w') as inp:
-    inp.write(renderer.render_path( join(folder, folder + '.mustache'),                # material/material.mustache
-                                    json.load(open(join(folder, folder + '.json'))) )) # material/material.json
+    inp.write(renderer.render_path( join(options.folder, options.folder + '.mustache'), # material/material.mustache
+                                    mat_json ))                                         # material/material.json
 
 chdir(target)
 
