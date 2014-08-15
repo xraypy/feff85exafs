@@ -4,29 +4,31 @@ import sys
 from   os      import unlink, makedirs, chdir
 from   os.path import isdir,  realpath, join
 
-from Feff85UnitTests import runfeff, compare_nnnn
+from optparse import OptionParser
+parser = OptionParser()
+parser.add_option("-f", "--folder", dest="folder",
+                  help="perform test for FOLDER", metavar="FOLDER")
+parser.add_option("-s", "--scf",
+                  action="store_true", dest="doscf", default=False,
+                  help="perform Feff calculation with SCF (default is no SCF)")
+(options, args) = parser.parse_args()
+
+if options.folder[-1] == '/': options.folder = options.folder[:-1]
+scf = 'noSCF'
+if options.doscf: scf = 'withSCF'
+baseline = join(options.folder, 'baseline', scf)
+testrun  = join(options.folder, 'testrun')
+
+
+from Feff85UnitTests import runfeff, compare_nnnn, clean_testrun
 
 import larch
-#from larch import add_plugin
-#add_plugin('Feff85UnitTests')
-
-folder = sys.argv[-1]
-
-# from larch import use_plugin_path
-# use_plugin_path('xafs')
-# from feffdat import feffpath
-# use_plugin_path('wx')
-# from plotter import _newplot, _plot
-
-
-repotop = realpath(join('..','..'))
-if folder[-1] == '/': folder = folder[:-1]
-
 mylarch = larch.Interpreter()
 
-#runfeff(folder, _larch=mylarch)
+runfeff(options.folder, options.doscf, _larch=mylarch)
 
-compare_nnnn(folder, 1, 'mag_feff', _larch=mylarch)
+compare_nnnn(baseline, testrun, 1, 'mag_feff', _larch=mylarch)
 
-compare_nnnn(folder, 1, 'pha_feff', _larch=mylarch)
+compare_nnnn(baseline, testrun, 1, 'pha_feff', options.doscf, _larch=mylarch)
 
+clean_testrun(testrun)

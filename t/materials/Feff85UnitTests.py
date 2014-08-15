@@ -11,7 +11,7 @@ from feffdat import feffpath
 
 import pylab
 
-def runfeff(folder, _larch=None):
+def runfeff(folder, doscf=False, _larch=None):
     """
     Make a feff.inp from the mustache template, then run feff 8.5
 
@@ -22,17 +22,22 @@ def runfeff(folder, _larch=None):
         exit
 
     here     = realpath(join('.'))
-    testrun  = join(folder, 'testrun2')
+    testrun  = join(folder, 'testrun')
     repotop  = realpath(join('..','..'))
 
     if isdir(testrun): 
         rmtree(testrun)
     makedirs(testrun)
+
+    mat_json = json.load(open(join(folder, folder + '.json')))
+    mat_json['doscf']='* '
+    if doscf: mat_json['doscf']=''
+
     
     inp      = open(join(testrun,'feff.inp'), 'w')
     renderer = pystache.Renderer()
-    inp.write(renderer.render_path( join(folder, folder + '.mustache'),                # material/material.mustache
-                                    json.load(open(join(folder, folder + '.json'))) )) # material/material.json
+    inp.write(renderer.render_path( join(folder, folder + '.mustache'), # material/material.mustache
+                                    mat_json ))                         # material/material.json
     inp.close
 
     chdir(testrun)
@@ -41,14 +46,10 @@ def runfeff(folder, _larch=None):
     chdir(here)
 
 
-def compare_nnnn(folder, n=1, part='mag_feff', _larch=None):
-    if not isdir(folder):
-        print folder + " is not one of the available tests"
-        exit
+def compare_nnnn(baseline, testrun, n=1, part='mag_feff', doscf=False, _larch=None):
 
-    here     = realpath(join('.'))
-    testrun  = join(realpath('.'), folder, 'testrun')
-    baseline = join(realpath('.'), folder, 'baseline')
+    #testrun  = join(realpath('.'), folder, 'testrun')
+    #baseline = join(realpath('.'), folder, 'baseline')
 
     nnnn = "feff%4.4d.dat" % n
 
@@ -67,10 +68,18 @@ def compare_nnnn(folder, n=1, part='mag_feff', _larch=None):
     which = 'magnitude'
     if word.match(part):
         which="phase"
+    scf="without SCF"
+    if doscf: scf="with SCF"
+
+    print "\nComparing %s of %s (%s)" % (which, nnnn, scf)
     print which + " R-factor = %.3f" % rfactor
 
     pylab.show()
     #pause("= hit return to continue")
-    
+
+
+def clean_testrun(testrun):
+    rmtree(testrun)
+
 #def registerLarchPlugin(): # must have a function with this name!
 #    return ('Feff85UnitTests', {'runfeff': runfeff, 'compare_nnnn': compare_nnnn})
