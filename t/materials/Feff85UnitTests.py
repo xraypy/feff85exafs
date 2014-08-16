@@ -8,8 +8,12 @@ import subprocess, pystache, json, re
 import larch
 larch.use_plugin_path('xafs')
 from feffdat import feffpath
+larch.use_plugin_path('math')
+from mathutils import _deriv
 
 import pylab
+from termcolor import colored
+from numpy import diff, gradient
 
 def runfeff(folder, doscf=False, _larch=None):
     """
@@ -46,36 +50,41 @@ def runfeff(folder, doscf=False, _larch=None):
     chdir(here)
 
 
-def compare_nnnn(baseline, testrun, n=1, part='mag_feff', doscf=False, _larch=None):
+def compare_nnnn(baseline, testrun, nnnn=1, part='mag_feff', doscf=False, _larch=None):
 
     #testrun  = join(realpath('.'), folder, 'testrun')
     #baseline = join(realpath('.'), folder, 'baseline')
 
-    nnnn = "feff%4.4d.dat" % n
+    nnnndat = "feff%4.4d.dat" % nnnn
 
-    blpath = feffpath(join(baseline, nnnn))
-    trpath = feffpath(join(testrun,  nnnn))
+    blpath = feffpath(join(baseline, nnnndat))
+    trpath = feffpath(join(testrun,  nnnndat))
 
-    y1 = getattr(blpath._feffdat, part)
-    y2 = getattr(trpath._feffdat, part)
+    mbl = getattr(blpath._feffdat, 'mag_feff')
+    mtr = getattr(trpath._feffdat, 'mag_feff')
+    pbl = getattr(blpath._feffdat, 'pha_feff')
+    ptr = getattr(trpath._feffdat, 'pha_feff')
 
-    pylab.plot(blpath._feffdat.k, y1)
-    pylab.plot(trpath._feffdat.k, y2)
+    pylab.xlabel('wavenumber $\AA^{-1}$')
+    pylab.ylabel('magnitude and phase')
+    pylab.title(nnnndat)
+    pylab.plot(blpath._feffdat.k, mbl,           label='magnitude of baseline')
+    pylab.plot(trpath._feffdat.k, mtr,           label='magnitude of test run')
+    pylab.plot(blpath._feffdat.k, gradient(pbl), label='grad(phase of baseline)')
+    pylab.plot(trpath._feffdat.k, gradient(ptr), label='grad(phase of test run)')
+    pylab.legend(loc='best')
 
-    rfactor = sum((y1 - y2)**2) / sum(y1**2)
+    rfactor_mag = sum((mbl - mtr)**2) / sum(mbl**2)
+    rfactor_pha = sum((pbl - ptr)**2) / sum(pbl**2)
 
-    word = re.compile("pha")
-    which = 'magnitude'
-    if word.match(part):
-        which="phase"
     scf="without SCF"
     if doscf: scf="with SCF"
 
-    print "\nComparing %s of %s (%s)" % (which, nnnn, scf)
-    print which + " R-factor = %.3f" % rfactor
+    print colored("\nComparing magnitude and phase of %s (%s)" % (nnnndat, scf), 'green', attrs=['bold'])
+    print "magnitude R-factor = %.3f\nphase R-factor = %.3f" % (rfactor_mag, rfactor_mag)
 
-    pylab.show()
-    #pause("= hit return to continue")
+    pylab.show(block=False)
+    raw_input("done? ")
 
 
 def clean_testrun(testrun):

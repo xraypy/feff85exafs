@@ -1,0 +1,90 @@
+Beginning feff85exafs calculation
+
+======= running module 1: RDINP ====================================================
+ Feff 8.50L
+ 1-bromo-adamantane
+
+======= running module 2: POT ====================================================
+ Calculating potentials ...
+    free atom potential and density for atom type    0
+    free atom potential and density for atom type    1
+    free atom potential and density for atom type    2
+    initial state energy
+    overlapped potential and density for unique potential    0
+    overlapped potential and density for unique potential    1
+    overlapped potential and density for unique potential    2
+    muffin tin radii and interstitial parameters
+ iph, rnrm(iph)*bohr, rmt(iph)*bohr, folp(iph)
+    0  1.56534E+00  1.34592E+00  1.15000E+00
+    1  1.04556E+00  8.89492E-01  1.15000E+00
+    2  9.71604E-01  8.39603E-01  1.15000E+00
+ mu_old=     4.480
+ Done with module 1: potentials.
+
+======= running module 3: XSPH ====================================================
+ Calculating cross-section and phases...
+   1.1090353468083740        5.4642703919631789E-004   5.5451767340418699E-002          12
+    absorption cross section
+ dx=   5.0000000000000003E-002
+    phase shifts for unique potential    0
+    phase shifts for unique potential    1
+    phase shifts for unique potential    2
+ Done with module 2: cross-section and phases...
+
+======= running module 4: PATH ====================================================
+ Preparing plane wave scattering amplitudes...
+ Searching for paths...
+   WARNING:  rmax > distance to most distant atom.
+             Some paths may be missing.
+             rmax, ratx   3.50000E+00  0.00000E+00
+    Rmax  3.5000  keep and heap limits   0.0000000   0.0000000
+    Preparing neighbor table
+    Paths found       31   (maxheap, maxscatt      13   4)
+ Eliminating path degeneracies...
+    Plane wave chi amplitude filter   2.50%
+    Unique paths      9,  total paths      31
+ Done with module 4: pathfinder.
+
+======= running module 5: GENFMT ====================================================
+ Calculating EXAFS parameters...
+ doing ip =            1
+    Curved wave chi amplitude ratio   4.00%
+    Discard feff.dat for paths with cw ratio <   2.67%
+    path  cw ratio     deg    nleg  reff
+      1     0.1000E+03     1.000     2   1.9521
+      2     0.1247E+03     3.000     2   2.8567
+      3     0.3646E+02     6.000     2   3.0185
+      4     0.4499E+02     4.000     3   3.1734
+      5     0.2250E+02     2.000     3   3.1732
+      6     0.1474E+02     8.000     3   3.4865
+      7     0.7366E+01     4.000     3   3.4868
+      8     0.3698E+01     1.000     4   3.4898
+      9     0.7393E+01     2.000     4   3.4899
+    9 paths kept,    9 examined.
+ Done with module 5: F_eff.
+
+======= running module 6: FF2X ====================================================
+ Calculating chi...
+ feffdt, feff.bin to feff.dat conversion Feff 8.50L
+ 1-bromo-adamantane                                               Feff 8.50L
+ POT  Non-SCF, core-hole, AFOLP (folp(0)= 1.150)
+ Abs   Z=35 Rmt= 1.346 Rnm= 1.565 K  shell
+ Pot 1 Z= 6 Rmt= 0.889 Rnm= 1.046
+ Pot 2 Z= 1 Rmt= 0.840 Rnm= 0.972
+ Gam_ch=3.018E+00 H-L exch
+ Mu= 4.480E+00 kf=2.227E+00 Vint=-1.442E+01 Rs_int= 1.628
+ PATH  Rmax= 3.500,  Keep_limit= 0.00, Heap_limit 0.00  Pwcrit= 2.50%
+       9 paths to process
+    path     filename
+       1     feff0001.dat
+       2     feff0002.dat
+       3     feff0003.dat
+       4     feff0004.dat
+       5     feff0005.dat
+       6     feff0006.dat
+       7     feff0007.dat
+       8     feff0008.dat
+       9     feff0009.dat
+    Use all paths with cw amplitude ratio   4.00%
+    S02  0.919  Global sig2  0.00000
+ Done with module 6: DW + final sum over paths.

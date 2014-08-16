@@ -34,9 +34,8 @@ if options.doscf: mat_json['doscf']=''
 
 if isdir(target): rmtree(target)
 makedirs(target)
+
 renderer = pystache.Renderer()
-
-
 with open(join(target,'feff.inp'), 'w') as inp:
     inp.write(renderer.render_path( join(options.folder, options.folder + '.mustache'), # material/material.mustache
                                     mat_json ))                                         # material/material.json

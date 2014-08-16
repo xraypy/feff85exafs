@@ -1,0 +1,33 @@
+ name:     NiO                                                    Feff 8.50L
+ formula:  NiO
+ sites:    Ni1,O1
+ refer1:   wyckoff 1,III,88
+ refer2:
+ schoen:
+ notes1:   salt, halite
+ POT  Non-SCF, core-hole, AFOLP (folp(0)= 1.150)
+ Abs   Z=28 Rmt= 1.315 Rnm= 1.375 K  shell
+ Pot 1 Z=28 Rmt= 1.320 Rnm= 1.381
+ Pot 2 Z= 8 Rmt= 1.014 Rnm= 1.061
+ Gam_ch=1.576E+00 H-L exch
+ Mu=-3.100E+00 kf=2.249E+00 Vint=-2.236E+01 Rs_int= 1.613
+ PATH  Rmax= 4.700,  Keep_limit= 0.00, Heap_limit 0.00  Pwcrit= 2.50%
+ -----------------------------------------------------------------------
+    file        sig2   amp ratio    deg    nlegs  r effective
+ feff0001.dat 0.00000   100.000     6.000     2   2.0842
+ feff0002.dat 0.00000    94.120    12.000     2   2.9475
+ feff0003.dat 0.00000    13.590    24.000     3   3.5580
+ feff0004.dat 0.00000    18.950    48.000     3   3.5580
+ feff0005.dat 0.00000    35.710     8.000     2   3.6099
+ feff0006.dat 0.00000    20.290     6.000     2   4.1684
+ feff0007.dat 0.00000    14.270     6.000     3   4.1684
+ feff0008.dat 0.00000    51.340    12.000     3   4.1684
+ feff0009.dat 0.00000     9.227     6.000     4   4.1684
+ feff0010.dat 0.00000     4.435     6.000     4   4.1684
+ feff0011.dat 0.00000    32.900     6.000     4   4.1684
+ feff0012.dat 0.00000     5.747    24.000     4   4.1684
+ feff0014.dat 0.00000     6.468    48.000     3   4.3208
+ feff0015.dat 0.00000    18.330    48.000     3   4.3208
+ feff0016.dat 0.00000    20.120    48.000     3   4.3208
+ feff0017.dat 0.00000     7.054    48.000     3   4.4213
+ feff0018.dat 0.00000    54.460    24.000     2   4.6604
