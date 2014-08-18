@@ -20,13 +20,13 @@ baseline = join(options.folder, 'baseline', scf)
 testrun  = join(options.folder, 'testrun')
 
 
-from Feff85UnitTests import *
+from f85ut import *
 
 import larch
 mylarch = larch.Interpreter()
 
-runfeff(options.folder, options.doscf, _larch=mylarch)
+run(options.folder, options.doscf, _larch=mylarch)
 
-compare_nnnn(baseline, testrun, nnnn=2, doscf=options.doscf, _larch=mylarch)
+compare(baseline, testrun, nnnn=2, doscf=options.doscf, _larch=mylarch)
 
-clean_testrun(testrun)
+clean(testrun)
