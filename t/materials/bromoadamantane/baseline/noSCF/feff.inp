@@ -31,8 +31,8 @@
  POTENTIALS
  *    ipot   Z  element
        0    35  Br      2    2     1
-       1     6  C       2    2    10
-       2     1  H       2    2    15
+       1     6  C       1    1    10
+       2     1  H       1    1    15
 
  ATOMS
  *   x          y          z      ipot

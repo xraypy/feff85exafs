@@ -29,8 +29,7 @@ def runfeff(folder, doscf=False, _larch=None):
     testrun  = join(folder, 'testrun')
     repotop  = realpath(join('..','..'))
 
-    if isdir(testrun): 
-        rmtree(testrun)
+    if isdir(testrun): rmtree(testrun)
     makedirs(testrun)
 
     mat_json = json.load(open(join(folder, folder + '.json')))
