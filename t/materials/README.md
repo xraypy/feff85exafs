@@ -19,13 +19,14 @@ For each example material, several files are provided:
     appropriate to the test being performed.  Those values are taken
     from a `.json` file with the same name as the folder itself.
 
- 4. For test which have data associated with them and, so, will
-    included results of fits to EXAFS data as part of their test, the
+ 4. For tests which have data associated with them and, so, will
+    include results of fits to EXAFS data as part of their test, the
     data is provided in the form of an
     [Athena project file](http://bruceravel.github.io/demeter/aug/output/project.html)
     and as a column ASCII data containing chi(k).  The column data
     file is in the
     [XDI format](https://github.com/XraySpectroscopy/XAS-Data-Interchange).
+	Currently no tests are made using data.
 
  5. Most of the material folders also contain some kind of image
     showing the nature of the coordination environment about the absorbing atom.
@@ -39,16 +40,17 @@ For each example material, several files are provided:
     This baseline can also serve as a platform for testing changes
     across versions of Feff, allowing us to probe in a systematic way
     the differences in EXAFS analysis between versions 6 through 9 or
-    Feff.
+    Feff.  Baseline calculations have been made with and without
+    self-consistency.
 
 
-The testing infratructure is implemented as a
+The testing infrastructure is implemented as a
 [Larch](https://github.com/xraypy/xraylarch) plugin.  See below for
 details.
 
-The testing infratructure will be designed so that it is easy to add
-new tests, so long as an appropriate set of files is provided for each
-new test.
+The testing infratructure is designed so that it is easy to add new
+tests, so long as an appropriate set of files is provided for each new
+test.
 
 Please note that the file naming comventions for the test files are
 quite strict.  If you introduce a new material, say Ceria (CeO2), and
@@ -64,9 +66,12 @@ following must be true:
    un-k-weighted chi(k).
 4. The JSON file with the configuration for the Feff run **must** be
    called `Ceria.json`.
-5. If you provide an Athena project file, is should be called
+5. There **must** be a fodler called `baseline` which has folders
+   called `withSCF` and `noSCF`. These contain the baseline
+   calculations with and without self-consistency.
+6. If you provide an Athena project file, is should be called
    Ceria.prj.
-6. You should provide a `README.md` file with basic information in
+7. You should provide a `README.md` file with basic information in
    markdown format.  Any other files, for instance images displayed in
    the `README.md` file can have any name (since they will not be used
    in testing)
@@ -92,6 +97,12 @@ following must be true:
 
 ## Installing and using the unit testing tool
 
+Make sure that all parts of Feff have been compiled successfully.  The
+unit test framework currently uses the `f85e` script in the `bin`
+folder to make the test runs of Feff.  You must have the termcolor and
+pystache python libraries installed.  (In debian/ubuntu, these are
+called `python-termcolor` and `python-pystache`).
+
 Copy the file `f85ut.py` to the larch plugins folder (either
 `$HOME/.larch/plugins/` or `/usr/local/share/larch/plugins` on Unix,
 or `C:\Users\ME\larch\plugins` or `C:\Program Files\larch\plugins` on
@@ -100,22 +111,23 @@ the file:
 
       ln -s  `pwd`/f85ut.py ~/.larch/plugins/f85ut.py
 
-Here, I have assumed that you have run this command in the folder
-containing both this README file and the `f85ut.py` file.  That is
-what lets the call to `pwd` work.
+Here, I have assumed that you will run this command in the folder
+containing both this README file and the `f85ut.py` file.  That is why
+the call to `pwd` works.
 
-Fire up Larch and do the following:
+Fire up Larch from the folder containing this README file and do the
+following:
 
-    add_plugin('f85ut')
-    my_ut = ut('Copper')
+    larch> add_plugin('f85ut')
+    larch> my_ut = ut('Copper')
 
-That will creat a unit testing object called `my_ut` and point it at
+That will create a unit testing object called `my_ut` and point it at
 the folder containing the materials related to unit tests on a
 calculation for copper metal.
 
 Next do
 
-     my_ut.run()
+     larch> my_ut.run()
 
 This will run a calculation on copper metal using Feff85exafs in its
 current state.  Once this is done, you can check the results of the
@@ -125,7 +137,7 @@ using Feff85exafs as it was delivered to us by the Feff Project.
 To see whether the calculation of the first path differs from teh
 baseline calculation, do
 
-     my_ut.compare(1)
+     larch> my_ut.compare(1)
 
 This will compute a simple R factor between the magnitude of F\_eff in
 the baseline and the test run.  It will also compute and R factor for
@@ -135,7 +147,7 @@ baseline and the test run.
 
 You can compare other parts of the calculation:
 
-     my_ut.compare(1, part)
+     larch> my_ut.compare(1, part)
 
 where `part` is one of
 
@@ -151,10 +163,18 @@ rep     | test the real part of the complex wavenumber
 
 You can test to see if a path index was saved from the Feff calculation
 
-      if my_ut.available(nnnn):
-	      my_ut.compare(nnnn)
+     if my_ut.available(nnnn):
+         my_ut.compare(nnnn)
+
+You can run Feff and do the comparisons using self-consistency by
+setting
+
+     larch> my_ut.doscf = True
+
+The Feff run is, of course, much more time consuming with
+self-consistency.
 
 Finally, clean up the test run by doing:
 
-      my_ut.clean()
+     larch> my_ut.clean()
 

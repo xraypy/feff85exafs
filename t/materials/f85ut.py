@@ -1,20 +1,28 @@
 
-from   os      import makedirs, chdir, getcwd
-from   os.path import realpath, isdir, join
-from   shutil  import rmtree
+from   os        import makedirs, chdir, getcwd
+from   os.path   import realpath, isdir, join
+from   shutil    import rmtree
 import subprocess, glob, pystache, json, re
-from termcolor import colored
-import numpy as np
+from   termcolor import colored
+import numpy     as np
 
-from larch import (Group, Parameter, isParameter,
-                   param_value, use_plugin_path, isNamedClass)
+from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass)
 use_plugin_path('xafs')
 from feffdat import feffpath
 use_plugin_path('wx')
 from plotter import (_newplot, _plot)
-use_plugin_path('std')
-from show import _show
 
+
+## :TODO:
+##   1. see which paths come in the baseline, available method chould check baseline and testrun
+##   2. cull s02 calculation from f85e.log or from chi.dat, test its value
+##   3. tests for muffin and norman radii, mu, kf, vint, rs_int
+##   4. compare() should include a report of path geometry, ie feffpath._feffdat.geom
+##   5. begin writing data/fitting tests
+##   6. need a way of validating the R-factors, that is, changes may introduce negligible numerical differences -- define negligible
+##   7. capture and interpret feff's screen messages to notice when a feff run fails
+##   8.    "     "      "       "       "       "    to use number of SCF iterations as a unit test
+##   9. someting like perl's Term::Twiddle would be nice to use when self.quiet is True
 
 
 class Feff85exafsUnitTestGroup(Group):
@@ -29,6 +37,7 @@ class Feff85exafsUnitTestGroup(Group):
         self.quiet      = False # True = suppress Feff's screen messages
         self.feffran    = False # True = Feff calculation has been run
         self.folder     = folder
+        self.testrun    = join(self.folder, 'testrun')
         if not isdir(folder):
             print colored(folder + " is not one of the available tests", 'magenta', attrs=['bold'])
             return None
@@ -55,13 +64,10 @@ class Feff85exafsUnitTestGroup(Group):
             print colored(self.folder + " is not one of the available tests", 'magenta', attrs=['bold'])
             return False
 
-        here     = getcwd()
-
         if isdir(self.testrun): rmtree(self.testrun)
         makedirs(self.testrun)
 
         scf = 'without SCF'
-        self.testrun  = join(self.folder, 'testrun')
         self.json = json.load(open(join(self.folder, self.folder + '.json')))
         self.json['doscf']='* '
         if self.doscf:
@@ -75,6 +81,7 @@ class Feff85exafsUnitTestGroup(Group):
                                         self.json ))                                # material/material.json
         inp.close
 
+        here     = getcwd()
         chdir(self.testrun)
         if self.quiet:
             outout = subprocess.check_output(self.f85escript);
@@ -127,13 +134,13 @@ class Feff85exafsUnitTestGroup(Group):
             group.compare(N, part)
 
         where N is the path index and part is one of 
-            feff    :      plot the magnitude AND phase of F_eff (default)
-            amp     :      plot the total amplitude of the path
-            phase   :      plot the total phase of the path
-            lambda  :      plot the mean free path
-            caps    :      plot the central atom phase shift
-            redfact :      plot the reduction factor
-            rep     :      plot the real part of the complex wavenumber
+            feff    :      test the magnitude AND phase of F_eff (default)
+            amp     :      test the total amplitude of the path
+            phase   :      test the total phase of the path
+            lambda  :      test the mean free path
+            caps    :      test the central atom phase shift
+            redfact :      test the reduction factor
+            rep     :      test the real part of the complex wavenumber
 
         """
         if self._larch is None:
@@ -232,6 +239,8 @@ class Feff85exafsUnitTestGroup(Group):
     def clean(self):
         rmtree(self.testrun)
         self.feffran = False
+
+######################################################################
 
 def ut(folder=None, _larch=None, **kws):
     return Feff85exafsUnitTestGroup(folder=folder, _larch=_larch)
