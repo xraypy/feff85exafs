@@ -42,8 +42,9 @@ For each example material, several files are provided:
     Feff.
 
 
-The testing infratructure will be a tool written in python using
-[Larch](https://github.com/xraypy/xraylarch).  Details to come...
+The testing infratructure is implemented as a
+[Larch](https://github.com/xraypy/xraylarch) plugin.  See below for
+details.
 
 The testing infratructure will be designed so that it is easy to add
 new tests, so long as an appropriate set of files is provided for each
@@ -88,3 +89,72 @@ following must be true:
 6. **ferrocene macrocycle**: this is a iron organometallic with Fe in
    between two 5 member carbon rings, so it has 10 C neighbors at a range
    of distances from 2.026 A to 2.099 A
+
+## Installing and using the unit testing tool
+
+Copy the file `f85ut.py` to the larch plugins folder (either
+`$HOME/.larch/plugins/` or `/usr/local/share/larch/plugins` on Unix,
+or `C:\Users\ME\larch\plugins` or `C:\Program Files\larch\plugins` on
+Windows).  Alternately, make a symbolic link from the plugin folder to
+the file:
+
+      ln -s  `pwd`/f85ut.py ~/.larch/plugins/f85ut.py
+
+Here, I have assumed that you have run this command in the folder
+containing both this README file and the `f85ut.py` file.  That is
+what lets the call to `pwd` work.
+
+Fire up Larch and do the following:
+
+    add_plugin('f85ut')
+    my_ut = ut('Copper')
+
+That will creat a unit testing object called `my_ut` and point it at
+the folder containing the materials related to unit tests on a
+calculation for copper metal.
+
+Next do
+
+     my_ut.run()
+
+This will run a calculation on copper metal using Feff85exafs in its
+current state.  Once this is done, you can check the results of the
+calculation against the baseline calculation, i.e. a calculation made
+using Feff85exafs as it was delivered to us by the Feff Project.
+
+To see whether the calculation of the first path differs from teh
+baseline calculation, do
+
+     my_ut.compare(1)
+
+This will compute a simple R factor between the magnitude of F\_eff in
+the baseline and the test run.  It will also compute and R factor for
+the phase of F\_eff.  If my_ut.doplot is True (which is the default),
+plots of magnitude and phase of F\_eff will be made including both the
+baseline and the test run.
+
+You can compare other parts of the calculation:
+
+     my_ut.compare(1, part)
+
+where `part` is one of
+
+part    | purpose
+--------|------------------------------------------------
+feff    | test the magnitude AND phase of F_eff (default)
+amp     | test the total amplitude of the path
+phase   | test the total phase of the path
+lambda  | test the mean free path
+caps    | test the central atom phase shift
+redfact | test the reduction factor
+rep     | test the real part of the complex wavenumber
+
+You can test to see if a path index was saved from the Feff calculation
+
+      if my_ut.available(nnnn):
+	      my_ut.compare(nnnn)
+
+Finally, clean up the test run by doing:
+
+      my_ut.clean()
+

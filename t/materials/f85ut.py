@@ -2,8 +2,9 @@
 from   os      import makedirs, chdir, getcwd
 from   os.path import realpath, isdir, join
 from   shutil  import rmtree
-import subprocess, pystache, json, re
-
+import subprocess, glob, pystache, json, re
+from termcolor import colored
+import numpy as np
 
 from larch import (Group, Parameter, isParameter,
                    param_value, use_plugin_path, isNamedClass)
@@ -13,10 +14,7 @@ use_plugin_path('wx')
 from plotter import (_newplot, _plot)
 use_plugin_path('std')
 from show import _show
-#import pylab
 
-from termcolor import colored
-import numpy as np
 
 
 class Feff85exafsUnitTestGroup(Group):
@@ -25,39 +23,50 @@ class Feff85exafsUnitTestGroup(Group):
         kwargs = dict(name='Feff85exafs unit test: %s' % folder)
         kwargs.update(kws)
         Group.__init__(self,  **kwargs)
-        self.doplot     = True
-        self.doscf      = False
-        self.feffran    = False
+        self._larch     = _larch
+        self.doplot     = True  # True = plot comparisons
+        self.doscf      = False # True = use self-consistency
+        self.quiet      = False # True = suppress Feff's screen messages
+        self.feffran    = False # True = Feff calculation has been run
         self.folder     = folder
+        if not isdir(folder):
+            print colored(folder + " is not one of the available tests", 'magenta', attrs=['bold'])
+            return None
         self.path       = realpath(folder)
         self.repotop    = realpath(join('..','..'))
+        # the f85e shell script emulates the behavior of the monolithic Feff application
         self.f85escript = join(self.repotop, 'bin', 'f85e')
 
+    def __repr__(self):
+        if not isdir(self.folder):
+            return '<Feff85exafs Unit Test Group (empty)>'
+        if self.folder is not None:
+            return '<Feff85exafs Unit Test Group: %s>' % self.folder
+        return '<Feff85exafs Unit Test Group (empty)>'
 
-    def run(self):
+
+    def run(self, _larch=None):
         """
         Make a feff.inp from the mustache template, then run feff 8.5
         
         Take the name of a folder containing the test as the argument.
         """
-
         if not isdir(self.folder):
-            print self.folder + " is not one of the available tests"
-            exit
+            print colored(self.folder + " is not one of the available tests", 'magenta', attrs=['bold'])
+            return False
 
         here     = getcwd()
-
-        scf = 'noSCF'
-        if self.doscf: scf = 'withSCF'
-        self.testrun  = join(self.folder, 'testrun')
-
 
         if isdir(self.testrun): rmtree(self.testrun)
         makedirs(self.testrun)
 
+        scf = 'without SCF'
+        self.testrun  = join(self.folder, 'testrun')
         self.json = json.load(open(join(self.folder, self.folder + '.json')))
         self.json['doscf']='* '
-        if self.doscf: self.json['doscf']=''
+        if self.doscf:
+            scf = 'with SCF'
+            self.json['doscf']=''
 
     
         inp      = open(join(self.testrun,'feff.inp'), 'w')
@@ -67,18 +76,75 @@ class Feff85exafsUnitTestGroup(Group):
         inp.close
 
         chdir(self.testrun)
-        ok = subprocess.check_call(self.f85escript); # the f85e shell script emulates the behavior of the monolithic Feff application
+        if self.quiet:
+            outout = subprocess.check_output(self.f85escript);
+        else :
+            subprocess.check_call(self.f85escript);
+
         print colored("\nRan Feff85EXAFS on %s (%s)" % (self.folder, scf), 'yellow', attrs=['bold'])
+        #print "ok = %s" % ok
+
+        self.paths = list()
+        feffoutput = glob.glob("*")
+        for f in sorted(feffoutput):
+            tosave = re.compile("feff\d+\.dat")
+            if tosave.match(f):
+                self.paths.append(f)
+
         chdir(here)
         self.feffran = True
 
 
-    def compare(self, nnnn=1):
+    def available(self, which=0):
+        """
+        Test whether a path index was included in the test calculation.
+
+           larch> print group.available(1)
+           True
+
+           larch> print group.available(112)
+           False
+
+        If the argument is 0 or negative, print a list of all available paths files and return None
+        """
+        if which>0:
+            nnnn = "feff%4.4d.dat" % which
+            if self.paths.count(nnnn):
+                return True
+            else:
+                return False
+        else:
+            print "The following paths are available:"
+            for f in self.paths:
+                print "\t"+f
+            return None
+
+
+    def compare(self, nnnn=1, part='feff', _larch=None):
         """
         compare a feffNNNN.dat file from the testrun with the same file from the baseline calculation
+
+            group.compare(N, part)
+
+        where N is the path index and part is one of 
+            feff    :      plot the magnitude AND phase of F_eff (default)
+            amp     :      plot the total amplitude of the path
+            phase   :      plot the total phase of the path
+            lambda  :      plot the mean free path
+            caps    :      plot the central atom phase shift
+            redfact :      plot the reduction factor
+            rep     :      plot the real part of the complex wavenumber
+
         """
+        if self._larch is None:
+            raise Warning("cannot do path comparison -- larch broken?")
+
         if not self.feffran:
             print colored("You have not yet run the test Feff calculation", 'magenta', attrs=['bold'])
+            return
+
+        if not self.available(nnnn):
+            print colored("Path %d was not saved from the test Feff calculation" % nnnn, 'magenta', attrs=['bold'])
             return
 
         if self.folder[-1] == '/': self.folder = self.folder[:-1]
@@ -92,38 +158,75 @@ class Feff85exafsUnitTestGroup(Group):
         blpath = feffpath(join(self.baseline, nnnndat))
         trpath = feffpath(join(self.testrun,  nnnndat))
 
-        mbl = getattr(blpath._feffdat, 'mag_feff') # + np.random.uniform(0,1,size=1)
-        mtr = getattr(trpath._feffdat, 'mag_feff')
-        pbl = getattr(blpath._feffdat, 'pha_feff') # + np.random.uniform(0,1,size=1)
-        ptr = getattr(trpath._feffdat, 'pha_feff')
-
-        self.rfactor_mag = sum((mbl - mtr)**2) / sum(mbl**2)
-        self.rfactor_pha = sum((pbl - ptr)**2) / sum(pbl**2)
+        if part=='feff':
+            baseline_1 = getattr(blpath._feffdat, 'mag_feff') # + np.random.uniform(0,1,size=1)
+            testrun_1  = getattr(trpath._feffdat, 'mag_feff')
+            baseline_2 = getattr(blpath._feffdat, 'pha_feff') # + np.random.uniform(0,1,size=1)
+            testrun_2  = getattr(trpath._feffdat, 'pha_feff')
+            ylabel     = 'magnitude and phase'
+            label      = 'magnitude' 
+        elif part=='amp':
+            baseline_1 = getattr(blpath._feffdat, 'amp')
+            testrun_1  = getattr(trpath._feffdat, 'amp')
+            ylabel     = 'total amplitude'
+            label      = 'amplitude' 
+        elif part=='phase':
+            baseline_1 = getattr(blpath._feffdat, 'pha')
+            testrun_1  = getattr(trpath._feffdat, 'pha')
+            ylabel     = 'total phase shift'
+            label      = 'phase' 
+        elif part=='lambda':
+            baseline_1 = getattr(blpath._feffdat, 'lam')
+            testrun_1  = getattr(trpath._feffdat, 'lam')
+            ylabel     = 'mean free path'
+            label      = 'MFP' 
+        elif part=='caps':
+            baseline_1 = getattr(blpath._feffdat, 'real_phc')
+            testrun_1  = getattr(trpath._feffdat, 'real_phc')
+            ylabel     = 'central atom phase shift'
+            label      = 'CAPS' 
+        elif part=='redfact':
+            baseline_1 = getattr(blpath._feffdat, 'red_fact')
+            testrun_1  = getattr(trpath._feffdat, 'red_fact')
+            ylabel     = 'reduction factor'
+            label      = 'reduction factor'
+        elif part=='rep':
+            baseline_1 = getattr(blpath._feffdat, 'rep')
+            testrun_1  = getattr(trpath._feffdat, 'rep')
+            ylabel     = 'real part of p(k)'
+            label      = 'Re[p(k)]'
+        else:
+            print colored("Unknown choice of parts \"%s\"\nmust be one of (feff|amp|phase|lambda|caps|redfact|rep)\nusing feff" % part,
+                          'magenta', attrs=['bold'])
+            part       = 'feff'
+            baseline_1 = getattr(blpath._feffdat, 'mag_feff')
+            testrun_1  = getattr(trpath._feffdat, 'mag_feff')
+            baseline_2 = getattr(blpath._feffdat, 'pha_feff')
+            testrun_2  = getattr(trpath._feffdat, 'pha_feff')
+            ylabel     = 'magnitude and phase'
+            label      = 'magnitude' 
+ 
 
         scf="without SCF"
         if self.doscf: scf="with SCF"
 
-        print colored("\nComparing magnitude and phase of %s (%s)" % (nnnndat, scf), 'green', attrs=['bold'])
-        print "magnitude R-factor = %.3f\nphase R-factor = %.3f" % (self.rfactor_mag, self.rfactor_pha)
+        self.rfactor_2 = 0
+        self.rfactor = sum((baseline_1 - testrun_1)**2) / sum(baseline_1**2)
+        print colored("\nComparing %s of %s (%s)" % (label, nnnndat, scf), 'green', attrs=['bold'])
+        print label + " R-factor = %.3f" % self.rfactor
+        if part=='feff':
+            self.rfactor_2 = sum((testrun_2 - testrun_2)**2) / sum(baseline_2**2)
+            print "phase R-factor = %.3f" % self.rfactor_2
+        print "\n"
 
         if self.doplot:
-            _newplot(blpath._feffdat.k, mbl) #,        label='magnitude of baseline', xlabel='wavenumber $\AA^{-1}$', ylabel='magnitude and phase', title=nnnndat)
-            #_plot(trpath._feffdat.k, mtr) #,           label='magnitude of test run')
-            #_plot(blpath._feffdat.k, np.gradient(pbl)) #, label='grad(phase of baseline)')
-            #_plot(trpath._feffdat.k, np.gradient(ptr)) #, label='grad(phase of test run)')
+            _newplot(blpath._feffdat.k, baseline_1, _larch=self._larch, label=label+' of test run',
+                     xlabel='wavenumber $\AA^{-1}$', ylabel=ylabel, title=nnnndat, show_legend=True, legend_loc='best')
+            _plot   (trpath._feffdat.k, testrun_1,  _larch=self._larch, label=label+' of test run')
+            if part=='feff':
+                _plot(blpath._feffdat.k, np.gradient(baseline_2), _larch=self._larch, label='grad(phase of baseline)')
+                _plot(trpath._feffdat.k, np.gradient(testrun_2),  _larch=self._larch, label='grad(phase of test run)')
 
-        # if self.doplot:
-        #     pylab.xlabel('wavenumber $\AA^{-1}$')
-        #     pylab.ylabel('magnitude and phase')
-        #     pylab.title(nnnndat)
-        #     pylab.plot(blpath._feffdat.k, mbl, label='magnitude of baseline')
-        #     pylab.plot(trpath._feffdat.k, mtr, label='magnitude of test run')
-        #     pylab.plot(blpath._feffdat.k, gradient(pbl), label='grad(phase of baseline)')
-        #     pylab.plot(trpath._feffdat.k, gradient(ptr), label='grad(phase of test run)')
-        #     pylab.legend(loc='best')
-        #     #pylab.ion()
-        #     pylab.show()
-        #raw_input("done? ")
 
 
     def clean(self):
