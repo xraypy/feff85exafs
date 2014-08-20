@@ -1,3 +1,5 @@
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
 
 from SCons.Environment import Environment
 

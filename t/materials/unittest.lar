@@ -1,0 +1,59 @@
+## -*- python -*-
+add_plugin('f85ut')
+import re
+
+folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane']
+#folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene']
+#folders = ['Copper']
+
+ok = True
+count = 0
+
+for f in folders:
+    fut         = ut('Copper')
+    fut.verbose = False
+    fut.doplot  = False
+    fut.doscf   = False
+    failed      = list()
+
+    print "Running Feff on %s" % f
+    fut.run()
+
+    ## test column comparisons for each path
+    for path in fut.paths:
+        index = int(path[4:8])
+        for part in ['feff', 'amp', 'phase', 'lambda', 'caps', 'redfact', 'rep']:
+            this = fut.compare(index)
+            count += 1
+            if not this:
+                failed.append("comparison of %s for path %d in %s" % (part, index, f))
+                ok = False
+            end if
+        end for
+    end for
+
+    ## test various values from the header of the feffNNNN.dat file
+    if not fut.feffterms():
+        failed.append("some feff terms calculated incorrectly for %s" % f)
+        ok = False
+    end if
+    count += 1
+
+    ## test the calculation of s02
+    if fut.s02() != fut.s02('baseline'):
+        failed.append("s02 calculated incorrectly for %s" % f)
+        ok = False
+    end if
+    count += 1
+
+    fut.clean()
+end for
+
+if ok:
+    print "All %d tests passed!" % count
+else:
+    print "Failed %d/%d tests:" % (len(failed), count)
+    for failure in failed:
+        print "\t" + failure
+    end for
+end if
