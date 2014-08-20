@@ -1,0 +1,96 @@
+Beginning feff85exafs calculation
+
+======= running module 1: RDINP ====================================================
+ Feff 8.50L
+ Copper example
+
+======= running module 2: POT ====================================================
+ Calculating potentials ...
+    free atom potential and density for atom type    0
+    free atom potential and density for atom type    1
+    initial state energy
+    overlapped potential and density for unique potential    0
+    overlapped potential and density for unique potential    1
+    muffin tin radii and interstitial parameters
+ iph, rnrm(iph)*bohr, rmt(iph)*bohr, folp(iph)
+    0  1.50206E+00  1.44898E+00  1.09348E+00
+    1  1.39147E+00  1.35444E+00  1.06813E+00
+ mu_old=    -3.820
+ Done with module 1: potentials.
+
+======= running module 3: XSPH ====================================================
+ Calculating cross-section and phases...
+  0.63546537634452849        4.6708560078231957E-004   3.1773268817226426E-002          11
+    absorption cross section
+ dx=   5.0000000000000003E-002
+    phase shifts for unique potential    0
+    phase shifts for unique potential    1
+ Done with module 2: cross-section and phases...
+
+======= running module 4: PATH ====================================================
+ Preparing plane wave scattering amplitudes...
+ Searching for paths...
+   WARNING:  rmax > distance to most distant atom.
+             Some paths may be missing.
+             rmax, ratx   5.20000E+00  0.00000E+00
+    Rmax  5.2000  keep and heap limits   0.0000000   0.0000000
+    Preparing neighbor table
+    Paths found      894   (maxheap, maxscatt     172   4)
+ Eliminating path degeneracies...
+    Plane wave chi amplitude filter   2.50%
+    Unique paths     15,  total paths     462
+ Done with module 4: pathfinder.
+
+======= running module 5: GENFMT ====================================================
+ Calculating EXAFS parameters...
+ doing ip =            1
+    Curved wave chi amplitude ratio   4.00%
+    Discard feff.dat for paths with cw ratio <   2.67%
+    path  cw ratio     deg    nleg  reff
+      1     0.1000E+03    12.000     2   2.5527
+      2     0.2300E+02     6.000     2   3.6100
+      3     0.1238E+02    48.000     3   3.8290
+      4     0.9465E+01    48.000     3   4.3577
+      5     0.5584E+02    24.000     2   4.4213
+      6     0.1178E+02    48.000     3   4.7633
+      7     0.2563E+02    96.000     3   4.7633
+      8     0.1917E+02    12.000     2   5.1053
+      9     0.9638E+01    12.000     3   5.1053
+     10     0.4461E+02    24.000     3   5.1053
+     11     0.9657E+01    12.000     4   5.1053
+     12     0.4459E+01    12.000     4   5.1053
+     13     2.053    48.000     4   5.1053 neglected
+     14     0.3235E+02    12.000     4   5.1053
+     15     0.2750E+01    48.000     4   5.1053
+   14 paths kept,   15 examined.
+ Done with module 5: F_eff.
+
+======= running module 6: FF2X ====================================================
+ Calculating chi...
+ feffdt, feff.bin to feff.dat conversion Feff 8.50L
+ Copper example                                                   Feff 8.50L
+ POT  Non-SCF, core-hole, AFOLP (folp(0)= 1.150)
+ Abs   Z=29 Rmt= 1.449 Rnm= 1.502 K  shell
+ Pot 1 Z=29 Rmt= 1.354 Rnm= 1.391
+ Gam_ch=1.729E+00 H-L exch
+ Mu=-3.820E+00 kf=1.823E+00 Vint=-1.648E+01 Rs_int= 1.989
+ PATH  Rmax= 5.200,  Keep_limit= 0.00, Heap_limit 0.00  Pwcrit= 2.50%
+      14 paths to process
+    path     filename
+       1     feff0001.dat
+       2     feff0002.dat
+       3     feff0003.dat
+       4     feff0004.dat
+       5     feff0005.dat
+       6     feff0006.dat
+       7     feff0007.dat
+       8     feff0008.dat
+       9     feff0009.dat
+      10     feff0010.dat
+      11     feff0011.dat
+      12     feff0012.dat
+      13     feff0014.dat
+      14     feff0015.dat
+    Use all paths with cw amplitude ratio   4.00%
+    S02  0.950  Global sig2  0.00000
+ Done with module 6: DW + final sum over paths.

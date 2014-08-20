@@ -4,10 +4,16 @@
 *~
 *.pyc
 
-## nonesense that Feff writes out
+## nonsense that Feff writes out
 fort.*
 log*.dat
 global.dat
+
+## nonsense that Athena writes out
+.gnuplot*
+
+## conversion of md -> html
+README.html
 
 ## compiled programs
 src/POT/pot

@@ -1,0 +1,112 @@
+Beginning feff85exafs calculation
+
+======= running module 1: RDINP ====================================================
+ Feff 8.50L
+ Uraninite
+ Wyckoff, R. W. G.
+ Second edition. Interscience Publishers, New York, New York
+ Fluorite structure
+
+======= running module 2: POT ====================================================
+ Calculating potentials ...
+    free atom potential and density for atom type    0
+    free atom potential and density for atom type    1
+    free atom potential and density for atom type    2
+    initial state energy
+    overlapped potential and density for unique potential    0
+    overlapped potential and density for unique potential    1
+    overlapped potential and density for unique potential    2
+    muffin tin radii and interstitial parameters
+ iph, rnrm(iph)*bohr, rmt(iph)*bohr, folp(iph)
+    0  1.71075E+00  1.63055E+00  1.12963E+00
+    1  1.71716E+00  1.63568E+00  1.13153E+00
+    2  1.09555E+00  1.04371E+00  1.13107E+00
+ mu_old=    -0.640
+ Done with module 1: potentials.
+
+======= running module 3: XSPH ====================================================
+ Calculating cross-section and phases...
+   1.8374654501371410        4.4195686221573850E-004  0.14890746509293387               15
+    absorption cross section
+ dx=   5.0000000000000003E-002
+    phase shifts for unique potential    0
+    phase shifts for unique potential    1
+    phase shifts for unique potential    2
+ Done with module 2: cross-section and phases...
+
+======= running module 4: PATH ====================================================
+ Preparing plane wave scattering amplitudes...
+ Searching for paths...
+   WARNING:  rmax > distance to most distant atom.
+             Some paths may be missing.
+             rmax, ratx   5.50000E+00  0.00000E+00
+    Rmax  5.5000  keep and heap limits   0.0000000   0.0000000
+    Preparing neighbor table
+    Paths found      698   (maxheap, maxscatt     119   4)
+ Eliminating path degeneracies...
+    Plane wave chi amplitude filter   2.50%
+    Unique paths     17,  total paths     578
+ Done with module 4: pathfinder.
+
+======= running module 5: GENFMT ====================================================
+ Calculating EXAFS parameters...
+ doing ip =            1
+    Curved wave chi amplitude ratio   4.00%
+    Discard feff.dat for paths with cw ratio <   2.67%
+    path  cw ratio     deg    nleg  reff
+      1     0.1000E+03     8.000     2   2.3678
+      2     0.7987E+01    24.000     3   3.7349
+      3     0.6615E+02    12.000     2   3.8666
+      4     0.8244E+01    24.000     3   4.3011
+      5     0.7263E+01    48.000     3   4.3011
+      6     0.3668E+02    24.000     2   4.5340
+      7     0.6178E+01     8.000     3   4.7356
+      8     0.1379E+02     8.000     4   4.7356
+      9     0.5681E+01     8.000     4   4.7356
+     10     0.4383E+01    24.000     4   4.7356
+     11     0.3491E+01    24.000     4   4.7356
+     12     0.1265E+02    48.000     3   4.8179
+     13     0.3443E+01    24.000     4   5.1019
+     14     0.6880E+01    96.000     3   5.3842
+     15     0.4451E+01    96.000     3   5.3842
+     16     0.1512E+02    96.000     3   5.3842
+     17     0.1207E+02     6.000     2   5.4682
+   17 paths kept,   17 examined.
+ Done with module 5: F_eff.
+
+======= running module 6: FF2X ====================================================
+ Calculating chi...
+ feffdt, feff.bin to feff.dat conversion Feff 8.50L
+ Uraninite                                                        Feff 8.50L
+ Wyckoff, R. W. G.
+ Second edition. Interscience Publishers, New York, New York
+ Fluorite structure
+ POT  Non-SCF, core-hole, AFOLP (folp(0)= 1.150)
+ Abs   Z=92 Rmt= 1.631 Rnm= 1.711 L3 shell
+ Pot 1 Z=92 Rmt= 1.636 Rnm= 1.717
+ Pot 2 Z= 8 Rmt= 1.044 Rnm= 1.096
+ Gam_ch=8.104E+00 H-L exch
+ Mu=-6.404E-01 kf=2.192E+00 Vint=-1.895E+01 Rs_int= 1.655
+ PATH  Rmax= 5.500,  Keep_limit= 0.00, Heap_limit 0.00  Pwcrit= 2.50%
+      17 paths to process
+    path     filename
+       1     feff0001.dat
+       2     feff0002.dat
+       3     feff0003.dat
+       4     feff0004.dat
+       5     feff0005.dat
+       6     feff0006.dat
+       7     feff0007.dat
+       8     feff0008.dat
+       9     feff0009.dat
+      10     feff0010.dat
+      11     feff0011.dat
+      12     feff0012.dat
+      13     feff0013.dat
+      14     feff0014.dat
+      15     feff0015.dat
+      16     feff0016.dat
+      17     feff0017.dat
+    Use all paths with cw amplitude ratio   4.00%
+    S02  0.909  Global sig2  0.00000
+ Done with module 6: DW + final sum over paths.
