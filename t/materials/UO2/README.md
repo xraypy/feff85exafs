@@ -13,6 +13,9 @@ measured at the Br K edge.
 This is an interesting analysis problem because the Br-H scattering
 plays a significant and easily measurable role in the EXAFS analysis.
 
+The uraninite data was measured at APS 10ID and kindly provided by
+Shelly Kelly.
+
 
 ![Ball and stick figure of uraninite](uraninite.gif)
 

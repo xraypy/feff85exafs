@@ -1,0 +1,39 @@
+
+from os.path import realpath, exists, join
+
+data = read_ascii('Copper.chik')
+
+gds = group(amp    = param(1,     vary=True),
+            enot   = param(0,     vary=True),
+            thetad = param(500,   vary=True),
+            temp   = param(10,    vary=False),
+            alpha  = param(0,     vary=True),
+            ss1    = param(0.003, vary=True)  )
+
+paths = list()
+for index in range(1,15):
+    nnnn = realpath(join('baseline', 'noSCF', "feff%4.4d.dat" % index))
+    if not exists(nnnn):
+        continue
+    end if
+    if index > 1:
+        sigsqr = 'sigma2_debye(temp, thetad)' 
+    else:
+        sigsqr = 'ss1'
+    end if
+    paths.append(feffpath(nnnn,
+                          s02    = 'amp',
+                          e0     = 'enot',
+                          sigma2 = sigsqr,
+                          deltar = 'alpha*reff'))
+end for
+
+trans = feffit_transform(kmin=3, kmax=16, kw=(2,1,3), dk=1, window='hanning', rmin=1.7, rmax=5.1)
+dset  = feffit_dataset(data=data, pathlist=paths, transform=trans)
+fit   = feffit(gds, dset)
+
+plot(dset.data.r,  dset.data.chir_mag, new=True, xmax=8, win=2,
+     xlabel=r'$R \rm\,(\AA)$', label='data',
+     ylabel=r'$|\chi(R)| \rm\,(\AA^{-3})$',
+     title='Four shell fit to Cu', show_legend=True)
+plot(dset.model.r, dset.model.chir_mag, label='fit', win=2)

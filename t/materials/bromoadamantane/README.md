@@ -11,6 +11,8 @@ measured at the Br K edge.
 This is an interesting analysis problem because the Br-H scattering
 plays a significant and easily measurable role in the EXAFS analysis.
 
+The bromoadamantane sample was kindly provided by Alessandra Leri,
+Marymount Manhattan College and measured by Bruce at NSLS X23A2.
 
 ![Ball and stick figure of the 1-bromoadamantane molecule](bromoadamantane.png)
 

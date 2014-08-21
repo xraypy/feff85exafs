@@ -1,32 +1,35 @@
 ## -*- python -*-
 add_plugin('f85ut')
 import re
+import sys
+
 
 folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane']
-#folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene']
 #folders = ['Copper']
 
 ok = True
 count = 0
 
-for f in folders:
-    fut         = ut('Copper')
+for folder in folders:
+    fut         = ut(folder)
     fut.verbose = False
     fut.doplot  = False
     fut.doscf   = False
     failed      = list()
 
-    print "Running Feff on %s" % f
+    print "Running Feff on %s" % folder
     fut.run()
 
     ## test column comparisons for each path
     for path in fut.paths:
         index = int(path[4:8])
-        for part in ['feff', 'amp', 'phase', 'lambda', 'caps', 'redfact', 'rep']:
+        ## lambda, caps, redfact, and rep don't change from path to path
+        parts = ['feff', 'amp', 'phase', 'lambda', 'caps', 'redfact', 'rep'] if index==1 else ['feff', 'amp', 'phase']
+        for part in parts:
             this = fut.compare(index)
             count += 1
             if not this:
-                failed.append("comparison of %s for path %d in %s" % (part, index, f))
+                failed.append("comparison of %s for path %d in %s" % (part, index, folder))
                 ok = False
             end if
         end for
@@ -34,17 +37,22 @@ for f in folders:
 
     ## test various values from the header of the feffNNNN.dat file
     if not fut.feffterms():
-        failed.append("some feff terms calculated incorrectly for %s" % f)
+        failed.append("some feff terms calculated incorrectly for %s" % folder)
         ok = False
     end if
     count += 1
 
     ## test the calculation of s02
     if fut.s02() != fut.s02('baseline'):
-        failed.append("s02 calculated incorrectly for %s" % f)
+        failed.append("s02 calculated incorrectly for %s" % folder)
         ok = False
     end if
     count += 1
+
+    ## fitting unit tests
+    #sys.path.append('..')
+    #from FortranCompilation import CompilationEnvironment
+
 
     fut.clean()
 end for
