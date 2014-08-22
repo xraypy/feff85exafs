@@ -2,20 +2,20 @@
 add_plugin('f85ut')
 import re
 import sys
+from   os.path   import isfile, join
 
+#folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane']
+folders = ['Copper', 'NiO']
 
-folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane']
-#folders = ['Copper']
-
-ok = True
-count = 0
+ok     = True
+count  = 0
+failed = list()
 
 for folder in folders:
     fut         = ut(folder)
     fut.verbose = False
     fut.doplot  = False
     fut.doscf   = False
-    failed      = list()
 
     print "Running Feff on %s" % folder
     fut.run()
@@ -49,10 +49,31 @@ for folder in folders:
     end if
     count += 1
 
-    ## fitting unit tests
-    #sys.path.append('..')
-    #from FortranCompilation import CompilationEnvironment
-
+    ## test fits to data
+    if isfile(join(fut.path, fut.folder+'.py')):
+        fut.fit()
+        ## bestfit value and errorbars
+        for p in fut.blfit.params.covar_vars:
+            count += 1
+            if getattr(getattr(fut.blfit.params, p), 'value') - getattr(getattr(fut.trfit.params, p), 'value') > fut.epsilon:
+                failed.append("fitting parameter %s evaluated inconsitently for %s" % (p, folder))
+                ok = False
+            end if
+            count += 1
+            if getattr(getattr(fut.blfit.params, p), 'stderr') - getattr(getattr(fut.trfit.params, p), 'stderr') > fut.epsilon:
+                failed.append("uncertainty of %s evaluated inconsitently for %s" % (p, folder))
+                ok = False
+            end if
+        end for
+        ## chi_reduced, chi_square, rfactor
+        for p in ['chi_reduced', 'chi_square', 'rfactor']:
+            count += 1
+            if getattr(fut.blfit.params, p) - getattr(fut.trfit.params, p) > fut.epsilon:
+                failed.append("%s evaluated inconsitently for %s" % (p, folder))
+                ok = False
+            end if
+        end for
+    end if
 
     fut.clean()
 end for

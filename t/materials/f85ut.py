@@ -5,9 +5,10 @@
 from   os        import makedirs, chdir, getcwd
 from   os.path   import realpath, isdir, join
 from   shutil    import rmtree
-import subprocess, glob, pystache, json, re
+import sys, subprocess, glob, pystache, json, re
 from   termcolor import colored
 import numpy     as np
+import importlib
 
 from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass)
 use_plugin_path('xafs')
@@ -360,6 +361,17 @@ class Feff85exafsUnitTestGroup(Group):
             if self.verbose: print "%-6s   %-42s : %10s  %10s  %s" % (key, termdict[key], getattr(bl._feffdat, key), getattr(tr._feffdat, key), same)
             ok = ok and same
         return ok
+
+
+    def fit(self):
+        sys.path.append(self.folder)
+        module = importlib.import_module(self.folder, package=None)
+
+        print "\tfitting %s using %s" % (self.folder, 'baseline')
+        self.blfit = module.do_fit(self, 'baseline')
+        print "\tfitting %s using %s" % (self.folder, 'testrun')
+        self.trfit = module.do_fit(self, 'testrun')
+
 
     def clean(self):
         rmtree(self.testrun)

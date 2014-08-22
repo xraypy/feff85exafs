@@ -3,7 +3,7 @@
 # Beamline.focusing:             none
 # Beamline.harmonic_rejection:   flat Rh coated mirror
 # Beamline.name:                 X23A2
-# Column.1:                      wavenumber inverse Angstrom
+# Column.1:                      k inverse Angstrom
 # Column.2:                      chi
 # Column.3:                      chik
 # Column.4:                      chik2

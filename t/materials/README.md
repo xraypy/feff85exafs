@@ -28,10 +28,15 @@ For each example material, several files are provided:
     [XDI format](https://github.com/XraySpectroscopy/XAS-Data-Interchange).
 	Currently no tests are made using data.
 
- 5. Most of the material folders also contain some kind of image
+ 5. For tests which have data associated with them and, so, will
+    include results of fits to EXAFS data as part of their test, a
+    file of python code defining the fit must be provided and must
+    follw a very strict structure.
+
+ 6. Most of the material folders also contain some kind of image
     showing the nature of the coordination environment about the absorbing atom.
 
- 6. Each materials folder has a folder containing the baseline Feff
+ 7. Each materials folder has a folder containing the baseline Feff
     calculation.  This is a run of Feff 8.5 as delivered by the Feff
     Project.  The sense in which this is a baseline is that, as
     changes are made to the Feff85EXAFS code base, those changes can
@@ -66,12 +71,14 @@ following must be true:
    un-k-weighted chi(k).
 4. The JSON file with the configuration for the Feff run **must** be
    called `Ceria.json`.
-5. There **must** be a fodler called `baseline` which has folders
+5. There **must** be a folder called `baseline` which has folders
    called `withSCF` and `noSCF`. These contain the baseline
    calculations with and without self-consistency.
 6. If you provide an Athena project file, is should be called
    Ceria.prj.
-7. You should provide a `README.md` file with basic information in
+7. If fits to data are part of the test, there must be a file called
+   `Ceria.py` containing python code defining the fit to the data.
+8. You should provide a `README.md` file with basic information in
    markdown format.  Any other files, for instance images displayed in
    the `README.md` file can have any name (since they will not be used
    in testing)
