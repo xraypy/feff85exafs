@@ -26,17 +26,20 @@ from plotter import (_newplot, _plot)
 
 class Feff85exafsUnitTestGroup(Group):
     """
-    A group for performing unit test on feff85exafs.
+    A group for performing unit tests on feff85exafs.
 
     Methods:
-       run       : run the test feff calculation, no return value
-       testpaths : fill the paths attribute, no return value
-       available : returns True is a path index has a corresponding feffNNNN.dat file
-       compare   : make a comparison of columns in feffNNNN.dat, returns True is no difference between test and baseline
-       geometry  : write a description of scattering path to the screen
-       s02       : fetch the calculated value of s02 from the testrun or the baseline
-       feffterms : perform a test on various values in the header of feffNNNN.dat, returns True if no difference
-       clean     : remove the testrun folder
+       run        : run the test feff calculation, no return value
+       testpaths  : fill the paths attribute, no return value
+       available  : returns True is a path index has a corresponding feffNNNN.dat file
+       compare    : make a comparison of columns in feffNNNN.dat, returns True is no difference between test and baseline
+       geometry   : write a description of scattering path to the screen
+       s02        : fetch the calculated value of s02 from the testrun or the baseline
+       feffterms  : perform a test on various values in the header of feffNNNN.dat, returns True if no difference
+       clean      : remove the testrun folder
+       tick       : increment number of tests
+       okTrue     : test if an expression is True 
+       okDiff     : test if an expression is larger than epsilon 
     
 
     Attributes:
@@ -55,7 +58,8 @@ class Feff85exafsUnitTestGroup(Group):
        f85script :  string,  fully resolved path to the f85e script, which emulates monolithic feff
        rfactor   :  float,   R-factor computed from feffNNNN.dat columns in testrun compared to baseline
        rfactor_2 :  float,   second R-factor, used when compare called with part='feff'
-       epsilon   :  float,   value for comparing columns from feffNNNN.dat with the baseline
+       epsilon   :  float,   value for comparing columns from feffNNNN.dat with the baseline and other things
+       count, datacount, feffcount : count number of tests
     """
 
     def __init__(self, folder=None, _larch=None, **kws):
@@ -67,6 +71,10 @@ class Feff85exafsUnitTestGroup(Group):
         self.doscf      = False # True = use self-consistency
         self.verbose    = True  # True = print Feff's screen messages and other screenmessages
         self.feffran    = False # True = Feff calculation has been run
+        self.count      = 0
+        self.feffcount  = 0
+        self.datacount  = 0
+        self.failed     = list()
         self.folder     = folder
         if self.folder[-1] == '/': self.folder = self.folder[:-1]
         self.testrun    = realpath(join(self.folder, 'testrun'))
@@ -128,7 +136,6 @@ class Feff85exafsUnitTestGroup(Group):
         if self.doscf:
             scf = 'with SCF'
             self.json['doscf']=''
-
     
         renderer = pystache.Renderer()
         with open(join(self.testrun,'feff.inp'), 'w') as inp:
@@ -312,7 +319,8 @@ class Feff85exafsUnitTestGroup(Group):
         print "path (reff=%.4f nlegs=%d) geometry:" % (path.reff, path.nleg)
         for atom in path.geom:
             print "\t%-2s  %7.4f  %7.4f  %7.4f  %d" % (atom[0], atom[3], atom[4], atom[5], atom[2])
-        print "\t%-2s  %7.4f  %7.4f  %7.4f  %d\n" % (path.geom[0][0], path.geom[0][3], path.geom[0][4], path.geom[0][5], path.geom[0][2])
+        print "\t%-2s  %7.4f  %7.4f  %7.4f  %d\n" % (path.geom[0][0], path.geom[0][3], path.geom[0][4],
+                                                     path.geom[0][5], path.geom[0][2])
 
 
 
@@ -358,12 +366,16 @@ class Feff85exafsUnitTestGroup(Group):
         ok = True
         for key in termdict:
             same = getattr(bl._feffdat, key) == getattr(tr._feffdat, key)
-            if self.verbose: print "%-6s   %-42s : %10s  %10s  %s" % (key, termdict[key], getattr(bl._feffdat, key), getattr(tr._feffdat, key), same)
+            if self.verbose: print "%-6s   %-42s : %10s  %10s  %s" % (key, termdict[key], getattr(bl._feffdat, key),
+                                                                      getattr(tr._feffdat, key), same)
             ok = ok and same
         return ok
 
 
     def fit(self):
+        """
+        Perform a canned fit using the baseline and testrun Feff calculations
+        """
         sys.path.append(self.folder)
         module = importlib.import_module(self.folder, package=None)
 
@@ -374,8 +386,43 @@ class Feff85exafsUnitTestGroup(Group):
 
 
     def clean(self):
+        """
+        Remove testrun folder
+        """
         rmtree(self.testrun)
         self.feffran = False
+
+    def okTrue(self, which, expr, msg):
+        """
+        Test whether an expression is True
+        Tick count up by one
+        If False, append msg to self.failed
+        """
+        self.tick(which)
+        if not expr:
+            self.failed.append(msg)
+            return False
+        return True
+
+    def okDiff(self, which, expr, msg):
+        """
+        Test whether an expression is large compared to epsilon
+        Tick count up by one
+        If large, append msg to self.failed
+        """
+        self.tick(which)
+        if expr > self.epsilon:
+            self.failed.append(msg)
+            return False
+        return True
+
+
+    def tick(self, which):
+        self.count += 1
+        if (which == 'data'):
+            self.datacount += 1
+        else:
+            self.feffcount +=1
 
 ######################################################################
 
