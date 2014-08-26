@@ -8,8 +8,8 @@ import sys
 from   os.path   import isfile, join
 from   termcolor import colored
 
-#folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene'] #, 'bromoadamantane']
-folders = ['Copper', 'NiO']
+#folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane']
+folders = ['Copper', 'NiO', 'Zircon']
 
 ok     = True
 count  = 0

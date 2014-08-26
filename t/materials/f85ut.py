@@ -10,7 +10,7 @@ from   termcolor import colored
 import numpy     as np
 import importlib
 
-from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass)
+from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass, Interpreter)
 use_plugin_path('xafs')
 from feffdat import feffpath
 use_plugin_path('wx')
@@ -19,7 +19,6 @@ from plotter import (_newplot, _plot)
 
 ## :TODO:
 ##   3. tests for muffin and norman radii of the ipots
-##   5. begin writing data/fitting tests
 ##   7. capture and interpret feff's screen messages to notice when a feff run fails
 ##   8.    "     "      "       "       "       "    to use number of SCF iterations as a unit test
 

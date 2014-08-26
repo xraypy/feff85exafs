@@ -3,7 +3,7 @@
 # Beamline.focusing:             none
 # Beamline.harmonic_rejection:   flat, Rh/Si/Pt striped mirror
 # Beamline.name:                 10ID
-# Column.1:                      wavenumber inverse Angstrom
+# Column.1:                      k inverse Angstrom
 # Column.2:                      chi
 # Column.3:                      chik
 # Column.4:                      chik2

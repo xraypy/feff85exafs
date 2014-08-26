@@ -3,22 +3,19 @@
 This is a data-bearing example, thus the tests will cover both the
 computation and the results of the analysis.
 
+Uraninite is a simple, cubic structure with uranium octahedrally
+coordinated by oxygen.  It is included as an example of an f-electron
+system.
 
-
-Bromoadamantane is a single-bonded, 10-carbon frame with hydrogen
-atoms accommodating the remaining charge on the carbon atoms.  One
-hydrogen atom is replaced with a bromine atom.  The XAS data are
-measured at the Br K edge.
-
-This is an interesting analysis problem because the Br-H scattering
-plays a significant and easily measurable role in the EXAFS analysis.
-
-The uraninite data was measured at APS 10ID and kindly provided by
-Shelly Kelly.
+The nonparticle uraninite data was measured at APS 10ID and kindly
+provided by Shelly Kelly.  The data test follows her fitting model
+from [DOI: 10.1021/es0208409](http://dx.doi.org/10.1021/es0208409).
 
 
 ![Ball and stick figure of uraninite](uraninite.gif)
 
+
+Canada apparently &hearts;s uraninite.
 ![Canada &#9829; uraninite!](stamp.jpg)
 
 

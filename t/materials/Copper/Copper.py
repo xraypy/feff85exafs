@@ -27,8 +27,7 @@ def do_fit(self, which):
                 thetad = Parameter(500,   vary=True),
                 temp   = Parameter(10,    vary=False),
                 alpha  = Parameter(0,     vary=True),
-                ss1    = Parameter(0,     vary=True),
-                #ss1    = Parameter(expr='sig**2'),
+                ss1    = Parameter(0.003, vary=True),
                 _larch=self._larch  )
 
     paths = list()
