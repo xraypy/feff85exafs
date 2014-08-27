@@ -36,9 +36,6 @@ class Feff85exafsUnitTestGroup(Group):
        s02        : fetch the calculated value of s02 from the testrun or the baseline
        feffterms  : perform a test on various values in the header of feffNNNN.dat, returns True if no difference
        clean      : remove the testrun folder
-       tick       : increment number of tests
-       okTrue     : test if an expression is True 
-       okDiff     : test if an expression is larger than epsilon 
     
 
     Attributes:
@@ -65,7 +62,7 @@ class Feff85exafsUnitTestGroup(Group):
         kwargs = dict(name='Feff85exafs unit test: %s' % folder)
         kwargs.update(kws)
         Group.__init__(self,  **kwargs)
-        self._larch     = _larch
+        self._larch     = Interpreter()
         self.doplot     = True  
         self.doscf      = False # True = use self-consistency
         self.verbose    = True  # True = print Feff's screen messages and other screenmessages
@@ -391,37 +388,6 @@ class Feff85exafsUnitTestGroup(Group):
         rmtree(self.testrun)
         self.feffran = False
 
-    def okTrue(self, which, expr, msg):
-        """
-        Test whether an expression is True
-        Tick count up by one
-        If False, append msg to self.failed
-        """
-        self.tick(which)
-        if not expr:
-            self.failed.append(msg)
-            return False
-        return True
-
-    def okDiff(self, which, expr, msg):
-        """
-        Test whether an expression is large compared to epsilon
-        Tick count up by one
-        If large, append msg to self.failed
-        """
-        self.tick(which)
-        if expr > self.epsilon:
-            self.failed.append(msg)
-            return False
-        return True
-
-
-    def tick(self, which):
-        self.count += 1
-        if (which == 'data'):
-            self.datacount += 1
-        else:
-            self.feffcount +=1
 
 ######################################################################
 
