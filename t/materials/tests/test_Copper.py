@@ -1,20 +1,17 @@
 ## feff85exafs unit testing system using larch
 ## see HEADERS/license.h for feff's license information
 
-from larch import use_plugin_path
-use_plugin_path('f85ut')
+import larch
 from f85ut import ut
 
-import re
-import sys
 from   os.path   import isfile, isdir, join
-from   termcolor import colored
 
 fut           = ut('Copper')
 fut.verbose   = False
 fut.doplot    = False
 fut.doscf     = False
 
+skip_data_test = False
 
 
 def test_columns():
@@ -25,6 +22,8 @@ def test_columns():
 def check_columns(part):
     this = fut.compare(1, part=part)
     assert this, "comparison of %s for path 1 in Copper" % part
+
+################################################################################
 
 def test_feff():
     if not fut.feffran: fut.run()
@@ -38,9 +37,21 @@ def check_feff(index, part):
     assert this, "comparison of %s for path %d in Copper" % (part, index)
 
 
+################################################################################
+
+def test_terms():
+    assert fut.feffterms(), "some feff terms calculated incorrectly for Copper"
+
+def test_s02():
+    assert fut.s02() == fut.s02('baseline'), "s02 calculated incorrectly for Copper"
+
+################################################################################
+
 def test_fit():
     if not fut.feffran: fut.run()
-    if isfile(join(fut.path, fut.folder+'.py')):
+    if skip_data_test:
+        yield check_null, "skipping data test for Copper"
+    elif isfile(join(fut.path, fut.folder+'.py')):
         fut.fit()
         for p in fut.blfit.params.covar_vars:
             yield check_param, p, 'value'
@@ -48,18 +59,23 @@ def test_fit():
         for p in ['chi_reduced', 'chi_square', 'rfactor']:
             yield check_stat, p
     else:
-        assert True, "no fit tests for Copper"
+        yield check_null, "no data tests for Copper"
+
+def check_null(msg):
+    assert True, msg
 
 
 def check_param(param, part):
     bl=getattr(getattr(fut.blfit.params, param), part)
     tr=getattr(getattr(fut.trfit.params, param), part)
-    assert abs(bl-tr) < fut.epsilon, "%s of fitting parameter %s evaluated inconsitently for Copper" % (part, param)
+    assert abs(bl-tr) < fut.epsilon, "%s of fitting parameter %s evaluated inconsistently for Copper" % (part, param)
 
 def check_stat(param):
     bl=getattr(fut.blfit.params, param)
     tr=getattr(fut.trfit.params, param)
-    assert abs(bl-tr) < fut.epsilon, "statistic %s evaluated inconsitently for Copper" % param
+    assert abs(bl-tr) < fut.epsilon, "statistic %s evaluated inconsistently for Copper" % param
+
+################################################################################
 
 def test_clean():
     fut.clean()

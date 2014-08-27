@@ -19,24 +19,25 @@ For each example material, several files are provided:
     appropriate to the test being performed.  Those values are taken
     from a `.json` file with the same name as the folder itself.
 
- 4. For tests which have data associated with them and, so, will
-    include results of fits to EXAFS data as part of their test, the
-    data is provided in the form of an
+ 4. For tests which have data associated with them and will include
+    results of fits to EXAFS data as part of their test, the data is
+    provided in the form of an
     [Athena project file](http://bruceravel.github.io/demeter/aug/output/project.html)
     and as a column ASCII data containing chi(k).  The column data
     file is in the
     [XDI format](https://github.com/XraySpectroscopy/XAS-Data-Interchange).
-	Currently no tests are made using data.
 
- 5. For tests which have data associated with them and, so, will
-    include results of fits to EXAFS data as part of their test, a
-    file of python code defining the fit must be provided and must
-    follw a very strict structure.
+ 5. For tests which have data associated with them and will include
+    results of fits to EXAFS data as part of their test, a file of
+    python code defining the fit must be provided.  This must define a
+    function called `do_fit` which implements the fit in larch and
+    provides a plot and fit report for interactive use.
 
  6. Most of the material folders also contain some kind of image
-    showing the nature of the coordination environment about the absorbing atom.
+    showing the nature of the coordination environment about the
+    absorbing atom.
 
- 7. Each materials folder has a folder containing the baseline Feff
+ 7. Each materials folder has a subfolder containing the baseline Feff
     calculation.  This is a run of Feff 8.5 as delivered by the Feff
     Project.  The sense in which this is a baseline is that, as
     changes are made to the Feff85EXAFS code base, those changes can
@@ -49,9 +50,9 @@ For each example material, several files are provided:
     self-consistency.
 
 
-The testing infrastructure is implemented as a
-[Larch](https://github.com/xraypy/xraylarch) plugin.  See below for
-details.
+The testing infrastructure is implemented with
+[Nose](https://nose.readthedocs.org/en/latest/index.html) and a
+[Larch](https://github.com/xraypy/xraylarch) plugin.
 
 The testing infratructure is designed so that it is easy to add new
 tests, so long as an appropriate set of files is provided for each new
@@ -78,7 +79,9 @@ following must be true:
    Ceria.prj.
 7. If fits to data are part of the test, there must be a file called
    `Ceria.py` containing python code defining the fit to the data.
-8. You should provide a `README.md` file with basic information in
+8. There must be a test in the `tests` folder called `test_Ceria.py`.
+   You should closely follow the examples already in the that folder.
+9. You should provide a `README.md` file with basic information in
    markdown format.  Any other files, for instance images displayed in
    the `README.md` file can have any name (since they will not be used
    in testing)
@@ -121,6 +124,16 @@ the file:
 Here, I have assumed that you will run this command in the folder
 containing both this README file and the `f85ut.py` file.  That is why
 the call to `pwd` works.
+
+### Run tests through nose
+
+In the `materials` folder, run `nosetests` at the command line.  Nose
+writes a report on the reults of the test sequence.
+
+Any tests that fail can be further examined interactively within
+Larch.
+
+### Interactive testing in Larch
 
 Fire up Larch from the folder containing this README file and do the
 following:
@@ -181,7 +194,31 @@ setting
 The Feff run is, of course, much more time consuming with
 self-consistency.
 
+Some of  the materials have data tests.  This
+
+     larch> my_ut.fit()
+
+runs a canned fit, once using the baseline Feff calculation and once
+using the test run.  You can then compare fitting paranmeters and
+statistics from the two.  The fit groups are `my_ut.blfit` and
+`my_ut.trfit`.  You could, for example, exmine the `amp` parameter:
+
+     larch> print my_ut.blfit,params.amp.value my_ut.blfit,params.amp.stderr
+     larch> print my_ut.trfit,params.amp.value my_ut.trfit,params.amp.stderr
+
 Finally, clean up the test run by doing:
 
      larch> my_ut.clean()
 
+
+# Still to do
+
+* Each test has doscf hardwired to False.  Need a way to trigger the
+  use of SCF when running the tests.
+
+* More materials:
+   + A polymer, i.e. something pseudo-one-dimensional
+   + Something from the first row
+   + Something with lead as the absorber
+   + Something from column 1 or column 2
+   + Something with a ring structure and strong, high-order MS paths
