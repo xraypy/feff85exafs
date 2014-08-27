@@ -42,7 +42,7 @@ For each example material, several files are provided:
     Project.  The sense in which this is a baseline is that, as
     changes are made to the Feff85EXAFS code base, those changes can
     be tested against this original state of the software.  Changes to
-    the code base should not result in changes to output of Feff.
+    the code base should not result in changes to the output of Feff.
     This baseline can also serve as a platform for testing changes
     across versions of Feff, allowing us to probe in a systematic way
     the differences in EXAFS analysis between versions 6 through 9 or
@@ -95,7 +95,8 @@ following must be true:
 
 3. **uraninite, UO2**: this is an f-electron system
 
-4. **zircon, ZrSiO4**: this has Si, a tender energy absorber, with a 4d backscatterer
+4. **zircon, ZrSiO4**: this has Si, a tender energy absorber, with a
+   4d backscatterer
 
 5. **bromoadamantane**: this is a small molecule which can be fit with a
    fairly simple model of four paths, but for which the 6 nearby hydrogen
@@ -109,9 +110,15 @@ following must be true:
 
 Make sure that all parts of Feff have been compiled successfully.  The
 unit test framework currently uses the `f85e` script in the `bin`
-folder to make the test runs of Feff.  You must have the termcolor and
-pystache python libraries installed.  (In debian/ubuntu, these are
-called `python-termcolor` and `python-pystache`).
+folder to make the test runs of Feff.  You must have the termcolor,
+pystache and nose python libraries installed.  (In debian/ubuntu,
+these are called `python-termcolor`, `python-pystache`, and
+`python-nose`).
+
+(Note that as feff85exafs develops, it may become necessary to modify
+how this test framework interacts with Feff.  At some point, the
+`f85e` script, which mimics a run of a monolithic version of Feff, may
+not work correctly with the current state of feff85exafs.)
 
 Copy the file `f85ut.py` to the larch plugins folder (either
 `$HOME/.larch/plugins/` or `/usr/local/share/larch/plugins` on Unix,
@@ -132,6 +139,12 @@ writes a report on the reults of the test sequence.
 
 Any tests that fail can be further examined interactively within
 Larch.
+
+When run through Nose, the beginning of the test sequence is *very*
+time consuming as all the Feff caluclations are made before any of the
+actual tests are made.  I find it helpful to run `nosetests
+--verbosity=3`, which gives some feedback about what is actually
+happeneing.
 
 ### Interactive testing in Larch
 
@@ -213,12 +226,24 @@ Finally, clean up the test run by doing:
 
 # Still to do
 
-* Each test has doscf hardwired to False.  Need a way to trigger the
-  use of SCF when running the tests.
+* Each test has doscf hardwired to False.  Need a convenient way to
+  trigger the use of SCF when running the tests.
+
+* data test skipping is awkward
+
+* a better test for success of feff test run would be nice, perhaps
+  capture and interpret feff's screen messages to notice when a feff
+  run fails
+
+* tests for muffin and norman radii of the ipots
+
+* capture and interpret feff's screen messages to use number of SCF
+  iterations as a unit test
 
 * More materials:
    + A polymer, i.e. something pseudo-one-dimensional
-   + Something from the first row
+   + Something from the first row of the periodic table
    + Something with lead as the absorber
-   + Something from column 1 or column 2
+   + Something from column 1 or column 2 of the periodic table
    + Something with a ring structure and strong, high-order MS paths
+     (paradibromobenzene, perhaps)

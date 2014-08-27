@@ -17,12 +17,6 @@ use_plugin_path('wx')
 from plotter import (_newplot, _plot)
 
 
-## :TODO:
-##   3. tests for muffin and norman radii of the ipots
-##   7. capture and interpret feff's screen messages to notice when a feff run fails
-##   8.    "     "      "       "       "       "    to use number of SCF iterations as a unit test
-
-
 class Feff85exafsUnitTestGroup(Group):
     """
     A group for performing unit tests on feff85exafs.
@@ -350,12 +344,12 @@ class Feff85exafsUnitTestGroup(Group):
         bl      = feffpath(join(self.baseline, nnnndat))
         tr      = feffpath(join(self.testrun,  nnnndat))
 
-        termdict = {'edge': 'energy threshold relative to atomic value',
+        termdict = {'edge':   'energy threshold relative to atomic value',
                     'gam_ch': 'core level energy width',
-                    'kf': 'k value at Fermi level',
-                    'mu': 'Fermi level in eV',
+                    'kf':     'k value at Fermi level',
+                    'mu':     'Fermi level in eV',
                     'rs_int': 'interstitial radius',
-                    'vint': 'interstitial potential'}
+                    'vint':   'interstitial potential'}
         if self.verbose:
             print "%-8s %-42s   %10s  %10s  %s" % ('key', 'component', 'baseline', 'testrun', 'same?')
             print "-----------------------------------------------------------------------------------"

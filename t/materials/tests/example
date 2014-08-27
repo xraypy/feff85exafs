@@ -4,14 +4,15 @@
 import larch
 from f85ut import ut
 
-from   os.path   import isfile, isdir, join
+from os.path import isfile, isdir, join
 
-fut           = ut('NiO')
+fut           = ut('Copper')
 fut.verbose   = False
 fut.doplot    = False
 fut.doscf     = False
 
 skip_data_test = False
+
 
 def test_columns():
     if not fut.feffran: fut.run()
@@ -20,7 +21,7 @@ def test_columns():
 
 def check_columns(part):
     this = fut.compare(1, part=part)
-    assert this, "comparison of %s for path 1 in NiO" % part
+    assert this, "comparison of %s for path 1 in Copper" % part
 
 ################################################################################
 
@@ -33,23 +34,25 @@ def test_feff():
 
 def check_feff(index, part):
     this = fut.compare(index, part=part)
-    assert this, "comparison of %s for path %d in NiO" % (part, index)
+    assert this, "comparison of %s for path %d in Copper" % (part, index)
 
 
 ################################################################################
 
 def test_terms():
-    assert fut.feffterms(), "some feff terms calculated incorrectly for NiO"
+    if not fut.feffran: fut.run()
+    assert fut.feffterms(), "some feff terms calculated incorrectly for Copper"
 
 def test_s02():
-    assert fut.s02() == fut.s02('baseline'), "s02 calculated incorrectly for NiO"
+    if not fut.feffran: fut.run()
+    assert fut.s02() == fut.s02('baseline'), "s02 calculated incorrectly for Copper"
 
 ################################################################################
 
 def test_fit():
     if not fut.feffran: fut.run()
     if skip_data_test:
-        yield check_null, "skipping data test for NiO"
+        yield check_null, "skipping data test for Copper"
     elif isfile(join(fut.path, fut.folder+'.py')):
         fut.fit()
         for p in fut.blfit.params.covar_vars:
@@ -58,24 +61,23 @@ def test_fit():
         for p in ['chi_reduced', 'chi_square', 'rfactor']:
             yield check_stat, p
     else:
-        yield check_null, "no data tests for NiO"
+        yield check_null, "no data tests for Copper"
 
 def check_null(msg):
     assert True, msg
 
-
 def check_param(param, part):
     bl=getattr(getattr(fut.blfit.params, param), part)
     tr=getattr(getattr(fut.trfit.params, param), part)
-    assert abs(bl-tr) < fut.epsilon, "%s of fitting parameter %s evaluated inconsistently for NiO" % (part, param)
+    assert abs(bl-tr) < fut.epsilon, "%s of fitting parameter %s evaluated inconsistently for Copper" % (part, param)
 
 def check_stat(param):
     bl=getattr(fut.blfit.params, param)
     tr=getattr(fut.trfit.params, param)
-    assert abs(bl-tr) < fut.epsilon, "statistic %s evaluated inconsistently for NiO" % param
+    assert abs(bl-tr) < fut.epsilon, "statistic %s evaluated inconsistently for Copper" % param
 
 ################################################################################
 
 def test_clean():
     fut.clean()
-    assert not isdir(fut.testrun), "successfully cleaned up NiO calculation"
+    assert not isdir(fut.testrun), "successfully cleaned up Copper calculation"
