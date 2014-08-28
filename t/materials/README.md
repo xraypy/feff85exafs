@@ -11,7 +11,7 @@ For each example material, several files are provided:
  2. Where crystal data is given in the form of an Atoms input or CIF
     file, the crystal data has been converted into a Feff input file.
 
- 3. The Feff input files are not yet in a form ready for running feff.
+ 3. The Feff input files are not yet in a form ready for running Feff.
     Each one is in a form used by the
     [Mustache](http://mustache.github.io/) templating system.  A few
     bits of input data have been replaced by tokens that look like
@@ -54,11 +54,11 @@ The testing infrastructure is implemented with
 [Nose](https://nose.readthedocs.org/en/latest/index.html) and a
 [Larch](https://github.com/xraypy/xraylarch) plugin.
 
-The testing infratructure is designed so that it is easy to add new
+The testing infrastructure is designed so that it is easy to add new
 tests, so long as an appropriate set of files is provided for each new
 test.
 
-Please note that the file naming comventions for the test files are
+Please note that the file naming conventions for the test files are
 quite strict.  If you introduce a new material, say Ceria (CeO2), and
 you name the folder containing its files either `Ceria`, then the
 following must be true:
@@ -79,12 +79,14 @@ following must be true:
    Ceria.prj.
 7. If fits to data are part of the test, there must be a file called
    `Ceria.py` containing python code defining the fit to the data.
-8. There must be a test in the `tests` folder called `test_Ceria.py`.
-   You should closely follow the examples already in the that folder.
+8. You must add `Ceria` to the folders tuple at the top of
+   `tests/test_materials.py`.
 9. You should provide a `README.md` file with basic information in
    markdown format.  Any other files, for instance images displayed in
    the `README.md` file can have any name (since they will not be used
    in testing)
+
+---
 
 ## Materials:
 
@@ -105,6 +107,8 @@ following must be true:
 6. **ferrocene macrocycle**: this is a iron organometallic with Fe in
    between two 5 member carbon rings, so it has 10 C neighbors at a range
    of distances from 2.026 A to 2.099 A
+
+---
 
 ## Installing and using the unit testing tool
 
@@ -134,21 +138,21 @@ the call to `pwd` works.
 
 
 
-
+---
 
 ### Run tests through nose
 
 In the `materials` folder, run `nosetests` at the command line.  Nose
-writes a report on the reults of the test sequence.
+writes a report on the results of the test sequence.
 
 Any tests that fail can be further examined interactively within
 Larch.
 
 When run through Nose, the beginning of the test sequence is *very*
-time consuming as all the Feff caluclations are made before any of the
+time consuming as all the Feff calculations are made before any of the
 actual tests are made.  I find it helpful to run `nosetests
 --verbosity=3`, which gives some feedback about what is actually
-happeneing.
+happening.
 
 #### Run Feff with self-consistency
 
@@ -170,12 +174,13 @@ example, to skip the test for UO2, do
 
 	~> touch UO2/UO2.skip
 
-To reenable the data test for UO2, do
+To re-enable the data test for UO2, do
 
 	~> rm UO2/UO2.skip
 
 
 
+---
 
 ### Interactive testing in Larch
 
@@ -202,7 +207,7 @@ To run Feff with self-consistency, do
 
 	 larch> my_ut.doscf=True
 
-To see whether the calculation of the first path differs from teh
+To see whether the calculation of the first path differs from the
 baseline calculation, do
 
      larch> my_ut.compare(1)
@@ -231,8 +236,9 @@ rep     | test the real part of the complex wavenumber
 
 To test to see if a path index was saved from the Feff calculation
 
-     if my_ut.available(nnnn):
-         my_ut.compare(nnnn)
+     larch> if my_ut.available(nnnn):
+     larch>     my_ut.compare(nnnn)
+     larch> end if
 
 To run Feff and do the comparisons using self-consistency by setting
 
@@ -252,12 +258,12 @@ Some of  the materials have data tests.  This
      larch> my_ut.fit()
 
 runs a canned fit, once using the baseline Feff calculation and once
-using the test run.  You can then compare fitting paranmeters and
+using the test run.  You can then compare fitting parameters and
 statistics from the two.  The fit groups are `my_ut.blfit` and
 `my_ut.trfit`.  You could, for example, examine the `amp` parameter:
 
-     larch> print my_ut.blfit,params.amp.value my_ut.blfit,params.amp.stderr
-     larch> print my_ut.trfit,params.amp.value my_ut.trfit,params.amp.stderr
+     larch> print my_ut.blfit.params.amp.value my_ut.blfit.params.amp.stderr
+     larch> print my_ut.trfit.params.amp.value my_ut.trfit.params.amp.stderr
 
 Finally, clean up the test run by doing:
 
@@ -266,7 +272,7 @@ Finally, clean up the test run by doing:
 
 # Still to do
 
-* capture and interpret feff's screen messages to use number of SCF
+* capture and interpret Feff's screen messages to use number of SCF
   iterations as a unit test
 
 * More materials:
