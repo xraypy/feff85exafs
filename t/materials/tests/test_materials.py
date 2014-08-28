@@ -6,11 +6,11 @@ from f85ut import ut
 larch.use_plugin_path('xafs')
 from feffdat import feffpath
 
-
+import re
 from os import getenv
 from os.path import isfile, isdir, join
 
-folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane']
+folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane')
 tests   = dict()
 doscf   = getenv('FEFF_TEST_SCF', 'False')
 
@@ -29,7 +29,7 @@ def test_feffrun():
 ## check the feffNNNN.dat columns that are the same for all paths
 def test_columns():
     for f in folders:
-        for part in ['lambda', 'caps', 'redfact', 'rep']:
+        for part in ('lambda', 'caps', 'redfact', 'rep'):
             yield check_columns, f, part
 
 ## check F_eff for each path
@@ -37,7 +37,7 @@ def test_feff():
     for f in folders:
         for path in tests[f].paths:
             index = int(path[4:8])
-            for part in ['feff', 'amp', 'phase']:
+            for part in ('feff', 'amp', 'phase'):
                 yield check_feff, f, index, part
 
 ## check norman and muffin tin radii of the ipots from feff
@@ -69,7 +69,7 @@ def test_fit():
             for p in tests[f].blfit.params.covar_vars:
                 yield check_param, f, p, 'value'
                 yield check_param, f, p, 'stderr'
-                for p in ['chi_reduced', 'chi_square', 'rfactor']:
+                for p in ('chi_reduced', 'chi_square', 'rfactor'):
                     yield check_stat, f, p
         else:
             yield check_true, "no data tests for %s" % f
@@ -86,7 +86,10 @@ def test_clean():
 
 def check_feffrun(folder):
     tests[folder].run()
-    assert tests[folder].available(1), "unsuccessfully ran feff on %s ($s)" % (folder, tests[folder].doscf)
+    with open(join(tests[folder].testrun,'f85e.log'), 'r') as log:
+        lines = log.readlines() # f85e.log shouldn't be more than a couple thousand lines long (ferrocene w/SCF is 1096)
+        m = re.search('Done with module 6:', lines[-1])
+    assert m and tests[folder].available(1), "feff run on %s ($s) not successful" % (folder, tests[folder].doscf)
 
 def check_columns(folder, part):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
@@ -128,4 +131,4 @@ def check_stat(folder, param):
     assert abs(bl-tr) < tests[folder].epsilon, "statistic %s evaluated inconsistently for %s" % (param, folder)
 
 def check_clean(folder):
-    assert not isdir(tests[folder].testrun), "unsuccessfully cleaned up %s calculation" % folder
+    assert not isdir(tests[folder].testrun), "clean up %s calculation not successful" % folder

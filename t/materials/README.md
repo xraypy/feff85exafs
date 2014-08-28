@@ -209,7 +209,7 @@ baseline calculation, do
 
 This will compute a simple R factor between the magnitude of F\_eff in
 the baseline and the test run.  It will also compute and R factor for
-the phase of F\_eff.  If my_ut.doplot is True (which is the default),
+the phase of F\_eff.  If `my_ut.doplot` is True (which is the default),
 plots of magnitude and phase of F\_eff will be made including both the
 baseline and the test run.
 
@@ -229,18 +229,23 @@ caps    | test the central atom phase shift
 redfact | test the reduction factor
 rep     | test the real part of the complex wavenumber
 
-You can test to see if a path index was saved from the Feff calculation
+To test to see if a path index was saved from the Feff calculation
 
      if my_ut.available(nnnn):
          my_ut.compare(nnnn)
 
-You can run Feff and do the comparisons using self-consistency by
-setting
+To run Feff and do the comparisons using self-consistency by setting
 
      larch> my_ut.doscf = True
 
 The Feff run is, of course, much more time consuming with
 self-consistency.
+
+To examine various quantities from the Feff calculation:
+
+     larch> print my_ut.feffterms
+	 larch> print my_ut.radii('testrun', 'muffintin') my_ut.radii(baseline', 'muffintin') 
+	 larch> print my_ut.s02('testrun') my_ut.s02(baseline') 
 
 Some of  the materials have data tests.  This
 
@@ -249,7 +254,7 @@ Some of  the materials have data tests.  This
 runs a canned fit, once using the baseline Feff calculation and once
 using the test run.  You can then compare fitting paranmeters and
 statistics from the two.  The fit groups are `my_ut.blfit` and
-`my_ut.trfit`.  You could, for example, exmine the `amp` parameter:
+`my_ut.trfit`.  You could, for example, examine the `amp` parameter:
 
      larch> print my_ut.blfit,params.amp.value my_ut.blfit,params.amp.stderr
      larch> print my_ut.trfit,params.amp.value my_ut.trfit,params.amp.stderr
@@ -260,10 +265,6 @@ Finally, clean up the test run by doing:
 
 
 # Still to do
-
-* a better test for success of feff test run would be nice, perhaps
-  capture and interpret feff's screen messages to notice when a feff
-  run fails
 
 * capture and interpret feff's screen messages to use number of SCF
   iterations as a unit test
