@@ -1,4 +1,5 @@
       subroutine ffsort (iabs,doptz)
+
 c KJ 1-06 : I added second input argument doptz      
       implicit double precision (a-h, o-z)
 
@@ -12,20 +13,21 @@ c      modified by a.l.ankudinov, march 2001 for new i/o structure
       include '../HEADERS/dim.h'
       include '../HEADERS/vers.h'
       include '../HEADERS/parallel.h'
+      include '../RDINP/allinp.h'
 
 cc    INPUT
 cc    atoms.dat
-        integer  natt
-        integer iphatx(nattx)
-        double precision  ratx(3,nattx)
+c--allinp--        integer  natt
+c--allinp--        integer iphatx(nattx)
+c--allinp--        double precision  ratx(3,nattx)
         logical doptz  !KJ 1-06 : call mkptz or not?    
 cc    global.dat
 c       configuration average
-        integer nabs, iphabs
+c--allinp--        integer nabs, iphabs
 c       global polarization data
-        integer  ipol, ispin, le2
-        double precision evec(3), xivec(3), spvec(3), elpty,angks,rclabs
-        complex*16 ptz(-1:1, -1:1)
+c--allinp--        integer  ipol, ispin, le2
+c--allinp--        double precision evec(3), xivec(3), spvec(3), elpty,angks,rclabs
+c--allinp--        complex*16 ptz(-1:1, -1:1)
 cc    OUTPUT: geom.dat
         integer  nat
         integer iatph(0:nphx), iphat(natx), index(natx)
@@ -41,7 +43,7 @@ c     if (worker) go to 400
 
 c     standard formats for string, integers and real numbers
   10  format(a)
-  20  format (20i4)
+c  20  format (20i4)
   30  format (6f13.5)
 
 cc    read atoms.dat file
@@ -73,9 +75,9 @@ c       global polarization data
         read  (3, 10) slog
         do 70 i = -1, 1
           read (3,30) a1, b1, a2, b2, a3, b3
-          ptz(-1,i)= cmplx(a1,b1) 
-          ptz(0,i) = cmplx(a2,b2) 
-          ptz(1,i) = cmplx(a3,b3) 
+          ptz(-1,i)= dcmplx(a1,b1) 
+          ptz(0,i) = dcmplx(a2,b2) 
+          ptz(1,i) = dcmplx(a3,b3) 
   70    continue
       close(3)
 
@@ -175,6 +177,7 @@ c     make polarization tensor when z-axis is along k-vector
       if (doptz)  !KJ I added this if-statement 1-06
      1  call mkptz( ipol, elpty, evec, xivec, ispin, spvec, nat, rat,
      2           angks, le2, ptz)
+
 c     rewrite global.inp for initial iteration to update 'ptz'
       open (file='global.dat', unit=3, status='unknown',iostat=ios)
 c       configuration average data
@@ -193,6 +196,8 @@ c       global polarization data
      1                dimag(ptz(0,i)),  dble(ptz(1,i)), dimag(ptz(1,i))
  370    continue
       close(3)
+      call json_global()
+
 c     Find model atoms for unique pots that have them
 c     Use atom closest to absorber for model
       do 316  iph = 1, nphx
@@ -253,6 +258,7 @@ c     Write output geom.dat
   536     format(i4, 3f13.5, 2i4)
   540   continue
       close(3)
+      call json_geom(iatph)
 
 c     Atoms for the pathfinder
       if (iatabs .le. 0)  then

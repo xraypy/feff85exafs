@@ -8,9 +8,11 @@ from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
 
-bin_src = Split('rdinp_l.f  ffsort.f iniall.f  mkptz.f  rdline.f  setedg.f wrtall.f')
+bin_src = Split('rdinp_l.f  ffsort.f iniall.f  mkptz.f  rdline.f  setedg.f wrtall.f wrtjsn.f')
 
-env.Program('rdinp', bin_src,
-        LIBS = ['feffcom', 'feffmath', 'feffpar'], \
+other_objects = ['/usr/local/lib/libjsonfortran.a']
+
+env.Program('rdinp', bin_src + other_objects,
+            LIBS = ['feffcom', 'feffmath', 'feffpar'], \
         LIBPATH = ['../COMMON', '../MATH', '../PAR'])
 

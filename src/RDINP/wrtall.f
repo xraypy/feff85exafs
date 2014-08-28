@@ -47,6 +47,7 @@ c       global polarization data
         do 60 i = 1,3
           write (3,30) evec(i), xivec(i), spvec(i)
   60    continue
+
         write (3, 10) ' polarization tensor '
         do 70 i = -1, 1
           write(3,30) dble(ptz(-1,i)), dimag(ptz(-1,i)), dble(ptz(0,i)),

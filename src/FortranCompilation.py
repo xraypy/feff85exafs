@@ -13,7 +13,7 @@ def CompilationEnvironment():
         # the advantage of -ffree-line-length-none -- it seems to 
         # encourage poor code style -- like we need more of that!
         # also,  -finit-local-zero fails on FMS/fmstot.f
-        env = Environment(FORTRANFLAGS = '-O3 -ffree-line-length-none -Wall')   ## -Wall -finit-local-zero
+        env = Environment(FORTRANFLAGS = '-O3 -ffree-line-length-none -Wall')   ## -pedantic -finit-local-zero
     elif env['FORTRAN'] == 'g77':
         env = Environment(FORTRANFLAGS = '-Wall -O2')
     elif env['FORTRAN'] == 'xlf':
