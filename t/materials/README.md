@@ -132,6 +132,10 @@ Here, I have assumed that you will run this command in the folder
 containing both this README file and the `f85ut.py` file.  That is why
 the call to `pwd` works.
 
+
+
+
+
 ### Run tests through nose
 
 In the `materials` folder, run `nosetests` at the command line.  Nose
@@ -145,6 +149,33 @@ time consuming as all the Feff caluclations are made before any of the
 actual tests are made.  I find it helpful to run `nosetests
 --verbosity=3`, which gives some feedback about what is actually
 happeneing.
+
+#### Run Feff with self-consistency
+
+set the `FEFF_TEST_SCF` environment variable to `True`.  With bash,
+zsh, etc:
+
+    ~> export FEFF_TEST_SCF=True
+
+With csh, tcsh, etc:
+
+    ~> setenv FEFF_TEST_SCF "True"
+
+#### Skip canned data tests
+
+Normally, a data test will be run if the `<name>.py` file is present
+in the material's folder.  The data test for that material will be
+skipped if a file called `<name>.skip` exists in its folder.  For
+example, to skip the test for UO2, do
+
+	~> touch UO2/UO2.skip
+
+To reenable the data test for UO2, do
+
+	~> rm UO2/UO2.skip
+
+
+
 
 ### Interactive testing in Larch
 
@@ -166,6 +197,10 @@ This will run a calculation on copper metal using Feff85exafs in its
 current state.  Once this is done, you can check the results of the
 calculation against the baseline calculation, i.e. a calculation made
 using Feff85exafs as it was delivered to us by the Feff Project.
+
+To run Feff with self-consistency, do
+
+	 larch> my_ut.doscf=True
 
 To see whether the calculation of the first path differs from teh
 baseline calculation, do
@@ -226,16 +261,9 @@ Finally, clean up the test run by doing:
 
 # Still to do
 
-* Each test has doscf hardwired to False.  Need a convenient way to
-  trigger the use of SCF when running the tests.
-
-* data test skipping is awkward
-
 * a better test for success of feff test run would be nice, perhaps
   capture and interpret feff's screen messages to notice when a feff
   run fails
-
-* tests for muffin and norman radii of the ipots
 
 * capture and interpret feff's screen messages to use number of SCF
   iterations as a unit test
@@ -247,3 +275,4 @@ Finally, clean up the test run by doing:
    + Something from column 1 or column 2 of the periodic table
    + Something with a ring structure and strong, high-order MS paths
      (paradibromobenzene, perhaps)
+   + americium, a transuranic that was above Feff6's Z cutoff

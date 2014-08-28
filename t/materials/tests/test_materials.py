@@ -3,24 +3,24 @@
 
 import larch
 from f85ut import ut
+larch.use_plugin_path('xafs')
+from feffdat import feffpath
 
+
+from os import getenv
 from os.path import isfile, isdir, join
-
 
 folders = ['Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane']
 tests   = dict()
+doscf   = getenv('FEFF_TEST_SCF', 'False')
 
 for f in folders:
     tests[f]         = ut(f)
     tests[f].verbose = False
     tests[f].doplot  = False
-    tests[f].doscf   = False
+    tests[f].doscf   = doscf.lower() in ("yes", "true", "on", "y", "t", "1")
 
-    tests[f].skip_data_test = False
-    if f == 'UO2': tests[f].skip_data_test = True
-    if f == 'bromoadamantane': tests[f].skip_data_test = True
 
-    
 ## run feff
 def test_feffrun():
     for f in folders:
@@ -40,10 +40,18 @@ def test_feff():
             for part in ['feff', 'amp', 'phase']:
                 yield check_feff, f, index, part
 
+## check norman and muffin tin radii of the ipots from feff
+def test_radii():
+    for f in folders:
+        yield check_radii, f, 'muffintin'
+        yield check_radii, f, 'norman'
+
+
 ## check various quantities computed by feff
 def test_terms():
     for f in folders:
-        yield check_feffterms, f
+        for term in ('edge', 'gam_ch', 'kf', 'mu', 'rs_int', 'vint'):
+            yield check_feffterms, f, term
 
 ## check that S02 was computed correctly
 def test_s02():
@@ -54,7 +62,7 @@ def test_s02():
 def test_fit():
     for f in folders:
         #if not tests[f].feffran: tests[f].run()
-        if tests[f].skip_data_test:
+        if isfile(join(tests[f].path, tests[f].folder+'.skip')):
             yield check_true, "skipping data test for %s" % f
         elif isfile(join(tests[f].path, tests[f].folder+'.py')):
             tests[f].fit()
@@ -90,9 +98,17 @@ def check_feff(folder, index, part):
     this = tests[folder].compare(index, part=part)
     assert this, "comparison of %s for path %d in %s" % (part, index, folder)
 
-def check_feffterms(folder):
+def check_radii(folder, radius):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
-    assert tests[folder].feffterms(), "some feff terms calculated incorrectly for %s" % folder
+    bl = tests[folder].radii('baseline', radius)
+    tr = tests[folder].radii('testrun',  radius)
+    assert bl == tr, "list of %s radii are different for %s" % (radius, folder)
+
+def check_feffterms(folder, term):
+    if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
+    bl = feffpath(join(tests[folder].baseline, 'feff0001.dat'))
+    tr = feffpath(join(tests[folder].testrun,  'feff0001.dat'))
+    assert getattr(bl._feffdat, term) == getattr(tr._feffdat, term), "feff term %s calculated incorrectly for %s" % (term, folder)
 
 def check_s02(folder):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder

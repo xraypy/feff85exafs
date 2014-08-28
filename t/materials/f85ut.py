@@ -27,6 +27,7 @@ class Feff85exafsUnitTestGroup(Group):
        available  : returns True is a path index has a corresponding feffNNNN.dat file
        compare    : make a comparison of columns in feffNNNN.dat, returns True is no difference between test and baseline
        geometry   : write a description of scattering path to the screen
+       radii      : fetch a list of muffin tin or norman radii for the unique potentials
        s02        : fetch the calculated value of s02 from the testrun or the baseline
        feffterms  : perform a test on various values in the header of feffNNNN.dat, returns True if no difference
        clean      : remove the testrun folder
@@ -333,6 +334,29 @@ class Feff85exafsUnitTestGroup(Group):
         return -1
 
 
+    def radii(self, folder='testrun', radius='muffintin'):
+        """
+        Return a list of the selected radii for each unique potential
+           larch> group.s02(folder, radius)
+        where folder = testrun|baseline and radius = norman|muffintin
+
+        """
+        if folder == 'testrun':
+            chidat = join(self.testrun, 'chi.dat')
+        else:
+            chidat = join(self.baseline, 'chi.dat')
+
+        values = list()
+        with open(chidat, 'r') as searchfile:
+            for line in searchfile:
+                if radius == 'norman':
+                    m = re.search('Rnm=\s*(\d\.\d+)', line)
+                else:
+                    m = re.search('Rmt=\s*(\d\.\d+)', line)
+                if m:
+                    values.append(float(m.group(1)))
+        return values
+
 
     def feffterms(self, nnnn=1):
         """
@@ -360,6 +384,7 @@ class Feff85exafsUnitTestGroup(Group):
                                                                       getattr(tr._feffdat, key), same)
             ok = ok and same
         return ok
+
 
 
     def fit(self):
