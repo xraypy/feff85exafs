@@ -80,6 +80,9 @@ c$$$      end
 
       integer  iunit
       type(json_value),pointer :: m1
+      character*7 vname
+      integer,dimension(:),allocatable :: itoss
+      double precision,dimension(:),allocatable :: rtoss
 
 
       ! root
@@ -122,9 +125,28 @@ c$$$      end
       call json_value_add(m1, 'folp',   folp)
       call json_value_add(m1, 'novr',   novr)
 
-!     need to implement the whole overlap thing, for which I don't, at the moment, have an example
-!     see lines 77 to 80 in wrtall.f
+c     the following disentangles the 2D arrays used for overlap into
+c     arrays that can be stored as json arrays, see POT/reapot.f line
+c     188 and following for how this gets reconstructed into a 2D array
+      do 10 iph = 0, nph
+         write (vname, "(A3,I1)") "iphovr", iph
+         do 20 iovr = 1, novr(iph)
+            itoss(iovr) = iphovr(iovr, iph)
+ 20      continue
+         call json_value_add(m1, vname, itoss)
 
+         write (vname, "(A3,I1)") "nnovr", iph
+         do 30 iovr = 1, novr(iph)
+            itoss(iovr) = nnovr(iovr, iph)
+ 30      continue
+         call json_value_add(m1, vname, itoss)
+
+         write (vname, "(A3,I1)") "rovr", iph
+         do 40 iovr = 1, novr(iph)
+            rtoss(iovr) = rovr(iovr, iph)
+ 40      continue
+         call json_value_add(m1, vname, rtoss)
+ 10   continue
 
       open(newunit=iunit, file='pot.json', status='REPLACE')
       call json_print(m1,iunit)

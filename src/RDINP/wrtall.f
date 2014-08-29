@@ -80,6 +80,7 @@ c       for OVERLAP option
         do 150 iovr = 1, novr(iph)
   150   write(3,140) iphovr(iovr, iph), nnovr(iovr,iph), rovr(iovr,iph)
       close(3)
+
 cc    ldos.inp
       open (file='ldos.inp', unit=3, status='unknown',iostat=ios)
         write(3,10) 'mldos, lfms2, ixc, ispin, minv'
@@ -91,6 +92,7 @@ cc    ldos.inp
         write(3,10) ' lmaxph(0:nph)'
         write(3,20)  (lmaxph(iph),iph=0,nph)
       close(3)
+
 cc    mod2.inp
       open (file='mod2.inp', unit=3, status='unknown',iostat=ios)
 c     Josh - added flag for PLASMON card (iPlsmn = 0, 1, or 2)
@@ -111,6 +113,7 @@ c     Josh - added flag for PLASMON card (iPlsmn = 0, 1, or 2)
         write(3,30)  (spinph(iph),iph=0,nph)
         write(3,20)  izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis
       close(3)
+
 cc    mod3.inp
       open (file='mod3.inp', unit=3, status='unknown',iostat=ios)
         write(3,10) 'mfms, idwopt, minv'
@@ -122,6 +125,7 @@ cc    mod3.inp
         write(3,10) ' lmaxph(0:nph)'
         write(3,20)  (lmaxph(iph),iph=0,nph)
       close(3)
+
 cc    mod4.inp
       open (file='mod4.inp', unit=3, status='unknown',iostat=ios)
         write(3,10) 'mpath, ms, nncrit, nlegxx, ipr4'
@@ -129,12 +133,14 @@ cc    mod4.inp
         write(3,10) 'critpw, pcritk, pcrith,  rmax, rfms2'
         write(3,30)  critpw, pcritk, pcrith,  rmax, rfms2
       close(3)
+
 cc    mod5.inp
       open (file='mod5.inp', unit=3, status='unknown',iostat=ios)
         write(3,10) 'mfeff, ipr5, iorder, critcw, wnstar'
         write(3,180)  mfeff, ipr5, iorder, critcw, wnstar
   180   format ( 2i4, i8, f13.5, L5)
       close(3)
+
 cc    mod6.inp
       open (file='mod6.inp', unit=3, status='unknown',iostat=ios)
         write(3,10) 'mchi, ispec, idwopt, ipr6, mbconv, absolu' !KJ added absolu 3-06
@@ -144,6 +150,7 @@ cc    mod6.inp
         write(3,10) 'tk, thetad, alphat, thetae, sig2g'
         write(3,30)  tk, thetad, alphat, thetae, sig2g
       close(3)
+
 cc    so2.inp - Josh Kas
       open (file='s02.inp', unit=3, status='unknown',iostat=ios)
         write(3,10) 'mso2conv, ipse, ipsk'
@@ -155,6 +162,7 @@ cc    so2.inp - Josh Kas
         write(3,10) 'cfname'
         write(3,10) cfname
       close(3)
+
 cc    eels.inp        !KJ 1-06 write EELS data to file
       open(file='eels.inp',unit=3,status='unknown',iostat=ios)
         write(3,10) 'calculate ELNES?'
