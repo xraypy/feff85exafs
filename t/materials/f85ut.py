@@ -77,7 +77,8 @@ class Feff85exafsUnitTestGroup(Group):
         self.repotop    = realpath(join('..','..'))
         # the f85e shell script emulates the behavior of the monolithic Feff application
         self.f85escript = join(self.repotop, 'bin', 'f85e')
-        self.epsilon    = 0.001
+        self.epsilon    = 0.00001
+        self.epsfit     = 0.001
 
 
     def __repr__(self):

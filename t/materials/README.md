@@ -276,6 +276,8 @@ Finally, clean up the test run by doing:
   iterations as a unit test
 
 * More materials:
+   + something computed with polarization (verify JSON/read_global.f)
+   + something computed with polarization + ellipticity
    + A polymer, i.e. something pseudo-one-dimensional
    + Something from the first row of the periodic table
    + Something with lead as the absorber

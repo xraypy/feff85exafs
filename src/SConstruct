@@ -8,6 +8,7 @@ print '\n\tFortran compiler is ' + env['FORTRAN'] + '\n'
 
 SConscript(['PAR/SConstruct',    \
             'COMMON/SConstruct', \
+            'JSON/SConstruct',   \
             'MATH/SConstruct',   \
             'ATOM/SConstruct',   \
             'DEBYE/SConstruct',  \

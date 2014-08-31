@@ -11,6 +11,6 @@ env = CompilationEnvironment()
 bin_src = Split('rdinp_l.f  ffsort.f iniall.f  mkptz.f  rdline.f  setedg.f wrtall.f wrtjsn.f')
 
 env.Program('rdinp', bin_src,
-            LIBS = ['jsonfortran', 'feffcom', 'feffmath', 'feffpar'], \
-        LIBPATH = ['../COMMON', '../MATH', '../PAR'])
+            LIBS = ['feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../JSON/', '../MATH', '../PAR'])
 

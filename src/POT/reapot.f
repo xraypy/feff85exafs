@@ -13,13 +13,13 @@
       double precision toss
       integer,dimension(:),allocatable :: intgs
       character*80,dimension(:),allocatable :: strings
-      double precision,dimension(:),allocatable :: dbpcs, dbpcy, dbpcz
+      double precision,dimension(:),allocatable :: dbpcs
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
 
 cc    geom.dat
-        integer  nat, iatph(0:nphx), iphat(natx)
+        integer  nat, iatph(0:nphx), iphat(natx), ibounc(natx)
         double precision  rat(3,natx)
 cc    mod1.inp
         character*80 title(nheadx)
@@ -70,49 +70,7 @@ c--json--  60    continue
 c--json--        nat = nat-1
 c--json--      close(3)
 
-
-      nph = 0
-      do 2040 iph = 0, nphx
-         iatph(iph) = 0
- 2040 continue
-      call json%load_file('geom.json')
-      if (json_failed()) then   !if there was an error reading the file
-         print *, "failed to read geom.json"
-         stop
-      else
-         call json%get('natt',   nat, found)
-                   if (.not. found) call bailout('natt', 'geom.json')
-c         call json%get('nph',   nph, found)
-c                   if (.not. found) call bailout('nph', 'geom.json')
-c         call json%get('iatph', intgs, found)
-c                   if (.not. found) call bailout('iatph', 'pot.json')
-c         do 2000 iph = 0, nphx
-c            iatph(iph) = intgs(iph+1)            
-c 2000    continue
-         call json%get('x', dbpcs, found)
-                   if (.not. found) call bailout('x', 'pot.json')
-         call json%get('y', dbpcy, found)
-                   if (.not. found) call bailout('y', 'pot.json')
-         call json%get('z', dbpcz, found)
-                   if (.not. found) call bailout('z', 'pot.json')
-         call json%get('iph', intgs, found)
-                   if (.not. found) call bailout('iph', 'pot.json')
-         do 2020 i=1,nat
-            iphat(i) = intgs(i)
-            rat(1,i) = dbpcs(i)
-            rat(2,i) = dbpcy(i)
-            rat(3,i) = dbpcz(i)
-c     iatph is NOT set from the similar line written to geom.json
-c     this line follows how iatph was set as data was read from geom.dat
-            if (iphat(i).gt.nph) nph = iphat(i)
-            if ( iatph(iphat(i)).eq.0) iatph(iphat(i)) = i
- 2020    continue
-c         call json%get('ibo', intgs, found)
-c                   if (.not. found) call bailout('ibo', 'pot.json')
-c         do 2040 iat = 0, nattx
-c            i1b(iat) = intgs(iat+1)
-c 2040    continue
-      end if
+      call json_read_geom(nat, nph, iatph, rat, iphat, ibounc)
 
 
 c     read mod1.inp

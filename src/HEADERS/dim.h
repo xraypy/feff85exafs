@@ -1,3 +1,4 @@
+C -*-fortran-*-
 c      maximum number of atoms for FMS. Reduce nclusx if you need
 c      smaller executable.
       integer nclusx

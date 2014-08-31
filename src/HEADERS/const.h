@@ -1,3 +1,4 @@
+c-*-fortran-*-
       double precision pi, one, zero, third, raddeg, fa, bohr, ryd
       double precision hart, alpinv, alphfs
       parameter (pi = 3.14159 26535 89793 23846 26433d0)

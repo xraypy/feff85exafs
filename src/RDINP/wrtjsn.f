@@ -26,7 +26,7 @@ c        (i.e. one has to make modifications in 3 places)
 
       call json_s02()
       call json_atoms()
-      call json_global()
+      call json_global(nabs)
 
 
       return
@@ -470,15 +470,15 @@ c     188 and following for how this gets reconstructed into a 2D array
 
       
       call json_value_add(atoms, 'natt', natt)
-      do 10 i=1,nattx
+      do 10 i=1,natt
          xx(i) = ratx(1,i)
          yy(i) = ratx(2,i)
          zz(i) = ratx(3,i)
  10   continue
-      call json_value_add(atoms, 'x', xx)
-      call json_value_add(atoms, 'y', yy)
-      call json_value_add(atoms, 'z', zz)
-      call json_value_add(atoms, 'iphatx', iphatx)
+      call json_value_add(atoms, 'x', xx(1:natt))
+      call json_value_add(atoms, 'y', yy(1:natt))
+      call json_value_add(atoms, 'z', zz(1:natt))
+      call json_value_add(atoms, 'iphatx', iphatx(1:natt))
 
       
       open(newunit=iunit, file='atoms.json', status='REPLACE')
@@ -495,7 +495,7 @@ c     188 and following for how this gets reconstructed into a 2D array
 
 
 
-      subroutine json_global
+      subroutine json_global(nabs)
 
       use json_module
 
@@ -504,7 +504,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
 
-      integer  iunit
+      integer  iunit, nabs
       type(json_value),pointer :: global
       character*5 vname
 
@@ -512,7 +512,6 @@ c     188 and following for how this gets reconstructed into a 2D array
       call json_value_create(global)       ! create the value and associate the pointer
       call to_object(global,'global.json') ! add the file name as the name of the overall structure
 
-      
       call json_value_add(global, 'nabs',   nabs)
       call json_value_add(global, 'iphabs', iphabs)
       call json_value_add(global, 'rclabs', rclabs)

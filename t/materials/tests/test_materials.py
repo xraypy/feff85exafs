@@ -123,12 +123,12 @@ def check_true(msg):
 def check_param(folder, param, part):
     bl=getattr(getattr(tests[folder].blfit.params, param), part)
     tr=getattr(getattr(tests[folder].trfit.params, param), part)
-    assert abs(bl-tr) < tests[folder].epsilon, "%s of fitting parameter %s evaluated inconsistently for %s" % (part, param, folder)
+    assert abs(bl-tr) < tests[folder].epsfit, "%s of fitting parameter %s evaluated inconsistently for %s" % (part, param, folder)
 
 def check_stat(folder, param):
     bl=getattr(tests[folder].blfit.params, param)
     tr=getattr(tests[folder].trfit.params, param)
-    assert abs(bl-tr) < tests[folder].epsilon, "statistic %s evaluated inconsistently for %s" % (param, folder)
+    assert abs(bl-tr) < tests[folder].epsfit, "statistic %s evaluated inconsistently for %s" % (param, folder)
 
 def check_clean(folder):
     assert not isdir(tests[folder].testrun), "clean up %s calculation not successful" % folder
