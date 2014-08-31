@@ -54,8 +54,9 @@ c     work space for xcpot
 c     p and q were needed in xsect to calc. matrix elements.
       complex*16 p(nrptx), q(nrptx)
 
-      complex*16  p2, ck, xkmtp, xkmt, temp, pu, qu
-      complex*16 jl(ltot+2), nl(ltot+2), jlp(ltot+2), nlp(ltot+2)
+      complex*16  p2, ck, xkmt, temp, pu, qu
+      complex*16 jl(ltot+2), nl(ltot+2)
+c      complex*16 xkmtp, nlp(ltot+2), jlp(ltot+2)
 
       complex*16 v(nrptx), vval(nrptx)
       character*512 slog
@@ -86,7 +87,7 @@ c     Use kmax to find accurate l-points
 c     limit l, lmax = prefac* kmax * rmt
 c     prefac is set not to have warning message for Cu metal for kmax=20
       prefac = 0.7d0
-      lmax = prefac * rmt * xkmax
+      lmax = int(prefac * rmt * xkmax)
       lmax = max(lmax, 5)
       if (lmax.gt.ltot) then
         ik = nint( ltot / rmt / bohr / prefac )
@@ -100,7 +101,7 @@ c     prefac is set not to have warning message for Cu metal for kmax=20
       lmax = min (lmax, ltot)
 c     set imt and jri (use general Loucks grid)
 c     rmt is between imt and jri (see function ii(r) in file xx.f)
-      imt = (log(rmt) + x0) / dx  +  1
+      imt = int((log(rmt) + x0) / dx)  +  1
       jri = imt+1
       jri1 = jri+1
       if (jri1 .gt. nrptx)  call par_stop('jri .gt. nrptx in phase')

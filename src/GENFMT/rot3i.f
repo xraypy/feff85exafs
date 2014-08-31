@@ -87,7 +87,7 @@ c     initialize dri0
             endif
    20    continue
    30 continue
-   40 continue
+c   40 continue
 
 c-----test sum rule on d
 c     open (19,file='rotmat.dat',status='new',carriagecontrol='list')

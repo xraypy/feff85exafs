@@ -10,9 +10,7 @@ env = CompilationEnvironment()
 
 bin_src = Split('rdinp_l.f  ffsort.f iniall.f  mkptz.f  rdline.f  setedg.f wrtall.f wrtjsn.f')
 
-other_objects = ['/usr/local/lib/libjsonfortran.a']
-
-env.Program('rdinp', bin_src + other_objects,
-            LIBS = ['feffcom', 'feffmath', 'feffpar'], \
+env.Program('rdinp', bin_src,
+            LIBS = ['jsonfortran', 'feffcom', 'feffmath', 'feffpar'], \
         LIBPATH = ['../COMMON', '../MATH', '../PAR'])
 

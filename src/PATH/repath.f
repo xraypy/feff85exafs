@@ -3,7 +3,11 @@
      2             nat, rat, iphat, ibounc,
      3             ipol, ispin, evec, xivec ,eels)  !KJ added eels 5/06
 
+      use json_module
       implicit double precision (a-h, o-z)
+      logical :: found
+      type(json_file) :: json   !the JSON structure read from the file:
+      double precision toss
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
@@ -78,18 +82,50 @@ c       global polarization data
         read  (3, 10) slog
         do 90 i = -1, 1
           read (3,30) a1, b1, a2, b2, a3, b3
-          ptz(-1,i)= cmplx(a1,b1)
-          ptz(0,i) = cmplx(a2,b2)
-          ptz(1,i) = cmplx(a3,b3)
+          ptz(-1,i)= dcmplx(a1,b1)
+          ptz(0,i) = dcmplx(a2,b2)
+          ptz(1,i) = dcmplx(a3,b3)
   90    continue
       close(3)
-c     read mod4.inp
-      open (file='mod4.inp', unit=3, status='old',iostat=ios)
-        read (3,10)  slog
-        read (3,20)  mpath, ms, nncrit, nlegxx, ipr4
-        read (3,10)  slog
-        read (3,30)  critpw, pcritk, pcrith,  rmax, rfms2
-      close(3)
+c--json--c     read mod4.inp
+c--json--      open (file='mod4.inp', unit=3, status='old',iostat=ios)
+c--json--        read (3,10)  slog
+c--json--        read (3,20)  mpath, ms, nncrit, nlegxx, ipr4
+c--json--        read (3,10)  slog
+c--json--        read (3,30)  critpw, pcritk, pcrith,  rmax, rfms2
+c--json--      close(3)
+
+      call json%load_file('path.json')
+      if (json_failed()) then   !if there was an error reading the file
+         print *, "failed to read path.json"
+         stop
+      else
+         call json%get('mpath',   mpath, found)
+                   if (.not. found) call bailout('mpath', 'path.json')
+         call json%get('ms',   ms, found)
+                   if (.not. found) call bailout('ms', 'path.json')
+         call json%get('nncrit',   nncrit, found)
+                   if (.not. found) call bailout('nncrit', 'path.json')
+         call json%get('nlegxx',   nlegxx, found)
+                   if (.not. found) call bailout('nlegxx', 'path.json')
+         call json%get('ipr4',   ipr4, found)
+                   if (.not. found) call bailout('ipr4', 'path.json')
+         call json%get('critpw',   toss, found)
+                   if (.not. found) call bailout('critpw', 'path.json')
+         critpw = real(toss)
+         call json%get('pcritk', toss, found)
+                   if (.not. found) call bailout('pcritk', 'path.json')
+         pcritk = real(toss)
+         call json%get('pcrith', toss, found)
+                   if (.not. found) call bailout('pcrith', 'path.json')
+         pcrith = real(toss)
+         call json%get('rmax',   toss, found)
+                   if (.not. found) call bailout('rmax', 'path.json')
+         rmax = real(toss)
+         call json%get('rfms2',  toss, found)
+                   if (.not. found) call bailout('rfms2', 'path.json')
+         rfms2 = real(toss)
+      end if
       
 c  !KJ Next section added to read EELS variables       5-06
 c     read eels.inp

@@ -129,19 +129,19 @@ c     the following disentangles the 2D arrays used for overlap into
 c     arrays that can be stored as json arrays, see POT/reapot.f line
 c     188 and following for how this gets reconstructed into a 2D array
       do 10 iph = 0, nph
-         write (vname, "(A3,I1)") "iphovr", iph
+         write (vname, "(A6,I1)") "iphovr", iph
          do 20 iovr = 1, novr(iph)
             itoss(iovr) = iphovr(iovr, iph)
  20      continue
          call json_value_add(m1, vname, itoss)
 
-         write (vname, "(A3,I1)") "nnovr", iph
+         write (vname, "(A5,I1)") "nnovr", iph
          do 30 iovr = 1, novr(iph)
             itoss(iovr) = nnovr(iovr, iph)
  30      continue
          call json_value_add(m1, vname, itoss)
 
-         write (vname, "(A3,I1)") "rovr", iph
+         write (vname, "(A4,I1)") "rovr", iph
          do 40 iovr = 1, novr(iph)
             rtoss(iovr) = rovr(iovr, iph)
  40      continue
@@ -548,7 +548,7 @@ c     188 and following for how this gets reconstructed into a 2D array
 
 
 
-      subroutine json_geom(iatph)
+      subroutine json_geom(iatph, rat, iphat)
 
       use json_module
 
@@ -557,8 +557,8 @@ c     188 and following for how this gets reconstructed into a 2D array
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
       double precision xx(nattx), yy(nattx), zz(nattx)
-      integer ib(nattx)
-      integer iatph(0:nphx)
+      double precision rat(3,natx)
+      integer ib(nattx), iphat(natx), iatph(0:nphx)
 
       integer  iunit
       type(json_value),pointer :: geom
@@ -567,24 +567,22 @@ c     188 and following for how this gets reconstructed into a 2D array
       ! root
       call json_value_create(geom)      ! create the value and associate the pointer
       call to_object(geom,'geom.json')  ! add the file name as the name of the overall structure
-
       
-      call json_value_add(geom, 'natt', natt)
-      call json_value_add(geom, 'natt', nph)
-      call json_value_add(geom, 'natt', iatph)
-      do 10 i=1,nattx
-         xx(i) = ratx(1,i)
-         yy(i) = ratx(2,i)
-         zz(i) = ratx(3,i)
+      call json_value_add(geom, 'natt',  natt)
+      call json_value_add(geom, 'nph',   nph)
+      call json_value_add(geom, 'iatph', iatph)
+      do 10 i=1,natt
+         xx(i) = rat(1,i)
+         yy(i) = rat(2,i)
+         zz(i) = rat(3,i)
          ib(i) = 1
  10   continue
-      call json_value_add(geom, 'x',   xx)
-      call json_value_add(geom, 'y',   yy)
-      call json_value_add(geom, 'z',   zz)
-      call json_value_add(geom, 'iph', iphatx)
-      call json_value_add(geom, 'ibo', ib)
+      call json_value_add(geom, 'x',   xx(1:natt))
+      call json_value_add(geom, 'y',   yy(1:natt))
+      call json_value_add(geom, 'z',   zz(1:natt))
+      call json_value_add(geom, 'iph', iphat(1:natt))
+      call json_value_add(geom, 'ibo', ib(1:natt))
 
-      
       open(newunit=iunit, file='geom.json', status='REPLACE')
       call json_print(geom,iunit)
       close(iunit)

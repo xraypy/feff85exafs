@@ -15,7 +15,7 @@ c     input
 
 c     work space
       complex*16 ph(lx+1, 0:nphx)
-      integer iph
+c      integer iph
       complex*16 em, eref
       character*512 slog
 c     fms staff

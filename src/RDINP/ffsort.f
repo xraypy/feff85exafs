@@ -258,7 +258,7 @@ c     Write output geom.dat
   536     format(i4, 3f13.5, 2i4)
   540   continue
       close(3)
-      call json_geom(iatph)
+      call json_geom(iatph,rat,iphat)
 
 c     Atoms for the pathfinder
       if (iatabs .le. 0)  then

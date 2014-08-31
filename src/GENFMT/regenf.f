@@ -2,7 +2,10 @@
      1            ipol, ispin, le2, angks, elpty, evec, xivec, ptz,
      2            elnes,ipmin,ipmax,ipstep)   !KJ added this line   1-06     
 
+      use json_module
       implicit double precision (a-h, o-z)
+      logical :: found
+      type(json_file) :: json   !the JSON structure read from the file:
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
@@ -46,9 +49,9 @@ c       global polarization data
         read  (3, 10) slog
         do 70 i = -1, 1
           read (3,30) a1, b1, a2, b2, a3, b3
-          ptz(-1,i)= cmplx(a1,b1)
-          ptz(0,i) = cmplx(a2,b2)
-          ptz(1,i) = cmplx(a3,b3)
+          ptz(-1,i)= dcmplx(a1,b1)
+          ptz(0,i) = dcmplx(a2,b2)
+          ptz(1,i) = dcmplx(a3,b3)
   70    continue
       close(3)
 c     read mod5.inp
@@ -58,6 +61,23 @@ c     read mod5.inp
   180   format ( 2i4, i8, f13.5, L5)
       close(3)
 
+
+      call json%load_file('genfmt.json')
+      if (json_failed()) then   !if there was an error reading the file
+         print *, "failed to read genfmt.json"
+         stop
+      else
+         call json%get('mfeff',   mfeff, found)
+                  if (.not. found) call bailout('mfeff', 'genfmt.json')
+         call json%get('ipr5',   ipr5, found)
+                  if (.not. found) call bailout('ipr5', 'genfmt.json')
+         call json%get('iorder',   iorder, found)
+                  if (.not. found) call bailout('iorder', 'genfmt.json')
+         call json%get('critcw',   critcw, found)
+                  if (.not. found) call bailout('critcw', 'genfmt.json')
+         call json%get('wnstar',   wnstar, found)
+                  if (.not. found) call bailout('wnstar', 'genfmt.json')
+      end if
 
 c  !KJ Next section added to read ELNES variables     1-06  
 c     read eels.inp

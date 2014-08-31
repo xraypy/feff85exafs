@@ -38,7 +38,8 @@ c     output
       complex*16  xrhoce(-4:3, -4:3)
       complex*16  ph(lx+1)
 
-      dimension ri(nrptx), ri05(251)
+      dimension ri(nrptx)
+c      dimension ri05(251)
       dimension  vtot(nrptx), vvalgs(nrptx)
       complex*16 vtotc(nrptx), vvalc(nrptx)
       dimension xnval(30), dgcn(nrptx,30), dpcn(nrptx,30)
@@ -50,7 +51,8 @@ c     energy grid in complex e-plane
 c     work space for dfovrg: regular and irregular solutions
       complex*16 pr(nrx,2,2), qr(nrx,2,2), pn(nrx,2,2), qn(nrx,2,2)
 
-      complex*16  p2, xkmt, ck, xck
+      complex*16  p2, xkmt, ck
+c      complex*16 xck
       complex*16  pu, qu
       complex*16  xfnorm, xirf, xmp, xpm
       complex*16  temp,  phx, phm(2,2), factor
@@ -69,14 +71,14 @@ c     initialize
   20  continue
 c     set imt and jri (use general Loucks grid)
 c     rmt is between imt and jri (see function ii(r) in file xx.f)
-      imt  = (log(rmt) + x0) / dx  +  1
+      imt  = int((log(rmt) + x0) / dx)  +  1
       jri  = imt+1
       if (jri .gt. nrptx)  call par_stop('jri .gt. nrptx in phase')
-      inrm = (log(rnrm) + x0) / dx  +  1
+      inrm = int((log(rnrm) + x0) / dx)  +  1
       jnrm = inrm+1
 
 c     set limits for tabulations
-      nr05= (log(rnrm) + x0) / 0.05d0 + 5
+      nr05= int((log(rnrm) + x0) / 0.05d0) + 5
       if (nr05.gt.251) nr05 = 251
 c     ilast is the last integration point
 c     it is larger than jnrm for better interpolations

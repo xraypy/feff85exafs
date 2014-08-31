@@ -13,7 +13,7 @@ bin_src = Split('ffmod4.f   ccrit.f   heap.f    ipack.f   mcrith.f  mcritk.f  mp
                  prcrit.f   sortix.f  timrep.f')
 
 env.Program('path', bin_src,
-        LIBS = ['feffcom', 'feffmath', 'feffpar'], \
-        LIBPATH = ['../COMMON', '../MATH', '../PAR'])
+        LIBS = ['feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../JSON/', '../MATH', '../PAR'])
 
 

@@ -468,8 +468,8 @@ c 8215       format(1x, i8, f12.5, 2f10.3, i6, f9.4) !KJ original code
  
 c           Tell user about the path we just did
             write(slog, 8225) ipath, crit, deg, nleg, reff*bohr
-c 8225       format (3x, i4, 2f10.3, i6, f9.4) !KJ original code
-8225       format (3x, i4, e15.4, f10.3, i6, f9.4) !KJ    1-06
+8225       format (3x, i4, 2f10.3, i6, f9.4) !KJ original code
+c 8225       format (3x, i4, e15.4, f10.3, i6, f9.4) !KJ    1-06
             call wlog(slog)
             nused = nused+1
          else

@@ -12,5 +12,5 @@ bin_src = Split('exconv.f  feffdt.f  ff2afs.f  ff2chi.f  ff2gen.f  ff2xmu.f  ffm
                  rdfbin.f  reff2x.f  xscorr.f')
 
 env.Program('ff2x', bin_src, \
-        LIBS = ['dw', 'feffcom', 'feffmath', 'feffpar'], \
-        LIBPATH = ['../DEBYE', '../COMMON', '../MATH', '../PAR'])
+        LIBS = ['dw', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../DEBYE', '../COMMON', '../JSON', '../MATH', '../PAR'])
