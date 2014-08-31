@@ -29,7 +29,7 @@ c      character*512 slog
 
 c     standard formats for string, integers and real numbers
 c  10  format(a)
-  20  format (20i4)
+c  20  format (20i4)
 c  30  format (6f13.5)
 
 c--json--cc    read global.inp
@@ -84,28 +84,10 @@ c--json--      close(3)
                   if (.not. found) call bailout('wnstar', 'genfmt.json')
       end if
 
-c  !KJ Next section added to read ELNES variables     1-06  
-c     read eels.inp
-      elnes=0
-      open(file='eels.inp',unit=3,status='old',err=900)
-        read(3,*,err=900,end=900) 
-        read(3,20,err=900,end=900) elnes
-        read(3,*,err=900,end=900)
-        read(3,*,err=900,end=900)
-        read(3,*,err=900,end=900)
-        read(3,20,err=900,end=900) ipmin,ipstep,ipmax
-      close(3)
-      goto 901
-900   continue
-      elnes=0
-901   continue
-      if(elnes.eq.0) then
-        ipstep=1
-        ipmax=1
-        ipmin=1
-      endif
-               
-c  !KJ end my changes
+      elnes  = 0
+      ipstep = 1
+      ipmax  = 1
+      ipmin  = 1
 
       return
       end

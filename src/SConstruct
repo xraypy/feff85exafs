@@ -6,7 +6,8 @@ env = Environment()
 print '\n\tFortran compiler is ' + env['FORTRAN'] + '\n'
 
 
-SConscript(['PAR/SConstruct',    \
+SConscript([\
+            'PAR/SConstruct',    \
             'COMMON/SConstruct', \
             'JSON/SConstruct',   \
             'MATH/SConstruct',   \
@@ -14,13 +15,14 @@ SConscript(['PAR/SConstruct',    \
             'DEBYE/SConstruct',  \
             'EXCH/SConstruct',   \
             'FOVRG/SConstruct',  \
+            'FMS/SConstruct',    \
             'RDINP/SConstruct',  \
             'POT/SConstruct',    \
-	    'FF2X/SConstruct',   \
             'XSPH/SConstruct',   \
-            'FMS/SConstruct',    \
             'PATH/SConstruct',   \
-            'GENFMT/SConstruct'])
+            'GENFMT/SConstruct', \
+	    'FF2X/SConstruct',   \
+        ])
 
 # POT    -> module 1
 # XSPH   -> module 2

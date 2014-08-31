@@ -189,7 +189,7 @@ c     ckp is ck' = ck prime.
             xlam0 = aimag(ck(ie)) - dimag(ckp)
             do 170  ipath = 1, nptot
                achi(ie,ipath) = achi(ie,ipath) * 
-     1               exp (2 * reff(ipath) * xlam0)
+     1               real(exp (2 * reff(ipath) * xlam0))
   170       continue
   180    continue
       endif
@@ -201,7 +201,7 @@ c           interpolations with original grid.
 
 c     vrcorr shifts the edge and the k grid
       if (abs(vrcorr) .gt. eps4)  then
-         edge = edge - vrcorr
+         edge = edge - real(vrcorr)
       endif
 
 c     ik0 is index at fermi level

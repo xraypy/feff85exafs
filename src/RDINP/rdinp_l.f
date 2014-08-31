@@ -718,7 +718,6 @@ c              Change mode and process current card.
             endif
 c           No potential label if user didn't give us one
 c           Default set above is potlbl=' '
-c           concatinate to the correct length -BR 2014.08.28
             if (nwords .ge. 3)  potlbl(iph) = words(3)(1:6)
             if (nwords .ge. 4)  then
               read(words(4),20,err=900) ltmp
@@ -1067,7 +1066,7 @@ c       no SCF loop
       nttl = ntitle
 
 c     write atoms.dat, global.inp, modN.inp and ldos.inp
-      call wrtall (nabs)
+c      call wrtall (nabs)
       call wrtjsn (nabs)
 
 c     In case of OVERLAP and SS calculateions write 'paths.dat'

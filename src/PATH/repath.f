@@ -132,21 +132,7 @@ c--json--      close(3)
          call json%get('rfms2',  toss, found)
                    if (.not. found) call bailout('rfms2', 'path.json')
          rfms2 = real(toss)
-      end if
-      
-c  !KJ Next section added to read EELS variables       5-06
-c     read eels.inp
-      eels=0
-      open(file='eels.inp',unit=3,status='old',err=900)
-        read(3,*,err=900,end=900) 
-        read(3,20,err=900,end=900) eels
-      close(3)
-      goto 901
-900   continue
-      eels=0
-901   continue
-c  !KJ end my changes 
-      
+      end if      
 
       return
       end

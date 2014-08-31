@@ -202,26 +202,6 @@ c--json--      close(3)
 
       end if
 
-!KJ next section added for ELNES calculations 1-06
-      open(3,file='eels.inp',status='old',err=100)
-        read(3,*)
-        read(3,20,end=100,err=100) melnes
-      close(3)
-      if(melnes.eq.1.and.mphase.eq.1) then
-        call wlog(':INFO : rexsph reduces your polarization tensor to 
-     1   the unit matrix, because eels.inp says you are doing ELNES.')
-        do i=-1,1
-        do j=-1,1
-        ptz(i,j)=dcmplx(0,0)
-        enddo
-          ptz(i,i)=dble(1)/dble(3)
-          write(*,*) (ptz(i,j),j=-1,1)
-        enddo
-      endif
-100   continue
-c !KJ end of my modifications      
-
-
 
 c     transform to code units (bohrs and hartrees - atomic unuts)
       rfms2 = rfms2 / real(bohr)

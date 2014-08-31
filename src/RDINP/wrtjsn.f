@@ -19,12 +19,12 @@ c        (i.e. one has to make modifications in 3 places)
 
       call json_mod1()
       call json_mod2()
-      call json_mod3()
+c      call json_mod3()
       call json_mod4()
       call json_mod5()
       call json_mod6()
 
-      call json_s02()
+c      call json_s02()
       call json_atoms()
       call json_global(nabs)
 

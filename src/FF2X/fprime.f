@@ -11,7 +11,8 @@ c      mu(omega) = xsec + xsnorm*chia  + (cchi)
 
       dimension  xsnorm(nex), omega(nex)
       complex*16 emxs(nex), xsec(nex), chia(nex), cchi(nex) 
-      complex*16 xmu(nex), aa, bb, c1, x1, x2, ec, temp
+      complex*16 xmu(nex), aa, bb, temp
+c      complex*16 c1, ec, x1, x2
       complex*16 xmup(nex)
       dimension emp(nex)
       parameter (eps4 = 1.0d-4)

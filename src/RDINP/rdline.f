@@ -178,8 +178,7 @@ c   note: iunit, iexist, and ierr may be overwritten by this routine
        character*(*)  file, status, stat*10
        integer        iunit, iexist, ierr
        logical        exist
-c                     opend removed from logical decalration -BR 2014.08.28
-c
+
 c make sure there is a unit number and file name
        ierr   = -3
        iexist =  -1

@@ -417,6 +417,32 @@ def ut(folder=None, _larch=None, **kws):
     """
     return Feff85exafsUnitTestGroup(folder=folder, _larch=_larch)
 
+def ir(folder=None, _larch=None, **kws):
+    """
+    _i_mport and _r_un
+    """
+    utobj=ut(folder)
+    utobj.run()
+    return utobj
+
+def irc(folder=None, _larch=None, **kws):
+    """
+    _i_mport, _r_un, and _c_ompare
+    """
+    utobj=ut(folder)
+    utobj.run()
+    utobj.compare(1)
+    return utobj
+
+def irf(folder=None, _larch=None, **kws):
+    """
+    _i_mport, _r_un, and _f_it
+    """
+    utobj=ut(folder)
+    utobj.run()
+    utobj.fit()
+    return utobj
+
 def registerLarchPlugin(): # must have a function with this name!
-    return ('f85ut', { 'ut': ut })
+    return ('f85ut', { 'ut': ut, 'ir': ir, 'irc': irc, 'irf': irf })
     

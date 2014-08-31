@@ -47,7 +47,6 @@ c       global polarization data
         do 60 i = 1,3
           write (3,30) evec(i), xivec(i), spvec(i)
   60    continue
-
         write (3, 10) ' polarization tensor '
         do 70 i = -1, 1
           write(3,30) dble(ptz(-1,i)), dimag(ptz(-1,i)), dble(ptz(0,i)),
@@ -79,18 +78,6 @@ c       for OVERLAP option
         do 150 iph = 0, nph
         do 150 iovr = 1, novr(iph)
   150   write(3,140) iphovr(iovr, iph), nnovr(iovr,iph), rovr(iovr,iph)
-      close(3)
-
-cc    ldos.inp
-      open (file='ldos.inp', unit=3, status='unknown',iostat=ios)
-        write(3,10) 'mldos, lfms2, ixc, ispin, minv'
-        write(3,20)  mldos, lfms2, ixc, ispin, minv
-        write(3,10) 'rfms2, emin, emax, eimag, rgrd'
-        write(3,30)  rfms2, emin, emax, eimag, rgrd
-        write(3,10) 'rdirec, toler1, toler2'
-        write(3,30)  rdirec, toler1, toler2
-        write(3,10) ' lmaxph(0:nph)'
-        write(3,20)  (lmaxph(iph),iph=0,nph)
       close(3)
 
 cc    mod2.inp
@@ -151,41 +138,16 @@ cc    mod6.inp
         write(3,30)  tk, thetad, alphat, thetae, sig2g
       close(3)
 
-cc    so2.inp - Josh Kas
-      open (file='s02.inp', unit=3, status='unknown',iostat=ios)
-        write(3,10) 'mso2conv, ipse, ipsk'
-        write(3,20)  mso2conv, ipse, ipsk
-        write(3,10) 'wsigk, cen'
-        write(3,30) wsigk, cen
-        write(3,10) 'ispec, ipr6'
-        write(3,20)  ispec, ipr6
-        write(3,10) 'cfname'
-        write(3,10) cfname
-      close(3)
-
-cc    eels.inp        !KJ 1-06 write EELS data to file
-      open(file='eels.inp',unit=3,status='unknown',iostat=ios)
-        write(3,10) 'calculate ELNES?'
-        write(3,20) eels
-        write(3,10) 'average? relativistic? cross-terms? Which input?'
-        write(3,20) aver, relat, cross, iinput, spcol
-        write(3,10) 'polarizations to be used ; min step max'
-        write(3,20) ipmin,ipstep,ipmax
-        write(3,10) 'beam energy in eV'
-        write(3,30) ebeam
-        write(3,10) 'beam direction in arbitrary units'
-        write(3,30) xivec
-        write(3,10) 'collection and convergence semiangle in rad'
-        write(3,30) acoll,aconv
-        write(3,10) 'qmesh - radial and angular grid size'
-        write(3,20) nqr,nqf
-        write(3,10) 'detector positions - two angles in rad'
-        write(3,30) thetax,thetay
-        write(3,10) 'calculate magic angle if magic=1'
-        write(3,20) magic
-        write(3,10) 'energy for magic angle - eV above threshold'
-        write(3,30) emagic
-      close(3)
-c KJ      
+c$$$cc    so2.inp - Josh Kas
+c$$$      open (file='s02.inp', unit=3, status='unknown',iostat=ios)
+c$$$        write(3,10) 'mso2conv, ipse, ipsk'
+c$$$        write(3,20)  mso2conv, ipse, ipsk
+c$$$        write(3,10) 'wsigk, cen'
+c$$$        write(3,30) wsigk, cen
+c$$$        write(3,10) 'ispec, ipr6'
+c$$$        write(3,20)  ispec, ipr6
+c$$$        write(3,10) 'cfname'
+c$$$        write(3,10) cfname
+c$$$      close(3)
       return
       end
