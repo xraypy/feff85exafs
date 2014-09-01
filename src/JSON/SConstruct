@@ -8,7 +8,7 @@ from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
 
-lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f']
+lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f', 'read_fpf0.f']
 
 env.StaticLibrary('libfeffjson', lib_src)
 

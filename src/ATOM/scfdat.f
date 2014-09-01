@@ -389,9 +389,9 @@ c          to handle special case when electron added to new orbital
 
 c        need better control here. for now always print fpf0.dat
 c        if (ipr1.ge.3) call  fpf0 ( iz, iholep, srho, dr, hx,
-         call  fpf0 ( iz, iholep, srho, dr, hx,
-     1     dgc0, dpc0, dgc, dpc,
-     2     eatom, xnel, norb, eorb, kappa)
+c         call  fpf0 ( iz, iholep, srho, dr, hx,
+c     1     dgc0, dpc0, dgc, dpc,
+c     2     eatom, xnel, norb, eorb, kappa)
 
          call s02at (iholep, norb, kap, xnel, ovpint, s02)
 c        print*,'z=',iz, '   s02 calculated = ', s02

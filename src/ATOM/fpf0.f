@@ -4,7 +4,11 @@
 c      everything is input. output is written in fpf0.dat
 c      to be read by ff2afs.f to get scattering amplitude
 
+      use json_module
       implicit double precision (a-h,o-z)
+      integer  iunit
+      type(json_value),pointer :: fp
+      double precision,dimension(81) :: qval, xirfval
 
       include '../HEADERS/dim.h'
       include '../HEADERS/const.h'
@@ -27,6 +31,14 @@ c     output arrays
      1        ' total energy part of fprime - 5/3*E_tot/mc**2'
   10    format (2(1pe19.5), a)
         open_16 = .true.
+        
+        call json_value_create(fp)
+        call to_object(fp,'fpf0.json')
+        call json_value_add(fp, 'iz', iz)
+        call json_value_add(fp, 'comment',
+     1       'total energy part of fprime - 5/3*E_tot/mc**2')
+        call json_value_add(fp, 'etot', eatom *alphfs**2 *5/3)
+        call json_value_add(fp, 'fpcorr', fpcorr)
       else
         open_16 = .false.
       endif
@@ -102,6 +114,10 @@ c     write down information about oscillators
           write(16,220) oscstr(i), enosc(i), index(i)
   220     format ( f9.5, f12.3, i4)
   210   continue
+        call json_value_add(fp, 'nosc',   nosc)
+        call json_value_add(fp, 'oscstr', oscstr(1:nosc))
+        call json_value_add(fp, 'enosc',  enosc(1:nosc))
+        call json_value_add(fp, 'index',  index(1:nosc))
       endif
 
 c     calculate and write out f0(Q) on grid delq=0.5 Angstorm**(-1)
@@ -117,9 +133,21 @@ c        srho is 4*pi*density
   560    continue
          xirf = 2.d0
          call somm (dr, xpc, xqc, hx, xirf, 0, np)
-         if (open_16) write (16, 570) 0.5*(iq-1), xirf
+         if (open_16) then
+            write (16, 570) 0.5*(iq-1), xirf
+            qval(iq) = 0.5*(iq-1)
+            xirfval(iq) = xirf
+         endif
   570    format ( f5.1, 1x, f9.4)
   300 continue
+      if (open_16) then
+        call json_value_add(fp, 'qval',    qval)
+        call json_value_add(fp, 'xirfval', xirfval)         
+        open(newunit=iunit, file='fpf0.json', status='REPLACE')
+        call json_print(fp,iunit)
+        close(iunit)
+        call json_destroy(fp)
+      endif
 
       if (open_16) close(unit=16)
 
