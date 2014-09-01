@@ -69,6 +69,7 @@
          ptz(-1, 1) = dcmplx(dbpcs(1), dbpcs(2))
          ptz( 0, 1) = dcmplx(dbpcs(3), dbpcs(4))
          ptz( 1, 1) = dcmplx(dbpcs(5), dbpcs(6))
+         call json%destroy()
       end if
 
       return

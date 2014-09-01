@@ -132,6 +132,7 @@ c--json--      close(3)
          call json%get('rfms2',  toss, found)
                    if (.not. found) call bailout('rfms2', 'path.json')
          rfms2 = real(toss)
+         call json%destroy()
       end if      
 
       return

@@ -35,6 +35,7 @@
             rat(2,i)  = dbpcy(i)
             rat(3,i)  = dbpcz(i)
  20      continue
+         call json%destroy()
       end if
 
       return

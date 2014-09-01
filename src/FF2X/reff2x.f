@@ -89,6 +89,7 @@ c--json--      close(3)
                    if (.not. found) call bailout('thetae', 'ff2x.json')
          call json%get('sig2g',   sig2g, found)
                    if (.not. found) call bailout('sig2g', 'ff2x.json')
+         call json%destroy()
       end if
       
       elnes  = 0

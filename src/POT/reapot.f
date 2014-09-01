@@ -213,6 +213,7 @@ c        RDINP/wrtjsn.f line 131 and following
  1240       continue
  1200    continue
 
+         call json%destroy()
       end if
 
 c     transform to code units (bohrs and hartrees - atomic unuts)

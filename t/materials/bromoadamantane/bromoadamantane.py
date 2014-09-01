@@ -77,8 +77,8 @@ def do_fit(self, which):
         _plot(dset.model.r, dset.model.chir_mag, label='fit', win=2, _larch=self._larch)
     #end if
     
-    #if self.verbose:
-    #    print feffit_report(fit)
+    if self.verbose:
+        print feffit_report(fit, _larch=self._larch)
     #end if
 
     return fit

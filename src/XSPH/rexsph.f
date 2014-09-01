@@ -200,6 +200,7 @@ c--json--      close(3)
             spinph(iph) = dbpcs(iph+1)            
  1020    continue
 
+         call json%destroy()
       end if
 
 

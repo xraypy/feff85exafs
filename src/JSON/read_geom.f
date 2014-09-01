@@ -53,6 +53,7 @@ c     this line follows how iatph was set as data was read from geom.dat
             if (iphat(i).gt.nph) nph = iphat(i)
             if ( iatph(iphat(i)).eq.0) iatph(iphat(i)) = i
  20      continue
+         call json%destroy()
       end if
 
       return

@@ -82,6 +82,7 @@ c--json--      close(3)
                   if (.not. found) call bailout('critcw', 'genfmt.json')
          call json%get('wnstar',   wnstar, found)
                   if (.not. found) call bailout('wnstar', 'genfmt.json')
+         call json%destroy()
       end if
 
       elnes  = 0

@@ -61,7 +61,7 @@ def do_fit(self, which):
     #end if
     
     if self.verbose:
-        print feffit_report(fit)
+        print feffit_report(fit, _larch=self._larch)
     #end if
 
     return fit

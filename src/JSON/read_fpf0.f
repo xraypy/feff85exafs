@@ -28,6 +28,7 @@
             oscstr(i) = dbpcs(i)
             enosc(i)  = dbpce(i)
  20      continue
+         call json%destroy()
       end if
 
       return
