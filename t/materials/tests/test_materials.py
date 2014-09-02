@@ -59,20 +59,20 @@ def test_s02():
         yield check_s02, f
 
 ## check various fitting and statistical parameters from a canned fit
-def test_fit():
-    for f in folders:
-        #if not tests[f].feffran: tests[f].run()
-        if isfile(join(tests[f].path, tests[f].folder+'.skip')):
-            yield check_true, "skipping data test for %s" % f
-        elif isfile(join(tests[f].path, tests[f].folder+'.py')):
-            tests[f].fit()
-            for p in tests[f].blfit.params.covar_vars:
-                yield check_param, f, p, 'value'
-                yield check_param, f, p, 'stderr'
-                for p in ('chi_reduced', 'chi_square', 'rfactor'):
-                    yield check_stat, f, p
-        else:
-            yield check_true, "no data tests for %s" % f
+# def test_fit():
+#     for f in folders:
+#         #if not tests[f].feffran: tests[f].run()
+#         if isfile(join(tests[f].path, tests[f].folder+'.skip')):
+#             yield check_true, "skipping data test for %s" % f
+#         elif isfile(join(tests[f].path, tests[f].folder+'.py')):
+#             tests[f].fit()
+#             for p in tests[f].blfit.params.covar_vars:
+#                 yield check_param, f, p, 'value'
+#                 yield check_param, f, p, 'stderr'
+#                 for p in ('chi_reduced', 'chi_square', 'rfactor'):
+#                     yield check_stat, f, p
+#         else:
+#             yield check_true, "no data tests for %s" % f
 
 ## remove the test run
 def test_clean():

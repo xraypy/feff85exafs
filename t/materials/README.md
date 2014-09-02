@@ -75,8 +75,8 @@ following must be true:
 5. There **must** be a folder called `baseline` which has folders
    called `withSCF` and `noSCF`. These contain the baseline
    calculations with and without self-consistency.
-6. If you provide an Athena project file, is should be called
-   Ceria.prj.
+6. If you provide an Athena project file, it should be called
+   `Ceria.prj`.
 7. If fits to data are part of the test, there must be a file called
    `Ceria.py` containing python code defining the fit to the data.
 8. You must add `Ceria` to the folders tuple at the top of
@@ -154,6 +154,9 @@ actual tests are made.  I find it helpful to run `nosetests
 --verbosity=3`, which gives some feedback about what is actually
 happening.
 
+*At the moment, all data tests are disabled when running through Nose.*
+
+
 #### Run Feff with self-consistency
 
 set the `FEFF_TEST_SCF` environment variable to `True`.  With bash,
@@ -207,6 +210,9 @@ To run Feff with self-consistency, do
 
 	 larch> my_ut.doscf=True
 
+The Feff run is, of course, much more time consuming with
+self-consistency.
+
 To see whether the calculation of the first path differs from the
 baseline calculation, do
 
@@ -240,20 +246,13 @@ To test to see if a path index was saved from the Feff calculation
      larch>     my_ut.compare(nnnn)
      larch> end if
 
-To run Feff and do the comparisons using self-consistency by setting
-
-     larch> my_ut.doscf = True
-
-The Feff run is, of course, much more time consuming with
-self-consistency.
-
 To examine various quantities from the Feff calculation:
 
      larch> print my_ut.feffterms
 	 larch> print my_ut.radii('testrun', 'muffintin') my_ut.radii(baseline', 'muffintin') 
 	 larch> print my_ut.s02('testrun') my_ut.s02(baseline') 
 
-Some of  the materials have data tests.  This
+Some of the materials have data tests.  This
 
      larch> my_ut.fit()
 
@@ -269,6 +268,14 @@ Finally, clean up the test run by doing:
 
      larch> my_ut.clean()
 
+Some convenience functions exported by the plugin:
+
+* use `my_ut = ir('Copper')` to define the unit testing object and run feff
+* use `my_ut = irc('Copper')` to define the unit testing object, run
+  feff, and make a comparison for first path
+* use `my_ut = irf('Copper')` to define the unit testing object, run
+  feff, and run the fit
+
 
 # Still to do
 
@@ -276,12 +283,12 @@ Finally, clean up the test run by doing:
   iterations as a unit test
 
 * More materials:
-   + something computed with polarization (verify JSON/read_global.f)
-   + something computed with polarization + ellipticity
-   + A polymer, i.e. something pseudo-one-dimensional
-   + Something from the first row of the periodic table
-   + Something with lead as the absorber
-   + Something from column 1 or column 2 of the periodic table
-   + Something with a ring structure and strong, high-order MS paths
-     (paradibromobenzene, perhaps)
-   + americium, a transuranic that was above Feff6's Z cutoff
+	+ something computed with polarization (verify JSON/read_global.f)
+	+ something computed with polarization + ellipticity
+	+ A polymer, i.e. something pseudo-one-dimensional
+	+ Something from the first row of the periodic table
+	+ Something with lead as the absorber
+	+ Something from column 1 or column 2 of the periodic table
+	+ Something with a ring structure and strong, high-order MS paths
+      (paradibromobenzene, perhaps)
+	+ americium, a transuranic that was above Feff6's Z cutoff

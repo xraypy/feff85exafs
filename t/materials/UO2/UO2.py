@@ -22,15 +22,15 @@ def do_fit(self, which):
 
     data = read_xdi(join(self.path, 'UO2.chik'), _larch=self._larch)
 
-    gds = Group(amp    = Parameter(1,     vary=True),
-                enot   = Parameter(0,     vary=True),
-                sso    = Parameter(0.003, vary=True),
-                ssu    = Parameter(0.003, vary=True),
-                sso2   = Parameter(0.003, vary=True),
-                dro    = Parameter(0.0,   vary=True),
-                dru    = Parameter(0.0,   vary=True),
-                dro2   = Parameter(0.0,   vary=True),
-                nu     = Parameter(12,    vary=True),
+    gds = Group(amp    = Parameter(1,      vary=True),
+                enot   = Parameter(0.01,   vary=True),
+                sso    = Parameter(0.003,  vary=True),
+                ssu    = Parameter(0.003,  vary=True),
+                sso2   = Parameter(0.003,  vary=True),
+                dro    = Parameter(0.0001, vary=True),
+                dru    = Parameter(0.0001, vary=True),
+                dro2   = Parameter(0.0001, vary=True),
+                nu     = Parameter(12,     vary=True),
                 no2    = Parameter(expr='2*nu'),
                 _larch=self._larch  )
 

@@ -21,9 +21,9 @@ def do_fit(self, which):
 
     data = read_xdi(join(self.path, 'bromoadamantane.chik'), _larch=self._larch)
 
-    gds = Group(amp     = Parameter(0.9,       vary=True),
-                enot    = Parameter(0.0,       vary=True),
-                delr    = Parameter(0.0,       vary=True),
+    gds = Group(amp     = Parameter(1.021,     vary=False),
+                enot    = Parameter(4.01,      vary=True),
+                delr    = Parameter(-0.007,    vary=True),
                 brc     = Parameter(expr = '1.9521+delr'),
                 ss      = Parameter(0.003,     vary=True),
                 phir    = Parameter(109.29960 * 3.141592653589793 / 180,   vary=False),
@@ -31,10 +31,10 @@ def do_fit(self, which):
                 tanbeta = Parameter(expr = '(brc+cc)*tan(phir/2) / (brc-cc)'),
                 beta    = Parameter(expr = 'atan(tanbeta)'),
                 brc2    = Parameter(expr = '(brc-cc)*cos(phir/2)/cos(beta)'),
-                drh     = Parameter(0.0,       vary=True),
-                ssh     = Parameter(0.003,     vary=True),
+                drh     = Parameter(0.04,      vary=True),
+                ssh     = Parameter(0.005,     vary=True),
                 ss2     = Parameter(expr = 'ss*(brc2/brc)**2'),
-                c3      = Parameter(0.0,       vary=True), _larch=self._larch  )
+                c3      = Parameter(-0.0007,   vary=True), _larch=self._larch  )
 
     paths = list()
     paths.append(feffpath(realpath(join(folder, "feff0001.dat")),
