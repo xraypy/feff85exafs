@@ -108,6 +108,14 @@ following must be true:
    between two 5 member carbon rings, so it has 10 C neighbors at a range
    of distances from 2.026 A to 2.099 A
 
+7. **lanthanum cuprate**: this is an orthorhombic crystal with the
+   copper atom in an octahedral configuration.  The oxygen atoms along
+   the z axis are much farther away than the ones in the plane.  This,
+   then, is a test that involves Feff's polarization and ellipticity
+   calculations.  There is one folder for calculating with the
+   incident light parallel to the z axis (polarizatin only) and one
+   for light perpendicular to  the z axis (polarizatin and ellipticity).
+
 ---
 
 ## Installing and using the unit testing tool
