@@ -42,6 +42,10 @@ with open(join(target,'feff.inp'), 'w') as inp:
 
 chdir(target)
 
+
+## location of script for running a version of feff85exafs from the
+## beginning of unit test developments,
+## https://github.com/xraypy/feff85exafs/commit/cac0f8c90749ce52581a658c5a6c8ae144cc2211
 f85escript = join(repotop, 'bin', 'f85e')
 ## run the f85e shell script, which emulates the behavior of the monolithic Feff application
 subprocess.call(f85escript);

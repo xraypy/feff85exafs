@@ -10,7 +10,7 @@ import re
 from os import getenv
 from os.path import isfile, isdir, join
 
-folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane')
+folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane', 'LCO-para', 'LCO-perp')
 tests   = dict()
 doscf   = getenv('FEFF_TEST_SCF', 'False')
 

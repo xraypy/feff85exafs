@@ -16,7 +16,6 @@ from feffdat import feffpath
 use_plugin_path('wx')
 from plotter import (_newplot, _plot)
 
-
 class Feff85exafsUnitTestGroup(Group):
     """
     A group for performing unit tests on feff85exafs.

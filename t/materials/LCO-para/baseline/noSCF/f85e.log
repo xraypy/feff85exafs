@@ -1,11 +1,9 @@
 Beginning feff85exafs calculation
-
-======= running module 1: RDINP ====================================================
+======= running module 0: RDINP ====================================================
  Feff 8.50L
  La2CuO4, Radaelli et al, PRB 49(6) 4163 (1994)
  doi:10.1103/PhysRevB.49.4163
-
-======= running module 2: POT ====================================================
+======= running module 1: POT ====================================================
  Calculating potentials ...
     free atom potential and density for atom type    0
     free atom potential and density for atom type    1
@@ -24,19 +22,17 @@ Beginning feff85exafs calculation
     3  1.08097E+00  1.03139E+00  1.12632E+00
  mu_old=    -3.009
  Done with module 1: potentials.
-
-======= running module 3: XSPH ====================================================
+======= running module 2: XSPH ====================================================
  Calculating cross-section and phases...
-  0.63546537634452849        4.6708560078231957E-004   3.1773268817226426E-002          11
+  0.63546470930994858        4.6708511049243264E-004   3.1773235465497429E-002          11
     absorption cross section
- dx=   5.0000000000000003E-002
+ dx=   5.0000000745058060E-002
     phase shifts for unique potential    0
     phase shifts for unique potential    1
     phase shifts for unique potential    2
     phase shifts for unique potential    3
  Done with module 2: cross-section and phases...
-
-======= running module 4: PATH ====================================================
+======= running module 3: PATH ====================================================
  Preparing plane wave scattering amplitudes...
  Searching for paths...
    WARNING:  rmax > distance to most distant atom.
@@ -49,35 +45,33 @@ Beginning feff85exafs calculation
     Plane wave chi amplitude filter   2.50%
     Unique paths     17,  total paths      82
  Done with module 4: pathfinder.
-
-======= running module 5: GENFMT ====================================================
+======= running module 4: GENFMT ====================================================
  Calculating EXAFS parameters...
  doing ip =            1
     Curved wave chi amplitude ratio   4.00%
     Discard feff.dat for paths with cw ratio <   2.67%
     path  cw ratio     deg    nleg  reff
-      1     0.1000E+03     4.000     2   1.9044
-      2     0.9358E+03     2.000     2   2.4277
-      3     0.2340E+03     2.000     2   3.2308
-      4     0.4611E+03     4.000     2   3.2413
-      5     0.3467E+01     4.000     3   3.2437
-      6     0.4536E+01     4.000     3   3.2582
-      7     0.2162E+03     2.000     2   3.2872
-      8     0.1024E+03     8.000     3   3.7075
-      9     0.1204E+03     8.000     3   3.7101
-     10     0.1133E+02     4.000     2   3.8035
-     11     0.2003E+02     8.000     3   3.8061
-     12     0.3253E+01     4.000     3   3.8088
+      1   100.000     4.000     2   1.9044
+      2   935.775     2.000     2   2.4277
+      3   233.958     2.000     2   3.2308
+      4   461.070     4.000     2   3.2413
+      5     3.467     4.000     3   3.2437
+      6     4.536     4.000     3   3.2582
+      7   216.237     2.000     2   3.2872
+      8   102.380     8.000     3   3.7075
+      9   120.371     8.000     3   3.7101
+     10    11.332     4.000     2   3.8035
+     11    20.035     8.000     3   3.8061
+     12     3.253     4.000     3   3.8088
      13     1.873     4.000     4   3.8088 neglected
      14     1.982     4.000     4   3.8088 neglected
-     15     0.1024E+02     4.000     4   3.8088
-     16     0.1961E+02     8.000     3   3.8655
-     17     0.1840E+02     8.000     3   3.8885
+     15    10.238     4.000     4   3.8088
+     16    19.607     8.000     3   3.8655
+     17    18.396     8.000     3   3.8885
    15 paths kept,   17 examined.
  Done with module 5: F_eff.
 Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
-
-======= running module 6: FF2X ====================================================
+======= running module 5: FF2X ====================================================
  Calculating chi...
  feffdt, feff.bin to feff.dat conversion Feff 8.50L
  La2CuO4, Radaelli et al, PRB 49(6) 4163 (1994)                   Feff 8.50L
