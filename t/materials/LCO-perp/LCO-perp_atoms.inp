@@ -1,0 +1,10 @@
+title La2CuO4, Radaelli et al, PRB 49(6) 4163 (1994)
+title doi:10.1103/PhysRevB.49.4163
+space =  Bmab 
+a = 5.3574  b = 5.4005  c = 13.1555
+core = Cu
+atoms
+  La  0   -0.0063  0.3613   La
+  Cu  0    0       0        Cu
+  O   0.25 0.25   -0.0076   O1
+  O   0    0.0343  0.1840   O2
