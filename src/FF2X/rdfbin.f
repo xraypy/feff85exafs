@@ -64,7 +64,8 @@ c------------------------------------------------------------------
        integer nphx, nex, npathx, nlegx, npaths
        integer i, j, ivers, nexmax
        character*(*) fbfile
-       character*(*) potlbl(0:nphx), filnam*128, str*128, msg*256
+       character*(*) potlbl(0:nphx), filnam*128, str*128
+c       character*(*) msg*256
        integer iorder,  index(npathx), nleg(npathx)
        integer ne, npot, ipot(nlegx,npathx), iz(0:nphx)
        integer istrln, ier1, ier2, ier3, nwords, npadx, nwordx
@@ -76,8 +77,10 @@ c------------------------------------------------------------------
        character*20 words(nwordx)
        real     rat(3,nlegx,npathx), beta(nlegx,npathx)
        real     eta(nlegx,npathx),  ri(nlegx,npathx)
-       real     achi(nex,npathx), phchi(nex,npathx), tmpr(nexmax)
-       complex  phc(nex), ck(nex), tmpc(nexmax)
+       real     achi(nex,npathx), phchi(nex,npathx)
+c       real tmpr(nexmax)
+       complex  phc(nex), ck(nex)
+c       complex tmpc(nexmax)
        external  istrln
 
 c open feff.bin
@@ -164,9 +167,9 @@ c  read path  info "##" line  and retrieve all the stuff from it
           call str2re(words(3),  deg(i), ier3)
           if ((ier1.ne.0).or.(ier2.ne.0).or.(ier3.ne.0)) go to 910
           call str2dp(words(4),  tmpdp, ier2)
-          reff(i) = tmpdp / bohr
+          reff(i) = real(tmpdp / bohr)
           call str2dp(words(5),  tmpdp, ier3)
-          crit(i) = tmpdp
+          crit(i) = real(tmpdp)
           if ((ier1.ne.0).or.(ier2.ne.0).or.(ier3.ne.0)) go to 910
           npaths = npaths + 1
           do 230 j = 1, nleg(i)

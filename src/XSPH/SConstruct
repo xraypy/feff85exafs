@@ -15,6 +15,6 @@ bin_src = Split('acoef.f   ffmod2.f  getedg.f  phmesh.f   radint.f  rexsph.f  rh
 other_objects = ['../FF2X/xscorr.o', '../POT/grids.o']
 
 env.Program('xsph', bin_src + other_objects,
-        LIBS = ['int', 'pha', 'atom', 'feffcom', 'exch', 'feffmath', 'fms', 'feffpar'], \
-        LIBPATH = ['../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../POT', '../PAR'])
+            LIBS = ['int', 'pha', 'atom', 'feffcom', 'exch', 'feffmath', 'fms', 'feffpar', 'jsonfortran', 'feffjson'], \
+            LIBPATH = ['../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../POT', '../PAR', '../JSON'])
 

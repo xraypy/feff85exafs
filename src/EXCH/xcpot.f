@@ -80,8 +80,9 @@ c     Rs1(NRPts) - Array of Rs points for interpolation
       integer NRPts, lastPl
       parameter (tol=0.0004)
       parameter (NRPts=10)
-      double precision WpCorr(MxPole), rsTmp, WpTmp, 
+      double precision WpCorr(MxPole), rsTmp,
      &     AmpFac(MxPole), Gamma(MxPole)
+c      double precision  WpTmp
       double precision RsInt, DRs, delrHL(NRPts), deliHL(NRPts),
      &     Rs1(NRPts), dx, x0, volume, totvol, rnrm, ri, riInt, omp,
      &     ompmax 
@@ -376,21 +377,21 @@ c	 Josh END
          end if
          if(volume.lt.0.d0) volume = 0.d0
          omp = SQRT(3.d0/rs**3)
-         write(39,'(I5,20f30.10)') i, dble(em-xmu), volume/totvol,
-     &        exp((i-1)*dx - x0)*bohr,
-     &        rnrm*bohr, densty(i), denval(i), dble(volume*delta),
-     &        dimag(volume*delta), omp*hart, omp-ompm1
-         ompm1 = omp
-         delavg = delavg + volume*delta
+c         write(39,'(I5,20f30.10)') i, dble(em-xmu), volume/totvol,
+c     &        exp((i-1)*dx - x0)*bohr,
+c     &        rnrm*bohr, densty(i), denval(i), dble(volume*delta),
+c     &        dimag(volume*delta), omp*hart, omp-ompm1
+c         ompm1 = omp
+c         delavg = delavg + volume*delta
  20   continue
-      write(39,*)
+c      write(39,*)
       
       ifirst = 1
       delavg = delavg/totvol
-      write(38,'(X,20e14.6)') (DBLE(em) - xmu)*hart, dble(delavg)*hart, 
-     &     dimag(delavg)*hart,
-     &     SQRT(DBLE(em-xmu)/2.d0)/ABS(dimag(delavg))*bohr,
-     &     totvol
+c      write(38,'(X,20e14.6)') (DBLE(em) - xmu)*hart, dble(delavg)*hart, 
+c     &     dimag(delavg)*hart,
+c     &     SQRT(DBLE(em-xmu)/2.d0)/ABS(dimag(delavg))*bohr,
+c     &     totvol
 c     Reference the potential with respect to mt potential, ie,
 c     first interstitial point.  v(jri1) = 0
 

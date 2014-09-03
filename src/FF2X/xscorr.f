@@ -27,7 +27,8 @@ c       and then goes horizontally to infinity + i*xloss
 
       dimension  xsnorm(nex), omega(nex)
       complex*16 emxs(nex), xsec(nex), chia(nex), cchi(nex) 
-      complex*16 xmu(nex), aa, bb, c1, f1, f2, ff(nex), xmu0
+      complex*16 xmu(nex), aa, bb, f1, f2, ff(nex), xmu0
+c      complex*16 c1
       parameter (eps4 = 1.0d-4)
       complex*16 ec(nex), fc(nex), e1,e2, z1,z2, corr
       complex*16 lorenz

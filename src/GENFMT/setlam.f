@@ -49,8 +49,8 @@ c        do cute algorithm
 c        set mmax = L0 if straight line path, otherwise set mmax = 3
          mmax = ilinit
          do 10  ileg = 1, nleg
-            mag1 = abs(beta(ileg))
-            mag2 = abs(mag1 - pi)
+            mag1 = int(abs(beta(ileg)))
+            mag2 = int(abs(mag1 - pi))
 c           if beta is not 0 or pi, path is non-linear
             if (mag1.gt.onedeg .and. mag2.gt.onedeg) mmax = 3
    10    continue

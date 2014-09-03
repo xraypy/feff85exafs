@@ -17,5 +17,5 @@ bin_src = Split('ffmod1.f pot.f    scmtmp.f afolp.f broydn.f corval.f coulom.f f
 env.StaticLibrary('libint', lib_src)
 
 env.Program('pot', bin_src,
-        LIBS = ['pha', 'atom', 'int', 'feffcom', 'feffmath', 'exch', 'fms', 'feffpar'], \
-        LIBPATH = ['.', '../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../PAR'])
+            LIBS = ['pha', 'atom', 'int', 'feffcom', 'feffmath', 'jsonfortran', 'feffjson', 'exch', 'fms', 'feffpar'], \
+            LIBPATH = ['.', '../COMMON', '../MATH', '../JSON', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../PAR'])

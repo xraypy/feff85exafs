@@ -111,7 +111,8 @@ c     nrx = max number of r points for phase and xsect r grid
       character*512 slog
 
 c     Josh - Added iPl for PLASMON card, and iexist for mpse.dat
-      integer iPl, iexist
+      integer iPl
+c      integer iexist
       
 
    10 format (4x, a, i5)

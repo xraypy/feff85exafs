@@ -4,7 +4,7 @@
 # Beamline.harmonic_rejection:   detuned mono
 # Beamline.name:                 X11A
 # Beamline.table_translation:    no
-# Column.1:                      wavenumber inverse Angstrom
+# Column.1:                      k inverse Angstrom
 # Column.2:                      chi
 # Column.3:                      chik
 # Column.4:                      chik2

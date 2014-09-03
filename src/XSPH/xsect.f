@@ -76,14 +76,15 @@ c     work space for fovrg
       complex*16 p(nrptx), q(nrptx), pn(nrptx), qn(nrptx), fscf(nrptx)
       complex*16 pp(nrptx), qp(nrptx), pnp(nrptx), qnp(nrptx)
 c     storage for calculation of cross term (SPIN 1 only)
-      complex*16 xrcold(nrptx) , xncold(nrptx), yvec(nrptx,1)
+      complex*16 xrcold(nrptx) , xncold(nrptx)
 
-      complex*16  p2, ck, xkmt, xkmtp
+      complex*16  p2, ck, xkmt
+c      complex*16  xkmtp, xm1, xm2, xm3, xm4, yvec(nrptx,1)
       complex*16  pu, qu, dum1, factor
       complex*16  xfnorm, xirf, xirf1
       complex*16  temp, aa, bb, cc, rkk1, rkk0, phold
       complex*16  phx(8), ph0
-      complex*16  eref, xm1, xm2, xm3, xm4
+      complex*16  eref
 
       complex*16 jl,jlp1,nl,nlp1
       complex*16  v(nrptx), vval(nrptx)
@@ -97,7 +98,8 @@ c     nesvi:
       dimension pat(nrptx),qat(nrptx)
       complex*16 intr(nrptx),var(nrptx) 
 c     to pass energy levels and projected DOS
-      dimension neg(30), eng(nex, 30), rhoj(nex,30)
+c      dimension neg(30), rhoj(nex,30)
+      dimension eng(nex, 30)
 c     Josh - Added iPl switch for PLASMON card
 c          - and WpCorr = Wi/Wp, Gamma, AmpFac
 c          - to describe Im[eps^-1]
@@ -109,13 +111,13 @@ c     Josh END
       PRINT*, 'dx=',dx
 c     set imt and jri (use general Loucks grid)
 c     rmt is between imt and jri (see function ii(r) in file xx.f)
-      imt = (log(rmt) + x0) / dx  +  1
+      imt = int((log(rmt) + x0) / dx)  +  1
       jri = imt+1
       jri1 = jri+1
       if (jri1 .gt. nrptx)  call par_stop('jri .gt. nrptx in phase')
 
 c     nesvi: define jnrm
-      inrm = (log(rnrm) + x0) / dx + 1
+      inrm = int((log(rnrm) + x0) / dx) + 1
       jnrm = inrm + 1
 
 c     We'll need <i|i> later to normalize dipole matrix elements

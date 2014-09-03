@@ -18,6 +18,10 @@
 
  1. What is `libtd.a`?
 
+ 2. EXCH/xcpot.f lines 379, 386 write to fort.39
+
+ 3. EXCH/xcpot.f line 390 write to fort.38
+
 # For Josh
 
  1. In file `EXCH/mpse.f`, `mpse.f` does not compile with rank

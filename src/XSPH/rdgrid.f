@@ -67,7 +67,8 @@
 !     line     - string to hold line
 !     ieMin    - index of minimum of user defined grid
 !     ieMax    - index of max of user defined frid
-      INTEGER ios, iUGrid, nWords, ieMin, ieMax
+      INTEGER ios, iUGrid, nWords
+c      INTEGER ieMin, ieMax
       DOUBLE PRECISION RealE, ImagE
       CHARACTER(20) Words(10)
       CHARACTER(100) line

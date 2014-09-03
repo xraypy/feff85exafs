@@ -40,7 +40,7 @@ c     Local stuff
 
       external dist
 
-   10 format (a)
+c   10 format (a)
    20 format (bn, i15)
    30 format (bn, f15.0)
 
@@ -718,7 +718,7 @@ c              Change mode and process current card.
             endif
 c           No potential label if user didn't give us one
 c           Default set above is potlbl=' '
-            if (nwords .ge. 3)  potlbl(iph) = words(3)
+            if (nwords .ge. 3)  potlbl(iph) = words(3)(1:6)
             if (nwords .ge. 4)  then
               read(words(4),20,err=900) ltmp
               if (ltmp.ge.1 .and. ltmp.le.lx) lmaxsc(iph) = ltmp
@@ -1000,7 +1000,7 @@ c     Set rmax if necessary
       if (rmax.le.0 .and. nss.le.0 .and. ispec.le.0)  then
 c        set to min (2+ times ratmin, ratmax) (magic numbers to
 c        avoid roundoff, note that rmax is single precision).
-         rmax = min (2.2 * ratmin, 1.01 * ratmax)
+         rmax = min (2.2 * real(ratmin), 1.01 * real(ratmax))
       endif
 
 c     Set core hole lifetime (central atom quantity) and s02
@@ -1010,8 +1010,8 @@ c     Set core hole lifetime (central atom quantity) and s02
 
 c     Convert everything to code units, and use rmult factor
 c     rmax is for pathfinder, so leave it in Ang.
-      rmax = rmax * rmult
-      rfms1 = rfms1 * rmult 
+      rmax = rmax * real(rmult)
+      rfms1 = rfms1 * real(rmult)
       rfms2 = rfms2 * rmult 
       totvol = totvol * rmult**3
 c     Use rmult factor.  Leave distances in Ang.
@@ -1066,7 +1066,8 @@ c       no SCF loop
       nttl = ntitle
 
 c     write atoms.dat, global.inp, modN.inp and ldos.inp
-      call wrtall (nabs)
+c      call wrtall (nabs)
+      call wrtjsn (nabs)
 
 c     In case of OVERLAP and SS calculateions write 'paths.dat'
 c     without invoking the pathfinder. Single scattering paths only.

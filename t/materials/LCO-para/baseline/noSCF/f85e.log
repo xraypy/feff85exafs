@@ -1,0 +1,106 @@
+Beginning feff85exafs calculation
+======= running module 0: RDINP ====================================================
+ Feff 8.50L
+ La2CuO4, Radaelli et al, PRB 49(6) 4163 (1994)
+ doi:10.1103/PhysRevB.49.4163
+======= running module 1: POT ====================================================
+ Calculating potentials ...
+    free atom potential and density for atom type    0
+    free atom potential and density for atom type    1
+    free atom potential and density for atom type    2
+    free atom potential and density for atom type    3
+    initial state energy
+    overlapped potential and density for unique potential    0
+    overlapped potential and density for unique potential    1
+    overlapped potential and density for unique potential    2
+    overlapped potential and density for unique potential    3
+    muffin tin radii and interstitial parameters
+ iph, rnrm(iph)*bohr, rmt(iph)*bohr, folp(iph)
+    0  1.32201E+00  1.20487E+00  1.15000E+00
+    1  1.83006E+00  1.75453E+00  1.11167E+00
+    2  1.25231E+00  1.17544E+00  1.15000E+00
+    3  1.08097E+00  1.03139E+00  1.12632E+00
+ mu_old=    -3.009
+ Done with module 1: potentials.
+======= running module 2: XSPH ====================================================
+ Calculating cross-section and phases...
+  0.63546470930994858        4.6708511049243264E-004   3.1773235465497429E-002          11
+    absorption cross section
+ dx=   5.0000000745058060E-002
+    phase shifts for unique potential    0
+    phase shifts for unique potential    1
+    phase shifts for unique potential    2
+    phase shifts for unique potential    3
+ Done with module 2: cross-section and phases...
+======= running module 3: PATH ====================================================
+ Preparing plane wave scattering amplitudes...
+ Searching for paths...
+   WARNING:  rmax > distance to most distant atom.
+             Some paths may be missing.
+             rmax, ratx   4.00000E+00  0.00000E+00
+    Rmax  4.0000  keep and heap limits   0.0000000   0.0000000
+    Preparing neighbor table
+    Paths found      106   (maxheap, maxscatt      27   4)
+ Eliminating path degeneracies...
+    Plane wave chi amplitude filter   2.50%
+    Unique paths     17,  total paths      82
+ Done with module 4: pathfinder.
+======= running module 4: GENFMT ====================================================
+ Calculating EXAFS parameters...
+ doing ip =            1
+    Curved wave chi amplitude ratio   4.00%
+    Discard feff.dat for paths with cw ratio <   2.67%
+    path  cw ratio     deg    nleg  reff
+      1   100.000     4.000     2   1.9044
+      2   935.775     2.000     2   2.4277
+      3   233.958     2.000     2   3.2308
+      4   461.070     4.000     2   3.2413
+      5     3.467     4.000     3   3.2437
+      6     4.536     4.000     3   3.2582
+      7   216.237     2.000     2   3.2872
+      8   102.380     8.000     3   3.7075
+      9   120.371     8.000     3   3.7101
+     10    11.332     4.000     2   3.8035
+     11    20.035     8.000     3   3.8061
+     12     3.253     4.000     3   3.8088
+     13     1.873     4.000     4   3.8088 neglected
+     14     1.982     4.000     4   3.8088 neglected
+     15    10.238     4.000     4   3.8088
+     16    19.607     8.000     3   3.8655
+     17    18.396     8.000     3   3.8885
+   15 paths kept,   17 examined.
+ Done with module 5: F_eff.
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+======= running module 5: FF2X ====================================================
+ Calculating chi...
+ feffdt, feff.bin to feff.dat conversion Feff 8.50L
+ La2CuO4, Radaelli et al, PRB 49(6) 4163 (1994)                   Feff 8.50L
+ doi:10.1103/PhysRevB.49.4163
+ POT  Non-SCF, core-hole, AFOLP (folp(0)= 1.150)
+ Abs   Z=29 Rmt= 1.205 Rnm= 1.322 K  shell
+ Pot 1 Z=57 Rmt= 1.755 Rnm= 1.830
+ Pot 2 Z=29 Rmt= 1.175 Rnm= 1.252
+ Pot 3 Z= 8 Rmt= 1.031 Rnm= 1.081
+ Gam_ch=1.729E+00 H-L exch
+ Mu=-3.009E+00 kf=2.107E+00 Vint=-1.992E+01 Rs_int= 1.722
+ PATH  Rmax= 4.000,  Keep_limit= 0.00, Heap_limit 0.00  Pwcrit= 2.50%
+      15 paths to process
+    path     filename
+       1     feff0001.dat
+       2     feff0002.dat
+       3     feff0003.dat
+       4     feff0004.dat
+       5     feff0005.dat
+       6     feff0006.dat
+       7     feff0007.dat
+       8     feff0008.dat
+       9     feff0009.dat
+      10     feff0010.dat
+      11     feff0011.dat
+      12     feff0012.dat
+      13     feff0015.dat
+      14     feff0016.dat
+      15     feff0017.dat
+    Use all paths with cw amplitude ratio   4.00%
+    S02  0.950  Global sig2  0.00000
+ Done with module 6: DW + final sum over paths.

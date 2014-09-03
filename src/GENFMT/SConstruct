@@ -12,6 +12,6 @@ bin_src = Split('ffmod5.f  fmtrxi.f  genfmt.f  mmtr.f  mmtrxi.f  rdpath.f  regen
                  sclmz.f   setlam.f  snlm.f    xstar.f')
 
 env.Program('genfmt', bin_src, \
-        LIBS = ['feffcom', 'feffmath', 'feffpar'], \
-        LIBPATH = ['../COMMON', '../MATH', '../PAR'])
+        LIBS = ['feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+        LIBPATH = ['../COMMON', '../JSON', '../MATH', '../PAR'])
 

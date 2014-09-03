@@ -11,7 +11,8 @@ c      mu(omega) = xsec + xsnorm*chia  + (cchi)
 
       dimension  xsnorm(nex), omega(nex)
       complex*16 emxs(nex), xsec(nex), chia(nex), cchi(nex) 
-      complex*16 xmu(nex), aa, bb, c1, x1, x2, ec, temp
+      complex*16 xmu(nex), aa, bb, temp
+c      complex*16 c1, ec, x1, x2
       complex*16 xmup(nex)
       dimension emp(nex)
       parameter (eps4 = 1.0d-4)
@@ -23,16 +24,17 @@ c      mu(omega) = xsec + xsnorm*chia  + (cchi)
       integer ient
       data ient /0/
 
-c     read data from fpf0.dat
-      open (unit=16, file='fpf0.dat', status='old', iostat=ios)
-      read  (16,*)  string
-      read  (16,*)  eatom
-      read  (16,*)  nosc
-      do 5 i=1, nosc
-        read (16,*) oscstr(i), enosc(i)
-   5  continue
-c     the rest is f0(Q) and is not currently needed
-      close (unit=16)
+c$$$c     read data from fpf0.dat
+c$$$      open (unit=16, file='fpf0.dat', status='old', iostat=ios)
+c$$$      read  (16,*)  string
+c$$$      read  (16,*)  eatom
+c$$$      read  (16,*)  nosc
+c$$$      do 5 i=1, nosc
+c$$$        read (16,*) oscstr(i), enosc(i)
+c$$$   5  continue
+c$$$c     the rest is f0(Q) and is not currently needed
+c$$$      close (unit=16)
+c$$$      call json_read_fpf0(nosc, oscstr, enosc)
 
       ient = ient+1
       ifp = 1

@@ -183,7 +183,7 @@ c     ckp is ck' = ck prime.
                ckp = sqrt (ck(ie)**2 + coni*2*vicorr)
                xlam0 = aimag(ck(ie)) - dimag(ckp)
                achi(ie,ipath) = achi(ie,ipath) * 
-     1              exp (2 * reff(ipath) * xlam0)
+     1              real(exp (2 * reff(ipath) * xlam0))
  180        continue
  170     continue
       endif
@@ -199,7 +199,7 @@ c           interpolations with original grid.
 
 c     vrcorr shifts the edge and the k grid
       if (abs(vrcorr) .gt. eps4)  then
-         edge = edge - vrcorr
+         edge = edge - real(vrcorr)
       endif
 
 c     Find xkmin, beginning of k' grid
@@ -207,7 +207,7 @@ c     Find xkmin, beginning of k' grid
       tmp = sign (real(one), xk(1))
       e = tmp * xk(1)**2 / 2 + vrcorr
       xkpmin = getxk (e)
-      n = xkpmin / delk
+      n = int(xkpmin / delk)
 c     need 1st int ABOVE xkpmin/delk
       if (xkpmin .gt. 0)  n = n + 1
 c     First k grid point moved by vrcorr

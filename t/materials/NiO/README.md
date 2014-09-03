@@ -9,6 +9,8 @@ NiO is a simple transition metal oxide in the rock-salt structure.
 This is intended as a slightly more complex example than copper metal.
 The XAS data are measured at the Ni K edge.
 
+The NiO sample was kindly provided by Neil Hyatt and Martin Stennett,
+Sheffield University and measured by Bruce at NSLS X23A2.
 
 ![Ball and stick figure of rock-salt NiO](NiO.png)
 

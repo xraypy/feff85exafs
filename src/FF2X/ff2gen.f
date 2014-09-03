@@ -278,8 +278,9 @@ c        achi and phchi
             dw = dw * dw1 * dw3
             phdw = 0.0
             if (abs(dw).gt.0) phdw = atan2 (dimag(dw), dble(dw))
-            achi(i,ipath) = achi(i,ipath) * abs(dw) * s02 * deg(ipath)
-            phchi(i,ipath) = phchi(i,ipath) + phdw
+            achi(i,ipath) = achi(i,ipath) * 
+     1           real(abs(dw) * s02 * deg(ipath))
+            phchi(i,ipath) = phchi(i,ipath) + real(phdw)
   480    continue
 c        make sure no 2pi jumps in phase
          do 490  i = 2, ne1
@@ -287,7 +288,7 @@ c           phchi is single precision, so use tmp variables
             curr = phchi (i, ipath)
             old = phchi (i-1, ipath)
             call pijump (curr, old)
-            phchi (i, ipath) = curr
+            phchi (i, ipath) = real(curr)
   490    continue
 
          do 500  ik = 1, nkx

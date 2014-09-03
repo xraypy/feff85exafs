@@ -11,7 +11,7 @@ For each example material, several files are provided:
  2. Where crystal data is given in the form of an Atoms input or CIF
     file, the crystal data has been converted into a Feff input file.
 
- 3. The Feff input files are not yet in a form ready for running feff.
+ 3. The Feff input files are not yet in a form ready for running Feff.
     Each one is in a form used by the
     [Mustache](http://mustache.github.io/) templating system.  A few
     bits of input data have been replaced by tokens that look like
@@ -19,24 +19,30 @@ For each example material, several files are provided:
     appropriate to the test being performed.  Those values are taken
     from a `.json` file with the same name as the folder itself.
 
- 4. For tests which have data associated with them and, so, will
-    include results of fits to EXAFS data as part of their test, the
-    data is provided in the form of an
+ 4. For tests which have data associated with them and will include
+    results of fits to EXAFS data as part of their test, the data is
+    provided in the form of an
     [Athena project file](http://bruceravel.github.io/demeter/aug/output/project.html)
     and as a column ASCII data containing chi(k).  The column data
     file is in the
     [XDI format](https://github.com/XraySpectroscopy/XAS-Data-Interchange).
-	Currently no tests are made using data.
 
- 5. Most of the material folders also contain some kind of image
-    showing the nature of the coordination environment about the absorbing atom.
+ 5. For tests which have data associated with them and will include
+    results of fits to EXAFS data as part of their test, a file of
+    python code defining the fit must be provided.  This must define a
+    function called `do_fit` which implements the fit in larch and
+    provides a plot and fit report for interactive use.
 
- 6. Each materials folder has a folder containing the baseline Feff
+ 6. Most of the material folders also contain some kind of image
+    showing the nature of the coordination environment about the
+    absorbing atom.
+
+ 7. Each materials folder has a subfolder containing the baseline Feff
     calculation.  This is a run of Feff 8.5 as delivered by the Feff
     Project.  The sense in which this is a baseline is that, as
     changes are made to the Feff85EXAFS code base, those changes can
     be tested against this original state of the software.  Changes to
-    the code base should not result in changes to output of Feff.
+    the code base should not result in changes to the output of Feff.
     This baseline can also serve as a platform for testing changes
     across versions of Feff, allowing us to probe in a systematic way
     the differences in EXAFS analysis between versions 6 through 9 or
@@ -44,15 +50,15 @@ For each example material, several files are provided:
     self-consistency.
 
 
-The testing infrastructure is implemented as a
-[Larch](https://github.com/xraypy/xraylarch) plugin.  See below for
-details.
+The testing infrastructure is implemented with
+[Nose](https://nose.readthedocs.org/en/latest/index.html) and a
+[Larch](https://github.com/xraypy/xraylarch) plugin.
 
-The testing infratructure is designed so that it is easy to add new
+The testing infrastructure is designed so that it is easy to add new
 tests, so long as an appropriate set of files is provided for each new
 test.
 
-Please note that the file naming comventions for the test files are
+Please note that the file naming conventions for the test files are
 quite strict.  If you introduce a new material, say Ceria (CeO2), and
 you name the folder containing its files either `Ceria`, then the
 following must be true:
@@ -66,15 +72,21 @@ following must be true:
    un-k-weighted chi(k).
 4. The JSON file with the configuration for the Feff run **must** be
    called `Ceria.json`.
-5. There **must** be a fodler called `baseline` which has folders
+5. There **must** be a folder called `baseline` which has folders
    called `withSCF` and `noSCF`. These contain the baseline
    calculations with and without self-consistency.
-6. If you provide an Athena project file, is should be called
-   Ceria.prj.
-7. You should provide a `README.md` file with basic information in
+6. If you provide an Athena project file, it should be called
+   `Ceria.prj`.
+7. If fits to data are part of the test, there must be a file called
+   `Ceria.py` containing python code defining the fit to the data.
+8. You must add `Ceria` to the folders tuple at the top of
+   `tests/test_materials.py`.
+9. You should provide a `README.md` file with basic information in
    markdown format.  Any other files, for instance images displayed in
    the `README.md` file can have any name (since they will not be used
    in testing)
+
+---
 
 ## Materials:
 
@@ -85,7 +97,8 @@ following must be true:
 
 3. **uraninite, UO2**: this is an f-electron system
 
-4. **zircon, ZrSiO4**: this has Si, a tender energy absorber, with a 4d backscatterer
+4. **zircon, ZrSiO4**: this has Si, a tender energy absorber, with a
+   4d backscatterer
 
 5. **bromoadamantane**: this is a small molecule which can be fit with a
    fairly simple model of four paths, but for which the 6 nearby hydrogen
@@ -95,13 +108,21 @@ following must be true:
    between two 5 member carbon rings, so it has 10 C neighbors at a range
    of distances from 2.026 A to 2.099 A
 
+---
+
 ## Installing and using the unit testing tool
 
 Make sure that all parts of Feff have been compiled successfully.  The
 unit test framework currently uses the `f85e` script in the `bin`
-folder to make the test runs of Feff.  You must have the termcolor and
-pystache python libraries installed.  (In debian/ubuntu, these are
-called `python-termcolor` and `python-pystache`).
+folder to make the test runs of Feff.  You must have the termcolor,
+pystache and nose python libraries installed.  (In debian/ubuntu,
+these are called `python-termcolor`, `python-pystache`, and
+`python-nose`).
+
+(Note that as feff85exafs develops, it may become necessary to modify
+how this test framework interacts with Feff.  At some point, the
+`f85e` script, which mimics a run of a monolithic version of Feff, may
+not work correctly with the current state of feff85exafs.)
 
 Copy the file `f85ut.py` to the larch plugins folder (either
 `$HOME/.larch/plugins/` or `/usr/local/share/larch/plugins` on Unix,
@@ -114,6 +135,57 @@ the file:
 Here, I have assumed that you will run this command in the folder
 containing both this README file and the `f85ut.py` file.  That is why
 the call to `pwd` works.
+
+
+
+---
+
+### Run tests through nose
+
+In the `materials` folder, run `nosetests` at the command line.  Nose
+writes a report on the results of the test sequence.
+
+Any tests that fail can be further examined interactively within
+Larch.
+
+When run through Nose, the beginning of the test sequence is *very*
+time consuming as all the Feff calculations are made before any of the
+actual tests are made.  I find it helpful to run `nosetests
+--verbosity=3`, which gives some feedback about what is actually
+happening.
+
+*At the moment, all data tests are disabled when running through Nose.*
+
+
+#### Run Feff with self-consistency
+
+set the `FEFF_TEST_SCF` environment variable to `True`.  With bash,
+zsh, etc:
+
+    ~> export FEFF_TEST_SCF=True
+
+With csh, tcsh, etc:
+
+    ~> setenv FEFF_TEST_SCF "True"
+
+#### Skip canned data tests
+
+Normally, a data test will be run if the `<name>.py` file is present
+in the material's folder.  The data test for that material will be
+skipped if a file called `<name>.skip` exists in its folder.  For
+example, to skip the test for UO2, do
+
+	~> touch UO2/UO2.skip
+
+To re-enable the data test for UO2, do
+
+	~> rm UO2/UO2.skip
+
+
+
+---
+
+### Interactive testing in Larch
 
 Fire up Larch from the folder containing this README file and do the
 following:
@@ -134,14 +206,21 @@ current state.  Once this is done, you can check the results of the
 calculation against the baseline calculation, i.e. a calculation made
 using Feff85exafs as it was delivered to us by the Feff Project.
 
-To see whether the calculation of the first path differs from teh
+To run Feff with self-consistency, do
+
+	 larch> my_ut.doscf=True
+
+The Feff run is, of course, much more time consuming with
+self-consistency.
+
+To see whether the calculation of the first path differs from the
 baseline calculation, do
 
      larch> my_ut.compare(1)
 
 This will compute a simple R factor between the magnitude of F\_eff in
 the baseline and the test run.  It will also compute and R factor for
-the phase of F\_eff.  If my_ut.doplot is True (which is the default),
+the phase of F\_eff.  If `my_ut.doplot` is True (which is the default),
 plots of magnitude and phase of F\_eff will be made including both the
 baseline and the test run.
 
@@ -161,20 +240,55 @@ caps    | test the central atom phase shift
 redfact | test the reduction factor
 rep     | test the real part of the complex wavenumber
 
-You can test to see if a path index was saved from the Feff calculation
+To test to see if a path index was saved from the Feff calculation
 
-     if my_ut.available(nnnn):
-         my_ut.compare(nnnn)
+     larch> if my_ut.available(nnnn):
+     larch>     my_ut.compare(nnnn)
+     larch> end if
 
-You can run Feff and do the comparisons using self-consistency by
-setting
+To examine various quantities from the Feff calculation:
 
-     larch> my_ut.doscf = True
+     larch> print my_ut.feffterms
+	 larch> print my_ut.radii('testrun', 'muffintin') my_ut.radii(baseline', 'muffintin') 
+	 larch> print my_ut.s02('testrun') my_ut.s02(baseline') 
 
-The Feff run is, of course, much more time consuming with
-self-consistency.
+Some of the materials have data tests.  This
+
+     larch> my_ut.fit()
+
+runs a canned fit, once using the baseline Feff calculation and once
+using the test run.  You can then compare fitting parameters and
+statistics from the two.  The fit groups are `my_ut.blfit` and
+`my_ut.trfit`.  You could, for example, examine the `amp` parameter:
+
+     larch> print my_ut.blfit.params.amp.value my_ut.blfit.params.amp.stderr
+     larch> print my_ut.trfit.params.amp.value my_ut.trfit.params.amp.stderr
 
 Finally, clean up the test run by doing:
 
      larch> my_ut.clean()
 
+Some convenience functions exported by the plugin:
+
+* use `my_ut = ir('Copper')` to define the unit testing object and run feff
+* use `my_ut = irc('Copper')` to define the unit testing object, run
+  feff, and make a comparison for first path
+* use `my_ut = irf('Copper')` to define the unit testing object, run
+  feff, and run the fit
+
+
+# Still to do
+
+* capture and interpret Feff's screen messages to use number of SCF
+  iterations as a unit test
+
+* More materials:
+	+ something computed with polarization (verify JSON/read_global.f)
+	+ something computed with polarization + ellipticity
+	+ A polymer, i.e. something pseudo-one-dimensional
+	+ Something from the first row of the periodic table
+	+ Something with lead as the absorber
+	+ Something from column 1 or column 2 of the periodic table
+	+ Something with a ring structure and strong, high-order MS paths
+      (paradibromobenzene, perhaps)
+	+ americium, a transuranic that was above Feff6's Z cutoff
