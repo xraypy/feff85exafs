@@ -404,7 +404,7 @@ class Feff85exafsUnitTestGroup(Group):
         """
         Remove testrun folder
         """
-        rmtree(self.testrun)
+        if isdir(self.testrun): rmtree(self.testrun)
         self.feffran = False
 
 
