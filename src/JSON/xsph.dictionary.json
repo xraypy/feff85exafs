@@ -1,0 +1,42 @@
+{
+    "mod": "module number, XSPH is 2",
+    "vfeff": "feff version number",
+    "vf85e": "feff85exafs release number",
+
+    "mphase": "control flag for running XSPH",
+    "ipr2": "print flag for XSPH module",
+
+    "ixc": "1st term from EXCHANGE in feff.inp; exchange-potential index, 0=Hedin-Lundqvist + const, see rdinp_l lines 220-232",
+    "vro": "2nd term from EXCHANGE in feff.inp; shift to Fermi energy",
+    "vio": "3rd term from EXCHANGE in feff.inp; pure imaginary optical potential",
+    "ixc0": "4th term from EXCHANGE in feff.inp; index of model to use for background function",
+
+    "ispec": "",
+    "lreal": "flag specifying use of real phase shifts from RPHASES in feff.inp; should always be 0",
+
+    "rfms2": "1st term from FMS in feff.inp; unused in feff85exafs",
+    "lfms2": "2nd term from FMS in feff.inp; unused in feff85exafs",
+
+    "nph": "number of unique potentials defined in feff.inp",
+    "l2lp": "2nd term from MULTIPOLES in feff.inp; compute individual dipolar contributions, 1=L+1, -1=L-1",
+    "iPlsmn": "argument of PLASMON from feff.inp",
+    "iGrid": "",
+
+
+    "rgrd": "RGRID value from feff.inp; radial grid for potential and phase shift calculations",
+    "gamach": "core hole lifetime",
+    "xkmax": "1st term from XANES in feff.inp; extent of output k grid; unused in feff85exafs",
+    "xkstep": "2nd term from XANES in feff.inp; size of output k grid; unused in feff85exafs",
+    "vixan": "3rd term from XANES in feff.inp; unused in feff85exafs",
+
+    "izstd": "",
+    "ifxc": "",
+    "ipmbse": "",
+    "itdlda": "",
+    "nonlocal": "",
+    "ibasis": "",
+
+    "lmaxph": "list of maximum angular momenta for the unique potentials",
+    "potlbl": "list of labels for the unique potentials",
+    "spinph": "list of ...",
+}
