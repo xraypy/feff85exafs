@@ -2,8 +2,12 @@ c     Josh - added argument iPl to control many pole self energy.
       subroutine xsph (ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1             nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2             ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
-     3             ipol, ispin, le2, angks, ptz, iPl, iGrid,
-     4             izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis)
+     3             ipol, ispin, le2, angks, ptz, iPl,
+     4             izstd, ifxc, ipmbse, itdlda, nonlocal)
+c squelch compiler warning about unused dummy variables, apparently
+c removed from f85e
+c    iGrid, (after iPl)
+c  , ibasis)
 
 c     Cluster code -- multiple shell single scattering version of FEFF
 c     This program (or subroutine) calculates potentials and phase
@@ -18,6 +22,9 @@ c                   xxx.dat      various diagnostics
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
+
+      double precision col1(nex), col2(nex), col3(nex)
+      double precision col4(nex), col5(nex)
 
 c     Notes:
 c        nat    number of atoms in problem
@@ -245,9 +252,9 @@ c     Make old grid to report distances in xsect.bin
  95   ri(i) = exp(-x0+dx*(i-1))
 
 c     open xsect.bin and write the header
-      open (unit=1, file='xsect.bin', status='unknown', iostat=ios)
-      call chopen (ios, 'xsect.bin', 'potph')
-      call wthead (1, ntitle, title)
+c--json--      open (unit=1, file='xsect.bin', status='unknown', iostat=ios)
+c--json--      call chopen (ios, 'xsect.bin', 'potph')
+c--json--      call wthead (1, ntitle, title)
 c skip old output in title ( title lines are above ------ )
 c     write(1,*) 'vtot in eV, rho in code units, includes 4pi'
 c     write(1,*) 'ipot, vtot(imt), rho(imt) '
@@ -267,16 +274,17 @@ c        write(1,210)  vtot(iii,0)* hart, edens(iii,0), ri(iii), iii
 c 210 format (1p, 3e20.4, i6)
 c 220 continue
 
-      write(1,45)
-   45 format (1x, 71('-'))
-      write(1,55) s02, erelax, wp, edge, emu
-   55 format ( 3e13.5, 2e15.7, ' method to calculate xsect')
-      write(1,56) gamach*hart, ne1, ik0
-   56 format (1p, e15.7, 2i4,
-     1       ' gamach in eV, # of points on horizintal axis')
-      write(1,57)
-   57 format ('        em              xsnorm            xsec  ')
-c     end of the xsect.bin header
+c--json--      write(1,45)
+c--json--   45 format (1x, 71('-'))
+c--json--      write(1,55) s02, erelax, wp, edge, emu
+c--json--   55 format ( 3e13.5, 2e15.7, ' method to calculate xsect')
+c--json--      write(1,56) gamach*hart, ne1, ik0
+c--json--   56 format (1p, e15.7, 2i4,
+c--json--     1       ' gamach in eV, # of points on horizintal axis')
+c--json--      write(1,57)
+c--json--   57 format ('        em              xsnorm            xsec  ')
+c--json--c     end of the xsect.bin header
+
 
 c     nsp = 1 - spin average caclulations; 2 - spin up and down
       nsp = 1
@@ -448,19 +456,29 @@ c         fix up variable for phase
  300  continue
 
 c     write main output to xsect.bin
-  340 format (e17.9, 4e13.5)
+c--json--  340 format (e17.9, 4e13.5)
       if (abs(ispin).ne.1 .or. nspx.eq.1) then
         do 350  ie = 1, ne
-           write(1,340) dble(em(ie))*hart, dimag(em(ie))*hart,
-     1                 xsnorm(ie,1), dble(xsec(ie,1)), dimag(xsec(ie,1))
+c--json--           write(1,340) dble(em(ie))*hart, dimag(em(ie))*hart,
+c--json--     1                 xsnorm(ie,1), dble(xsec(ie,1)), dimag(xsec(ie,1))
+           col1(ie) = dble(em(ie))*hart
+           col2(ie) = dimag(em(ie))*hart
+           col3(ie) = xsnorm(ie,1)
+           col4(ie) = dble(xsec(ie,1))
+           col5(ie) = dimag(xsec(ie,1))
   350   continue
       else
 c       nspx = 2
         do 380  ie = 1, ne
-           write(1,340) dble(em(ie))*hart, dimag(em(ie))*hart,
-     1             (xsnorm(ie,1) + xsnorm(ie,nspx)) / 2.d0 ,
-     2           dble( (xsec(ie,1) + xsec(ie,nspx)) ),
-     3          dimag( (xsec(ie,1) + xsec(ie,nspx)) )
+c--json--           write(1,340) dble(em(ie))*hart, dimag(em(ie))*hart,
+c--json--     1             (xsnorm(ie,1) + xsnorm(ie,nspx)) / 2.d0 ,
+c--json--     2           dble( (xsec(ie,1) + xsec(ie,nspx)) ),
+c--json--     3          dimag( (xsec(ie,1) + xsec(ie,nspx)) )
+           col1(ie) = dble(em(ie))*hart
+           col2(ie) = dimag(em(ie))*hart
+           col3(ie) = (xsnorm(ie,1) + xsnorm(ie,nspx)) / 2.d0
+           col4(ie) = dble( (xsec(ie,1) + xsec(ie,nspx)) )
+           col5(ie) = dimag( (xsec(ie,1) + xsec(ie,nspx)) )
 c          Normalize rkk to the average over up/down spin
 c          nsp=2
            xnorm1 = sqrt( 2*xsnorm(ie,1) /
@@ -473,7 +491,11 @@ c          nsp=2
   360      continue
   380   continue
       endif
-      close (unit=1)
+c--json--      close (unit=1)
+
+      call json_xsect(ntitle, title, s02, erelax, wp, edge, emu,
+     1                gamach*hart, ne, ne1, ik0,
+     2                col1, col2, col3, col4, col5)
 
 c     disable for now since dimensions are different
       if (ipr2 .ge. 2)  then

@@ -289,6 +289,7 @@ c     read or initialize chia - result of configuration average
       if(iabs.eq.1) then
 c        compare grids in xsect.bin and feff.bin
          do 680 i = 1, nxsec
+            print *, del, xk(i)**2, xkxs(i)**2
            del = xk(i)**2 - xkxs(i)**2
            if (abs(del) .gt.  10*eps4)  then
              call wlog(' Emesh in feff.bin and xsect.bin different.')

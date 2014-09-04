@@ -8,13 +8,15 @@ from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
 
-bin_src = Split('acoef.f   ffmod2.f  getedg.f  phmesh.f   radint.f  rexsph.f  rholsz.f  \
-                 wphase.f  xmult.f   xsph.f    axafs.f    fmssz.f   phase.f   phmesh2.f \
-                 rdgrid.f  rholat.f  szlz.f    wrxsph.f   xsect.f')
+bin_src = ('acoef.f',  'ffmod2.f', 'getedg.f', 'phmesh.f', 'radint.f',
+           'rexsph.f', 'rholsz.f', 'wphase.f', 'xmult.f',  'xsph.f',
+           'axafs.f',  'fmssz.f',  'phase.f',  'rdgrid.f', 'rholat.f',
+           'szlz.f',   'wrxsph.f', 'xsect.f')
+unused = ('phmesh2.f')
 
-other_objects = ['../FF2X/xscorr.o', '../POT/grids.o']
+other_objects = ('../FF2X/xscorr.o', '../POT/grids.o')
 
 env.Program('xsph', bin_src + other_objects,
-            LIBS = ['int', 'pha', 'atom', 'feffcom', 'exch', 'feffmath', 'fms', 'feffpar', 'jsonfortran', 'feffjson'], \
-            LIBPATH = ['../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../POT', '../PAR', '../JSON'])
+            LIBS = ['int', 'jsonfortran', 'feffjson', 'pha', 'atom', 'feffcom', 'exch', 'feffmath', 'fms', 'feffpar'], \
+            LIBPATH = ['../COMMON', '../JSON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../POT', '../PAR'])
 

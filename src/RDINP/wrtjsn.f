@@ -622,6 +622,5 @@ c     188 and following for how this gets reconstructed into a 2D array
 !     cleanup:
       call json_destroy(geom)
 
-
       return
       end

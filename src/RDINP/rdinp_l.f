@@ -29,7 +29,7 @@ c     Local stuff
       parameter (nwordx = 20)
       character*20 words(nwordx)
       integer iatph(0:nphx)
-      integer icnt  !KJ 1-06 this is just a local index that doesn't need to be saved
+      integer icnt  !KJ 1-06 this is just a local index that does not need to be saved
 
       parameter (nbr=30)
       logical nogeom
@@ -1106,7 +1106,7 @@ c              NB, rmax and rss are in angstroms
          call wlog(' ' // title(i)(1:ltit(i)))
   120 continue
 
-c     if user doesn't want geom.dat, don't do it
+c     if user does not want geom.dat, don't do it
       if (nogeom)  then
 c        don't delete geom.dat when done with it either...
          if (ipr4 .lt. 2)  ipr4 = 2
@@ -1115,7 +1115,7 @@ c        don't delete geom.dat when done with it either...
       else
 c       temporarily call ffsort. here
         iabs = 1
-c !KJ 1-06 : If the user does EELS and doesn't calculate cross terms for an
+c !KJ 1-06 : If the user does EELS and does not calculate cross terms for an
 c       orientation sensitive calculation, FEFF mustn't change the
 c       coordinate system, as this would lead to the appearance of
 c       cross terms after all.  Therefore, I added an argument to the
