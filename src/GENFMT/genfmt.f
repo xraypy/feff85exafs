@@ -169,7 +169,7 @@ c!KJ idem      call chopen (ios, 'feff.bin', 'genfmt')
       call chopen (ios, f1 , 'genfmt') !KJ introduced f1
 c     put label line in feff.bin so other programs know it really
 c     is a feff.bin file
-       string = '#_feff.bin v03: ' // vfeff
+       string = '#_feff.bin v03: ' // vfeff // vf85e
        jstr   = istrln(string)
        write(3, '(a)')  string(1:jstr)
 
@@ -463,8 +463,8 @@ c  remove 2 pi jumps in phase
 c           Put feff.dat and stuff into list.dat
 c           zero is debye-waller factor column
             write(2,8215) ipath, zero, crit, deg, nleg, reff*bohr
-c 8215       format(1x, i8, f12.5, 2f10.3, i6, f9.4) !KJ original code
- 8215       format(1x, i8, f12.5, e15.4, f10.3, i6, f9.4) !KJ  1-06
+ 8215       format(1x, i8, f12.5, 2f10.3, i6, f9.4) !KJ original code
+c 8215       format(1x, i8, f12.5, e15.4, f10.3, i6, f9.4) !KJ  1-06
  
 c           Tell user about the path we just did
             write(slog, 8225) ipath, crit, deg, nleg, reff*bohr

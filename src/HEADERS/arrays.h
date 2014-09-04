@@ -1,4 +1,4 @@
-c  Notes:
+c  Notes:                                        -*-fortran-*-
 c        nat	number of atoms in problem
 c        nph	number of unique potentials
 c        ihole	hole code of absorbing atom

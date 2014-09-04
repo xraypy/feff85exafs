@@ -35,7 +35,7 @@ c     Local stuff
       logical nogeom
       parameter (big = 1.0e5)
       character*512 slog
-      character*12 tmpstr
+      character*38 tmpstr
       logical ceels  !KJ for monolithic version 5-6
 
       external dist
@@ -51,7 +51,7 @@ c     open the log file, unit 11.  See subroutine wlog.
       open (unit=11, file='log.dat', status='unknown', iostat=ios)
       call chopen (ios, 'log.dat', 'feff')
 
-      tmpstr = vfeff
+      tmpstr = vfeff // 'release '//vf85e
       call triml (tmpstr)
       call wlog(' ' // tmpstr)
 

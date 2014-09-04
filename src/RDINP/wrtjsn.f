@@ -74,6 +74,7 @@ c$$$      end
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -89,7 +90,9 @@ c$$$      end
       call json_value_create(m1)      ! create the value and associate the pointer
       call to_object(m1,'pot.json')  ! add the file name as the name of the overall structure
       
-      call json_value_add(m1, 'mod',   1)
+      call json_value_add(m1, 'mod',    1)
+      call json_value_add(m1, 'vfeff',  vfeff)
+      call json_value_add(m1, 'vf85e',  vf85e)
 
       call json_value_add(m1, 'mpot',   mpot)
       call json_value_add(m1, 'nph',    nph)
@@ -167,6 +170,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -179,7 +183,9 @@ c     188 and following for how this gets reconstructed into a 2D array
       call json_value_create(m2)      ! create the value and associate the pointer
       call to_object(m2,'xsph.json')  ! add the file name as the name of the overall structure
 
-      call json_value_add(m2, 'mod',   2)
+      call json_value_add(m2, 'mod',      2)
+      call json_value_add(m2, 'vfeff',    vfeff)
+      call json_value_add(m2, 'vf85e',    vf85e)
 
       call json_value_add(m2, 'mphase',   mphase)
       call json_value_add(m2, 'ipr2',     ipr2)
@@ -233,6 +239,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -245,7 +252,9 @@ c     188 and following for how this gets reconstructed into a 2D array
       call json_value_create(m3)      ! create the value and associate the pointer
       call to_object(m3,'fms.json')  ! add the file name as the name of the overall structure
 
-      call json_value_add(m3, 'mod',   3)
+      call json_value_add(m3, 'mod',    3)
+      call json_value_add(m3, 'vfeff',  vfeff)
+      call json_value_add(m3, 'vf85e',  vf85e)
 
       call json_value_add(m3, 'mfms',   mfms)
       call json_value_add(m3, 'idwopt', idwopt)
@@ -281,6 +290,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -293,7 +303,9 @@ c     188 and following for how this gets reconstructed into a 2D array
       call json_value_create(m4)      ! create the value and associate the pointer
       call to_object(m4,'path.json')  ! add the file name as the name of the overall structure
 
-      call json_value_add(m4, 'mod',   4)
+      call json_value_add(m4, 'mod',    4)
+      call json_value_add(m4, 'vfeff',  vfeff)
+      call json_value_add(m4, 'vf85e',  vf85e)
 
       call json_value_add(m4, 'mpath',  mpath)
       call json_value_add(m4, 'ms',     ms)
@@ -324,6 +336,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -336,7 +349,9 @@ c     188 and following for how this gets reconstructed into a 2D array
       call json_value_create(m5)      ! create the value and associate the pointer
       call to_object(m5,'genfmt.json')  ! add the file name as the name of the overall structure
 
-      call json_value_add(m5, 'mod',   5)
+      call json_value_add(m5, 'mod',    5)
+      call json_value_add(m5, 'vfeff',  vfeff)
+      call json_value_add(m5, 'vf85e',  vf85e)
       
       call json_value_add(m5, 'mfeff',  mfeff)
       call json_value_add(m5, 'ipr5',   ipr5)
@@ -364,6 +379,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -376,7 +392,9 @@ c     188 and following for how this gets reconstructed into a 2D array
       call json_value_create(m6)      ! create the value and associate the pointer
       call to_object(m6,'ff2x.json')  ! add the file name as the name of the overall structure
 
-      call json_value_add(m6, 'mod',   6)
+      call json_value_add(m6, 'mod',    6)
+      call json_value_add(m6, 'vfeff',  vfeff)
+      call json_value_add(m6, 'vf85e',  vf85e)
       
       call json_value_add(m6, 'mchi',   mchi)
       call json_value_add(m6, 'ispec',  ispec)
@@ -415,6 +433,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -426,6 +445,9 @@ c     188 and following for how this gets reconstructed into a 2D array
       ! root
       call json_value_create(so2)      ! create the value and associate the pointer
       call to_object(so2,'s02.json')  ! add the file name as the name of the overall structure
+
+      call json_value_add(so2, 'vfeff',  vfeff)
+      call json_value_add(so2, 'vf85e',  vf85e)
 
       call json_value_add(so2, 'mso2conv', mso2conv)
       call json_value_add(so2, 'ipse',     ipse)
@@ -455,6 +477,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -468,6 +491,8 @@ c     188 and following for how this gets reconstructed into a 2D array
       call json_value_create(atoms)      ! create the value and associate the pointer
       call to_object(atoms,'atoms.json')  ! add the file name as the name of the overall structure
 
+      call json_value_add(atoms, 'vfeff',  vfeff)
+      call json_value_add(atoms, 'vf85e',  vf85e)
       
       call json_value_add(atoms, 'natt', natt)
       do 10 i=1,natt
@@ -500,6 +525,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -511,6 +537,9 @@ c     188 and following for how this gets reconstructed into a 2D array
       ! root
       call json_value_create(global)       ! create the value and associate the pointer
       call to_object(global,'global.json') ! add the file name as the name of the overall structure
+
+      call json_value_add(global, 'vfeff',  vfeff)
+      call json_value_add(global, 'vf85e',  vf85e)
 
       call json_value_add(global, 'nabs',   nabs)
       call json_value_add(global, 'iphabs', iphabs)
@@ -552,6 +581,7 @@ c     188 and following for how this gets reconstructed into a 2D array
       use json_module
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/parallel.h'
       include '../RDINP/allinp.h'
@@ -567,6 +597,9 @@ c     188 and following for how this gets reconstructed into a 2D array
       call json_value_create(geom)      ! create the value and associate the pointer
       call to_object(geom,'geom.json')  ! add the file name as the name of the overall structure
       
+      call json_value_add(geom, 'vfeff',  vfeff)
+      call json_value_add(geom, 'vf85e',  vf85e)
+
       call json_value_add(geom, 'natt',  natt)
       call json_value_add(geom, 'nph',   nph)
       call json_value_add(geom, 'iatph', iatph)

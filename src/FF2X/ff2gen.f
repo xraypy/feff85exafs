@@ -62,8 +62,8 @@ c     add feff verdion to the first line
         head(1)= 'Untitled'
         ll = istrln(head(1))
       endif
-      write(iunit,310) coment, head(1)(1:), vfeff
-  310 format (a2, a55, t66, a12)
+      write(iunit,310) coment, head(1)(1:), vfeff//vf85e
+  310 format (a2, a45, t48, a30)
 
 c     the rest of the title
       do 330  ihead = 2, nhead
