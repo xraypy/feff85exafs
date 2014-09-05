@@ -6,7 +6,7 @@
     "mpath": "control flag for running PATH",
     "ipr4": "print flag for PATH module",
 
-    "ms": "",
+    "ms": "flag for computing multiple scattering; 0=overlap calculation, 1=use pathfinder",
     "nncrit": "",
     "nlegxx": "argument for NLEG from feff.inp, maximum number of legs for pathfinder",
     "critpw": "2nd term from CRITERIA in feff.inp, plane wave criterion",

@@ -22,3 +22,21 @@ The files in this folder are JSON files containing dictionaries of the
 content of each of the interchange files.  Hopefully this will help
 application developers who need to read from or write to these
 interchange files.
+
+
+## Other ascii interchange files that do not yet have json files
+
+Some of these are throw-away diagnostic files
+
+1. nstar.dat, see `GENFMT/genfmt.f`, but nstar.dat seems to be written but not read in feff85exafs
+2. wscrn.dat, see `XSPH/xsph.f`
+3. exc.dat + sigma.dat + ratio.dat + ratiop.dat + mpse.dat, see `XSPH/xsect.f` + `XSPH/phase.f`
+4. various in `XSPH/rholat.f`
+5. emesh.dat in `XSPH/phmesh.f`
+6. axafs.dat in `XSPH/axafs.f`
+7. various things written with PRINT cards, see comments lines 319 to 342 in `RDINP/rdinp_l.f`
+8. rotmat.dat in `GENFMT/rot3i.f`
+9. various in `FMS/xprep.f`, `FMS/inc.f`
+10. various in `FF2X/ff2gen.f`
+11. exc.dat in `EXCH/mpse.f`
+12. various in `DEBYE/sigrem.f`

@@ -9,7 +9,7 @@
     "ispin": "first term from SPIN in feff.inp; 0=spin independent, +/-1=XMCD, +/-2=spin polarized DOS and XAS",
     "le2": "1st term from MULTIPOLES in feff.inp; 0=only dipole, 1=dipole+magnetic dipole, 2=dipole+quadrupole",
     "elpty": "1st term from ELLIPTICITY in feff.inp; eccentricity ",
-    "angks": "",
+    "angks": "angle between x-ray propagation and spin (default=0)",
 
     "evec": "arguments of POLARIZATION in feff.inp; polarization vector",
     "xivec": "last three terms from ELLIPTICITY in feff.inp; incident direction",
