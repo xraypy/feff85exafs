@@ -36,8 +36,9 @@ c        ps and qs are  upper and lower components for photoelectron
 
       complex*16 vxc(nrptx), vxcval(nrptx), p2
       dimension ri(nrptx)
-      complex*16 ph0, amp, pu, qu, vu, vm(nrptx)
+      complex*16 pu, qu, vu, vm(nrptx)
       complex*16 ps(nrptx), qs(nrptx), aps(10),aqs(10)
+c      complex*16 ph0, amp
 
 c     all atoms' dirac components and their development coefficients
       dimension dgcn(nrptx,30), dpcn(nrptx,30)
@@ -97,7 +98,7 @@ c     for a steplike potential  at large distances
 c     if (irr.gt.0) aa = 0.05
       rwkb = aa / dx / sqrt(abs(2*p2+(p2/cl)**2))
       x0 = 8.8
-      iwkb= (log(rwkb) + x0) / dx  +  2
+      iwkb= int((log(rwkb) + x0) / dx)  +  2
       if (iwkb.gt.idim) iwkb = idim
       if (iwkb.lt. 10) iwkb = 10
       

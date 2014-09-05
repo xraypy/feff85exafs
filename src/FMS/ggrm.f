@@ -28,9 +28,9 @@ c     big work matrices
       complex xketp(istatx), xbrap(istatx)
       complex zvec(istatx), rvec(istatx), svec(istatx)
       complex tket(istatx), tbra(istatx)
-      double precision  dum1, dum2
+c      double precision  dum1, dum2
       complex alphac, betac, aa, bb, yy, aac, bbc, gamma
-      real alpha, beta
+c      real alpha, beta
 c     return matrix containing info about each unique potential
       complex   gg(nspx*(lx+1)**2, nspx*(lx+1)**2, 0:nphasx)
 

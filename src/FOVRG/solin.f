@@ -19,8 +19,9 @@ c imax the last point of tabulation of the wave function
       common/comdic/cl,dz,gg(nrptx),ag(10),gp(nrptx),ap(10),dv(nrptx),
      1   av(10),eg(nrptx),ceg(10),ep(nrptx),cep(10)
 
-      complex*16 ec,eph,egh,f,g,ac,bc,acp,bcp,dg,dp, vh
-      complex*16 dg2, dp2, dg3, dp3, dg4, dp4
+      complex*16 ec,eph,f,g,ac,bc,acp,bcp,dg,dp
+c      complex*16 egh, vh
+c      complex*16 dg2, dp2, dg3, dp3, dg4, dp4
       dimension dg(npi), dp(npi)
 
 c gg,gp -output, dv,eg,ep - input

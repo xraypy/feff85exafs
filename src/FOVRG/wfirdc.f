@@ -88,7 +88,7 @@ c     resolution of the dirac equation to get initial orbital
          endif
       endif
 
- 211  np=1+(8.8 + log(10.0))/hx
+      np=1+int((8.8 + log(10.0))/hx)
 c     exp(-8.8+(np-1)*hx) = 10.0 bohrs - max distance
       if (idim .lt. np) np=idim
       if (nmax(norb) .gt. np) nmax(norb)=np

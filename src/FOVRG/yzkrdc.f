@@ -19,7 +19,7 @@ c        this programm uses aprdec and yzktec
       complex*16 aprdec,p2, dyzk
 c     complex*16 a1,a2,b1,b2,coni
 c     complex*16 xck, temp, ck, phx
-      parameter (coni=(0.d0,1.d0))
+c      parameter (coni=(0.d0,1.d0))
       complex*16 ps(nrptx),qs(nrptx),aps(10),aqs(10)
       common/dff/cg(nrptx,30), cp(nrptx,30), bg(10,30), bp(10,30),
      1             fl(30), fix(30), ibgp

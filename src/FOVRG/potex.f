@@ -31,7 +31,7 @@ c     ia=norb
  
 c     exchange terms
       do 201 j=1,norb-1
- 105     jj=2* abs(kap(j))-1
+         jj=2* abs(kap(j))-1
          kma=(jj+jia)/2
          k= abs(jj-kma)
          if ((kap(j)*kap(norb)).lt.0) k=k+1

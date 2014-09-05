@@ -19,7 +19,7 @@ c     statement functions to do indexing.  delta is 'dx' for current
 c     grid.  jjj is index of grid point immediately before 'r'
       xxx(j) = -xx00 + (j-1)*delta
       rrr(j) = exp (-xx00 + (j-1)*delta)
-      jjj(r) = (log(r) + xx00) / delta + 1
+      jjj(r) = int((log(r) + xx00) / delta) + 1
 
 c     Use linear interpolation in x whether necessary or not.  If
 c     new grid is same as old, it shouldn't make any difference.

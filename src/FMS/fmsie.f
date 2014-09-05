@@ -72,13 +72,13 @@ cc     call fms for a cluster around central atom
        endif
 
        dck=sqrt(2*(em-eref))
-       rpart  = dble(dck)
+       rpart  = real(dble(dck))
        aipart = real(dimag(dck))
        ck(1) = cmplx(rpart, aipart)
        do 1020 ipp = 0,nph
          do 1010 ill = -lipotx(ipp), lipotx(ipp)
-           rpart  = dble( ph( 1+abs(ill), ipp))
-           aipart = dimag(ph( 1+abs(ill), ipp)) 
+           rpart  = real(dble (ph( 1+abs(ill), ipp)))
+           aipart = real(dimag(ph( 1+abs(ill), ipp)))
            xphase(1, ill, ipp) = cmplx(rpart, aipart)
  1010    continue
  1020  continue

@@ -9,12 +9,12 @@ c     dimension alphat=[1/anstroems]
       parameter(three= 3)
       parameter(four= 4 )
       parameter(fourthird= four/three)
-      parameter(threequater= three/four)
+      parameter(threequarter= three/four)
               
       alphat= alphat * bohr  
-      z=exp(- thetae/tk)
-      sig02= (1-z)/ (1+z) * sig2
-      sig01 = alphat * sig02 * threequater
+      z=real(exp(- thetae/tk))
+      sig02= real((1-z)/ (1+z) * sig2)
+      sig01 = real(alphat) * sig02 * real(threequarter)
       sig1 = sig01 * sig2 / sig02
       sig3 = (2- fourthird * (sig02/sig2) **2)* sig1 * sig2
 
