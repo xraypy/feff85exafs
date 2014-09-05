@@ -6,7 +6,7 @@ An early modification of feff85exafs changed the legacy structured
 text files into JSON files.
 
 old        | new         | purpose
------------+-------------+-------------------------------------------------------
+---------- | ----------- | ------------------------------------------------------
 mod1.inp   | pot.json    | input data for POT module taken from feff.inp
 mod2.inp   | xsph.json   | input data for XSPH module taken from feff.inp
 mod4.inp   | path.json   | input data for PATH module taken from feff.inp
