@@ -12,7 +12,7 @@ c     header from xsect.bin
       complex*16 emxs(nex), xsec(nex)
       dimension omega(nex), xkxs(nex), xsnorm(nex)
 
-      double precision col1(nex), col2(nex), col3(nex)
+      double precision er(nex), ei(nex), xsn(nex)
       double precision col4(nex), col5(nex)
 
 c$$$      open (unit=8, file='xsect.bin', status='old', iostat=ios)
@@ -43,15 +43,16 @@ c$$$      close(unit=8)
 
       call read_xsect(ntitle, title, s02p, erelax, wp, edgep, emu,
      1                gamach, nxsec, ne1, ik0,
-     2                col1, col2, col3, col4, col5)
+     2                er, ei, xsn, col4, col5)
+
       if (mbconv .gt.0 .or. s02.le.0.1) s02=s02p
       gamach = gamach / hart
       do 1000 i=1,nxsec
          xsec(i) = col4(i) + coni*col5(i)
-         emxs(i) = (col1(i) + coni*col2(i)) / hart
+         emxs(i) = (er(i) + coni*ei(i)) / hart
          xkxs(i) = getxk (dble(emxs(i)) - edgep)
          omega(i) = dble(emxs(i)) - edgep + emu
-         xsnorm(i) = col3(i)
+         xsnorm(i) = xsn(i)
  1000 continue
       do 1010 i=1,ntitle
          ltitle(i) = istrln(title(i))

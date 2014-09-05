@@ -1,6 +1,6 @@
       subroutine read_xsect(ntit, titles, s02x, erelax, wpx, edge,
      1                      emu, gamma, ne, ne1, ik0,
-     2                      col1, col2, col3, col4, col5)
+     2                      er, ei, xsn, col4, col5)
 
       use json_module
       implicit double precision (a-h, o-z)
@@ -16,7 +16,7 @@
 
 
       character*80 titles(nheadx)
-      double precision col1(nex), col2(nex), col3(nex)
+      double precision er(nex), ei(nex), xsn(nex)
       double precision col4(nex), col5(nex)
 
       call json%load_file('xsect.json')
@@ -53,20 +53,20 @@
                    if (.not. found) call bailout('ik0',    'xsect.json')
 
          call json%get('ereal',   dbpc1, found)
-                   if (.not. found) call bailout('col1',   'xsect.json')
+                   if (.not. found) call bailout('er',     'xsect.json')
          call json%get('eimag',   dbpc2, found)
-                   if (.not. found) call bailout('col2',   'xsect.json')
+                   if (.not. found) call bailout('ei',     'xsect.json')
          call json%get('xsnorm',  dbpc3, found)
-                   if (.not. found) call bailout('col3',   'xsect.json')
+                   if (.not. found) call bailout('xsn',    'xsect.json')
          call json%get('dum1',   dbpc4, found)
                    if (.not. found) call bailout('col4',   'xsect.json')
          call json%get('dum2',   dbpc5, found)
                    if (.not. found) call bailout('col5',   'xsect.json')
 
          do 20 i=1,ne
-            col1(i) = dbpc1(i)
-            col2(i) = dbpc2(i)
-            col3(i) = dbpc3(i)
+            er(i)   = dbpc1(i)
+            ei(i) = dbpc2(i)
+            xsn(i) = dbpc3(i)
             col4(i) = dbpc4(i)
             col5(i) = dbpc5(i)
  20      continue

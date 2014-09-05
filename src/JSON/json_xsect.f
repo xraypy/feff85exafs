@@ -1,6 +1,6 @@
       subroutine json_xsect(ntit, titles, s02x, erelax, wpx, edge,
      1                      emu, gamma, ne, ne1, ik0,
-     2                      col1, col2, col3, col4, col5)
+     2                      er, ei, xsn, col4, col5)
 
       use json_module
 
@@ -11,7 +11,7 @@
       include '../RDINP/allinp.h'
 
       character*80 titles(nheadx)
-      double precision col1(nex), col2(nex), col3(nex)
+      double precision er(nex), ei(nex), xsn(nex)
       double precision col4(nex), col5(nex)
 
       integer  iunit
@@ -36,9 +36,9 @@
       call json_value_add(xsectj, 'ne1',    ne1)
       call json_value_add(xsectj, 'ik0',    ik0)
 
-      call json_value_add(xsectj, 'ereal',  col1(1:ne))
-      call json_value_add(xsectj, 'eimag',  col2(1:ne))
-      call json_value_add(xsectj, 'xsnorm', col3(1:ne))
+      call json_value_add(xsectj, 'ereal',  er(1:ne))
+      call json_value_add(xsectj, 'eimag',  ei(1:ne))
+      call json_value_add(xsectj, 'xsnorm', xsn(1:ne))
       call json_value_add(xsectj, 'dum1',   col4(1:ne))
       call json_value_add(xsectj, 'dum2',   col5(1:ne))
 
