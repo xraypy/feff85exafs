@@ -122,7 +122,8 @@ c     calculate initial photoelectron orbital using lda
       do 18 i = jri, nrptx
   18  vm(i)=0.0d0
       call wfirdc (p2,kap,nmax,vxc,ps,qs,aps,aqs,irr,ic3,vm,
-     1             rmt,jri, iwkb)
+     1             jri, iwkb)
+c     1             rmt,jri, iwkb)
 
       if (numerr .ne. 0) call par_stop('error in wfirdc')
       if (ncycle .eq. 0) go to 999
@@ -156,14 +157,19 @@ c     iteration over the number of cycles
          nter=nter+1
 c        calculate exchange potential
          jriwkb = min (jri, iwkb)
-         call potex( ps, qs, aps, aqs, jriwkb, p2)
+         call potex( ps, qs, aps, aqs, jriwkb)
+c         call potex( ps, qs, aps, aqs, jriwkb, p2)
 
 c        resolution of the dirac equation
          if (irr.lt.0) then
-            call solout (p2, fl(norb), aps(1), aqs(1), ikap, rmt,
+c            call solout (p2, fl(norb), aps(1), aqs(1), ikap, rmt,
+c     1        jri, nmax(norb), ic3, vm, iwkb)
+            call solout (p2, fl(norb), aps(1), aqs(1), ikap,
      1        jri, nmax(norb), ic3, vm, iwkb)
          else
-            call solin (p2, fl(norb), pu, qu, ikap, rmt,
+c            call solin (p2, fl(norb), pu, qu, ikap, rmt,
+c     1        jri, nmax(norb), ic3, vm, iwkb)
+            call solin (p2, fl(norb), ikap,
      1        jri, nmax(norb), ic3, vm, iwkb)
          endif
 

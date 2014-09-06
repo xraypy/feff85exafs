@@ -40,3 +40,4 @@ Some of these are throw-away diagnostic files
 10. various in `FF2X/ff2gen.f`
 11. exc.dat in `EXCH/mpse.f`
 12. various in `DEBYE/sigrem.f`
+13. `spring.inp` in  `DEBYE/sigrem.f`

@@ -459,6 +459,7 @@ c     Local stuff
       parameter (big = 1.0e5)
       character*512 slog
 
+      iat0 = 0
    10 format (a)
    20 format (bn, i15)
    30 format (bn, f15.0)
@@ -744,6 +745,8 @@ c local variables:
 
       logical iscomm
 
+      ix=0
+      jx=0
    10 format (a)
    20 format (bn, i15)
    30 format (bn, f15.0)

@@ -1,4 +1,5 @@
-      subroutine solin (en,fl,agi,api,kap,rmt,jri,imax,ic3,vm, iwkb)
+c      subroutine solin (en,fl,agi,api,kap,rmt,jri,imax,ic3,vm, iwkb)
+      subroutine solin (en,fl,kap,jri,imax,ic3,vm, iwkb)
 c                  resolution of the dirac equation
 c                   p' - kap*p/r = - ( en/cl-v )*g - eg/r
 c                   g' + kap*g/r = ( 2*cl+en/cl-v )*p + ep/r
@@ -14,7 +15,8 @@ c imax the last point of tabulation of the wave function
       include '../HEADERS/dim.h'
       include '../HEADERS/const.h'
       parameter (npi=6, test=1.0d+5)
-      complex*16 en,agi,api,c3,vmh
+      complex*16 en,c3,vmh
+c      complex*16 agi,api
       complex*16 gg,ag,gp,ap,dv,av,eg,ceg,ep,cep, vm(nrptx)
       common/comdic/cl,dz,gg(nrptx),ag(10),gp(nrptx),ap(10),dv(nrptx),
      1   av(10),eg(nrptx),ceg(10),ep(nrptx),cep(10)

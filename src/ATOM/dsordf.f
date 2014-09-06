@@ -30,6 +30,7 @@ c
       dimension bgi(10),bgj(10),bpi(10),bpj(10)
 
 c        construction of the array hg
+      b=0
       if (jnd.le.3) go to 11
       max0=j
       b=a
