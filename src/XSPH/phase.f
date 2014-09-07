@@ -148,8 +148,13 @@ c             - iPl, WpCorr, Gamma, AmpFac
          call xcpot (iph, ie, index, lreal, ifirst, jri,
      1               em(ie), xmu,
      2               vtot, vvalgs, edens, dmag, edenvl,
-     3               eref(ie), v, vval, iPl, WpCorr, Gamma, AmpFac,
+     3               eref(ie), v, vval, iPl, WpCorr, AmpFac,
      4               vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim, rnrm)
+c         call xcpot (iph, ie, index, lreal, ifirst, jri,
+c     1               em(ie), xmu,
+c     2               vtot, vvalgs, edens, dmag, edenvl,
+c     3               eref(ie), v, vval, iPl, WpCorr, Gamma, AmpFac,
+c     4               vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim, rnrm)
 
          if (dble(em(ie)).lt.-10.d0 .or. dble(em(ie)) .gt.3.d2) goto 220
 c        p2 is (complex momentum)**2 referenced to energy dep xc

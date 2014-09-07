@@ -205,8 +205,13 @@ c             - iPl, WpCorr, Gamma, AmpFac
          call xcpot (iph, ie, index, lreal, ifirst, jri,
      1               em(ie), xmu,
      2               vtot, vvalgs, edens, dmag, edenvl,
-     3               eref, v, vval, iPl, WpCorr, Gamma, AmpFac,
+     3               eref, v, vval, iPl, WpCorr, AmpFac,
      4               vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim,rnrm)
+c         call xcpot (iph, ie, index, lreal, ifirst, jri,
+c     1               em(ie), xmu,
+c     2               vtot, vvalgs, edens, dmag, edenvl,
+c     3               eref, v, vval, iPl, WpCorr, Gamma, AmpFac,
+c     4               vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim,rnrm)
 
 c       set the method to calculate atomic cross section
 c       p2 is (complex momentum)**2 referenced to energy dep xc

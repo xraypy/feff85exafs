@@ -1,8 +1,13 @@
       subroutine xcpot (iph, ie, index, lreal, ifirst, jri,
      1                  em, xmu,
      2                 vtot, vvalgs, densty, dmag, denval,
-     3                  eref, v, vval, iPl, WpCorr, Gamma, AmpFac,
+     3                  eref, v, vval, iPl, WpCorr, AmpFac,
      4                  vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim,rnrm)
+c      subroutine xcpot (iph, ie, index, lreal, ifirst, jri,
+c     1                  em, xmu,
+c     2                 vtot, vvalgs, densty, dmag, denval,
+c     3                  eref, v, vval, iPl, WpCorr, Gamma, AmpFac,
+c     4                  vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim,rnrm)
 
       implicit double precision (a-h, o-z)
 c     calculate self-energy correction
@@ -80,9 +85,8 @@ c     Rs1(NRPts) - Array of Rs points for interpolation
       integer NRPts, lastPl
       parameter (tol=0.0004)
       parameter (NRPts=10)
-      double precision WpCorr(MxPole), rsTmp,
-     &     AmpFac(MxPole), Gamma(MxPole)
-c      double precision  WpTmp
+      double precision WpCorr(MxPole), AmpFac(MxPole)
+c      double precision  Gamma(MxPole), rsTmp, WpTmp
       double precision RsInt, DRs, delrHL(NRPts), deliHL(NRPts),
      &     Rs1(NRPts), dx, x0, volume, totvol, rnrm, ri, riInt, omp,
      &     ompmax 
@@ -107,7 +111,11 @@ c      totvol = 0.d0
       csig=.false.
       ompm1 = 0.d0
       jri1 = jri + 1
-      rsTmp = RsCorr
+c      rsTmp = RsCorr
+      xfval=0
+      delvr = 0
+      delvi = 0
+      lastPl = 0
       nmax=1
       nul=0
       ibp = index / 10
@@ -163,8 +171,10 @@ c                       first RPt.
 c           If iPl > 3, use Sigma(r) = Sigma(RsInt) (Sigma as a bulk property)
             if(iPl.gt.1) then
                if((iPl.eq.2).or.(i.eq.NRPts)) then                  
+c                  call CSigZ(em,xmu,Rs1(i),delrHL(i),deliHL(i),ZTemp,
+c     &                 WpCorr,Gamma,AmpFac)
                   call CSigZ(em,xmu,Rs1(i),delrHL(i),deliHL(i),ZTemp,
-     &                 WpCorr,Gamma,AmpFac)
+     &                 WpCorr,AmpFac)
                elseif(iPl.eq.3) then
                   delrHL(i) = 0.d0
                   deliHL(i) = 0.d0
@@ -173,8 +183,10 @@ c           If iPl > 3, use Sigma(r) = Sigma(RsInt) (Sigma as a bulk property)
                end if
                if(i.eq.NRPts) ZRnrm = ZTemp
             else
+c               call CSigma(em,xmu,Rs1(i),delrHL(i),deliHL(i),WpCorr,
+c     &              Gamma,AmpFac)
                call CSigma(em,xmu,Rs1(i),delrHL(i),deliHL(i),WpCorr,
-     &              Gamma,AmpFac)
+     &              AmpFac)
             end if
 c            Josh Kas - Write self energy to mpse.bin for fast processing later
 c            write(23,'(6f30.10)') DBLE(em), Rs1(i), delrHL(i),

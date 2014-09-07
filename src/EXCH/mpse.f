@@ -22,8 +22,9 @@ c     Local Variables:
       INTEGER iR, iph, iPole
       INTEGER ios, RsMax, RsMin, Rs, RsInt
       DOUBLE PRECISION WpCorr(MxPole), Gamma(MxPole), AmpFac(MxPole),
-     &     MinDns, Densty, dR, delrHL(NRPts), deliHL(NRPts),
+     &     Densty, dR, delrHL(NRPts), deliHL(NRPts),
      &     Rs1(NRPts)
+c      DOUBLE PRECISION MinDns
       COMPLEX*16 ZRnrm, ZTemp
 
 c     Read exc.dat
@@ -52,9 +53,9 @@ c     find the minimum and maximum densities and calculate RsMin, RsMax
       END DO
 
 c     Calculate RsMax(MinDens), RsMin(MaxDens)
-      RsMax = MIN( 10.d0, (3 / (4*pi*MinDens)) ** third )
-      RsMin = MAX( 0.001d0, (3 / (4*pi*MaxDens)) ** third )
-      RsInt = (3 / (4*pi*edens(jIntrs+1,1))) ** third
+      RsMax = int(MIN( 10.d0, (3 / (4*pi*MinDens)) ** third ))
+      RsMin = int(MAX( 0.001d0, (3 / (4*pi*MaxDens)) ** third ))
+      RsInt = int((3 / (4*pi*edens(jIntrs+1,1))) ** third )
       
 c     Calculate Sigma on a grid of NRPts points from RsMin to RsMax
 c     and write to mpse.bin
@@ -64,11 +65,13 @@ c     and write to mpse.bin
       DO iR = 1, NRPts
          delrHL(iR) = 0.d0
          deliHL(iR) = 0.d0
-         Rs = RsMin + (iR-1)*dR
+         Rs = int(RsMin + (iR-1)*dR)
          IF(iPl.gt.1) THEN
                IF((iPl.eq.2).or.(iR.eq.NRPts)) THEN                  
+c                  CALL CSigZ(E,Mu,Rs,delrHL(iR),deliHL(iR),ZTemp,
+c     &                 WpCorr,Gamma,AmpFac)
                   CALL CSigZ(E,Mu,Rs,delrHL(iR),deliHL(iR),ZTemp,
-     &                 WpCorr,Gamma,AmpFac)
+     &                 WpCorr,AmpFac)
                ELSE IF(iPl.eq.3) THEN
                   delrHL(iR) = 0.d0
                   deliHL(iR) = 0.d0
@@ -77,8 +80,10 @@ c     and write to mpse.bin
                END IF
                IF(iR.eq.NRPts) ZRnrm = ZTemp
             ELSE
+c               CALL CSigma(E,Mu,Rs1(iR),delrHL(iR),deliHL(iR),WpCorr,
+c     &              Gamma,AmpFac)
                CALL CSigma(E,Mu,Rs1(iR),delrHL(iR),deliHL(iR),WpCorr,
-     &              Gamma,AmpFac)
+     &              AmpFac)
             END IF  
       
 c           Write Sigma(Rs,E) to mpse.bin

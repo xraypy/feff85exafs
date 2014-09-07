@@ -19,8 +19,8 @@ c      complex*16 c1, ec, x1, x2
       complex*16 lorenz, funlog, value
       external lorenz, funlog
       dimension dout(7,nex)
-      character*72 string
-      dimension oscstr(14), enosc(14)
+c      character*72 string
+c      dimension oscstr(14),enosc(14)
       integer ient
       data ient /0/
 
@@ -102,22 +102,22 @@ c        dele = delp
             w3 = dimag(emxs(ne1+3))
 
 c           matsubara pole
-            temp = lorenz(ifp,xloss,w1,dele)*xmu(ne1+1)*2*coni*w1
-            temp = temp + lorenz(ifp,xloss,w1,delp)*xmu(ne1+1)*2*coni*w1
+            temp = lorenz(xloss,w1,dele)*xmu(ne1+1)*2*coni*w1
+            temp = temp + lorenz(xloss,w1,delp)*xmu(ne1+1)*2*coni*w1
             dout(2,ie)=dble(temp)
 c           sommerfeld correction
-            temp = coni*w1**2/ 6*(lorenz(ifp,xloss,w3,dele)*xmu(ne1+3)-
-     2      lorenz(ifp,xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
+            temp = coni*w1**2/ 6*(lorenz(xloss,w3,dele)*xmu(ne1+3)-
+     2      lorenz(xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
             dout(3,ie)=dble(temp)
 
-            cchi(ie) = lorenz(ifp,xloss,w1,dele)*xmu(ne1+1) *2*coni*w1
-     1      + coni * w1**2 / 6 * (lorenz(ifp,xloss,w3,dele)*xmu(ne1+3)-
-     2      lorenz(ifp,xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
+            cchi(ie) = lorenz(xloss,w1,dele)*xmu(ne1+1) *2*coni*w1
+     1      + coni * w1**2 / 6 * (lorenz(xloss,w3,dele)*xmu(ne1+3)-
+     2      lorenz(xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
 c           from negative pole has additional minus sign
             cchi(ie) = cchi(ie) + 
-     1      lorenz(ifp,xloss,w1,delp)*xmu(ne1+1) *2*coni*w1
-     1      + coni * w1**2 / 6 * (lorenz(ifp,xloss,w3,delp)*xmu(ne1+3)-
-     2      lorenz(ifp,xloss,w2,delp)*xmu(ne1+2)) / (w3-w2) 
+     1      lorenz(xloss,w1,delp)*xmu(ne1+1) *2*coni*w1
+     1      + coni * w1**2 / 6 * (lorenz(xloss,w3,delp)*xmu(ne1+3)-
+     2      lorenz(xloss,w2,delp)*xmu(ne1+2)) / (w3-w2) 
 
 c           theta funcion contribution only for positive pole
             if (dele .lt. eps4)    cchi(ie) = cchi(ie) - xmu(ie)
