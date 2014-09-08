@@ -44,7 +44,7 @@ c      dimension lhead(nheadx)
 
 c     standard formats for string, integers and real numbers
 c  10  format(a)
-  20  format (20i4)
+c  20  format (20i4)
 c  30  format (6f13.5)
 
 

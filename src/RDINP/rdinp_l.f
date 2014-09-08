@@ -40,6 +40,8 @@ c     Local stuff
 
       external dist
 
+      icnt = 0
+
 c   10 format (a)
    20 format (bn, i15)
    30 format (bn, f15.0)
