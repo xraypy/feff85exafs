@@ -229,7 +229,7 @@ c     Josh END
 !     defined grids read from grid.inp. Details can be found in phmesh2.f
 !         call phmesh2 (ipr2, ispec, edge, emu, vi0, gamach, xkmax,
 !     &        xkstep, vixan, ne, ne1, em, ik0, ne3,iGrid)
-        call phmesh (ipr2, ispec, edge, emu, vi0, gamach, ecv,
+        call phmesh (ipr2, ispec, edge, emu, vi0, gamach,
      1                 xkmax, xkstep, vixan, ne, ne1, em, ik0, ne3)
       else
 c       nesvi TDLDA
@@ -354,13 +354,14 @@ c       Absorbing atom is iph=0
   
         if (itdlda.eq.0) then
 c         Josh - added argument iPl to control many pole self energy
+c         BR - removed eorb, gamach, ifxc, vi0
           call xsect (ipr2, dxnew, x0, ri, ne, ne1, ik0, em, edge,
      1       ihole, emu, corr, dgcx, dpcx, jnew,
-     2       ixc0, lreal, rmt(0), rnrm(0), xmuvr, vi0, iPl,
-     3       gamach, vtotph, vvalph, rhoph, dmagx, rhphvl, 
+     2       ixc0, lreal, rmt(0), rnrm(0), xmuvr, iPl,
+     3       vtotph, vvalph, rhoph, dmagx, rhphvl, 
      4       dgcn, dpcn, adgc(1,1,iph), adpc(1,1,iph), xsec(1,isp),
      5       xsnorm(1,isp), rkk(1,1,isp), iz(0), xion(0), iunf,
-     6       xnval(1,iph), izstd, ifxc, eorb, kappa, iorb(-4,iph), l2lp,
+     6       xnval(1,iph), izstd, iorb(-4,iph), l2lp,
      7       ipol, ispinp, le2, angks,ptz)
         else
           if (nonlocal.gt.0) then
@@ -446,11 +447,17 @@ c         fix up variable for phase
           endif
 
           call phase (iph, dxnew, x0, ri, ne, ne1, ne3, em, ixc, nsp,
-     1            lreal, rmt(iph),rnrm(iph), xmuvr, vi0, iPl,
-     2            gamach, vtotph, vvalph, rhoph, dmagx, rhphvl,
+     1            lreal, rmt(iph),rnrm(iph), xmuvr, iPl,
+     2            vtotph, vvalph, rhoph, dmagx, rhphvl,
      3            dgcn, dpcn, adgc(1,1,iph), adpc(1,1,iph), eref(1,isp),
      4            ph(1,-ltot,isp,iph), lmax(iph), iz(iph), itmp,
      5            xion(iph), iunf, xnval(1,iph), ispinp)
+c          call phase (iph, dxnew, x0, ri, ne, ne1, ne3, em, ixc, nsp,
+c     1            lreal, rmt(iph),rnrm(iph), xmuvr, vi0, iPl,
+c     2            gamach, vtotph, vvalph, rhoph, dmagx, rhphvl,
+c     3            dgcn, dpcn, adgc(1,1,iph), adpc(1,1,iph), eref(1,isp),
+c     4            ph(1,-ltot,isp,iph), lmax(iph), iz(iph), itmp,
+c     5            xion(iph), iunf, xnval(1,iph), ispinp)
  60     continue
 
  300  continue

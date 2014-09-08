@@ -161,11 +161,11 @@ ctemp if (ispin.ne.0)  rfms = rfms2
 
       if (lfms2 .ne. 0) then
         iph0 = 0
-        call fmssz( iph0, ie,  em, eref, ph, iz, nph,
+        call fmssz( iph0, ie,  em, eref, ph, nph,
      1        rfms, lfms2, nat, iphat, rat, amat, lmaxph, gctr, gtr)
       else
         do 190 iph0 = 0, nph 
-  190   call fmssz( iph0,  ie, em, eref, ph, iz, nph,
+  190   call fmssz( iph0,  ie, em, eref, ph, nph,
      1        rfms, lfms2, nat, iphat, rat, amat, lmaxph, gctr, gtr)
       endif
 

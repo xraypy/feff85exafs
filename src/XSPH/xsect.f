@@ -2,12 +2,14 @@ c     Josh - argument iPl has been added to arguments of xsect
       subroutine xsect (ipr2, dx, x0, ri, ne, ne1, ik0, em, edge,
      1                  ihole, emu, corr, dgc0, dpc0, jnew,
      2                  ixc, lreal, rmt, rnrm, xmu,
-     2                  vi0, iPl, gamach,
+     2                  iPl,
      3                  vtot, vvalgs, edens, dmag, edenvl,
      4                  dgcn, dpcn, adgc, adpc, xsec, xsnorm, rkk,
      5                  iz, xion, iunf, xnval,
-     5                  izstd, ifxc, eorb, kappa, iorb, l2lp,
+     5                  izstd, iorb, l2lp,
      6                  ipol, ispin, le2, angks, ptz)
+
+c gamach, eorb, ifxc, kappa
 
 c     right know the same self-energy is used for calculation
 c     of the central atom part (xsec) and dipole m.e. for
@@ -59,7 +61,8 @@ c                 of termination matrix in genfmt.
       complex*16 em(nex)
       dimension ri(nrptx), vtot(nrptx), edens(nrptx),dmag(nrptx)
       dimension dgc0(nrptx), dpc0(nrptx), vvalgs(nrptx), edenvl(nrptx)
-      dimension dgcn(nrptx,30), dpcn(nrptx,30), eorb(30), kappa(30)
+      dimension dgcn(nrptx,30), dpcn(nrptx,30)
+c      dimension eorb(30), kappa(30)
       dimension adgc(10,30), adpc(10,30), xnval(30), iorb(-4:3)
       complex*16 rkk(nex, 8), xsec(nex)
       complex*16 bmat(-lx:lx,0:1,8, -lx:lx,0:1,8)

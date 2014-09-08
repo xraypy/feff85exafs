@@ -1,10 +1,11 @@
 c     Josh - argument iPl has been added to arguments of xsect
       subroutine phase (iph, dx, x0, ri, ne, ne1, ne3, em,
      1                  ixc, nsp, lreal, rmt,rnrm, xmu,
-     2                  vi0, iPl, gamach,
+     2                  iPl,
      2                  vtot, vvalgs, edens, dmag, edenvl,
      3                  dgcn, dpcn, adgc, adpc, eref, ph, lmax,
      2                  iz, ihole, xion, iunf, xnval, ispin)
+c     2                  vi0, iPl, gamach,
 
       implicit double precision (a-h, o-z)
 
@@ -72,6 +73,9 @@ c{#mn: g77 (and other compilers) have an intrinsic function besjn,
 c      so besjn should be declared  external 
          external besjn
 c#mn}
+
+      clz = 0.d0
+
 c     zero phase shifts (some may not be set below)
       xkmax = 0
       ne12 = ne - ne3

@@ -193,7 +193,7 @@ c     initialize gg to zero
         ipf = npot
       endif
 c --- get basis kets; output array 'lrstat' passed through common
-      call getkts(nsp, inclus, npot, iphx, lipotx, i0)
+      call getkts(nsp, inclus, iphx, lipotx, i0)
 
 c --- sanity check for i0(ip)
       do 30 ip = ipi, ipf
@@ -372,7 +372,7 @@ c -----   end of loops over states
       return
       end
 c--------------------------------------------------------------------
-      subroutine getkts(nsp, nat, npot, iphx, lipotx, i0)
+      subroutine getkts(nsp, nat, iphx, lipotx, i0)
 
       implicit real (a-h,o-z)
       implicit integer (i-n)

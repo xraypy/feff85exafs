@@ -18,7 +18,7 @@ Marymount Manhattan College and measured by Bruce at NSLS X23A2.
 
 
 * [Chemical table file (cartesian coordinates)](bromoadamantane.sdf) -- [CID 79106](http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi?cid=79106)
-* [feff input file (converted from SDF file)](bromoadamantane.inp)
+* [template for feff input file (converted from SDF file)](bromoadamantane.mustache) -- uses the [mustache](http://mustache.github.io/) templating system
 * [XDI data file: chi(k)](bromoadamantane.chik)
 * [Athena project file](bromoadamantane.prj) -- Data processed with a pre-release of Demeter 0.9.21 using the larch (0.9.23) backend and XDI 1.0
 

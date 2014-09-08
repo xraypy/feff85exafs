@@ -170,11 +170,11 @@ cc    call fms for a cluster around central atom
       if (rfms1 .gt. 0) then
         if (lfms1 .ne. 0) then
           iph0 = 0
-          call fmsie( iph0, nph, lmaxsc, ie,  em, eref, ph, iz,
+          call fmsie( iph0, nph, lmaxsc, ie,  em, eref, ph,
      1                rfms1, lfms1, nat, iphat, rat, gtr)
         else
           do 190 iph0 = 0, nph 
-  190     call fmsie( iph0, nph, lmaxsc, ie, em, eref, ph, iz,
+  190     call fmsie( iph0, nph, lmaxsc, ie, em, eref, ph,
      1                rfms1, lfms1, nat, iphat, rat, gtr)
         endif
       endif

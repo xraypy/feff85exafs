@@ -4,7 +4,7 @@ c     output: ne, ne1, em(ne), ik0 [grid point with k=0]
 c             ne -  total number of points in array em
 c             ne1 - number of points on horizontal grid 
 
-      subroutine phmesh (iprint, ispec, edge, emu, vi0, gamach, ecv,
+      subroutine phmesh (iprint, ispec, edge, emu, vi0, gamach,
      1                  xkmax, xkstep, vixan, ne, ne1, em, ik0, ne3)
       implicit double precision (a-h, o-z)
       include '../HEADERS/const.h'

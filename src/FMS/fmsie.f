@@ -1,4 +1,4 @@
-      subroutine fmsie( iph0, nph, lipotx, ie, em, eref, ph, iz,
+      subroutine fmsie( iph0, nph, lipotx, ie, em, eref, ph,
      1                 rfms, lfms, nat, iphat, rath, gtr)
 
 c     full multiple scattering code for single energy point
@@ -18,7 +18,7 @@ c     input
       real rat(3,natx), rfms, rdirec, toler1, toler2
       real rpart,aipart
       integer nph
-      dimension iz(0:nphx)
+c      dimension iz(0:nphx)
       complex*16 ph(lx+1, 0:nphx)
 
 c     work space
@@ -58,8 +58,7 @@ c     transform to single precision
 c      it will be nice to call yprep once for all energy points,
 c      fix later, and now call it every time
       if (ie.eq.1 .or. lfms.eq.0 .or. lfms.eq.2) 
-     1  call yprep(iph0, nat, inclus, nph, iphat, rfms, rat,
-     2     iz, rdirec )
+     1  call yprep(iph0, nat, inclus, iphat, rfms, rat)
 
       if (inclus.gt.1) then
 

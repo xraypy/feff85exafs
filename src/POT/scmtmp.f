@@ -191,11 +191,11 @@ cc      call fms for a cluster around central atom
 c           set logic to call yprep on every processor
             lfms = lfms1
             if (ietot0.eq.1) lfms = 2
-            call fmsie( iph0, nph, lmaxsc, ietot, em, eref, ph, iz,
+            call fmsie( iph0, nph, lmaxsc, ietot, em, eref, ph,
      1           rfms1, lfms, nat, iphat, rat, gtr(0,0,ipr))
           else
             do 190 iph0 = 0, nph 
-  190       call fmsie( iph0, nph, lmaxsc, ietot, em, eref, ph, iz,
+  190       call fmsie( iph0, nph, lmaxsc, ietot, em, eref, ph,
      1           rfms1, lfms1, nat, iphat, rat, gtr(0,0,ipr))
           endif
         endif
