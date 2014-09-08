@@ -1,7 +1,8 @@
       subroutine repath ( ms, mpath, ipr4, pcritk, pcrith, nncrit, rmax,
      1             nlegxx, rfms2, critpw,
      2             nat, rat, iphat, ibounc,
-     3             ipol, ispin, evec, xivec ,eels)  !KJ added eels 5/06
+     3             ipol, ispin, evec, xivec)
+c ,eels)  !KJ added eels 5/06
 
       use json_module
       implicit double precision (a-h, o-z)
@@ -25,8 +26,8 @@ c       global polarization data
 cc    mod4.inp
         integer  mpath, ms, nncrit, nlegxx, ipr4
         real critpw, pcritk, pcrith,  rmax, rfms2
-        
-        integer eels !KJ added 5/06
+
+c        integer eels !KJ added 5/06
 
 
 c     Local stuff
@@ -36,7 +37,7 @@ c      dimension lhead(nheadx)
 
 c     standard formats for string, integers and real numbers
 c  10  format(a)
-  20  format (20i4)
+c  20  format (20i4)
 c  30  format (6f13.5)
 
 

@@ -61,7 +61,8 @@ c     the countour
       parameter (nflrx = 17)
       dimension step(nflrx)
 c     stuff from feff.f for rdinp, pathfinder and genfmt
-      logical wnstar, ok
+      logical ok
+c      logical wnstar
 c     Following passed to pathfinder, which is single precision.
       character*512 slog
       integer ient
@@ -152,7 +153,7 @@ cc        extension of SCF procedure.
           endif
 
           call fixdsx (iph, dx, rgrd , dgc, dpc, dgcn, dpcn)
-          jri = (log(rmt(iph)) + x0) / rgrd + 2
+          jri = int((log(rmt(iph)) + x0) / rgrd) + 2
           jri1 = jri+1
           eref = vtotph(jri1)
           do 40 i = 1, jri1

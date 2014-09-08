@@ -157,8 +157,8 @@ c     (read above) includes carriage control.
      1        '  keep and heap limits', 2f12.7)
 
       call wlog('    Preparing neighbor table')
-      
-   36 format (1x, a)
+
+c   36 format (1x, a)
 c     prepare table telling distance from atom i to atom j and then
 c     back to central atom
 c     First bounce is m(-1,...), m(0,...) is bounces from central

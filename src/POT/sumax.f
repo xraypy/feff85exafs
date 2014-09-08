@@ -44,6 +44,7 @@ c     Wigner-Seitz radius is set to 15 in ATOM.
       rws = 15
       jjchi = ii(rws)
       jtop  = ii(rn)
+      xbl = 0
 
       topx = xx(jjchi)
 
@@ -53,7 +54,7 @@ c     Wigner-Seitz radius is set to 15 in ATOM.
          et = exp(x)
          blx = log(rn-et)
          if (blx .ge. topx)  goto 119
-         jbl = 2.0+20.0*(blx+8.8)
+         jbl = int(2.0+20.0*(blx+8.8))
          if (jbl .lt. 1)  jbl=1
          if (jbl .ge. 2)  then
 c           use linear interp to make end cap near center of neighbor
@@ -68,7 +69,7 @@ c           use linear interp to make end cap near center of neighbor
             jtl = jjchi
             go to 90
          endif
-         jtl = 1.0 + 20.0*(tlx+8.8)
+         jtl = int(1.0 + 20.0*(tlx+8.8))
          if (jtl .lt. jbl)  then
 c           handle peculiar special case at center of atom 1
             fzn = aa2(jtl)*exp(2.0*(xbl-0.05))

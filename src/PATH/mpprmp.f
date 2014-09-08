@@ -263,9 +263,9 @@ c     inverse all y-coordinates if first nonzero y-coord is negative
   590 continue
 
       do 595 j = 1, npat
-        xp(j) = xp1(j)
-        yp(j) = yp1(j)
-        zp(j) = zp1(j)
+        xp(j) = real(xp1(j))
+        yp(j) = real(yp1(j))
+        zp(j) = real(zp1(j))
   595 continue
 c     now xp,yp,zp represent the path in standard order
       return

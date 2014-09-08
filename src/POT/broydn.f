@@ -111,7 +111,7 @@ c     dq - extra number of e (charge transfer)
       dqav=0.0d0
       xnat = 0.d0
       do 700 iph = 0, nph
-        jnrm =  (log(rnrm(iph)) + x0) / dx05  +  2
+        jnrm =  int((log(rnrm(iph)) + x0) / dx05)  +  2
         i0=jnrm+1
         xirf = 2
         do 710 ir = 1, ilast(iph)

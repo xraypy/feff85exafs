@@ -25,7 +25,8 @@ c       paths.dat - list of filtered paths
       include '../HEADERS/parallel.h'
 
       
-      dimension lmaxph(0:nphx), rat(3,natx), iphat(natx), ibounc(natx)
+c      dimension lmaxph(0:nphx)
+      dimension rat(3,natx), iphat(natx), ibounc(natx)
       double precision evec(3), xivec(3)
       character*6  potlbl(0:nphx)
         integer  mpath, ms, nncrit, nlegxx, ipr4
@@ -54,7 +55,8 @@ c     INPUT: read geom.dat, global.dat, mod4.inp
 c                  geom.dat
      2             nat, rat, iphat, ibounc,
 c                  global.dat
-     3             ipol, ispin, evec, xivec ,eels) !KJ added eels 5/06
+     3             ipol, ispin, evec, xivec)
+c ,eels) !KJ added eels 5/06
        if (nspx.gt.1) ispin = abs(ispin)
 
       if (ms.eq.1  .and.  mpath.eq.1)  then

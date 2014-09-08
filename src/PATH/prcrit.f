@@ -71,11 +71,11 @@ c     |p| at each energy point (path finder uses invA, convert here)
 c     Also make mfp (xlam) in Ang
       do 100  ie = 1, ne
          cktmp = sqrt (2*(em(ie) - eref(ie)))
-         cksp(ie) = dble (cktmp) / bohr
+         cksp(ie) = real(dble (cktmp) / bohr)
 c        xlam code lifted from genfmt
          xlam(ie) = 1.0e10
-         if (abs(dimag(cktmp)) .gt. eps) xlam(ie) = 1/dimag(cktmp)
-         xlam(ie) = xlam(ie) * bohr
+         if (abs(dimag(cktmp)) .gt. eps) xlam(ie) = real(1/dimag(cktmp))
+         xlam(ie) = xlam(ie) * real(bohr)
   100 continue
 
 c     Make the cos(beta)'s
@@ -97,7 +97,7 @@ c     make fbeta (f(beta) for all energy points
                   tl = (exp (2*coni*ph(ie,il,iii)) - 1) / (2*coni)
                   cfbeta = cfbeta + tl*pl(il)*(2*il-1)
   245          continue
-               fbeta(ibeta,iii,ie) = abs(cfbeta)
+               fbeta(ibeta,iii,ie) = real( abs(cfbeta) )
   250       continue
   260    continue
   280 continue
