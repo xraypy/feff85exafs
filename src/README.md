@@ -23,6 +23,7 @@ were taken from the top level Makefile that came from the Feff
 Project.  The gfortran flags were selected by Bruce after playing
 around on his Ubuntu system.
 
+---
 
 # Compiling against json-fortran
 
@@ -83,3 +84,21 @@ Matt has these reasonable things to say about compiling against json-fortran:
 
 Clearly, if we stay with json-fortran, these concerns need to be
 addressed and well tested.
+
+---
+
+# Simple static analysis
+
+The following is a very useful command:
+
+	../src> ftnchek -mkhtml */*.f
+
+When run in the `src/` folder, this will generate a small html file
+for every fortran source file below `src/` in the repository.  These
+html files explain function and subroutine arguments, common block
+parameters, local variables, and several other useful tidbits for each
+file.
+
+This combined with the call graphs in the `tree/` folder under each
+source code folder provide a fairly thorough mapping of information
+through the many parts of Feff.

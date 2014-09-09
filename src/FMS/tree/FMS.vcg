@@ -1,0 +1,133 @@
+graph: {
+title: "fmsie.f"
+color: lightgray
+
+graph: {
+title:"[FMSIE]"
+node: { title: "FMSIE" label: "FMSIE \n (fmsie.f)" info1:"1" }
+edge: { sourcename: "FMSIE" targetname: "FMS" class:1} 
+edge: { sourcename: "FMSIE" targetname: "YPREP" class:1} 
+
+graph: {
+title:"[FMS]"
+node: { title: "FMS" label: "FMS \n (fmspack.f)" info1:"2" }
+edge: { sourcename: "FMS" targetname: "GETKTS" class:2} 
+edge: { sourcename: "FMS" targetname: "GGBI" class:2} 
+edge: { sourcename: "FMS" targetname: "GGGM" class:2} 
+edge: { sourcename: "FMS" targetname: "GGLU" class:2} 
+edge: { sourcename: "FMS" targetname: "GGRM" class:2} 
+edge: { sourcename: "FMS" targetname: "GGTF" class:2} 
+edge: { sourcename: "FMS" targetname: "XCLMZ" class:2} 
+edge: { sourcename: "FMS" targetname: "XGLLM" class:2} 
+
+graph: {
+title:"[GETKTS]"
+node: { title: "GETKTS" label: "GETKTS \n (fmspack.f)" info1:"3" }
+}
+
+graph: {
+title:"[GGBI]"
+node: { title: "GGBI" label: "GGBI \n (ggbi.f)" info1:"3" }
+edge: { sourcename: "GGBI" targetname: "CDOT" class:3} 
+edge: { sourcename: "GGBI" targetname: "MATVEC" class:3} 
+
+graph: {
+title:"[CDOT]"
+node: { title: "CDOT" label: "CDOT \n (ggrm.f)" info1:"4" }
+}
+
+graph: {
+title:"[MATVEC]"
+node: { title: "MATVEC" label: "MATVEC \n (ggrm.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[GGGM]"
+node: { title: "GGGM" label: "GGGM \n (gggm.f)" info1:"3" }
+edge: { sourcename: "GGGM" targetname: "CDOT" class:3} 
+edge: { sourcename: "GGGM" targetname: "MATVEC" class:3} 
+}
+
+graph: {
+title:"[GGLU]"
+node: { title: "GGLU" label: "GGLU \n (gglu.f)" info1:"3" }
+}
+
+graph: {
+title:"[GGRM]"
+node: { title: "GGRM" label: "GGRM \n (ggrm.f)" info1:"3" }
+edge: { sourcename: "GGRM" targetname: "CDOT" class:3} 
+edge: { sourcename: "GGRM" targetname: "MATVEC" class:3} 
+}
+
+graph: {
+title:"[GGTF]"
+node: { title: "GGTF" label: "GGTF \n (ggtf.f)" info1:"3" }
+edge: { sourcename: "GGTF" targetname: "CDOT" class:3} 
+edge: { sourcename: "GGTF" targetname: "MATVEC" class:3} 
+}
+
+graph: {
+title:"[XCLMZ]"
+node: { title: "XCLMZ" label: "XCLMZ \n (fmspack.f)" info1:"3" }
+}
+
+graph: {
+title:"[XGLLM]"
+node: { title: "XGLLM" label: "XGLLM \n (fmspack.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[YPREP]"
+node: { title: "YPREP" label: "YPREP \n (yprep.f)" info1:"2" }
+edge: { sourcename: "YPREP" targetname: "ATHEAP" class:2} 
+edge: { sourcename: "YPREP" targetname: "GETANG" class:2} 
+edge: { sourcename: "YPREP" targetname: "ROTINT" class:2} 
+edge: { sourcename: "YPREP" targetname: "ROTXAN" class:2} 
+edge: { sourcename: "YPREP" targetname: "XANLM" class:2} 
+
+graph: {
+title:"[ATHEAP]"
+node: { title: "ATHEAP" label: "ATHEAP \n (xstaff.f)" info1:"3" }
+}
+
+graph: {
+title:"[GETANG]"
+node: { title: "GETANG" label: "GETANG \n (xstaff.f)" info1:"3" }
+}
+
+graph: {
+title:"[ROTINT]"
+node: { title: "ROTINT" label: "ROTINT \n (xstaff.f)" info1:"3" }
+}
+
+graph: {
+title:"[ROTXAN]"
+node: { title: "ROTXAN" label: "ROTXAN \n (xstaff.f)" info1:"3" }
+}
+
+graph: {
+title:"[XANLM]"
+node: { title: "XANLM" label: "XANLM \n (xstaff.f)" info1:"3" }
+edge: { sourcename: "XANLM" targetname: "XFCTST" class:3} 
+
+graph: {
+title:"[XFCTST]"
+node: { title: "XFCTST" label: "XFCTST \n (xstaff.f)" info1:"4" }
+}
+}
+}
+}
+
+graph: {
+title:"[VECVEC]"
+node: { title: "VECVEC" label: "VECVEC \n (ggrm.f)" info1:"1" }
+}
+
+graph: {
+title:"[SORTAT]"
+node: { title: "SORTAT" label: "SORTAT \n (xstaff.f)" info1:"1" }
+}
+}

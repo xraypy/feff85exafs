@@ -1,0 +1,124 @@
+graph: {
+title: "rdinp_l.f"
+color: lightgray
+
+graph: {
+title:"[RDINP]"
+node: { title: "RDINP" label: "RDINP \n (rdinp_l.f)" info1:"1" }
+edge: { sourcename: "RDINP" targetname: "FFSORT" class:1} 
+edge: { sourcename: "RDINP" targetname: "INIALL" class:1} 
+edge: { sourcename: "RDINP" targetname: "PHSTOP" class:1} 
+edge: { sourcename: "RDINP" targetname: "RDLINE" class:1} 
+edge: { sourcename: "RDINP" targetname: "SETEDG" class:1} 
+edge: { sourcename: "RDINP" targetname: "WARNEX" class:1} 
+edge: { sourcename: "RDINP" targetname: "WRTJSN" class:1} 
+
+graph: {
+title:"[FFSORT]"
+node: { title: "FFSORT" label: "FFSORT \n (ffsort.f)" info1:"2" }
+edge: { sourcename: "FFSORT" targetname: "JSON_GEOM" class:2} 
+edge: { sourcename: "FFSORT" targetname: "JSON_GLOBAL" class:2} 
+edge: { sourcename: "FFSORT" targetname: "MKPTZ" class:2} 
+
+graph: {
+title:"[JSON_GEOM]"
+node: { title: "JSON_GEOM" label: "JSON_GEOM \n (wrtjsn.f)" info1:"3" }
+}
+
+graph: {
+title:"[JSON_GLOBAL]"
+node: { title: "JSON_GLOBAL" label: "JSON_GLOBAL \n (wrtjsn.f)" info1:"3" }
+}
+
+graph: {
+title:"[MKPTZ]"
+node: { title: "MKPTZ" label: "MKPTZ \n (mkptz.f)" info1:"3" }
+edge: { sourcename: "MKPTZ" targetname: "ROTATE" class:3} 
+
+graph: {
+title:"[ROTATE]"
+node: { title: "ROTATE" label: "ROTATE \n (mkptz.f)" info1:"4" }
+}
+}
+}
+
+graph: {
+title:"[INIALL]"
+node: { title: "INIALL" label: "INIALL \n (iniall.f)" info1:"2" }
+}
+
+graph: {
+title:"[PHSTOP]"
+node: { title: "PHSTOP" label: "PHSTOP \n (rdinp_l.f)" info1:"2" }
+}
+
+graph: {
+title:"[RDLINE]"
+node: { title: "RDLINE" label: "RDLINE \n (rdline.f)" info1:"2" }
+edge: { sourcename: "RDLINE" targetname: "GETFLN" class:2} 
+edge: { sourcename: "RDLINE" targetname: "OPENFL" class:2} 
+
+graph: {
+title:"[GETFLN]"
+node: { title: "GETFLN" label: "GETFLN \n (rdline.f)" info1:"3" }
+}
+
+graph: {
+title:"[OPENFL]"
+node: { title: "OPENFL" label: "OPENFL \n (rdline.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[SETEDG]"
+node: { title: "SETEDG" label: "SETEDG \n (setedg.f)" info1:"2" }
+}
+
+graph: {
+title:"[WARNEX]"
+node: { title: "WARNEX" label: "WARNEX \n (rdinp_l.f)" info1:"2" }
+}
+
+graph: {
+title:"[WRTJSN]"
+node: { title: "WRTJSN" label: "WRTJSN \n (wrtjsn.f)" info1:"2" }
+edge: { sourcename: "WRTJSN" targetname: "JSON_ATOMS" class:2} 
+edge: { sourcename: "WRTJSN" targetname: "JSON_GLOBAL" class:2} 
+edge: { sourcename: "WRTJSN" targetname: "JSON_MOD1" class:2} 
+edge: { sourcename: "WRTJSN" targetname: "JSON_MOD2" class:2} 
+edge: { sourcename: "WRTJSN" targetname: "JSON_MOD4" class:2} 
+edge: { sourcename: "WRTJSN" targetname: "JSON_MOD5" class:2} 
+edge: { sourcename: "WRTJSN" targetname: "JSON_MOD6" class:2} 
+
+graph: {
+title:"[JSON_ATOMS]"
+node: { title: "JSON_ATOMS" label: "JSON_ATOMS \n (wrtjsn.f)" info1:"3" }
+}
+
+graph: {
+title:"[JSON_MOD1]"
+node: { title: "JSON_MOD1" label: "JSON_MOD1 \n (wrtjsn.f)" info1:"3" }
+}
+
+graph: {
+title:"[JSON_MOD2]"
+node: { title: "JSON_MOD2" label: "JSON_MOD2 \n (wrtjsn.f)" info1:"3" }
+}
+
+graph: {
+title:"[JSON_MOD4]"
+node: { title: "JSON_MOD4" label: "JSON_MOD4 \n (wrtjsn.f)" info1:"3" }
+}
+
+graph: {
+title:"[JSON_MOD5]"
+node: { title: "JSON_MOD5" label: "JSON_MOD5 \n (wrtjsn.f)" info1:"3" }
+}
+
+graph: {
+title:"[JSON_MOD6]"
+node: { title: "JSON_MOD6" label: "JSON_MOD6 \n (wrtjsn.f)" info1:"3" }
+}
+}
+}
+}

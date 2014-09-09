@@ -1,0 +1,116 @@
+graph: {
+title: "aprdec.f"
+color: lightgray
+
+graph: {
+title:"[DFOVRG]"
+node: { title: "DFOVRG" label: "DFOVRG \n (dfovrg.f)" info1:"1" }
+edge: { sourcename: "DFOVRG" targetname: "DIFF" class:1} 
+edge: { sourcename: "DFOVRG" targetname: "FLATV" class:1} 
+edge: { sourcename: "DFOVRG" targetname: "INMUAC" class:1} 
+edge: { sourcename: "DFOVRG" targetname: "MUATCC" class:1} 
+edge: { sourcename: "DFOVRG" targetname: "POTEX" class:1} 
+edge: { sourcename: "DFOVRG" targetname: "SOLIN" class:1} 
+edge: { sourcename: "DFOVRG" targetname: "SOLOUT" class:1} 
+edge: { sourcename: "DFOVRG" targetname: "WFIRDC" class:1} 
+
+graph: {
+title:"[DIFF]"
+node: { title: "DIFF" label: "DIFF \n (diff.f)" info1:"2" }
+}
+
+graph: {
+title:"[FLATV]"
+node: { title: "FLATV" label: "FLATV \n (dfovrg.f)" info1:"2" }
+}
+
+graph: {
+title:"[INMUAC]"
+node: { title: "INMUAC" label: "INMUAC \n (inmuac.f)" info1:"2" }
+}
+
+graph: {
+title:"[MUATCC]"
+node: { title: "MUATCC" label: "MUATCC \n (muatcc.f)" info1:"2" }
+}
+
+graph: {
+title:"[POTEX]"
+node: { title: "POTEX" label: "POTEX \n (potex.f)" info1:"2" }
+edge: { sourcename: "POTEX" targetname: "APRDEC" class:2} 
+edge: { sourcename: "POTEX" targetname: "YZKRDC" class:2} 
+
+graph: {
+title:"[APRDEC]"
+node: { title: "APRDEC" label: "APRDEC \n (aprdec.f)" info1:"3" }
+}
+
+graph: {
+title:"[YZKRDC]"
+node: { title: "YZKRDC" label: "YZKRDC \n (yzkrdc.f)" info1:"3" }
+edge: { sourcename: "YZKRDC" targetname: "APRDEC" class:3} 
+edge: { sourcename: "YZKRDC" targetname: "YZKTEC" class:3} 
+
+graph: {
+title:"[YZKTEC]"
+node: { title: "YZKTEC" label: "YZKTEC \n (yzktec.f)" info1:"4" }
+}
+}
+}
+
+graph: {
+title:"[SOLIN]"
+node: { title: "SOLIN" label: "SOLIN \n (solin.f)" info1:"2" }
+edge: { sourcename: "SOLIN" targetname: "FLATV" class:2} 
+}
+
+graph: {
+title:"[SOLOUT]"
+node: { title: "SOLOUT" label: "SOLOUT \n (solout.f)" info1:"2" }
+edge: { sourcename: "SOLOUT" targetname: "FLATV" class:2} 
+edge: { sourcename: "SOLOUT" targetname: "INTOUT" class:2} 
+
+graph: {
+title:"[INTOUT]"
+node: { title: "INTOUT" label: "INTOUT \n (intout.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[WFIRDC]"
+node: { title: "WFIRDC" label: "WFIRDC \n (wfirdc.f)" info1:"2" }
+edge: { sourcename: "WFIRDC" targetname: "NUCDEC" class:2} 
+edge: { sourcename: "WFIRDC" targetname: "POTDVP" class:2} 
+edge: { sourcename: "WFIRDC" targetname: "SOLIN" class:2} 
+edge: { sourcename: "WFIRDC" targetname: "SOLOUT" class:2} 
+
+graph: {
+title:"[NUCDEC]"
+node: { title: "NUCDEC" label: "NUCDEC \n (nucdec.f)" info1:"3" }
+}
+
+graph: {
+title:"[POTDVP]"
+node: { title: "POTDVP" label: "POTDVP \n (potdvp.f)" info1:"3" }
+edge: { sourcename: "POTDVP" targetname: "APRDEP" class:3} 
+
+graph: {
+title:"[APRDEP]"
+node: { title: "APRDEP" label: "APRDEP \n (aprdep.f)" info1:"4" }
+}
+}
+}
+}
+
+graph: {
+title:"[ORTDAC]"
+node: { title: "ORTDAC" label: "ORTDAC \n (ortdac.f)" info1:"1" }
+edge: { sourcename: "ORTDAC" targetname: "DSORDC" class:1} 
+
+graph: {
+title:"[DSORDC]"
+node: { title: "DSORDC" label: "DSORDC \n (dsordc.f)" info1:"2" }
+edge: { sourcename: "DSORDC" targetname: "APRDEC" class:2} 
+}
+}
+}
