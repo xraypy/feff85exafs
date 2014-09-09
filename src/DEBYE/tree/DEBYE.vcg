@@ -1,0 +1,108 @@
+graph: {
+title: "sigcl.f"
+color: lightgray
+
+graph: {
+title:"[SIGCL]"
+node: { title: "SIGCL" label: "SIGCL \n (sigcl.f)" info1:"1" }
+edge: { sourcename: "SIGCL" targetname: "CORRFN2" class:1} 
+
+graph: {
+title:"[CORRFN2]"
+node: { title: "CORRFN2" label: "CORRFN2 \n (sigcl.f)" info1:"2" }
+edge: { sourcename: "CORRFN2" targetname: "BINGRT2" class:2} 
+
+graph: {
+title:"[BINGRT2]"
+node: { title: "BINGRT2" label: "BINGRT2 \n (sigcl.f)" info1:"3" }
+edge: { sourcename: "BINGRT2" targetname: "FN2" class:3} 
+
+graph: {
+title:"[FN2]"
+node: { title: "FN2" label: "FN2 \n (sigcl.f)" info1:"4" }
+}
+}
+}
+}
+
+graph: {
+title:"[SIGM3]"
+node: { title: "SIGM3" label: "SIGM3 \n (sigm3.f)" info1:"1" }
+}
+
+graph: {
+title:"[SIGMS]"
+node: { title: "SIGMS" label: "SIGMS \n (sigms.f)" info1:"1" }
+edge: { sourcename: "SIGMS" targetname: "CORRFN" class:1} 
+
+graph: {
+title:"[CORRFN]"
+node: { title: "CORRFN" label: "CORRFN \n (sigms.f)" info1:"2" }
+edge: { sourcename: "CORRFN" targetname: "BINGRT" class:2} 
+
+graph: {
+title:"[BINGRT]"
+node: { title: "BINGRT" label: "BINGRT \n (sigms.f)" info1:"3" }
+edge: { sourcename: "BINGRT" targetname: "FN" class:3} 
+
+graph: {
+title:"[FN]"
+node: { title: "FN" label: "FN \n (sigms.f)" info1:"4" }
+}
+}
+}
+}
+
+graph: {
+title:"[SIGEM]"
+node: { title: "SIGEM" label: "SIGEM \n (sigrem.f)" info1:"1" }
+edge: { sourcename: "SIGEM" targetname: "DWRDIN" class:1} 
+edge: { sourcename: "SIGEM" targetname: "RDSPR" class:1} 
+
+graph: {
+title:"[DWRDIN]"
+node: { title: "DWRDIN" label: "DWRDIN \n (sigrem.f)" info1:"2" }
+}
+
+graph: {
+title:"[RDSPR]"
+node: { title: "RDSPR" label: "RDSPR \n (sigrem.f)" info1:"2" }
+edge: { sourcename: "RDSPR" targetname: "CHEKIN" class:2} 
+edge: { sourcename: "RDSPR" targetname: "COSS" class:2} 
+edge: { sourcename: "RDSPR" targetname: "SANG" class:2} 
+
+graph: {
+title:"[CHEKIN]"
+node: { title: "CHEKIN" label: "CHEKIN \n (sigrem.f)" info1:"3" }
+}
+
+graph: {
+title:"[COSS]"
+node: { title: "COSS" label: "COSS \n (sigrem.f)" info1:"3" }
+}
+
+graph: {
+title:"[SANG]"
+node: { title: "SANG" label: "SANG \n (sigrem.f)" info1:"3" }
+edge: { sourcename: "SANG" targetname: "VECT" class:3} 
+
+graph: {
+title:"[VECT]"
+node: { title: "VECT" label: "VECT \n (sigrem.f)" info1:"4" }
+}
+}
+}
+}
+
+graph: {
+title:"[SIGRM]"
+node: { title: "SIGRM" label: "SIGRM \n (sigrem.f)" info1:"1" }
+edge: { sourcename: "SIGRM" targetname: "DWRDIN" class:1} 
+edge: { sourcename: "SIGRM" targetname: "RDSPR" class:1} 
+}
+
+graph: {
+title:"[SIGTE3]"
+node: { title: "SIGTE3" label: "SIGTE3 \n (sigte3.f)" info1:"1" }
+}
+}

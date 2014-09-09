@@ -1,0 +1,311 @@
+graph: {
+title: "chopen.f"
+color: lightgray
+
+graph: {
+title:"[FIXDSP]"
+node: { title: "FIXDSP" label: "FIXDSP \n (fixdsp.f)" info1:"1" }
+edge: { sourcename: "FIXDSP" targetname: "WLOG" class:1} 
+
+graph: {
+title:"[WLOG]"
+node: { title: "WLOG" label: "WLOG \n (wlog.f)" info1:"2" }
+edge: { sourcename: "WLOG" targetname: "ISTRLN" class:2} 
+
+graph: {
+title:"[ISTRLN]"
+node: { title: "ISTRLN" label: "ISTRLN \n (str.f)" info1:"3" }
+}
+}
+}
+
+graph: {
+title:"[FIXDSX]"
+node: { title: "FIXDSX" label: "FIXDSX \n (fixdsx.f)" info1:"1" }
+}
+
+graph: {
+title:"[FIXVAR]"
+node: { title: "FIXVAR" label: "FIXVAR \n (fixvar.f)" info1:"1" }
+}
+
+graph: {
+title:"[GETORB]"
+node: { title: "GETORB" label: "GETORB \n (getorb.f)" info1:"1" }
+edge: { sourcename: "GETORB" targetname: "WLOG" class:1} 
+}
+
+graph: {
+title:"[GETXK]"
+node: { title: "GETXK" label: "GETXK \n (getxk.f)" info1:"1" }
+}
+
+graph: {
+title:"[STHEAD]"
+node: { title: "STHEAD" label: "STHEAD \n (head.f)" info1:"1" }
+edge: { sourcename: "STHEAD" targetname: "ISTRLN" class:1} 
+}
+
+graph: {
+title:"[WTHEAD]"
+node: { title: "WTHEAD" label: "WTHEAD \n (head.f)" info1:"1" }
+edge: { sourcename: "WTHEAD" targetname: "ISTRLN" class:1} 
+}
+
+graph: {
+title:"[INIPTZ]"
+node: { title: "INIPTZ" label: "INIPTZ \n (iniptz.f)" info1:"1" }
+edge: { sourcename: "INIPTZ" targetname: "WLOG" class:1} 
+}
+
+graph: {
+title:"[ITOKEN]"
+node: { title: "ITOKEN" label: "ITOKEN \n (itoken.f)" info1:"1" }
+edge: { sourcename: "ITOKEN" targetname: "UPPER" class:1} 
+
+graph: {
+title:"[UPPER]"
+node: { title: "UPPER" label: "UPPER \n (str.f)" info1:"2" }
+edge: { sourcename: "UPPER" targetname: "ISTRLN" class:2} 
+}
+}
+
+graph: {
+title:"[NXTUNT]"
+node: { title: "NXTUNT" label: "NXTUNT \n (nxtunt.f)" info1:"1" }
+}
+
+graph: {
+title:"[WRPADD]"
+node: { title: "WRPADD" label: "WRPADD \n (padlib.f)" info1:"1" }
+edge: { sourcename: "WRPADD" targetname: "PAD" class:1} 
+
+graph: {
+title:"[PAD]"
+node: { title: "PAD" label: "PAD \n (padlib.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[WRPADX]"
+node: { title: "WRPADX" label: "WRPADX \n (padlib.f)" info1:"1" }
+edge: { sourcename: "WRPADX" targetname: "PAD" class:1} 
+}
+
+graph: {
+title:"[WRPADR]"
+node: { title: "WRPADR" label: "WRPADR \n (padlib.f)" info1:"1" }
+edge: { sourcename: "WRPADR" targetname: "PAD" class:1} 
+}
+
+graph: {
+title:"[WRPADC]"
+node: { title: "WRPADC" label: "WRPADC \n (padlib.f)" info1:"1" }
+edge: { sourcename: "WRPADC" targetname: "PAD" class:1} 
+}
+
+graph: {
+title:"[RDPADR]"
+node: { title: "RDPADR" label: "RDPADR \n (padlib.f)" info1:"1" }
+edge: { sourcename: "RDPADR" targetname: "IREAD" class:1} 
+edge: { sourcename: "RDPADR" targetname: "ISTRLN" class:1} 
+edge: { sourcename: "RDPADR" targetname: "TRIML" class:1} 
+edge: { sourcename: "RDPADR" targetname: "UNPAD" class:1} 
+edge: { sourcename: "RDPADR" targetname: "WLOG" class:1} 
+
+graph: {
+title:"[IREAD]"
+node: { title: "IREAD" label: "IREAD \n (padlib.f)" info1:"2" }
+edge: { sourcename: "IREAD" targetname: "ISTRLN" class:2} 
+edge: { sourcename: "IREAD" targetname: "SCLEAN" class:2} 
+
+graph: {
+title:"[SCLEAN]"
+node: { title: "SCLEAN" label: "SCLEAN \n (padlib.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[TRIML]"
+node: { title: "TRIML" label: "TRIML \n (str.f)" info1:"2" }
+edge: { sourcename: "TRIML" targetname: "ISTRLN" class:2} 
+}
+
+graph: {
+title:"[UNPAD]"
+node: { title: "UNPAD" label: "UNPAD \n (padlib.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[RDPADC]"
+node: { title: "RDPADC" label: "RDPADC \n (padlib.f)" info1:"1" }
+edge: { sourcename: "RDPADC" targetname: "IREAD" class:1} 
+edge: { sourcename: "RDPADC" targetname: "ISTRLN" class:1} 
+edge: { sourcename: "RDPADC" targetname: "TRIML" class:1} 
+edge: { sourcename: "RDPADC" targetname: "UNPAD" class:1} 
+edge: { sourcename: "RDPADC" targetname: "WLOG" class:1} 
+}
+
+graph: {
+title:"[ATWTD]"
+node: { title: "ATWTD" label: "ATWTD \n (pertab.f)" info1:"1" }
+}
+
+graph: {
+title:"[ATWTS]"
+node: { title: "ATWTS" label: "ATWTS \n (pertab.f)" info1:"1" }
+}
+
+graph: {
+title:"[ATSYM]"
+node: { title: "ATSYM" label: "ATSYM \n (pertab.f)" info1:"1" }
+}
+
+graph: {
+title:"[PRTBBD]"
+node: { title: "PRTBBD" label: "PRTBBD \n (pertab.f)" info1:"1" }
+}
+
+graph: {
+title:"[PIJUMP]"
+node: { title: "PIJUMP" label: "PIJUMP \n (pijump.f)" info1:"1" }
+}
+
+graph: {
+title:"[QSORTI]"
+node: { title: "QSORTI" label: "QSORTI \n (qsorti.f)" info1:"1" }
+}
+
+graph: {
+title:"[RDCMT]"
+node: { title: "RDCMT" label: "RDCMT \n (rdcmt.f)" info1:"1" }
+}
+
+graph: {
+title:"[RDHEAD]"
+node: { title: "RDHEAD" label: "RDHEAD \n (rdhead.f)" info1:"1" }
+edge: { sourcename: "RDHEAD" targetname: "ISTRLN" class:1} 
+}
+
+graph: {
+title:"[RDPOT]"
+node: { title: "RDPOT" label: "RDPOT \n (rdpot.f)" info1:"1" }
+edge: { sourcename: "RDPOT" targetname: "RDPADD" class:1} 
+edge: { sourcename: "RDPOT" targetname: "TRIML" class:1} 
+
+graph: {
+title:"[RDPADD]"
+node: { title: "RDPADD" label: "RDPADD \n (padlib.f)" info1:"2" }
+edge: { sourcename: "RDPADD" targetname: "IREAD" class:2} 
+edge: { sourcename: "RDPADD" targetname: "ISTRLN" class:2} 
+edge: { sourcename: "RDPADD" targetname: "TRIML" class:2} 
+edge: { sourcename: "RDPADD" targetname: "UNPAD" class:2} 
+edge: { sourcename: "RDPADD" targetname: "WLOG" class:2} 
+}
+}
+
+graph: {
+title:"[RDXSPH]"
+node: { title: "RDXSPH" label: "RDXSPH \n (rdxsph.f)" info1:"1" }
+edge: { sourcename: "RDXSPH" targetname: "CHOPEN" class:1} 
+edge: { sourcename: "RDXSPH" targetname: "RDPADD" class:1} 
+edge: { sourcename: "RDXSPH" targetname: "RDPADX" class:1} 
+
+graph: {
+title:"[CHOPEN]"
+node: { title: "CHOPEN" label: "CHOPEN \n (chopen.f)" info1:"2" }
+edge: { sourcename: "CHOPEN" targetname: "ISTRLN" class:2} 
+edge: { sourcename: "CHOPEN" targetname: "WLOG" class:2} 
+}
+
+graph: {
+title:"[RDPADX]"
+node: { title: "RDPADX" label: "RDPADX \n (padlib.f)" info1:"2" }
+edge: { sourcename: "RDPADX" targetname: "IREAD" class:2} 
+edge: { sourcename: "RDPADX" targetname: "ISTRLN" class:2} 
+edge: { sourcename: "RDPADX" targetname: "TRIML" class:2} 
+edge: { sourcename: "RDPADX" targetname: "UNPAD" class:2} 
+edge: { sourcename: "RDPADX" targetname: "WLOG" class:2} 
+}
+}
+
+graph: {
+title:"[SETGAM]"
+node: { title: "SETGAM" label: "SETGAM \n (setgam.f)" info1:"1" }
+edge: { sourcename: "SETGAM" targetname: "WLOG" class:1} 
+}
+
+graph: {
+title:"[SETKAP]"
+node: { title: "SETKAP" label: "SETKAP \n (setkap.f)" info1:"1" }
+}
+
+graph: {
+title:"[STR2RE]"
+node: { title: "STR2RE" label: "STR2RE \n (str2dp.f)" info1:"1" }
+edge: { sourcename: "STR2RE" targetname: "STR2DP" class:1} 
+
+graph: {
+title:"[STR2DP]"
+node: { title: "STR2DP" label: "STR2DP \n (str2dp.f)" info1:"2" }
+edge: { sourcename: "STR2DP" targetname: "ISNUM" class:2} 
+
+graph: {
+title:"[ISNUM]"
+node: { title: "ISNUM" label: "ISNUM \n (isnum.f)" info1:"3" }
+edge: { sourcename: "ISNUM" targetname: "ISTRLN" class:3} 
+}
+}
+}
+
+graph: {
+title:"[STR2IN]"
+node: { title: "STR2IN" label: "STR2IN \n (str2dp.f)" info1:"1" }
+edge: { sourcename: "STR2IN" targetname: "STR2DP" class:1} 
+}
+
+graph: {
+title:"[LOWER]"
+node: { title: "LOWER" label: "LOWER \n (str.f)" info1:"1" }
+edge: { sourcename: "LOWER" targetname: "ISTRLN" class:1} 
+}
+
+graph: {
+title:"[BWORDS]"
+node: { title: "BWORDS" label: "BWORDS \n (str.f)" info1:"1" }
+edge: { sourcename: "BWORDS" targetname: "ISTRLN" class:1} 
+}
+
+graph: {
+title:"[UNTAB]"
+node: { title: "UNTAB" label: "UNTAB \n (str.f)" info1:"1" }
+edge: { sourcename: "UNTAB" targetname: "ISTRLN" class:1} 
+}
+
+graph: {
+title:"[ISCOMM]"
+node: { title: "ISCOMM" label: "ISCOMM \n (str.f)" info1:"1" }
+}
+
+graph: {
+title:"[LBLANK]"
+node: { title: "LBLANK" label: "LBLANK \n (wlog.f)" info1:"1" }
+}
+
+graph: {
+title:"[RR]"
+node: { title: "RR" label: "RR \n (xx.f)" info1:"1" }
+edge: { sourcename: "RR" targetname: "XX" class:1} 
+
+graph: {
+title:"[XX]"
+node: { title: "XX" label: "XX \n (xx.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[II]"
+node: { title: "II" label: "II \n (xx.f)" info1:"1" }
+}
+}

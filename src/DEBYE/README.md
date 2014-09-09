@@ -14,4 +14,4 @@ To make HTML files explaining data I/O for each fortran source file, do
 
 # Call graph
 
-![call graph for the ATOM folder](tree/DEBYE.png)
+![call graph for the BEBYE folder](tree/DEBYE.png)
