@@ -1,5 +1,7 @@
-      SUBROUTINE CSigZ(Energy, Mu, Rs, ReSig, ImSig, ZTot, WpScl, Gamma,
+      SUBROUTINE CSigZ(Energy, Mu, Rs, ReSig, ImSig, ZTot, WpScl,
      &     AmpFac)
+c      SUBROUTINE CSigZ(Energy, Mu, Rs, ReSig, ImSig, ZTot, WpScl, Gamma,
+c     &     AmpFac)
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Written by Josh Kas
 c     This subroutine calculates the self energy Sigma(k(Energy),Energy)
@@ -29,8 +31,8 @@ c     Rs     - R sub s (sphere of radius Rs holds charge e)
 c     WpScl  - Scale Wp in interstitial by WpScl
 c     Gamma  - Use broadening Gamma when calculating Sigma
 c     AmpFac - Use amplitude AmpFac for plasmon pole.
-      DOUBLE PRECISION Rs, WpScl(MxPole), Gamma(MxPole),
-     &     AmpFac(MxPole), Mu
+      DOUBLE PRECISION Rs, WpScl(MxPole), AmpFac(MxPole), Mu
+c      DOUBLE PRECISION Gamma(MxPole),
       COMPLEX*16 Energy
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Output:

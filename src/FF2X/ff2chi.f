@@ -150,10 +150,10 @@ c     make combined title
 
 c     write feffnnnn.dat
       if (ipr4.eq.3) then
-         call feffdt(ntotal,ip,nptot,ntitle,title,ne1,npot,
-     $        ihole, iorder, ilinit, rnrmav, xmu, edge, potlbl,
+         call feffdt(ntotal,ip,nptot,ntitle,title,ne1,
+     $        iorder, ilinit, rnrmav, edge, potlbl,
      $        iz,phc,ck,xk,index,
-     $        nleg,deg,nepts,reff,crit,ipot,rat,achi,phchi)
+     $        nleg,deg,reff,crit,ipot,rat,achi,phchi)
        end if
 
       if (iabs.eq.1) then

@@ -47,7 +47,7 @@ c     Make index into fbetac array (this is nearest cos(beta) grid
 c     point, code is a bit cute [sorry!], see prcrit for grid).
       do 290  i = 1, npat+1
          tmp = abs(beta(i))
-         n = tmp / 0.025
+         n = int(tmp / 0.025)
          del = tmp - n*0.025
          if (del .gt. 0.0125)  n = n+1
          if (beta(i) .lt. 0)  n = -n

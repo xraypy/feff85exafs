@@ -1,5 +1,7 @@
-      subroutine yprep(iph0, nat, inclus, npot, iphat, rmax, rat,
-     $            izx, rdirec)
+      subroutine yprep(iph0, nat, inclus, iphat, rmax, rat)
+c
+c  removed izx, nopt, rdirec from arg list, unused or use commented out
+c
 c    yprep is the same as xprep for negative idwopt
 c    simlifies calls in SCF and LDOS where DW factors should not enter
 
@@ -51,14 +53,15 @@ c  end of xstruc.h
 c********************************************************************
       parameter(zero=0.e0)
       parameter (bohr = 0.529 177 249e0)
-      integer   iphat(natxx), iphat2(natxx), izx(0:nphasx), izpair(0:2)
+      integer   iphat(natxx), iphat2(natxx)
+c      integer izpair(0:2), izx(0:nphasx)
       dimension rat(3,natxx), rat2(3,natxx)
       double precision ra(natxx)
       character*78 line
 c     sigms is written in double precision.  these are the variables
 c     that it uses
-      double precision dtemp, dthet, drs, dsigsq, pair(3,0:2)
-      double precision sig2mx, sig2x(0:nphx,0:nphx)
+c      double precision dtemp, dthet, drs, dsigsq, pair(3,0:2)
+c      double precision sig2mx, sig2x(0:nphx,0:nphx)
 c     iwarn - needed to wrtite waqrning just one time
       integer iwarn
       save iwarn

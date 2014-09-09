@@ -1,0 +1,126 @@
+graph: {
+title: "ffmod6.f"
+color: lightgray
+
+graph: {
+title:"[FFMOD6]"
+node: { title: "FFMOD6" label: "FFMOD6 \n (ffmod6.f)" info1:"1" }
+edge: { sourcename: "FFMOD6" targetname: "FF2AFS" class:1} 
+edge: { sourcename: "FFMOD6" targetname: "FF2CHI" class:1} 
+edge: { sourcename: "FFMOD6" targetname: "FF2XMU" class:1} 
+edge: { sourcename: "FFMOD6" targetname: "REFF2X" class:1} 
+
+graph: {
+title:"[FF2AFS]"
+node: { title: "FF2AFS" label: "FF2AFS \n (ff2afs.f)" info1:"2" }
+edge: { sourcename: "FF2AFS" targetname: "DWADD" class:2} 
+edge: { sourcename: "FF2AFS" targetname: "EXCONV" class:2} 
+edge: { sourcename: "FF2AFS" targetname: "FEFFDT" class:2} 
+edge: { sourcename: "FF2AFS" targetname: "FPRIME" class:2} 
+edge: { sourcename: "FF2AFS" targetname: "RDFBIN" class:2} 
+edge: { sourcename: "FF2AFS" targetname: "RDXBIN" class:2} 
+edge: { sourcename: "FF2AFS" targetname: "WRHEAD" class:2} 
+
+graph: {
+title:"[DWADD]"
+node: { title: "DWADD" label: "DWADD \n (ff2gen.f)" info1:"3" }
+}
+
+graph: {
+title:"[EXCONV]"
+node: { title: "EXCONV" label: "EXCONV \n (exconv.f)" info1:"3" }
+}
+
+graph: {
+title:"[FEFFDT]"
+node: { title: "FEFFDT" label: "FEFFDT \n (feffdt.f)" info1:"3" }
+}
+
+graph: {
+title:"[FPRIME]"
+node: { title: "FPRIME" label: "FPRIME \n (fprime.f)" info1:"3" }
+edge: { sourcename: "FPRIME" targetname: "FPINT" class:3} 
+edge: { sourcename: "FPRIME" targetname: "FPINTP" class:3} 
+edge: { sourcename: "FPRIME" targetname: "FUNLOG" class:3} 
+edge: { sourcename: "FPRIME" targetname: "LORENZ" class:3} 
+
+graph: {
+title:"[FPINT]"
+node: { title: "FPINT" label: "FPINT \n (fprime.f)" info1:"4" }
+}
+
+graph: {
+title:"[FPINTP]"
+node: { title: "FPINTP" label: "FPINTP \n (fprime.f)" info1:"4" }
+}
+
+graph: {
+title:"[FUNLOG]"
+node: { title: "FUNLOG" label: "FUNLOG \n (fprime.f)" info1:"4" }
+}
+
+graph: {
+title:"[LORENZ]"
+node: { title: "LORENZ" label: "LORENZ \n (xscorr.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[RDFBIN]"
+node: { title: "RDFBIN" label: "RDFBIN \n (rdfbin.f)" info1:"3" }
+}
+
+graph: {
+title:"[RDXBIN]"
+node: { title: "RDXBIN" label: "RDXBIN \n (ff2gen.f)" info1:"3" }
+}
+
+graph: {
+title:"[WRHEAD]"
+node: { title: "WRHEAD" label: "WRHEAD \n (ff2gen.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[FF2CHI]"
+node: { title: "FF2CHI" label: "FF2CHI \n (ff2chi.f)" info1:"2" }
+edge: { sourcename: "FF2CHI" targetname: "DWADD" class:2} 
+edge: { sourcename: "FF2CHI" targetname: "EXCONV" class:2} 
+edge: { sourcename: "FF2CHI" targetname: "FEFFDT" class:2} 
+edge: { sourcename: "FF2CHI" targetname: "FPRIME" class:2} 
+edge: { sourcename: "FF2CHI" targetname: "RDFBIN" class:2} 
+edge: { sourcename: "FF2CHI" targetname: "RDXBIN" class:2} 
+edge: { sourcename: "FF2CHI" targetname: "WRHEAD" class:2} 
+edge: { sourcename: "FF2CHI" targetname: "XSCORR" class:2} 
+
+graph: {
+title:"[XSCORR]"
+node: { title: "XSCORR" label: "XSCORR \n (xscorr.f)" info1:"3" }
+edge: { sourcename: "XSCORR" targetname: "ASTEP" class:3} 
+edge: { sourcename: "XSCORR" targetname: "LORENZ" class:3} 
+
+graph: {
+title:"[ASTEP]"
+node: { title: "ASTEP" label: "ASTEP \n (xscorr.f)" info1:"4" }
+}
+}
+}
+
+graph: {
+title:"[FF2XMU]"
+node: { title: "FF2XMU" label: "FF2XMU \n (ff2xmu.f)" info1:"2" }
+edge: { sourcename: "FF2XMU" targetname: "DWADD" class:2} 
+edge: { sourcename: "FF2XMU" targetname: "EXCONV" class:2} 
+edge: { sourcename: "FF2XMU" targetname: "FEFFDT" class:2} 
+edge: { sourcename: "FF2XMU" targetname: "RDFBIN" class:2} 
+edge: { sourcename: "FF2XMU" targetname: "RDXBIN" class:2} 
+edge: { sourcename: "FF2XMU" targetname: "WRHEAD" class:2} 
+edge: { sourcename: "FF2XMU" targetname: "XSCORR" class:2} 
+}
+
+graph: {
+title:"[REFF2X]"
+node: { title: "REFF2X" label: "REFF2X \n (reff2x.f)" info1:"2" }
+}
+}
+}

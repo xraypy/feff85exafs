@@ -1,3 +1,4 @@
+c -*- fortran -*-
 c     Note that leg nleg is the leg ending at the central atom, so that
 c     ipot(nleg) is central atom potential, rat(nleg) position of 
 c     central atom.

@@ -1,3 +1,4 @@
+c-*-fortran-*-
 c     const.h
       double precision pi
       integer one, zero

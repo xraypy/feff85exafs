@@ -1,11 +1,12 @@
       subroutine pot (rgrd, nohole, inters, totvol, ecv0,
      $             nscmt, nmix, ntitle, title,
-     $             nat, nph, ihole, gamach, iafolp,
+     $             nat, nph, ihole, iafolp,
      $             ixc, iphat, rat, iatph,
      $             xnatph, novr,
      $             iphovr, nnovr, rovr, folp0, xion, iunf, iz, ipr1,
      $             ispec, jumprm,
      $             lmaxsc, icoul, ca1, rfms1, lfms1)
+c gamach
 
 c     Cluster code -- multiple shell single scattering version of FEFF
 c     This program (or subroutine) calculates potentials and phase
@@ -155,6 +156,7 @@ c     rnrm)
       do 99 ifree = 1, nfree
 
       ispinr = 0
+      etfin  = 0
       do 20  iph = 0, nph
          write(slog,10) 
      1     'free atom potential and density for atom type', iph

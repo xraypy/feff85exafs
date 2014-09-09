@@ -32,7 +32,7 @@ c     open the log file, unit 11.  See subroutine wlog.
 c     read  input files
       call reff2x(mchi, ispec, ipr6, idwopt, critcw, s02, sig2g,
      1                   tk, thetad, mbconv, absolu,  !KJ added absolu 3-06
-     1                   vrcorr, vicorr, alphat, thetae, iabs, nabs,
+     1                   vrcorr, vicorr, alphat, thetae, nabs,
      4            elnes,ipmin,ipmax,ipstep)   !KJ added this line 1-06     
 
       if (mchi .eq. 1)  then
@@ -42,13 +42,13 @@ c           using FMS+Paths method
             call ff2xmu (ispec, ipr6, idwopt, critcw, s02, sig2g, 
      1                   tk, thetad, mbconv, absolu,  !KJ added absolu 3-06
      1                   vrcorr, vicorr, alphat, thetae, iabs, nabs,
-     4            elnes,ipmin,ipmax,ipstep)   !KJ added this line  1-06     
+     4            ipmin,ipmax,ipstep)   !KJ added this line  1-06     
          elseif (ispec.eq.3 .or. ispec.eq.4) then 
 c           using FMS+Paths method
             call ff2afs ( ipr6, idwopt, critcw, s02, sig2g, 
      1                   tk, thetad, mbconv, absolu,  !KJ added absolu 4-06
      1                   vrcorr, vicorr, alphat, thetae, iabs, nabs,
-     4            elnes,ipmin,ipmax,ipstep)   !KJ added this line 4-06     
+     4            ipmin,ipmax,ipstep)   !KJ added this line 4-06     
          else
 c           using MS Paths expansion
             call ff2chi (ispec, ipr6, idwopt, critcw, s02, sig2g, 

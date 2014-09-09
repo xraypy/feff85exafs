@@ -50,7 +50,8 @@ c     the countour
       parameter (nflrx = 17)
       dimension step(nflrx)
 c     stuff from feff.f for rdinp, pathfinder and genfmt
-      logical wnstar, upok, ok
+      logical upok, ok
+c      logical wnstar
 c     Following passed to pathfinder, which is single precision.
       character*512 slog
       integer ient
@@ -59,6 +60,8 @@ c     Following passed to pathfinder, which is single precision.
 c     save staff from rdinp, so no need to call it again
       save   ri05, ient
 
+      upok = .false.
+      idir = 1
       ient = ient + 1
       if (ient.eq.1) then
          do 15 i= 1,251
@@ -132,7 +135,7 @@ cc       extension of SCF procedure.
          endif
 
          call fixdsx (iph, dx, rgrd , dgc, dpc, dgcn, dpcn)
-        jri = (log(rmt(iph)) + x0) / rgrd + 2
+        jri = int((log(rmt(iph)) + x0) / rgrd) + 2
         jri1 = jri+1
         eref = vtotph(jri1)
         do 40 i = 1, jri1
@@ -167,11 +170,11 @@ cc    call fms for a cluster around central atom
       if (rfms1 .gt. 0) then
         if (lfms1 .ne. 0) then
           iph0 = 0
-          call fmsie( iph0, nph, lmaxsc, ie,  em, eref, ph, iz,
+          call fmsie( iph0, nph, lmaxsc, ie,  em, eref, ph,
      1                rfms1, lfms1, nat, iphat, rat, gtr)
         else
           do 190 iph0 = 0, nph 
-  190     call fmsie( iph0, nph, lmaxsc, ie, em, eref, ph, iz,
+  190     call fmsie( iph0, nph, lmaxsc, ie, em, eref, ph,
      1                rfms1, lfms1, nat, iphat, rat, gtr)
         endif
       endif

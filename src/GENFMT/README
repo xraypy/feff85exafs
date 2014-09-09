@@ -1,5 +1,0 @@
-This directory contains routines for generalized F matrix
-calculations, as described in Rehr-Albers paper.
-
-All routines in this directory are covered by the LICENSE inside
-license.h file.

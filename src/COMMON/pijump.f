@@ -12,7 +12,7 @@ c     old = previous value of phase
       dimension xph(3)
 
       xph(1) = ph - old
-      jump =  (abs(xph(1))+ pi) / twopi
+      jump =  int((abs(xph(1))+ pi) / twopi)
       xph(2) = xph(1) - jump*twopi
       xph(3) = xph(1) + jump*twopi
 

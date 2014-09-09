@@ -12,7 +12,7 @@
       type(json_file) :: json   !the JSON structure read from the file:
       double precision,dimension(:),allocatable :: dbpcs
 
-      integer iphabs, ipol, ispin, le2
+      integer nabs, iphabs, ipol, ispin, le2
       double precision evec(3), xivec(3), spvec(3), elpty,angks,rclabs
       complex*16 ptz(-1:1, -1:1)
 
@@ -22,24 +22,24 @@
          stop
       else
          call json%get('nabs', nabs, found)
-                 if (.not. found) call bailout('nabs', 'global.json')
+                 if (.not. found) call bailout('nabs',   'global.json')
          call json%get('iphabs', iphabs, found)
                  if (.not. found) call bailout('iphabs', 'global.json')
          call json%get('rclabs', rclabs, found)
                  if (.not. found) call bailout('rclabs', 'global.json')
          call json%get('ipol', ipol, found)
-                 if (.not. found) call bailout('ipol', 'global.json')
+                 if (.not. found) call bailout('ipol',   'global.json')
          call json%get('ispin', ispin, found)
-                 if (.not. found) call bailout('ispin', 'global.json')
+                 if (.not. found) call bailout('ispin',  'global.json')
          call json%get('le2', le2, found)
-                 if (.not. found) call bailout('le2', 'global.json')
+                 if (.not. found) call bailout('le2',    'global.json')
          call json%get('elpty', elpty, found)
-                 if (.not. found) call bailout('elpty', 'global.json')
+                 if (.not. found) call bailout('elpty',  'global.json')
          call json%get('angks', angks, found)
-                 if (.not. found) call bailout('angks', 'global.json')
+                 if (.not. found) call bailout('angks',  'global.json')
 
          call json%get('evec',  dbpcs, found)
-                 if (.not. found) call bailout('evec',  'global.json')
+                 if (.not. found) call bailout('evec',   'global.json')
          do 10 i=1,3
             evec(i) = dbpcs(i)
  10      continue

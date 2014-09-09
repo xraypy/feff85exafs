@@ -1,0 +1,17 @@
+{
+    "mod": "module number, PATH is 4",
+    "vfeff": "feff version number",
+    "vf85e": "feff85exafs release number",
+
+    "mpath": "control flag for running PATH",
+    "ipr4": "print flag for PATH module",
+
+    "ms": "flag for computing multiple scattering; 0=overlap calculation, 1=use pathfinder",
+    "nncrit": "",
+    "nlegxx": "argument for NLEG from feff.inp, maximum number of legs for pathfinder",
+    "critpw": "2nd term from CRITERIA in feff.inp, plane wave criterion",
+    "pcritk": "1st term from PCRITERIA in feff.inp, keep criterion for pathfinder",
+    "pcrith": "2nd term from PCRITERIA in feff.inp, heap criterion for pathfinder",
+    "rmax": "RMAX value from feff.inp, longest length for pathfinder",
+    "rfms2": "1st term from FMS in feff.inp; unused in feff85exafs",
+}

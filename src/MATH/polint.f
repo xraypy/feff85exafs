@@ -27,7 +27,20 @@ c     adapted  from numerical recipies in fortran by Press et al.
             hp = xa(i+m)-x
             w = c(i+1) - d(i)
             den = ho-hp
-            if (den.eq.0) pause 'failure in polint'
+c
+c Use of a pause is a poor idea, not just because it is deprecated, but
+c because it's normal use is probably not what is desired here.  The most
+c common intepretation of "pause" is to wait for a carriage return as
+c acknowledgment.  In this case, it will result in a divide-by-zero segfault
+c with an unhelpful error message.
+c I have used a functionally equivalent, write/read replacement, but it's
+c still the wrong thing to do. -BR
+c
+c            if (den.eq.0) pause 'failure in polint'
+            if (den.eq.0) then
+               write( *, * ) 'failure in polint'
+               read( *, * ) 
+            end if
             den = w/den
             d(i) = hp*den
             c(i) = ho*den

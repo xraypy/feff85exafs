@@ -1,6 +1,6 @@
       subroutine reff2x(mchi, ispec, ipr6, idwopt, critcw, s02, sig2g,
      1                   tk, thetad, mbconv, absolu,  !KJ added absolu 3-06
-     1                   vrcorr, vicorr, alphat, thetae, iabs, nabs,
+     1                   vrcorr, vicorr, alphat, thetae, nabs,
      4            elnes,ipmin,ipmax,ipstep)   !KJ added this line  1-06     
 
       use json_module

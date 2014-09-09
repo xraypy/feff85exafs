@@ -1,0 +1,22 @@
+{
+    "mod": "module number, FF2X is 6",
+    "vfeff": "feff version number",
+    "vf85e": "feff85exafs release number",
+
+    "mchi": "control flag for running FF2X",
+    "ipr6": "print flag for FF2X module",
+
+    "ispec": "type of spectroscopy, 0=EXAFS,1=XANES,2=XES,3=DANES,4=FPRIME",
+    "idwopt": "3rd term from DEBYE in feff.inp; 1=CD model, 2=EM method, 3=RM method, neg=don't calculate",
+    "mbconv": "flag for many body convollution from MBCONV in feff.inp",
+    "absolu": "argument of ABSOLUTE in feff.inp; flag to disable normalization for ELNES and EXELFS; unused in feff85exafs",
+    "vrcorr": "1st term from CORRECTIONS in feff.inp; e0 (real energy) shift",
+    "vicorr": "2nd term from CORRECTIONS in feff.inp; lambda (imaginary energy) correction",
+    "s02": "computed (or user-supplied via S02 in feff.inp) value for s02",
+    "critcw": "1st term from CRITERIA in feff.inp; curved wave criterion",
+    "tk": "1st term from DEBYE in feff.inp; temperature in kelvin",
+    "thetad": "1st term from DEBYE in feff.inp; Debye temperature in kelvin",
+    "alphat": "1st term from SIG3 in feff.inp; first cumulant for SS paths",
+    "thetae": "3rd term from SIG3 in feff.inp; third cumulant for SS paths",
+    "sig2g": "argument from SIG2 in feff.inp; global sigma^2 used in ff2chi",
+}

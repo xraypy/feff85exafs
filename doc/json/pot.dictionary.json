@@ -1,0 +1,45 @@
+{
+    "mod": "module number, POT is 1",
+    "vfeff": "feff version number",
+    "vf85e": "feff85exafs release number",
+
+    "mpot": "control flag for running POT",
+    "ipr1": "print flag for POT module",
+
+    "nph": "number of unique potentials defined in feff.inp",
+    "ntitle": "number of title found in feff.inp",
+    "titles": "user-supplied titles from feff.inp",
+
+    "ihole": "edge index, K=1, L3=4, etc",
+    "iafolp": "flag for automatic overlapping of potentials, manual overlap if negative",
+    "ixc": "exchange-potential index, 0=Hedin-Lundqvist + const, see rdinp_l lines 220-232",
+    "ispec": "type of spectroscopy, 0=EXAFS,1=XANES,2=XES,3=DANES,4=FPRIME",
+
+    "nohole": "NOHOLE value from feff.inp; use of no hole for potentials calculation",
+    "jumprm": "JUMPRM value from feff.inp; boolean to remove jumps at muffin tin radii",
+    "rfms1": "1st value of SCF from feff.inp; radius of FMS calculation; unused in feff85exafs",
+    "lfms1": "2nd value of SCF from feff.inp; 0=solid, 1=molecule; unused in feff85exafs",
+    "nscmt": "3rd value of SCF from feff.inp; maximum number of iterations; unused in feff85exafs",
+    "ca1": "4th value of SCF from feff.inp; convergence acceleration factor; unused in feff85exafs",
+    "nmix": "5th value of SCF from feff.inp; number of iterations of mixing algorithm, before starting Broyden algorithm; unused in feff85exafs",
+    "ecv": "6th value of SCF from feff.inp; core-valence cut-off (-40); (obsolete) unused in feff85exafs",
+    "icoul": "7th value of SCF from feff.inp; (obsolete) unused in feff85exafs",
+    "iunf": "UNFREEZEF value from feff.inp; boolean to freeze f-electrons",
+
+    "gamach": "core hole lifetime in eV",
+    "rgrd": "RGRID value from feff.inp",
+    "inters": "first INTERSTITIAL value from feff.inp; how to find interstitial parameters, 1=local V_int around central atom, 0=extended V_int (avg over all atoms)",
+    "totvol": "2nd INTERSTITIAL value from feff.inp",
+
+    "iz": "list of Z numbers from POTENTIALS list",
+    "lmaxsc": "list of maximum angular momentum values for use in SCF calculation from POTENTIALS list",
+    "xnatph": "list of maximum angular momentum values for use in FMS calculation from POTENTIALS list",
+
+    "xion": "list of ionization values for the unique potentials from ION in feff.inp",
+    "folp": "list of overlap values for the unique potentials from ION in feff.inp",
+
+    "novr": "number of overlapped potentials",
+    "iphovr": "2D list from OVERLAP cards in feff.inp; list of potential indeces for which to compute overlap",
+    "nnovr": "2D list from OVERLAP cards in feff.inp; list of coordination numbers of overlapped potentials",
+    "rovr": "2D list from OVERLAP cards in feff.inp; list of distances to overlapped potentials",
+}

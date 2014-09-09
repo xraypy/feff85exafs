@@ -42,7 +42,7 @@ c     Local stuff
 c     if (worker) go to 400
 
 c     standard formats for string, integers and real numbers
-  10  format(a)
+c  10  format(a)
 c  20  format (20i4)
 c  30  format (6f13.5)
 

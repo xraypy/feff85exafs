@@ -2,14 +2,13 @@
 
 FeffRoot=${0/bin\/f85e/src}  # /home/bruce/git/feff85exafs/src
 logfile=f85e.log
-count=-1
 module() {
     count=$((count+1))
     mod=$1
     folder=$(echo "$mod" | tr '[:lower:]' '[:upper:]')
 
     echo ""
-    echo "======= running module $count: $folder ====================================================" | tee  -a $logfile
+    echo "======= running module $folder ====================================================" | tee  -a $logfile
     $FeffRoot/$folder/$mod  2>&1 | tee -a $logfile
 }
 

@@ -14,6 +14,10 @@
     compilation to finish.  That seems unlikely....
 
 
+ 3. It seems as though the NOHOLE option won't work.  rdinp allows it,
+    but XSPH/xsph.f wants, when nohole.eq.2, some data files (see
+    lines 209 to 224) that are nowhere written in f85e
+
 # General confusion
 
  1. What is `libtd.a`?

@@ -36,8 +36,9 @@ c        ps and qs are  upper and lower components for photoelectron
 
       complex*16 vxc(nrptx), vxcval(nrptx), p2
       dimension ri(nrptx)
-      complex*16 ph0, amp, pu, qu, vu, vm(nrptx)
+      complex*16 pu, qu, vu, vm(nrptx)
       complex*16 ps(nrptx), qs(nrptx), aps(10),aqs(10)
+c      complex*16 ph0, amp
 
 c     all atoms' dirac components and their development coefficients
       dimension dgcn(nrptx,30), dpcn(nrptx,30)
@@ -97,7 +98,7 @@ c     for a steplike potential  at large distances
 c     if (irr.gt.0) aa = 0.05
       rwkb = aa / dx / sqrt(abs(2*p2+(p2/cl)**2))
       x0 = 8.8
-      iwkb= (log(rwkb) + x0) / dx  +  2
+      iwkb= int((log(rwkb) + x0) / dx)  +  2
       if (iwkb.gt.idim) iwkb = idim
       if (iwkb.lt. 10) iwkb = 10
       
@@ -121,7 +122,8 @@ c     calculate initial photoelectron orbital using lda
       do 18 i = jri, nrptx
   18  vm(i)=0.0d0
       call wfirdc (p2,kap,nmax,vxc,ps,qs,aps,aqs,irr,ic3,vm,
-     1             rmt,jri, iwkb)
+     1             jri, iwkb)
+c     1             rmt,jri, iwkb)
 
       if (numerr .ne. 0) call par_stop('error in wfirdc')
       if (ncycle .eq. 0) go to 999
@@ -155,14 +157,19 @@ c     iteration over the number of cycles
          nter=nter+1
 c        calculate exchange potential
          jriwkb = min (jri, iwkb)
-         call potex( ps, qs, aps, aqs, jriwkb, p2)
+         call potex( ps, qs, aps, aqs, jriwkb)
+c         call potex( ps, qs, aps, aqs, jriwkb, p2)
 
 c        resolution of the dirac equation
          if (irr.lt.0) then
-            call solout (p2, fl(norb), aps(1), aqs(1), ikap, rmt,
+c            call solout (p2, fl(norb), aps(1), aqs(1), ikap, rmt,
+c     1        jri, nmax(norb), ic3, vm, iwkb)
+            call solout (p2, fl(norb), aps(1), aqs(1), ikap,
      1        jri, nmax(norb), ic3, vm, iwkb)
          else
-            call solin (p2, fl(norb), pu, qu, ikap, rmt,
+c            call solin (p2, fl(norb), pu, qu, ikap, rmt,
+c     1        jri, nmax(norb), ic3, vm, iwkb)
+            call solin (p2, fl(norb), ikap,
      1        jri, nmax(norb), ic3, vm, iwkb)
          endif
 

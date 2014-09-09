@@ -29,6 +29,11 @@ c     one degree in radians
       parameter (onedeg = .01745329252)
       character*512 slog
 
+c     explciit initialization to quiet compiler warnings
+      nmax = 0
+      mmax = 0
+      iord = 0
+
 c     Set iord, nmax and mmax based on icalc
       if (icalc .lt. 0)  then
 c        decode it and do what user wants

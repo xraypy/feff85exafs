@@ -28,7 +28,7 @@ c  return real from character string "str"
       real     val
       integer  ierr
       call str2dp(str,dpval,ierr)
-      if (ierr.eq.0) val = dpval
+      if (ierr.eq.0) val = real(dpval)
       return
 c end subroutine str2re
       end

@@ -92,12 +92,13 @@ c     and transform it to atomic hartree units
          call wlog(' Calculating potentials ...')
          call pot (rgrd, nohole,
      $             inters, totvol, ecv, nscmt, nmix, ntitle, title,
-     $             nat, nph, ihole, gamach, iafolp,
+     $             nat, nph, ihole, iafolp,
      $             ixc, iphat, rat, iatph,
      $             xnatph, novr,
      $             iphovr, nnovr, rovr, folp, xion, iunf, iz, ipr1,
      $             ispec, jumprm,
      $             lmaxsc, icoul, ca1, rfms1, lfms1)
+c                  gamach
       endif
 
 c     OUTPUT: subroutine pot writes main output file pot.bin

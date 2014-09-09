@@ -1,0 +1,12 @@
+{
+    "vfeff": "feff version number",
+    "vf85e": "feff85exafs release number",
+    "natt": "number of atoms in the ATOMS list in feff.inp, lists x, y, z, iph, and ibo are natt long",
+    "nph": "number of unique potentials in the POTENTIALS list in feff.inp, nph+1 items in iatph are set",
+    "iatph": "zero-based list of something something...",
+    "x": "list of Cartesian x coordinates from the ATOMS list in feff.inp",
+    "y": "list of Cartesian y coordinates from the ATOMS list in feff.inp",
+    "z": "list of Cartesian z coordinates from the ATOMS list in feff.inp",
+    "iph": "list of potential assignments from the ATOMS list in feff.inp",
+    "ibo": "list one-bounce counts for the sites in the ATOMS list in feff.inp"
+}

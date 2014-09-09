@@ -1,3 +1,4 @@
+c -*- fortran -*-
 c     common /lambda/  
 c    4   mlam(lamtot), 	!mu for each lambda
 c    5   nlam(lamtot),	!nu for each lambda

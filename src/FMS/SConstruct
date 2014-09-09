@@ -8,12 +8,17 @@ from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
 
-lib_src = Split('fmsie.f fmspack.f gglu.f ggbi.f ggrm.f gggm.f ggtf.f yprep.f xstaff.f')
+lib_src = ('fmsie.f', 'fmspack.f', 'gglu.f', 'ggbi.f', 'ggrm.f', 'gggm.f', 'ggtf.f', 'yprep.f', 'xstaff.f')
 
 env.StaticLibrary('libfms', lib_src)
 
-#bin_src = Split('ffmod3.f fmstot.f reafms.f xprep.f')
-#
+## the following lines would build the fms executable, however the
+## intent of feff85exafs is that the tasks that use this (XANES, LDOS,
+## and so on) are not supported.  However, the fms library is required
+## for xsph.
+
+#bin_src = ('ffmod3.f', 'fmstot.f', 'reafms.f')
+
 #env.Program('fms', bin_src, \
-#        LIBS    = ['fms', 'dw', 'feffcom', 'feffmath', 'feffpar'], \
-#        LIBPATH = ['.', '../DEBYE', '../COMMON', '../MATH', '../PAR'])
+#        LIBS    = ['fms', 'dw', 'feffcom', 'libjsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+#        LIBPATH = ['.', '../DEBYE', '../COMMON', '../JSON', '../MATH', '../PAR'])

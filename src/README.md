@@ -9,8 +9,8 @@ written in python and uses configuration files that contain python
 code, it seemed like a good fit for something that would eventually be
 integrated into [Larch](https://github.com/xraypy/xraylarch).
 
-Once all these scons scripts are working correctly, it should be as
-simple as typing `scons` after cd-ing into the `src/` folder.
+Compilation is as simple as typing `scons` after cd-ing into the
+`src/` folder.
 
 You can also cd into one of the subfolders and do `scons` to build
 just that piece.
@@ -23,6 +23,7 @@ were taken from the top level Makefile that came from the Feff
 Project.  The gfortran flags were selected by Bruce after playing
 around on his Ubuntu system.
 
+---
 
 # Compiling against json-fortran
 
@@ -33,7 +34,7 @@ done using
 [json-fortran](https://github.com/jacobwilliams/json-fortran).
 
 According to the json-fortran web page, it can be compiled with
-Visualk Studio 2010, Intel Fortran, and gfortran 4.9.  My only
+Visual Studio 2010, Intel Fortran, and gfortran 4.9.  My only
 experience is with gfortran 4.9.  I know that gfortran 4.8 will not
 do.
 
@@ -63,7 +64,7 @@ Obviously this is a bit crufty, but it works well enough for now.
 ## Matt's comment on json-fortran
 
 
-Matt has these reasonmable things to say about compiling against json-fortran:
+Matt has these reasonable things to say about compiling against json-fortran:
 
     Do you know what versions of Fortran the json-fortran library
     requires?  I know it may not be easy, but I'd like to leave the
@@ -83,3 +84,21 @@ Matt has these reasonmable things to say about compiling against json-fortran:
 
 Clearly, if we stay with json-fortran, these concerns need to be
 addressed and well tested.
+
+---
+
+# Simple static analysis
+
+The following is a very useful command:
+
+	../src> ftnchek -mkhtml */*.f
+
+When run in the `src/` folder, this will generate a small html file
+for every fortran source file below `src/` in the repository.  These
+html files explain function and subroutine arguments, common block
+parameters, local variables, and several other useful tidbits for each
+file.
+
+This combined with the call graphs in the `tree/` folder under each
+source code folder provide a fairly thorough mapping of information
+through the many parts of Feff.

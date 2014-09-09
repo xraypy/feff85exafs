@@ -1,0 +1,105 @@
+graph: {
+title: "ffmod5.f"
+color: lightgray
+
+graph: {
+title:"[FFMOD5]"
+node: { title: "FFMOD5" label: "FFMOD5 \n (ffmod5.f)" info1:"1" }
+edge: { sourcename: "FFMOD5" targetname: "GENFMT" class:1} 
+edge: { sourcename: "FFMOD5" targetname: "REGENF" class:1} 
+
+graph: {
+title:"[GENFMT]"
+node: { title: "GENFMT" label: "GENFMT \n (genfmt.f)" info1:"2" }
+edge: { sourcename: "GENFMT" targetname: "FMTRXI" class:2} 
+edge: { sourcename: "GENFMT" targetname: "MMTR" class:2} 
+edge: { sourcename: "GENFMT" targetname: "MMTRXI" class:2} 
+edge: { sourcename: "GENFMT" targetname: "RDPATH" class:2} 
+edge: { sourcename: "GENFMT" targetname: "ROT3I" class:2} 
+edge: { sourcename: "GENFMT" targetname: "SCLMZ" class:2} 
+edge: { sourcename: "GENFMT" targetname: "SETLAM" class:2} 
+edge: { sourcename: "GENFMT" targetname: "SNLM" class:2} 
+edge: { sourcename: "GENFMT" targetname: "XSTAR" class:2} 
+
+graph: {
+title:"[FMTRXI]"
+node: { title: "FMTRXI" label: "FMTRXI \n (fmtrxi.f)" info1:"3" }
+}
+
+graph: {
+title:"[MMTR]"
+node: { title: "MMTR" label: "MMTR \n (mmtr.f)" info1:"3" }
+}
+
+graph: {
+title:"[MMTRXI]"
+node: { title: "MMTRXI" label: "MMTRXI \n (mmtrxi.f)" info1:"3" }
+}
+
+graph: {
+title:"[RDPATH]"
+node: { title: "RDPATH" label: "RDPATH \n (rdpath.f)" info1:"3" }
+edge: { sourcename: "RDPATH" targetname: "ARG" class:3} 
+edge: { sourcename: "RDPATH" targetname: "TRIG" class:3} 
+
+graph: {
+title:"[ARG]"
+node: { title: "ARG" label: "ARG \n (rdpath.f)" info1:"4" }
+}
+
+graph: {
+title:"[TRIG]"
+node: { title: "TRIG" label: "TRIG \n (rdpath.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[ROT3I]"
+node: { title: "ROT3I" label: "ROT3I \n (rot3i.f)" info1:"3" }
+}
+
+graph: {
+title:"[SCLMZ]"
+node: { title: "SCLMZ" label: "SCLMZ \n (sclmz.f)" info1:"3" }
+}
+
+graph: {
+title:"[SETLAM]"
+node: { title: "SETLAM" label: "SETLAM \n (setlam.f)" info1:"3" }
+}
+
+graph: {
+title:"[SNLM]"
+node: { title: "SNLM" label: "SNLM \n (snlm.f)" info1:"3" }
+edge: { sourcename: "SNLM" targetname: "FACTST" class:3} 
+
+graph: {
+title:"[FACTST]"
+node: { title: "FACTST" label: "FACTST \n (snlm.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[XSTAR]"
+node: { title: "XSTAR" label: "XSTAR \n (xstar.f)" info1:"3" }
+edge: { sourcename: "XSTAR" targetname: "XXCOS" class:3} 
+edge: { sourcename: "XSTAR" targetname: "YSTAR" class:3} 
+
+graph: {
+title:"[XXCOS]"
+node: { title: "XXCOS" label: "XXCOS \n (xstar.f)" info1:"4" }
+}
+
+graph: {
+title:"[YSTAR]"
+node: { title: "YSTAR" label: "YSTAR \n (xstar.f)" info1:"4" }
+}
+}
+}
+
+graph: {
+title:"[REGENF]"
+node: { title: "REGENF" label: "REGENF \n (regenf.f)" info1:"2" }
+}
+}
+}

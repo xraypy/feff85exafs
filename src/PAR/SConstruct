@@ -2,11 +2,16 @@
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-import sys
+import sys, re
 sys.path.append('..')
 from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
+
+## Compiling sequential.f throws up LOTS of unused dummy argument warnings.
+## Quiet those warnings because that is the very purpose of sequential.f
+flags = env['FORTRANFLAGS']
+env['FORTRANFLAGS'] = flags.replace('-Wall', '')
 
 env.StaticLibrary('libfeffpar', 'sequential.f')
 

@@ -1,0 +1,195 @@
+graph: {
+title: "akeato.f"
+color: lightgray
+
+graph: {
+title:"[FPF0]"
+node: { title: "FPF0" label: "FPF0 \n (fpf0.f)" info1:"1" }
+}
+
+graph: {
+title:"[SCFDAT]"
+node: { title: "SCFDAT" label: "SCFDAT \n (scfdat.f)" info1:"1" }
+edge: { sourcename: "SCFDAT" targetname: "COFCON" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "DSORDF" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "ETOTAL" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "INMUAT" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "LAGDAT" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "MESSER" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "MUATCO" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "ORTDAT" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "POTRDF" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "POTSLW" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "S02AT" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "SOLDIR" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "TABRAT" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "VLDA" class:1} 
+edge: { sourcename: "SCFDAT" targetname: "WFIRDF" class:1} 
+
+graph: {
+title:"[COFCON]"
+node: { title: "COFCON" label: "COFCON \n (cofcon.f)" info1:"2" }
+}
+
+graph: {
+title:"[DSORDF]"
+node: { title: "DSORDF" label: "DSORDF \n (dsordf.f)" info1:"2" }
+edge: { sourcename: "DSORDF" targetname: "APRDEV" class:2} 
+
+graph: {
+title:"[APRDEV]"
+node: { title: "APRDEV" label: "APRDEV \n (aprdev.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[ETOTAL]"
+node: { title: "ETOTAL" label: "ETOTAL \n (etotal.f)" info1:"2" }
+edge: { sourcename: "ETOTAL" targetname: "AKEATO" class:2} 
+edge: { sourcename: "ETOTAL" targetname: "BKEATO" class:2} 
+edge: { sourcename: "ETOTAL" targetname: "BKMRDF" class:2} 
+edge: { sourcename: "ETOTAL" targetname: "FDMOCC" class:2} 
+edge: { sourcename: "ETOTAL" targetname: "FDRIRK" class:2} 
+
+graph: {
+title:"[AKEATO]"
+node: { title: "AKEATO" label: "AKEATO \n (akeato.f)" info1:"3" }
+}
+
+graph: {
+title:"[BKEATO]"
+node: { title: "BKEATO" label: "BKEATO \n (akeato.f)" info1:"3" }
+}
+
+graph: {
+title:"[BKMRDF]"
+node: { title: "BKMRDF" label: "BKMRDF \n (bkmrdf.f)" info1:"3" }
+}
+
+graph: {
+title:"[FDMOCC]"
+node: { title: "FDMOCC" label: "FDMOCC \n (fdmocc.f)" info1:"3" }
+}
+
+graph: {
+title:"[FDRIRK]"
+node: { title: "FDRIRK" label: "FDRIRK \n (fdrirk.f)" info1:"3" }
+edge: { sourcename: "FDRIRK" targetname: "DSORDF" class:3} 
+edge: { sourcename: "FDRIRK" targetname: "YZKRDF" class:3} 
+
+graph: {
+title:"[YZKRDF]"
+node: { title: "YZKRDF" label: "YZKRDF \n (yzkrdf.f)" info1:"4" }
+edge: { sourcename: "YZKRDF" targetname: "APRDEV" class:4} 
+edge: { sourcename: "YZKRDF" targetname: "YZKTEG" class:4} 
+
+graph: {
+title:"[YZKTEG]"
+node: { title: "YZKTEG" label: "YZKTEG \n (yzkteg.f)" info1:"5" }
+}
+}
+}
+}
+
+graph: {
+title:"[INMUAT]"
+node: { title: "INMUAT" label: "INMUAT \n (inmuat.f)" info1:"2" }
+}
+
+graph: {
+title:"[LAGDAT]"
+node: { title: "LAGDAT" label: "LAGDAT \n (lagdat.f)" info1:"2" }
+edge: { sourcename: "LAGDAT" targetname: "AKEATO" class:2} 
+edge: { sourcename: "LAGDAT" targetname: "BKEATO" class:2} 
+edge: { sourcename: "LAGDAT" targetname: "FDRIRK" class:2} 
+}
+
+graph: {
+title:"[MESSER]"
+node: { title: "MESSER" label: "MESSER \n (messer.f)" info1:"2" }
+}
+
+graph: {
+title:"[MUATCO]"
+node: { title: "MUATCO" label: "MUATCO \n (muatco.f)" info1:"2" }
+}
+
+graph: {
+title:"[ORTDAT]"
+node: { title: "ORTDAT" label: "ORTDAT \n (ortdat.f)" info1:"2" }
+edge: { sourcename: "ORTDAT" targetname: "DSORDF" class:2} 
+}
+
+graph: {
+title:"[POTRDF]"
+node: { title: "POTRDF" label: "POTRDF \n (potrdf.f)" info1:"2" }
+edge: { sourcename: "POTRDF" targetname: "AKEATO" class:2} 
+edge: { sourcename: "POTRDF" targetname: "APRDEV" class:2} 
+edge: { sourcename: "POTRDF" targetname: "BKEATO" class:2} 
+edge: { sourcename: "POTRDF" targetname: "YZKRDF" class:2} 
+}
+
+graph: {
+title:"[POTSLW]"
+node: { title: "POTSLW" label: "POTSLW \n (potslw.f)" info1:"2" }
+}
+
+graph: {
+title:"[S02AT]"
+node: { title: "S02AT" label: "S02AT \n (s02at.f)" info1:"2" }
+edge: { sourcename: "S02AT" targetname: "ELIMIN" class:2} 
+
+graph: {
+title:"[ELIMIN]"
+node: { title: "ELIMIN" label: "ELIMIN \n (s02at.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[SOLDIR]"
+node: { title: "SOLDIR" label: "SOLDIR \n (soldir.f)" info1:"2" }
+edge: { sourcename: "SOLDIR" targetname: "INTDIR" class:2} 
+edge: { sourcename: "SOLDIR" targetname: "NORM" class:2} 
+
+graph: {
+title:"[INTDIR]"
+node: { title: "INTDIR" label: "INTDIR \n (intdir.f)" info1:"3" }
+}
+
+graph: {
+title:"[NORM]"
+node: { title: "NORM" label: "NORM \n (soldir.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[TABRAT]"
+node: { title: "TABRAT" label: "TABRAT \n (tabrat.f)" info1:"2" }
+edge: { sourcename: "TABRAT" targetname: "DSORDF" class:2} 
+}
+
+graph: {
+title:"[VLDA]"
+node: { title: "VLDA" label: "VLDA \n (vlda.f)" info1:"2" }
+}
+
+graph: {
+title:"[WFIRDF]"
+node: { title: "WFIRDF" label: "WFIRDF \n (wfirdf.f)" info1:"2" }
+edge: { sourcename: "WFIRDF" targetname: "DENTFA" class:2} 
+edge: { sourcename: "WFIRDF" targetname: "MESSER" class:2} 
+edge: { sourcename: "WFIRDF" targetname: "NUCDEV" class:2} 
+edge: { sourcename: "WFIRDF" targetname: "SOLDIR" class:2} 
+
+graph: {
+title:"[DENTFA]"
+node: { title: "DENTFA" label: "DENTFA \n (dentfa.f)" info1:"3" }
+}
+
+graph: {
+title:"[NUCDEV]"
+node: { title: "NUCDEV" label: "NUCDEV \n (nucdev.f)" info1:"3" }
+}
+}
+}
+}

@@ -1,0 +1,13 @@
+{
+    "mod": "module number, GENFMT is 5",
+    "vfeff": "feff version number",
+    "vf85e": "feff85exafs release number",
+
+    "mfeff": "control flag for running GENFMT",
+    "ipr5": "print flag for GENFMT module",
+
+    "iorder": "argument from IORDER in feff.inp; control interpolation of lambda",
+    "critcw": "1st term from CRITERIA in feff.inp; curved wave criterion",
+    "wnstar": "boolean set by NSTAR in feff.inp; true=write out n* for colinear polarization",
+}
+

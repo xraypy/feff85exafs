@@ -1,7 +1,9 @@
-       subroutine feffdt(ntotal,iplst,nptot,ntext,text,ne,npot,
-     $      ihole, iorder, l0, rnrmav, xmu, edge, potlbl,
+       subroutine feffdt(ntotal,iplst,nptot,ntext,text,ne,
+     $      iorder, l0, rnrmav, edge, potlbl,
      $      iz,phc,ck,xk,index,
-     $      nleg,deg,nepts,reff,crit,ipot,rat,achi,phchi)
+     $      nleg,deg,reff,crit,ipot,rat,achi,phchi)
+c
+c     removed ihole, neptsm, npot, xmu from arg list
 c
 c     writes feffnnnn.dat files and files.dat 
 c     for compatibility with the old feff
@@ -22,7 +24,8 @@ c
 c     Stuff from feff.bin, note that floating point numbers are
 c     single precision
 cc      character*78 string
-      real rnrmav, xmu, edge
+      real rnrmav, edge
+c      real xmu
 cc      dimension ltext(nheadx)
       character*80 text(nheadx)
       character*6  potlbl(0:nphx)
@@ -44,7 +47,8 @@ cc      real ri(legtot,npx)
        complex*16 cchi, cfms
        external istrln
 
-       call wlog (' feffdt, feff.bin to feff.dat conversion ' // vfeff)
+       call wlog (' feffdt, feff.bin to feff.dat conversion: ' // vfeff
+     1            // 'release ' // vf85e)
 
 c     read feff.bin
 c     Use single precision for all fp numbers in feff.bin

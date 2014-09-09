@@ -44,7 +44,7 @@ c      dimension lhead(nheadx)
 
 c     standard formats for string, integers and real numbers
 c  10  format(a)
-  20  format (20i4)
+c  20  format (20i4)
 c  30  format (6f13.5)
 
 
@@ -187,7 +187,7 @@ c--json--      close(3)
          call json%get('potlbl', strings, found)
                    if (.not. found) call bailout('potlbl', 'xsph.json')
          do 1000 itit = 1, nheadx
-            potlbl(itit) = strings(itit)(1:6)
+            potlbl(itit-1) = strings(itit)(1:6)
  1000    continue
          call json%get('lmaxph', intgs, found)
                    if (.not. found) call bailout('lmaxph', 'xsph.json')

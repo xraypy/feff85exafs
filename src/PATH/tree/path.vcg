@@ -1,0 +1,158 @@
+graph: {
+title: "ffmod4.f"
+color: lightgray
+
+graph: {
+title:"[FFMOD4]"
+node: { title: "FFMOD4" label: "FFMOD4 \n (ffmod4.f)" info1:"1" }
+edge: { sourcename: "FFMOD4" targetname: "PATHS" class:1} 
+edge: { sourcename: "FFMOD4" targetname: "PATHSD" class:1} 
+edge: { sourcename: "FFMOD4" targetname: "PRCRIT" class:1} 
+edge: { sourcename: "FFMOD4" targetname: "REPATH" class:1} 
+
+graph: {
+title:"[PATHS]"
+node: { title: "PATHS" label: "PATHS \n (paths.f)" info1:"2" }
+edge: { sourcename: "PATHS" targetname: "CCRIT" class:2} 
+edge: { sourcename: "PATHS" targetname: "HDOWN" class:2} 
+edge: { sourcename: "PATHS" targetname: "HUP" class:2} 
+edge: { sourcename: "PATHS" targetname: "IPACK" class:2} 
+edge: { sourcename: "PATHS" targetname: "SORTIR" class:2} 
+
+graph: {
+title:"[CCRIT]"
+node: { title: "CCRIT" label: "CCRIT \n (ccrit.f)" info1:"3" }
+edge: { sourcename: "CCRIT" targetname: "MCRITH" class:3} 
+edge: { sourcename: "CCRIT" targetname: "MCRITK" class:3} 
+edge: { sourcename: "CCRIT" targetname: "MRB" class:3} 
+
+graph: {
+title:"[MCRITH]"
+node: { title: "MCRITH" label: "MCRITH \n (mcrith.f)" info1:"4" }
+}
+
+graph: {
+title:"[MCRITK]"
+node: { title: "MCRITK" label: "MCRITK \n (mcritk.f)" info1:"4" }
+}
+
+graph: {
+title:"[MRB]"
+node: { title: "MRB" label: "MRB \n (mrb.f)" info1:"4" }
+edge: { sourcename: "MRB" targetname: "DOTCOS" class:4} 
+
+graph: {
+title:"[DOTCOS]"
+node: { title: "DOTCOS" label: "DOTCOS \n (mrb.f)" info1:"5" }
+}
+}
+}
+
+graph: {
+title:"[HDOWN]"
+node: { title: "HDOWN" label: "HDOWN \n (heap.f)" info1:"3" }
+edge: { sourcename: "HDOWN" targetname: "ISWAP" class:3} 
+edge: { sourcename: "HDOWN" targetname: "SWAP" class:3} 
+
+graph: {
+title:"[ISWAP]"
+node: { title: "ISWAP" label: "ISWAP \n (heap.f)" info1:"4" }
+}
+
+graph: {
+title:"[SWAP]"
+node: { title: "SWAP" label: "SWAP \n (heap.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[HUP]"
+node: { title: "HUP" label: "HUP \n (heap.f)" info1:"3" }
+edge: { sourcename: "HUP" targetname: "ISWAP" class:3} 
+edge: { sourcename: "HUP" targetname: "SWAP" class:3} 
+}
+
+graph: {
+title:"[IPACK]"
+node: { title: "IPACK" label: "IPACK \n (ipack.f)" info1:"3" }
+}
+
+graph: {
+title:"[SORTIR]"
+node: { title: "SORTIR" label: "SORTIR \n (sortix.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[PATHSD]"
+node: { title: "PATHSD" label: "PATHSD \n (pathsd.f)" info1:"2" }
+edge: { sourcename: "PATHSD" targetname: "MPPRMD" class:2} 
+edge: { sourcename: "PATHSD" targetname: "OUTCRT" class:2} 
+edge: { sourcename: "PATHSD" targetname: "SORTID" class:2} 
+edge: { sourcename: "PATHSD" targetname: "TIMREP" class:2} 
+edge: { sourcename: "PATHSD" targetname: "UPACK" class:2} 
+
+graph: {
+title:"[MPPRMD]"
+node: { title: "MPPRMD" label: "MPPRMD \n (mpprmd.f)" info1:"3" }
+edge: { sourcename: "MPPRMD" targetname: "SARGD" class:3} 
+edge: { sourcename: "MPPRMD" targetname: "STRIGD" class:3} 
+
+graph: {
+title:"[SARGD]"
+node: { title: "SARGD" label: "SARGD \n (mpprmd.f)" info1:"4" }
+}
+
+graph: {
+title:"[STRIGD]"
+node: { title: "STRIGD" label: "STRIGD \n (mpprmd.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[OUTCRT]"
+node: { title: "OUTCRT" label: "OUTCRT \n (outcrt.f)" info1:"3" }
+edge: { sourcename: "OUTCRT" targetname: "MCRITH" class:3} 
+edge: { sourcename: "OUTCRT" targetname: "MCRITK" class:3} 
+edge: { sourcename: "OUTCRT" targetname: "MRB" class:3} 
+}
+
+graph: {
+title:"[SORTID]"
+node: { title: "SORTID" label: "SORTID \n (sortix.f)" info1:"3" }
+}
+
+graph: {
+title:"[TIMREP]"
+node: { title: "TIMREP" label: "TIMREP \n (timrep.f)" info1:"3" }
+edge: { sourcename: "TIMREP" targetname: "MPPRMP" class:3} 
+edge: { sourcename: "TIMREP" targetname: "PHASH" class:3} 
+
+graph: {
+title:"[MPPRMP]"
+node: { title: "MPPRMP" label: "MPPRMP \n (mpprmp.f)" info1:"4" }
+}
+
+graph: {
+title:"[PHASH]"
+node: { title: "PHASH" label: "PHASH \n (phash.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[UPACK]"
+node: { title: "UPACK" label: "UPACK \n (ipack.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[PRCRIT]"
+node: { title: "PRCRIT" label: "PRCRIT \n (prcrit.f)" info1:"2" }
+}
+
+graph: {
+title:"[REPATH]"
+node: { title: "REPATH" label: "REPATH \n (repath.f)" info1:"2" }
+}
+}
+}

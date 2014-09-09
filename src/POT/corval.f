@@ -116,7 +116,7 @@ c        or as core according to UNFREEZEF
          endif
          call fixdsx (iph, dx, rgrd , dgc, dpc, dgcn, dpcn)
 
-         jri = (log(rmt(iph)) + x0) / rgrd + 2
+         jri = int((log(rmt(iph)) + x0) / rgrd) + 2
          jri1 = jri+1
          eref = vtotph(jri1)
          do 40 i = 1, jri1

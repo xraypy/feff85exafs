@@ -35,6 +35,9 @@ c     work space for linear algebra
 c#mn
        external dist, ii
 
+      ntmp = 0
+      iat0 = -999
+
 c     get ipot and irav from inters
       ipot = mod(inters,2)
       irav = (inters-ipot) / 2
@@ -46,9 +49,9 @@ c     initiallly cmovp is a unit matrix up to ncp
       ncp = novp*(nph+1)+1
       do 30 i2=1,ncp
       do 30 i1=1,ncp
-        cmovp(i1,i2) = 0.d0
-        if ( i1.eq.i2 ) cmovp(i1,i2) = 1.d0
-        if (i2.eq.ncp) cmovp(i1,i2) = 0.01d0
+        cmovp(i1,i2) = 0.
+        if ( i1.eq.i2 ) cmovp(i1,i2) = 1.
+        if (i2.eq.ncp) cmovp(i1,i2) = 0.01
   30  continue
       do 40 i2=1,ncp-1
       do 40 i1=1,nph+1
@@ -182,15 +185,15 @@ c               use linear interpolation between cases xr=0, xr=1
                 xr = xr * (r2-ri(i2)) / (ri(ind2)-ri(i2))
                 ix2 = i2-imin2+1 + ip2*novp
                 cmovp(ix1,ix2)=cmovp(ix1,ix2) 
-     1                              +cmplx (temp*(1-xr))
+     1                              +cmplx (real(temp*(1-xr)))
                 ix2 = ind2-imin2+1 + ip2*novp
                 cmovp(ix1,ix2)=cmovp(ix1,ix2) 
-     1                               +cmplx (temp*xr)
+     1                               +cmplx (real(temp*xr))
                 r1=rnn-ri2
               else
                 ix1 = i1-imin1+1 + ip1*novp
                 ix2 = i2-imin2+1 + ip2*novp
-                cmovp(ix1,ix2)=cmovp(ix1,ix2)  +cmplx (temp)
+                cmovp(ix1,ix2)=cmovp(ix1,ix2)  +cmplx (real(temp))
               endif
  170        continue
  180      continue
@@ -208,7 +211,8 @@ c          xn may differ from nat, if atom list have more natx atoms
 c          see rdinp.f
            aa = xnatph(iph)/xn
            do 250 ix1 = 1, ncp-1
-  250      cmovp(ncp,ix1) = cmovp(ncp, ix1) + aa*bmat(iph+1,ix1)
+  250      cmovp(ncp,ix1) = cmovp(ncp, ix1) +
+     &             cmplx(real(aa*bmat(iph+1,ix1)))
   260    continue
       else  
          iph=0

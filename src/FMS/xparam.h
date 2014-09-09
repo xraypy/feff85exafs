@@ -1,3 +1,4 @@
+c -*- fortran -*-
 c nphasx MUST be the same as nphx, the maximum number of unique
 c        potentials
 c natxx MUST be the same as natx, the maximum number of atoms in the

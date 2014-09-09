@@ -1,0 +1,23 @@
+{
+    "vfeff": "feff version number",
+    "vf85e": "feff85exafs release number",
+
+    "ntitle": "number of title lines for output headers (user titles + generated titles with MT radii, gamma, Vint, etc)",
+    "titles": "list of titles for output headers",
+
+    "s02": "computed (or user-supplied via S02 in feff.inp) S02 value",
+    "erelax": "relaxation energy, used in convoution of mu(E) with excitation spectrum",
+    "wp": "plasmon frequency, used in convoution of mu(E) with excitation spectrum",
+    "edge": "threshold energy",
+    "emu": "edge position (x-ray energy for final state at Fermi level)",
+    "gamach": "core hole lifetime, in eV",
+    "ne": "length of cross section arrays",
+    "ne1": "number or energy points of cross section calculation",
+    "ik0": "index of energy grid at Fermi level",
+
+    "ereal": "real part of energy grid",
+    "eimag": "imaginary part of energy grid",
+    "xsnorm": "",
+    "dum1": "",
+    "dum2": "",
+}

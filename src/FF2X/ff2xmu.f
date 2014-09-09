@@ -1,7 +1,7 @@
       subroutine ff2xmu (ispec, ipr4, idwopt, critcw, s02, sig2g,
      1                   tk, thetad, mbconv, absolu,  !KJ added absolu 3-06
      1                   vrcorr, vicorr, alphat, thetae, iabs, nabs,
-     4            elnes,ipmin,ipmax,ipstep)   !KJ added this line 1-06     
+     4            ipmin,ipmax,ipstep)   !KJ added this line 1-06     
 c     adds the contributions from each path and absorber, including
 c     Debye-Waller factors. Writes down main output: chi.dat and xmu.dat
       implicit double precision (a-h, o-z)
@@ -9,7 +9,7 @@ c     Debye-Waller factors. Writes down main output: chi.dat and xmu.dat
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
       parameter (eps4 = 1.0e-4)
-      integer ipmin,ipmax,ipstep,elnes !KJ my variables 1-06 
+      integer ipmin,ipmax,ipstep !KJ my variables 1-06 
       integer absolu !KJ 3-06     
 
 c     header from list.dat
@@ -174,10 +174,10 @@ c     make combined title
 
 c     write feffnnnn.dat
       if (ipr4.eq.3) then
-         call feffdt(ntotal,ip,nptot,ntitle,title,ne,npot,
-     $        ihole, iorder, ilinit, rnrmav, xmu, edge, potlbl,
+         call feffdt(ntotal,ip,nptot,ntitle,title,ne,
+     $        iorder, ilinit, rnrmav, edge, potlbl,
      $        iz,phc,ck,xk,index,
-     $        nleg,deg,nepts,reff,crit,ipot,rat,achi,phchi)
+     $        nleg,deg,reff,crit,ipot,rat,achi,phchi)
        end if
 
 c     If there is a vicorr, will need a mean free path factor xlam0.
@@ -289,6 +289,7 @@ c     read or initialize chia - result of configuration average
       if(iabs.eq.1) then
 c        compare grids in xsect.bin and feff.bin
          do 680 i = 1, nxsec
+            print *, del, xk(i)**2, xkxs(i)**2
            del = xk(i)**2 - xkxs(i)**2
            if (abs(del) .gt.  10*eps4)  then
              call wlog(' Emesh in feff.bin and xsect.bin different.')
