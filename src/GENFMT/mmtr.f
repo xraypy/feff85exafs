@@ -1,4 +1,5 @@
-      subroutine mmtr( bmati, ipol, ispin, le2, angks, ptz, lind)
+      subroutine mmtr( bmati, ipol, ispin, le2, angks, ptz, lind, dri,
+     &       eta, nsc, nleg, kinit, ilinit)
 c     calculates the part of matrix M which does not depend on energy
 c     point.( see Rehr and Albers paper)
 c     for path expansion always neglect spin-flip processes
@@ -6,8 +7,7 @@ c     to simplify calculations; (bmati does not have spin indices)
 
       implicit double precision (a-h, o-z)
 
-c     all commons are inputs
-c     Inputs from common:
+c     Inputs:
 c        kinit: quantum number kappa for initial orbital
 c        rotation matrix for ilegp
 c        path data, eta(ilegp) and ipot(ilegp)
@@ -17,8 +17,13 @@ c     Output:  bmati(...)
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      include 'rotmat.h'
-      include 'pdata.h'
+c     include 'rotmat.h'
+      dimension dri(ltot+1,2*mtot+1,2*mtot+1,legtot+1)
+c     include 'pdata.h'
+      double precision eta(0:legtot+1)
+      integer nsc, nleg
+      integer kinit, ilinit
+
       complex*16 ptz
       dimension ptz(-1:1, -1:1)
 

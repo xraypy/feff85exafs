@@ -18,7 +18,6 @@ c     OUTPUT: feff.bin and list.dat files
       integer  mfeff, ipr5, iorder
       logical  wnstar
       double precision critcw, angks, elpty
-      integer elnes,ipstep,ipmin,ipmax  !KJ added these variables 1-06
 
 
       call par_begin
@@ -31,15 +30,13 @@ c     open the log file, unit 11.  See subroutine wlog.
 c                 read  mod5.inp 
       call regenf(mfeff, ipr5, critcw, iorder, wnstar,
 c                 and global.dat
-     1            ipol, ispin, le2, angks, elpty, evec, xivec, ptz,
-     2            elnes,ipmin,ipmax,ipstep)   !KJ added this line    1-06     
+     1            ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
       if (nspx.gt.1) ispin = abs(ispin)
 
       if (mfeff .eq. 1)  then
          call wlog(' Calculating EXAFS parameters...')
          call genfmt (ipr5, critcw, iorder, wnstar,
-     1                ipol, ispin, le2, angks, elpty, evec, xivec, ptz,
-     2            elnes,ipmin,ipmax,ipstep)   !KJ added this line    1-06     
+     1                ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
          call wlog(' Done with module 5: F_eff.')
       endif
       close (unit=11)

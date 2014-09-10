@@ -1,25 +1,21 @@
-      subroutine mmtrxi ( rkk, lam1x, bmati, ie, ileg, ilegp, lind)
+      subroutine mmtrxi ( rkk, lam1x, bmati, ie, ileg, ilegp, lind,
+     &       clmi, mlam, nlam, xnlm, eta, fmati)
 c     calculates matrix M in Rehr,Albers paper.
 c     in polarization case
       implicit double precision (a-h, o-z)
-
-c     all commons except for /fmat/ are inputs
 
 c     inputs:
 c       lam1x:  limits on lambda and lambda'
 c       ie:  energy grid points
 c       ileg, ilegp: leg and leg'
+c       phases, use ph(ie,...,ilegp), and lmax(ie,ilegp)
+c       lambda arrays
+c       rotation matrix for ilegp
+c       clmz for ileg and ilegp
+c       path data, eta(ilegp) and ipot(ilegp)
+c       xnlm array
 c
-c     Inputs from common:
-c        phases, use ph(ie,...,ilegp), and lmax(ie,ilegp)
-c        lambda arrays
-c        rotation matrix for ilegp
-c        clmz for ileg and ilegp
-c        path data, eta(ilegp) and ipot(ilegp)
-c        xnlm array
-c
-c     Output:  fmati(...,ilegp) in common /fmatrx/ is set for
-c              current energy point.
+c     Output:  fmati(...,ilegp) is set for current energy point.
 
 c     calculate scattering amplitude matrices
 c     f(lam,lam') = sum_l tl gam(l,m,n)dri(l,m,m',ileg)gamt(l,m',n')
@@ -30,12 +26,22 @@ c     gamtl = gamt*tl
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      include 'nlm.h'
-      include 'lambda.h'
-      include 'clmz.h'
-      include 'fmatrx.h'
-      include 'rotmat.h'
-      include 'pdata.h'
+      
+c+----------------------------------------------------------------------
+c     removing local common blocks, replacing them with explicit passing
+c     of the defined data srtuctures
+c+----------------------------------------------------------------------
+c     include 'nlm.h'
+      dimension xnlm(ltot+1,mtot+1)
+c     include 'lambda.h'
+      integer mlam(lamtot), nlam(lamtot)
+c     include 'clmz.h'
+      complex*16 clmi(ltot+1,mtot+ntot+1,legtot)
+c     include 'fmatrx.h'
+      complex*16 fmati(lamtot,lamtot,legtot)
+c     include 'pdata.h'
+      double precision eta(0:legtot+1)
+
 
       complex*16 cam, camt, tltl, bmati
       dimension bmati(-mtot:mtot, 1:8, -mtot:mtot, 1:8), lind(8)

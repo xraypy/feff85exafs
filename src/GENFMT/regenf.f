@@ -1,6 +1,5 @@
       subroutine regenf (mfeff, ipr5, critcw, iorder, wnstar,
-     1            ipol, ispin, le2, angks, elpty, evec, xivec, ptz,
-     2            elnes,ipmin,ipmax,ipstep)   !KJ added this line   1-06     
+     1            ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
 
       use json_module
       implicit double precision (a-h, o-z)

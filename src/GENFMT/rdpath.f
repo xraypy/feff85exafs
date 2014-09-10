@@ -1,10 +1,18 @@
-      subroutine rdpath (in, done, ipol)
+      subroutine rdpath (in, done, ipol, potlbl, rat, ri, beta, eta,
+     &       deg, ipot, nsc, nleg, npot, ipath)
       implicit double precision (a-h, o-z)
       logical done
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      include 'pdata.h'
+c     include 'pdata.h'
+      character*6  potlbl(0:nphx)
+      double precision rat(3,0:legtot+1)
+      double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
+      double precision deg
+      integer ipot(0:legtot)
+      integer nsc, nleg, npot, ipath
+
 
       complex*16  alph, gamm
       dimension  alpha(0:legtot), gamma(legtot)
@@ -169,6 +177,8 @@ c     If unexpected end of file, die
       call wlog(' Unexpected end of file')
       call par_stop('ERROR')
       end
+
+
       subroutine trig (x, y, z, ct, st, cp, sp)
       implicit double precision (a-h, o-z)
 c     returns cos(theta), sin(theta), cos(phi), sin(ph) for (x,y,z)
@@ -195,6 +205,8 @@ c                - if x=y=z=0, theta=0, ct=1, st=0
       endif
       return
       end
+
+
       subroutine arg(c,fi,th)
       implicit double precision (a-h, o-z)
       complex*16  c
