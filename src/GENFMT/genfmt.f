@@ -96,46 +96,24 @@ c     used for divide-by-zero and trig tests
       parameter (eps = 1.0e-16)
       external getxk, xstar
        
-c     Read phase calculation input
-      call rdxsph (ne, ne1, ne3, npot, ihole, rnrmav, xmu, edge, ik0,
-     1             em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1)
-      call setkap (ihole, kinit, linit)
-      ilinit = linit + 1
+c+---------------------------------------------------------------------
+c begin intialization
 
-c
-c     need to sum over spin-up and -down for |ispin|=1 (fix later)
-      nsp = 1
-      if (ispin.eq.1) nsp = nspx
+      call genfmt_prep(ispin,
+c     arguments for rdxsph
+     &       ne, ne1, ne3, npot, ihole, rnrmav,
+     &       xmu, edge, ik0,
+     &       em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1,
+c     arguments for setkap
+     &       kinit, linit, ilinit,
+c     argument for snlm (also a return)
+     &       xnlm,
+c     things set in genfmt_prep
+     &       eref, ph, xk, ck, ckmag, xkr,
+     &       nsp, ll, npath, ntotal, nused, xportx)
 
-      if (nsp.eq.1) then
-c        for ispin=2 the variables already written into is=1 positions
-         is = 1
-         do 10 ie = 1, ne
-            eref(ie) = eref2(ie,is)
- 10      continue
-         do 20 iph = 0, npot
-            do 22 ie = 1, ne
-               do 24 il = -lmax(ie, iph), lmax(ie, iph)
-                  ph(ie,il, iph) = ph4(ie, il, is, iph)
- 24            continue
- 22         continue
- 20      continue
-      else
-c        average over two spin direction
-         do 12 ie = 1, ne
-            eref(ie) = (eref2(ie,1) + eref2(ie,nsp)) /2
- 12      continue
-c        !KJ  12     eref(ie) = (eref2(ie,1) + eref2(ie,2)) /2
-         do 30 iph = 0, npot
-            do 32 ie = 1, ne
-               do 34 il = -lmax(ie, iph), lmax(ie, iph)
-                  ph(ie,il, iph) = (ph4(ie, il, 1,iph) + 
-     &                   ph4(ie, il, nsp,iph)) /2
- 34            continue
- 32         continue
- 30      continue
-c        !KJ  22     ph(ie,il, iph) =(ph4(ie, il, 1,iph) + ph4(ie, il, 2,iph)) /2
-      endif
+c end of intialization
+c+---------------------------------------------------------------------
       
 c     Open path input file (unit in) and read text .  Use unit 1.
       ntext  = 5
@@ -154,7 +132,7 @@ c     Put phase header on top of list.dat
       write(2, 125)
  125  format (1x, 71('-'))
       write(2, 135)
- 135  format('  pathindex     sig2   amp ratio    '
+ 135  format('  pathindex     sig2   amp ratio    ',
      1       'deg    nlegs  r effective')
       
 c     Open nstar.dat if necessary
@@ -202,10 +180,6 @@ c     header, ck, central atom phase shifts
 c     Misc stuff from phase.bin and genfmt call
  345  format(a2,3(1x,i7), 3(1x,g14.7))
       write(3, 345) '#&', ihole, iorder, ilinit, rnrmav, xmu, edge
-      do 380 i = 0, npot
-         if (potlbl(i).eq.' ') potlbl(i)  = atsym(iz(i))
-         if (potlbl(i).eq.' ') potlbl(i)  = 'null'
- 380  continue 
  395  format('(',i3,'(1x,a6),',i3,'(1x,i3))')
       write(wfmt, 395) npot+1, npot+1
       write(string,wfmt) (potlbl(i),i=0,npot) , (iz(i),i=0,npot)
@@ -213,30 +187,11 @@ c     Misc stuff from phase.bin and genfmt call
       write(3, '(a2,a)') '#@',string(:jstr)
 
 c     Central atom phase shifts
-      ll = linit+1
-      if (kinit.lt.0) ll = -ll
       call wrpadx(3,mpadx, ph(1,ll, 0),ne)
-
-c     Set nlm factors in common /nlm/ for use later
-      call snlm (ltot+1, mtot+1, xnlm)
-
-c     Make xk and ck array for later use
-      do 850  ie = 1, ne
-c        real momentum (k)
-         xk(ie) = getxk (dble(em(ie)) - edge)
-c        complex momentum (p)
-         ck(ie) = sqrt (2*(em(ie) - eref(ie)))
-         ckmag(ie) = abs(ck(ie))
-         xkr(ie) = real(xk(ie))
- 850  continue
       call wrpadx(3,mpadx, ck,ne)
       call wrpadd(3,mpadx, xkr,ne)
       
 c     While not done, read path, find feff.
-      npath  = 0
-      ntotal = 0
-      nused  = 0
-      xportx = -1
  1000 continue
 
 c     Read current path

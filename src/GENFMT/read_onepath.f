@@ -1,50 +1,56 @@
-      subroutine rdpath (in, done, ipol, potlbl, rat, ri, beta, eta,
-     &       deg, ipot, nsc, nleg, npot, ipath)
+      subroutine json_read_onepath(ipol, index, nleg, deg, rat, ipot,
+     &       ri, beta, eta)
+
+      use json_module
       implicit double precision (a-h, o-z)
-      logical done
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-c     include 'pdata.h'
-      character*6  potlbl(0:nphx)
+
+      logical :: found
+      type(json_file) :: json   !the JSON structure read from the file:
+      double precision,dimension(:),allocatable :: dbpcs
+
+      integer index, nleg, ipot(0:legtot)
       double precision rat(3,0:legtot+1)
+
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
-      double precision deg
-      integer ipot(0:legtot)
-      integer nsc, nleg, npot, ipath
-
-
       complex*16  alph, gamm
       dimension  alpha(0:legtot), gamma(legtot)
-      character*512 slog
-c#mn
-      external dist
+      character*5 vname
 
-      read(in,*,end=200)  ipath, nleg, deg
-      if (nleg .gt. legtot)  then
-         write(slog,'(a,2i6)') 
-     1         ' nleg .gt. legtot, nleg, legtot ', nleg, legtot
-         call wlog(slog)
-         call wlog(' ERROR')
-         goto 200
-      endif
-c     skip label (x y z ipot rleg beta eta)
-      read(in,*)
-      do 20  ileg = 1, nleg
-         read(in,*,end=999)  (rat(j,ileg),j=1,3), ipot(ileg), 
-     1                       potlbl(ipot(ileg))
-c        convert to code units
-         do 10  j = 1, 3
-            rat(j,ileg) = rat(j,ileg)/bohr
-   10    continue
-         if (ipot(ileg) .gt. npot)  then
-            write(slog,'(a,3i8)') 
-     1              ' ipot(ileg) too big, ipot, ileg, npot ',
-     1               ipot(ileg), ileg, npot
-            call wlog(' ERROR')
-            goto 200
-         endif
-   20 continue
+      call json%load_file('onepath.json')
+      if (json_failed()) then   !if there was an error reading the file
+         print *, "failed to read onepath.json"
+         stop
+      else
+         call json%get('index', index, found)
+                 if (.not. found) call bailout('index', 'onepath.json')
+         call json%get('nleg',  nleg,  found)
+                 if (.not. found) call bailout('nleg',  'onepath.json')
+         call json%get('deg',   deg,   found)
+                 if (.not. found) call bailout('deg',  'onepath.json')
+
+         do 10 iat=1,nleg
+            write (vname, "(A4,I1)") "atom", iat
+            call json%get(vname, dbpcs, found)
+                 if (.not. found) call bailout(vname, 'onepath.json')
+            
+            rat(1,iat)  = dbpcs(1)
+            rat(2,iat)  = dbpcs(2)
+            rat(3,iat)  = dbpcs(3)
+            ipot(iat)   = int(dbpcs(4)+0.5)
+ 10      continue
+
+         call json%destroy()
+      end if
+
+
+c+---------------------------------------------------------------------
+c  the following is cut-n-pasted from rdpath
+c  using the coordinates of the path's constituent atoms,
+c  compute ri, beta, and eta
+
       nsc = nleg-1
 
 c     We need the 'z' atom so we can use it below.  Put
@@ -163,62 +169,5 @@ c     We'll need alph(nangle)=alph(0)
          eta(nleg+1) = alpha(nleg)
       endif
 
-c     eta and beta in radians at this point.
-      done = .false.
-      return
-
-c     If no more data, tell genfmt we're done
-  200 continue
-      done = .true.
-      return
-
-c     If unexpected end of file, die
-  999 continue
-      call wlog(' Unexpected end of file')
-      call par_stop('ERROR')
-      end
-
-
-      subroutine trig (x, y, z, ct, st, cp, sp)
-      implicit double precision (a-h, o-z)
-c     returns cos(theta), sin(theta), cos(phi), sin(ph) for (x,y,z)
-c     convention - if x=y=0 and z>0, phi=0, cp=1, sp=0
-c                  if x=y=0 and z<0, phi=180, cp=-1,sp=0
-c                - if x=y=z=0, theta=0, ct=1, st=0
-      parameter (eps = 1.0e-6)
-      r = sqrt (x**2 + y**2 + z**2)
-      rxy = sqrt (x**2 + y**2)
-      if (r .lt. eps)  then
-         ct = 1
-         st = 0
-      else
-         ct = z/r
-         st = rxy/r
-      endif
-      if (rxy .lt. eps)  then
-         cp = 1
-         if (ct .lt. 0) cp = -1
-         sp = 0
-      else
-         cp = x / rxy
-         sp = y / rxy
-      endif
-      return
-      end
-
-
-      subroutine arg(c,fi,th)
-      implicit double precision (a-h, o-z)
-      complex*16  c
-      parameter (eps = 1.0e-6)
-      x = dble(c)
-      y = dimag(c)
-      if (abs(x) .lt. eps) x = 0
-      if (abs(y) .lt. eps) y = 0
-      if (abs(x) .lt. eps  .and.  abs(y) .lt. eps) then
-        th = fi
-      else
-        th = atan2(y,x)
-      endif
       return
       end

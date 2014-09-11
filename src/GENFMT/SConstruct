@@ -8,9 +8,19 @@ from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
 
-bin_src = ('ffmod5.f', 'fmtrxi.f', 'genfmt.f', 'mmtr.f', 'mmtrxi.f', 'rdpath.f', 'regenf.f', 'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f')
+lib_src = ('genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'regenf.f',
+           'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f')
+
+env.StaticLibrary('libgenfmt', lib_src)
+
+bin_src = ('ffmod5.f', 'genfmt.f', 'rdpath.f')
 
 env.Program('genfmt', bin_src, \
-        LIBS = ['feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
-        LIBPATH = ['../COMMON', '../JSON', '../MATH', '../PAR'])
+        LIBS = ['genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+        LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
 
+
+onepath_src = ('onepath.f', 'read_onepath.f', 'trig.f')
+env.Program('onepath', onepath_src, \
+        LIBS = ['genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+        LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
