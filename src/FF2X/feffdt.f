@@ -43,9 +43,9 @@ cc      real beta(legtot,npx)
 cc      real eta(legtot,npx)
 cc      real ri(legtot,npx)
       real achi(nex,npx), phchi(nex,npx)
-       integer istrln
-       complex*16 cchi, cfms
-       external istrln
+      integer istrln
+      complex*16 cchi, cfms
+      external istrln
 
        call wlog (' feffdt, feff.bin to feff.dat conversion: ' // vfeff
      1            // 'release ' // vf85e)

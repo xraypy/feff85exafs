@@ -81,6 +81,8 @@ c+----------------------------------------------------------------------
       dimension   eps1(3), eps2(3), vec1(3), vec2(3)
 
       character*512 slog
+      integer ntit
+      character*80 titles(nheadx)
       
 c      padlib staff
       double precision phff(nex), amff(nex),  xkr(nex)
@@ -119,7 +121,7 @@ c     arguments for rdxsph
      &       em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1,
 c     arguments for setkap
      &       kinit, linit, ilinit,
-c     argument for snlm (also a return)
+c     argument for snlm (an output)
      &       xnlm,
 c     things set in genfmt_prep
      &       eref, ph, xk, ck, ckmag, xkr,
@@ -136,10 +138,12 @@ c  this is the loop over paragraphs in the paths.dat file
 c  the call to rdpath is replaced by the reading of the onepath.json file (for now)
 c+----------------------------------------------------------------------
 
-      call json_read_onepath(ipol, index, nleg, deg, rat, ipot,
+      call json_read_onepath(ipol, index, nleg, nsc, deg, rat, ipot,
      &       ri, beta, eta)
 c     this return ri, beta, eta, rat (like ri, but with 0th and (n++1)th atom
 c                 ipath, deg, nleg
+
+      call read_titles(ntit, titles)
 
       icalc = iorder
       npath = npath + 1
@@ -167,7 +171,7 @@ c     Need reff in code units
       do 1200  i = 1, nleg
          reff = reff + ri(i)
  1200 continue 
-      reff = reff/2/bohr
+      reff = reff/2
 
 c     Set lambda for low k
       call setlam(icalc, 1, beta, nsc, nleg, ilinit,
@@ -187,6 +191,7 @@ c     Start cycle over spin
       do ie = 1, ne
          cchi(ie) = 0
       enddo
+
       do 6000 is = 1, nsp
          if (nsp.eq.1) then
             call mmtr(bmati, ipol, ispin, le2, angks, ptz, lind,
@@ -422,14 +427,13 @@ c     Write feff.dat's
       open (unit=3, file=fname, status='unknown', iostat=ios)
       call chopen (ios, fname, 'onepath')
 
-C======================================================================
-C  HEADER IS NOT WORKING YET!!!
 c     put header on feff.dat
-c      do 300  itext = 1, ntext
-c         ltxt = istrln(text(itext))
-c         write(3,160)  text(itext)(1:ltxt)
-c 300  continue
-C======================================================================
+      do 300  itext = 1, ntit
+         ltxt = istrln(titles(itext))
+         write(3,160)  titles(itext)(1:ltxt)
+ 300  continue
+ 160  format (1x, a)
+
       write(3,310) ip, iorder
  310  format (' Path', i5, '      icalc ', i7)
       write(3,170)
@@ -459,7 +463,7 @@ c     Also write out for inspection to fort.66
 c     note that dimag takes complex*16 argument, aimag takes
 c     single precision complex argument.  Stuff from feff.bin
 c     is single precision, cchi is complex*16
-      do 450  ie = 1, ne
+      do 450  ie = 1, ne1
 c        Consider chi in the standard XAFS form.  Use R = rtot/2.
          ccchi = amff(ie) * exp (coni*phff(ie))
          xlam = 1.0e10
@@ -492,7 +496,7 @@ c        7 real part of local momentum p
      1          xk(ie)/bohr,
      2          cdelt + ilinit*pi,
      3          abs(cfms) * bohr,
-     4          phff - cdelt - ilinit*pi,
+     4          phfff - cdelt - ilinit*pi,
      5          redfac,
      6          xlam * bohr,
      7          dble(ck(ie))/bohr

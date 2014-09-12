@@ -198,20 +198,6 @@ c     Read current path
       call rdpath (1, done, ipol, potlbl, rat, ri, beta, eta,
      &       deg, ipot, nsc, nleg, npot, ipath)
 
-c$$$      print *, "done=", done
-c$$$      print *, "ipol=", ipol
-c$$$      print *, "potlbl=", potlbl
-c$$$      print *, "rat=", rat
-c$$$      print *, "ri=", ri
-c$$$      print *, "beta=", beta
-c$$$      print *, "eta=", eta
-c$$$      print *, "deg=", deg
-c$$$      print *, "ipot=", ipot
-c$$$      print *, "nsc=", nsc
-c$$$      print *, "nleg=", nleg
-c$$$      print *, "npot=", npot
-c$$$      print *, "ipath=", ipath
-
       icalc = iorder
       if (.not.done)  then
          npath = npath + 1
@@ -259,6 +245,7 @@ c        Start cycle over spin
          do ie = 1, ne
             cchi(ie) = 0
          enddo
+
          do 6000 is = 1, nsp
             if (nsp.eq.1) then
                call mmtr(bmati, ipol, ispin, le2, angks, ptz, lind,
@@ -478,7 +465,7 @@ c              remove 2 pi jumps in phase
  7700       continue
             call wrpadd(3,mpadx, amff,ne)
             call wrpadd(3,mpadx, phff,ne)
-            
+
 c           Put feff.dat and stuff into list.dat
 c           zero is debye-waller factor column
             write(2,8215) ipath, zero, crit, deg, nleg, reff*bohr

@@ -9,7 +9,7 @@ from FortranCompilation import CompilationEnvironment
 env = CompilationEnvironment()
 
 lib_src = ('genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'regenf.f',
-           'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f')
+           'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f', 'trig.f')
 
 env.StaticLibrary('libgenfmt', lib_src)
 
@@ -20,7 +20,7 @@ env.Program('genfmt', bin_src, \
         LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
 
 
-onepath_src = ('onepath.f', 'read_onepath.f', 'trig.f')
+onepath_src = ('onepath.f', 'read_onepath.f')
 env.Program('onepath', onepath_src, \
         LIBS = ['genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
         LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])

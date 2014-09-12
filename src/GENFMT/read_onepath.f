@@ -1,5 +1,5 @@
-      subroutine json_read_onepath(ipol, index, nleg, deg, rat, ipot,
-     &       ri, beta, eta)
+      subroutine json_read_onepath(ipol, index, nleg, nsc, deg, rat,
+     &        ipot, ri, beta, eta)
 
       use json_module
       implicit double precision (a-h, o-z)
@@ -36,9 +36,10 @@
             call json%get(vname, dbpcs, found)
                  if (.not. found) call bailout(vname, 'onepath.json')
             
-            rat(1,iat)  = dbpcs(1)
-            rat(2,iat)  = dbpcs(2)
-            rat(3,iat)  = dbpcs(3)
+c           convert distances to code units
+            rat(1,iat)  = dbpcs(1)/bohr
+            rat(2,iat)  = dbpcs(2)/bohr
+            rat(3,iat)  = dbpcs(3)/bohr
             ipot(iat)   = int(dbpcs(4)+0.5)
  10      continue
 
