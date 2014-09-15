@@ -459,10 +459,7 @@ c     put header on feff.dat
      1       ' red factor   lambda     real[p]@#')
 
 c     Make the feff.dat stuff and write it to feff.dat
-c     Also write out for inspection to fort.66
-c     note that dimag takes complex*16 argument, aimag takes
-c     single precision complex argument.  Stuff from feff.bin
-c     is single precision, cchi is complex*16
+c     Note that stuff from feff.bin is single precision, cchi is complex*16
       do 450  ie = 1, ne1
 c        Consider chi in the standard XAFS form.  Use R = rtot/2.
          ccchi = amff(ie) * exp (coni*phff(ie))
