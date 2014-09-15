@@ -1,5 +1,5 @@
       subroutine json_read_onepath(ipol, index, nleg, nsc, deg, rat,
-     &        ipot, ri, beta, eta)
+     &        ipot, nnnn_out, json_out, ri, beta, eta)
 
       use json_module
       implicit double precision (a-h, o-z)
@@ -13,6 +13,7 @@
 
       integer index, nleg, ipot(0:legtot)
       double precision rat(3,0:legtot+1)
+      logical nnnn_out, json_out
 
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
       complex*16  alph, gamm
@@ -25,11 +26,15 @@
          stop
       else
          call json%get('index', index, found)
-                 if (.not. found) call bailout('index', 'onepath.json')
+             if (.not. found) call bailout('index', 'onepath.json')
          call json%get('nleg',  nleg,  found)
-                 if (.not. found) call bailout('nleg',  'onepath.json')
+             if (.not. found) call bailout('nleg',  'onepath.json')
          call json%get('deg',   deg,   found)
-                 if (.not. found) call bailout('deg',  'onepath.json')
+             if (.not. found) call bailout('deg',  'onepath.json')
+         call json%get('nnnn_out', nnnn_out, found)
+             if (.not. found) call bailout('nnnn_out', 'onepath.json')
+         call json%get('json_out', json_out, found)
+             if (.not. found) call bailout('json_out', 'onepath.json')
 
          do 10 iat=1,nleg
             write (vname, "(A4,I1)") "atom", iat

@@ -8,7 +8,7 @@ from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
 
-bin_src = ['exconv.f',  'feffdt.f',  'ff2afs.f',  'ff2chi.f',  'ff2xmu.f',  'ffmod6.f',
+bin_src = ['exconv.f',  'feffdt.f',  'fdtarr.f', 'fdthea.f', 'ff2afs.f',  'ff2chi.f',  'ff2xmu.f',  'ffmod6.f',
            'fprime.f', 'ff2gen.f', 'rdfbin.f',  'reff2x.f',  'xscorr.f']
 #not_in_f85e = []
 

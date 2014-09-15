@@ -12,7 +12,7 @@ c  declarations for regenf
       integer  mfeff, ipr5, iorder
       logical  wnstar
       double precision critcw, angks, elpty
-
+      logical nnnn, json
 
 c+----------------------------------------------------------------------
 c     removing local common blocks, replacing them with explicit passing
@@ -37,7 +37,7 @@ c     include 'pdata.h'
 c      character*80 text(5)
       character*6  potlbl(0:nphx)
       complex*16 ph(nex,-ltot:ltot,0:nphx), eref(nex), em(nex)
-      complex*16 caps(nex)
+      complex caps(nex)
       double precision rat(3,0:legtot+1)
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
       double precision deg, rnrmav, xmu, edge
@@ -82,10 +82,11 @@ c+----------------------------------------------------------------------
 
       character*512 slog
       integer ntit
-      character*80 titles(nheadx)
+      character*80 titles(nheadx), lines(2*nheadx)
       
 c      padlib staff
-      double precision phff(nex), amff(nex),  xkr(nex)
+      real phff(nex), amff(nex)
+      double precision xkr(nex)
       integer  mpadx
       parameter (mpadx = 8)
       character*2 atsym
@@ -98,8 +99,13 @@ c             (normal use, 2.  Do ss exactly regardless of iorder)
 c+----------------------------------------------------------------------
 c  from feffdt.f
       character*12 fname
-      complex*16 ccchi, cfms
+c      complex*16 ccchi, cfms
+      dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
+      dimension col6(nex), col7(nex)
+      real sxk(nex)
+      complex sck(nex)
 
+      
 
 c     used for divide-by-zero and trig tests
       parameter (eps = 1.0e-16)
@@ -129,7 +135,7 @@ c     things set in genfmt_prep
 
 c     central atoms phase shifts
       do 10 ie=1,ne
-         caps(ie) = ph(ie, ll, 0)
+         caps(ie) = cmplx(ph(ie, ll, 0))
  10   continue
 
 c+----------------------------------------------------------------------
@@ -139,7 +145,7 @@ c  the call to rdpath is replaced by the reading of the onepath.json file (for n
 c+----------------------------------------------------------------------
 
       call json_read_onepath(ipol, index, nleg, nsc, deg, rat, ipot,
-     &       ri, beta, eta)
+     &       nnnn, json, ri, beta, eta)
 c     this return ri, beta, eta, rat (like ri, but with 0th and (n++1)th atom
 c                 ipath, deg, nleg
 
@@ -385,13 +391,15 @@ c     crit = crit0+1
       do 7700  ie = 1, ne
          phff(ie) = 0
          if (abs(cchi(ie)) .ge. eps) then
-            phff(ie) = atan2 (dimag(cchi(ie)), dble(cchi(ie)))
+            phff(ie) = real(atan2 (dimag(cchi(ie)), dble(cchi(ie))))
          end if
          
 c        remove 2 pi jumps in phase
-         if (ie.gt.1) call pijump (phff(ie), phffo)
-         phffo    = phff(ie)
-         amff(ie) = dble(abs(cchi(ie)))
+         if (ie.gt.1) call pijump (dble(phff(ie)), phffo)
+         phffo    = dble(phff(ie))
+         amff(ie) = real(abs(cchi(ie)))
+         sxk(ie)  = real(xk(ie))
+         sck(ie)  = cmplx(ck(ie))
  7700 continue
 
 
@@ -409,101 +417,41 @@ c  instead, we'll skip straight to feffdt where the stuff from feff.bin
 c  has been read and is written out to the form of a feffNNNN.dat file
 c+----------------------------------------------------------------------
 
-c     find index of path
-      ip = index
+      if (nnnn) then
+c        Prepare output file feffnnnn.dat
+         write(fname,220)  index
+ 220     format ('f3ff', i4.4, '.dat')
+         write(slog,230)  index, fname
+ 230     format (i8, 5x, a)
+         call wlog(slog)
 
-c     Path i is the path from feff.bin that corresponds to
-c     the path ilist in list.dat.  The index of the path is
-c     iplst(ilist) and index(i).
+c        Write feff.dat's
+         open (unit=3, file=fname, status='unknown', iostat=ios)
+         call chopen (ios, fname, 'onepath')
 
-c     Prepare output file feffnnnn.dat
-      write(fname,220)  ip
- 220  format ('f3ff', i4.4, '.dat')
-      write(slog,230)  ip, fname
- 230  format (i8, 5x, a)
-      call wlog(slog)
+         call fdthea(ntit, titles, index, iorder, nleg, real(deg),
+     &          real(reff), real(rnrmav), real(edge), rat, ipot,
+     &          iz, potlbl, nlines, lines)
+         do 920 i=1, nlines
+            write(3, 930)lines(i)
+ 920     continue
+ 930     format(a)
 
-c     Write feff.dat's
-      open (unit=3, file=fname, status='unknown', iostat=ios)
-      call chopen (ios, fname, 'onepath')
 
-c     put header on feff.dat
-      do 300  itext = 1, ntit
-         ltxt = istrln(titles(itext))
-         write(3,160)  titles(itext)(1:ltxt)
- 300  continue
- 160  format (1x, a)
+         call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk,sck,
+     &          col1, col2, col3, col4, col5, col6, col7)
+         do 1005 ie = 1, ne1
+            write(3,400) col1(ie), col2(ie), col3(ie), col4(ie),
+     &             col5(ie), col6(ie), col7(ie)
 
-      write(3,310) ip, iorder
- 310  format (' Path', i5, '      icalc ', i7)
-      write(3,170)
- 170  format (1x, 71('-'))
-      write(3,320)  nleg, deg, reff*bohr, rnrmav, 
-     1       edge*hart
- 320  format (1x, i3, f8.3, f9.4, f10.4, f11.5, 
-     1       ' nleg, deg, reff, rnrmav(bohr), edge')
-      write(3,330)
- 330  format ('        x         y         z   pot at#')
-      write(3,340)  (rat(j,nleg)*bohr,j=1,3), 
-     1       ipot(nleg),
-     1       iz(ipot(nleg)), potlbl(ipot(nleg))
- 340  format (1x, 3f10.4, i3, i4, 1x, a6, '   absorbing atom')
-      do 360  ileg = 1, nleg-1
-         write(3,350)  (rat(j,ileg)*bohr,j=1,3), ipot(ileg),
-     1          iz(ipot(ileg)), potlbl(ipot(ileg))
- 350     format (1x, 3f10.4, i3, i4, 1x, a6)
- 360  continue
-
-      write(3,370)
- 370  format    ('    k   real[2*phc]   mag[feff]  phase[feff]',
-     1       ' red factor   lambda     real[p]@#')
-
-c     Make the feff.dat stuff and write it to feff.dat
-c     Note that stuff from feff.bin is single precision, cchi is complex*16
-      do 450  ie = 1, ne1
-c        Consider chi in the standard XAFS form.  Use R = rtot/2.
-         ccchi = amff(ie) * exp (coni*phff(ie))
-         xlam = 1.0e10
-         if (abs(aimag(ck(ie))) .gt. eps) xlam = 1/aimag(ck(ie))
-         redfac = exp (-2 * aimag (caps(ie)))
-         cdelt = 2*dble(caps(ie))
-         cfms = ccchi * xk(ie) * reff**2 *
-     1          exp(2*reff/xlam) / redfac
-         if (abs(ccchi) .lt. eps)  then
-            phfff = 0
-         else
-            phfff = atan2 (dimag(ccchi), dble(ccchi))
-         endif
-c        remove 2 pi jumps in phases
-         if (ie .gt. 1)  then
-            call pijump (phfff, phfffo)
-            call pijump (cdelt, cdelto)
-         endif
-         phfffo = phfff
-         cdelto = cdelt
-c        write 1 k, momentum wrt fermi level k=sqrt(p**2-kf**2)
-c        2 central atom phase shift (real part),
-c        3 magnitude of feff,
-c        4 phase of feff,
-c        5 absorbing atom reduction factor,
-c        6 mean free path = 1/(Im (p))
-c        7 real part of local momentum p
-
-         write(3,400)
-     1          xk(ie)/bohr,
-     2          cdelt + ilinit*pi,
-     3          abs(cfms) * bohr,
-     4          phfff - cdelt - ilinit*pi,
-     5          redfac,
-     6          xlam * bohr,
-     7          dble(ck(ie))/bohr
+ 1005    continue
  400     format (1x, f6.3, 1x, 3(1pe11.4,1x),1pe10.3,1x,
      1          2(1pe11.4,1x))
 
- 450  continue
-
-c     Done with feff.dat
-      close (unit=3)
+c        Done with feff.dat
+         close (unit=3)
+      end if
+c     end of conditional for writing feffNNNN.dat
 
       end
 

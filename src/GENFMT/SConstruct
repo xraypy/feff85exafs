@@ -20,7 +20,8 @@ env.Program('genfmt', bin_src, \
         LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
 
 
-onepath_src = ('onepath.f', 'read_onepath.f')
-env.Program('onepath', onepath_src, \
+onepath_src = ['onepath.f', 'read_onepath.f']
+other_obj = ['../FF2X/fdtarr.o', '../FF2X/fdthea.o']
+env.Program('onepath', onepath_src + other_obj, \
         LIBS = ['genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
         LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])

@@ -27,7 +27,7 @@ cc      character*78 string
       real rnrmav, edge
 c      real xmu
 cc      dimension ltext(nheadx)
-      character*80 text(nheadx)
+      character*80 text(nheadx), lines(2*nheadx)
       character*6  potlbl(0:nphx)
       dimension iz(0:nphx)
 c     central atom phase shift at l0
@@ -44,7 +44,14 @@ cc      real eta(legtot,npx)
 cc      real ri(legtot,npx)
       real achi(nex,npx), phchi(nex,npx)
       integer istrln
-      complex*16 cchi, cfms
+c      complex*16 cchi, cfms
+      dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
+      dimension col6(nex), col7(nex)
+      real amff(nex), phff(nex)
+      dimension ipoths(legtot)
+      dimension thsrat(3,legtot)
+
+
       external istrln
 
        call wlog (' feffdt, feff.bin to feff.dat conversion: ' // vfeff
@@ -113,79 +120,106 @@ c     Write feff.dat's
          open (unit=3, file=fname(ip), status='unknown', iostat=ios)
          call chopen (ios, fname(ip), 'feffdt')
 c        put header on feff.dat
-         do 300  itext = 1, ntext
-            ltxt = istrln(text(itext))
-            write(3,160)  text(itext)(1:ltxt)
-  300    continue
-         write(3,310) ip, iorder
-  310    format (' Path', i5, '      icalc ', i7)
-         write(3,170)
-         write(3,320)  nleg(ip), deg(ip), reff(ip)*bohr, rnrmav, 
-     1                 edge*hart
-  320    format (1x, i3, f8.3, f9.4, f10.4, f11.5, 
-     1           ' nleg, deg, reff, rnrmav(bohr), edge')
-         write(3,330)
-  330    format ('        x         y         z   pot at#')
-         write(3,340)  (rat(j,nleg(ip),ip)*bohr,j=1,3), 
-     1                 ipot(nleg(ip),ip),
-     1                 iz(ipot(nleg(ip),ip)), potlbl(ipot(nleg(ip),ip))
-  340    format (1x, 3f10.4, i3, i4, 1x, a6, '   absorbing atom')
-         do 360  ileg = 1, nleg(ip)-1
-            write(3,350)  (rat(j,ileg,ip)*bohr,j=1,3), ipot(ileg,ip),
-     1                    iz(ipot(ileg,ip)), potlbl(ipot(ileg,ip))
-  350       format (1x, 3f10.4, i3, i4, 1x, a6)
-  360    continue
+c$$$         do 300  itext = 1, ntext
+c$$$            ltxt = istrln(text(itext))
+c$$$            write(3,160)  text(itext)(1:ltxt)
+c$$$  300    continue
+c$$$
+c$$$         write(3,310) ip, iorder
+c$$$  310    format (' Path', i5, '      icalc ', i7)
+c$$$         write(3,170)
+c$$$         write(3,320)  nleg(ip), deg(ip), reff(ip)*bohr, rnrmav, 
+c$$$     1                 edge*hart
+c$$$  320    format (1x, i3, f8.3, f9.4, f10.4, f11.5, 
+c$$$     1           ' nleg, deg, reff, rnrmav(bohr), edge')
+c$$$         write(3,330)
+c$$$  330    format ('        x         y         z   pot at#')
+c$$$         write(3,340)  (rat(j,nleg(ip),ip)*bohr,j=1,3), 
+c$$$     1                 ipot(nleg(ip),ip),
+c$$$     1                 iz(ipot(nleg(ip),ip)), potlbl(ipot(nleg(ip),ip))
+c$$$  340    format (1x, 3f10.4, i3, i4, 1x, a6, '   absorbing atom')
+c$$$         do 360  ileg = 1, nleg(ip)-1
+c$$$            write(3,350)  (rat(j,ileg,ip)*bohr,j=1,3), ipot(ileg,ip),
+c$$$     1                    iz(ipot(ileg,ip)), potlbl(ipot(ileg,ip))
+c$$$  350       format (1x, 3f10.4, i3, i4, 1x, a6)
+c$$$  360    continue
+c$$$
+c$$$         write(3,370)
+c$$$  370    format    ('    k   real[2*phc]   mag[feff]  phase[feff]',
+c$$$     1              ' red factor   lambda     real[p]@#')
 
-         write(3,370)
-  370    format    ('    k   real[2*phc]   mag[feff]  phase[feff]',
-     1              ' red factor   lambda     real[p]@#')
+         do 900 nl = 1, nleg(ip)
+            ipoths(nl) = ipot(nl, ip)
+            do 910 i = 1, 3
+               thsrat(i, nl) = rat(i, nl, ip)
+ 910        continue
+ 900     continue
+         call fdthea(ntext, text, ip, iorder, nleg(ip), deg(ip),
+     &          reff(ip), rnrmav, edge, thsrat, ipoths, iz, potlbl,
+     &          nlines, lines)
+         do 920 i=1, nlines
+            write(3, 930)lines(i)
+ 920     continue
+ 930     format(a)
+
+         do 1000 ie = 1, ne
+            amff(ie) = achi(ie,ip)
+            phff(ie) = phchi(ie,ip)
+ 1000    continue
+         call fdtarr(ne, reff(ip), l0, amff, phff, phc, xk, ck,
+     &       col1, col2, col3, col4, col5, col6, col7)
+         do 1005 ie = 1, ne
+            write(3,400) col1(ie), col2(ie), col3(ie), col4(ie),
+     &             col5(ie), col6(ie), col7(ie)
+ 1005    continue
 
 c        Make the feff.dat stuff and write it to feff.dat
 c        Also write out for inspection to fort.66
 c        note that dimag takes complex*16 argument, aimag takes
 c        single precision complex argument.  Stuff from feff.bin
 c        is single precision, cchi is complex*16
-         do 450  ie = 1, ne
-c           Consider chi in the standard XAFS form.  Use R = rtot/2.
-            cchi = achi(ie,ip) * exp (coni*phchi(ie,ip))
-            xlam = 1.0e10
-            if (abs(aimag(ck(ie))) .gt. eps) xlam = 1/aimag(ck(ie))
-            redfac = exp (-2 * aimag (phc(ie)))
-            cdelt = 2*dble(phc(ie))
-            cfms = cchi * xk(ie) * reff(ip)**2 *
-     1           exp(2*reff(ip)/xlam) / redfac
-            if (abs(cchi) .lt. eps)  then
-               phff = 0
-            else
-               phff = atan2 (dimag(cchi), dble(cchi))
-            endif
-c           remove 2 pi jumps in phases
-            if (ie .gt. 1)  then
-               call pijump (phff, phffo)
-               call pijump (cdelt, cdelto)
-            endif
-            phffo = phff
-            cdelto = cdelt
-c           write 1 k, momentum wrt fermi level k=sqrt(p**2-kf**2)
-c                 2 central atom phase shift (real part),
-c                 3 magnitude of feff,
-c                 4 phase of feff,
-c                 5 absorbing atom reduction factor,
-c                 6 mean free path = 1/(Im (p))
-c                 7 real part of local momentum p
-
-            write(3,400)
-     1         xk(ie)/bohr,
-     2         cdelt + l0*pi,
-     3         abs(cfms) * bohr,
-     4         phff - cdelt - l0*pi,
-     5         redfac,
-     6         xlam * bohr,
-     7         dble(ck(ie))/bohr
-  400       format (1x, f6.3, 1x, 3(1pe11.4,1x),1pe10.3,1x,
-     1                            2(1pe11.4,1x))
-
-  450    continue
+c$$$         do 450  ie = 1, ne
+c$$$c           Consider chi in the standard XAFS form.  Use R = rtot/2.
+c$$$            cchi = achi(ie,ip) * exp (coni*phchi(ie,ip))
+c$$$            xlam = 1.0e10
+c$$$            if (abs(aimag(ck(ie))) .gt. eps) xlam = 1/aimag(ck(ie))
+c$$$            redfac = exp (-2 * aimag (phc(ie)))
+c$$$            cdelt = 2*dble(phc(ie))
+c$$$            cfms = cchi * xk(ie) * reff(ip)**2 *
+c$$$     1           exp(2*reff(ip)/xlam) / redfac
+c$$$            if (abs(cchi) .lt. eps)  then
+c$$$               phff = 0
+c$$$            else
+c$$$               phff = atan2 (dimag(cchi), dble(cchi))
+c$$$            endif
+c$$$c           remove 2 pi jumps in phases
+c$$$            if (ie .gt. 1)  then
+c$$$               call pijump (phff, phffo)
+c$$$               call pijump (cdelt, cdelto)
+c$$$            endif
+c$$$            phffo = phff
+c$$$            cdelto = cdelt
+c$$$c           write 1 k, momentum wrt fermi level k=sqrt(p**2-kf**2)
+c$$$c                 2 central atom phase shift (real part),
+c$$$c                 3 magnitude of feff,
+c$$$c                 4 phase of feff,
+c$$$c                 5 absorbing atom reduction factor,
+c$$$c                 6 mean free path = 1/(Im (p))
+c$$$c                 7 real part of local momentum p
+c$$$
+c$$$            write(3,400)
+c$$$     1         xk(ie)/bohr,
+c$$$     2         cdelt + l0*pi,
+c$$$     3         abs(cfms) * bohr,
+c$$$     4         phff - cdelt - l0*pi,
+c$$$     5         redfac,
+c$$$     6         xlam * bohr,
+c$$$     7         dble(ck(ie))/bohr
+c$$$
+c$$$  450    continue
+         
+ 400     format (1x, f6.3, 1x, 3(1pe11.4,1x),1pe10.3,1x,
+     1          2(1pe11.4,1x))
 
 c        Done with feff.dat
          close (unit=3)
