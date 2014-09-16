@@ -75,3 +75,34 @@
 
       return
       end
+
+      subroutine read_titles(ntit, titles)
+      use json_module
+      implicit double precision (a-h, o-z)
+
+      include '../HEADERS/const.h'
+      include '../HEADERS/dim.h'
+
+      logical :: found
+      type(json_file) :: json   !the JSON structure read from the file:
+      character*80,dimension(:),allocatable :: strings
+
+      character*80 titles(nheadx)
+
+      call json%load_file('xsect.json')
+      if (json_failed()) then   !if there was an error reading the file
+         print *, "failed to read xsect.json"
+         stop
+      else
+         call json%get('ntitle', ntit, found)
+                   if (.not. found) call bailout('s02',   'xsect.json')
+         call json%get('title',   strings, found)
+                   if (.not. found) call bailout('title', 'xsect.json')
+         do 10 i=1,ntit
+            titles(i) = strings(i)
+ 10      continue
+         call json%destroy()
+      end if
+
+      return
+      end

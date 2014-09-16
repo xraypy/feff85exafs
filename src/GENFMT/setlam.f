@@ -1,4 +1,5 @@
-      subroutine setlam (icalc, ie)
+      subroutine setlam(icalc, ie, beta, nsc, nleg, ilinit,
+     &       mlam, nlam, lamx, laml0x, mmaxp1, nmax)
       implicit double precision (a-h, o-z)
 
 c     Set lambda array based on icalc and ie
@@ -16,13 +17,18 @@ c               set nmax and mmax large enough-- if you want nmax and
 c               mmax to control, set iord = 2*nmax + mmax...
 
 c     inputs: ie used for cute algorithm
-c             nsc used from /pdata/ to recognize ss paths
-c     output: variables in /lambda/ set
+c             nsc used to recognize ss paths
+c     output: mlam, nlam, lamx, laml0x, mmaxp1, nmax
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      include 'lambda.h'
-      include 'pdata.h'
+c     include 'lambda.h'
+      integer mlam(lamtot), nlam(lamtot), lamx, laml0x, mmaxp1, nmax
+c     include 'pdata.h'
+      double precision beta(legtot+1)
+      integer nsc, nleg
+      integer ilinit 
+
       dimension mlam0(lamtot), nlam0(lamtot)
 
 c     one degree in radians
