@@ -9,7 +9,7 @@ from FortranCompilation import CompilationEnvironment
 env = CompilationEnvironment()
 
 lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f', 'read_fpf0.f',
-           'json_xsect.f', 'read_xsect.f']
+           'json_xsect.f', 'read_xsect.f', 'json_nnnn.f']
 
 env.StaticLibrary('libfeffjson', lib_src)
 

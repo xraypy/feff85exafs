@@ -6,7 +6,12 @@
       include '../HEADERS/dim.h'
 
 c+---------------------------------------------------------------------
-c  declarations for regenf
+c     parameters related to the call to regenf
+c
+c     Input flags:
+c     iorder, order of approx in f-matrix expansion (see setlam)
+c             (normal use, 2.  Do ss exactly regardless of iorder)
+c+---------------------------------------------------------------------
       double precision evec(3), xivec(3)
       complex*16 ptz(-1:1, -1:1)
       integer  mfeff, ipr5, iorder
@@ -65,61 +70,61 @@ c     .  ntext                                  !number of text  lines
 
 
 c+----------------------------------------------------------------------
-      complex*16  lind(8)
-
+c     parameters used in the code taken from GENFMT/genfmt.f
+c+----------------------------------------------------------------------
       complex*16  rho(legtot), pmati(lamtot,lamtot,2)
       complex*16  pllp, ptrac, srho, prho, cfac
-      complex*16  cchi(nex)
-      complex*16  rkk(nex,8)
-      complex*16  rkk2(nex,8,nspx)
-      complex*16  eref2(nex,nspx), ph4, bmati
-      dimension   ph4(nex,-ltot:ltot, nspx, 0:nphx)
-      dimension   bmati(-mtot:mtot, 8, -mtot:mtot, 8)
+      complex*16  cchi(nex), rkk(nex,8), rkk2(nex,8,nspx)
+      complex*16  eref2(nex,nspx), ph4(nex,-ltot:ltot, nspx, 0:nphx)
+      complex*16  bmati(-mtot:mtot, 8, -mtot:mtot, 8)
+      complex*16  ck(nex), lind(8)
       dimension   xk(nex), ckmag(nex)
-      complex*16  ck(nex), ckp
-      dimension   ffmag(nex)
+c     ckp and ffmag are used to compute importance factor
+c     complex*16  ckp
+c     dimension   ffmag(nex)
       dimension   eps1(3), eps2(3), vec1(3), vec2(3)
 
       character*512 slog
       integer ntit
       character*80 titles(nheadx), lines(2*nheadx)
       
-c      padlib staff
+c+----------------------------------------------------------------------
+c     parameters related to using padlib
+c+----------------------------------------------------------------------
       real phff(nex), amff(nex)
       double precision xkr(nex)
       integer  mpadx
       parameter (mpadx = 8)
-      character*2 atsym
-      external atsym, cwig3j, istrln
-
-c     Input flags:
-c     iorder, order of approx in f-matrix expansion (see setlam)
-c             (normal use, 2.  Do ss exactly regardless of iorder)
 
 c+----------------------------------------------------------------------
-c  from feffdt.f
+c     parameters related to using fdtarr.f and fdthea.f
+c+----------------------------------------------------------------------
       character*12 fname
-c      complex*16 ccchi, cfms
+      character*13 fjson
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
       dimension col6(nex), col7(nex)
       real sxk(nex)
       complex sck(nex)
 
-      
 
 c     used for divide-by-zero and trig tests
       parameter (eps = 1.0e-16)
-      external getxk, xstar
+      external xstar
 
 
 
 
-c                 genfmt.json and global.json
+c+----------------------------------------------------------------------
+c     read genfmt.json and global.json
+c+----------------------------------------------------------------------
       call regenf(mfeff, ipr5, critcw, iorder, wnstar,
      1            ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
 
 
 
+c+----------------------------------------------------------------------
+c     initialize everything needed for the genfmt calculation
+c+----------------------------------------------------------------------
       call genfmt_prep(ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
@@ -133,24 +138,31 @@ c     things set in genfmt_prep
      &       eref, ph, xk, ck, ckmag, xkr,
      &       nsp, ll, npath, ntotal, nused, xportx)
 
-c     central atoms phase shifts
+c+----------------------------------------------------------------------
+c     pull out the central atom phase shifts
+c+----------------------------------------------------------------------
       do 10 ie=1,ne
          caps(ie) = cmplx(ph(ie, ll, 0))
  10   continue
+
+c+----------------------------------------------------------------------
+c     read the input JSON file for this program: onepath.json
+c+----------------------------------------------------------------------
+      call json_read_onepath(ipol, index, nleg, nsc, deg, rat, ipot,
+     &       nnnn, json, ri, beta, eta)
+c     this return ri, beta, eta, rat (like ri, but with 0th and (n++1)th atom
+c                 ipath, deg, nleg
+
+c+----------------------------------------------------------------------
+c     fetch the standard output header lines from xsect.json
+c+----------------------------------------------------------------------
+      call read_titles(ntit, titles)
 
 c+----------------------------------------------------------------------
 c  this section is cut-n-pasted from genfmt
 c  this is the loop over paragraphs in the paths.dat file
 c  the call to rdpath is replaced by the reading of the onepath.json file (for now)
 c+----------------------------------------------------------------------
-
-      call json_read_onepath(ipol, index, nleg, nsc, deg, rat, ipot,
-     &       nnnn, json, ri, beta, eta)
-c     this return ri, beta, eta, rat (like ri, but with 0th and (n++1)th atom
-c                 ipath, deg, nleg
-
-      call read_titles(ntit, titles)
-
       icalc = iorder
       npath = npath + 1
       ntotal = ntotal + 1
@@ -364,29 +376,17 @@ c        end of energy loop
 c     end of loop over spins
 
 
-c     Make importance factor, deg*(integral (|chi|*d|p|))
-c     make ffmag (|chi|)
-c     xport   importance factor
-      do 6810  ie = 1, ne1
-         if (nsp.eq.2) then
-            eref(ie) = (eref2(ie,1) + eref2(ie,nsp)) /2
-c           !KJ eref(ie) = (eref2(ie,1) + eref2(ie,2)) /2
-            ck(ie) = sqrt (2* (em(ie) - eref(ie)))
-         endif
-         ckp = ck(ie)
-         xlam0 = dimag(ck(ie)) - dimag(ckp)
-         ffmag(ie) = abs( cchi(ie) * exp(2*reff*xlam0) )
- 6810 continue
+c+----------------------------------------------------------------------
+c     compute the importance factor of this path
+c+----------------------------------------------------------------------
+c     call import(ne1, nsp, ik0, deg, ckmag, em, eref2,
+c     &       cchi, xportx, crit)
 
-c     integrate from edge (ik0) to ne
-      nemax = ne1 - ik0 + 1
-      call trap (ckmag(ik0), ffmag(ik0), nemax, xport)
-      xport = abs(deg*xport)
-      if (xportx.le.0)  xportx = xport
-      crit = 100 * xport / xportx
-c     use line below to disable importance factor (e.g. for dichroism)
-c     crit = crit0+1
 
+c+----------------------------------------------------------------------
+c     compute mag and phase arrays for F_eff, set single precision
+c     arrays for xk and ck
+c+----------------------------------------------------------------------
       phffo = 0
       do 7700  ie = 1, ne
          phff(ie) = 0
@@ -404,18 +404,21 @@ c        remove 2 pi jumps in phase
 
 
 c+----------------------------------------------------------------------
-c  the following get stored in feff.bin:
+c  the following get stored in feff.bin for each path:
 c        ipath, nleg, deg, reff (*bohr), crit, ipot(1, nleg)
-c        rat
-c        beta
-c        eta
-c        ri
-c        amff
-c        phff
+c        rat beta eta ri amff phff
+c
+c  instead, we'll skip straight to the chore performed in feffdt where
+c  the stuff from feff.bin has been read and is written out to the form
+c  of a feffNNNN.dat file
 c+----------------------------------------------------------------------
-c  instead, we'll skip straight to feffdt where the stuff from feff.bin
-c  has been read and is written out to the form of a feffNNNN.dat file
+
 c+----------------------------------------------------------------------
+c        compute the columns of feffNNNN.dat
+c+----------------------------------------------------------------------
+      call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk,sck,
+     &       col1, col2, col3, col4, col5, col6, col7)
+
 
       if (nnnn) then
 c        Prepare output file feffnnnn.dat
@@ -429,6 +432,10 @@ c        Write feff.dat's
          open (unit=3, file=fname, status='unknown', iostat=ios)
          call chopen (ios, fname, 'onepath')
 
+
+c+----------------------------------------------------------------------
+c        write out the feffNNNN.dat header
+c+----------------------------------------------------------------------
          call fdthea(ntit, titles, index, iorder, nleg, real(deg),
      &          real(reff), real(rnrmav), real(edge), rat, ipot,
      &          iz, potlbl, nlines, lines)
@@ -437,9 +444,9 @@ c        Write feff.dat's
  920     continue
  930     format(a)
 
-
-         call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk,sck,
-     &          col1, col2, col3, col4, col5, col6, col7)
+c+----------------------------------------------------------------------
+c        write out the feffNNNN.dat columns
+c+----------------------------------------------------------------------
          do 1005 ie = 1, ne1
             write(3,400) col1(ie), col2(ie), col3(ie), col4(ie),
      &             col5(ie), col6(ie), col7(ie)
@@ -452,6 +459,24 @@ c        Done with feff.dat
          close (unit=3)
       end if
 c     end of conditional for writing feffNNNN.dat
+
+
+c+----------------------------------------------------------------------
+c     write out a JSON file with the same information as feffNNNN.dat
+c+----------------------------------------------------------------------
+      if (json) then
+         write(fjson,240)  index
+ 240     format ('feff', i4.4, '.json')
+         write(slog,250)  index, fjson
+ 250     format (i8, 5x, a)
+         call wlog(slog)
+
+         call json_nnnn(fjson, ntit, titles, rat, ipot, ri, beta, eta,
+     &          index, iorder, nleg, deg, reff, rnrmav, edge,
+     &          ne1, col1, col2, col3, col4, col5, col6, col7)
+
+      end if
+c     end of conditional for writing feffNNNN.json
 
       end
 

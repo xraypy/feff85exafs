@@ -8,7 +8,7 @@ from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
 
-lib_src = ('genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'regenf.f',
+lib_src = ('genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'regenf.f', 'import.f',
            'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f', 'trig.f')
 
 env.StaticLibrary('libgenfmt', lib_src)
