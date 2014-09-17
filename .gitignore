@@ -12,8 +12,10 @@ global.dat
 ## nonsense that Athena writes out
 .gnuplot*
 
-## artemis project files used to develop fitting models for standards
+## artemis project files and other files used to develop fitting models for standards
 t/materials/*/*.fpj
+gds.txt
+*.skip
 
 ## conversion of md -> html
 README.html
@@ -21,6 +23,7 @@ README.html
 ## compiled programs
 src/POT/pot
 src/GENFMT/genfmt
+src/GENFMT/onepath
 src/PATH/path
 src/XSPH/xsph
 src/FMS/fms

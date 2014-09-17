@@ -1,21 +1,26 @@
 {
-    "vfeff": "feff version number",
-    "vf85e": "feff85exafs release number",
+    "vfeff":  "feff version number",
+    "vf85e":  "feff85exafs release number",
 
-    "nabs": "2nd term of CFAVERAGE in feff.inp; number of absorbers to include in the configuration average",
+    "nabs":   "2nd term of CFAVERAGE in feff.inp; number of absorbers to include in the configuration average",
     "iphabs": "1st term of CFAVERAGE in feff.inp; potential index of absorber for configuration average",
     "rclabs": "3rd term of CFAVERAGE in feff.inp; radius for making atom list about each absorber in the configuration average",
-    "ipol": "boolean, true=do polarization calculation",
-    "ispin": "first term from SPIN in feff.inp; 0=spin independent, +/-1=XMCD, +/-2=spin polarized DOS and XAS",
-    "le2": "1st term from MULTIPOLES in feff.inp; 0=only dipole, 1=dipole+magnetic dipole, 2=dipole+quadrupole",
-    "elpty": "1st term from ELLIPTICITY in feff.inp; eccentricity ",
-    "angks": "angle between x-ray propagation and spin (default=0)",
+    "ipol":   "boolean, true=do polarization calculation",
+    "ispin":  "first term from SPIN in feff.inp; 0=spin independent, +/-1=XMCD, +/-2=spin polarized DOS and XAS",
+    "le2":    "1st term from MULTIPOLES in feff.inp; 0=only dipole, 1=dipole+magnetic dipole, 2=dipole+quadrupole",
+    "elpty":  "1st term from ELLIPTICITY in feff.inp; eccentricity ",
+    "angks":  "angle between x-ray propagation and spin (default=0)",
 
-    "evec": "arguments of POLARIZATION in feff.inp; polarization vector",
-    "xivec": "last three terms from ELLIPTICITY in feff.inp; incident direction",
-    "spvec": "last three terms from SPIN in feff.inp; spin direction onf central atom",
+    "evec":   "arguments of POLARIZATION in feff.inp; polarization vector",
+    "xivec":  "last three terms from ELLIPTICITY in feff.inp; incident direction",
+    "spvec":  "last three terms from SPIN in feff.inp; spin direction of central atom",
 
-    "ptz0": "first (-1) row of polarization tensor, 6 values that map onto three complex numbers"
-    "ptz1": "second (0) row of polarization tensor, 6 values that map onto three complex numbers"
-    "ptz2": "third (1) row of polarization tensor, 6 values that map onto three complex numbers"
+    "ptz0":   "first (-1) row of polarization tensor, 6 values that map onto three complex numbers"
+    "ptz1":   "second (0) row of polarization tensor, 6 values that map onto three complex numbers"
+    "ptz2":   "third  (1) row of polarization tensor, 6 values that map onto three complex numbers"
+
+    "_comments": [
+	"can be ignored in feff85exafs: nabs, iphabs, rclabs, ispin, le2m angks, spvec",
+	"used in feff85exafs: ipol, elpty, evec, xivec, ptz0, ptz1, ptz2"
+    ]
 }

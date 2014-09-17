@@ -163,7 +163,6 @@ c  this section is cut-n-pasted from genfmt
 c  this is the loop over paragraphs in the paths.dat file
 c  the call to rdpath is replaced by the reading of the onepath.json file (for now)
 c+----------------------------------------------------------------------
-      icalc = iorder
       npath = npath + 1
       ntotal = ntotal + 1
       if (wnstar)  then
@@ -192,7 +191,7 @@ c     Need reff in code units
       reff = reff/2
 
 c     Set lambda for low k
-      call setlam(icalc, 1, beta, nsc, nleg, ilinit,
+      call setlam(iorder, 1, beta, nsc, nleg, ilinit,
      &       mlam, nlam, lamx, laml0x, mmaxp1, nmax)
 
 c     Calculate and store rotation matrix elements
