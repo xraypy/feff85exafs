@@ -1,4 +1,6 @@
-      program onepath
+      subroutine onepath(index, nleg, deg, innnn, ijson,
+     &       ri, beta, eta,
+     &       ne1,col1,col2,col3,col4,col5,col6,col7)
 
       implicit double precision (a-h, o-z)
 
@@ -12,12 +14,15 @@ c     Input flags:
 c     iorder, order of approx in f-matrix expansion (see setlam)
 c             (normal use, 2.  Do ss exactly regardless of iorder)
 c+---------------------------------------------------------------------
-      double precision evec(3), xivec(3)
+      double precision evec(3), xivec(3), spvec(3)
       complex*16 ptz(-1:1, -1:1)
-      integer  mfeff, ipr5, iorder
+      integer  iorder
+c     integer  mfeff, ipr5
       logical  wnstar
-      double precision critcw, angks, elpty
+      double precision angks, elpty
+c     double precision critcw
       logical nnnn, json
+      integer innnn, ijson
 
 c+----------------------------------------------------------------------
 c     removing local common blocks, replacing them with explicit passing
@@ -111,14 +116,24 @@ c     used for divide-by-zero and trig tests
       parameter (eps = 1.0e-16)
       external xstar
 
+      dimension atarr(3,natx)
+      do 5 i=1,natx
+         atarr(1, i) = 0
+         atarr(2, i) = 0
+         atarr(3, i) = 0
+ 5    continue
+c     atarr is a dummy array used to call mkptz
+c     CAUTION: atom coordinates may have been changed by Feff for some
+c     funny polarization or ellipticity.  need a test case of funny
+c     pol/ell
 
-
-
+      wnstar = .false.
 c+----------------------------------------------------------------------
 c     read genfmt.json and global.json
+c keep at input: iorder, ipol, evec, elpty, xivec
 c+----------------------------------------------------------------------
-      call regenf(mfeff, ipr5, critcw, iorder, wnstar,
-     1            ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
+c      call regenf(mfeff, ipr5, critcw, iorder, wnstar,
+c     &       ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
 
 
 
@@ -147,11 +162,23 @@ c+----------------------------------------------------------------------
 
 c+----------------------------------------------------------------------
 c     read the input JSON file for this program: onepath.json
+c     return ri, beta, eta, rat (like ri, but with 0th and (n++1)th atom)
 c+----------------------------------------------------------------------
-      call json_read_onepath(ipol, index, nleg, nsc, deg, rat, ipot,
-     &       nnnn, json, ri, beta, eta)
-c     this return ri, beta, eta, rat (like ri, but with 0th and (n++1)th atom
-c                 ipath, deg, nleg
+      le2      = 0
+      ispin    = 0
+      spvec(1) = 0
+      spvec(2) = 0
+      spvec(3) = 0
+      call json_read_onepath(indexX, iorder, ipol,
+     &       nlegX, degX, rat, ipot, elpty, evec, xivec, nnnn, json)
+      call pathgeom(nleg, nsc, ipol, rat, ipot, ri, beta, eta)
+      call mkptz(ipol, elpty, evec, xivec, ispin, spvec, natx, atarr,
+     &       angks, le2, ptz)
+
+      nnnn = .false.
+      if (innnn .gt. 0) nnnn=.true.
+      json = .false.
+      if (ijson .gt. 0) json=.true.
 
 c+----------------------------------------------------------------------
 c     fetch the standard output header lines from xsect.json
@@ -217,24 +244,24 @@ c     Start cycle over spin
             call mmtr(bmati, ipol, is, le2, angks, ptz, lind,
      &             dri, eta, nsc, nleg, kinit, ilinit)
          endif
-         do 110 ie = 1, ne
+         do 510 ie = 1, ne
             eref(ie) = eref2(ie,is)
- 110     continue
-         do 120 iph = 0, npot
-            do 122 ie = 1, ne
-               do 124 il = -lmax(ie, iph), lmax(ie, iph)
+ 510     continue
+         do 520 iph = 0, npot
+            do 522 ie = 1, ne
+               do 524 il = -lmax(ie, iph), lmax(ie, iph)
                   ph(ie,il, iph) = ph4(ie, il, is, iph)
- 124           continue
- 122        continue
- 120     continue
-         do 130 ie = 1, ne
-            do 132 kdif = 1, 8
+ 524           continue
+ 522        continue
+ 520     continue
+         do 530 ie = 1, ne
+            do 532 kdif = 1, 8
                rkk(ie,kdif) = rkk2(ie,kdif,is)
- 132        continue
- 130     continue
-         do 140 ie = 1, ne
+ 532        continue
+ 530     continue
+         do 540 ie = 1, ne
             ck(ie) = sqrt (2* (em(ie) - eref(ie)))
- 140     continue
+ 540     continue
 
 c        Big energy loop
          do 5000  ie = 1, ne
@@ -387,7 +414,7 @@ c     compute mag and phase arrays for F_eff, set single precision
 c     arrays for xk and ck
 c+----------------------------------------------------------------------
       phffo = 0
-      do 7700  ie = 1, ne
+      do 15 ie = 1, ne
          phff(ie) = 0
          if (abs(cchi(ie)) .ge. eps) then
             phff(ie) = real(atan2 (dimag(cchi(ie)), dble(cchi(ie))))
@@ -399,7 +426,7 @@ c        remove 2 pi jumps in phase
          amff(ie) = real(abs(cchi(ie)))
          sxk(ie)  = real(xk(ie))
          sck(ie)  = cmplx(ck(ie))
- 7700 continue
+ 15   continue
 
 
 c+----------------------------------------------------------------------
@@ -421,10 +448,10 @@ c+----------------------------------------------------------------------
 
       if (nnnn) then
 c        Prepare output file feffnnnn.dat
-         write(fname,220)  index
- 220     format ('f3ff', i4.4, '.dat')
-         write(slog,230)  index, fname
- 230     format (i8, 5x, a)
+         write(fname,20)  index
+ 20      format ('f3ff', i4.4, '.dat')
+         write(slog,30)  index, fname
+ 30      format (i8, 5x, a)
          call wlog(slog)
 
 c        Write feff.dat's
@@ -438,20 +465,20 @@ c+----------------------------------------------------------------------
          call fdthea(ntit, titles, index, iorder, nleg, real(deg),
      &          real(reff), real(rnrmav), real(edge), rat, ipot,
      &          iz, potlbl, nlines, lines)
-         do 920 i=1, nlines
-            write(3, 930)lines(i)
- 920     continue
- 930     format(a)
+         do 40 i=1, nlines
+            write(3, 50)lines(i)
+ 40      continue
+ 50      format(a)
 
 c+----------------------------------------------------------------------
 c        write out the feffNNNN.dat columns
 c+----------------------------------------------------------------------
-         do 1005 ie = 1, ne1
-            write(3,400) col1(ie), col2(ie), col3(ie), col4(ie),
+         do 60 ie = 1, ne1
+            write(3,70) col1(ie), col2(ie), col3(ie), col4(ie),
      &             col5(ie), col6(ie), col7(ie)
 
- 1005    continue
- 400     format (1x, f6.3, 1x, 3(1pe11.4,1x),1pe10.3,1x,
+ 60      continue
+ 70      format (1x, f6.3, 1x, 3(1pe11.4,1x),1pe10.3,1x,
      1          2(1pe11.4,1x))
 
 c        Done with feff.dat
@@ -464,10 +491,10 @@ c+----------------------------------------------------------------------
 c     write out a JSON file with the same information as feffNNNN.dat
 c+----------------------------------------------------------------------
       if (json) then
-         write(fjson,240)  index
- 240     format ('feff', i4.4, '.json')
-         write(slog,250)  index, fjson
- 250     format (i8, 5x, a)
+         write(fjson,80)  index
+ 80      format ('feff', i4.4, '.json')
+         write(slog,90)  index, fjson
+ 90      format (i8, 5x, a)
          call wlog(slog)
 
          call json_nnnn(fjson, ntit, titles, rat, ipot, ri, beta, eta,
