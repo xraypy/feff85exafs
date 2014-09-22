@@ -1,4 +1,4 @@
-      subroutine onepath(index, nleg, deg, innnn, ijson,
+      subroutine onepath(index, nleg, deg, iorder, innnn, ijson,
      &       ri, beta, eta,
      &       ne1,col1,col2,col3,col4,col5,col6,col7)
 

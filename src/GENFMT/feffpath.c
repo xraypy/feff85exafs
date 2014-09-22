@@ -15,7 +15,7 @@ int main()
   FEFFPATH *path;
 
   /* path geometry */
-  int index, nleg;
+  int index, nleg, iorder;
   double deg;
   double ri[legtot], beta[legtot+1], eta[legtot+2];
   /* onepath.f output */
@@ -28,6 +28,7 @@ int main()
   void onepath_(int *,      /* path index */
 		int *,      /* nlegs */
 		double *,   /* degeneracy */
+		int *,      /* iorder */
 		int *,      /* integer flag for writing feffNNNN.dat */
 		int *,      /* integer flag for writing feffNNNN.json */
 		/* path geometry */
@@ -38,11 +39,13 @@ int main()
 		/* seven columns of feffNNNN.dat file */
 		double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex]);
 
-  index = 4;
-  nleg  = 3;
-  deg   = 48.0;
-  nnnn  = 1;
-  json  = 0;
+  /* temporarily hardwire in this information */
+  index  = 4;
+  nleg   = 3;
+  deg    = 48.0;
+  iorder = 2;
+  nnnn   = 1;
+  json   = 0;
 
   /* allocate array sizes consistent with Feff */
   path         = calloc(1, sizeof *path);
@@ -71,13 +74,15 @@ int main()
   path->lambda = calloc(nex, sizeof(double));
   path->rep    = calloc(nex, sizeof(double));
 
-  onepath_(&index, &nleg, &deg, &nnnn, &json, &ri, &beta, &eta,
+  onepath_(&index, &nleg, &deg, &iorder, /* rat, ipol, elpty, evec, xivec */
+	   &nnnn, &json, &ri, &beta, &eta,
 	   &ne, &kgrid, &caps, &amff, &phff, &redfac, &lambda, &rep);
 
-  path->ne    = ne;
-  path->index = index;
-  path->nleg  = nleg;
-  path->deg   = deg;
+  path->ne     = ne;
+  path->index  = index;
+  path->nleg   = nleg;
+  path->deg    = deg;
+  path->iorder = iorder;
 
   for (i = 0; i < legtot; i++) {
     path->ri[i]   = ri[i] * bohr;
@@ -89,7 +94,7 @@ int main()
   for (i = 0; i < path->nleg; i++) {
     path->reff = path->reff + path->ri[i];
   }
-  path->reff = bohr * path->reff / 2;
+  path->reff = path->reff / 2;
 
   /* transfer array values into the struct */
   for (i = 0; i < path->ne; i++) {
@@ -104,6 +109,7 @@ int main()
     printf(" %6.3f %11.4e %11.4e %11.4e %10.3e %11.4e %11.4e\n",
 	   path->kgrid[i], path->caps[i], path->amff[i], path->phff[i], path->redfac[i], path->lambda[i], path->rep[i]);
   }
+  printf(" %.5f\n", path->reff);
   printf(" %.5f %.5f %.5f\n", path->ri[0], path->ri[1], path->ri[2]);
   printf(" %.5f %.5f %.5f\n", path->beta[0], path->beta[1], path->beta[2]);
   printf(" %.5f %.5f %.5f\n", path->eta[0], path->eta[1], path->eta[2]);
