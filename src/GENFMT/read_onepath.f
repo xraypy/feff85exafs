@@ -78,3 +78,47 @@ c           convert distances to code units
 
       return
       end
+
+
+      subroutine json_read_geometry(nleg, rat, ipot)
+
+      use json_module
+      implicit double precision (a-h, o-z)
+
+      include '../HEADERS/const.h'
+      include '../HEADERS/dim.h'
+
+      integer nleg, ipot(0:legtot)
+      double precision rat(3,0:legtot+1)
+      character*5 vname
+
+
+      logical :: found
+      type(json_file) :: json   !the JSON structure read from the file:
+      double precision,dimension(:),allocatable :: dbpcs
+
+      call json%load_file('feffpath.json')
+      if (json_failed()) then   !if there was an error reading the file
+         print *, "failed to read feffpath.json"
+         stop
+      else
+         call json%get('nleg',  nleg,  found)
+             if (.not. found) call bailout('nleg',  'feffpath.json')
+         do 10 iat=1,nleg
+            write (vname, "(A4,I1)") "atom", iat
+            call json%get(vname, dbpcs, found)
+                 if (.not. found) call bailout(vname, 'feffpath.json')
+            
+c           convert distances to code units
+            rat(1,iat)  = dbpcs(1)/bohr
+            rat(2,iat)  = dbpcs(2)/bohr
+            rat(3,iat)  = dbpcs(3)/bohr
+            ipot(iat)   = int(dbpcs(4)+0.5)
+ 10      continue
+
+         call json%destroy()
+      end if
+
+
+      return
+      end

@@ -1,8 +1,43 @@
-      subroutine onepath(index, nleg, deg, iorder, innnn, ijson,
-     &       ri, beta, eta,
+      subroutine onepath(index, nleg, deg, iorder,
+     &       ipot, rat,
+     &       ipol, evec, elpty, xivec,
+     &       innnn, ijson, ri, beta, eta,
      &       ne1,col1,col2,col3,col4,col5,col6,col7)
 
       implicit double precision (a-h, o-z)
+c+---------------------------------------------------------------------
+c  compute a single path, generating the F matrix then returning the 
+c  information contained in a feffNNNN.dat file
+c
+c  INPUT:
+c    index:    path index                            integer
+c    nleg:     number of legs in path                integer
+c    deg:      path degeneracy                       double
+c    iorder:   order of approximation in genfmt      integer
+c    ipot:     array of unique potentials            integer(legtot)
+c    rat:      cartesian coordinates of scatterers   double(3,0:legtot+1)
+c    ipol:     flag to do polarization               integer
+c    evec:     polarization vector                   double(3)
+c    elpty:    ellipticity                           double
+c    xivec:    direction of travel                   double(3)
+c    innnn:    flag to write feffNNNN.dat file       integer
+c    ijson:    flag to write feffNNNN.json file      integer
+c
+c    also requires a phase.bin file from an earlier run of xsph
+c
+c  OUTPUT
+c    ri:       leg lengths                           double(legtot)
+c    beta:     beta angles                           double(legtot)
+c    eta:      eta angles                            double(legtot)
+c    ne:       number of k-grid points               integer
+c    col1:     k-grid                                double(nex)
+c    col2:     central atom phase shifts             double(nex)
+c    col3:     magnitude of F_eff                    double(nex)
+c    col4:     phase of F_eff                        double(nex)
+c    col5:     reduction factor                      double(nex)
+c    col6:     mean free path                        double(nex)
+c    col7:     real partof complex momentum          double(nex)
+c+---------------------------------------------------------------------
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
@@ -169,8 +204,9 @@ c+----------------------------------------------------------------------
       spvec(1) = 0
       spvec(2) = 0
       spvec(3) = 0
-      call json_read_onepath(indexX, iorder, ipol,
-     &       nlegX, degX, rat, ipot, elpty, evec, xivec, nnnn, json)
+c     call json_read_onepath(index, iorder, ipol,
+c    &       nleg, deg, rat, ipot, elpty, evec, xivec, nnnn, json)
+      call json_read_geometry(nleg, rat, ipot)
       call pathgeom(nleg, nsc, ipol, rat, ipot, ri, beta, eta)
       call mkptz(ipol, elpty, evec, xivec, ispin, spvec, natx, atarr,
      &       angks, le2, ptz)
