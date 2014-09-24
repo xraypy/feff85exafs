@@ -5,6 +5,7 @@
      &       ne1,col1,col2,col3,col4,col5,col6,col7)
 
       implicit double precision (a-h, o-z)
+
 c+---------------------------------------------------------------------
 c  compute a single path, generating the F matrix then returning the 
 c  information contained in a feffNNNN.dat file
@@ -83,10 +84,11 @@ c      character*80 text(5)
       character*6  potlbl(0:nphx)
       complex*16 ph(nex,-ltot:ltot,0:nphx), eref(nex), em(nex)
       complex caps(nex)
-      double precision rat(3,0:legtot+1)
+      double precision rat(3,0:legtot+1), rathea(3,legtot)
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
       double precision deg, rnrmav, xmu, edge
-      integer lmax(nex,0:nphx), ipot(0:legtot), iz(0:nphx)
+      integer lmax(nex,0:nphx), ipot(0:legtot), ipthea(legtot),
+     &       iz(0:nphx)
 c      integer ltext(5), ntext
       integer nsc, nleg, npot, ne, ik0, ihole
       integer kinit, linit, ilinit, lmaxp1
@@ -498,8 +500,14 @@ c        Write feff.dat's
 c+----------------------------------------------------------------------
 c        write out the feffNNNN.dat header
 c+----------------------------------------------------------------------
+         do 36 il=1,legtot
+            ipthea(il) = ipot(il)
+            do 33 ix=1,3
+               rathea(ix,il) = rat(ix,il)
+ 33         continue
+ 36      continue
          call fdthea(ntit, titles, index, iorder, nleg, real(deg),
-     &          real(reff), real(rnrmav), real(edge), rat, ipot,
+     &          real(reff), real(rnrmav), real(edge), rathea, ipthea,
      &          iz, potlbl, nlines, lines)
          do 40 i=1, nlines
             write(3, 50)lines(i)

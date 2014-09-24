@@ -24,6 +24,9 @@ onepath_src = ['onepath.f', 'read_onepath.f', 'pathgeom.f']
 other_obj = ['../FF2X/fdtarr.o', '../FF2X/fdthea.o', '../RDINP/mkptz.o']
 env.StaticLibrary('libonepath', onepath_src + other_obj)
 
-env.Program('feffpath', 'feffpath.c', \
-            LIBS = ['onepath', 'genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar', 'gfortran', 'm'], \
+env.StaticLibrary('libfeffpath', 'feffpath.c')
+
+
+env.Program('makepath', 'makepath.c', \
+            LIBS = ['feffpath', 'onepath', 'genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar', 'gfortran', 'm'], \
             LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
