@@ -12,6 +12,11 @@ global.dat
 ## nonsense that Athena writes out
 .gnuplot*
 
+## perl wrapper chaff
+**/_Inline
+wrappers/perl/MYMETA.*
+wrappers/perl/Makefile
+
 ## artemis project files and other files used to develop fitting models for standards
 t/materials/*/*.fpj
 gds.txt

@@ -17,7 +17,7 @@
 typedef struct {
   /* INPUT: structure of path                                                      */
   int index;        /* path index                                default = 9999    */
-  int nleg;         /* number of legs in path                    must be supplied  */
+  int nleg;         /* number of legs in path                    use add_scatterer */
   double deg;       /* path degeneracy                           must be supplied  */
   double **rat;     /* cartesian positions of atoms in path      use add_scatterer */
   int *ipot;        /* unique potentials of atoms in path        use add_scatterer */
