@@ -20,13 +20,14 @@ env.Program('genfmt', bin_src, \
         LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
 
 
-onepath_src = ['onepath.f', 'read_onepath.f', 'pathgeom.f']
+onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
 other_obj = ['../FF2X/fdtarr.o', '../FF2X/fdthea.o', '../RDINP/mkptz.o']
 env.StaticLibrary('libonepath', onepath_src + other_obj)
 
 env.StaticLibrary('libfeffpath', 'feffpath.c')
 
 
+## note that jsonfortran MUST come AFTER feffjson
 env.Program('makepath', 'makepath.c', \
-            LIBS = ['feffpath', 'onepath', 'genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar', 'gfortran', 'm'], \
+            LIBS = ['feffpath', 'onepath', 'genfmt', 'feffcom', 'feffjson', 'jsonfortran', 'feffmath', 'feffpar', 'gfortran', 'm'], \
             LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])

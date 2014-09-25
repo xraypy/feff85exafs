@@ -1,7 +1,7 @@
       subroutine onepath(index, nleg, deg, iorder,
      &       ipot, rat,
      &       ipol, evec, elpty, xivec,
-     &       innnn, ijson, ri, beta, eta,
+     &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne1,col1,col2,col3,col4,col5,col6,col7)
 
       implicit double precision (a-h, o-z)
@@ -23,6 +23,7 @@ c    elpty:    ellipticity                           double
 c    xivec:    direction of travel                   double(3)
 c    innnn:    flag to write feffNNNN.dat file       integer
 c    ijson:    flag to write feffNNNN.json file      integer
+c    ivrbse:   flag to write screen messages         integer
 c
 c    also requires a phase.bin file from an earlier run of xsph
 c
@@ -57,8 +58,8 @@ c     integer  mfeff, ipr5
       logical  wnstar
       double precision angks, elpty
 c     double precision critcw
-      logical nnnn, json
-      integer innnn, ijson
+      logical nnnn, json, verbse
+      integer innnn, ijson, ivrbse
 
 c+----------------------------------------------------------------------
 c     removing local common blocks, replacing them with explicit passing
@@ -208,7 +209,6 @@ c+----------------------------------------------------------------------
       spvec(3) = 0
 c     call json_read_onepath(index, iorder, ipol,
 c    &       nleg, deg, rat, ipot, elpty, evec, xivec, nnnn, json)
-      call json_read_geometry(nleg, rat, ipot)
       call pathgeom(nleg, nsc, ipol, rat, ipot, ri, beta, eta)
       call mkptz(ipol, elpty, evec, xivec, ispin, spvec, natx, atarr,
      &       angks, le2, ptz)
@@ -217,6 +217,8 @@ c    &       nleg, deg, rat, ipot, elpty, evec, xivec, nnnn, json)
       if (innnn .gt. 0) nnnn=.true.
       json = .false.
       if (ijson .gt. 0) json=.true.
+      verbse = .false.
+      if (ivrbse .gt. 0) verbse=.true.
 
 c+----------------------------------------------------------------------
 c     fetch the standard output header lines from xsect.json
@@ -490,7 +492,8 @@ c        Prepare output file feffnnnn.dat
  20      format ('f3ff', i4.4, '.dat')
          write(slog,30)  index, fname
  30      format (i8, 5x, a)
-         call wlog(slog)
+         if (verbse) print *, slog(1:40)
+c         call wlog(slog)
 
 c        Write feff.dat's
          open (unit=3, file=fname, status='unknown', iostat=ios)
@@ -539,7 +542,8 @@ c+----------------------------------------------------------------------
  80      format ('feff', i4.4, '.json')
          write(slog,90)  index, fjson
  90      format (i8, 5x, a)
-         call wlog(slog)
+         if (verbse) print *, slog(1:40)
+c         call wlog(slog)
 
          call json_nnnn(fjson, ntit, titles, rat, ipot, ri, beta, eta,
      &          index, iorder, nleg, deg, reff, rnrmav, edge,

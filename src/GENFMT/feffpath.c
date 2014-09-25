@@ -4,12 +4,12 @@
 #include <errno.h>
 #include <math.h>
 #include <assert.h>
-#include <stdbool.h>
 
 #include "feffpath.h"
 
-_EXPORT(int) initialize_path(FEFFPATH *path) {
-
+_EXPORT(int) create_path(FEFFPATH *path) {
+  /* Instantiate and initialize a FEFFPATH struct */
+  /* Return an error code -- currently returns 0 in all cases. */
   int i;
 
   path->index  = 9999;
@@ -25,7 +25,7 @@ _EXPORT(int) initialize_path(FEFFPATH *path) {
   /* --------------------------------------------------- */
   /* allocate array sizes consistent with Feff           */
   /* path         = calloc(1, sizeof *path); */
-  /* assert (path != NULL); */
+  assert (path != NULL);
 
   path->rat  = calloc(legtot+2, sizeof(double *));
   for (i = 0; i < legtot+2; i++) {
@@ -51,8 +51,56 @@ _EXPORT(int) initialize_path(FEFFPATH *path) {
   return 0;
 }
 
-_EXPORT(int) make_path(FEFFPATH *path) {
+_EXPORT(void) clear_path(FEFFPATH *path) {
+  /* Reinitialize a FEFFPATH struct, returning everything to default except the three boolean members. */
+  int i,j;
 
+  path->index  = 9999;
+  path->iorder = 2;
+  path->nleg   = 0;
+  path->deg    = 0.0;
+  /* path->nnnn    = 0; */
+  /* path->json    = 0; */
+  /* path->verbose = 0; */
+  path->ipol   = 0;
+  path->elpty  = 0.0;
+  path->reff   = 0.0;
+  path->ne     = 0;
+  for (i = 0; i < 3; i++) {
+    path->evec[i]  = 0;
+    path->xivec[i] = 0;
+  }
+  for (i = 0; i < legtot; i++) {
+    path->ipot[i] = 0;
+    path->ri[i]   = 0;
+    path->beta[i] = 0;
+    path->eta[i]  = 0;
+  }
+  path->ipot[legtot+1] = 0;
+  path->beta[legtot+1] = 0;
+  path->eta[legtot+1]  = 0;
+  path->eta[legtot+2]  = 0;
+  for (i = 0; i < legtot+2; i++) {
+    for (j = 0; j < 3; j++) {
+      path->rat[i][j] = 0;
+    }
+  }
+  for (i = 0; i < nex; i++) {
+    path->k[i]        = 0;
+    path->real_phc[i] = 0;
+    path->mag_feff[i] = 0;
+    path->pha_feff[i] = 0;
+    path->red_fact[i] = 0;
+    path->lam[i]      = 0;
+    path->rep[i]      = 0;
+  }
+}
+
+
+_EXPORT(int) make_path(FEFFPATH *path) {
+  /* Compute the path using the content of the FEFFPATH struct.*/
+  /* Fill the struct with geometry and F_eff information. */
+  /* Return an error code -- currently returns 0 in all cases. */
   int i, j;
 
   /* scattering and path geometry */
@@ -65,7 +113,7 @@ _EXPORT(int) make_path(FEFFPATH *path) {
   double ri[legtot], beta[legtot+1], eta[legtot+2];
 
   /* onepath.f output */
-  int nnnn, json;
+  int nnnn, json, verbose;
 
   /* feffNNNN.dat columns */
   int ne;
@@ -95,8 +143,9 @@ _EXPORT(int) make_path(FEFFPATH *path) {
     evec[i]  = path->evec[i];
     xivec[i] = path->xivec[i];
   }
-  nnnn = path->nnnn;
-  json = path->json;
+  nnnn    = path->nnnn;
+  json    = path->json;
+  verbose = path->verbose;
   
 
   void onepath_(int *,                   /* path index */
@@ -114,6 +163,7 @@ _EXPORT(int) make_path(FEFFPATH *path) {
 		/* ouyput flags */
 		int *,                   /* integer flag for writing feffNNNN.dat */
 		int *,                   /* integer flag for writing feffNNNN.json */
+		int *,                   /* integer flag for writing screen messages */
 		/* path geometry */
 		double (*)[legtot],      /* Ri   */
 		double (*)[legtot+1],    /* beta */
@@ -125,7 +175,7 @@ _EXPORT(int) make_path(FEFFPATH *path) {
 
   onepath_(&index, &nleg, &deg, &iorder, &ipot, &rat,
 	   &ipol, &evec, &elpty, &xivec,
-	   &nnnn, &json, &ri, &beta, &eta,
+	   &nnnn, &json, &verbose, &ri, &beta, &eta,
 	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
 
 
@@ -167,10 +217,20 @@ _EXPORT(int) make_path(FEFFPATH *path) {
   return 0;
 }
 
+_EXPORT(int) add_scatterer(FEFFPATH *path, double x, double y, double z, int ip) {
+  /* Add a scattering atom to the path. */
+  /* Return the current value of nleg. */
+  int nleg = path->nleg;
+  if (nleg == 0) {nleg = 1;}
+  nleg = nleg + 1;
+  
+  /* printf(">>> %.3f  %.3f  %.3f  %d   %d\n", x, y, z, ip, nleg); */
 
-/* methods */
-/* */
-/*   1.  initialization, up to line 110 */
-/*   2.  add atom: adds a position/ipot to rat and ipot, returns new nleg */
-/*   3.  compute: call onepath_, filling the output arrays, lines 112-169 */
-/* */
+  path->rat[nleg-1][0] = x;
+  path->rat[nleg-1][1] = y;
+  path->rat[nleg-1][2] = z;
+  path->ipot[nleg-1]   = ip;
+  path->nleg           = nleg;
+
+  return nleg;
+}

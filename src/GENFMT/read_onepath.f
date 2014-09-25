@@ -95,7 +95,7 @@ c           convert distances to code units
 
       logical :: found
       type(json_file) :: json   !the JSON structure read from the file:
-      double precision,dimension(:),allocatable :: dbpcs
+c      double precision,dimension(:),allocatable :: dbpcs
 
       call json%load_file('feffpath.json')
       if (json_failed()) then   !if there was an error reading the file

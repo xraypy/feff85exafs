@@ -1,3 +1,4 @@
+#include <stdbool.h>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #define _EXPORT(a) __declspec(dllexport) a _stdcall
@@ -18,13 +19,14 @@ typedef struct {
   int index;        /* path index                                default = 9999    */
   int nleg;         /* number of legs in path                    must be supplied  */
   double deg;       /* path degeneracy                           must be supplied  */
-  double **rat;     /* cartesian positions of atoms in path      must be supplied  */
-  int *ipot;        /* unique potentials of atoms in path        must be supplied  */
+  double **rat;     /* cartesian positions of atoms in path      use add_scatterer */
+  int *ipot;        /* unique potentials of atoms in path        use add_scatterer */
   int iorder;       /* order of approximation in genfmt          default = 2       */
 
   /* INPUT: output flags for saving F_eff to a file                                */
   bool nnnn;        /* flag to write feffNNNN.dat file           default = false   */
   bool json;        /* flag to write feffNNNN.json file          default = false   */
+  bool verbose;     /* flag to write screen messages             default = false   */
 
   /* INPUT: parameters controlling polarization                                    */
   bool ipol;        /* flag to do polarization calculation       default = false   */
@@ -49,16 +51,20 @@ typedef struct {
   double *rep;      /* real part of complex momentum      column 7 in feffNNNN.dat */
 } FEFFPATH;
 
-/* still need various miscellany, see _feffdat group in Larch: */
-/*    http://xraypy.github.io/xraylarch/xafs/feffpaths.html#the-feffdat-group-full-details-of-the-feff-dat-file */
-/* - edge        energy threshold relative to atomic valu (a poor estimate) */
-/* - exch        string describing electronic exchange model */
-/* - gam_ch      core level energy width */
-/* - kf          k value at Fermi level */
-/* - mu          Fermi level, eV */
-/* - potentials  path potentials: list of (ipot, z, r_MuffinTin, r_Norman) */
-/* - rnorman     Norman radius  */
-/* - rs_int      interstitial radius */
-/* - title       user title */
-/* - version     Feff version */
-/* - vint        interstitial potential */
+/* --------------------------------------------------------------------------------------------------------------- */
+/* still need to capture the following items in Larch's _feffdat group:                                            */
+/* (see http://xraypy.github.io/xraylarch/xafs/feffpaths.html#the-feffdat-group-full-details-of-the-feff-dat-file) */
+/*    - edge          energy threshold relative to atomic valu (a poor estimate)                                   */
+/*    - exch          string describing electronic exchange model                                                  */
+/*    - gam_ch        core level energy width                                                                      */
+/*    - kf            k value at Fermi level                                                                       */
+/*    - mu            Fermi level, eV                                                                              */
+/*    - potentials    path potentials: list of (ipot, z, r_MuffinTin, r_Norman)                                    */
+/*    - rnorman       Norman radius                                                                                */
+/*    - rs_int        interstitial radius                                                                          */
+/*    - title         user title                                                                                   */
+/*    - version       Feff version                                                                                 */
+/*    - vint          interstitial potential                                                                       */
+/* --------------------------------------------------------------------------------------------------------------- */
+
+int add_scatterer(FEFFPATH *, double, double, double, int);
