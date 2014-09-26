@@ -121,7 +121,7 @@ Compute the scattering path
 
 =item C<clear>
 
-reinitialize the scattering path
+Reinitialize the scattering path
 
    $path->clear;
 
@@ -157,7 +157,12 @@ method of the same name.  Each of the following exists:
     @lam     = $path->lam;      # column 6 from feffNNNN.dat
     @rep     = $path->rep;      # column 7 from feffNNNN.dat
 
-Note that the getter method for the path index is capitalized.
+Note that the getter method for the path index is capitalized.  Also
+note that getter methods for array members of the FEFFPATH struct
+return arrays, not array references.  C<@evec> and C<@xivec> are 3
+elements long.  C<@ri>, C<@beta>, and C<@eta> are C<$nleg> elements
+long.  The arrays for the 7 columns of F<feffNNNN.dat> are C<$ne>
+elements long.
 
 =head2 setter methods
 
@@ -183,6 +188,10 @@ script, setter methods exist:
 =item *
 
 L<Inline>
+
+=item *
+
+L<Inline::C>
 
 =back
 
