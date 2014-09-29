@@ -15,40 +15,40 @@
 
 
 typedef struct {
-  /* INPUT: structure of path                                                      */
-  int index;        /* path index                                default = 9999    */
-  int nleg;         /* number of legs in path                    use add_scatterer */
-  double deg;       /* path degeneracy                           must be supplied  */
-  double **rat;     /* cartesian positions of atoms in path      use add_scatterer */
-  int *ipot;        /* unique potentials of atoms in path        use add_scatterer */
-  int iorder;       /* order of approximation in genfmt          default = 2       */
+  /* INPUT: structure of path                                                       */
+  long index;        /* path index                                default = 9999    */
+  long nleg;         /* number of legs in path                    use add_scatterer */
+  double deg;        /* path degeneracy                           must be supplied  */
+  double **rat;      /* cartesian positions of atoms in path      use add_scatterer */
+  long *ipot;        /* unique potentials of atoms in path        use add_scatterer */
+  long iorder;       /* order of approximation in genfmt          default = 2       */
 
-  /* INPUT: output flags for saving F_eff to a file                                */
-  bool nnnn;        /* flag to write feffNNNN.dat file           default = false   */
-  bool json;        /* flag to write feffNNNN.json file          default = false   */
-  bool verbose;     /* flag to write screen messages             default = false   */
+  /* INPUT: output flags for saving F_eff to a file                                 */
+  bool nnnn;         /* flag to write feffNNNN.dat file           default = false   */
+  bool json;         /* flag to write feffNNNN.json file          default = false   */
+  bool verbose;      /* flag to write screen messages             default = false   */
 
-  /* INPUT: parameters controlling polarization                                    */
-  bool ipol;        /* flag to do polarization calculation       default = false   */
-  double *evec;     /* polarization vector                       default = (0,0,0) */
-  double elpty;     /* ellipticity                               default = 0       */
-  double *xivec;    /* direction of X-ray propagation            default = (0,0,0) */
+  /* INPUT: parameters controlling polarization                                     */
+  bool ipol;         /* flag to do polarization calculation       default = false   */
+  double *evec;      /* polarization vector                       default = (0,0,0) */
+  double elpty;      /* ellipticity                               default = 0       */
+  double *xivec;     /* direction of X-ray propagation            default = (0,0,0) */
 
-  /* OUTPUT: geometry information (leg length, beta, eta)                          */
-  double *ri;       /* leg lengths                                                 */
-  double *beta;     /* beta angles                                                 */
-  double *eta;      /* eta angles                                                  */
-  double reff;      /* half path length                          computed from ri  */
+  /* OUTPUT: geometry information (leg length, beta, eta)                           */
+  double *ri;        /* leg lengths                                                 */
+  double *beta;      /* beta angles                                                 */
+  double *eta;       /* eta angles                                                  */
+  double reff;       /* half path length                          computed from ri  */
 
-  /* OUTPUT: columns of feffNNNN.dat                                               */ 
-  int ne;           /* number of energy points actually used by Feff               */
-  double *k;        /* k grid for feff path calculation   column 1 in feffNNNN.dat */
-  double *real_phc; /* central atom phase shifts          column 2 in feffNNNN.dat */ 
-  double *mag_feff; /* magnitude of F_eff                 column 3 in feffNNNN.dat */ 
-  double *pha_feff; /* phase of F_eff                     column 4 in feffNNNN.dat */ 
-  double *red_fact; /* reduction factor                   column 5 in feffNNNN.dat */ 
-  double *lam;      /* mean free path                     column 6 in feffNNNN.dat */
-  double *rep;      /* real part of complex momentum      column 7 in feffNNNN.dat */
+  /* OUTPUT: columns of feffNNNN.dat                                                */ 
+  long ne;           /* number of energy points actually used by Feff               */
+  double *k;         /* k grid for feff path calculation   column 1 in feffNNNN.dat */
+  double *real_phc;  /* central atom phase shifts          column 2 in feffNNNN.dat */ 
+  double *mag_feff;  /* magnitude of F_eff                 column 3 in feffNNNN.dat */ 
+  double *pha_feff;  /* phase of F_eff                     column 4 in feffNNNN.dat */ 
+  double *red_fact;  /* reduction factor                   column 5 in feffNNNN.dat */ 
+  double *lam;       /* mean free path                     column 6 in feffNNNN.dat */
+  double *rep;       /* real part of complex momentum      column 7 in feffNNNN.dat */
 } FEFFPATH;
 
 /* --------------------------------------------------------------------------------------------------------------- */
@@ -67,4 +67,34 @@ typedef struct {
 /*    - vint          interstitial potential                                                                       */
 /* --------------------------------------------------------------------------------------------------------------- */
 
-int add_scatterer(FEFFPATH *, double, double, double, int);
+long add_scatterer(FEFFPATH*, double, double, double, long);
+long create_path(FEFFPATH*);
+void clear_path(FEFFPATH*);
+long make_path(FEFFPATH*);
+void cleanup(FEFFPATH*);
+
+void onepath_(long *,                   /* path index */
+	      long *,                   /* nlegs */
+	      double *,                /* degeneracy */
+	      long *,                   /* iorder */
+	      /* scattering geometry */
+	      long (*)[legtot+1],       /* list of unique potentials */
+	      double (*)[legtot+2][3], /* list of cartesian coordinates */
+	      /* polarization and ellipticity */
+	      long *,                   /* flag to compute polarization */
+	      double (*)[3],           /* polarization vector */
+	      double *,                /* ellipticity */
+	      double (*)[3],           /* direction of travel */
+	      /* output flags */
+	      long *,                   /* integer flag for writing feffNNNN.dat */
+	      long *,                   /* integer flag for writing feffNNNN.json */
+	      long *,                   /* integer flag for writing screen messages */
+	      /* path geometry */
+	      double (*)[legtot],      /* Ri   */
+	      double (*)[legtot+1],    /* beta */
+	      double (*)[legtot+2],    /* eta  */
+	      long *,                   /* number of points in kgrid */
+	      /* seven columns of feffNNNN.dat file */
+	      double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex]);
+
+

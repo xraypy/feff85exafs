@@ -16,7 +16,7 @@ our @ISA = qw(Exporter);
 our $VERSION = '1.00';
 
 use Inline C => 'DATA',
-           LIBS => '-L'.$ENV{FEFFSRC}.'GENFMT -L'.$ENV{FEFFSRC}.'COMMON -L'.$ENV{FEFFSRC}.'JSON -L'.$ENV{FEFFSRC}.'MATH -L'.$ENV{FEFFSRC}.'PAR -lfeffpath -lonepath -lgenfmt -lfeffcom -lfeffjson -ljsonfortran -lfeffmath -lfeffpar -lgfortran -lm',
+           LIBS => '-L'.$ENV{FEFFSRC}.'GENFMT -L'.$ENV{FEFFSRC}.'COMMON -L'.$ENV{FEFFSRC}.'MATH -L'.$ENV{FEFFSRC}.'PAR -lfeffpath -lonepath -lgenfmt -lfeffcom -lfeffmath -lfeffpar -lgfortran -lm',
            NAME => 'Xray::FeffPath';
 
 1;
@@ -266,7 +266,7 @@ __C__
 
 #include "feffpath.h"
 
-SV* new(char* class, SV* errcode) {
+SV* new(char* class) {
   FEFFPATH * path;
   int        ret;
   SV *       obj;
@@ -275,7 +275,7 @@ SV* new(char* class, SV* errcode) {
   Newx(path, 1, FEFFPATH);
 
   ret = create_path(path);
-  sv_setiv(errcode, ret);
+  /*sv_setiv(errcode, ret);*/
 
   obj = newSViv((IV)PTR2IV(path));
   obj_ref = newRV_noinc(obj);
@@ -297,10 +297,9 @@ int path(SV* obj) {
   return ret;
 };
 
-int clear(SV* obj) {
+void clear(SV* obj) {
   int ret;
-  ret = clear_path((INT2PTR(FEFFPATH*, SvIV(SvRV(obj)))));
-  return ret;
+  clear_path((INT2PTR(FEFFPATH*, SvIV(SvRV(obj)))));
 };
 
 
@@ -532,17 +531,9 @@ void set_xivec(SV* obj, double xx, double yy, double zz) {
   ((FEFFPATH*)SvIV(SvRV(obj)))->xivec[2] = zz;
 }
 
-/* void DESTROY(SV* obj) { */
-/*   FEFFPATH* path = (FEFFPATH*)SvIV(SvRV(obj)); */
-/*   Safefree(path->index); */
-/*   Safefree(path->deg); */
-/*   Safefree(path->nleg); */
-/*   Safefree(path->iorder); */
-/*   Safefree(path->nnnn); */
-/*   Safefree(path->json); */
-/*   Safefree(path->verbose); */
-/*   Safefree(path->ipol); */
-/*   Safefree(path->elpty); */
-/*   Safefree(path->ne); */
-/*   Safefree(path); */
-/* } */
+
+void DESTROY(SV* obj) {
+  FEFFPATH* path = (FEFFPATH*)SvIV(SvRV(obj));
+  cleanup(path);
+}
+

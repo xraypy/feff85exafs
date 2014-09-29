@@ -7,20 +7,21 @@
 
 #include "feffpath.h"
 
-_EXPORT(int) create_path(FEFFPATH *path) {
+_EXPORT(long) create_path(FEFFPATH *path) {
   /* Instantiate and initialize a FEFFPATH struct */
   /* Return an error code -- currently returns 0 in all cases. */
-  int i;
+  long i;
 
-  path->index  = 9999;
-  path->iorder = 2;
-  path->nleg   = 0;
-  path->deg    = 0.0;
-  path->nnnn   = 0;
-  path->json   = 0;
-  path->ipol   = 0;
-  path->elpty  = 0.0;
-  path->ne     = 0;
+  path->index   = 9999;
+  path->iorder  = 2;
+  path->nleg    = 0;
+  path->deg     = 0.0;
+  path->nnnn    = false;
+  path->json    = false;
+  path->verbose = false;
+  path->ipol    = false;
+  path->elpty   = 0.0;
+  path->ne      = 0;
 
   /* --------------------------------------------------- */
   /* allocate array sizes consistent with Feff           */
@@ -31,7 +32,7 @@ _EXPORT(int) create_path(FEFFPATH *path) {
   for (i = 0; i < legtot+2; i++) {
     path->rat[i] = calloc(3, sizeof(double));
   }
-  path->ipot   = calloc(legtot+1, sizeof(int));
+  path->ipot   = calloc(legtot+1, sizeof(long));
   path->ri     = calloc(legtot,   sizeof(double));
   path->beta   = calloc(legtot+1, sizeof(double));
   path->eta    = calloc(legtot+2, sizeof(double));
@@ -53,7 +54,7 @@ _EXPORT(int) create_path(FEFFPATH *path) {
 
 _EXPORT(void) clear_path(FEFFPATH *path) {
   /* Reinitialize a FEFFPATH struct, returning everything to default except the three boolean members. */
-  int i,j;
+  long i,j;
 
   path->index  = 9999;
   path->iorder = 2;
@@ -97,30 +98,30 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
 }
 
 
-_EXPORT(int) make_path(FEFFPATH *path) {
+_EXPORT(long) make_path(FEFFPATH *path) {
   /* Compute the path using the content of the FEFFPATH struct.*/
   /* Fill the struct with geometry and F_eff information. */
   /* Return an error code -- currently returns 0 in all cases. */
-  int i, j;
+  long i, j;
 
   /* scattering and path geometry */
-  int index;
-  int iorder;
-  int nleg;
+  long index;
+  long iorder;
+  long nleg;
   double deg;
-  int ipot[legtot+1];
+  long ipot[legtot+1];
   double rat[legtot+2][3];
   double ri[legtot], beta[legtot+1], eta[legtot+2];
 
   /* onepath.f output */
-  int nnnn, json, verbose;
+  long nnnn, json, verbose;
 
   /* feffNNNN.dat columns */
-  int ne;
+  long ne;
   double k[nex], real_phc[nex], mag_feff[nex], pha_feff[nex], red_fact[nex], lam[nex], rep[nex];
 
   /* polarization and ellipticity */
-  int ipol;
+  long ipol;
   double elpty;
   double evec[3];
   double xivec[3];
@@ -147,32 +148,6 @@ _EXPORT(int) make_path(FEFFPATH *path) {
   json    = path->json;
   verbose = path->verbose;
   
-
-  void onepath_(int *,                   /* path index */
-		int *,                   /* nlegs */
-		double *,                /* degeneracy */
-		int *,                   /* iorder */
-		/* scattering geometry */
-		int (*)[legtot+1],       /* list of unique potentials */
-		double (*)[legtot+2][3], /* list of cartesian coordinates */
-		/* polarization and ellipticity */
-		int *,                   /* flag to compute polarization */
-		double (*)[3],           /* polarization vector */
-		double *,                /* ellipticity */
-		double (*)[3],           /* direction of travel */
-		/* ouyput flags */
-		int *,                   /* integer flag for writing feffNNNN.dat */
-		int *,                   /* integer flag for writing feffNNNN.json */
-		int *,                   /* integer flag for writing screen messages */
-		/* path geometry */
-		double (*)[legtot],      /* Ri   */
-		double (*)[legtot+1],    /* beta */
-		double (*)[legtot+2],    /* eta  */
-		int *,                   /* number of points in kgrid */
-		/* seven columns of feffNNNN.dat file */
-		double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex]);
-
-
   onepath_(&index, &nleg, &deg, &iorder, &ipot, &rat,
 	   &ipol, &evec, &elpty, &xivec,
 	   &nnnn, &json, &verbose, &ri, &beta, &eta,
@@ -217,10 +192,10 @@ _EXPORT(int) make_path(FEFFPATH *path) {
   return 0;
 }
 
-_EXPORT(int) add_scatterer(FEFFPATH *path, double x, double y, double z, int ip) {
+_EXPORT(long) add_scatterer(FEFFPATH *path, double x, double y, double z, long ip) {
   /* Add a scattering atom to the path. */
   /* Return the current value of nleg. */
-  int nleg = path->nleg;
+  long nleg = path->nleg;
   if (nleg == 0) {nleg = 1;}
   nleg = nleg + 1;
   
@@ -233,4 +208,8 @@ _EXPORT(int) add_scatterer(FEFFPATH *path, double x, double y, double z, int ip)
   path->nleg           = nleg;
 
   return nleg;
+}
+
+_EXPORT(void) cleanup(FEFFPATH *path) {
+  free(path);
 }

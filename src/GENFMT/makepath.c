@@ -3,9 +3,9 @@
 
 #include "feffpath.h"
 
-int main()
+long main()
 {
-  int i, ret;
+  long i, ret;
   FEFFPATH *path;
 
   path = malloc(sizeof(FEFFPATH));
@@ -35,6 +35,6 @@ int main()
   /*   	   path->k[i], path->real_phc[i], path->mag_feff[i], path->pha_feff[i], path->red_fact[i], path->lam[i], path->rep[i]); */
   /* } */
 
-  free(path);
+  cleanup(path);
   return 0;
 }

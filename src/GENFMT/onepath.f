@@ -29,8 +29,8 @@ c    also requires a phase.bin file from an earlier run of xsph
 c
 c  OUTPUT
 c    ri:       leg lengths                           double(legtot)
-c    beta:     beta angles                           double(legtot)
-c    eta:      eta angles                            double(legtot)
+c    beta:     beta angles                           double(legtot+1)
+c    eta:      eta angles                            double(legtot+2)
 c    ne:       number of k-grid points               integer
 c    col1:     k-grid                                double(nex)
 c    col2:     central atom phase shifts             double(nex)
@@ -155,6 +155,7 @@ c     used for divide-by-zero and trig tests
       external xstar
 
       dimension atarr(3,natx)
+c      print *, '-- starting onepath'
       do 5 i=1,natx
          atarr(1, i) = 0
          atarr(2, i) = 0
@@ -178,6 +179,7 @@ c     &       ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
 c+----------------------------------------------------------------------
 c     initialize everything needed for the genfmt calculation
 c+----------------------------------------------------------------------
+c      print *, '-- before genfmt_prep'
       call genfmt_prep(ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
@@ -194,6 +196,7 @@ c     things set in genfmt_prep
 c+----------------------------------------------------------------------
 c     pull out the central atom phase shifts
 c+----------------------------------------------------------------------
+c      print *, '-- caps'
       do 10 ie=1,ne
          caps(ie) = cmplx(ph(ie, ll, 0))
  10   continue
@@ -209,10 +212,13 @@ c+----------------------------------------------------------------------
       spvec(3) = 0
 c     call json_read_onepath(index, iorder, ipol,
 c    &       nleg, deg, rat, ipot, elpty, evec, xivec, nnnn, json)
+c      print *, '-- before pathgeom'
       call pathgeom(nleg, nsc, ipol, rat, ipot, ri, beta, eta)
+c      print *, '-- before mkptz'
       call mkptz(ipol, elpty, evec, xivec, ispin, spvec, natx, atarr,
      &       angks, le2, ptz)
 
+c      print *, '-- logicals'
       nnnn = .false.
       if (innnn .gt. 0) nnnn=.true.
       json = .false.
@@ -223,7 +229,9 @@ c    &       nleg, deg, rat, ipot, elpty, evec, xivec, nnnn, json)
 c+----------------------------------------------------------------------
 c     fetch the standard output header lines from xsect.json
 c+----------------------------------------------------------------------
-      call read_titles(ntit, titles)
+c      print *, '-- before read_titles'
+c      call read_titles(ntit, titles)
+c      print *, '-- done with startup'
 
 c+----------------------------------------------------------------------
 c  this section is cut-n-pasted from genfmt
@@ -441,7 +449,6 @@ c        end of energy loop
  6000 continue
 c     end of loop over spins
 
-
 c+----------------------------------------------------------------------
 c     compute the importance factor of this path
 c+----------------------------------------------------------------------
@@ -537,19 +544,20 @@ c     end of conditional for writing feffNNNN.dat
 c+----------------------------------------------------------------------
 c     write out a JSON file with the same information as feffNNNN.dat
 c+----------------------------------------------------------------------
-      if (json) then
-         write(fjson,80)  index
- 80      format ('feff', i4.4, '.json')
-         write(slog,90)  index, fjson
- 90      format (i8, 5x, a)
-         if (verbse) print *, slog(1:40)
-c         call wlog(slog)
-
-         call json_nnnn(fjson, ntit, titles, rat, ipot, ri, beta, eta,
-     &          index, iorder, nleg, deg, reff, rnrmav, edge,
-     &          ne1, col1, col2, col3, col4, col5, col6, col7)
-
-      end if
+      fjson = ''
+c$$$      if (json) then
+c$$$         write(fjson,80)  index
+c$$$ 80      format ('feff', i4.4, '.json')
+c$$$         write(slog,90)  index, fjson
+c$$$ 90      format (i8, 5x, a)
+c$$$         if (verbse) print *, slog(1:40)
+c$$$c         call wlog(slog)
+c$$$
+c$$$         call json_nnnn(fjson, ntit, titles, rat, ipot, ri, beta, eta,
+c$$$     &          index, iorder, nleg, deg, reff, rnrmav, edge,
+c$$$     &          ne1, col1, col2, col3, col4, col5, col6, col7)
+c$$$
+c$$$      end if
 c     end of conditional for writing feffNNNN.json
 
       end

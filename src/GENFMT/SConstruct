@@ -8,16 +8,16 @@ from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
 
-lib_src = ('genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'regenf.f', 'import.f',
-           'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f', 'trig.f')
+lib_src = ['genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'import.f',
+           'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f', 'trig.f']
 
 env.StaticLibrary('libgenfmt', lib_src)
 
-bin_src = ('ffmod5.f', 'genfmt.f', 'rdpath.f')
+bin_src = ['ffmod5.f', 'genfmt.f', 'rdpath.f']
 
-env.Program('genfmt', bin_src, \
-        LIBS = ['genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
-        LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
+env.Program('genfmt', ['regenf.f']+bin_src, \
+            LIBS = ['genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+            LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
 
 
 onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
@@ -27,7 +27,6 @@ env.StaticLibrary('libonepath', onepath_src + other_obj)
 env.StaticLibrary('libfeffpath', 'feffpath.c')
 
 
-## note that jsonfortran MUST come AFTER feffjson
 env.Program('makepath', 'makepath.c', \
-            LIBS = ['feffpath', 'onepath', 'genfmt', 'feffcom', 'feffjson', 'jsonfortran', 'feffmath', 'feffpar', 'gfortran', 'm'], \
-            LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
+            LIBS = ['feffpath', 'onepath', 'genfmt', 'feffcom', 'feffmath', 'feffpar', 'gfortran', 'm'], \
+            LIBPATH = ['.', '../COMMON', '../MATH', '../PAR'])
