@@ -199,7 +199,7 @@ _EXPORT(long) add_scatterer(FEFFPATH *path, double x, double y, double z, long i
   if (nleg == 0) {nleg = 1;}
   nleg = nleg + 1;
   
-  /* printf(">>> %.3f  %.3f  %.3f  %d   %d\n", x, y, z, ip, nleg); */
+  /* printf(">>> %.3f  %.3f  %.3f  %li   %li\n", x, y, z, ip, nleg); */
 
   path->rat[nleg-1][0] = x;
   path->rat[nleg-1][1] = y;

@@ -461,7 +461,7 @@ c     compute mag and phase arrays for F_eff, set single precision
 c     arrays for xk and ck
 c+----------------------------------------------------------------------
       phffo = 0
-      do 15 ie = 1, ne
+      do 15 ie = 1, ne1
          phff(ie) = 0
          if (abs(cchi(ie)) .ge. eps) then
             phff(ie) = real(atan2 (dimag(cchi(ie)), dble(cchi(ie))))

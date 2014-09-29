@@ -24,6 +24,24 @@ a C program.
 The C library can be wrapped for use in other languages.
 [Here's a use of the perl wrapper as an example.](../../wrappers/perl/example.pl)
 
+# Build and install
+
+To build, type `scons`.  This will build:
+
+ * `libgenfmt.f`: most of the functionality of genfmt
+ * `genfmt`: the stand-alone program
+ * `libonepath.a`: the Fortran entry point for generating a single path
+ * `libfeffpath,a`: the C wrapper around onepath
+ * `feffpath_wrap.c` and `FeffPath.pm`: the SWIG wrapper for perl around feffpath
+
+Once built, type `scons install` to install everything:
+
+ * `libgenfmt.f`, `libonepath.a`, `libfeffpath,a`: installed to `/usr/local/lib`
+ * `genfmt`: installed to `/usr/local/bin`
+ * `feffpath_wrap.c` and `FeffPath.pm`: installed to `../../wrappers/perl`
+
+You **must** install before building the Perl wrapper.
+
 # Simple static analysis
 
 To make HTML files explaining data I/O for each fortran source file, do

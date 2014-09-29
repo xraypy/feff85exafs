@@ -7,26 +7,46 @@ sys.path.append('..')
 from FortranCompilation import CompilationEnvironment
 
 env = CompilationEnvironment()
+#target = '/usr/local/lib'
 
+## ------------------------------------------------------------------------------------------------------
+## build libgenfmt: contains most of the functionality of genfmt
 lib_src = ['genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'import.f',
            'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f', 'trig.f']
-
 env.StaticLibrary('libgenfmt', lib_src)
+#env.Install('libgenfmt.a', target)
 
+## ------------------------------------------------------------------------------------------------------
+## build the genfmt standalone program
 bin_src = ['ffmod5.f', 'genfmt.f', 'rdpath.f']
-
 env.Program('genfmt', ['regenf.f']+bin_src, \
             LIBS = ['genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
             LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
 
-
+## ------------------------------------------------------------------------------------------------------
+## build the onepath fortran librtary
 onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
 other_obj = ['../FF2X/fdtarr.o', '../FF2X/fdthea.o', '../RDINP/mkptz.o']
 env.StaticLibrary('libonepath', onepath_src + other_obj)
+#env.Install('libonepath.a', target)
 
+## ------------------------------------------------------------------------------------------------------
+## build the feffpath C wrapper around onepath
 env.StaticLibrary('libfeffpath', 'feffpath.c')
 
-
+## ------------------------------------------------------------------------------------------------------
+## build the test program for the C wrapper
 env.Program('makepath', 'makepath.c', \
             LIBS = ['feffpath', 'onepath', 'genfmt', 'feffcom', 'feffmath', 'feffpar', 'gfortran', 'm'], \
             LIBPATH = ['.', '../COMMON', '../MATH', '../PAR'])
+
+## ------------------------------------------------------------------------------------------------------
+## build the SWIG Perl wrapper
+swigCmdLine = 'swig -perl5 feffpath.i'
+env.Command('feffpath_wrap.c', 'feffpath.i', swigCmdLine )
+env.Install('../../wrappers/perl/SWIG/src/',      ['feffpath.h', 'feffpath_wrap.c'])
+env.Install('../../wrappers/perl/SWIG/lib/Xray/', 'FeffPathWrapper.pm')
+
+env.Alias('install', ['../../wrappers/perl/SWIG/src/', 
+                      '../../wrappers/perl/SWIG/lib/Xray/'
+                  ])

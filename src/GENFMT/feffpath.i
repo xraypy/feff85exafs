@@ -1,4 +1,4 @@
-%module FeffPath
+%module "Xray::FeffPathWrapper"
 %{
 /* Includes the header in the wrapper code */
 #include "feffpath.h"
