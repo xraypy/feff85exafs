@@ -4,9 +4,10 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 bin_src = ('acoef.f',  'ffmod2.f', 'getedg.f', 'phmesh.f', 'radint.f',
            'rexsph.f', 'rholsz.f', 'wphase.f', 'xmult.f',  'xsph.f',
@@ -17,6 +18,9 @@ unused = ('phmesh2.f')
 other_objects = ('../FF2X/xscorr.o', '../POT/grids.o')
 
 env.Program('xsph', bin_src + other_objects,
-            LIBS = ['int', 'jsonfortran', 'feffjson', 'pha', 'atom', 'feffcom', 'exch', 'feffmath', 'fms', 'feffpar'], \
+            LIBS = ['feffint', 'jsonfortran', 'feffjson', 'feffpha', 'feffatom', 'feffcom', 'feffexch', 'feffmath', 'fefffms', 'feffpar'], \
             LIBPATH = ['../COMMON', '../JSON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../POT', '../PAR'])
 
+env.Install(ienv['i_bin'], 'xsph')
+
+env.Alias('install', ienv['i_bin'])

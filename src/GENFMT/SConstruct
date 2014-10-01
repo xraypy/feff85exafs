@@ -4,66 +4,59 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
+from distutils.spawn import find_executable
 
-try:
-    Import('menv')
-except:
-    menv = Environment()
-    prefix = ARGUMENTS.get('prefix', '/usr/local')
-    # Here are our installation paths:
-    menv['i_prefix'] = prefix
-    menv['i_lib']    = prefix + '/lib'
-    menv['i_bin']    = prefix + '/bin'
-    menv['i_inc']    = prefix + '/include'
-    menv['i_data']   = prefix + '/share'
-
-
-env = CompilationEnvironment()
-
+env  = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 ## ------------------------------------------------------------------------------------------------------
 ## build libgenfmt: contains most of the functionality of genfmt
 lib_src = ['genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'import.f',
            'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f', 'trig.f']
-env.StaticLibrary('libgenfmt', lib_src)
-#env.Install('libgenfmt.a', menv['i_lib'])
+env.StaticLibrary('libfeffgenfmt', lib_src)
+env.Install(ienv['i_lib'], 'libfeffgenfmt.a')
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the genfmt standalone program
 bin_src = ['ffmod5.f', 'genfmt.f', 'rdpath.f']
 env.Program('genfmt', ['regenf.f']+bin_src, \
-            LIBS = ['genfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+            LIBS = ['feffgenfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
             LIBPATH = ['.', '../COMMON', '../JSON', '../MATH', '../PAR'])
+env.Install(ienv['i_bin'], 'genfmt')
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the onepath fortran librtary
 onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
 other_obj = ['../FF2X/fdtarr.o', '../FF2X/fdthea.o', '../RDINP/mkptz.o']
 env.StaticLibrary('libonepath', onepath_src + other_obj)
-#env.Install('libonepath.a', menv['i_lib'])
+env.Install(ienv['i_lib'], 'libonepath.a')
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the feffpath C wrapper around onepath
 env.StaticLibrary('libfeffpath', 'feffpath.c')
+env.Install(ienv['i_lib'], 'libfeffpath.a')
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the test program for the C wrapper
 env.Program('makepath', 'makepath.c', \
-            LIBS = ['feffpath', 'onepath', 'genfmt', 'feffcom', 'feffmath', 'feffpar', 'gfortran', 'm'], \
+            LIBS = ['feffpath', 'onepath', 'feffgenfmt', 'feffcom', 'feffmath', 'feffpar', 'gfortran', 'm'], \
             LIBPATH = ['.', '../COMMON', '../MATH', '../PAR'])
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the SWIG Perl wrapper
-
-bld = Builder(action = 'swig -perl5 $SOURCE')
-env = Environment(BUILDERS = {'SwigPerl' : bld})
-env.SwigPerl('feffpath_wrap.c', 'feffpath.i')
-Depends('feffpath_wrap.c', 'feffpath.h')
-
-env.Install('../../wrappers/perl/SWIG/src/',      ['feffpath.h', 'feffpath_wrap.c'])
-env.Install('../../wrappers/perl/SWIG/lib/Xray/', 'FeffPathWrapper.pm')
+if find_executable("swig"):
+    bld = Builder(action = 'swig -perl5 $SOURCE')
+    env = Environment(BUILDERS = {'SwigPerl' : bld})
+    env.SwigPerl('feffpath_wrap.c', 'feffpath.i')
+    Depends('feffpath_wrap.c', 'feffpath.h')
+    env.Install('../../wrappers/perl/SWIG/src/',      ['feffpath.h', 'feffpath_wrap.c'])
+    env.Install('../../wrappers/perl/SWIG/lib/Xray/', 'FeffPathWrapper.pm')
+else:
+    print "\nSWIG not installed, skipping perl wrapper for feff_path in GENFMT\n"
 
 env.Alias('install', ['../../wrappers/perl/SWIG/src/', 
-                      '../../wrappers/perl/SWIG/lib/Xray/'
+                      '../../wrappers/perl/SWIG/lib/Xray/',
+                      ienv['i_lib'],
+                      ienv['i_bin']
                   ])

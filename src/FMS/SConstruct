@@ -4,13 +4,14 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = ('fmsie.f', 'fmspack.f', 'gglu.f', 'ggbi.f', 'ggrm.f', 'gggm.f', 'ggtf.f', 'yprep.f', 'xstaff.f')
 
-env.StaticLibrary('libfms', lib_src)
+env.StaticLibrary('libfefffms', lib_src)
 
 ## the following lines would build the fms executable, however the
 ## intent of feff85exafs is that the tasks that use this (XANES, LDOS,
@@ -20,5 +21,11 @@ env.StaticLibrary('libfms', lib_src)
 #bin_src = ('ffmod3.f', 'fmstot.f', 'reafms.f')
 
 #env.Program('fms', bin_src, \
-#        LIBS    = ['fms', 'dw', 'feffcom', 'libjsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+#        LIBS    = ['fms', 'feffdw', 'feffcom', 'libjsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
 #        LIBPATH = ['.', '../DEBYE', '../COMMON', '../JSON', '../MATH', '../PAR'])
+
+
+env.Install(ienv['i_lib'], 'libfefffms.a')
+#env.Install(ienv['i_bin'], 'fms')
+
+env.Alias('install', [ienv['i_lib'], ienv['i_bin']])

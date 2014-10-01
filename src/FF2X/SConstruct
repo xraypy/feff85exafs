@@ -4,14 +4,19 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 bin_src = ['exconv.f',  'feffdt.f',  'fdtarr.f', 'fdthea.f', 'ff2afs.f',  'ff2chi.f',  'ff2xmu.f',  'ffmod6.f',
            'fprime.f', 'ff2gen.f', 'rdfbin.f',  'reff2x.f',  'xscorr.f']
 #not_in_f85e = []
 
 env.Program('ff2x', bin_src, \
-        LIBS = ['dw', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+        LIBS = ['feffdw', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
         LIBPATH = ['../DEBYE', '../COMMON', '../JSON', '../MATH', '../PAR'])
+
+env.Install(ienv['i_bin'], 'ff2x')
+
+env.Alias('install', ienv['i_bin'])

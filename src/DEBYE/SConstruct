@@ -4,10 +4,15 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = Split('sigcl.f  sigm3.f  sigms.f  sigrem.f  sigte3.f')
 
-env.StaticLibrary('libdw', lib_src)
+env.StaticLibrary('libfeffdw', lib_src)
+
+env.Install(ienv['i_lib'], 'libfeffdw.a')
+
+env.Alias('install', ienv['i_lib'])

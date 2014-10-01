@@ -4,9 +4,10 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = Split('chopen.f  fixvar.f  head.f    itoken.f  pertab.f  rdcmt.f   rdxsph.f  str.f    \
                  xx.f      fixdsp.f  getorb.f  iniptz.f  nxtunt.f  pijump.f  rdhead.f  setgam.f \
@@ -14,3 +15,7 @@ lib_src = Split('chopen.f  fixvar.f  head.f    itoken.f  pertab.f  rdcmt.f   rdx
                  wlog.f')
 
 env.StaticLibrary('libfeffcom', lib_src)
+
+env.Install(ienv['i_lib'], 'libfeffcom.a')
+
+env.Alias('install', ienv['i_lib'])

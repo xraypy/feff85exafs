@@ -4,9 +4,10 @@
 
 import sys, re
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 ## Compiling sequential.f throws up LOTS of unused dummy argument warnings.
 ## Quiet those warnings because that is the very purpose of sequential.f
@@ -17,3 +18,7 @@ env.StaticLibrary('libfeffpar', 'sequential.f')
 
 ## this is what would be needed for MPI compilation...
 ## StaticLibrary('libfeffpar', 'parallel.f')
+
+env.Install(ienv['i_lib'], 'libfeffpar.a')
+
+env.Alias('install', ienv['i_lib'])

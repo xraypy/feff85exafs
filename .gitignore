@@ -31,11 +31,14 @@ src/GENFMT/genfmt
 src/GENFMT/onepath
 src/GENFMT/feffpath
 src/GENFMT/makepath
-src/PATH/path
+src/PATH/pathfinder
 src/XSPH/xsph
 src/FMS/fms
 src/RDINP/rdinp
 src/FF2X/ff2x
+src/GENFMT/FeffPathWrapper.pm
+src/GENFMT/feffpath_wrap.c
+
 
 doc/feff8.aux
 doc/feff8.log

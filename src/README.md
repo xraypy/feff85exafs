@@ -15,13 +15,95 @@ Compilation is as simple as typing `scons` after cd-ing into the
 You can also cd into one of the subfolders and do `scons` to build
 just that piece.
 
-The file `FortranCompilation` has a bit of logic for specifying
-compilation flags, which may be attractive for optimization or other
-reasons.  This is then imported by each of the lower-level SConstruct
-files.  Except for gfortran, the initial guesses for compilation flags
-were taken from the top level Makefile that came from the Feff
-Project.  The gfortran flags were selected by Bruce after playing
-around on his Ubuntu system.
+The file `FeffBuild.py` has a bit of logic for specifying compilation
+flags, which may be attractive for optimization or other reasons, and
+installation locations.  This is then imported by each of the
+lower-level SConstruct files.  Except for gfortran, the initial
+guesses for compilation flags were taken from the top level Makefile
+that came from the Feff Project.  The gfortran flags were selected by
+Bruce after playing around on his Ubuntu system.
+
+---
+
+# Installed files
+
+Many of the libraires and stand-alone programs have been renamed from
+the names chosen by the original build system for feff85exafs.
+
+## Feff Libraries
+
+The following libraries contain the various parts of Feff.
+
+* `ATOM/libfeffatom.a`
+* `COMMON/libfeffcom.a`
+* `DEBYE/libfeffdw.a`
+* `EXCH/libfeffexch.a`
+* `FMS/libfefffms.a`
+* `FOVRG/libfeffpha.a`
+* `GENFMT/libfeffgenfmt.a`
+* `JSON/libfeffjson.a`
+* `MATH/libfeffmath.a`
+* `PAR/libfeffpar.a`
+* `POT/libfeffint.a`
+
+Default installation locations:
+
+* Linux: `/usr/local/lib`
+* Windows: `C:\path\to\lib`
+* Mac: `/some/where/lib`
+
+This can be set from the command line:
+
+	~> scons prefix="/other/location"
+
+where the default value for "prefix" is `/usr/local` on Linux, etc.
+
+## Stand-alone programs
+
+* `RDINP/rdinp`: input file reader 
+* `POT/pot`: module 1, potentials calculation
+* `XSPH/xsph`: module 2, phase shifts calculation
+* `PATH/pathfinder`: module 4, path finder
+* `GENFMT/genfmt`: module 5, F-matrix calculation
+* `FF2X/ff2x`: module 6, output files
+
+Note that module 3, `fms`, the full multiple scattering XANES
+calculator, is not installed as part of feff85exafs.
+
+Default installation locations:
+
+* Linux: `/usr/local/bin`
+* Windows: `C:\path\to\bin`
+* Mac: `/some/where/bin`
+
+This can be set from the command line:
+
+	~> scons prefix="/other/location"
+
+where the default value for "prefix" is `/usr/local` on Linux, etc.
+
+## The feffpath library and its wrappers
+
+These files are the entry points for various programming languages to
+the "feffpath" calculation, that is, the calculation of a single
+`feffNNNN.dat` file given an input scattering geometry.
+
+This presumes that `pot` and `xsph` have already been run and that the
+`phase.bin` file is accessible.
+
+* `GENFMT/libonepath.a`: This is the Fortran entry point.
+* `GENFMT/libfeffpath.a`: This is the C wrapper around the Fortran onepath
+* `GENFMT/feffpath.h`: This is the header file, almost certainly required by any language wrapper
+* `GENFMT/feffpath_wrap.c`: This is the SWIG generated wrapper file for use with the Perl wrapper
+* `GENFMT/FeffPathWrapper.pm`: This is the SWIG generated Perl wrapper
+
+`libonepath.a` and `libfeffpath.a` will be installed to the same
+location (`/usr/local/lib`, etc) as the Feff libraries.
+
+The other three files are "installed" into the proper place in the
+`wrappers` folder of the feff85exafs distribution so that the Perl
+wrapper can be built using Perl's standard tools for such things.
+
 
 ---
 

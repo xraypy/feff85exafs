@@ -4,9 +4,10 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f', 'read_fpf0.f',
            'json_xsect.f', 'read_xsect.f', 'json_nnnn.f']
@@ -15,3 +16,6 @@ env.StaticLibrary('libfeffjson', lib_src)
 
 #            LIBS = ['jsonfortran'],
 
+env.Install(ienv['i_lib'], 'libfeffjson.a')
+
+env.Alias('install', ienv['i_lib'])

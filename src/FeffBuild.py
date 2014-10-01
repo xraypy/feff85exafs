@@ -5,15 +5,17 @@ from SCons.Environment import Environment
 from os      import getcwd
 from os.path import realpath, join
 
-## -I or -module flags: see 
-## http://stackoverflow.com/questions/8855896/specify-directory-where-gfortran-should-look-for-modules
-jsondir = realpath(join(getcwd(), '..', 'JSON'))
-## n.b.: this gets evaluated in one of the subfolders, hence the ..
-
-#prefix   = ARGUMENTS.get('prefix', '/usr/local')
+## jsondir:
+##   -I or -module flags: see 
+##   http://stackoverflow.com/questions/8855896/specify-directory-where-gfortran-should-look-for-modules
+##   n.b.: this gets evaluated in one of the subfolders, hence the ..
 
 def CompilationEnvironment():
+    """
+    Determine how to build the Fortran parts of feff85exafs
+    """
     env = Environment()
+    jsondir = realpath(join(getcwd(), '..', 'JSON'))
 
     if env['FORTRAN'] == 'gfortran':
         # this was the suggestion in the top level Makefile in what
@@ -31,11 +33,20 @@ def CompilationEnvironment():
         ## I think the -module flg is correct ... untested ...
         env = Environment(FORTRANFLAGS = '-O3 -module '+jsondir)
 
-    # Here are our installation paths:
-    # env['i_prefix'] = prefix
-    # env['i_lib']    = prefix + '/lib'
-    # env['i_bin']    = prefix + '/bin'
-    # env['i_inc']    = prefix + '/include'
-    # env['i_data']   = prefix + '/share'
-
     return env
+
+## need to be able to get prefix from command line
+def InstallEnvironment():
+    """
+    Determine installation locations for libraries and executables.
+    """
+    ienv = Environment()
+    #prefix = ARGUMENTS.get('prefix', '/usr/local')
+    prefix = '/usr/local'
+    # Here are our installation paths:
+    ienv['i_prefix'] = prefix
+    ienv['i_lib']    = prefix + '/lib'
+    ienv['i_bin']    = prefix + '/bin'
+    ienv['i_inc']    = prefix + '/include'
+    ienv['i_data']   = prefix + '/share'
+    return ienv

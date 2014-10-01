@@ -4,11 +4,16 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = Split('csigma.f  csigz.f  cubic.f  edp.f  ffq.f  fndsng.f  imhl.f  mpse.f \
                  qsorti.f  quinn.f  rhl.f  rhlbp.f  vbh.f  xcpot.f')
 
-env.StaticLibrary('libexch', lib_src)
+env.StaticLibrary('libfeffexch', lib_src)
+
+env.Install(ienv['i_lib'], 'libfeffexch.a')
+
+env.Alias('install', ienv['i_lib'])
