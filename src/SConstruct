@@ -2,9 +2,19 @@
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-env = Environment()
-print '\n\tFortran compiler is ' + env['FORTRAN'] + '\n'
+menv = Environment()
+print '\n\tFortran compiler is ' + menv['FORTRAN']
 
+prefix = ARGUMENTS.get('prefix', '/usr/local')
+
+# Here are our installation paths:
+menv['i_prefix'] = prefix
+menv['i_lib']    = prefix + '/lib'
+menv['i_bin']    = prefix + '/bin'
+menv['i_inc']    = prefix + '/include'
+menv['i_data']   = prefix + '/share'
+
+print "\tinstallation prefix is: " + menv['i_prefix'] +"\n"
 
 SConscript([\
             'PAR/SConstruct',    \
@@ -22,7 +32,7 @@ SConscript([\
             'PATH/SConstruct',   \
             'GENFMT/SConstruct', \
 	    'FF2X/SConstruct',   \
-        ])
+        ], exports='menv')
 
 # POT    -> module 1
 # XSPH   -> module 2

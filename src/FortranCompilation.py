@@ -2,13 +2,15 @@
 ## see HEADERS/license.h for license information
 
 from SCons.Environment import Environment
-from os import getcwd
-from   os.path   import realpath, join
+from os      import getcwd
+from os.path import realpath, join
 
 ## -I or -module flags: see 
 ## http://stackoverflow.com/questions/8855896/specify-directory-where-gfortran-should-look-for-modules
 jsondir = realpath(join(getcwd(), '..', 'JSON'))
 ## n.b.: this gets evaluated in one of the subfolders, hence the ..
+
+#prefix   = ARGUMENTS.get('prefix', '/usr/local')
 
 def CompilationEnvironment():
     env = Environment()
@@ -26,7 +28,14 @@ def CompilationEnvironment():
     elif env['FORTRAN'] == 'xlf':
         env = Environment(FORTRANFLAGS = '-qextern=trap')
     elif env['FORTRAN'] == 'ifort':
-        ## I thinig the -module flg is correct ... untested ...
+        ## I think the -module flg is correct ... untested ...
         env = Environment(FORTRANFLAGS = '-O3 -module '+jsondir)
+
+    # Here are our installation paths:
+    # env['i_prefix'] = prefix
+    # env['i_lib']    = prefix + '/lib'
+    # env['i_bin']    = prefix + '/bin'
+    # env['i_inc']    = prefix + '/include'
+    # env['i_data']   = prefix + '/share'
 
     return env

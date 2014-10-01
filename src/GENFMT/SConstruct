@@ -6,15 +6,28 @@ import sys
 sys.path.append('..')
 from FortranCompilation import CompilationEnvironment
 
+try:
+    Import('menv')
+except:
+    menv = Environment()
+    prefix = ARGUMENTS.get('prefix', '/usr/local')
+    # Here are our installation paths:
+    menv['i_prefix'] = prefix
+    menv['i_lib']    = prefix + '/lib'
+    menv['i_bin']    = prefix + '/bin'
+    menv['i_inc']    = prefix + '/include'
+    menv['i_data']   = prefix + '/share'
+
+
 env = CompilationEnvironment()
-#target = '/usr/local/lib'
+
 
 ## ------------------------------------------------------------------------------------------------------
 ## build libgenfmt: contains most of the functionality of genfmt
 lib_src = ['genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'import.f',
            'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f', 'trig.f']
 env.StaticLibrary('libgenfmt', lib_src)
-#env.Install('libgenfmt.a', target)
+#env.Install('libgenfmt.a', menv['i_lib'])
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the genfmt standalone program
@@ -28,7 +41,7 @@ env.Program('genfmt', ['regenf.f']+bin_src, \
 onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
 other_obj = ['../FF2X/fdtarr.o', '../FF2X/fdthea.o', '../RDINP/mkptz.o']
 env.StaticLibrary('libonepath', onepath_src + other_obj)
-#env.Install('libonepath.a', target)
+#env.Install('libonepath.a', menv['i_lib'])
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the feffpath C wrapper around onepath
@@ -42,8 +55,12 @@ env.Program('makepath', 'makepath.c', \
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the SWIG Perl wrapper
-swigCmdLine = 'swig -perl5 feffpath.i'
-env.Command('feffpath_wrap.c', 'feffpath.i', swigCmdLine )
+
+bld = Builder(action = 'swig -perl5 $SOURCE')
+env = Environment(BUILDERS = {'SwigPerl' : bld})
+env.SwigPerl('feffpath_wrap.c', 'feffpath.i')
+Depends('feffpath_wrap.c', 'feffpath.h')
+
 env.Install('../../wrappers/perl/SWIG/src/',      ['feffpath.h', 'feffpath_wrap.c'])
 env.Install('../../wrappers/perl/SWIG/lib/Xray/', 'FeffPathWrapper.pm')
 
