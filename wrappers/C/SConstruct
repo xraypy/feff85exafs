@@ -1,0 +1,12 @@
+## -*- python -*-
+
+from   os.path   import realpath, join
+
+env = Environment()
+
+## ------------------------------------------------------------------------------------------------------
+## build the test program for the C wrapper
+env.Program('makepath', 'makepath.c', \
+            LIBS = ['feffpath', 'onepath', 'feffgenfmt', 'feffcom', 'feffmath', 'feffpar', 'gfortran', 'm'], \
+            LIBPATH = ['.', join('..','..','src','COMMON'), join('..','..','src','MATH'), join('..','..','src','PAR')])
+

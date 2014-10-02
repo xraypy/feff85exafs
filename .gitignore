@@ -40,7 +40,7 @@ src/POT/pot
 src/GENFMT/genfmt
 src/GENFMT/onepath
 src/GENFMT/feffpath
-src/GENFMT/makepath
+wrappers/C/makepath
 src/PATH/pathfinder
 src/XSPH/xsph
 src/FMS/fms
