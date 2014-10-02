@@ -1,0 +1,300 @@
+
+=head1 NAME
+
+Xray::FeffPath - SWIG-based interface to libfeffpath
+
+=head1 VERSION
+
+1.00
+
+=head1 SYNOPSIS
+
+This provides a simple object oriented interface to the C<feffpath>
+wrapper around Feff's C<onepath> subroutine.  C<onepath> combines the
+F-matrix calculation in F<GENFMT/genfmt.f> with the construction of the
+common presentation of F-effective from F<FF2X/feffdt.f>.
+
+Given the geometry of a scattering path in the form of Cartesian
+coordinates of atoms making up the path, along with some additional
+information such as the degeneracy, compute F-effective for that
+scattering path.
+
+This replaces the need to read a F<feffNNNN.dat> file.  Given a
+scattering geometry, the equivalent data can be computed directly.
+
+The following computes the columns of the F<feff0004.dat> file for
+copper metal:
+
+  #!/usr/bin/perl
+  use strict;
+  use warnings;
+  use Xray::FeffPath;
+
+  my $path = Xray::FeffPath->new();
+  $path->create_path;
+  $path->atom(0, 0, -3.61, 1);
+  $path->atom(-1.805, 0, -1.805, 1);
+  $path->path;
+  my @kgrid  = $path->k;
+  my @caps   = $path->real_phc;
+  my @amff   = $path->mag_feff;
+  my @phff   = $path->pha_feff;
+  my @redfac = $path->red_fact;
+  my @lambda = $path->lam;
+  my @rep    = $path->rep;
+  undef $path
+
+=head1 METHODS
+
+=over 4
+
+=item C<new>
+
+Create the FeffPath object
+
+   my $path = Xray::FeffPath->new();
+
+=item C<create_path>
+
+Initialize the underlying C struct.  This is the necessary first step
+to a feffpath calculation.
+
+   $path->create_path;
+
+=item C<atom>
+
+Add an atom to the scattering path, supplying the Cartesian
+coordiantes of the atom and its unique potential index.
+
+   $nleg = $path->atom($x, $y, $z, $ipot);
+
+This returns the current number of legs in the path.  To make a SS
+paths do:
+
+   $path->atom($x,  $y,  $z, $ipot1);
+   print $path->nleg, $/;
+   #   ==prints===> 2
+
+To make a MS paths do:
+
+   $path->atom($x1, $y1, $z1, $ipot1);
+   $path->atom($x2, $y2, $z2, $ipot2);
+   $path->atom($x3, $y3, $z3, $ipot3);
+   print $path->nleg, $/;
+   #   ==prints===> 4
+
+Note that there is no setter method for the nleg attribute.  It is set
+by the call to the C<atom> method.
+
+=item C<path>
+
+Compute the scattering path
+
+   $path->path;
+
+=item C<clear>
+
+Reinitialize the scattering path
+
+   $path->clear;
+
+=back
+
+=head1 ATTRIBUTES
+
+Each of the members of the FEFFPATH struct is wrapped in a getter
+method of the same name.  Each of the following exists:
+
+=head2 Scalar valued attributes
+
+=over 4
+
+=item C<Index> (integer, default = 9999)
+
+The path index, used for form the name of the output F<feffNNNN.dat>
+file.
+
+Accessing this and other scalar-values attributes works in the typical
+Moose-y way:
+
+   $path->Index(4);
+   print $path->Index, $/;
+   ## ==prints==> 4
+
+=item C<deg> (float, default = 0)
+
+The path degeneracy.  This is required input for a calculation.
+
+=item C<nleg> (integer, default = 0)
+
+The number of legs in the path.  This should never be set by hand.  It
+gets set correctly whenever the C<atom> method is called.
+
+=item C<iorder> (integer, default = 2)
+
+Order of approximation for multiple scattering paths.
+
+=item C<nnnn> (boolean, default = 0)
+
+Flag for writing F<feffNNNN.dat> file.
+
+=item C<json> (boolean, default = 0)
+
+Flag for writing F<feffNNNN.json> file.
+
+=item C<verbose> (integer, default = 0)
+
+Flag for writing screen messages as files are written.
+
+=item C<ipol> (boolean, default = 0)
+
+Perform polarization calculation.
+
+=item C<elpty> (integer, default = 0)
+
+Ellipticity for use in polarization calculation.
+
+=item C<reff> (float, default = 0)
+
+Half path length.  This should never be set by hand.  It
+gets set correctly whenever the C<path> method is called.
+
+=item C<ne> (integer, default = 0)
+
+Number of outpit k grid point.  This should never be set by hand.  It
+gets set correctly whenever the C<path> method is called.
+
+=back
+
+=head2 Array reference valued attributes
+
+=over 4
+
+=item C<evec>
+
+The electric vector of the incident beam for the polarization
+calculation.  Note that the setter's argument is an array reference as
+is the getter's return value.
+
+    $path->evec([0,0,1]);
+    $evec_ref = $path->evec;
+    print join(", ", @$evec_ref);
+    ## ==prints==> 0, 0, 1
+
+=item C<xivec>
+
+The pointing vector of the incident beam for the ellipticity
+calculation.  Note that the setter's argument is an array reference as
+is the getter's return value.
+
+    $path->xivec([1,1,0]);
+    $xivec_ref = $path->xivec;
+    print join(", ", @$xivec_ref);
+    ## ==prints==> 1, 1, 0
+
+=item C<ri>
+
+The leg lengths (in Angstroms) of the specified path.  This gets set
+when C<path> is called.  It returns an reference to an array with
+C<nleg> elements.
+
+=item C<beta>
+
+The Eulerian beta angles (in degrees) of the specified path.  This
+gets set when C<path> is called.  It returns an reference to an array
+with C<nleg> elements.
+
+=item C<eta>
+
+The Eulerian eta angles (in degrees) of the specified path.  This gets
+set when C<path> is called.  It returns an reference to an array with
+C<nleg> elements.
+
+=item C<k>
+
+A reference to an array containing the k grid of the calculation.
+This is column 1 from F<feffNNNN.dat>.
+
+=item C<real_phc>
+
+A reference to an array containing the central atom phase shifts.
+This is column 2 from F<feffNNNN.dat>.
+
+=item C<mag_feff>
+
+A reference to an array containing the magnitude of F-effective.  This
+is column 3 from F<feffNNNN.dat>.
+
+=item C<pha_feff>
+
+A reference to an array containing the phase of F-effective.  This is
+column 4 from F<feffNNNN.dat>.
+
+=item C<red_fact>
+
+A reference to an array containing the reduction factor.  This is
+column 5 from F<feffNNNN.dat>.
+
+=item C<lam>
+
+A reference to an array containing lambda, themean free path.  This is
+column 6 from F<feffNNNN.dat>.
+
+=item C<rep>
+
+A reference to an array containing the real part of the comple
+momentum.  This is column 7 from F<feffNNNN.dat>.
+
+
+=back
+
+=head1 DEPENDENCIES
+
+=over 4
+
+=item *
+
+L<Moose>
+
+=back
+
+=head1 BUGS AND LIMITATIONS
+
+=over 4
+
+=item *
+
+Getter method(s) for rat and ipot
+
+=item *
+
+Error handling is almost nonexistent
+
+=back
+
+Please report problems to Bruce Ravel (bravel AT bnl DOT gov)
+
+Patches are welcome.
+
+=head1 AUTHOR
+
+Bruce Ravel (bravel AT bnl DOT gov)
+
+L<http://cars9.uchicago.edu/~ravel/software/>
+
+=head1 LICENSE AND COPYRIGHT
+
+To the extent possible, the authors have waived all rights granted by
+copyright law and related laws for the code and documentation that
+make up the Perl Interface to the feffpath library.  While information
+about Authorship may be retained in some files for historical reasons,
+this work is hereby placed in the Public Domain.  This work is
+published from: United States.
+
+Note that the feffpath library itself is NOT public domain, nor is the
+Fortran source code it relies upon.
+
+Author: Bruce Ravel (bravel AT bnl DOT gov).
+Last update: 2 October, 2014
+
+=cut
