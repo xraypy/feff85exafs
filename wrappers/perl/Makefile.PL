@@ -3,13 +3,14 @@ use ExtUtils::MakeMaker;
 use Config;
 use File::Copy;
 
-my $feffdirs = join(" ",
-		    '-L/home/bruce/git/feff85exafs/src/GENFMT',
-		    '-L/home/bruce/git/feff85exafs/src/COMMON',
-		    '-L/home/bruce/git/feff85exafs/src/MATH',
-		    '-L/home/bruce/git/feff85exafs/src/PAR',
-		   );
-my $fefflibs = join(" ", qw(-lfeffpath -lonepath -lgenfmt -lfeffcom -lfeffmath -lfeffpar -lgfortran -lm));
+# my $feffdirs = join(" ",
+# 		    '-L/home/bruce/git/feff85exafs/src/GENFMT',
+# 		    '-L/home/bruce/git/feff85exafs/src/COMMON',
+# 		    '-L/home/bruce/git/feff85exafs/src/MATH',
+# 		    '-L/home/bruce/git/feff85exafs/src/PAR',
+# 		   );
+my $feffdirs = '-L/usr/local/lib';
+my $fefflibs = join(" ", qw(-lfeffpath -lonepath -lfeffgenfmt -lfeffcom -lfeffmath -lfeffpar -lgfortran -lm));
 
 WriteMakefile('NAME'   => 'Xray::FeffPathWrapper',
               'SKIP'   => ['test_dynamic'],

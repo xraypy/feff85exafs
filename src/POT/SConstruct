@@ -5,6 +5,7 @@
 import sys
 sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment
+from   os.path   import realpath, join
 
 env = CompilationEnvironment()
 ienv = InstallEnvironment()
@@ -19,7 +20,8 @@ env.StaticLibrary('libfeffint', lib_src)
 
 env.Program('pot', bin_src,
             LIBS = ['feffpha', 'feffatom', 'feffint', 'feffcom', 'feffmath', 'jsonfortran', 'feffjson', 'feffexch', 'fefffms', 'feffpar'], \
-            LIBPATH = ['.', '../COMMON', '../MATH', '../JSON', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../PAR'])
+            LIBPATH = ['.', join('..','COMMON'), join('..','MATH'), join('..','JSON'), join('..','ATOM'),
+                       join('..','EXCH'), join('..','FOVRG'), join('..','FMS'), join('..','PAR')])
 
 env.Install(ienv['i_lib'], 'libfeffint.a')
 env.Install(ienv['i_bin'], 'pot')

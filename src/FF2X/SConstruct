@@ -5,6 +5,7 @@
 import sys
 sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment
+from   os.path   import realpath, join
 
 env = CompilationEnvironment()
 ienv = InstallEnvironment()
@@ -15,7 +16,7 @@ bin_src = ['exconv.f',  'feffdt.f',  'fdtarr.f', 'fdthea.f', 'ff2afs.f',  'ff2ch
 
 env.Program('ff2x', bin_src, \
         LIBS = ['feffdw', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
-        LIBPATH = ['../DEBYE', '../COMMON', '../JSON', '../MATH', '../PAR'])
+            LIBPATH = [join('..','DEBYE'), join('..','COMMON'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
 
 env.Install(ienv['i_bin'], 'ff2x')
 
