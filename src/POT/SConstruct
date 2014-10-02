@@ -4,9 +4,11 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
+from   os.path   import realpath, join
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = Split('istprm.f movrlp.f ovp2mt.f fermi.f sidx.f')
 
@@ -14,8 +16,14 @@ bin_src = Split('ffmod1.f pot.f    scmtmp.f afolp.f broydn.f corval.f coulom.f f
                  grids.f  inipot.f istval.f moveh.f ovrlp.f  reapot.f rholie.f \
                  scmt.f   sumax.f  wpot.f   wrpot.f')
 
-env.StaticLibrary('libint', lib_src)
+env.StaticLibrary('libfeffint', lib_src)
 
 env.Program('pot', bin_src,
-            LIBS = ['pha', 'atom', 'int', 'feffcom', 'feffmath', 'jsonfortran', 'feffjson', 'exch', 'fms', 'feffpar'], \
-            LIBPATH = ['.', '../COMMON', '../MATH', '../JSON', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../PAR'])
+            LIBS = ['feffpha', 'feffatom', 'feffint', 'feffcom', 'feffmath', 'jsonfortran', 'feffjson', 'feffexch', 'fefffms', 'feffpar'], \
+            LIBPATH = ['.', join('..','COMMON'), join('..','MATH'), join('..','JSON'), join('..','ATOM'),
+                       join('..','EXCH'), join('..','FOVRG'), join('..','FMS'), join('..','PAR')])
+
+env.Install(ienv['i_lib'], 'libfeffint.a')
+env.Install(ienv['i_bin'], 'pot')
+
+env.Alias('install', [ienv['i_lib'], ienv['i_bin']])

@@ -2,9 +2,12 @@
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-env = Environment()
-print '\n\tFortran compiler is ' + env['FORTRAN'] + '\n'
+from FeffBuild import InstallEnvironment
 
+env = Environment()
+print '\n\tFortran compiler is ' + env['FORTRAN']
+ienv = InstallEnvironment()
+print "\tinstallation prefix is: " + ienv['i_prefix'] +"\n"
 
 SConscript([\
             'PAR/SConstruct',    \
@@ -24,8 +27,10 @@ SConscript([\
 	    'FF2X/SConstruct',   \
         ])
 
+# RDINP  -> feff.inp reader
 # POT    -> module 1
 # XSPH   -> module 2
-# FMS    -> module 3
+# FMS    -> module 3, executable is not a part of feff85exafs
 # PATH   -> module 4
 # GENFMT -> module 5
+# FF2X   -> module 6

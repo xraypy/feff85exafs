@@ -1,0 +1,9 @@
+examples/pathsdat.pl
+lib/Xray/FeffPath.pm
+lib/Xray/FeffPathWrapper.pm
+Makefile.PL
+MANIFEST			This list of files
+src/feffpath.h
+src/feffpath_wrap.c
+src/README.md
+test.pl

@@ -4,9 +4,11 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
+from   os.path   import realpath, join
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 ## Quiet compiler warnings on LAPACK and other well-tested files
 flags = env['FORTRANFLAGS']
@@ -18,3 +20,7 @@ lib_src = Split('bcoef.f   besjn.f   conv.f    csomm.f   cwig3j.f  determ.f  exj
                  terpc.f')
 
 env.StaticLibrary('libfeffmath', lib_src)
+
+env.Install(ienv['i_lib'], 'libfeffmath.a')
+
+env.Alias('install', ienv['i_lib'])

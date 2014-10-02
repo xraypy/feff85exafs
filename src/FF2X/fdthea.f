@@ -16,7 +16,8 @@
       external istrln
 
       nlines = 1
-
+c      print *, ipot
+c      print *, rat
       do 300  itext = 1, ntext
          ltxt = istrln(text(itext))
          write(thisln,160)  text(itext)(1:ltxt)

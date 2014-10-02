@@ -54,7 +54,7 @@ c      complex*16 cchi, cfms
 
       external istrln
 
-       call wlog (' feffdt, feff.bin to feff.dat conversion: ' // vfeff
+      call wlog (' feffdt, feff.bin to feff.dat conversion: ' // vfeff
      1            // 'release ' // vf85e)
 
 c     read feff.bin

@@ -4,14 +4,19 @@
 
 import sys
 sys.path.append('..')
-from FortranCompilation import CompilationEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
+from   os.path   import realpath, join
 
 env = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = Split('aprdec.f aprdep.f dfovrg.f diff.f dsordc.f inmuac.f intout.f  muatcc.f nucdec.f ortdac.f \
                  potdvp.f potex.f solin.f solout.f wfirdc.f yzkrdc.f yzktec.f')
 
-env.StaticLibrary('libpha', lib_src,
-        LIBS = ['com', 'feffmath'], \
-        LIBPATH = ['../COMMON', '../MATH'])
+env.StaticLibrary('libfeffpha', lib_src,
+                  LIBS = ['com', 'feffmath'], \
+                  LIBPATH = [join('..','COMMON'), join('..','MATH')])
 
+env.Install(ienv['i_lib'], 'libfeffpha.a')
+
+env.Alias('install', ienv['i_lib'])
