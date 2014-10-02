@@ -97,11 +97,11 @@ if find_executable("swig"):
     env = Environment(BUILDERS = {'SwigPerl' : bld})
     env.SwigPerl(['feffpath_wrap.c', 'FeffPathWrapper.pm'], 'feffpath.i')
     Depends(['feffpath_wrap.c', 'FeffPathWrapper.pm'], 'feffpath.h')
-    env.InstallOwner('../../wrappers/perl/SWIG/src/',      ['feffpath.h', 'feffpath_wrap.c'], getuid(), getgid())
-    env.InstallOwner('../../wrappers/perl/SWIG/lib/Xray/', 'FeffPathWrapper.pm', getuid(), getgid())
+    env.InstallOwner('../../wrappers/perl/src/',      ['feffpath.h', 'feffpath_wrap.c'], getuid(), getgid())
+    env.InstallOwner('../../wrappers/perl/lib/Xray/', 'FeffPathWrapper.pm', getuid(), getgid())
 else:
     print "\nSWIG not installed, skipping perl wrapper for libfeffpath in GENFMT\n"
 
-env.Alias('install', ['../../wrappers/perl/SWIG/src/', 
-                      '../../wrappers/perl/SWIG/lib/Xray/',
+env.Alias('install', ['../../wrappers/perl/src/', 
+                      '../../wrappers/perl/lib/Xray/',
                       ienv['i_lib'], ienv['i_bin'] ])
