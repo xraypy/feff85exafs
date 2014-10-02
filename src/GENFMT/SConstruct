@@ -2,10 +2,15 @@
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
+import SCons
+from SCons.Script.SConscript import SConsEnvironment
 import sys
 sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment
 from distutils.spawn import find_executable
+from pwd import getpwnam, getpwuid
+from grp import getgrnam, getgrgid
+from os import getuid, getgid
 
 env  = CompilationEnvironment()
 ienv = InstallEnvironment()
@@ -45,18 +50,58 @@ env.Program('makepath', 'makepath.c', \
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the SWIG Perl wrapper
+
+## This implementation of a Chown factory closely follows Chmod from /usr/lib/scons/SCons/Defaults.py
+## and the discussion from http://www.scons.org/wiki/InstallTargets
+
+def get_paths_str(dest):
+    # If dest is a list, we need to manually call str() on each element
+    if SCons.Util.is_List(dest):
+        elem_strs = []
+        for element in dest:
+            elem_strs.append('"' + str(element) + '"')
+        return '[' + ', '.join(elem_strs) + ']'
+    else:
+        return '"' + str(dest) + '"'
+
+## FIXME.MAYBE: recognize numeric and string uid and gid
+def chown_func(dest, owner, group):
+    SCons.Node.FS.invalidate_node_memos(dest)
+    if not SCons.Util.is_List(dest):
+        dest = [dest]
+    for element in dest:
+        #os.chmod(str(element), getpwnam(owner).pw_uid, getgrnam(owner).gr_gid)
+        os.chmod(str(element), owner, owner)
+
+def chown_strfunc(dest, owner, group):
+    return 'Chown(%s, %s.%s)' % (get_paths_str(dest), getpwuid(owner).pw_name, getgrgid(group).gr_name)
+
+SConsEnvironment.Chown = SCons.Action.ActionFactory(chown_func, chown_strfunc)
+
+def InstallOwner(env, dest, files, owner, group):
+    """
+    Used for files to be owned by the normal user even if the installation is run as sudo
+    """
+    obj = env.Install(dest, files)
+    for i in obj:
+        env.AddPostAction(i, env.Chown(str(i), owner, group))
+    return dest
+
+SConsEnvironment.InstallOwner = InstallOwner
+
+## FIXME:  want to chown to SUDO_UID.SUDO_GID
+## FIXME:  find_executable needs an argument that works on all the platforms
+##         perhaps 'import platform', then 'platform.system()'...
 if find_executable("swig"):
     bld = Builder(action = 'swig -perl5 $SOURCE')
     env = Environment(BUILDERS = {'SwigPerl' : bld})
-    env.SwigPerl('feffpath_wrap.c', 'feffpath.i')
-    Depends('feffpath_wrap.c', 'feffpath.h')
-    env.Install('../../wrappers/perl/SWIG/src/',      ['feffpath.h', 'feffpath_wrap.c'])
-    env.Install('../../wrappers/perl/SWIG/lib/Xray/', 'FeffPathWrapper.pm')
+    env.SwigPerl(['feffpath_wrap.c', 'FeffPathWrapper.pm'], 'feffpath.i')
+    Depends(['feffpath_wrap.c', 'FeffPathWrapper.pm'], 'feffpath.h')
+    env.InstallOwner('../../wrappers/perl/SWIG/src/',      ['feffpath.h', 'feffpath_wrap.c'], getuid(), getgid())
+    env.InstallOwner('../../wrappers/perl/SWIG/lib/Xray/', 'FeffPathWrapper.pm', getuid(), getgid())
 else:
-    print "\nSWIG not installed, skipping perl wrapper for feff_path in GENFMT\n"
+    print "\nSWIG not installed, skipping perl wrapper for libfeffpath in GENFMT\n"
 
 env.Alias('install', ['../../wrappers/perl/SWIG/src/', 
                       '../../wrappers/perl/SWIG/lib/Xray/',
-                      ienv['i_lib'],
-                      ienv['i_bin']
-                  ])
+                      ienv['i_lib'], ienv['i_bin'] ])
