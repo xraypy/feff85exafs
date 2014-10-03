@@ -172,7 +172,9 @@ addressed and well tested.
 # To be fixed
 
 1. Many of the SConstruct files explicitly link to libgfortran and
-   libm.  That needs to be fixed for other platforms.
+   libm.  That needs to be fixed for other platforms/compilers.
+
+2. C wrapper's SConstruct has /usr/local/lib hardwired
 
 
 ---

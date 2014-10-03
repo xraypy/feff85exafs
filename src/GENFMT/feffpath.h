@@ -75,26 +75,38 @@ void cleanup(FEFFPATH*);
 
 void onepath_(long *,                   /* path index */
 	      long *,                   /* nlegs */
-	      double *,                /* degeneracy */
+	      double *,                 /* degeneracy */
 	      long *,                   /* iorder */
 	      /* scattering geometry */
 	      long (*)[legtot+1],       /* list of unique potentials */
-	      double (*)[legtot+2][3], /* list of cartesian coordinates */
+	      double (*)[legtot+2][3],  /* list of cartesian coordinates */
 	      /* polarization and ellipticity */
 	      long *,                   /* flag to compute polarization */
-	      double (*)[3],           /* polarization vector */
-	      double *,                /* ellipticity */
-	      double (*)[3],           /* direction of travel */
+	      double (*)[3],            /* polarization vector */
+	      double *,                 /* ellipticity */
+	      double (*)[3],            /* direction of travel */
 	      /* output flags */
 	      long *,                   /* integer flag for writing feffNNNN.dat */
 	      long *,                   /* integer flag for writing feffNNNN.json */
 	      long *,                   /* integer flag for writing screen messages */
 	      /* path geometry */
-	      double (*)[legtot],      /* Ri   */
-	      double (*)[legtot+1],    /* beta */
-	      double (*)[legtot+2],    /* eta  */
+	      double (*)[legtot],       /* Ri   */
+	      double (*)[legtot+1],     /* beta */
+	      double (*)[legtot+2],     /* eta  */
 	      long *,                   /* number of points in kgrid */
 	      /* seven columns of feffNNNN.dat file */
 	      double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex]);
 
 
+/* add_scatterer error codes */
+#define ERR_BADIPOT           1  /* ipot argument to make_path lt 0 or gt 7 */
+#define ERR_TOOCLOSE          2  /* coordinates are for an atom too close to the previous atom in the path */
+#define ERR_TOOMANYLEGS       4  /* nlegs gt legtot */
+
+/* make_path error codes */
+#define ERR_NLEGISABS         1  /* the last atom specified is the absorber */
+#define ERR_DEGNEG            2  /* degeneracy is negative */
+#define ERR_BADINDEX          4  /* index lt 0 or gt 9999 */
+#define ERR_BADELPTY          8  /* elpty lt 0 or gt 1 */
+#define ERR_BADIORDER        16  /* iorder lt 0 or gt ? */
+#define ERR_FAILED           32  /* failed to compute path */

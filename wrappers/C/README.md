@@ -2,13 +2,20 @@
 
 The wrapper will be installed when feff85exafs is built.  This folder
 contains an example of its use in a C program.  The program
-`makepath.c` will read from `phase.bin` (calculated from copper metal)
-and write the files `feff0001.dat` and `feff0004.dat`.
+`makepath.c` will read from `phase.bin` (this example is calculated
+from copper metal) and write the files `feff0001.dat` and
+`feff0004.dat`.
 
 The `makepath.c` program likely will not compile before you build and
 install feff85exafs.  The build script will look for various Feff
 libraries and the `feffpath.h` header file in their installation
-location.
+locations
+
+To compile the `makepath` sample program:
+
+	~> scons
+
+That's it!
 
 ## Sample program
 
@@ -33,7 +40,7 @@ long main()
   /* first path in copper */
   path->index   = 1;
   path->deg     = 12.0;
-  ret = add_scatterer(path,  1.805, 0,  1.805, 1);
+  ret = add_scatterer(path, 1.805, 0, 1.805, 1);
   ret = make_path(path);
 
   clear_path(path);
@@ -54,7 +61,7 @@ long main()
 
 4. Setting `nnnn` and `verbose` to a true value tells the program to
    write `feffNNNN.dat` files and to write a short message to the
-   screen when it is written
+   screen when it is written.
 
 5. The path index is set to 1.  This means the output file will be
    called `feff0001.dat`.
@@ -63,7 +70,7 @@ long main()
 
 7. The `add_scatterer` method is used to build the scattering
    geometry.  It's arguments are the Cartesian coordinates (referenced
-   to the absorber at the origin) and the unique potential index of
+   to the absorber *at the origin*) and the unique potential index of
    the atom.  In this case, a single scattering path is calculated, so
    `add_scatterer` is called only once.  For a multiple scattering
    path, `add_scatterer` would be called repeatedly, once for each
@@ -71,7 +78,7 @@ long main()
    `ipot` members of the struct and also sets `nleg`.
 
 8. The call to `make_path` computes the parts of F-effective and
-   stores them in the the `path` struct.
+   stores them in the `path` struct.
 
 9. The call to `clear_path` reinitializes the struct.  This is not
    strictly necessary in this case, but would be were the program to
@@ -86,7 +93,10 @@ long main()
 Here are all the elements of the struct, their data types,
 descriptions, and default values.  Input parameters are marked with
 "I" and output parameters, set by the `make_path` method, are marked
-with "O".
+with "O".  Most of the names are chosen to be consistent with the
+naming conventions in Feff.  The output arrays for the columns of
+`feffNNNN.dat` are those
+[used by Larch](http://xraypy.github.io/xraylarch/xafs/feffpaths.html#the-feffdat-group-full-details-of-the-feff-dat-file).
 
 | element    | type       | I/O | description                             | default              |
 | ---------- | --------   | --- |---------------------------------------- | -------------------- |
@@ -117,9 +127,9 @@ with "O".
 |  rep       | \*double   | O   | real part of complex momentum, column 7 in `feffNNNN.dat`    | |
 
 A polarization calculation is enabled by setting the `ipol` element to
-a true value.  `evec` contains a 3-vector with the polarization vector
-of the incident beam.  `elpty` and `xivec` are the ellipticity and
-Poynting vector of the incident beam for a calculation with
+a true value.  `evec` has 3 elements and represents the polarization
+vector of the incident beam.  `elpty` and `xivec` are the ellipticity
+and Poynting vector of the incident beam for a calculation with
 ellipticity.
 
 When `make_path` is called, the `ri`, `beta`, and `eta` arrays are
@@ -132,17 +142,19 @@ These arrays are the same (besides precision) as the corresponding
 columns.  While a `feffNNNN.dat` file can be exported (using the
 `nnnn` flag), the need to write/read that file is obviated.
 
+Direct access to `rat` and `ipot` is inconvenient and discouraged.
+Use `add_scatterer`.
 
 ## A comment on the add_scatterer method
 
 The way of building the geometry of the scattering path was
 purposefully kept completely general.  While a program might use the
-output of Feff's pathfinder, we also want to suport other ways of
+output of Feff's pathfinder, we also want to suport any other way of
 generating path geometries.
 
 To use the output of Feff's pathfinder, one would parse the
-`paths.dat` file, calling `add_scatterer` for each "paragraph" in the
-file.
+`paths.dat` file, making a path for each "paragraph" in the file and
+calling `add_scatterer` for each atom in the path.
 
 As a more complicated example, a reverse Monte Carlo approach to a fit
 will move atoms to minimize difference between a model and the data.

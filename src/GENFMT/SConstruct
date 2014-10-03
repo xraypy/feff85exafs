@@ -38,6 +38,7 @@ env.Install(ienv['i_lib'], 'libonepath.a')
 ## ------------------------------------------------------------------------------------------------------
 ## build the feffpath C wrapper around onepath
 env.StaticLibrary('libfeffpath', 'feffpath.c')
+#env.SharedLibrary('libfeffpath', ['feffpath.c', 'libonepath.a']) # Windows: .dll/.lib/.dll.a     Mac: .dyld
 env.Install(ienv['i_lib'], 'libfeffpath.a')
 
 
