@@ -22,7 +22,7 @@ containing all the information found in a `feffNNNN.dat` file.  See
 a C program.
 
 The C library can be wrapped for use in other languages.
-[Here's a use of the perl wrapper as an example.](../../wrappers/perl/example.pl)
+[Here's a use of the perl wrapper as an example.](../../wrappers/perl/example/pathsdat.pl)
 
 # Build and install
 

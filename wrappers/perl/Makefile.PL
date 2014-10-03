@@ -12,16 +12,12 @@ use File::Copy;
 my $feffdirs = '-L/usr/local/lib';
 my $fefflibs = join(" ", qw(-lfeffpath -lonepath -lfeffgenfmt -lfeffcom -lfeffmath -lfeffpar -lgfortran -lm));
 
-WriteMakefile('NAME'   => 'Xray::FeffPathWrapper',
-              'SKIP'   => ['test_dynamic'],
-              'OBJECT' => 'src/feffpath_wrap.o',
-              #'INSTALLBIN'    => '/usr/bin',
-              #'INSTALLSCRIPT' => '/usr/bin',
-              #'LDDLFLAGS'     => '-shared',
-	      'CCFLAGS'       => join(" ", "-o", "src/feffpath_wrap.o", @Config{qw(ccflags optimize cccdlflags)}, "-I$Config{archlib}/CORE"),
-              'LDDLFLAGS'     => $Config{lddlflags},
-              #'INC'    => '-I../',
-              'LIBS'   =>join(" ", $feffdirs, $Config{ldflags}, $fefflibs),
+WriteMakefile('NAME'      => 'Xray::FeffPathWrapper',
+              'SKIP'      => ['test_dynamic'],
+              'OBJECT'    => 'src/feffpath_wrap.o',
+	      'CCFLAGS'   => join(" ", "-o", "src/feffpath_wrap.o", @Config{qw(ccflags optimize cccdlflags)}, "-I$Config{archlib}/CORE"),
+              'LDDLFLAGS' => $Config{lddlflags},
+              'LIBS'      =>join(" ", $feffdirs, $Config{ldflags}, $fefflibs),
 	     );
 
 

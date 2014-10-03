@@ -169,6 +169,14 @@ addressed and well tested.
 
 ---
 
+# To be fixed
+
+1. Many of the SConstruct files explicitly link to libgfortran and
+   libm.  That needs to be fixed for other platforms.
+
+
+---
+
 # Simple static analysis
 
 The following is a very useful command:
