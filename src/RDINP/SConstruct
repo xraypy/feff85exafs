@@ -13,6 +13,8 @@ ienv = InstallEnvironment()
 bin_src = Split('rdinp_l.f  ffsort.f iniall.f  mkptz.f  rdline.f  setedg.f wrtall.f wrtjsn.f')
 
 env.Program('rdinp', bin_src,
+            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
+            OBJSUFFIX = env['SHOBJSUFFIX'],
             LIBS = ['feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
             LIBPATH = [join('..','COMMON'), join('..','JSON/'), join('..','MATH'), join('..','PAR')])
 

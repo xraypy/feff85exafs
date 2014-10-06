@@ -19,8 +19,8 @@ lib_src = Split('bcoef.f   besjn.f   conv.f    csomm.f   cwig3j.f  determ.f  exj
                  csomm2.f  czeros.f  dist.f    lu.f      polint.f  rotwig.f  somm.f    strap.f \
                  terpc.f')
 
-env.StaticLibrary('libfeffmath', lib_src)
+env.SharedLibrary('libfeffmath', lib_src)
 
-env.Install(ienv['i_lib'], 'libfeffmath.a')
+env.Install(ienv['i_lib'], 'libfeffmath.so')
 
 env.Alias('install', ienv['i_lib'])

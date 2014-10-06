@@ -1,5 +1,7 @@
 *.o
+*.os
 *.a
+*.so
 *.sconsign.dblite
 *~
 *.pyc

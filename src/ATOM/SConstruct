@@ -15,9 +15,9 @@ lib_src = Split('akeato.f  cofcon.f  etotal.f  fpf0.f   lagdat.f  nucdev.f  pots
                  tabrat.f  yzkrdf.f  bkmrdf.f  dsordf.f fdrirk.f  intdir.f  muatco.f  potrdf.f \
                  scfdat.f  vlda.f    yzkteg.f')
 
-env.StaticLibrary('libfeffatom', lib_src)
+env.SharedLibrary('libfeffatom', lib_src)
 
-env.Install(ienv['i_lib'], 'libfeffatom.a')
+env.Install(ienv['i_lib'], 'libfeffatom.so')
 
 env.Alias('install', ienv['i_lib'])
 

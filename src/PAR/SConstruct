@@ -15,11 +15,11 @@ ienv = InstallEnvironment()
 flags = env['FORTRANFLAGS']
 env['FORTRANFLAGS'] = flags.replace('-Wall', '')
 
-env.StaticLibrary('libfeffpar', 'sequential.f')
+env.SharedLibrary('libfeffpar', 'sequential.f')
 
 ## this is what would be needed for MPI compilation...
-## StaticLibrary('libfeffpar', 'parallel.f')
+## SharedLibrary('libfeffpar', 'parallel.f')
 
-env.Install(ienv['i_lib'], 'libfeffpar.a')
+env.Install(ienv['i_lib'], 'libfeffpar.so')
 
 env.Alias('install', ienv['i_lib'])

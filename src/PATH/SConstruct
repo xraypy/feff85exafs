@@ -15,6 +15,8 @@ bin_src = Split('ffmod4.f   ccrit.f   heap.f    ipack.f   mcrith.f  mcritk.f  mp
                  prcrit.f   sortix.f  timrep.f')
 
 env.Program('pathfinder', bin_src,
+            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
+            OBJSUFFIX = env['SHOBJSUFFIX'],
             LIBS = ['feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
             LIBPATH = [join('..','COMMON'), join('..','JSON/'), join('..','MATH'), join('..','PAR')])
 

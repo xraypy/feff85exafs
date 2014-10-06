@@ -414,7 +414,6 @@ c        compute the importance factor of this path
          call import(ne1, nsp, ik0, reff, deg, ckmag, em, eref2,
      &          cchi, xportx, crit)
 
-
 c        Write path data to feff.bin if we need it.
          if (ipr3 .ge. 1  .or.  crit .ge. crit0)  then
 c           write path info

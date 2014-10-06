@@ -34,17 +34,17 @@ the names chosen by the original build system for feff85exafs.
 
 The following libraries contain the various parts of Feff.
 
-* `ATOM/libfeffatom.a`
-* `COMMON/libfeffcom.a`
-* `DEBYE/libfeffdw.a`
-* `EXCH/libfeffexch.a`
-* `FMS/libfefffms.a`
-* `FOVRG/libfeffpha.a`
-* `GENFMT/libfeffgenfmt.a`
-* `JSON/libfeffjson.a`
-* `MATH/libfeffmath.a`
-* `PAR/libfeffpar.a`
-* `POT/libfeffint.a`
+* `ATOM/libfeffatom.so`
+* `COMMON/libfeffcom.so`
+* `DEBYE/libfeffdw.so`
+* `EXCH/libfeffexch.so`
+* `FMS/libfefffms.so`
+* `FOVRG/libfeffpha.so`
+* `GENFMT/libfeffgenfmt.so`
+* `JSON/libfeffjson.so`
+* `MATH/libfeffmath.so`
+* `PAR/libfeffpar.so`
+* `POT/libfeffint.so`
 
 Default installation locations:
 
@@ -57,6 +57,17 @@ This can be set from the command line:
 	~> scons prefix="/other/location"
 
 where the default value for "prefix" is `/usr/local` on Linux, etc.
+
+This location **must** be in the linker/loader path.  With bash, for
+example, you may need to do
+
+	~> export LD_LIBRARY_PATH=/usr/local/lib
+
+or, if LD\_LIBRARY\_PATH already has a value:
+
+	~> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH ":/usr/local/lib"
+
+You may want to put that in your `.bashrc` file.
 
 ## Stand-alone programs
 
@@ -91,13 +102,13 @@ the "feffpath" calculation, that is, the calculation of a single
 This presumes that `pot` and `xsph` have already been run and that the
 `phase.bin` file is accessible.
 
-* `GENFMT/libonepath.a`: This is the Fortran entry point.
-* `GENFMT/libfeffpath.a`: This is the C wrapper around the Fortran onepath
+* `GENFMT/libonepath.so`: This is the Fortran entry point.
+* `GENFMT/libfeffpath.so`: This is the C wrapper around the Fortran onepath
 * `GENFMT/feffpath.h`: This is the header file, almost certainly required by any language wrapper
 * `GENFMT/feffpath_wrap.c`: This is the SWIG generated wrapper file for use with the Perl wrapper
 * `GENFMT/FeffPathWrapper.pm`: This is the SWIG generated Perl wrapper
 
-`libonepath.a` and `libfeffpath.a` will be installed to the same
+`libonepath.so` and `libfeffpath.so` will be installed to the same
 location (`/usr/local/lib`, etc) as the Feff libraries.
 
 The other three files are "installed" into the proper place in the

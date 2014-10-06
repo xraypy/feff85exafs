@@ -15,8 +15,8 @@ lib_src = Split('chopen.f  fixvar.f  head.f    itoken.f  pertab.f  rdcmt.f   rdx
                  str2dp.f  fixdsx.f  getxk.f   isnum.f   padlib.f  qsorti.f  rdpot.f   setkap.f \
                  wlog.f')
 
-env.StaticLibrary('libfeffcom', lib_src)
+env.SharedLibrary('libfeffcom', lib_src)
 
-env.Install(ienv['i_lib'], 'libfeffcom.a')
+env.Install(ienv['i_lib'], 'libfeffcom.so')
 
 env.Alias('install', ienv['i_lib'])

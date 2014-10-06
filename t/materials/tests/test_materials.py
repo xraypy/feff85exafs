@@ -86,10 +86,13 @@ def test_clean():
 
 def check_feffrun(folder):
     tests[folder].run()
+    scf = 'without SCF'
+    if tests[folder].doscf:
+        scf = 'with SCF'
     with open(join(tests[folder].testrun,'f85e.log'), 'r') as log:
         lines = log.readlines() # f85e.log shouldn't be more than a couple thousand lines long (ferrocene w/SCF is 1096)
         m = re.search('Done with module 6:', lines[-1])
-    assert m and tests[folder].available(1), "feff run on %s ($s) not successful" % (folder, tests[folder].doscf)
+    assert m and tests[folder].available(1), "feff run on %s (%s) not successful" % (folder, scf)
 
 def check_columns(folder, part):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder

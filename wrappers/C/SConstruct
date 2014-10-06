@@ -1,15 +1,11 @@
 ## -*- python -*-
 
-from   os.path   import realpath, join
+from os.path import realpath, join
 
 env = Environment()
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the test program for the C wrapper
 ## Feff libraries should have already been installed
-env.Program('makepath', ['makepath.c', '/usr/local/lib/libfeffpath.a'],
-            LIBS = ['onepath', 'feffgenfmt', 'feffcom', 'feffmath', 'feffpar', 'gfortran', 'm'])
-
-## specify the static library, gcc will otherwise prefer the shared object
-
-## need to abstract out the location/name of the static library for use on other platforms
+env.Program('makepath', 'makepath.c',
+            LIBS = ['feffpath', 'onepath', 'feffgenfmt', 'feffcom', 'feffmath', 'feffpar', 'gfortran', 'm'])

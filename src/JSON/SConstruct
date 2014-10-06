@@ -13,10 +13,10 @@ ienv = InstallEnvironment()
 lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f', 'read_fpf0.f',
            'json_xsect.f', 'read_xsect.f', 'json_nnnn.f']
 
-env.StaticLibrary('libfeffjson', lib_src)
+env.SharedLibrary('libfeffjson', lib_src)
 
 #            LIBS = ['jsonfortran'],
 
-env.Install(ienv['i_lib'], 'libfeffjson.a')
+env.Install(ienv['i_lib'], 'libfeffjson.so')
 
 env.Alias('install', ienv['i_lib'])
