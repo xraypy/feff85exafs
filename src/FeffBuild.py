@@ -23,6 +23,7 @@ def CompilationEnvironment():
     """
     env = Environment()
     jsondir = realpath(join(getcwd(), '..', 'JSON'))
+    jsondir = '/usr/local/lib'
 
     if env['FORTRAN'] == 'gfortran':
         # this was the suggestion in the top level Makefile in what

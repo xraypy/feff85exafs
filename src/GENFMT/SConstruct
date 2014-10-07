@@ -9,9 +9,13 @@ from distutils.spawn import find_executable
 import os
 from   os.path   import realpath, join
 
-
-env  = CompilationEnvironment()
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
 ienv = InstallEnvironment()
+
+env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME'] = 1
 
 ## ------------------------------------------------------------------------------------------------------
 ## build libgenfmt: contains most of the functionality of genfmt
@@ -30,15 +34,36 @@ env.Install(ienv['i_bin'], 'genfmt')
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the onepath fortran librtary
+other_obj = [join('..','FF2X', 'fdtarr'      + env['SHOBJSUFFIX']), # called directly
+             join('..','FF2X', 'fdthea'      + env['SHOBJSUFFIX']),
+             join('..','RDINP','mkptz'       + env['SHOBJSUFFIX'])]
+misc_feff = [join('..','COMMON','wlog'       + env['SHOBJSUFFIX']), # called indeirectly
+             join('..','COMMON','chopen'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','getxk'      + env['SHOBJSUFFIX']),
+             join('..','COMMON','padlib'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','pertab'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','pijump'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','rdxsph'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','setkap'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','str'        + env['SHOBJSUFFIX']),
+             join('..','MATH',  'bcoef'      + env['SHOBJSUFFIX']),
+             join('..','MATH',  'cwig3j'     + env['SHOBJSUFFIX']),
+             join('..','MATH',  'dist'       + env['SHOBJSUFFIX']),
+             join('..','MATH',  'rotwig'     + env['SHOBJSUFFIX']),
+             join('..','MATH',  'trap'       + env['SHOBJSUFFIX']),
+             join('..','PAR',   'sequential' + env['SHOBJSUFFIX'])]
+
+
+
 onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
-other_src = [join('..','FF2X','fdtarr.f'), join('..','FF2X','fdthea.f'), join('..','RDINP','mkptz.f')]
-env.SharedLibrary('libonepath', onepath_src + other_src)
+env.SharedLibrary('libonepath', onepath_src + other_obj + lib_src + misc_feff)
 env.Install(ienv['i_lib'], 'libonepath.so')
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the feffpath C wrapper around onepath
-env.SharedLibrary('libfeffpath', 'feffpath.c')
-#env.SharedLibrary('libfeffpath', ['feffpath.c', 'libonepath.a']) # Windows: .dll/.lib/.dll.a     Mac: .dyld
+env.SharedLibrary('libfeffpath', ['feffpath.c'] + onepath_src + other_obj + lib_src + misc_feff)
+
+
 env.Install(ienv['i_lib'], 'libfeffpath.so')
 
 

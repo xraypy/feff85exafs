@@ -7,7 +7,10 @@ sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment
 from   os.path   import realpath, join
 
-env = CompilationEnvironment()
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
 ienv = InstallEnvironment()
 
 ## Quiet compiler warnings on LAPACK and other well-tested files

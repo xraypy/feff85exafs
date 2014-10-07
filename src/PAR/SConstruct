@@ -7,7 +7,10 @@ sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment
 from   os.path   import realpath, join
 
-env = CompilationEnvironment()
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
 ienv = InstallEnvironment()
 
 ## Compiling sequential.f throws up LOTS of unused dummy argument warnings.
