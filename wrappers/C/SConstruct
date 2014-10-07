@@ -8,4 +8,4 @@ env = Environment()
 ## build the test program for the C wrapper
 ## Feff libraries should have already been installed
 env.Program('makepath', 'makepath.c',
-            LIBS = ['feffpath', 'onepath', 'feffgenfmt', 'feffcom', 'feffmath', 'feffpar', 'gfortran', 'm'])
+            LIBS = ['feffpath'])
