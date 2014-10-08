@@ -43,6 +43,7 @@ src/GENFMT/genfmt
 src/GENFMT/onepath
 src/GENFMT/feffpath
 wrappers/C/makepath
+wrappers/fortran/makepath
 src/PATH/pathfinder
 src/XSPH/xsph
 src/FMS/fms
