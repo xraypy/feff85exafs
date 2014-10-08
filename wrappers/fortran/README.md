@@ -1,14 +1,14 @@
-# Using the onepath fortran entry point
+# Using the onepath Fortran entry point
 
-The onepath library will be installed when feff85exafs is built.  This
-folder contains an example of its use in a fortran program.  The
+The `onepath` library will be installed when feff85exafs is built.
+This folder contains an example of its use in a Fortran program.  The
 program `makepath` will read from `phase.bin` (this example is
 calculated from copper metal) and write the files `feff0001.dat` and
 `feff0004.dat`.
 
 The `makepath.f` program likely will not compile before you build and
 install feff85exafs.  The build script will look for the `onepath`
-libraries,
+library,
 
 To compile the `makepath` sample program:
 
@@ -18,7 +18,7 @@ That's it!
 
 ## Sample program
 
-Here is the simplest program using the C wrapper:
+Here is the simplest program using the Fortran entry point:
 
 ```fortran
   	  program makepath
@@ -29,12 +29,8 @@ c     taken from the feff HEADERS/dim.h
       parameter (nex = 150, legtot = 9)
       double precision evec(3), xivec(3)
 
-	  integer  iorder
-      double precision elpty
-      integer innnn, ijson, ivrbse
-
-      double precision rat(3,0:legtot+1)
-      integer ipot(0:legtot)
+	  integer iorder, innnn, ijson, ivrbse, ipot(0:legtot)
+      double precision elpty, rat(3,0:legtot+1)
 
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
@@ -83,13 +79,12 @@ c     initialize everything
 c     done initializing
 
 c     compute first shell of Copper (SS, deg=12)
-      index    = 1
-      nleg     = 2
-      deg      = 12
+      index = 1
+      nleg  = 2
+      deg   = 12
       call addatom(1, -1.805, 0., -1.805, 1, ipot, rat)
       call onepath(index, nleg, deg, iorder,
-     &       ipot, rat,
-     &       ipol, evec, elpty, xivec,
+     &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
 
@@ -109,13 +104,13 @@ c     compute first shell of Copper (SS, deg=12)
 4. The degeneracy of the path is specified.
 
 5. The `addatom` subroutine is used to build the scattering geometry.
-   It's arguments are leg index, the Cartesian coordinates (referenced
-   to the absorber *at the origin*) and the unique potential index of
-   the atom.  In this case, a single scattering path is calculated, so
-   `addatom` is called only once.  For a multiple scattering
-   path, `addatom` would be called repeatedly, once for each
-   atom (or leg) in the path.  `addatom` fills the `rat` and
-   `ipot` arrays.
+   It's arguments are the leg index, the Cartesian coordinates
+   (referenced to the absorber *at the origin*) and the unique
+   potential index of the atom.  In this case, a single scattering
+   path is calculated, so `addatom` is called only once.  For a
+   multiple scattering path, `addatom` would be called repeatedly,
+   once for each atom (or leg) in the path.  `addatom` fills the `rat`
+   and `ipot` arrays.
 
 6. The call to `onepath` computes the parts of F-effective and
    stores them in the `colN` arrays.
@@ -126,17 +121,15 @@ c     compute first shell of Copper (SS, deg=12)
 Here are all the elements of the struct, their data types,
 descriptions, and default values.  Input parameters are marked with
 "I" and output parameters, set by the `make_path` method, are marked
-with "O".  Most of the names are chosen to be consistent with the
-naming conventions in Feff.  The output arrays for the columns of
-`feffNNNN.dat` are those
-[used by Larch](http://xraypy.github.io/xraylarch/xafs/feffpaths.html#the-feffdat-group-full-details-of-the-feff-dat-file).
+with "O".  Many of the names are chosen to be consistent with the
+naming conventions in Feff.
 
 | element    | type        | I/O | description                             | default              |
 | ---------- | ----------  | --- |---------------------------------------- | -------------------- |
 |  index     | integer     | I   | path index                              |  9999                |
 |  deg       | double      | I   | path degeneracy                         |  required input      |
 |  nleg      | integer     | I   | number of legs in path                  |  required input      |
-|  rat       | double(3,0:legtot+1 | I   | cartesian positions of atoms in path |  use addatom    |
+|  rat       | double(3,0:legtot+1) | I   | cartesian positions of atoms in path |  use addatom    |
 |  ipot      | integer(legtot)  | I   | unique potentials of atoms in path      |  use addatom    |
 |  iorder    | integer     | I   | order of approximation in genfmt        |  2                   |
 |  innnn     | integer     | I   | flag to write `feffNNNN.dat` file       |  0                   |
@@ -150,13 +143,13 @@ naming conventions in Feff.  The output arrays for the columns of
 |  beta      | double(legtot+1)   | O | beta angles                        |                      |
 |  eta       | double(0:legtot+1) | O | eta angles                         |                      |
 |  ne        | integer     | O   | number of energy points actually used by Feff                | |
-|  k         | double(nex) | O   | k grid for feff path calculation, column 1 in `feffNNNN.dat` | |
-|  real\_phc | double(nex) | O   | central atom phase shifts. column 2 in `feffNNNN.dat`        | |
-|  mag\_feff | double(nex) | O   | magnitude of F\_eff, column 3 in `feffNNNN.dat`              | |
-|  pha\_feff | double(nex) | O   | phase of F\_eff, column 4 in `feffNNNN.dat`                  | |
-|  red\_fact | double(nex) | O   | reduction factor, column 5 in `feffNNNN.dat`                 | |
-|  lam       | double(nex) | O   | mean free path, column 6 in `feffNNNN.dat`                   | |
-|  rep       | double(nex) | O   | real part of complex momentum, column 7 in `feffNNNN.dat`    | |
+|  col1      | double(nex) | O   | k grid for calculation, column 1 in `feffNNNN.dat`           | |
+|  col2      | double(nex) | O   | central atom phase shifts. column 2 in `feffNNNN.dat`        | |
+|  col3      | double(nex) | O   | magnitude of F\_eff, column 3 in `feffNNNN.dat`              | |
+|  col4      | double(nex) | O   | phase of F\_eff, column 4 in `feffNNNN.dat`                  | |
+|  col5      | double(nex) | O   | reduction factor, column 5 in `feffNNNN.dat`                 | |
+|  col6      | double(nex) | O   | mean free path, column 6 in `feffNNNN.dat`                   | |
+|  col7      | double(nex) | O   | real part of complex momentum, column 7 in `feffNNNN.dat`    | |
 
 A polarization calculation is enabled by setting the `ipol` element to
 a true value.  `evec` has 3 elements and represents the polarization
@@ -185,10 +178,8 @@ and `rat` and to convert the Cartesian coordinates to code units.
 ```fortran
       subroutine addatom(leg, x, y, z, ip, ipot, rat)
       implicit double precision (a-h, o-z)
-      integer npatx
-      parameter (npatx = 8)
       integer legtot
-      parameter (legtot=npatx+1)
+      parameter (legtot=9)
 
       integer leg, ip
       real x, y, z
