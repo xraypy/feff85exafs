@@ -11,10 +11,11 @@ c     taken from feff's HEADERS/dim.h
 c      parameter (pi = 3.14159 26535 89793 23846 26433d0)
 
 
+c+---------------------------------------------------------------------
+c     block of parameter declarations for onepath
+      integer index, iorder, innnn, ijson, ivrbse
       double precision evec(3), xivec(3)
-      integer  iorder
       double precision elpty
-      integer innnn, ijson, ivrbse
 
       double precision rat(3,0:legtot+1)
       integer ipot(0:legtot)
@@ -22,48 +23,15 @@ c      parameter (pi = 3.14159 26535 89793 23846 26433d0)
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
       dimension col6(nex), col7(nex)
+c+---------------------------------------------------------------------
 
 c     initialize everything
-      index   = 9999
-      nleg    = 0
-      deg     = 0
-      iorder  = 2
-      innnn   = 1 
-      ijson   = 0 
-      ivrbse  = 1
-      ipol    = 0 
-      elpty   = 0
-      ne      = 0
-      
-      do 5  i=1,3
-         evec(i)  = 0
-         xivec(i) = 0
- 5    continue
-      do 10 i=0, legtot
-         rat(1,i) = 0
-         rat(2,i) = 0
-         rat(3,i) = 0
-         ipot(i)  = 0
-         eta(i)   = 0
-         if (i>0) then
-            ri(i)   = 0
-            beta(i) = 0
-            eta(i)  = 0
-         endif
- 10   continue
-      beta(legtot+1) = 0
-      eta(legtot+1)  = 0
-
-      do 20 i=1, nex
-         col1(i) = 0
-         col2(i) = 0
-         col3(i) = 0
-         col4(i) = 0
-         col5(i) = 0
-         col6(i) = 0
-         col7(i) = 0
- 20   continue
-c     done initializing
+      call inipath(index, nleg, deg, iorder,
+     &       ipot, rat, ipol, evec, elpty, xivec,
+     &       innnn, ijson, ivrbse, ri, beta, eta,
+     &       ne,col1,col2,col3,col4,col5,col6,col7)
+      innnn  = 1
+      ivrbse = 1
 
 c+---------------------------------------------------------------------
 c  compute a single path, generating the F matrix then returning the 
@@ -101,9 +69,9 @@ c    col7:     real partof complex momentum          double(nex)
 c+---------------------------------------------------------------------
 
 c     compute first shell of Copper (SS, deg=12)
-      index    = 1
-      nleg     = 2
-      deg      = 12
+      index = 1
+      nleg  = 2
+      deg   = 12
       call addatom(1, -1.805, 0., -1.805, 1, ipot, rat)
 
       call onepath(index, nleg, deg, iorder,
@@ -112,38 +80,41 @@ c     compute first shell of Copper (SS, deg=12)
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
 
-c$$$      do 100 i=1,ne
-c$$$         write(*,400) col1(i), col2(i), col3(i), col4(i), col5(i),
-c$$$     &          col6(i), col7(i)
-c$$$ 100  continue
-c$$$ 400  format (1x, f6.3, 1x, 3(1pe11.4,1x),1pe10.3,1x,
-c$$$     1       2(1pe11.4,1x))
+c     this bit writes the data table from feff0001.dat to the screen
+c         do 100 i=1,ne
+c            write(*,400) col1(i), col2(i), col3(i), col4(i), col5(i),
+c        &          col6(i), col7(i)
+c    100  continue
+c    400  format (1x, f6.3, 1x, 3(1pe11.4,1x),1pe10.3,1x,
+c        1       2(1pe11.4,1x))
 
 
 c     compute fourth shell of Copper (DS, deg=48)
-      index    = 4
-      nleg     = 3
-      deg      = 48
-      call addatom(1,  0.,     0., -3.61,  1, ipot, rat)
-      call addatom(2, -1.805, 0., -1.805, 1, ipot, rat)
-
-      call onepath(index, nleg, deg, iorder,
-     &       ipot, rat,
-     &       ipol, evec, elpty, xivec,
+      call inipath(index, nleg, deg, iorder,
+     &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
+      innnn  = 1
+      ivrbse = 1
 
+      index = 4
+      nleg  = 3
+      deg   = 48
+      call addatom(1,  0.,     0., -3.61,  1, ipot, rat)
+      call addatom(2, -1.805,  0., -1.805, 1, ipot, rat)
 
+      call onepath(index, nleg, deg, iorder,
+     &       ipot, rat, ipol, evec, elpty, xivec,
+     &       innnn, ijson, ivrbse, ri, beta, eta,
+     &       ne,col1,col2,col3,col4,col5,col6,col7)
 
       end
 
 
       subroutine addatom(leg, x, y, z, ip, ipot, rat)
       implicit double precision (a-h, o-z)
-      integer npatx
-      parameter (npatx = 8)
-      integer legtot
-      parameter (legtot=npatx+1)
+      integer npatx, legtot
+      parameter (npatx = 8, legtot=npatx+1)
 
       integer leg, ip
       real x, y, z
@@ -156,5 +127,71 @@ c     compute fourth shell of Copper (DS, deg=48)
       rat(1,leg) = dble(x) / bohr
       rat(2,leg) = dble(y) / bohr
       rat(3,leg) = dble(z) / bohr
+      return
+      end
+
+
+      subroutine inipath(index, nleg, deg, iorder,
+     &       ipot, rat, ipol, evec, elpty, xivec,
+     &       innnn, ijson, ivrbse, ri, beta, eta,
+     &       ne,col1,col2,col3,col4,col5,col6,col7)
+      implicit double precision (a-h, o-z)
+
+c     taken from feff's HEADERS/dim.h
+      integer nex, npatx, legtot
+      parameter (nex = 150, npatx = 8, legtot=npatx+1)
+
+      integer index, iorder, innnn, ijson, ivrbse
+      double precision evec(3), xivec(3)
+      double precision elpty
+
+      double precision rat(3,0:legtot+1)
+      integer ipot(0:legtot)
+
+      double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
+      dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
+      dimension col6(nex), col7(nex)
+
+
+      index  = 9999
+      nleg   = 0
+      deg    = 0
+      iorder = 2
+      innnn  = 0
+      ijson  = 0 
+      ivrbse = 0
+      ipol   = 0 
+      elpty  = 0
+      ne     = 0
+      
+      do 5  i=1,3
+         evec(i)  = 0
+         xivec(i) = 0
+ 5    continue
+      do 10 i=0, legtot
+         rat(1,i) = 0
+         rat(2,i) = 0
+         rat(3,i) = 0
+         ipot(i)  = 0
+         eta(i)   = 0
+         if (i>0) then
+            ri(i)   = 0
+            beta(i) = 0
+            eta(i)  = 0
+         endif
+ 10   continue
+      beta(legtot+1) = 0
+      eta(legtot+1)  = 0
+
+      do 20 i=1, nex
+         col1(i) = 0
+         col2(i) = 0
+         col3(i) = 0
+         col4(i) = 0
+         col5(i) = 0
+         col6(i) = 0
+         col7(i) = 0
+ 20   continue
+
       return
       end

@@ -8,7 +8,7 @@ calculated from copper metal) and write the files `feff0001.dat` and
 
 The `makepath.f` program likely will not compile before you build and
 install feff85exafs.  The build script will look for the `onepath`
-library,
+library.
 
 To compile the `makepath` sample program:
 
@@ -103,14 +103,14 @@ c     compute first shell of Copper (SS, deg=12)
 
 4. The degeneracy of the path is specified.
 
-5. The `addatom` subroutine is used to build the scattering geometry.
-   It's arguments are the leg index, the Cartesian coordinates
-   (referenced to the absorber *at the origin*) and the unique
-   potential index of the atom.  In this case, a single scattering
-   path is calculated, so `addatom` is called only once.  For a
-   multiple scattering path, `addatom` would be called repeatedly,
-   once for each atom (or leg) in the path.  `addatom` fills the `rat`
-   and `ipot` arrays.
+5. The `addatom` subroutine (scroll down for an explanation) is used
+   to build the scattering geometry.  It's arguments are the leg
+   index, the Cartesian coordinates (referenced to the absorber *at
+   the origin*) and the unique potential index of the atom.  In this
+   case, a single scattering path is calculated, so `addatom` is
+   called only once.  For a multiple scattering path, `addatom` would
+   be called repeatedly, once for each atom (or leg) in the path.
+   `addatom` fills the `rat` and `ipot` arrays.
 
 6. The call to `onepath` computes the parts of F-effective and
    stores them in the `colN` arrays.
@@ -129,8 +129,8 @@ naming conventions in Feff.
 |  index     | integer     | I   | path index                              |  9999                |
 |  deg       | double      | I   | path degeneracy                         |  required input      |
 |  nleg      | integer     | I   | number of legs in path                  |  required input      |
-|  rat       | double(3,0:legtot+1) | I   | cartesian positions of atoms in path |  use addatom    |
-|  ipot      | integer(legtot)  | I   | unique potentials of atoms in path      |  use addatom    |
+|  rat       | double(3,0:legtot+1) | I   | cartesian positions of atoms in path |  use addatom   |
+|  ipot      | integer(legtot)      | I   | unique potentials of atoms in path   |  use addatom   |
 |  iorder    | integer     | I   | order of approximation in genfmt        |  2                   |
 |  innnn     | integer     | I   | flag to write `feffNNNN.dat` file       |  0                   |
 |  ijson     | integer     | I   | flag to write `feffNNNN.json` file      |  0                   |
@@ -167,8 +167,9 @@ These arrays are the same (besides precision) as the corresponding
 columns.  While a `feffNNNN.dat` file can be exported (using the
 `nnnn` flag), the need to write/read that file is obviated.
 
-Direct access to `rat` and `ipot` is inconvenient and discouraged.
-Use `add_scatterer`.
+While you can certainly fill `rat` and `ipot` directly, `addatom` is
+more convenient.  In any case, be aware that the units in `rat` are
+bohr, not Angstrom.
 
 ## A comment on the addatom subroutine
 
