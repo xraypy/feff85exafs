@@ -368,7 +368,7 @@ is the getter's return value.
 
 =item C<xivec>
 
-The pointing vector of the incident beam for the ellipticity
+The Poynting vector of the incident beam for the ellipticity
 calculation.  Note that the setter's argument is an array reference as
 is the getter's return value.
 

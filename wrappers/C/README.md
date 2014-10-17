@@ -82,7 +82,7 @@ long main()
 
 9. The call to `clear_path` reinitializes the struct.  This is not
    strictly necessary in this case, but would be were the program to
-   go on to caompute another path.
+   go on to compute another path.
 
 10. Finally, the memory for `path` is deallocated and the program
     terminates.
