@@ -46,7 +46,7 @@ ok($path->nnnn,										  "set and read nnnn (boolean)");
 
 
 $path->evec([0,0,1]);
-ok((($path->evec->[0] == 0) and ($path->evec->[1] == 0) and ($path->evec->[2] == 1)),	  "set and read xivec");
+ok((($path->evec->[0] == 0) and ($path->evec->[1] == 0) and ($path->evec->[2] == 1)),	  "set and read evec");
 $path->evec([0,0,0]);
 ok((($path->evec->[0] == 0) and ($path->evec->[1] == 0) and ($path->evec->[2] == 0)),	  "unset evec");
 
@@ -88,7 +88,7 @@ ok(( ( abs($path->beta->[0] - 135) < $epsilon) and
 
 
 ok(-e 'f3ff0004.dat',									  "feffNNNN.dat file written");
-
+unlink 'f3ff0004.dat';
 
 
 $path->clear;
@@ -105,7 +105,6 @@ $path->clear;
 $path->atom( 0,     0, -3.610, -1);
 ok($path->errorcode == 1,                                                                 "error recognized: ipot negative");
 $path->clear;
-print $path->errormessage;
 
 
 
