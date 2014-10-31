@@ -15,40 +15,44 @@
 
 
 typedef struct {
-  /* INPUT: structure of path                                                       */
-  long index;        /* path index                                default = 9999    */
-  long nleg;         /* number of legs in path                    use add_scatterer */
-  double deg;        /* path degeneracy                           must be supplied  */
-  double **rat;      /* cartesian positions of atoms in path      use add_scatterer */
-  long *ipot;        /* unique potentials of atoms in path        use add_scatterer */
-  long iorder;       /* order of approximation in genfmt          default = 2       */
+  /* INPUT: structure of path                                                        */
+  long index;         /* path index                                default = 9999    */
+  long nleg;          /* number of legs in path                    use add_scatterer */
+  double deg;         /* path degeneracy                           must be supplied  */
+  double **rat;       /* cartesian positions of atoms in path      use add_scatterer */
+  long *ipot;         /* unique potentials of atoms in path        use add_scatterer */
+  long iorder;        /* order of approximation in genfmt          default = 2       */
 
-  /* INPUT: output flags for saving F_eff to a file                                 */
-  bool nnnn;         /* flag to write feffNNNN.dat file           default = false   */
-  bool json;         /* flag to write feffNNNN.json file          default = false   */
-  bool verbose;      /* flag to write screen messages             default = false   */
+  /* INPUT: output flags for saving F_eff to a file                                  */
+  bool nnnn;          /* flag to write feffNNNN.dat file           default = false   */
+  bool json;          /* flag to write feffNNNN.json file          default = false   */
+  bool verbose;       /* flag to write screen messages             default = false   */
 
-  /* INPUT: parameters controlling polarization                                     */
-  bool ipol;         /* flag to do polarization calculation       default = false   */
-  double *evec;      /* polarization vector                       default = (0,0,0) */
-  double elpty;      /* ellipticity                               default = 0       */
-  double *xivec;     /* direction of X-ray propagation            default = (0,0,0) */
+  /* INPUT: parameters controlling polarization                                      */
+  bool ipol;          /* flag to do polarization calculation       default = false   */
+  double *evec;       /* polarization vector                       default = (0,0,0) */
+  double elpty;       /* ellipticity                               default = 0       */
+  double *xivec;      /* direction of X-ray propagation            default = (0,0,0) */
 
-  /* OUTPUT: geometry information (leg length, beta, eta)                           */
-  double *ri;        /* leg lengths                                                 */
-  double *beta;      /* beta angles                                                 */
-  double *eta;       /* eta angles                                                  */
-  double reff;       /* half path length                          computed from ri  */
+  /* OUTPUT: geometry information (leg length, beta, eta)                            */
+  double *ri;         /* leg lengths                                                 */
+  double *beta;       /* beta angles                                                 */
+  double *eta;        /* eta angles                                                  */
+  double reff;        /* half path length                          computed from ri  */
 
-  /* OUTPUT: columns of feffNNNN.dat                                                */ 
-  long ne;           /* number of energy points actually used by Feff               */
-  double *k;         /* k grid for feff path calculation   column 1 in feffNNNN.dat */
-  double *real_phc;  /* central atom phase shifts          column 2 in feffNNNN.dat */ 
-  double *mag_feff;  /* magnitude of F_eff                 column 3 in feffNNNN.dat */ 
-  double *pha_feff;  /* phase of F_eff                     column 4 in feffNNNN.dat */ 
-  double *red_fact;  /* reduction factor                   column 5 in feffNNNN.dat */ 
-  double *lam;       /* mean free path                     column 6 in feffNNNN.dat */
-  double *rep;       /* real part of complex momentum      column 7 in feffNNNN.dat */
+  /* OUTPUT: columns of feffNNNN.dat                                                 */ 
+  long ne;            /* number of energy points actually used by Feff               */
+  double *k;          /* k grid for feff path calculation   column 1 in feffNNNN.dat */
+  double *real_phc;   /* central atom phase shifts          column 2 in feffNNNN.dat */ 
+  double *mag_feff;   /* magnitude of F_eff                 column 3 in feffNNNN.dat */ 
+  double *pha_feff;   /* phase of F_eff                     column 4 in feffNNNN.dat */ 
+  double *red_fact;   /* reduction factor                   column 5 in feffNNNN.dat */ 
+  double *lam;        /* mean free path                     column 6 in feffNNNN.dat */
+  double *rep;        /* real part of complex momentum      column 7 in feffNNNN.dat */
+
+  /* OUTPUT: error handling                                                          */
+  long errorcode;     /* error code from add_scatterer or make_path                  */
+  char *errormessage; /* error code from add_scatterer or make_path                  */
 } FEFFPATH;
 
 /* --------------------------------------------------------------------------------------------------------------- */
@@ -99,14 +103,16 @@ void onepath_(long *,                   /* path index */
 
 
 /* add_scatterer error codes */
-#define ERR_BADIPOT           1  /* ipot argument to make_path lt 0 or gt 7 */
-#define ERR_TOOCLOSE          2  /* coordinates are for an atom too close to the previous atom in the path */
-#define ERR_TOOMANYLEGS       4  /* nlegs gt legtot */
+#define ERR_NEGIPOT           1  /* ipot argument to add_scatterer lt 0 */
+#define ERR_BIGIPOT           2  /* ipot argument to add_scatterer gt 7 */
+#define ERR_TOOCLOSE          4  /* coordinates are for an atom too close to the previous atom in the path */
+#define ERR_TOOMANYLEGS       8  /* nlegs gt legtot */
 
 /* make_path error codes */
-#define ERR_NLEGISABS         1  /* the last atom specified is the absorber */
-#define ERR_DEGNEG            2  /* degeneracy is negative */
-#define ERR_BADINDEX          4  /* index lt 0 or gt 9999 */
-#define ERR_BADELPTY          8  /* elpty lt 0 or gt 1 */
-#define ERR_BADIORDER        16  /* iorder lt 0 or gt ? */
-#define ERR_FAILED           32  /* failed to compute path */
+#define ERR_FIRSTISABS        1  /* the first atom specified is the absorber */
+#define ERR_NLEGISABS         2  /* the last atom specified is the absorber */
+#define ERR_DEGNEG            4  /* degeneracy is negative */
+#define ERR_BADINDEX          8  /* index lt 0 or gt 9999 */
+#define ERR_BADELPTY         16  /* elpty lt 0 or gt 1 */
+#define ERR_BADIORDER        32  /* iorder lt 0 or gt ? */
+#define ERR_FAILED           64  /* failed to compute path */

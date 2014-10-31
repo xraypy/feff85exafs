@@ -7,6 +7,7 @@ long main()
 {
   long i, ret;
   FEFFPATH *path;
+  char errormessage[240] = {'\0'};
 
   path = malloc(sizeof(FEFFPATH));
   ret = create_path(path);
@@ -28,7 +29,15 @@ long main()
   path->deg     = 48.0;
   ret = add_scatterer(path,  0,     0, -3.61,  1); /* first atom after absorber */
   ret = add_scatterer(path, -1.805, 0, -1.805, 1); /* last atom before absorber */
+  if (ret > 0) {  /* check for errors */
+    printf("%s", path->errormessage);
+    exit(ret);
+  };
   ret = make_path(path);
+  if (ret > 0) {  /* check for errors */
+    printf("%s", path->errormessage);
+    exit(ret);
+  };
   
   /* for (i = 0; i < path->ne; i++) { */
   /*   printf(" %6.3f %11.4e %11.4e %11.4e %10.3e %11.4e %11.4e\n", */

@@ -18,6 +18,10 @@ has 'ipol'    => (is => 'rw', isa => 'Bool', default => 0, trigger => sub{pushba
 has 'elpty'   => (is => 'rw', isa => 'Num',  default => 0, trigger => sub{pushback(@_, 'elpty'  )},);
 has 'ne'      => (is => 'rw', isa => 'Int',  default => 0, trigger => sub{pushback(@_, 'ne'     )},);
 
+has 'errorcode'    => (is => 'rw', isa => 'Int',  default => 0,);
+has 'errormessage' => (is => 'rw', isa => 'Str',  default => q{},);
+
+
 ## arrays
 has 'evec'    => (traits  => ['Array'],
 		  is      => 'rw',
@@ -99,14 +103,20 @@ sub create_path {
 
 sub atom {
   my ($self, $x, $y, $z, $ip) = @_;
-  my $nleg = $self->wrapper->add_scatterer($x, $y, $z, $ip);
-  $self->nleg($nleg);
+  my $message;
+  my $ret = $self->wrapper->add_scatterer($x, $y, $z, $ip);
+  $self->errorcode($ret);
+  $self->errormessage($self->wrapper->swig_errormessage_get);
+  $self->nleg($self->wrapper->swig_nleg_get);
   return $self;
 };
 
 sub path {
   my ($self) = @_;
-  $self->wrapper->make_path;
+  my $message;
+  my $ret = $self->wrapper->make_path();
+  $self->errorcode($ret);
+  $self->errormessage($self->wrapper->swig_errormessage_get);
   ## clear out all the arrays
   $self->ne($self->wrapper->swig_ne_get);
   $self->clear_ri;
@@ -351,6 +361,34 @@ gets set correctly whenever the C<path> method is called.
 
 =back
 
+=head2 Error reporting
+
+=over 4
+
+=item C<errorcode> (integer)
+
+An integer error code from either C<atom> or C<path>.  Check for
+non-zero value.  For a non-zero return from C<atom>, calling C<path>
+is likely to cause a problem in the genfmt calculation.  For a
+non-zero return from C<path>, the genfmt calculation was skipped.  See
+C<errormessage> for an explanation of the problem.
+
+=item C<errormessage> (string)
+
+A explanation of words of the problem found during C<atom> or C<path>.
+
+   $path->deg(-48);
+   $path->atom(0, 0, 3.61, 1);
+   $path->path;
+   if ($path->errorcode) {
+      print $path->errormessage;
+   };
+   ## ==prints==>
+    Error in make_path
+        path degeneracy (-48.00) is negative
+
+=back
+
 =head2 Array reference valued attributes
 
 =over 4
@@ -366,6 +404,8 @@ is the getter's return value.
     print join(", ", @$evec_ref);
     ## ==prints==> 0, 0, 1
 
+Setting C<evec> will also set C<ipol> to true.
+
 =item C<xivec>
 
 The Poynting vector of the incident beam for the ellipticity
@@ -376,6 +416,8 @@ is the getter's return value.
     $xivec_ref = $path->xivec;
     print join(", ", @$xivec_ref);
     ## ==prints==> 1, 1, 0
+
+Setting C<xivec> will also set C<ipol> to true.
 
 =item C<ri>
 
@@ -422,7 +464,7 @@ column 5 from F<feffNNNN.dat>.
 
 =item C<lam>
 
-A reference to an array containing lambda, themean free path.  This is
+A reference to an array containing lambda, the mean free path.  This is
 column 6 from F<feffNNNN.dat>.
 
 =item C<rep>
@@ -430,6 +472,69 @@ column 6 from F<feffNNNN.dat>.
 A reference to an array containing the real part of the comple
 momentum.  This is column 7 from F<feffNNNN.dat>.
 
+=back
+
+=head1 Error codes
+
+The error codes returned by the C<atom> and C<path> methods are the
+sums of the codes actually found by the method call, thus the returned
+error codes are meant to be interpreted bitwise.
+
+=head2 C<atom> method
+
+If any of these are triggered, it is very likely that a call to
+C<path> will return unreliable results or may crash the program.
+
+=over 4
+
+=item C<1>
+
+ipot argument to add_scatterer is less than 0
+
+=item C<2>
+
+ipot argument to add_scatterer is greater than 7
+
+=item C<4>
+
+coordinates are for an atom too close to the previous atom in the path
+
+=item C<8>
+
+nlegs greater than legtot
+
+=back
+
+=head2 C<path> method
+
+If any of these are triggered, genfmt will not be called and all
+output arrays will be zero-filled.
+
+=over 4
+
+=item C<1>
+
+the first atom specified is the absorber
+
+=item C<2>
+
+the last atom specified is the absorber
+
+=item C<4>
+
+path degeneracy is negative
+
+=item C<8>
+
+path index not between 0 and 9999
+
+=item C<16>
+
+ellipticity not between 0 and 1
+
+=item C<32>
+
+iorder not between 0 and 10
 
 =back
 
@@ -450,10 +555,6 @@ L<Moose>
 =item *
 
 Getter method(s) for rat and ipot
-
-=item *
-
-Error handling is almost nonexistent
 
 =back
 

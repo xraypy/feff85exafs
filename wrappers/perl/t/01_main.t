@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 21;
+use Test::More tests => 31;
 use Cwd;
 
 use Xray::FeffPath;
@@ -88,6 +88,90 @@ ok(( ( abs($path->beta->[0] - 135) < $epsilon) and
 
 
 ok(-e 'f3ff0004.dat',									  "feffNNNN.dat file written");
+
+
+
+$path->clear;
+ok($path->Index == 9999,								  "path reset");
+
+
+
+$path->atom( 0,     0, -3.610, 9);
+ok($path->errorcode == 2,                                                                 "error recognized: ipot too big");
+$path->clear;
+
+
+
+$path->atom( 0,     0, -3.610, -1);
+ok($path->errorcode == 1,                                                                 "error recognized: ipot negative");
+$path->clear;
+print $path->errormessage;
+
+
+
+
+$path->atom( 0,     0, -3.610, 1);
+$path->atom( 0,     0, -3.710, 1);
+ok($path->errorcode == 4,                                                                 "error recognized: atoms too close");
+$path->clear;
+
+
+
+$path->atom( 0, 0,  0,     1);
+$path->atom( 0, 0, -3.61,  1);
+$path->path;
+ok($path->errorcode == 1,                                                                 "error recognized: begins with absorber");
+$path->clear;
+
+
+
+$path->atom( 0, 0, -3.61,  1);
+$path->atom( 0, 0,  0,     1);
+$path->path;
+ok($path->errorcode == 2,                                                                 "error recognized: ends with absorber");
+$path->clear;
+
+
+
+$path->deg(-48);
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 4,                                                                 "error recognized: negative degeneracy");
+$path->clear;
+
+
+
+$path->Index(40000);
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 8,                                                                 "error recognized: bad index");
+$path->clear;
+
+
+
+$path->elpty(-0.5);
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 16,                                                                "error recognized: bad elpty");
+$path->clear;
+
+
+
+$path->iorder(-1);
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 32,                                                                "error recognized: bad iorder");
+$path->clear;
+
+
+
+
+
+
 
 undef $path;
 chdir(cwd);

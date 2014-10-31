@@ -30,6 +30,7 @@ long main()
 {
   long i, ret;
   FEFFPATH *path;
+  char errormessage[240] = {'\0'};
 
   path = malloc(sizeof(FEFFPATH));
   ret = create_path(path);
@@ -41,7 +42,15 @@ long main()
   path->index   = 1;
   path->deg     = 12.0;
   ret = add_scatterer(path, 1.805, 0, 1.805, 1);
+  if (ret > 0) {
+    printf("%s", path->errormessage);
+    exit(ret);
+  };
   ret = make_path(path);
+  if (ret > 0) {
+    printf("%s", path->errormessage);
+    exit(ret);
+  };
 
   clear_path(path);
 
@@ -70,15 +79,19 @@ long main()
 
 7. The `add_scatterer` method is used to build the scattering
    geometry.  It's arguments are the Cartesian coordinates (referenced
-   to the absorber *at the origin*) and the unique potential index of
-   the atom.  In this case, a single scattering path is calculated, so
+   to the absorber *at the origin*), the unique potential index of the
+   atom.  The return value is an error code (see `feffpath.h`).  0
+   means no error.
+
+   In this case, a single scattering path is calculated, so
    `add_scatterer` is called only once.  For a multiple scattering
    path, `add_scatterer` would be called repeatedly, once for each
    atom (or leg) in the path.  `add_scatterer` fills the `rat` and
    `ipot` members of the struct and also sets `nleg`.
 
 8. The call to `make_path` computes the parts of F-effective and
-   stores them in the `path` struct.
+   stores them in the `path` struct.  The return value is an error
+   code (see `feffpath.h`).  0 means no error.
 
 9. The call to `clear_path` reinitializes the struct.  This is not
    strictly necessary in this case, but would be were the program to
@@ -125,6 +138,8 @@ naming conventions in Feff.  The output arrays for the columns of
 |  red\_fact | \*double   | O   | reduction factor, column 5 in `feffNNNN.dat`                 | |
 |  lam       | \*double   | O   | mean free path, column 6 in `feffNNNN.dat`                   | |
 |  rep       | \*double   | O   | real part of complex momentum, column 7 in `feffNNNN.dat`    | |
+|  errorcode | long       | O   | error code from `add\_scatterer` or `make\_path`             | |
+|  errormessage | \*char  | O   | error message from `add\_scatterer` or `make\_path`          | |
 
 A polarization calculation is enabled by setting the `ipol` element to
 a true value.  `evec` has 3 elements and represents the polarization
