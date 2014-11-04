@@ -59,7 +59,7 @@
  * LDOS      -30   20     0.1
 
                *** for EXAFS: RPATH 5.0 and uncomment the EXAFS card
- RPATH     4.7
+ RPATH     5.9
  EXAFS     20
 
  POTENTIALS
