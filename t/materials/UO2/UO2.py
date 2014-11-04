@@ -22,16 +22,16 @@ def do_fit(self, which):
 
     data = read_xdi(join(self.path, 'UO2.chik'), _larch=self._larch)
 
-    gds = Group(amp    = Parameter(1,      vary=True),
-                enot   = Parameter(0.01,   vary=True),
-                sso    = Parameter(0.003,  vary=True),
-                ssu    = Parameter(0.003,  vary=True),
-                sso2   = Parameter(0.003,  vary=True),
-                dro    = Parameter(0.0001, vary=True),
-                dru    = Parameter(0.0001, vary=True),
-                dro2   = Parameter(0.0001, vary=True),
-                nu     = Parameter(12,     vary=True),
-                no2    = Parameter(expr='2*nu'),
+    gds = Group(amp    = Parameter(1,      vary=True, _larch=self._larch),
+                enot   = Parameter(0.01,   vary=True, _larch=self._larch),
+                sso    = Parameter(0.003,  vary=True, _larch=self._larch),
+                ssu    = Parameter(0.003,  vary=True, _larch=self._larch),
+                sso2   = Parameter(0.003,  vary=True, _larch=self._larch),
+                dro    = Parameter(0.0001, vary=True, _larch=self._larch),
+                dru    = Parameter(0.0001, vary=True, _larch=self._larch),
+                dro2   = Parameter(0.0001, vary=True, _larch=self._larch),
+                nu     = Parameter(12,     vary=True, _larch=self._larch),
+                no2    = Parameter(expr='2*nu',       _larch=self._larch),
                 _larch=self._larch  )
 
     paths = list() 
@@ -59,6 +59,7 @@ def do_fit(self, which):
     paths.append(feffpath(realpath(join(folder, "feff0006.dat")), # 3rd shell O SS
                           degen  = 1,
                           s02    = 'amp*no2',
+                          #s02    = 'amp*nu*2',
                           e0     = 'enot',
                           sigma2 = 'sso2',
                           deltar = 'dro2', _larch=self._larch))
@@ -84,11 +85,14 @@ def do_fit(self, which):
     fit   = feffit(gds, dset, _larch=self._larch)
 
     if self.doplot:
-        _newplot(dset.data.r,  dset.data.chir_mag, xmax=8, win=2,
+        offset = max(dset.data.chir_mag)
+        _newplot(dset.data.r,  dset.data.chir_mag+offset, xmax=8, win=2,
               xlabel=r'$R \rm\,(\AA)$', label='data',
               ylabel=r'$|\chi(R)| \rm\,(\AA^{-3})$',
               title='Fit to '+self.folder, show_legend=True, _larch=self._larch)
-        _plot(dset.model.r, dset.model.chir_mag, label='fit', win=2, _larch=self._larch)
+        _plot(dset.model.r, dset.model.chir_mag+offset, label='fit', win=2, _larch=self._larch)
+        _plot(dset.data.r,  dset.data.chir_re, label='data', win=2, _larch=self._larch)
+        _plot(dset.model.r, dset.model.chir_re, label='fit', win=2, _larch=self._larch)
     #end if
     
     if self.verbose:

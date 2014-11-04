@@ -96,7 +96,15 @@ class FeffPath(object):
         self.status = None
 
 
-
+    def create(self):
+        """map the FEFFPATH struct onto a python object
+        """
+        pfeffpath = ctypes.pointer(FEFFPATHStruct())
+        self.status = out = self.xdilib.XDI_readfile(filename, pxdi)
+        if out < 0:
+            msg =  self.xdilib.XDI_errorstring(out)
+            msg = 'Error reading XDIFile %s\n%s' % (filename, msg)
+            raise XDIFileException(msg        
 
 
 

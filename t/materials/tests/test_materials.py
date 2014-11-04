@@ -59,20 +59,23 @@ def test_s02():
         yield check_s02, f
 
 ## check various fitting and statistical parameters from a canned fit
-# def test_fit():
-#     for f in folders:
-#         #if not tests[f].feffran: tests[f].run()
-#         if isfile(join(tests[f].path, tests[f].folder+'.skip')):
-#             yield check_true, "skipping data test for %s" % f
-#         elif isfile(join(tests[f].path, tests[f].folder+'.py')):
-#             tests[f].fit()
-#             for p in tests[f].blfit.params.covar_vars:
-#                 yield check_param, f, p, 'value'
-#                 yield check_param, f, p, 'stderr'
-#                 for p in ('chi_reduced', 'chi_square', 'rfactor'):
-#                     yield check_stat, f, p
-#         else:
-#             yield check_true, "no data tests for %s" % f
+def test_fit():
+    for f in folders:
+        #if not tests[f].feffran: tests[f].run()
+        if isfile(join(tests[f].path, tests[f].folder+'.skip')):
+            yield check_true, "skipping data test for %s" % f
+        elif isfile(join(tests[f].path, tests[f].folder+'.py')):
+            tests[f].fit()
+            for p in ('chi_reduced', 'chi_square', 'rfactor'):
+                yield check_stat, f, p
+            if (hasattr(tests[f].blfit.params, 'covar_vars')):
+                for p in tests[f].blfit.params.covar_vars:
+                    yield check_param, f, p, 'value'
+                    yield check_param, f, p, 'stderr'
+            else:
+                yield check_false, "fit could not evaluate uncertainties for %s" % f
+        else:
+            yield check_true, "no data tests for %s" % f
 
 ## remove the test run
 def test_clean():
@@ -123,15 +126,19 @@ def check_s02(folder):
 def check_true(msg):
     assert True, msg
 
+def check_false(msg):
+    assert False, msg
+
 def check_param(folder, param, part):
     bl=getattr(getattr(tests[folder].blfit.params, param), part)
     tr=getattr(getattr(tests[folder].trfit.params, param), part)
     assert abs(bl-tr) < tests[folder].epsfit, "%s of fitting parameter %s evaluated inconsistently for %s" % (part, param, folder)
 
+## this tests for < 0.1% deviation in statistic value, scaled to the size of the statistic
 def check_stat(folder, param):
     bl=getattr(tests[folder].blfit.params, param)
     tr=getattr(tests[folder].trfit.params, param)
-    assert abs(bl-tr) < tests[folder].epsfit, "statistic %s evaluated inconsistently for %s" % (param, folder)
+    assert (abs(bl-tr)/bl) < tests[folder].epsfit, "statistic %s evaluated inconsistently for %s (%.5f %.5f)" % (param, folder, bl, tr)
 
 def check_clean(folder):
     assert not isdir(tests[folder].testrun), "clean up %s calculation not successful" % folder

@@ -18,23 +18,25 @@ def do_fit(self, which):
         folder = self.testrun
     else:
         folder = self.baseline
+    #end if
 
     data = read_xdi(join(self.path, 'bromoadamantane.chik'), _larch=self._larch)
 
-    gds = Group(amp     = Parameter(1.021,     vary=False),
-                enot    = Parameter(4.01,      vary=True),
-                delr    = Parameter(-0.007,    vary=True),
-                brc     = Parameter(expr = '1.9521+delr'),
-                ss      = Parameter(0.003,     vary=True),
-                phir    = Parameter(109.29960 * 3.141592653589793 / 180,   vary=False),
-                cc      = Parameter(1.53780,   vary=False),
-                tanbeta = Parameter(expr = '(brc+cc)*tan(phir/2) / (brc-cc)'),
-                beta    = Parameter(expr = 'atan(tanbeta)'),
-                brc2    = Parameter(expr = '(brc-cc)*cos(phir/2)/cos(beta)'),
-                drh     = Parameter(0.04,      vary=True),
-                ssh     = Parameter(0.005,     vary=True),
-                ss2     = Parameter(expr = 'ss*(brc2/brc)**2'),
-                c3      = Parameter(-0.0007,   vary=True), _larch=self._larch  )
+    gds = Group(amp     = Parameter(1.021,     vary=False, _larch=self._larch),
+                enot    = Parameter(4.01,      vary=True,  _larch=self._larch),
+                delr    = Parameter(-0.007,    vary=True,  _larch=self._larch),
+                brc     = Parameter(expr = '1.9521+delr',  _larch=self._larch),
+                ss      = Parameter(0.003,     vary=True,  _larch=self._larch),
+                phir    = Parameter(109.29960 * 3.141592653589793 / 180,   vary=False, _larch=self._larch),
+                cc      = Parameter(1.53780,   vary=False, _larch=self._larch),
+                tanbeta = Parameter(expr = '(brc+cc)*tan(phir/2) / (brc-cc)', _larch=self._larch),
+                beta    = Parameter(expr = 'atan(tanbeta)', _larch=self._larch),
+                brc2    = Parameter(expr = '(brc-cc)*cos(phir/2)/cos(beta)', _larch=self._larch),
+                drh     = Parameter(0.04,      vary=True,  _larch=self._larch),
+                ssh     = Parameter(0.005,     vary=True,  _larch=self._larch),
+                ss2     = Parameter(expr = 'ss*(brc2/brc)**2', _larch=self._larch),
+                c3      = Parameter(-0.0007,   vary=True,  _larch=self._larch),
+                _larch=self._larch  )
 
     paths = list()
     paths.append(feffpath(realpath(join(folder, "feff0001.dat")),
@@ -70,11 +72,14 @@ def do_fit(self, which):
     fit   = feffit(gds, dset, _larch=self._larch)
 
     if self.doplot:
-        _newplot(dset.data.r,  dset.data.chir_mag, xmax=8, win=2,
-              xlabel=r'$R \rm\,(\AA)$', label='data',
-              ylabel=r'$|\chi(R)| \rm\,(\AA^{-3})$',
-              title='Fit to '+self.folder, show_legend=True, _larch=self._larch)
-        _plot(dset.model.r, dset.model.chir_mag, label='fit', win=2, _larch=self._larch)
+        offset = max(dset.data.chir_mag)
+        _newplot(dset.data.r,  dset.data.chir_mag+offset, xmax=8, win=2,
+                 xlabel=r'$R \rm\,(\AA)$', label='data',
+                 ylabel=r'$|\chi(R)| \rm\,(\AA^{-3})$',
+                 title='Fit to '+self.folder, show_legend=True, _larch=self._larch)
+        _plot(dset.model.r, dset.model.chir_mag+offset, label='fit', win=2, _larch=self._larch)
+        _plot(dset.data.r,  dset.data.chir_re, label='data', win=2, _larch=self._larch)
+        _plot(dset.model.r, dset.model.chir_re, label='fit', win=2, _larch=self._larch)
     #end if
     
     if self.verbose:
