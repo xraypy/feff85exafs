@@ -1,14 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <errno.h>
 #include <math.h>
 #include <assert.h>
 
 #include "feffpath.h"
-
-#define COPY_STRING(dest,src)  dest=calloc(strlen(src)+1, sizeof(char));\
-  strcpy(dest, src);
 
 _EXPORT(long) create_path(FEFFPATH *path) {
   /* Instantiate and initialize a FEFFPATH struct */
@@ -54,6 +50,7 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   /* --------------------------------------------------- */
 
   COPY_STRING(path->errormessage, "");
+  COPY_STRING(path->phbin, "phase.bin");
 
   return 0;
 }
@@ -103,6 +100,7 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
     path->rep[i]      = 0;
   }
   COPY_STRING(path->errormessage, "");
+  COPY_STRING(path->phbin, "phase.bin");
 }
 
 
@@ -135,6 +133,9 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   double evec[3];
   double xivec[3];
 
+  char *phbin;
+
+  COPY_STRING(phbin, path->phbin);
   iorder = path->iorder;
   index = path->index;
   nleg = path->nleg;
@@ -180,13 +181,15 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   if (error > 0) {
     return error;
   };
+  printf(">%s<\n", phbin);
 
   
-  onepath_(&index, &nleg, &deg, &iorder, &ipot, &rat,
+  onepath_(phbin, &index, &nleg, &deg, &iorder, &ipot, &rat,
 	   &ipol, &evec, &elpty, &xivec,
 	   &nnnn, &json, &verbose, &ri, &beta, &eta,
 	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
 
+  printf("after\n");
 
   /* --------------------------------------------------- */
   /* transfer everything into the struct                 */

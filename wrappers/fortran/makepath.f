@@ -13,6 +13,7 @@ c      parameter (pi = 3.14159 26535 89793 23846 26433d0)
 
 c+---------------------------------------------------------------------
 c     block of parameter declarations for onepath
+      character*256 phbin
       integer index, iorder, innnn, ijson, ivrbse
       double precision evec(3), xivec(3)
       double precision elpty
@@ -26,7 +27,7 @@ c     block of parameter declarations for onepath
 c+---------------------------------------------------------------------
 
 c     initialize everything
-      call inipath(index, nleg, deg, iorder,
+      call inipath(phbin, index, nleg, deg, iorder,
      &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
@@ -74,7 +75,7 @@ c     compute first shell of Copper (SS, deg=12)
       deg   = 12
       call addatom(1, -1.805, 0., -1.805, 1, ipot, rat)
 
-      call onepath(index, nleg, deg, iorder,
+      call onepath(phbin, index, nleg, deg, iorder,
      &       ipot, rat,
      &       ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
@@ -90,7 +91,7 @@ c        1       2(1pe11.4,1x))
 
 
 c     compute fourth shell of Copper (DS, deg=48)
-      call inipath(index, nleg, deg, iorder,
+      call inipath(phbin, index, nleg, deg, iorder,
      &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
@@ -103,7 +104,7 @@ c     compute fourth shell of Copper (DS, deg=48)
       call addatom(1,  0.,     0., -3.61,  1, ipot, rat)
       call addatom(2, -1.805,  0., -1.805, 1, ipot, rat)
 
-      call onepath(index, nleg, deg, iorder,
+      call onepath(phbin, index, nleg, deg, iorder,
      &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
@@ -131,7 +132,7 @@ c     compute fourth shell of Copper (DS, deg=48)
       end
 
 
-      subroutine inipath(index, nleg, deg, iorder,
+      subroutine inipath(phbin, index, nleg, deg, iorder,
      &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
@@ -151,7 +152,9 @@ c     taken from feff's HEADERS/dim.h
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
       dimension col6(nex), col7(nex)
+      character*256 phbin
 
+      phbin = 'phase.bin'
 
       index  = 9999
       nleg   = 0

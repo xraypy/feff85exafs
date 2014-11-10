@@ -12,6 +12,7 @@ long main()
   path = malloc(sizeof(FEFFPATH));
   ret = create_path(path);
 
+  COPY_STRING(path->phbin, "/home/bruce/git/feff85exafs/wrappers/phase.bin");
   path->nnnn    = 1;
   path->json    = 0;
   path->verbose = 1;

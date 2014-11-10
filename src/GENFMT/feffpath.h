@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <string.h>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #define _EXPORT(a) __declspec(dllexport) a _stdcall
@@ -15,6 +16,9 @@
 
 
 typedef struct {
+  /* INPUT: path to phase.bin file                                                   */
+  char *phbin;
+
   /* INPUT: structure of path                                                        */
   long index;         /* path index                                default = 9999    */
   long nleg;          /* number of legs in path                    use add_scatterer */
@@ -77,7 +81,8 @@ void clear_path(FEFFPATH*);
 long make_path(FEFFPATH*);
 void cleanup(FEFFPATH*);
 
-void onepath_(long *,                   /* path index */
+void onepath_(char *,
+	      long *,                   /* path index */
 	      long *,                   /* nlegs */
 	      double *,                 /* degeneracy */
 	      long *,                   /* iorder */
@@ -116,3 +121,6 @@ void onepath_(long *,                   /* path index */
 #define ERR_BADELPTY         16  /* elpty lt 0 or gt 1 */
 #define ERR_BADIORDER        32  /* iorder lt 0 or gt ? */
 #define ERR_FAILED           64  /* failed to compute path */
+
+#define COPY_STRING(dest,src)  dest=calloc(strlen(src)+1, sizeof(char));\
+  strcpy(dest, src);

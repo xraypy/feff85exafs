@@ -77,6 +77,7 @@ c     .  ntext                                  !number of text  lines
       dimension   eps1(3), eps2(3), vec1(3), vec2(3)
 
       character*128 string
+      character*9 phbin
       character*512 slog
       logical done, wnstar
       
@@ -98,7 +99,8 @@ c     used for divide-by-zero and trig tests
 c+---------------------------------------------------------------------
 c begin intialization
 
-      call genfmt_prep(ispin,
+      phbin = 'phase.bin'
+      call genfmt_prep(phbin, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
      &       xmu, edge, ik0,

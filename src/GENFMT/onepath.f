@@ -1,4 +1,4 @@
-      subroutine onepath(index, nleg, deg, iorder,
+      subroutine onepath(phbin, index, nleg, deg, iorder,
      &       ipot, rat,
      &       ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
@@ -11,6 +11,7 @@ c  compute a single path, generating the F matrix then returning the
 c  information contained in a feffNNNN.dat file
 c
 c  INPUT:
+c    phbin:    path to phase.bin file                character*(*)
 c    index:    path index                            integer
 c    nleg:     number of legs in path                integer
 c    deg:      path degeneracy                       double
@@ -43,6 +44,8 @@ c+---------------------------------------------------------------------
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
+
+      character*(*) phbin
 
 c+---------------------------------------------------------------------
 c     parameters related to the call to regenf
@@ -180,7 +183,8 @@ c+----------------------------------------------------------------------
 c     initialize everything needed for the genfmt calculation
 c+----------------------------------------------------------------------
 c      print *, '-- before genfmt_prep'
-      call genfmt_prep(ispin,
+      print *, istrln(phbin), phbin(1:istrln(phbin))
+      call genfmt_prep(phbin(1:istrln(phbin)), ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
      &       xmu, edge, ik0,

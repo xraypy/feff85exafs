@@ -1,5 +1,6 @@
-      subroutine rdxsph ( ne, ne1, ne3, nph, ihole, rnrmav,xmu,edge,
-     1               ik0, em, eref, iz, potlbl, ph, rkk, lmax, lmaxp1)
+      subroutine rdxsph ( phbin, 
+     1       ne, ne1, ne3, nph, ihole, rnrmav,xmu,edge,
+     2       ik0, em, eref, iz, potlbl, ph, rkk, lmax, lmaxp1)
       implicit double precision (a-h, o-z)
 c     reads file 'phase.bin' 
 c  Energy grid information
@@ -25,6 +26,8 @@ c     rkk - complex multipole matrix elements
 
       include '../HEADERS/dim.h'
 
+      character*(*) phbin
+
       character*6  potlbl
       dimension  potlbl(0:nphx)
 
@@ -43,7 +46,14 @@ c     use temp to write ph, rkk, since ne < nex
       complex*16 temp(nex*(2*ltot+1))
       dimension dum(3)
 
+      call triml(phbin)
+      open (unit=1, file=phbin, status='old', iostat=ios, err=3)
+      goto 6
+ 3    continue
+      phbin = 'phase.bin'
       open (unit=1, file='phase.bin', status='old', iostat=ios)
+
+ 6    continue
       call chopen (ios, 'phase.bin', 'rdxsph')
 
       read(1,10) nsp, ne, ne1, ne3, nph, ihole, ik0, npadx

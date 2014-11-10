@@ -1,4 +1,4 @@
-      subroutine genfmt_prep(ispin,
+      subroutine genfmt_prep(phbin, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
      &       xmu, edge, ik0,
@@ -58,10 +58,12 @@ c+----------------------------------------------------------------------
       character*2 atsym
       external atsym
 
+      character*256 phbin
 
 c     Read phase calculation input
-      call rdxsph (ne, ne1, ne3, npot, ihole, rnrmav, xmu, edge, ik0,
-     1             em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1)
+      call rdxsph (phbin,
+     1       ne, ne1, ne3, npot, ihole, rnrmav, xmu, edge, ik0,
+     2       em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1)
       call setkap (ihole, kinit, linit)
       ilinit = linit + 1
 
