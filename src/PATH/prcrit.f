@@ -48,7 +48,7 @@ c     Local variables
       complex*16 rkk(nex,8,nspx), eref2(nex,nspx)
       complex*16 ph4(nex, -ltot:ltot, nspx, 0:nphx)
 
-      character*9 phbin
+      character*256 phbin
 
 c     Need stuff from phase.bin
 c     Read phase calculation input, data returned via commons

@@ -3,6 +3,8 @@
      2       ik0, em, eref, iz, potlbl, ph, rkk, lmax, lmaxp1)
       implicit double precision (a-h, o-z)
 c     reads file 'phase.bin' 
+c
+c     phbin - specify path to phase.bin     (character*256)
 c  Energy grid information
 c     em   - complex energy grid
 c     eref - V_int + i*gamach/2 + self-energy correction
@@ -26,7 +28,7 @@ c     rkk - complex multipole matrix elements
 
       include '../HEADERS/dim.h'
 
-      character*(*) phbin
+      character*256 phbin
 
       character*6  potlbl
       dimension  potlbl(0:nphx)
@@ -47,11 +49,18 @@ c     use temp to write ph, rkk, since ne < nex
       dimension dum(3)
 
       call triml(phbin)
+c      print *, istrln(phbin), '--', phbin(1:istrln(phbin)), '--'
       open (unit=1, file=phbin, status='old', iostat=ios, err=3)
       goto 6
  3    continue
+      open (unit=1, file='phase.bin', status='old', iostat=ios, err=4)
+      goto 5
+
+ 4    continue
+      stop 'cannot find phase.bin in rdxsph'
+
+ 5    continue
       phbin = 'phase.bin'
-      open (unit=1, file='phase.bin', status='old', iostat=ios)
 
  6    continue
       call chopen (ios, 'phase.bin', 'rdxsph')

@@ -100,7 +100,7 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
     path->rep[i]      = 0;
   }
   COPY_STRING(path->errormessage, "");
-  COPY_STRING(path->phbin, "phase.bin");
+  /* COPY_STRING(path->phbin, "phase.bin"); */
 }
 
 
@@ -133,9 +133,10 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   double evec[3];
   double xivec[3];
 
-  char *phbin;
+  char phbin[256] = {'\0'};
 
-  COPY_STRING(phbin, path->phbin);
+  sprintf(phbin, "%-256s", path->phbin);
+  /* COPY_STRING(phbin, str); */
   iorder = path->iorder;
   index = path->index;
   nleg = path->nleg;
@@ -181,15 +182,13 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   if (error > 0) {
     return error;
   };
-  printf(">%s<\n", phbin);
 
-  
+  /* printf(">%s<\n", str); */
   onepath_(phbin, &index, &nleg, &deg, &iorder, &ipot, &rat,
 	   &ipol, &evec, &elpty, &xivec,
 	   &nnnn, &json, &verbose, &ri, &beta, &eta,
 	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
-
-  printf("after\n");
+  /* printf("after\n"); */
 
   /* --------------------------------------------------- */
   /* transfer everything into the struct                 */

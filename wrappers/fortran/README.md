@@ -36,7 +36,10 @@ c     taken from the feff HEADERS/dim.h
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
       dimension col6(nex), col7(nex)
 
+      character*256 phbin
+
 c     initialize everything
+      phbin   = 'phase.bin'
       index   = 9999
       nleg    = 0
       deg     = 0
@@ -83,7 +86,7 @@ c     compute first shell of Copper (SS, deg=12)
       nleg  = 2
       deg   = 12
       call addatom(1, -1.805, 0., -1.805, 1, ipot, rat)
-      call onepath(index, nleg, deg, iorder,
+      call onepath(phbin, index, nleg, deg, iorder,
      &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
@@ -94,16 +97,21 @@ c     compute first shell of Copper (SS, deg=12)
 
 1. All the necessary variables are typed, dimensioned, and initialized.
 
-2. Setting `nnnn` and `verbose` to a true value tells the program to
+2. `phbin` is a character*256 parameter containing the path to the
+   `phase.bin` file.  If not specified (or if the file does not
+   exist), `onepath` will try to read `phase.bin` in the current
+   working directory.
+
+3. Setting `nnnn` and `verbose` to a true value tells the program to
    write `feffNNNN.dat` files and to write a short message to the
    screen when it is written.
 
-3. The path index is set to 1.  This means the output file will be
+4. The path index is set to 1.  This means the output file will be
    called `feff0001.dat`.
 
-4. The degeneracy of the path is specified.
+5. The degeneracy of the path is specified.
 
-5. The `addatom` subroutine (scroll down for an explanation) is used
+6. The `addatom` subroutine (scroll down for an explanation) is used
    to build the scattering geometry.  It's arguments are the leg
    index, the Cartesian coordinates (referenced to the absorber *at
    the origin*) and the unique potential index of the atom.  In this
@@ -112,7 +120,7 @@ c     compute first shell of Copper (SS, deg=12)
    be called repeatedly, once for each atom (or leg) in the path.
    `addatom` fills the `rat` and `ipot` arrays.
 
-6. The call to `onepath` computes the parts of F-effective and
+7. The call to `onepath` computes the parts of F-effective and
    stores them in the `colN` arrays.
 
 
@@ -124,32 +132,33 @@ descriptions, and default values.  Input parameters are marked with
 with "O".  Many of the names are chosen to be consistent with the
 naming conventions in Feff.
 
-| element    | type        | I/O | description                             | default              |
-| ---------- | ----------  | --- |---------------------------------------- | -------------------- |
-|  index     | integer     | I   | path index                              |  9999                |
-|  deg       | double      | I   | path degeneracy                         |  required input      |
-|  nleg      | integer     | I   | number of legs in path                  |  required input      |
-|  rat       | double(3,0:legtot+1) | I   | cartesian positions of atoms in path |  use addatom   |
-|  ipot      | integer(legtot)      | I   | unique potentials of atoms in path   |  use addatom   |
-|  iorder    | integer     | I   | order of approximation in genfmt        |  2                   |
-|  innnn     | integer     | I   | flag to write `feffNNNN.dat` file       |  0                   |
-|  ijson     | integer     | I   | flag to write `feffNNNN.json` file      |  0                   |
-|  iverbose  | integer     | I   | flag to write screen messages           |  0                   |
-|  ipol      | integer     | I   | flag to do polarization calculation     |  0                   |
-|  evec      | double(3)   | I   | polarization vector                     |  (0,0,0)             |
-|  elpty     | double      | I   | ellipticity                             |  0                   |
-|  xivec     | double(3)   | I   | direction of X-ray propagation          |  (0,0,0)             |
-|  ri        | double(legtot)     | O | leg lengths                        |                      |
-|  beta      | double(legtot+1)   | O | beta angles                        |                      |
-|  eta       | double(0:legtot+1) | O | eta angles                         |                      |
-|  ne        | integer     | O   | number of energy points actually used by Feff                | |
-|  col1      | double(nex) | O   | k grid for calculation, column 1 in `feffNNNN.dat`           | |
-|  col2      | double(nex) | O   | central atom phase shifts. column 2 in `feffNNNN.dat`        | |
-|  col3      | double(nex) | O   | magnitude of F\_eff, column 3 in `feffNNNN.dat`              | |
-|  col4      | double(nex) | O   | phase of F\_eff, column 4 in `feffNNNN.dat`                  | |
-|  col5      | double(nex) | O   | reduction factor, column 5 in `feffNNNN.dat`                 | |
-|  col6      | double(nex) | O   | mean free path, column 6 in `feffNNNN.dat`                   | |
-|  col7      | double(nex) | O   | real part of complex momentum, column 7 in `feffNNNN.dat`    | |
+| element    | type          | I/O | description                             | default              |
+| ---------- | ------------  | --- |---------------------------------------- | -------------------- |
+|  phbin     | character*256 | I   | path index                              |  `phase.bin`         |
+|  index     | integer       | I   | path index                              |  9999                |
+|  deg       | double        | I   | path degeneracy                         |  required input      |
+|  nleg      | integer       | I   | number of legs in path                  |  required input      |
+|  rat       | double(3,0:legtot+1) | I   | cartesian positions of atoms in path |  use addatom     |
+|  ipot      | integer(legtot)      | I   | unique potentials of atoms in path   |  use addatom     |
+|  iorder    | integer       | I   | order of approximation in genfmt        |  2                   |
+|  innnn     | integer       | I   | flag to write `feffNNNN.dat` file       |  0                   |
+|  ijson     | integer       | I   | flag to write `feffNNNN.json` file      |  0                   |
+|  iverbose  | integer       | I   | flag to write screen messages           |  0                   |
+|  ipol      | integer       | I   | flag to do polarization calculation     |  0                   |
+|  evec      | double(3)     | I   | polarization vector                     |  (0,0,0)             |
+|  elpty     | double        | I   | ellipticity                             |  0                   |
+|  xivec     | double(3)     | I   | direction of X-ray propagation          |  (0,0,0)             |
+|  ri        | double(legtot)     | O | leg lengths                          |                      |
+|  beta      | double(legtot+1)   | O | beta angles                          |                      |
+|  eta       | double(0:legtot+1) | O | eta angles                           |                      |
+|  ne        | integer       | O   | number of energy points actually used by Feff                | |
+|  col1      | double(nex)   | O   | k grid for calculation, column 1 in `feffNNNN.dat`           | |
+|  col2      | double(nex)   | O   | central atom phase shifts. column 2 in `feffNNNN.dat`        | |
+|  col3      | double(nex)   | O   | magnitude of F\_eff, column 3 in `feffNNNN.dat`              | |
+|  col4      | double(nex)   | O   | phase of F\_eff, column 4 in `feffNNNN.dat`                  | |
+|  col5      | double(nex)   | O   | reduction factor, column 5 in `feffNNNN.dat`                 | |
+|  col6      | double(nex)   | O   | mean free path, column 6 in `feffNNNN.dat`                   | |
+|  col7      | double(nex)   | O   | real part of complex momentum, column 7 in `feffNNNN.dat`    | |
 
 A polarization calculation is enabled by setting the `ipol` element to
 a true value.  `evec` has 3 elements and represents the polarization

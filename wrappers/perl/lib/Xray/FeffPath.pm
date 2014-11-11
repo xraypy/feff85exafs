@@ -7,6 +7,7 @@ use List::MoreUtils qw(any);
 has 'wrapper' => (is => 'ro', isa => 'Xray::FeffPathWrapper', default => sub{ Xray::FeffPathWrapper::FEFFPATH->new() });
 
 ## simple scalars
+has 'phbin'   => (is => 'rw', isa => 'Str',  default => 0, trigger => sub{pushback(@_, 'phbin'  )},);
 has 'Index'   => (is => 'rw', isa => 'Int',  default => 0, trigger => sub{pushback(@_, 'Index'  )},);
 has 'nleg'    => (is => 'rw', isa => 'Int',  default => 0, trigger => sub{pushback(@_, 'nleg'   )},);
 has 'deg'     => (is => 'rw', isa => 'Num',  default => 0, trigger => sub{pushback(@_, 'deg'    )},);
@@ -68,7 +69,12 @@ sub pushback {
   my ($self, $new, $old, $which) = @_;
   return if (any {$_ eq $which} qw(nleg ne));
   my $method = join("_", "swig", lc($which), "set");
-  $self->wrapper->$method($new);
+#  if ($which eq 'phbin') {
+#    my $str = $new . " " x (256-length($new));
+#    $self->wrapper->$method($str);
+#  } else {
+    $self->wrapper->$method($new);
+#  };
   $self->ipol(1) if (($which eq 'elpty') and $self->wrapper->swig_elpty_get);
 };
 
@@ -278,8 +284,8 @@ To make a MS paths do:
    print $path->nleg, $/;
    #   ==prints===> 4
 
-Note that there is no setter method for the nleg attribute.  It is set
-by the call to the C<atom> method.
+Note that there is no setter method for the nleg attribute.  Rather,
+C<nleg> is incremented by each call to the C<atom> method.
 
 =item C<path>
 
@@ -304,6 +310,13 @@ method of the same name.  Each of the following exists:
 
 =over 4
 
+=item C<phbin> (character, default = phase.bin)
+
+The path to the F<phase.bin> file.  This gets right-padded with spaces
+to 256 characters, which is the length of the parameter in the
+underlying Fortran library.  Therefore, the value returned by the
+getter will be right-padded.
+
 =item C<Index> (integer, default = 9999)
 
 The path index, used for form the name of the output F<feffNNNN.dat>
@@ -316,6 +329,9 @@ Moose-y way:
    print $path->Index, $/;
    ## ==prints==> 4
 
+Note that this attribute (but only this one) is capitalized to avoid
+confusion with the built-in C<index> function.
+
 =item C<deg> (float, default = 0)
 
 The path degeneracy.  This is required input for a calculation.
@@ -323,7 +339,7 @@ The path degeneracy.  This is required input for a calculation.
 =item C<nleg> (integer, default = 0)
 
 The number of legs in the path.  This should never be set by hand.  It
-gets set correctly whenever the C<atom> method is called.
+gets incremented by calls to the C<atom> method.
 
 =item C<iorder> (integer, default = 2)
 
@@ -343,7 +359,8 @@ Flag for writing screen messages as files are written.
 
 =item C<ipol> (boolean, default = 0)
 
-Perform polarization calculation.
+Perform polarization calculation.  This gets toggled to true whenever
+any of C<elpty>, C<evec>, or C<xivec> are set.
 
 =item C<elpty> (integer, default = 0)
 
@@ -352,12 +369,12 @@ Ellipticity for use in polarization calculation.
 =item C<reff> (float, default = 0)
 
 Half path length.  This should never be set by hand.  It
-gets set correctly whenever the C<path> method is called.
+gets set correctly when the C<path> method is called.
 
 =item C<ne> (integer, default = 0)
 
 Number of outpit k grid point.  This should never be set by hand.  It
-gets set correctly whenever the C<path> method is called.
+gets set correctly when the C<path> method is called.
 
 =back
 
@@ -428,13 +445,13 @@ C<nleg> elements.
 =item C<beta>
 
 The Eulerian beta angles (in degrees) of the specified path.  This
-gets set when C<path> is called.  It returns an reference to an array
+gets set when C<path> is called.  It returns a reference to an array
 with C<nleg> elements.
 
 =item C<eta>
 
 The Eulerian eta angles (in degrees) of the specified path.  This gets
-set when C<path> is called.  It returns an reference to an array with
+set when C<path> is called.  It returns a reference to an array with
 C<nleg> elements.
 
 =item C<k>
@@ -487,19 +504,19 @@ C<path> will return unreliable results or may crash the program.
 
 =over 4
 
-=item C<1>
+=item I<1>
 
 ipot argument to add_scatterer is less than 0
 
-=item C<2>
+=item I<2>
 
 ipot argument to add_scatterer is greater than 7
 
-=item C<4>
+=item I<4>
 
 coordinates are for an atom too close to the previous atom in the path
 
-=item C<8>
+=item I<8>
 
 nlegs greater than legtot
 
@@ -512,27 +529,27 @@ output arrays will be zero-filled.
 
 =over 4
 
-=item C<1>
+=item I<1>
 
 the first atom specified is the absorber
 
-=item C<2>
+=item I<2>
 
 the last atom specified is the absorber
 
-=item C<4>
+=item I<4>
 
 path degeneracy is negative
 
-=item C<8>
+=item I<8>
 
 path index not between 0 and 9999
 
-=item C<16>
+=item I<16>
 
 ellipticity not between 0 and 1
 
-=item C<32>
+=item I<32>
 
 iorder not between 0 and 10
 
@@ -581,6 +598,6 @@ Note that the feffpath library itself is NOT public domain, nor is the
 Fortran source code it relies upon.
 
 Author: Bruce Ravel (bravel AT bnl DOT gov).
-Last update: 2 October, 2014
+Last update: 4 November, 2014
 
 =cut

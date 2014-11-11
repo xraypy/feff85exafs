@@ -16,7 +16,8 @@ C  -- If null string or blank string, return length zero.
 C  -- Find rightmost non-blank character.
       ILEN = LEN (STRING)
       DO 20  I = ILEN, 1, -1
-         IF (STRING(I:I).NE.BLANK .AND. STRING(I:I).NE.TAB)  GOTO 30
+         IF (STRING(I:I).NE.BLANK .AND. STRING(I:I).NE.TAB
+     &        .AND. STRING(I:I).NE.CHAR(0))  GOTO 30
    20 CONTINUE
    30 ISTRLN = I
 

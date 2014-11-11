@@ -27,12 +27,13 @@ c     block of parameter declarations for onepath
 c+---------------------------------------------------------------------
 
 c     initialize everything
-      call inipath(phbin, index, nleg, deg, iorder,
+      call inipath(index, nleg, deg, iorder,
      &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
       ivrbse = 1
+      phbin  = 'phase.bin'
 
 c+---------------------------------------------------------------------
 c  compute a single path, generating the F matrix then returning the 
@@ -91,7 +92,7 @@ c        1       2(1pe11.4,1x))
 
 
 c     compute fourth shell of Copper (DS, deg=48)
-      call inipath(phbin, index, nleg, deg, iorder,
+      call inipath(index, nleg, deg, iorder,
      &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
@@ -132,7 +133,7 @@ c     compute fourth shell of Copper (DS, deg=48)
       end
 
 
-      subroutine inipath(phbin, index, nleg, deg, iorder,
+      subroutine inipath(index, nleg, deg, iorder,
      &       ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
@@ -153,8 +154,6 @@ c     taken from feff's HEADERS/dim.h
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
       dimension col6(nex), col7(nex)
       character*256 phbin
-
-      phbin = 'phase.bin'
 
       index  = 9999
       nleg   = 0

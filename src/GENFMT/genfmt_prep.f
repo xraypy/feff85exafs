@@ -16,26 +16,27 @@ c  abstract out the initialization parts of genfmt.  this can then be
 c  dropped into genfmt for normal use or be used as part of a single-path
 c  library
 c+----------------------------------------------------------------------
+c     phbin  - specify path to phase.bin     (character*256)
 c  Energy grid information
-c     em   - complex energy grid
-c     eref - V_int + i*gamach/2 + self-energy correction
-c     ne   - total number of points in complex energy grid
-c     ne1  - number of points on main horizontal axis
-c     ne2  - number of points on vertical vertical axis ne2=ne-ne1-ne3
-c     ne3  - number of points on auxilary horizontal axis (need for f')
-c     xmu  - Fermi energy
-c     edge - x-ray frequency for final state at Fermi level
-c     ik0  - grid point index at Fermi level
+c     em     - complex energy grid
+c     eref   - V_int + i*gamach/2 + self-energy correction
+c     ne     - total number of points in complex energy grid
+c     ne1    - number of points on main horizontal axis
+c     ne2    - number of points on vertical vertical axis ne2=ne-ne1-ne3
+c     ne3    - number of points on auxilary horizontal axis (need for f')
+c     xmu    - Fermi energy
+c     edge   - x-ray frequency for final state at Fermi level
+c     ik0    - grid point index at Fermi level
 c  Potential type information
-c     npot - number of potential types
-c     iz  - charge of nuclei (atomic number)
+c     npot   - number of potential types
+c     iz     - charge of nuclei (atomic number)
 c     potlbl - label for each potential type
-c     lmax - max orb momentum for each potential type
-c     ihole - index of core-hole orbital for absorber (iph=0)
+c     lmax   - max orb momentum for each potential type
+c     ihole  - index of core-hole orbital for absorber (iph=0)
 c     rnrmav - average Norman radius (used in headers only)
 c  Main output of xsect and phases module (except that in xsect.bin)
-c     ph  - complex scattering phase shifts
-c     rkk - complex multipole matrix elements
+c     ph     - complex scattering phase shifts
+c     rkk    - complex multipole matrix elements
 c+----------------------------------------------------------------------
 
       implicit double precision (a-h, o-z)
@@ -61,6 +62,7 @@ c+----------------------------------------------------------------------
       character*256 phbin
 
 c     Read phase calculation input
+c      print *, 'calling rdxsph'
       call rdxsph (phbin,
      1       ne, ne1, ne3, npot, ihole, rnrmav, xmu, edge, ik0,
      2       em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1)

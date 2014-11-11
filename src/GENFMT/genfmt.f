@@ -77,7 +77,7 @@ c     .  ntext                                  !number of text  lines
       dimension   eps1(3), eps2(3), vec1(3), vec2(3)
 
       character*128 string
-      character*9 phbin
+      character*256 phbin
       character*512 slog
       logical done, wnstar
       

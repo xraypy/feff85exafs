@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 31;
+use Test::More tests => 33;
 use Cwd;
 
 use Xray::FeffPath;
@@ -21,6 +21,13 @@ my $ret = $path->create_path;
 ok($ret == $path,									  "called create_path");
 
 
+my $str = "../../fortran/phase.bin";
+$path->phbin($str);
+##print $path->phbin, $/;
+##(-e $path->phbin) ? print "ok\n" : print "nope\n";
+(my $phbin = $path->phbin) =~ s{\s+\z}{};
+ok($path->phbin eq $phbin,                                                                "set and read phbin");
+ok($path->wrapper->swig_phbin_get eq $phbin ,                                             "low level phbin");
 
 $path->deg(48);
 ok($path->deg == 48,									  "set and read degeneracy");

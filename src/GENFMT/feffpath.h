@@ -14,7 +14,6 @@
 #define bohr   0.529177249    /* bohr, a unit of length, in Ångström */
 #define pi     3.1415926535897932384626433  /* π */
 
-
 typedef struct {
   /* INPUT: path to phase.bin file                                                   */
   char *phbin;

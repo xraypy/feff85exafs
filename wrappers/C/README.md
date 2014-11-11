@@ -35,6 +35,7 @@ long main()
   path = malloc(sizeof(FEFFPATH));
   ret = create_path(path);
 
+  COPY_STRING(path->phbin, "/home/bruce/git/feff85exafs/wrappers/fortran/phase.bin");
   path->nnnn    = 1;
   path->verbose = 1;
 
@@ -66,18 +67,26 @@ long main()
    allocated for it.
 
 3. The call to `create_path` allocates memory for all elements of the
-   struct and initializes everything.
+   struct and initializes everything.  The `phbin` attribute, which
+   specifies the location of the `phase.bin` file, is set to
+   `phase.bin` in the current working directory.
 
-4. Setting `nnnn` and `verbose` to a true value tells the program to
+4. The `COPY_STRING` macro (see `feffpath.h`) is used to set the phbin
+   attribute to the actual location of the `phase.bin` file.  Note
+   that the fortran parameter in the `onepath` library has this string
+   dimensioned to be 256 characters.  And it's fortran, so it probably
+   won't deal gracefully with unicode characters.
+
+5. Setting `nnnn` and `verbose` to a true value tells the program to
    write `feffNNNN.dat` files and to write a short message to the
    screen when it is written.
 
-5. The path index is set to 1.  This means the output file will be
+6. The path index is set to 1.  This means the output file will be
    called `feff0001.dat`.
 
-6. The degeneracy of the path is specified.
+7. The degeneracy of the path is specified.
 
-7. The `add_scatterer` method is used to build the scattering
+8. The `add_scatterer` method is used to build the scattering
    geometry.  It's arguments are the Cartesian coordinates (referenced
    to the absorber *at the origin*), the unique potential index of the
    atom.  The return value is an error code (see `feffpath.h`).  0
@@ -89,15 +98,17 @@ long main()
    atom (or leg) in the path.  `add_scatterer` fills the `rat` and
    `ipot` members of the struct and also sets `nleg`.
 
-8. The call to `make_path` computes the parts of F-effective and
+9. The call to `make_path` computes the parts of F-effective and
    stores them in the `path` struct.  The return value is an error
    code (see `feffpath.h`).  0 means no error.
 
-9. The call to `clear_path` reinitializes the struct.  This is not
-   strictly necessary in this case, but would be were the program to
-   go on to compute another path.
+10. The call to `clear_path` reinitializes the struct.  This is not
+	strictly necessary in this case, but would be were the program to
+	go on to compute another path.  Note that clear_path does not
+	reset `phbin`, `nnnn`, or `json`, which are assumed to be constant
+	from time to time calling `make_path`.
 
-10. Finally, the memory for `path` is deallocated and the program
+11. Finally, the memory for `path` is deallocated and the program
     terminates.
 
 
@@ -113,6 +124,7 @@ naming conventions in Feff.  The output arrays for the columns of
 
 | element    | type       | I/O | description                             | default              |
 | ---------- | --------   | --- |---------------------------------------- | -------------------- |
+|  phbin     | \*char     | I   | path to `phase.bin`                     |  `phase.bin`         |
 |  index     | long       | I   | path index                              |  9999                |
 |  deg       | double     | I   | path degeneracy                         |  required input      |
 |  nleg      | long       | I   | number of legs in path                  |  use add\_scatterer  |
@@ -138,8 +150,8 @@ naming conventions in Feff.  The output arrays for the columns of
 |  red\_fact | \*double   | O   | reduction factor, column 5 in `feffNNNN.dat`                 | |
 |  lam       | \*double   | O   | mean free path, column 6 in `feffNNNN.dat`                   | |
 |  rep       | \*double   | O   | real part of complex momentum, column 7 in `feffNNNN.dat`    | |
-|  errorcode | long       | O   | error code from `add\_scatterer` or `make\_path`             | |
-|  errormessage | \*char  | O   | error message from `add\_scatterer` or `make\_path`          | |
+|  errorcode | long       | O   | error code from `add_scatterer` or `make_path`               | |
+|  errormessage | \*char  | O   | error message from `add_scatterer` or `make_path`            | |
 
 A polarization calculation is enabled by setting the `ipol` element to
 a true value.  `evec` has 3 elements and represents the polarization
