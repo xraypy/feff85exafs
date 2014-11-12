@@ -195,6 +195,7 @@ c     argument for snlm (an output)
 c     things set in genfmt_prep
      &       eref, ph, xk, ck, ckmag, xkr,
      &       nsp, ll, npath, ntotal, nused, xportx)
+c      print *, 1
 
 c+----------------------------------------------------------------------
 c     pull out the central atom phase shifts
@@ -229,6 +230,7 @@ c      print *, '-- logicals'
       verbse = .false.
       if (ivrbse .gt. 0) verbse=.true.
 
+c      print *, 2
 c+----------------------------------------------------------------------
 c     fetch the standard output header lines from xsect.json
 c+----------------------------------------------------------------------
@@ -287,6 +289,7 @@ c     Start cycle over spin
          cchi(ie) = 0
       enddo
 
+c      print *, 3
       do 6000 is = 1, nsp
          if (nsp.eq.1) then
             call mmtr(bmati, ipol, ispin, le2, angks, ptz, lind,
@@ -451,6 +454,7 @@ c           Jump to here from ck(ie)=0 test above.
 c        end of energy loop
  6000 continue
 c     end of loop over spins
+c      print *, 4
 
 c+----------------------------------------------------------------------
 c     compute the importance factor of this path
@@ -478,6 +482,7 @@ c        remove 2 pi jumps in phase
          sck(ie)  = cmplx(ck(ie))
  15   continue
 
+c      print *, 5
 
 c+----------------------------------------------------------------------
 c  the following get stored in feff.bin for each path:
@@ -495,6 +500,7 @@ c+----------------------------------------------------------------------
       call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk,sck,
      &       col1, col2, col3, col4, col5, col6, col7)
 
+c      print *, 6
 
       if (nnnn) then
 c        Prepare output file feffnnnn.dat
@@ -542,6 +548,7 @@ c        Done with feff.dat
          close (unit=3)
       end if
 c     end of conditional for writing feffNNNN.dat
+c      print *, 7
 
 
 c+----------------------------------------------------------------------

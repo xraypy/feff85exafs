@@ -51,7 +51,7 @@ typedef struct {
   double *pha_feff;   /* phase of F_eff                     column 4 in feffNNNN.dat */ 
   double *red_fact;   /* reduction factor                   column 5 in feffNNNN.dat */ 
   double *lam;        /* mean free path                     column 6 in feffNNNN.dat */
-  double *rep;        /* real part of complex momentum      column 7 in feffNNNN.dat */
+  double *realp;      /* real part of complex momentum      column 7 in feffNNNN.dat */
 
   /* OUTPUT: error handling                                                          */
   long errorcode;     /* error code from add_scatterer or make_path                  */

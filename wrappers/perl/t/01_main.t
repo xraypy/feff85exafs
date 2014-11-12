@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 use strict;
 use warnings;
@@ -75,7 +75,7 @@ $path->atom(-1.805, 0, -1.805, 1);
 ok($path->nleg == 3,									  "added second scatterer");
 ok($path->wrapper->swig_nleg_get == 3,							  "low level nleg");
 
-
+## fails here due to realp problem in path method
 
 $ret = $path->path;
 ok($ret == $path,									  "called path");
@@ -97,6 +97,7 @@ ok(( ( abs($path->beta->[0] - 135) < $epsilon) and
 ok(-e 'f3ff0004.dat',									  "feffNNNN.dat file written");
 unlink 'f3ff0004.dat';
 
+## occassionally fails here, clearly during call to clear, more often SIGSEGV (wait status: 139), occassionally SIGFPE (134)
 
 $path->clear;
 ok($path->Index == 9999,								  "path reset");
@@ -171,12 +172,12 @@ $path->atom( 0,     0, -3.61,  1);
 $path->atom(-1.805, 0, -1.805, 1);
 $path->path;
 ok($path->errorcode == 32,                                                                "error recognized: bad iorder");
-$path->clear;
+#$path->clear;
 
 
 
 
-
+## occassional SIGSEGV or SIGFPE at this point
 
 
 undef $path;

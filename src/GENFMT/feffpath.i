@@ -63,8 +63,8 @@
     if ((index < 0) || (index >= nex)) return -1;
     else return path->lam[index];
   }
-  double get_rep(FEFFPATH *path, int index) {
+  double get_realp(FEFFPATH *path, int index) {
     if ((index < 0) || (index >= nex)) return -1;
-    else return path->rep[index];
+    else return path->realp[index];
   }
 %}

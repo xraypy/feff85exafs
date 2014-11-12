@@ -55,8 +55,8 @@ has 'red_fact' => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', def
 		   handles => {clear_red_fact => 'clear', push_red_fact  => 'push', });
 has 'lam'      => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', default => sub { [] },
 		   handles => {clear_lam => 'clear', push_lam  => 'push', });
-has 'rep'      => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', default => sub { [] },
-		   handles => {clear_rep => 'clear', push_rep  => 'push', });
+has 'realp'    => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', default => sub { [] },
+		   handles => {clear_realp => 'clear', push_realp  => 'push', });
 
 sub BUILD {
   my ($self) = @_;
@@ -69,12 +69,11 @@ sub pushback {
   my ($self, $new, $old, $which) = @_;
   return if (any {$_ eq $which} qw(nleg ne));
   my $method = join("_", "swig", lc($which), "set");
-#  if ($which eq 'phbin') {
-#    my $str = $new . " " x (256-length($new));
-#    $self->wrapper->$method($str);
-#  } else {
+  if ($self->meta->get_attribute($which)->type_constraint eq 'Num') {
+    $self->wrapper->$method(1.0*$new);
+  } else {
     $self->wrapper->$method($new);
-#  };
+  };
   $self->ipol(1) if (($which eq 'elpty') and $self->wrapper->swig_elpty_get);
 };
 
@@ -120,6 +119,7 @@ sub atom {
 sub path {
   my ($self) = @_;
   my $message;
+  $|=1;
   my $ret = $self->wrapper->make_path();
   $self->errorcode($ret);
   $self->errormessage($self->wrapper->swig_errormessage_get);
@@ -133,14 +133,15 @@ sub path {
   $self->clear_mag_feff;
   $self->clear_pha_feff;
   $self->clear_red_fact;
-  $self->clear_rep;
   $self->clear_lam;
-  ## fill then with the results of the calculation
+  $self->clear_realp;
+  ## fill with the results of the calculation
   for my $i (0 .. $self->nleg-1) {
     $self->push_ri($self->wrapper->get_ri($i));
     $self->push_beta($self->wrapper->get_beta($i));
     $self->push_eta($self->wrapper->get_eta($i));
   };
+  my $trinket;
   for my $i (0 .. $self->ne-1) {
     $self->push_k($self->wrapper->get_k($i));
     $self->push_real_phc($self->wrapper->get_real_phc($i));
@@ -148,13 +149,19 @@ sub path {
     $self->push_pha_feff($self->wrapper->get_pha_feff($i));
     $self->push_red_fact($self->wrapper->get_red_fact($i));
     $self->push_lam($self->wrapper->get_lam($i));
-    $self->push_rep($self->wrapper->get_rep($i));
+  };
+  # accessing the wrapper get_realp method intermittently causes a SIGSEGV
+  # but only get_realp...?
+  for my $i (0 .. $self->ne-1) {
+    $trinket = $self->wrapper->get_realp($i);
+    $self->push_realp($trinket);
   };
   return $self;
 };
 
 sub clear {
   my ($self) = @_;
+  ## occassional failure to call this method
   $self->wrapper->clear_path;
   foreach my $att (qw(Index nleg deg iorder nnnn json verbose ipol elpty)) {
     my $method = join("_", "swig", lc($att), "get");
@@ -170,8 +177,8 @@ sub clear {
   $self->clear_mag_feff;
   $self->clear_pha_feff;
   $self->clear_red_fact;
-  $self->clear_rep;
   $self->clear_lam;
+  $self->clear_realp;
 };
 
 # use Term::ANSIColor qw(:constants);
@@ -242,7 +249,7 @@ copper metal:
   my @phff   = $path->pha_feff;
   my @redfac = $path->red_fact;
   my @lambda = $path->lam;
-  my @rep    = $path->rep;
+  my @realp  = $path->realp;
   undef $path
 
 =head1 METHODS
@@ -484,9 +491,9 @@ column 5 from F<feffNNNN.dat>.
 A reference to an array containing lambda, the mean free path.  This is
 column 6 from F<feffNNNN.dat>.
 
-=item C<rep>
+=item C<realp>
 
-A reference to an array containing the real part of the comple
+A reference to an array containing the real part of the complex
 momentum.  This is column 7 from F<feffNNNN.dat>.
 
 =back

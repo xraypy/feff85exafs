@@ -42,7 +42,7 @@ long main()
   
   /* for (i = 0; i < path->ne; i++) { */
   /*   printf(" %6.3f %11.4e %11.4e %11.4e %10.3e %11.4e %11.4e\n", */
-  /*   	   path->k[i], path->real_phc[i], path->mag_feff[i], path->pha_feff[i], path->red_fact[i], path->lam[i], path->rep[i]); */
+  /*   	   path->k[i], path->real_phc[i], path->mag_feff[i], path->pha_feff[i], path->red_fact[i], path->lam[i], path->realp[i]); */
   /* } */
 
   cleanup(path);

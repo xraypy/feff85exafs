@@ -10,6 +10,8 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   /* Instantiate and initialize a FEFFPATH struct */
   /* Return an error code -- currently returns 0 in all cases. */
   long i;
+  char phbin[256] = {'\0'};
+  sprintf(phbin, "%-256s", " ");
 
   path->index     = 9999;
   path->iorder    = 2;
@@ -32,13 +34,13 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   for (i = 0; i < legtot+2; i++) {
     path->rat[i] = calloc(3, sizeof(double));
   }
-  path->ipot   = calloc(legtot+1, sizeof(long));
-  path->ri     = calloc(legtot,   sizeof(double));
-  path->beta   = calloc(legtot+1, sizeof(double));
-  path->eta    = calloc(legtot+2, sizeof(double));
+  path->ipot     = calloc(legtot+1, sizeof(long));
+  path->ri       = calloc(legtot,   sizeof(double));
+  path->beta     = calloc(legtot+1, sizeof(double));
+  path->eta      = calloc(legtot+2, sizeof(double));
 
-  path->evec   = calloc(3, sizeof(double));
-  path->xivec  = calloc(3, sizeof(double));
+  path->evec     = calloc(3, sizeof(double));
+  path->xivec    = calloc(3, sizeof(double));
 
   path->k        = calloc(nex, sizeof(double));
   path->real_phc = calloc(nex, sizeof(double));
@@ -46,11 +48,11 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   path->pha_feff = calloc(nex, sizeof(double));
   path->red_fact = calloc(nex, sizeof(double));
   path->lam      = calloc(nex, sizeof(double));
-  path->rep      = calloc(nex, sizeof(double));
+  path->realp    = calloc(nex, sizeof(double));
   /* --------------------------------------------------- */
 
   COPY_STRING(path->errormessage, "");
-  COPY_STRING(path->phbin, "phase.bin");
+  COPY_STRING(path->phbin, phbin);
 
   return 0;
 }
@@ -58,6 +60,8 @@ _EXPORT(long) create_path(FEFFPATH *path) {
 _EXPORT(void) clear_path(FEFFPATH *path) {
   /* Reinitialize a FEFFPATH struct, returning everything to default except the three boolean members. */
   long i,j;
+  /* char phbin[256] = {'\0'}; */
+  /* sprintf(phbin, "%-256s", " "); */
 
   path->index     = 9999;
   path->iorder    = 2;
@@ -71,6 +75,7 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
   path->reff      = 0.0;
   path->ne        = 0;
   path->errorcode = 0;
+
   for (i = 0; i < 3; i++) {
     path->evec[i]  = 0;
     path->xivec[i] = 0;
@@ -90,6 +95,7 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
       path->rat[i][j] = 0;
     }
   }
+
   for (i = 0; i < nex; i++) {
     path->k[i]        = 0;
     path->real_phc[i] = 0;
@@ -97,8 +103,9 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
     path->pha_feff[i] = 0;
     path->red_fact[i] = 0;
     path->lam[i]      = 0;
-    path->rep[i]      = 0;
+    path->realp[i]    = 0;
   }
+
   COPY_STRING(path->errormessage, "");
   /* COPY_STRING(path->phbin, "phase.bin"); */
 }
@@ -125,7 +132,7 @@ _EXPORT(long) make_path(FEFFPATH *path) {
 
   /* feffNNNN.dat columns */
   long ne;
-  double k[nex], real_phc[nex], mag_feff[nex], pha_feff[nex], red_fact[nex], lam[nex], rep[nex];
+  double k[nex], real_phc[nex], mag_feff[nex], pha_feff[nex], red_fact[nex], lam[nex], realp[nex];
 
   /* polarization and ellipticity */
   long ipol;
@@ -135,8 +142,9 @@ _EXPORT(long) make_path(FEFFPATH *path) {
 
   char phbin[256] = {'\0'};
 
+  /* printf("entering make_path\n"); */
+  /* fflush(stdout); */
   sprintf(phbin, "%-256s", path->phbin);
-  /* COPY_STRING(phbin, str); */
   iorder = path->iorder;
   index = path->index;
   nleg = path->nleg;
@@ -183,12 +191,14 @@ _EXPORT(long) make_path(FEFFPATH *path) {
     return error;
   };
 
-  /* printf(">%s<\n", str); */
+  /* printf(">%s<\n", phbin); */
+  /* fflush(stdout); */
   onepath_(phbin, &index, &nleg, &deg, &iorder, &ipot, &rat,
 	   &ipol, &evec, &elpty, &xivec,
 	   &nnnn, &json, &verbose, &ri, &beta, &eta,
-	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
-  /* printf("after\n"); */
+	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &realp);
+  /* printf("after onepath_\n"); */
+  /* fflush(stdout); */
 
   /* --------------------------------------------------- */
   /* transfer everything into the struct                 */
@@ -202,6 +212,8 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   path->beta[legtot+1] = beta[legtot+1];
   path->eta[legtot+1]  = eta[legtot+1];
   path->eta[legtot+2]  = eta[legtot+2];
+  /* printf("after geometry\n"); */
+  /* fflush(stdout); */
 
   /* compute Reff for this path */
   path->reff = 0;
@@ -219,11 +231,13 @@ _EXPORT(long) make_path(FEFFPATH *path) {
     path->pha_feff[i] = pha_feff[i];
     path->red_fact[i] = red_fact[i];
     path->lam[i]      = lam[i];
-    path->rep[i]      = rep[i];
+    path->realp[i]    = realp[i];
     /* printf(" %6.3f %11.4e %11.4e %11.4e %10.3e %11.4e %11.4e\n", */
-    /* 	   path->kgrid[i], path->caps[i], path->amff[i], path->phff[i], path->redfac[i], path->lambda[i], path->rep[i]); */
+    /* 	   path->kgrid[i], path->caps[i], path->amff[i], path->phff[i], path->redfac[i], path->lambda[i], path->realp[i]); */
   }
   /* --------------------------------------------------- */
+  /* printf("after arrays\n"); */
+  /* fflush(stdout); */
 
   return error;
 }
