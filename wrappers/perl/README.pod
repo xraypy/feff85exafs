@@ -34,13 +34,13 @@ copper metal:
   $path->atom(0, 0, -3.61, 1);
   $path->atom(-1.805, 0, -1.805, 1);
   $path->path;
-  my @kgrid  = $path->k;
-  my @caps   = $path->real_phc;
-  my @amff   = $path->mag_feff;
-  my @phff   = $path->pha_feff;
-  my @redfac = $path->red_fact;
-  my @lambda = $path->lam;
-  my @rep    = $path->rep;
+  my @kgrid  = @{ $path->k };
+  my @caps   = @{ $path->real_phc };
+  my @amff   = @{ $path->mag_feff };
+  my @phff   = @{ $path->pha_feff };
+  my @redfac = @{ $path->red_fact };
+  my @lambda = @{ $path->lam };
+  my @realp  = @{ $path->realp };
   undef $path
 
 =head1 METHODS
@@ -107,6 +107,13 @@ method of the same name.  Each of the following exists:
 =head2 Scalar valued attributes
 
 =over 4
+
+=item C<phbin> (character, default = phase.bin)
+
+The path to the F<phase.bin> file.  This gets right-padded with spaces
+to 256 characters, which is the length of the parameter in the
+underlying Fortran library.  Therefore, the value returned by the
+getter will be right-padded.
 
 =item C<Index> (integer, default = 9999)
 
@@ -275,9 +282,9 @@ column 5 from F<feffNNNN.dat>.
 A reference to an array containing lambda, the mean free path.  This is
 column 6 from F<feffNNNN.dat>.
 
-=item C<rep>
+=item C<realp>
 
-A reference to an array containing the real part of the comple
+A reference to an array containing the real part of the complex
 momentum.  This is column 7 from F<feffNNNN.dat>.
 
 =back

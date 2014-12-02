@@ -243,13 +243,13 @@ copper metal:
   $path->atom(0, 0, -3.61, 1);
   $path->atom(-1.805, 0, -1.805, 1);
   $path->path;
-  my @kgrid  = $path->k;
-  my @caps   = $path->real_phc;
-  my @amff   = $path->mag_feff;
-  my @phff   = $path->pha_feff;
-  my @redfac = $path->red_fact;
-  my @lambda = $path->lam;
-  my @realp  = $path->realp;
+  my @kgrid  = @{ $path->k };
+  my @caps   = @{ $path->real_phc };
+  my @amff   = @{ $path->mag_feff };
+  my @phff   = @{ $path->pha_feff };
+  my @redfac = @{ $path->red_fact };
+  my @lambda = @{ $path->lam };
+  my @realp  = @{ $path->realp };
   undef $path
 
 =head1 METHODS

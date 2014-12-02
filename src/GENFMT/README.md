@@ -16,10 +16,10 @@ it can also write out a `feffNNNN.dat` file or a JSON file containing
 all information from the `feffNNNN.dat` file.
 
 Also here is a C wrapper around `onepath.f` called `feffpath.c`.  This
-is compiled into `libfeffpath.a`.  `feffpath.h` defines a struct
+is compiled into `libfeffpath.so`.  `feffpath.h` defines a struct
 containing all the information found in a `feffNNNN.dat` file.  See
-[makepath.c](makepath.c) for an example of the use of the C wrapper in
-a C program.
+[wrappers/C/makepath.c](../../wrappers/C/makepath.c) for an example of
+the use of the C wrapper in a C program.
 
 The C library can be wrapped for use in other languages.
 [Here's a use of the perl wrapper as an example.](../../wrappers/perl/example/pathsdat.pl)
@@ -30,17 +30,18 @@ To build, type `scons`.  This will build:
 
  * `libgenfmt.f`: most of the functionality of genfmt
  * `genfmt`: the stand-alone program
- * `libonepath.a`: the Fortran entry point for generating a single path
- * `libfeffpath,a`: the C wrapper around onepath
+ * `libonepath.so`: the Fortran entry point for generating a single path
+ * `libfeffpath.so`: the C wrapper around onepath
  * `feffpath_wrap.c` and `FeffPath.pm`: the SWIG wrapper for perl around feffpath
 
 Once built, type `scons install` to install everything:
 
- * `libgenfmt.f`, `libonepath.a`, `libfeffpath,a`: installed to `/usr/local/lib`
+ * `libgenfmt.f`, `libonepath.so`, `libfeffpath.so`: installed to `/usr/local/lib`
  * `genfmt`: installed to `/usr/local/bin`
  * `feffpath_wrap.c` and `FeffPath.pm`: installed to `../../wrappers/perl`
 
-You **must** install before building the Perl wrapper.
+You **must** install before building the Perl wrapper.  Other wrappers
+almost certainly require at least that `libfeffpath.so` be installed.
 
 # Simple static analysis
 

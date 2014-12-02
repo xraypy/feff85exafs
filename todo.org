@@ -1,0 +1,9 @@
+
+* The feff85exafs to do list [0/6]
+
+ 1. [ ] write header into ~f3ffNNNN.dat~ files
+ 2. [ ] capture header information in C struct, propagated into wrappers
+ 3. [ ] python wrapper / Larch plugin
+ 4. [ ] nose testing for feffpath generated ~f3ffNNNN.dat~ files
+ 5. [ ] fit with different feff versions -- comparison framework
+ 6. [ ] library for encapsolating generation of ~phase.bin~
