@@ -1,4 +1,9 @@
+#if defined(SWIGPERL)
 %module "Xray::FeffPathWrapper"
+#else
+%module feffpath
+#endif
+
 %{
 /* Includes the header in the wrapper code */
 #include "feffpath.h"
