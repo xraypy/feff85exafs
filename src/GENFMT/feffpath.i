@@ -1,7 +1,7 @@
 #if defined(SWIGPERL)
 %module "Xray::FeffPathWrapper"
 #else
-%module feffpath
+%module feffpathwrapper
 #endif
 
 %{

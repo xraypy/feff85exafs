@@ -107,14 +107,14 @@ if find_executable("swig"):
     if not isdir('python'): os.mkdir('python')
     bld = Builder(action = 'swig -python -outdir '+here+'/python -o '+here+'/python/feffpath_wrap.c $SOURCE')
     env = Environment(BUILDERS = {'SwigPython' : bld})
-    env.SwigPython([join(here, 'python', 'feffpath_wrap.c'), join(here, 'python', 'feffpath.py')], 'feffpath.i') # builder befined in FeffBuild.py
-    Depends([join(here, 'python', 'feffpath_wrap.c'), join(here, 'python', 'feffpath.py')], 'feffpath.h')
+    env.SwigPython([join(here, 'python', 'feffpath_wrap.c'), join(here, 'python', 'feffpathwrapper.py')], 'feffpath.i') # builder befined in FeffBuild.py
+    Depends([join(here, 'python', 'feffpath_wrap.c'), join(here, 'python', 'feffpathwrapper.py')], 'feffpath.h')
     if 'SUDO_UID' in os.environ.keys():
-        env.InstallOwner(python_wrapper_path, join(here, 'python', 'feffpath_wrap.c'), int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
-        env.InstallOwner(python_wrapper_path, join(here, 'python', 'feffpath.py'),     int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
+        env.InstallOwner(python_wrapper_path, join(here, 'python', 'feffpath_wrap.c'),    int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
+        env.InstallOwner(python_wrapper_path, join(here, 'python', 'feffpathwrapper.py'), int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
     else:
         env.Install(python_wrapper_path, join(here, 'python', 'feffpath_wrap.c'))
-        env.Install(python_wrapper_path, join(here, 'python', 'feffpath.py'))
+        env.Install(python_wrapper_path, join(here, 'python', 'feffpathwrapper.py'))
 
 else:
     print "\nSWIG not installed, skipping perl wrapper for libfeffpath in GENFMT\n"

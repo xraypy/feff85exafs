@@ -32,7 +32,11 @@ wrappers/perl/pm_to_blib
 wrappers/perl/src/feffpath.h
 wrappers/perl/src/feffpath_wrap.c
 wrappers/perl/lib/Xray/FeffPathWrapper.pm
+wrappers/python/feffpath_wrap.c
+wrappers/python/feffpath.py
 
+src/GENFMT/perl/*
+src/GENFMT/python/*
 
 ## conversion of md -> html
 README.html
