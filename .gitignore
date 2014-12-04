@@ -33,7 +33,7 @@ wrappers/perl/src/feffpath.h
 wrappers/perl/src/feffpath_wrap.c
 wrappers/perl/lib/Xray/FeffPathWrapper.pm
 wrappers/python/feffpath_wrap.c
-wrappers/python/feffpath.py
+wrappers/python/feffpathwrapper.py
 
 src/GENFMT/perl/*
 src/GENFMT/python/*
