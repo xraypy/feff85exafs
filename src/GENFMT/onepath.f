@@ -7,6 +7,11 @@
       implicit double precision (a-h, o-z)
 
 c+---------------------------------------------------------------------
+c     "Based on or developed using Distribution: FEFF8.5L
+c      Copyright (c) [2013] University of Washington"
+c
+C  See ../HEADERS/license.h for full llicense information
+c+---------------------------------------------------------------------
 c  compute a single path, generating the F matrix then returning the 
 c  information contained in a feffNNNN.dat file
 c
@@ -158,7 +163,6 @@ c     used for divide-by-zero and trig tests
       external xstar
 
       dimension atarr(3,natx)
-c      print *, '-- starting onepath'
       do 5 i=1,natx
          atarr(1, i) = 0
          atarr(2, i) = 0
@@ -182,7 +186,6 @@ c     &       ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
 c+----------------------------------------------------------------------
 c     initialize everything needed for the genfmt calculation
 c+----------------------------------------------------------------------
-c      print *, '-- before genfmt_prep'
       call genfmt_prep(phbin, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
@@ -195,12 +198,10 @@ c     argument for snlm (an output)
 c     things set in genfmt_prep
      &       eref, ph, xk, ck, ckmag, xkr,
      &       nsp, ll, npath, ntotal, nused, xportx)
-c      print *, 1
 
 c+----------------------------------------------------------------------
 c     pull out the central atom phase shifts
 c+----------------------------------------------------------------------
-c      print *, '-- caps'
       do 10 ie=1,ne
          caps(ie) = cmplx(ph(ie, ll, 0))
  10   continue
@@ -216,13 +217,10 @@ c+----------------------------------------------------------------------
       spvec(3) = 0
 c     call json_read_onepath(index, iorder, ipol,
 c    &       nleg, deg, rat, ipot, elpty, evec, xivec, nnnn, json)
-c      print *, '-- before pathgeom'
       call pathgeom(nleg, nsc, ipol, rat, ipot, ri, beta, eta)
-c      print *, '-- before mkptz'
       call mkptz(ipol, elpty, evec, xivec, ispin, spvec, natx, atarr,
      &       angks, le2, ptz)
 
-c      print *, '-- logicals'
       nnnn = .false.
       if (innnn .gt. 0) nnnn=.true.
       json = .false.
@@ -230,13 +228,10 @@ c      print *, '-- logicals'
       verbse = .false.
       if (ivrbse .gt. 0) verbse=.true.
 
-c      print *, 2
 c+----------------------------------------------------------------------
 c     fetch the standard output header lines from xsect.json
 c+----------------------------------------------------------------------
-c      print *, '-- before read_titles'
 c      call read_titles(ntit, titles)
-c      print *, '-- done with startup'
 
 c+----------------------------------------------------------------------
 c  this section is cut-n-pasted from genfmt
@@ -289,7 +284,6 @@ c     Start cycle over spin
          cchi(ie) = 0
       enddo
 
-c      print *, 3
       do 6000 is = 1, nsp
          if (nsp.eq.1) then
             call mmtr(bmati, ipol, ispin, le2, angks, ptz, lind,
@@ -454,7 +448,6 @@ c           Jump to here from ck(ie)=0 test above.
 c        end of energy loop
  6000 continue
 c     end of loop over spins
-c      print *, 4
 
 c+----------------------------------------------------------------------
 c     compute the importance factor of this path
@@ -482,8 +475,6 @@ c        remove 2 pi jumps in phase
          sck(ie)  = cmplx(ck(ie))
  15   continue
 
-c      print *, 5
-
 c+----------------------------------------------------------------------
 c  the following get stored in feff.bin for each path:
 c        ipath, nleg, deg, reff (*bohr), crit, ipot(1, nleg)
@@ -500,7 +491,6 @@ c+----------------------------------------------------------------------
       call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk,sck,
      &       col1, col2, col3, col4, col5, col6, col7)
 
-c      print *, 6
 
       if (nnnn) then
 c        Prepare output file feffnnnn.dat
@@ -548,7 +538,6 @@ c        Done with feff.dat
          close (unit=3)
       end if
 c     end of conditional for writing feffNNNN.dat
-c      print *, 7
 
 
 c+----------------------------------------------------------------------

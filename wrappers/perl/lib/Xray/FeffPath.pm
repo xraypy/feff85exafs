@@ -7,17 +7,17 @@ use List::MoreUtils qw(any);
 has 'wrapper' => (is => 'ro', isa => 'Xray::FeffPathWrapper', default => sub{ Xray::FeffPathWrapper::FEFFPATH->new() });
 
 ## simple scalars
-has 'phbin'   => (is => 'rw', isa => 'Str',  default => 0, trigger => sub{pushback(@_, 'phbin'  )},);
-has 'Index'   => (is => 'rw', isa => 'Int',  default => 0, trigger => sub{pushback(@_, 'Index'  )},);
-has 'nleg'    => (is => 'rw', isa => 'Int',  default => 0, trigger => sub{pushback(@_, 'nleg'   )},);
-has 'deg'     => (is => 'rw', isa => 'Num',  default => 0, trigger => sub{pushback(@_, 'deg'    )},);
-has 'iorder'  => (is => 'rw', isa => 'Int',  default => 0, trigger => sub{pushback(@_, 'iorder' )},);
-has 'nnnn'    => (is => 'rw', isa => 'Bool', default => 0, trigger => sub{pushback(@_, 'nnnn'   )},);
-has 'json'    => (is => 'rw', isa => 'Bool', default => 0, trigger => sub{pushback(@_, 'json'   )},);
-has 'verbose' => (is => 'rw', isa => 'Bool', default => 0, trigger => sub{pushback(@_, 'verbose')},);
-has 'ipol'    => (is => 'rw', isa => 'Bool', default => 0, trigger => sub{pushback(@_, 'ipol'   )},);
-has 'elpty'   => (is => 'rw', isa => 'Num',  default => 0, trigger => sub{pushback(@_, 'elpty'  )},);
-has 'ne'      => (is => 'rw', isa => 'Int',  default => 0, trigger => sub{pushback(@_, 'ne'     )},);
+has 'phbin'   => (is => 'rw', isa => 'Str',  default => 0,   trigger => sub{pushback(@_, 'phbin'  )},);
+has 'Index'   => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{pushback(@_, 'Index'  )},);
+has 'nleg'    => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{pushback(@_, 'nleg'   )},);
+has 'deg'     => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'deg'    )},);
+has 'iorder'  => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{pushback(@_, 'iorder' )},);
+has 'nnnn'    => (is => 'rw', isa => 'Bool', default => 0,   trigger => sub{pushback(@_, 'nnnn'   )},);
+has 'json'    => (is => 'rw', isa => 'Bool', default => 0,   trigger => sub{pushback(@_, 'json'   )},);
+has 'verbose' => (is => 'rw', isa => 'Bool', default => 0,   trigger => sub{pushback(@_, 'verbose')},);
+has 'ipol'    => (is => 'rw', isa => 'Bool', default => 0,   trigger => sub{pushback(@_, 'ipol'   )},);
+has 'elpty'   => (is => 'rw', isa => 'Num',  default => 0.0, trigger => sub{pushback(@_, 'elpty'  )},);
+has 'ne'      => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{pushback(@_, 'ne'     )},);
 
 has 'errorcode'    => (is => 'rw', isa => 'Int',  default => 0,);
 has 'errormessage' => (is => 'rw', isa => 'Str',  default => q{},);
@@ -26,13 +26,13 @@ has 'errormessage' => (is => 'rw', isa => 'Str',  default => q{},);
 ## arrays
 has 'evec'    => (traits  => ['Array'],
 		  is      => 'rw',
-		  isa     => 'ArrayRef[Str]',
+		  isa     => 'ArrayRef[Num]',
 		  default => sub { [0,0,0] },
 		  trigger => \&evec_set,
 		 );
 has 'xivec'   => (traits  => ['Array'],
 		  is      => 'rw',
-		  isa     => 'ArrayRef[Str]',
+		  isa     => 'ArrayRef[Num]',
 		  default => sub { [0,0,0] },
 		  trigger => \&xivec_set);
 
@@ -601,8 +601,8 @@ about Authorship may be retained in some files for historical reasons,
 this work is hereby placed in the Public Domain.  This work is
 published from: United States.
 
-Note that the feffpath library itself is NOT public domain, nor is the
-Fortran source code it relies upon.
+Note that the onepath library itself is NOT public domain, nor is the
+Fortran source code for Feff that it relies upon.
 
 Author: Bruce Ravel (bravel AT bnl DOT gov).
 Last update: 4 November, 2014

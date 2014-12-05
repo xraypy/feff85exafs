@@ -74,7 +74,7 @@ c     compute first shell of Copper (SS, deg=12)
       index = 1
       nleg  = 2
       deg   = 12
-      call addatom(1, -1.805, 0., -1.805, 1, ipot, rat)
+      call addatom(1,  1.805, 0.,  1.805, 1, ipot, rat)
 
       call onepath(phbin, index, nleg, deg, iorder,
      &       ipot, rat,

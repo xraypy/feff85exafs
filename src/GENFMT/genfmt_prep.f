@@ -11,7 +11,12 @@ c     things set here
      &       eref, ph, xk, ck, ckmag, xkr,
      &       nsp, ll, npath, ntotal, nused, xportx)
 
-c+----------------------------------------------------------------------
+c+---------------------------------------------------------------------
+c     "Based on or developed using Distribution: FEFF8.5L
+c      Copyright (c) [2013] University of Washington"
+c
+C  See ../HEADERS/license.h for full llicense information
+c+---------------------------------------------------------------------
 c  abstract out the initialization parts of genfmt.  this can then be
 c  dropped into genfmt for normal use or be used as part of a single-path
 c  library

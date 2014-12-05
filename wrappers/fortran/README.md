@@ -42,13 +42,13 @@ c     initialize everything
       phbin   = 'phase.bin'
       index   = 9999
       nleg    = 0
-      deg     = 0
+      deg     = 1.0
       iorder  = 2
       innnn   = 1 
       ijson   = 0 
       ivrbse  = 1
       ipol    = 0 
-      elpty   = 0
+      elpty   = 0.0
       ne      = 0
       
       do 5  i=1,3

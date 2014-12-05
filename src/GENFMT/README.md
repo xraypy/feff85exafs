@@ -23,6 +23,7 @@ the use of the C wrapper in a C program.
 
 The C library can be wrapped for use in other languages.
 [Here's a use of the perl wrapper as an example.](../../wrappers/perl/examples/pathsdat.pl)
+[And here's a very simple larch script.](../../wrappers/python/makepath.lar)
 
 # Build and install
 
@@ -32,16 +33,19 @@ To build, type `scons`.  This will build:
  * `genfmt`: the stand-alone program
  * `libonepath.so`: the Fortran entry point for generating a single path
  * `libfeffpath.so`: the C wrapper around onepath
- * `feffpath_wrap.c` and `FeffPath.pm`: the SWIG wrapper for perl around feffpath
+ * `perl/feffpath_wrap.c` and `perl/FeffPath.pm`: the SWIG wrapper for perl around feffpath
+ * `pythin/feffpath_wrap.c` and `python/feffpathwrapper.py`: the SWIG wrapper for python around feffpath
 
 Once built, type `scons install` to install everything:
 
  * `libgenfmt.f`, `libonepath.so`, `libfeffpath.so`: installed to `/usr/local/lib`
  * `genfmt`: installed to `/usr/local/bin`
- * `feffpath_wrap.c` and `FeffPath.pm`: installed to `../../wrappers/perl`
+ * `perl/feffpath_wrap.c` and `perl/FeffPath.pm`: installed to `../../wrappers/perl`
+ * `python/feffpath_wrap.c` and `python/feffpathwrapper.py`: installed to `../../wrappers/python`
 
-You **must** install before building the Perl wrapper.  Other wrappers
-almost certainly require at least that `libfeffpath.so` be installed.
+You **must** install before building the Perl or Python wrappers.
+Other wrappers almost certainly require at least that `libfeffpath.so`
+be installed.
 
 # Simple static analysis
 

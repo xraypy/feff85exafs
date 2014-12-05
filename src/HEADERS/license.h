@@ -43,8 +43,8 @@ c+------------------------------------------------------------------------------
 c Main contributors to feff85exafs, 2013-2014
 c M. Newville,     newville AT cars DOT uchicago DOT edu
 c B. Ravel,        bravel AT bnl DOT gov
-c J. J. Kas,       joshua DOT j DOT kas AT gmail DOT com
 c K. Jorissen,     kevinjorissen DOT pdx AT gmail DOT com
+c J. J. Kas,       joshua DOT j DOT kas AT gmail DOT com
 c
 c+------------------------------------------------------------------------------
 c Copyright Notice: FEFF8 is copyright protected software and users

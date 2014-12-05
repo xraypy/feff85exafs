@@ -1,3 +1,20 @@
+/* ********************************************************************** */
+/* LICENSE AND COPYRIGHT                                                  */
+/*                                                                        */
+/* To the extent possible, the authors have waived all rights granted by  */
+/* copyright law and related laws for the code and documentation that     */
+/* make up the C Interface to the feffpath library.  While information    */
+/* about Authorship may be retained in some files for historical reasons, */
+/* this work is hereby placed in the Public Domain.  This work is         */
+/* published from: United States.                                         */
+/*                                                                        */
+/* Note that the onepath library itself is NOT public domain, nor is the  */
+/* Fortran source code for Feff that it relies upon.                      */
+/*                                                                        */
+/* Author: Bruce Ravel (bravel AT bnl DOT gov).                           */
+/* Last update: 5 December, 2014                                          */
+/* ********************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -8,7 +25,7 @@
 
 _EXPORT(long) create_path(FEFFPATH *path) {
   /* Instantiate and initialize a FEFFPATH struct */
-  /* Return an error code -- currently returns 0 in all cases. */
+  /* Return an error code -- currently hardwired to return 0. */
   long i;
   char phbin[256] = {'\0'};
   sprintf(phbin, "%-256s", " ");
@@ -16,7 +33,7 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   path->index     = 9999;
   path->iorder    = 2;
   path->nleg      = 0;
-  path->deg       = 0.0;
+  path->deg       = 1.0;
   path->nnnn      = false;
   path->json      = false;
   path->verbose   = false;
@@ -58,7 +75,8 @@ _EXPORT(long) create_path(FEFFPATH *path) {
 }
 
 _EXPORT(void) clear_path(FEFFPATH *path) {
-  /* Reinitialize a FEFFPATH struct, returning everything to default except the three boolean members. */
+  /* Reinitialize a FEFFPATH struct, returning everything to default */
+  /* except phbin, verbose, nnnn, and json. */
   long i,j;
   /* char phbin[256] = {'\0'}; */
   /* sprintf(phbin, "%-256s", " "); */
@@ -114,7 +132,7 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
 _EXPORT(long) make_path(FEFFPATH *path) {
   /* Compute the path using the content of the FEFFPATH struct.*/
   /* Fill the struct with geometry and F_eff information. */
-  /* Return an error code -- currently returns 0 in all cases. */
+  /* Return an error code. */
   long i, j;
   long error = 0;
 
@@ -243,16 +261,14 @@ _EXPORT(long) make_path(FEFFPATH *path) {
 }
 
 _EXPORT(long) add_scatterer(FEFFPATH *path, double x, double y, double z, long ip) {
-  /* Add a scattering atom to the path. */
-  /* Return the current value of nleg. */
+  /* Add a scattering atom to the path. Fill the nleg member. */
+  /* Return an error code. */
   long error;
   double length;
   long nleg = path->nleg;
   if (nleg == 0) {nleg = 1;}
   nleg = nleg + 1;
   
-  /* printf(">>> %.3f  %.3f  %.3f  %li   %li\n", x, y, z, ip, nleg); */
-
   path->rat[nleg-1][0] = x;
   path->rat[nleg-1][1] = y;
   path->rat[nleg-1][2] = z;
@@ -275,11 +291,12 @@ _EXPORT(long) add_scatterer(FEFFPATH *path, double x, double y, double z, long i
   };
 
   path->errorcode = error;
-  add_scatterer_errorstring(path);
+  make_scatterer_errorstring(path);
   return error;
 }
 
 _EXPORT(void) cleanup(FEFFPATH *path) {
+  /* does one need to explicitly free each part of the struct? */
   free(path);
 }
 
@@ -297,7 +314,7 @@ leglength(FEFFPATH *path) {
 
 
 /* error string interpretation */
-add_scatterer_errorstring(FEFFPATH *path) {
+make_scatterer_errorstring(FEFFPATH *path) {
   double x, y, z;
   long ip;
   char message[500] = {'\0'};
@@ -313,16 +330,16 @@ add_scatterer_errorstring(FEFFPATH *path) {
   sprintf(pos, "Error in add_scatterer at atom (%.5f, %.5f, %.5f, %ld):\n", x, y, z, ip);
   strcat(message, pos);
   if (errcode & ERR_NEGIPOT) {
-    strcat(message, "\tipot argument to add_scatterer is less than 0\n");
+    strcat(message, "\t(code 1) ipot argument to add_scatterer is less than 0\n");
   };
   if (errcode & ERR_BIGIPOT) {
-    strcat(message, "\tipot argument to add_scatterer is greater than 7\n");
+    strcat(message, "\t(code 2) ipot argument to add_scatterer is greater than 7\n");
   } ;
   if (errcode & ERR_TOOCLOSE) {
-    strcat(message, "\tcoordinates are for an atom too close to the previous atom in the path\n");
+    strcat(message, "\t(code 4) coordinates are for an atom too close to the previous atom in the path\n");
   };
   if (errcode & ERR_TOOMANYLEGS) {
-    strcat(message, "\tnlegs greater than legtot\n");
+    strcat(message, "\t(code 8) nlegs greater than legtot\n");
   };
   COPY_STRING(path->errormessage, message);
 }
@@ -342,25 +359,25 @@ make_path_errorstring(FEFFPATH *path) {
   if (errcode == 0) { return; }
   strcat(message, "Error in make_path\n");
   if (errcode & ERR_FIRSTISABS) {
-    strcat(message, "\tthe first atom specified is the absorber\n");
+    strcat(message, "\t(code 1) the first atom specified is the absorber\n");
   };
   if (errcode & ERR_NLEGISABS) {
-    strcat(message, "\tthe last atom specified is the absorber\n");
+    strcat(message, "\t(code 2) the last atom specified is the absorber\n");
   };
   if (errcode & ERR_DEGNEG) {
-    sprintf(str, "\tpath degeneracy (%.2f) is negative\n", deg);
+    sprintf(str, "\t(code 4) path degeneracy (%.2f) is negative\n", deg);
     strcat(message, str);
   };
   if (errcode & ERR_BADINDEX) {
-    sprintf(str, "\tpath index (%ld) not between 0 and 9999\n", index);
+    sprintf(str, "\t(code 8) path index (%ld) not between 0 and 9999\n", index);
     strcat(message, str);
   };
   if (errcode & ERR_BADELPTY) {
-    sprintf(str, "\tellipticity (%.2f) not between 0 and 1\n", elpty);
+    sprintf(str, "\t(code 16) ellipticity (%.2f) not between 0 and 1\n", elpty);
     strcat(message, str);
   };
   if (errcode & ERR_BADIORDER) {
-    sprintf(str, "\tiorder (%ld) not between 0 and 10\n", iorder);
+    sprintf(str, "\t(code 32) iorder (%ld) not between 0 and 10\n", iorder);
     strcat(message, str);
   };
   COPY_STRING(path->errormessage, message);

@@ -49,8 +49,8 @@ The following libraries contain the various parts of Feff.
 Default installation locations:
 
 * Linux: `/usr/local/lib`
-* Windows: `C:\path\to\lib`
-* Mac: `/some/where/lib`
+* Windows: `C:\path\to\lib`  :FIXME:
+* Mac: `/some/where/lib`     :FIXME:
 
 This can be set from the command line:
 
@@ -79,19 +79,33 @@ You may want to put that in your `.bashrc` file.
 * `FF2X/ff2x`: module 6, output files
 
 Note that module 3, `fms`, the full multiple scattering XANES
-calculator, is not installed as part of feff85exafs.
+calculator, is not a part of feff85exafs.
 
 Default installation locations:
 
 * Linux: `/usr/local/bin`
-* Windows: `C:\path\to\bin`
-* Mac: `/some/where/bin`
+* Windows: `C:\path\to\bin`  :FIXME:
+* Mac: `/some/where/bin`     :FIXME:
 
 This can be set from the command line:
 
 	~> scons prefix="/other/location"
 
 where the default value for "prefix" is `/usr/local` on Linux, etc.
+
+Note that the ultimate goal of the feff85exafs project is to do away
+with the stand-alone programs.
+ * `rdinp` is a chore better handled by a GUI or other user interface.
+ * `genfmt` and `ff2x` are replaced by the feffpath library, which can
+   be called directly by a program written in fortran, C, or some
+   other language
+ * eventually `pot` and `xsph` will be replaced by similarly callable
+   library
+ * finally the pathfinder is missing critical features (most
+   prominently: caching geometry of degenerate paths and fuzzy
+   degeneracy).  the pathfinder has alrady been rewritten in Perl for
+   Demeter, for example.
+
 
 ## The feffpath library and its wrappers
 
@@ -105,15 +119,18 @@ This presumes that `pot` and `xsph` have already been run and that the
 * `GENFMT/libonepath.so`: This is the Fortran entry point.
 * `GENFMT/libfeffpath.so`: This is the C wrapper around the Fortran onepath
 * `GENFMT/feffpath.h`: This is the header file, almost certainly required by any language wrapper
-* `GENFMT/feffpath_wrap.c`: This is the SWIG generated wrapper file for use with the Perl wrapper
-* `GENFMT/FeffPathWrapper.pm`: This is the SWIG generated Perl wrapper
+* `GENFMT/perl/feffpath_wrap.c`: The SWIG generated wrapper file for use with the Python wrapper
+* `GENFMT/perl/FeffPathWrapper.pm`: This is the SWIG generated Perl wrapper
+* `GENFMT/python/feffpath_wrap.c`: The SWIG generated wrapper file for use with the Perl wrapper
+* `GENFMT/python/feffpathwrapper.py`: This is the SWIG generated Perl wrapper
 
 `libonepath.so` and `libfeffpath.so` will be installed to the same
 location (`/usr/local/lib`, etc) as the Feff libraries.
 
-The other three files are "installed" into the proper place in the
-`wrappers` folder of the feff85exafs distribution so that the Perl
-wrapper can be built using Perl's standard tools for such things.
+The other files are transferred into the proper place in the
+`wrappers` folder of the feff85exafs distribution so that the
+language-specific wrapper can be built using language-specific build
+tools.
 
 
 ---

@@ -1,6 +1,12 @@
       subroutine fdtarr(ne, reff, lzero, achi, phchi, caps, xk, ck,
      &       col1, col2, col3, col4, col5, col6, col7)
 
+c+---------------------------------------------------------------------
+c     "Based on or developed using Distribution: FEFF8.5L
+c      Copyright (c) [2013] University of Washington"
+c
+C  See ../HEADERS/license.h for full llicense information
+c+---------------------------------------------------------------------
       implicit double precision (a-h, o-z)
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'

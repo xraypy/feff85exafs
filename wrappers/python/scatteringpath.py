@@ -11,16 +11,22 @@ and that the SWIG wrapper has been built, compiled, and installed.
      a.index = 1
   except ValueError:
      print "Bad index value, index still %" : a.index
-  a.atom(0,0,-3.61,1)
+  #endtry
+  try:
+     a.deg = 48
+  except ValueError:
+     print "Bad degeneracy value, deg still %" : a.deg
+  #endtry
+  a.atom(1.805,0,1.805,1)
   if a.errorcode:
      print a.errormessage
      exit()
-  end if
+  #endif
   a.make()
   if a.errorcode:
      print a.errormessage
      exit()
-  end if
+  #endif
   a.clear()
 
 Methods:
@@ -71,7 +77,8 @@ Attributes (output):
 
 # Missing features:
 #
-#  * Getter method(s) for rat and ipot
+#  * Getter method(s) for rat and ipot (this is a missing feature in
+#    the feffpath library
 
 
 # LICENSE AND COPYRIGHT
@@ -83,20 +90,22 @@ Attributes (output):
 # this work is hereby placed in the Public Domain.  This work is
 # published from: United States.
 #
-# Note that the feffpath library itself is NOT public domain, nor is the
-# Fortran source code it relies upon.
+# Note that the onepath library itself is NOT public domain, nor is the
+# Fortran source code for Feff that it relies upon.
 #
 # Author: Bruce Ravel (bravel AT bnl DOT gov).
 # Last update: 4 December, 2014
 
-from larch import (Group, Parameter, isParameter, ValidateLarchPlugin, param_value, use_plugin_path, isNamedClass, Interpreter)
+from larch import (Group, Parameter, isParameter, ValidateLarchPlugin, param_value,
+                   use_plugin_path, isNamedClass, Interpreter)
 use_plugin_path('xafs')
 import feffpathwrapper
 from   os.path   import isfile
 
 class FeffPath(Group):
     """
-    A larchified, simplified, feature-full wrapper around the thin (but weird) SWIG wrapper for the feffpath library.
+    A larchified, simplified, feature-full wrapper around the thin
+    (but weird) SWIG wrapper for the feffpath library.
     """
 
     def __init__(self, folder=None, _larch=None, **kws):
@@ -370,7 +379,8 @@ class FeffPath(Group):
     def make(self):
         """
         Compute F_eff for a path, make columns of feffNNNN.dat available as
-        properties of the object.
+        properties of the object.  Write feffNNNN.dat file if verbose attribute
+        set to True.
 
           a = scatteringpath()
           a.atom(0, 0, -3.61, 1)
