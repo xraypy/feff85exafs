@@ -117,9 +117,6 @@ class FeffPath(Group):
         feffpathwrapper.create_path(self.wrapper)
         self.wrapper.phbin = ''
 
-    def _2bool(self, value):
-        return str(value).lower() in ("yes", "true", "on", "y", "t", "1")
-
 
     ## ---- scalar valued attributs
 
@@ -176,28 +173,28 @@ class FeffPath(Group):
         return self.wrapper.nnnn
     @nnnn.setter
     def nnnn(self,value):
-        self.wrapper.nnnn = self._2bool(value)
+        self.wrapper.nnnn = self.bool(value)
 
     @property
     def json(self):
         return self.wrapper.json
     @json.setter
     def json(self,value):
-        self.wrapper.json = self._2bool(value)
+        self.wrapper.json = self.bool(value)
 
     @property
     def verbose(self):
         return self.wrapper.verbose
     @verbose.setter
     def verbose(self,value):
-        self.wrapper.verbose = self._2bool(value)
+        self.wrapper.verbose = self.bool(value)
 
     @property
     def ipol(self):
         return self.wrapper.ipol
     @ipol.setter
     def ipol(self,value):
-        self.wrapper.ipol = self._2bool(value)
+        self.wrapper.ipol = self.bool(value)
 
     @property
     def elpty(self):

@@ -61,8 +61,10 @@ c FEFF8 is used in published work:
 c    1) Main FEFF8 reference 
 c       A.L. Ankudinov, B. Ravel, J.J. Rehr, and S.D. Conradson, 
 c       Phys. Rev. B 58, 7565, (1998).
+c       DOI: 10.1103/PhysRevB.58.7565
 c    2) Multiple scattering theory
 c       J.J. Rehr and R.C. Albers, Phys. Rev. B 41, 8139 (1990).
+c       DOI: 10.1103/PhysRevB.41.8139
 c+------------------------------------------------------------------------------
 C
 c Main Authors of FEFF5: please contact us concerning problems.
@@ -75,12 +77,16 @@ c Citations: Please cite at least one of the following articles if
 c FEFF is used in published work: 
 c    1) Multiple scattering
 c       J.J. Rehr and R.C. Albers, Phys. Rev. B41, 8139 (1990).
+c          DOI: 10.1103/RevModPhys.72.621
 c       J.J. Rehr, S.I. Zabinsky and R.C. Albers, 
 c          Phys. Rev. Let. 69, 3397 (1992).
+c          DOI: 10.1103/PhysRevLett.69.3397
 c    2) General reference
 c       J.J. Rehr, J. Mustre de Leon, S.I. Zabinsky, and R.C. Albers,
 c          J. Am. Chem. Soc. 113, 5135 (1991).
+c          DOI: 10.1021/ja00014a001
 c    3) Technical reference
 c       J. Mustre de Leon, J.J. Rehr, S.I.  Zabinsky, and R.C. Albers,
 c          Phys. Rev. B44, 4146 (1991).
+c          DOI: 10.1103/PhysRevB.44.4146
 c+------------------------------------------------------------------------------
