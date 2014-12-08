@@ -2,7 +2,7 @@
 ## feff85exafs unit testing system using larch
 ## see HEADERS/license.h for feff's license information
 
-from   os        import makedirs, chdir, getcwd
+from   os        import makedirs, chdir, getcwd, unlink
 from   os.path   import realpath, isdir, join
 from   shutil    import rmtree
 import sys, subprocess, glob, pystache, json, re
@@ -15,6 +15,12 @@ use_plugin_path('xafs')
 from feffdat import feffpath
 use_plugin_path('wx')
 from plotter import (_newplot, _plot)
+
+wrapper_available=True
+try:
+    from scatteringpath import scatpath
+except ImportError:
+    wrapper_available=False
 
 class Feff85exafsUnitTestGroup(Group):
     """
@@ -78,6 +84,9 @@ class Feff85exafsUnitTestGroup(Group):
         self.f85escript = join(self.repotop, 'bin', 'f85e')
         self.epsilon    = 0.00001
         self.epsfit     = 0.001
+        self.wrapper_available = wrapper_available
+        if wrapper_available:
+            self.sp = scatpath()
         
         
     def __repr__(self):
@@ -188,14 +197,51 @@ class Feff85exafsUnitTestGroup(Group):
                 print "\t"+f
             return None
             
+
+    def snarf_geometry(self, index=1):
+        pathsdat = self.testrun+'/paths.dat'
+        try:
+            lines = open(pathsdat, 'r').readlines()
+        except:
+            print( 'Error reading file %s ' % pathsdat)
+            return
+
+        degmatch = re.compile("degeneracy")
+        mode = 'searching'
+        count = 1
+        for line in lines:
+            line = line.replace(',', ' ').strip()
+            words  = line.split()
+            if len(words) < 5:
+                continue
+            elif mode == 'searching':
+                #print '> %s %s' % (line, str(degmatch.match(line)))
+                if words[5] == 'degeneracy' and line.startswith(str(index)):
+                    self.sp.index = index
+                    nlegs = int(words[1])
+                    self.sp.deg = float(words[2])
+                    mode = 'parsing'
+                    continue
+            elif mode == 'parsing':
+                #print '| %s %d %d' % (line, count, nlegs)
+                if words[5] == 'degeneracy':
+                    break
+                elif count == nlegs:
+                    break
+                elif line.startswith('x'):
+                    continue
+                else:
+                    words = line.split()
+                    self.sp.atom(float(words[0]), float(words[1]), float(words[2]), int(words[3]))
+                    count+=1
             
-    def compare(self, nnnn=1, part='feff', _larch=None):
+    def compare(self, nnnn=1, part='feff', use_wrapper=False, _larch=None):
         """
         compare a feffNNNN.dat file from the testrun with the same file from the baseline calculation
 
-            group.compare(N, part)
+            group.compare(N, part, use_wrapper)
 
-        where N is the path index and part is one of 
+        where N is the path index, part is one of 
             feff    :      test the magnitude AND phase of F_eff (default)
             amp     :      test the total amplitude of the path
             phase   :      test the total phase of the path
@@ -203,6 +249,9 @@ class Feff85exafsUnitTestGroup(Group):
             caps    :      test the central atom phase shift
             redfact :      test the reduction factor
             rep     :      test the real part of the complex wavenumber
+
+        and use_wrapper is True if the test is to use the python interface to the feffpath library
+        or False if the test is to use the monolithic feff.
 
         """
         if self._larch is None:
@@ -216,10 +265,24 @@ class Feff85exafsUnitTestGroup(Group):
             print colored("Path %d was not saved from the test Feff calculation" % nnnn, 'magenta', attrs=['bold'])
             return
             
+        how='monolithic'
+        if use_wrapper: how = 'wrapper'
         nnnndat = "feff%4.4d.dat" % nnnn
         
         blpath = feffpath(join(self.baseline, nnnndat))
-        trpath = feffpath(join(self.testrun,  nnnndat))
+        if use_wrapper and self.wrapper_available:
+            self.sp.phbin=join(self.testrun, 'phase.bin')
+            self.sp.nnnn=True
+            self.sp.verbose=True
+            self.snarf_geometry(nnnn)
+            here = getcwd()
+            chdir(self.testrun)
+            self.sp.make()
+            chdir(here)
+            n3nndat = "f3ff%4.4d.dat" % nnnn
+            trpath = feffpath(join(self.testrun,  n3nndat))
+        else:
+            trpath = feffpath(join(self.testrun,  nnnndat))
         
         if part=='feff':
             baseline_1 = getattr(blpath._feffdat, 'mag_feff') # + np.random.uniform(0,1,size=1)
@@ -276,7 +339,7 @@ class Feff85exafsUnitTestGroup(Group):
         self.rfactor_2 = 0
         self.rfactor = sum((baseline_1 - testrun_1)**2) / sum(baseline_1**2)
         if self.verbose: 
-            print colored("\nComparing %s of %s (%s)" % (label, nnnndat, scf), 'yellow', attrs=['bold'])
+            print colored("\nComparing %s of %s (%s) (%s)" % (label, nnnndat, scf, how), 'yellow', attrs=['bold'])
             self.geometry(blpath)
             
         if self.verbose: 
@@ -297,6 +360,10 @@ class Feff85exafsUnitTestGroup(Group):
                 _plot(blpath._feffdat.k, np.gradient(baseline_2), _larch=self._larch, label='grad(phase of baseline)')
                 _plot(trpath._feffdat.k, np.gradient(testrun_2),  _larch=self._larch, label='grad(phase of test run)')
                 
+        if use_wrapper and self.wrapper_available:
+            unlink(join(self.testrun,  n3nndat))
+            self.sp.clear()
+
         if part=='feff':
             return self.rfactor < self.epsilon and self.rfactor_2 < self.epsilon
         else:

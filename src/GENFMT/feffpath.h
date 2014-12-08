@@ -136,7 +136,8 @@ void onepath_(char *,
 #define ERR_BADINDEX          8  /* index lt 0 or gt 9999 */
 #define ERR_BADELPTY         16  /* elpty lt 0 or gt 1 */
 #define ERR_BADIORDER        32  /* iorder lt 0 or gt ? */
-#define ERR_FAILED           64  /* failed to compute path */
+#define ERR_NOPHBIN          64  /* failed to find phase.bin file */
+#define ERR_PHBINNOREAD     128  /* phase.bin file unreadable */
 
 #define COPY_STRING(dest,src)  dest=calloc(strlen(src)+1, sizeof(char));\
   strcpy(dest, src);

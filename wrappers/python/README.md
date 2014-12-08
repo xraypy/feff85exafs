@@ -19,25 +19,27 @@ To compile the python wrapper:
 
 	~> python setup.py build_ext --inplace
 
-To install ... ?
+To install:
+
+    >~ sudo python setup.py install_data
 
 
 ## Sample program
 
-Here is the simplest larch program using the python wrapper:
+Once installed, here is the simplest larch program using the python wrapper:
 
 ```python
-add_plugin("scatteringpath")
 a=scatteringpath()
 
 a.phbin = '../fortran/phase.bin'
 a.deg   = 12
 a.index = 1
-a.nnnn  = True
 
 a.atom(0,0,-3.61,1)
 
 a.make()
+
+show a
 ```
 
 1. The scatteringpath plugin is imported into the Larch session

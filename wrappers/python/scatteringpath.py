@@ -101,12 +101,100 @@ from larch import (Group, Parameter, isParameter, ValidateLarchPlugin, param_val
 use_plugin_path('xafs')
 import feffpathwrapper
 from   os.path   import isfile
+from   numpy     import array
+
+
+class FeffPathBoolean(object):
+    """A descriptor for boolean-valued FeffPath attributes"""
+    def __init__(self, name):
+        self._name = name
+
+    def __get__(self, instance, owner):
+        return getattr(instance.wrapper, self._name)
+
+    def __set__(self, instance, val):
+        setattr(instance.wrapper, self._name, val)
+
+class FeffPathUnsettableInteger(object):
+    """A descriptor for integer-valued FeffPath attributes which are not
+    intended to be set by the user, instead are set by calls to the
+    atom or make methods.
+
+    """
+    def __init__(self, name):
+        self._name = name
+
+    def __get__(self, instance, owner):
+        return int(getattr(instance.wrapper, self._name))
+
+    def __set__(self, instance, val):
+        pass
+
+class FeffPathNlegList(object):
+    """A descriptor for list-valued FeffPath attributes which have nleg
+    members and describe the geometry of the path, i.e. ri, beta, and
+    eta
+
+    """
+    def __init__(self, name):
+        self._name = name
+
+    def __get__(self, instance, owner):
+        lst=[]
+        for i in range(instance.wrapper.nleg):
+            x = eval('feffpathwrapper.get_'+self._name+'(instance.wrapper,i)')
+            lst.append(float(x))
+            #lst.append(feffpathwrapper.get_ri(self.wrapper,i))
+        return lst
+
+    def __set__(self, instance, val):
+        pass
+
+class FeffPathColumn(object):
+    """A descriptor for the array-valued FeffPath attributes which are the
+    columns of feffNNNN.dat"""
+    def __init__(self, name):
+        self._name = name
+
+    def __get__(self, instance, owner):
+        arr=[]
+        for i in range(instance.wrapper.ne):
+            x = eval('feffpathwrapper.get_'+self._name+'(instance.wrapper,i)')
+            arr.append(float(x))
+            #arr.append(feffpathwrapper.get_k(instance.wrapper,i))
+        return array(arr)
+
+    def __set__(self, instance, val):
+        pass
+
+
 
 class FeffPath(Group):
     """
     A larchified, simplified, feature-full wrapper around the thin
     (but weird) SWIG wrapper for the feffpath library.
     """
+
+    nnnn      = FeffPathBoolean('nnnn')
+    json      = FeffPathBoolean('json')
+    verbose   = FeffPathBoolean('verbose')
+    ipol      = FeffPathBoolean('ipol')
+
+    nleg      = FeffPathUnsettableInteger('nleg')
+    ne        = FeffPathUnsettableInteger('ne')
+    errorcode = FeffPathUnsettableInteger('errorcode')
+
+    ri        = FeffPathNlegList('ri')
+    beta      = FeffPathNlegList('beta')
+    eta       = FeffPathNlegList('eta')
+
+    k         = FeffPathColumn('k')
+    real_phc  = FeffPathColumn('real_phc')
+    mag_feff  = FeffPathColumn('mag_feff')
+    pha_feff  = FeffPathColumn('pha_feff')
+    red_fact  = FeffPathColumn('red_fact')
+    lam       = FeffPathColumn('lam')
+    realp     = FeffPathColumn('realp')
 
     def __init__(self, folder=None, _larch=None, **kws):
         kwargs = dict(name='FeffPath wrapper')
@@ -118,7 +206,8 @@ class FeffPath(Group):
         self.wrapper.phbin = ''
 
 
-    ## ---- scalar valued attributs
+    ## ---- scalar valued attributs, these get their own properties so
+    ##      tailored ValueErrors can be issued
 
     @property
     def phbin(self):
@@ -135,18 +224,9 @@ class FeffPath(Group):
     @index.setter
     def index(self,value):
         value = int(value)
-        if value < 1:
-            raise ValueError("Non-positive value of index not allowed: %s" % value)
-        elif value > 9999:
-            raise ValueError("Index value must be four digits or less: %s" % value)
+        if value < 1 or value > 9999:
+            raise ValueError("Index values must be between 1 and 9999: %s" % value)
         self.wrapper.index = long(value)
-
-    @property
-    def nleg(self):
-        return int(self.wrapper.nleg)
-    @nleg.setter
-    def nleg(self,value):
-        pass
 
     @property
     def deg(self):
@@ -162,39 +242,9 @@ class FeffPath(Group):
         return int(self.wrapper.iorder)
     @iorder.setter
     def iorder(self,value):
-        if value < 0:
-            raise ValueError("Negative value of iorder not allowed: %s" % value)
-        elif value > 10:
+        if value < 0 or value > 10:
             raise ValueError("Iorder value must be 10 or less: %s" % value)
         self.wrapper.iorder = long(value)
-
-    @property
-    def nnnn(self):
-        return self.wrapper.nnnn
-    @nnnn.setter
-    def nnnn(self,value):
-        self.wrapper.nnnn = self.bool(value)
-
-    @property
-    def json(self):
-        return self.wrapper.json
-    @json.setter
-    def json(self,value):
-        self.wrapper.json = self.bool(value)
-
-    @property
-    def verbose(self):
-        return self.wrapper.verbose
-    @verbose.setter
-    def verbose(self,value):
-        self.wrapper.verbose = self.bool(value)
-
-    @property
-    def ipol(self):
-        return self.wrapper.ipol
-    @ipol.setter
-    def ipol(self,value):
-        self.wrapper.ipol = self.bool(value)
 
     @property
     def elpty(self):
@@ -208,32 +258,17 @@ class FeffPath(Group):
         self.wrapper.elpty = value
         self.wrapper.ipol  = True
 
-    @property
-    def ne(self):
-        return int(self.wrapper.ne)
-    @ne.setter
-    def ne(self,value):
-        pass
-
-
-    ## ---- error handling
-
-    @property
-    def errorcode(self):
-        return int(self.wrapper.errorcode)
-    @errorcode.setter
-    def ne(self,value):
-        pass
+    ## ---- error handling (this is the only string-valued attribute returned from atom and make)
 
     @property
     def errormessage(self):
         return self.wrapper.errormessage
     @errormessage.setter
-    def ne(self,value):
+    def errormessage(self,value):
         pass
 
 
-    ## ---- array valued attributes
+    ## ---- 3-vec valued attributes (with tailored ValueErrors)
 
     @property
     def evec(self):
@@ -255,106 +290,13 @@ class FeffPath(Group):
     @xivec.setter
     def xivec(self, vec):
         if type(value) not in ('list', 'tuple'):
-            raise ValueError("xivec must be 3 element list (or tuple) with (x,y,z) of the Poynting vector")
+            raise ValueError("xivec must be 3 element list/tuple with (x,y,z) of the Poynting vector")
         elif len(value) != 3:
-            raise ValueError("xivec must be 3 element list (or tuple) with (x,y,z) of the Poynting vector")
+            raise ValueError("xivec must be 3 element list/tuple with (x,y,z) of the Poynting vector")
         feffpathwrapper.set_xivec(self.wrapper,0,vec[0])
         feffpathwrapper.set_xivec(self.wrapper,1,vec[1])
         feffpathwrapper.set_xivec(self.wrapper,2,vec[2])
         self.wrapper.ipol = True
-
-    @property
-    def ri(self):
-        arr=[]
-        for i in range(self.wrapper.nleg):
-            arr.append(feffpathwrapper.get_ri(self.wrapper,i))
-        return arr
-    @ri.setter
-    def ri(self, x, y, z):  pass
-
-    @property
-    def beta(self):
-        arr=[]
-        for i in range(self.wrapper.nleg):
-            arr.append(feffpathwrapper.get_beta(self.wrapper,i))
-        return arr
-    @beta.setter
-    def beta(self, x, y, z):  pass
-
-    @property
-    def eta(self):
-        arr=[]
-        for i in range(self.wrapper.nleg):
-            arr.append(feffpathwrapper.get_eta(self.wrapper,i))
-        return arr
-    @eta.setter
-    def eta(self, x, y, z):  pass
-
-
-    ## ---- columns of feffNNNN.dat
-
-    @property
-    def k(self):
-        arr=[]
-        for i in range(self.wrapper.ne):
-            arr.append(feffpathwrapper.get_k(self.wrapper,i))
-        return arr
-    @k.setter
-    def k(self, value): pass
-
-    @property
-    def real_phc(self):
-        arr=[]
-        for i in range(self.wrapper.ne):
-            arr.append(feffpathwrapper.get_real_phc(self.wrapper,i))
-        return arr
-    @real_phc.setter
-    def real_phc(self, value): pass
-
-    @property
-    def mag_feff(self):
-        arr=[]
-        for i in range(self.wrapper.ne):
-            arr.append(feffpathwrapper.get_mag_feff(self.wrapper,i))
-        return arr
-    @mag_feff.setter
-    def mag_feff(self, value): pass
-
-    @property
-    def pha_feff(self):
-        arr=[]
-        for i in range(self.wrapper.ne):
-            arr.append(feffpathwrapper.get_pha_feff(self.wrapper,i))
-        return arr
-    @pha_feff.setter
-    def pha_feff(self, value): pass
-
-    @property
-    def red_fact(self):
-        arr=[]
-        for i in range(self.wrapper.ne):
-            arr.append(feffpathwrapper.get_red_fact(self.wrapper,i))
-        return arr
-    @red_fact.setter
-    def red_fact(self, value): pass
-
-    @property
-    def lam(self):
-        arr=[]
-        for i in range(self.wrapper.ne):
-            arr.append(feffpathwrapper.get_lam(self.wrapper,i))
-        return arr
-    @lam.setter
-    def lam(self, value): pass
-
-    @property
-    def realp(self):
-        arr=[]
-        for i in range(self.wrapper.ne):
-            arr.append(feffpathwrapper.get_realp(self.wrapper,i))
-        return arr
-    @realp.setter
-    def realp(self, value): pass
 
 
 

@@ -203,8 +203,13 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   if ( (iorder < 0) || (iorder > 10) ) { /* 0 <= iorder <= 10 */
     error = error + ERR_BADIORDER;
   };
+  /* if( fopen(phbin, "r") == NULL ) { */
+  /*   error = error + ERR_NOPHBIN; */
+  /* } */
   path->errorcode = error;
   make_path_errorstring(path);
+  printf("%ld\n", path->errorcode);
+  fflush(stdout);
   if (error > 0) {
     return error;
   };
@@ -351,10 +356,12 @@ make_path_errorstring(FEFFPATH *path) {
   char str[100];
   long errcode = path->errorcode;
   long nleg = path->nleg;
+  char phbin[256] = {'\0'};
   deg    = path->deg;
   index  = path->index;
   iorder = path->iorder;
   elpty  = path->elpty;
+  sprintf(phbin, "%-256s", path->phbin);
 
   if (errcode == 0) { return; }
   strcat(message, "Error in make_path\n");
@@ -378,6 +385,14 @@ make_path_errorstring(FEFFPATH *path) {
   };
   if (errcode & ERR_BADIORDER) {
     sprintf(str, "\t(code 32) iorder (%ld) not between 0 and 10\n", iorder);
+    strcat(message, str);
+  };
+  if (errcode & ERR_NOPHBIN) {
+    sprintf(str, "\t(code 64) phase.bin file (%s) does not exist\n", phbin);
+    strcat(message, str);
+  };
+  if (errcode & ERR_PHBINNOREAD) {
+    sprintf(str, "\t(code 128) phase.bin file (%s) cannot be read\n", phbin);
     strcat(message, str);
   };
   COPY_STRING(path->errormessage, message);

@@ -1,9 +1,15 @@
+#+TITLE: feff85exafs to do list
+#+AUTHOR: Bruce Ravel
+#+STARTUP: showall
 
-* The feff85exafs to do list [0/6]
+
+* The feff85exafs to do list [1/8]
 
  1. [ ] write header into ~f3ffNNNN.dat~ files
- 2. [ ] capture header information in C struct, propagated into wrappers
- 3. [ ] python wrapper / Larch plugin
- 4. [ ] nose testing for feffpath generated ~f3ffNNNN.dat~ files
- 5. [ ] fit with different feff versions -- comparison framework
- 6. [ ] library for encapsolating generation of ~phase.bin~
+ 2. [ ] capture rat and ipot into STRUCT, propagate to wrappers
+ 3. [ ] capture header information in C struct, propagated into wrappers
+ 4. [ ] check for existance/readability of phase.bin at level of feffpath.c
+ 5. [X] python wrapper / Larch plugin
+ 6. [ ] nose testing for feffpath generated ~f3ffNNNN.dat~ files
+ 7. [ ] fit with different feff versions -- comparison framework
+ 8. [ ] library for encapsolating generation of ~phase.bin~
