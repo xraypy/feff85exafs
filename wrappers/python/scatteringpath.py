@@ -96,12 +96,43 @@ Attributes (output):
 # Author: Bruce Ravel (bravel AT bnl DOT gov).
 # Last update: 4 December, 2014
 
+import larch
 from larch import (Group, Parameter, isParameter, ValidateLarchPlugin, param_value,
                    use_plugin_path, isNamedClass, Interpreter)
 use_plugin_path('xafs')
-import feffpathwrapper
+from   os        import name
 from   os.path   import isfile
 from   numpy     import array
+from   platform  import uname, architecture
+
+
+## make sure that the SWIG wrapper library can be found and imported
+if name == 'nt':
+    installdir = larch.site_configdata.win_installdir
+else:
+    installdir = larch.site_configdata.unix_installdir
+
+## swiped from larch's dylibs/configure.py
+import sys
+system = uname()[0]
+arch   = architecture()[0]
+dlldir = None
+if name == 'nt':
+    dlldir = 'win32'
+    if arch.startswith('64'):
+        dlldir = 'win64'
+else:
+    if system.lower().startswith('linu'):
+        dlldir = 'linux32'
+        if arch.startswith('64'):    dlldir = 'linux64'
+    elif system.lower().startswith('darw'):
+        dlldir = 'darwin'
+
+dllfile=installdir+'/dlls/'+dlldir
+if not dllfile in sys.path:
+    sys.path.append(dllfile)
+import feffpathwrapper
+
 
 
 class FeffPathBoolean(object):

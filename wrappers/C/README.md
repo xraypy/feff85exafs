@@ -11,11 +11,32 @@ install feff85exafs.  The build script will look for various Feff
 libraries and the `feffpath.h` header file in their installation
 locations
 
-To compile the `makepath` sample program:
+The `errors.c` program exercises most of the error conditions
+resulting from improper input to `add\_scatterer` or `make_path`.
+This demonstrates error handling.
+
+To compile the `makepath` and `errors` sample programs:
 
 	~> scons
 
 That's it!
+
+## Memory testing
+
+If `feffpath.c` has memory leaks or other memory use problems, the
+wrappers for other languages will suffer from problems that are very
+hard to understand and track down.  It is, therefore, a very good idea
+to use a tool like [Valgrind](http://valgrind.org/) to test `makepath`
+and `errors` whenever changes are made to the feffpath library.
+
+Using [Valgrind](http://valgrind.org/) like so work wonders:
+
+	~> valgrind --track-origins=yes --leak-check=full ./makepath
+	~> valgrind --track-origins=yes --leak-check=full ./errors
+
+If you can get both programs to run without any error reports from
+Valgrind, the wrappers for other languages will have a fighting chance
+of working correctly.
 
 ## Sample program
 
@@ -35,7 +56,7 @@ long main()
   path = malloc(sizeof(FEFFPATH));
   ret = create_path(path);
 
-  COPY_STRING(path->phbin, "/home/bruce/git/feff85exafs/wrappers/fortran/phase.bin");
+  strcpy(path->phbin, "../fortran/phase.bin");
   path->nnnn    = 1;
   path->verbose = 1;
 
@@ -71,11 +92,11 @@ long main()
    specifies the location of the `phase.bin` file, is set to
    `phase.bin` in the current working directory.
 
-4. The `COPY_STRING` macro (see `feffpath.h`) is used to set the phbin
-   attribute to the actual location of the `phase.bin` file.  Note
-   that the fortran parameter in the `onepath` library has this string
-   dimensioned to be 256 characters.  And it's fortran, so it probably
-   won't deal gracefully with unicode characters.
+4. `strcpy` is used to set the phbin attribute to the actual location
+   of the `phase.bin` file.  Note that the fortran parameter in the
+   `onepath` library has this string dimensioned to be 256 characters.
+   And it's fortran, so it probably won't deal gracefully with unicode
+   characters.
 
 5. Setting `nnnn` and `verbose` to a true value tells the program to
    write `feffNNNN.dat` files and to write a short message to the

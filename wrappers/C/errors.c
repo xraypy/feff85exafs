@@ -21,7 +21,7 @@ long main()
 
   path->index   = 1;
   path->deg     = 12.0;
-  ret = add_scatterer(path,  1.805, 0,  1.805, 9); /* ipot negative, add_scatterer error 1 */
+  ret = add_scatterer(path,  1.805, 0,  1.805, -1); /* ipot negative, add_scatterer error 1 */
   if (path->errorcode == 0) {
     ret = make_path(path);
   } else {
@@ -33,7 +33,7 @@ long main()
 
   path->index   = 1;
   path->deg     = 12.0;
-  ret = add_scatterer(path,  1.805, 0,  1.805, -1); /* ipot too big, add_scatterer error 2 */
+  ret = add_scatterer(path,  1.805, 0,  1.805, 9); /* ipot too big, add_scatterer error 2 */
   if (path->errorcode == 0) {
     ret = make_path(path);
   } else {

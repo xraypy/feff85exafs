@@ -57,7 +57,7 @@ class Feff85exafsUnitTestGroup(Group):
        epsilon   :  float,   value for comparing columns from feffNNNN.dat with the baseline and other things
        count, datacount, feffcount : count number of tests
     """
-    
+
     def __init__(self, folder=None, _larch=None, **kws):
         kwargs = dict(name='Feff85exafs unit test: %s' % folder)
         kwargs.update(kws)

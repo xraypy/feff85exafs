@@ -5,4 +5,4 @@ env = Environment()
 ## ------------------------------------------------------------------------------------------------------
 ## build the test program for the fortran wrapper
 ## Feff libraries should have already been installed
-env.Program('makepath', 'makepath.f', LIBS = ['onepath'])
+env.Program('makepath', 'makepath.f', FORTRANFLAGS = ['-g',], LIBS = ['onepath'])

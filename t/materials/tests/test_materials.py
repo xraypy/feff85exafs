@@ -11,6 +11,7 @@ from os import getenv
 from os.path import isfile, isdir, join
 
 #folders = ('Copper', )
+#folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane')
 folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane', 'LCO-para', 'LCO-perp')
 tests   = dict()
 doscf   = getenv('FEFF_TEST_SCF', 'False')
@@ -52,6 +53,8 @@ def test_feff_wrapper():
     if not tests[folders[0]].wrapper_available:
         return;
     for f in folders:
+        if f.startswith('LCO'):
+            continue
         for path in tests[f].paths:
             index = int(path[4:8])
             for part in ('feff', 'amp', 'phase'):
