@@ -64,6 +64,14 @@ sub BUILD {
   return $self;
 };
 
+sub DEMOLISH {
+  my ($self) = @_;
+  #print "in my DEMOLISH\n";
+  #print $self->wrapper, $/;
+  $self->wrapper->cleanup;
+  return $self;
+};
+
 ## this is the trigger for all the scalar-valued attributes.  it pushes the value back to the wrapper object.
 sub pushback {
   my ($self, $new, $old, $which) = @_;
@@ -161,12 +169,6 @@ sub path {
 
 sub clear {
   my ($self) = @_;
-  ## occassional failure to call this method
-  $self->wrapper->clear_path;
-  foreach my $att (qw(Index nleg deg iorder nnnn json verbose ipol elpty)) {
-    my $method = join("_", "swig", lc($att), "get");
-    $self->$att($self->wrapper->$method||0);
-  };
   $self->evec([0,0,0]);
   $self->xivec([0,0,0]);
   $self->clear_ri;
@@ -179,6 +181,18 @@ sub clear {
   $self->clear_red_fact;
   $self->clear_lam;
   $self->clear_realp;
+  ## occassional failure to call this method
+  $self->wrapper->clear_path;
+  foreach my $att (qw(Index nleg deg iorder nnnn json verbose ipol elpty)) {
+    my $method = join("_", "swig", lc($att), "get");
+    $self->$att($self->wrapper->$method||0);
+  };
+};
+
+
+sub clean {
+  my ($self) = @_;
+  $self->wrapper->cleanup;
 };
 
 # use Term::ANSIColor qw(:constants);

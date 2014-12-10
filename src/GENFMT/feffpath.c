@@ -28,7 +28,7 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   /* Return an error code -- currently hardwired to return 0. */
   long i;
   char message[500] = {'\0'};
-  char phbin[256] = {'\0'};
+  char phbin[256];
   sprintf(message, "%-500s", " ");
   sprintf(phbin, "%-256s", " ");
 
@@ -70,7 +70,11 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   path->realp    = calloc(nex, sizeof(double));
   /* --------------------------------------------------- */
 
-  COPY_STRING(path->errormessage, message);
+  /* COPY_STRING(path->errormessage, message); */
+  path->errormessage = calloc(500, sizeof(char));
+  strcpy(path->errormessage, message);
+  /* path->phbin = calloc(256, sizeof(char)); */
+  /* strcpy(path->phbin, phbin); */
   COPY_STRING(path->phbin, phbin);
 
   return 0;
@@ -349,8 +353,8 @@ leglength(FEFFPATH *path) {
 make_scatterer_errorstring(FEFFPATH *path) {
   double x, y, z;
   long ip;
-  char message[500] = {'\0'};
-  char pos[100];
+  char message[500];
+  char error[100];
   long errcode = path->errorcode;
   long nleg = path->nleg;
   x  = path->rat[nleg-1][0];
@@ -359,19 +363,22 @@ make_scatterer_errorstring(FEFFPATH *path) {
   ip = path->ipot[nleg-1];
 
   if (errcode == 0) { return; }
-  sprintf(pos, "Error in add_scatterer at atom (%.5f, %.5f, %.5f, %ld):\n", x, y, z, ip);
-  strcat(message, pos);
+  sprintf(message, "Error in add_scatterer at atom (%.5f, %.5f, %.5f, %ld):\n", x, y, z, ip);
   if (errcode & ERR_NEGIPOT) {
-    strcat(message, "\t(code 1) ipot argument to add_scatterer is less than 0\n");
+    strcpy(error, "\t(code 1) ipot argument to add_scatterer is less than 0\n");
+    strcat(message, error);
   };
   if (errcode & ERR_BIGIPOT) {
-    strcat(message, "\t(code 2) ipot argument to add_scatterer is greater than 7\n");
+    strcpy(error, "\t(code 2) ipot argument to add_scatterer is greater than 7\n");
+    strcat(message, error);
   } ;
   if (errcode & ERR_TOOCLOSE) {
-    strcat(message, "\t(code 4) coordinates are for an atom too close to the previous atom in the path\n");
+    strcpy(error, "\t(code 4) coordinates are for an atom too close to the previous atom in the path\n");
+    strcat(message, error);
   };
   if (errcode & ERR_TOOMANYLEGS) {
-    strcat(message, "\t(code 8) nlegs greater than legtot\n");
+    strcpy(error, "\t(code 8) nlegs greater than legtot\n");
+    strcat(message, error);
   };
   strcpy(path->errormessage, message);
 }
@@ -379,8 +386,8 @@ make_scatterer_errorstring(FEFFPATH *path) {
 make_path_errorstring(FEFFPATH *path) {
   double deg, elpty;
   long index, iorder;
-  char message[240] = {'\0'};
-  char str[100];
+  char message[500];
+  char error[100];
   long errcode = path->errorcode;
   long nleg = path->nleg;
   char phbin[256] = {'\0'};
@@ -391,36 +398,38 @@ make_path_errorstring(FEFFPATH *path) {
   sprintf(phbin, "%-256s", path->phbin);
 
   if (errcode == 0) { return; }
-  strcat(message, "Error in make_path\n");
+  sprintf(message, "Error in make_path\n");
   if (errcode & ERR_FIRSTISABS) {
-    strcat(message, "\t(code 1) the first atom specified is the absorber\n");
+    strcpy(error, "\t(code 1) the first atom specified is the absorber\n");
+    strcat(message, error);
   };
   if (errcode & ERR_NLEGISABS) {
-    strcat(message, "\t(code 2) the last atom specified is the absorber\n");
+    strcpy(error, "\t(code 2) the last atom specified is the absorber\n");
+    strcat(message, error);
   };
   if (errcode & ERR_DEGNEG) {
-    sprintf(str, "\t(code 4) path degeneracy (%.2f) is negative\n", deg);
-    strcat(message, str);
+    sprintf(error, "\t(code 4) path degeneracy (%.2f) is negative\n", deg);
+    strcat(message, error);
   };
   if (errcode & ERR_BADINDEX) {
-    sprintf(str, "\t(code 8) path index (%ld) not between 0 and 9999\n", index);
-    strcat(message, str);
+    sprintf(error, "\t(code 8) path index (%ld) not between 0 and 9999\n", index);
+    strcat(message, error);
   };
   if (errcode & ERR_BADELPTY) {
-    sprintf(str, "\t(code 16) ellipticity (%.2f) not between 0 and 1\n", elpty);
-    strcat(message, str);
+    sprintf(error, "\t(code 16) ellipticity (%.2f) not between 0 and 1\n", elpty);
+    strcat(message, error);
   };
   if (errcode & ERR_BADIORDER) {
-    sprintf(str, "\t(code 32) iorder (%ld) not between 0 and 10\n", iorder);
-    strcat(message, str);
+    sprintf(error, "\t(code 32) iorder (%ld) not between 0 and 10\n", iorder);
+    strcat(message, error);
   };
   if (errcode & ERR_NOPHBIN) {
-    sprintf(str, "\t(code 64) phase.bin file (%s) does not exist\n", phbin);
-    strcat(message, str);
+    sprintf(error, "\t(code 64) phase.bin file (%s) does not exist\n", phbin);
+    strcat(message, error);
   };
   if (errcode & ERR_PHBINNOREAD) {
-    sprintf(str, "\t(code 128) phase.bin file (%s) cannot be read\n", phbin);
-    strcat(message, str);
+    sprintf(error, "\t(code 128) phase.bin file (%s) cannot be read\n", phbin);
+    strcat(message, error);
   };
   strcpy(path->errormessage, message);
 }
