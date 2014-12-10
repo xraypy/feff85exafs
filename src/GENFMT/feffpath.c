@@ -165,10 +165,11 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   double xivec[3];
 
   char phbin[256] = {'\0'};
+  FILE *ifp;
 
   /* printf("entering make_path\n"); */
   /* fflush(stdout); */
-  sprintf(phbin, "%-256s", path->phbin);
+  strcpy(phbin, path->phbin);
   iorder = path->iorder;
   index = path->index;
   nleg = path->nleg;
@@ -209,9 +210,12 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   if ( (iorder < 0) || (iorder > 10) ) { /* 0 <= iorder <= 10 */
     error = error + ERR_BADIORDER;
   };
-  /* if( fopen(phbin, "r") == NULL ) { */
-  /*   error = error + ERR_NOPHBIN; */
-  /* } */
+  ifp = fopen(phbin, "r");  /* cannot find or read phase.bin */
+  if( ifp == NULL ) {
+    error = error + ERR_NOPHBIN;
+  } else {
+    fclose(ifp);
+  };
   path->errorcode = error;
   make_path_errorstring(path);
   /* printf("%ld\n", path->errorcode); */
@@ -395,7 +399,7 @@ make_path_errorstring(FEFFPATH *path) {
   index  = path->index;
   iorder = path->iorder;
   elpty  = path->elpty;
-  sprintf(phbin, "%-256s", path->phbin);
+  strcpy(phbin, path->phbin);
 
   if (errcode == 0) { return; }
   sprintf(message, "Error in make_path\n");
@@ -424,11 +428,7 @@ make_path_errorstring(FEFFPATH *path) {
     strcat(message, error);
   };
   if (errcode & ERR_NOPHBIN) {
-    sprintf(error, "\t(code 64) phase.bin file (%s) does not exist\n", phbin);
-    strcat(message, error);
-  };
-  if (errcode & ERR_PHBINNOREAD) {
-    sprintf(error, "\t(code 128) phase.bin file (%s) cannot be read\n", phbin);
+    sprintf(error, "\t(code 64) phase.bin file (%s) does not exist or cannot be read\n", phbin);
     strcat(message, error);
   };
   strcpy(path->errormessage, message);

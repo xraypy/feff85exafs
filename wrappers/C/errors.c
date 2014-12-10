@@ -120,16 +120,16 @@ long main()
 
 
   /* this is not working yet.... */
-  /* strcpy(path->phbin, "foo.bar"); */
-  /* path->index   = 1; */
-  /* path->deg     = 12.0; */
-  /* ret = add_scatterer(path,  1.805, 0,  1.805, -1); /\* bad phbin, make_path error 64 *\/ */
-  /* ret = make_path(path); */
-  /* if (path->errorcode != 0) { */
-  /*   printf("%s\n", path->errormessage); */
-  /* }; */
+  strcpy(path->phbin, "foo.bar");
+  path->index   = 1;
+  path->deg     = 12.0;
+  ret = add_scatterer(path,  1.805, 0,  1.805, -1); /* bad phbin, make_path error 64 */
+  ret = make_path(path);
+  if (path->errorcode != 0) {
+    printf("%s\n", path->errormessage);
+  };
 
-  /* clear_path(path); */
+  clear_path(path);
 
 
 

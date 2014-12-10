@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 33;
+use Test::More tests => 34;
 use Cwd;
 
 use Xray::FeffPath;
@@ -169,7 +169,16 @@ $path->atom( 0,     0, -3.61,  1);
 $path->atom(-1.805, 0, -1.805, 1);
 $path->path;
 ok($path->errorcode == 32,                                                                "error recognized: bad iorder");
+$path->clear;
+
+
+$path->phbin("foo.bar");
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 64,                                                                "error recognized: bad phbin");
 #$path->clear;
+
 
 
 
