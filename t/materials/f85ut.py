@@ -273,7 +273,7 @@ class Feff85exafsUnitTestGroup(Group):
         if use_wrapper and self.wrapper_available:
             self.sp.phbin=join(self.testrun, 'phase.bin')
             self.sp.nnnn=True
-            self.sp.verbose=True
+            self.sp.verbose=self.verbose
             self.snarf_geometry(nnnn)
             here = getcwd()
             chdir(self.testrun)

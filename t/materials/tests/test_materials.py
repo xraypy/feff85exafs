@@ -10,6 +10,7 @@ import re
 from os import getenv
 from os.path import isfile, isdir, join
 
+#folders = ('Copper', )
 folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane', 'LCO-para', 'LCO-perp')
 tests   = dict()
 doscf   = getenv('FEFF_TEST_SCF', 'False')
@@ -32,6 +33,13 @@ def test_columns():
         for part in ('lambda', 'caps', 'redfact', 'rep'):
             yield check_columns, f, part
 
+def test_columns_wrapper():
+    if not tests[folders[0]].wrapper_available:
+        return;
+    for f in folders:
+        for part in ('lambda', 'caps', 'redfact', 'rep'):
+            yield check_columns_wrapper, f, part
+
 ## check F_eff for each path
 def test_feff():
     for f in folders:
@@ -39,6 +47,15 @@ def test_feff():
             index = int(path[4:8])
             for part in ('feff', 'amp', 'phase'):
                 yield check_feff, f, index, part
+
+def test_feff_wrapper():
+    if not tests[folders[0]].wrapper_available:
+        return;
+    for f in folders:
+        for path in tests[f].paths:
+            index = int(path[4:8])
+            for part in ('feff', 'amp', 'phase'):
+                yield check_feff_wrapper, f, index, part
 
 ## check norman and muffin tin radii of the ipots from feff
 def test_radii():
@@ -101,11 +118,19 @@ def check_columns(folder, part):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
     this = tests[folder].compare(1, part=part)
     assert this, "comparison of %s for path 1 in %s" % (part, folder)
+def check_columns_wrapper(folder, part):
+    if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
+    this = tests[folder].compare(1, part=part, use_wrapper=True)
+    assert this, "comparison of %s for path 1 in %s using wrapper" % (part, folder)
 
 def check_feff(folder, index, part):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
     this = tests[folder].compare(index, part=part)
     assert this, "comparison of %s for path %d in %s" % (part, index, folder)
+def check_feff_wrapper(folder, index, part):
+    if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
+    this = tests[folder].compare(index, part=part, use_wrapper=True)
+    assert this, "comparison of %s for path %d in %s using wrapper" % (part, index, folder)
 
 def check_radii(folder, radius):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder

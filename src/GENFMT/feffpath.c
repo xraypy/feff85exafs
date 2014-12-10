@@ -208,8 +208,8 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   /* } */
   path->errorcode = error;
   make_path_errorstring(path);
-  printf("%ld\n", path->errorcode);
-  fflush(stdout);
+  /* printf("%ld\n", path->errorcode); */
+  /* fflush(stdout); */
   if (error > 0) {
     return error;
   };
@@ -302,6 +302,9 @@ _EXPORT(long) add_scatterer(FEFFPATH *path, double x, double y, double z, long i
 
 _EXPORT(void) cleanup(FEFFPATH *path) {
   /* does one need to explicitly free each part of the struct? */
+  /* Google for "c free struct memory" */
+  /* http://stackoverflow.com/questions/5324355/how-do-i-release-a-struct-from-memory-and-arrays-within-them */
+  /* http://stackoverflow.com/questions/6720781/c-free-and-struct */
   free(path);
 }
 

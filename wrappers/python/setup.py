@@ -20,5 +20,5 @@ setup (name = 'scatteringpath',
        download_url = 'https://github.com/xraypy/feff85exafs',
        description = """A Larch wrapper around the feffpath library""",
        ext_modules = [feffpath_module],
-       data_files = [(sys.prefix+'/share/larch/plugins/xafs/', ["feffpathwrapper.py","scatteringpath.py","_feffpathwrapper.so"])],
+       data_files = [('/usr/local/share/larch/plugins/xafs/', ["feffpathwrapper.py","scatteringpath.py","_feffpathwrapper.so"])],
        )
