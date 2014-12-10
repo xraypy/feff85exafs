@@ -121,7 +121,7 @@ class Feff85exafsUnitTestGroup(Group):
         
     def run(self):
         """
-        Make a feff.inp from the mustache template, then run feff 8.5 in t he testrun folder
+        Make a feff.inp from the mustache template, then run feff 8.5 in the testrun folder
         """
         if not isdir(self.folder):
             print colored(self.folder + " is not one of the available tests", 'magenta', attrs=['bold'])

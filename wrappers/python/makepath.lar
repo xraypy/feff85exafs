@@ -5,7 +5,6 @@
 ##
 
 ## create a FeffPath object to work with
-add_plugin("scatteringpath")
 a=scatteringpath()
 
 ## set some attributes common to all paths from this calculation

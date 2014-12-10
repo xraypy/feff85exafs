@@ -306,9 +306,9 @@ class FeffPath(Group):
         return [feffpathwrapper.get_evec(self.wrapper,0), feffpathwrapper.get_evec(self.wrapper,1), feffpathwrapper.get_evec(self.wrapper,2)]
     @evec.setter
     def evec(self, vec):
-        if type(value) not in ('list', 'tuple'):
+        if type(vec).__name__ not in ('list', 'tuple'):
             raise ValueError("evec must be 3 element list (or tuple) with (x,y,z) of the electric vector")
-        elif len(value) != 3:
+        elif len(vec) != 3:
             raise ValueError("evec must be 3 element list (or tuple) with (x,y,z) of the electric vector")
         feffpathwrapper.set_evec(self.wrapper,0,vec[0])
         feffpathwrapper.set_evec(self.wrapper,1,vec[1])
@@ -320,9 +320,9 @@ class FeffPath(Group):
         return [feffpathwrapper.get_xivec(self.wrapper,0), feffpathwrapper.get_xivec(self.wrapper,1), feffpathwrapper.get_xivec(self.wrapper,2)]
     @xivec.setter
     def xivec(self, vec):
-        if type(value) not in ('list', 'tuple'):
+        if type(vec) not in ('list', 'tuple'):
             raise ValueError("xivec must be 3 element list/tuple with (x,y,z) of the Poynting vector")
-        elif len(value) != 3:
+        elif len(vec) != 3:
             raise ValueError("xivec must be 3 element list/tuple with (x,y,z) of the Poynting vector")
         feffpathwrapper.set_xivec(self.wrapper,0,vec[0])
         feffpathwrapper.set_xivec(self.wrapper,1,vec[1])

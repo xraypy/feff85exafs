@@ -9,7 +9,7 @@ long main()
   FEFFPATH *path;
 
   path = malloc(sizeof(FEFFPATH));
-  ret = create_path(path);
+  ret  = create_path(path);
 
   strcpy(path->phbin, "../fortran/phase.bin");
   path->nnnn    = 1;
@@ -71,9 +71,10 @@ long main()
   clear_path(path);
 
 
+  /* recognize >1 error in the one call to make_path */
   path->index   = 1;
-  path->deg     = 12.0;
-  ret = add_scatterer(path,  1.805, 0,  1.805, 1);
+  path->deg     = -12.0;
+  ret = add_scatterer(path,  1.805, 0,  1.805, -1); /* negative degeneracy, make_path error 4 */
   ret = add_scatterer(path,  0,     0,  0,     1); /* last atom absorber, make_path error 2 */
   ret = make_path(path);
   if (path->errorcode != 0) {
@@ -83,54 +84,17 @@ long main()
   clear_path(path);
 
 
-  path->index   = 1;
-  path->deg     = -12.0;
-  ret = add_scatterer(path,  1.805, 0,  1.805, -1); /* negative degeneracy, make_path error 4 */
-  ret = make_path(path);
-  if (path->errorcode != 0) {
-    printf("%s\n", path->errormessage);
-  };
 
-  clear_path(path);
-
-
-
-  path->index   = 40000;
+  path->index   = 40000;  /* bad index, make_path error 8 */
   path->deg     = 12.0;
-  ret = add_scatterer(path,  1.805, 0,  1.805, -1); /* bad index, make_path error 8 */
+  path->elpty   = -0.5;
+  path->iorder  = -1;    /* bad iorder, make_path error 32 */
+  strcpy(path->phbin, "foo.bar");  /* bad phbin, make_path error 64 */
+  ret = add_scatterer(path,  1.805, 0,  1.805, -1);
   ret = make_path(path);
   if (path->errorcode != 0) {
     printf("%s\n", path->errormessage);
   };
-
-  clear_path(path);
-
-
-
-  path->index   = 1;
-  path->deg     = 12.0;
-  path->iorder   = -1;
-  ret = add_scatterer(path,  1.805, 0,  1.805, -1); /* bad iorder, make_path error 32 */
-  ret = make_path(path);
-  if (path->errorcode != 0) {
-    printf("%s\n", path->errormessage);
-  };
-
-  clear_path(path);
-
-
-  /* this is not working yet.... */
-  strcpy(path->phbin, "foo.bar");
-  path->index   = 1;
-  path->deg     = 12.0;
-  ret = add_scatterer(path,  1.805, 0,  1.805, -1); /* bad phbin, make_path error 64 */
-  ret = make_path(path);
-  if (path->errorcode != 0) {
-    printf("%s\n", path->errormessage);
-  };
-
-  clear_path(path);
-
 
 
   cleanup(path);
