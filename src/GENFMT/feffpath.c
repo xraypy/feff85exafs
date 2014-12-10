@@ -27,7 +27,9 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   /* Instantiate and initialize a FEFFPATH struct */
   /* Return an error code -- currently hardwired to return 0. */
   long i;
+  char message[500] = {'\0'};
   char phbin[256] = {'\0'};
+  sprintf(message, "%-500s", " ");
   sprintf(phbin, "%-256s", " ");
 
   path->index     = 9999;
@@ -68,7 +70,7 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   path->realp    = calloc(nex, sizeof(double));
   /* --------------------------------------------------- */
 
-  COPY_STRING(path->errormessage, "");
+  COPY_STRING(path->errormessage, message);
   COPY_STRING(path->phbin, phbin);
 
   return 0;
@@ -104,10 +106,10 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
     path->beta[i] = 0;
     path->eta[i]  = 0;
   }
-  path->ipot[legtot+1] = 0;
-  path->beta[legtot+1] = 0;
+  path->ipot[legtot] = 0;
+  path->beta[legtot] = 0;
+  path->eta[legtot]  = 0;
   path->eta[legtot+1]  = 0;
-  path->eta[legtot+2]  = 0;
   for (i = 0; i < legtot+2; i++) {
     for (j = 0; j < 3; j++) {
       path->rat[i][j] = 0;
@@ -124,8 +126,8 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
     path->realp[i]    = 0;
   }
 
-  COPY_STRING(path->errormessage, "");
-  /* COPY_STRING(path->phbin, "phase.bin"); */
+  strcpy(path->errormessage, "");
+  /* strcpy(path->phbin, "phase.bin"); */
 }
 
 
@@ -232,9 +234,9 @@ _EXPORT(long) make_path(FEFFPATH *path) {
     path->beta[i] = beta[i] * 180 / pi;
     path->eta[i]  = eta[i]  * 180 / pi;
   }
-  path->beta[legtot+1] = beta[legtot+1];
+  path->beta[legtot] = beta[legtot];
+  path->eta[legtot]  = eta[legtot];
   path->eta[legtot+1]  = eta[legtot+1];
-  path->eta[legtot+2]  = eta[legtot+2];
   /* printf("after geometry\n"); */
   /* fflush(stdout); */
 
@@ -301,10 +303,32 @@ _EXPORT(long) add_scatterer(FEFFPATH *path, double x, double y, double z, long i
 }
 
 _EXPORT(void) cleanup(FEFFPATH *path) {
-  /* does one need to explicitly free each part of the struct? */
-  /* Google for "c free struct memory" */
-  /* http://stackoverflow.com/questions/5324355/how-do-i-release-a-struct-from-memory-and-arrays-within-them */
-  /* http://stackoverflow.com/questions/6720781/c-free-and-struct */
+  /* one needs to explicitly free each part of the struct */
+  long i;
+
+  for (i = 0; i < legtot+2; i++) {
+    free(path->rat[i]);
+  }
+  free(path->rat);
+  free(path->ipot);
+  free(path->ri);
+  free(path->beta);
+  free(path->eta);
+
+  free(path->evec);
+  free(path->xivec);
+
+  free(path->k);
+  free(path->real_phc);
+  free(path->mag_feff);
+  free(path->pha_feff);
+  free(path->red_fact);
+  free(path->lam);
+  free(path->realp);
+
+  free(path->errormessage);
+  free(path->phbin);
+
   free(path);
 }
 
@@ -349,7 +373,7 @@ make_scatterer_errorstring(FEFFPATH *path) {
   if (errcode & ERR_TOOMANYLEGS) {
     strcat(message, "\t(code 8) nlegs greater than legtot\n");
   };
-  COPY_STRING(path->errormessage, message);
+  strcpy(path->errormessage, message);
 }
 
 make_path_errorstring(FEFFPATH *path) {
@@ -398,6 +422,6 @@ make_path_errorstring(FEFFPATH *path) {
     sprintf(str, "\t(code 128) phase.bin file (%s) cannot be read\n", phbin);
     strcat(message, str);
   };
-  COPY_STRING(path->errormessage, message);
+  strcpy(path->errormessage, message);
 }
 

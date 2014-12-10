@@ -231,6 +231,7 @@ c    &       nleg, deg, rat, ipot, elpty, evec, xivec, nnnn, json)
 c+----------------------------------------------------------------------
 c     fetch the standard output header lines from xsect.json
 c+----------------------------------------------------------------------
+      ntit = 0
 c      call read_titles(ntit, titles)
 
 c+----------------------------------------------------------------------
