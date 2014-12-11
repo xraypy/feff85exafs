@@ -26,10 +26,13 @@
 
 
 #define nex    150            /* from feff */
+#define nphx   11             /* from feff */
 #define npatx  8              /* from feff */
 #define legtot npatx+1        /* from feff */
 #define bohr   0.529177249    /* bohr, a unit of length, in Ångström */
 #define pi     3.1415926535897932384626433  /* π */
+#define ryd    13.605698      /* rydberg, a unit of energy, in eV */
+#define hart   2.0 * ryd      /* hartree, a unit of energy, in eV */
 
 typedef struct {
   /* INPUT: path to phase.bin file                                                   */
@@ -54,7 +57,19 @@ typedef struct {
   double elpty;       /* ellipticity                               default = 0       */
   double *xivec;      /* direction of X-ray propagation            default = (0,0,0) */
 
-  /* OUTPUT: geometry information (leg length, beta, eta)                            */
+  /* OUTPUT: various strings and physical constants from feffNNNN.dat header         */
+  double edge;        /* energy threshold relative to atomic value (a poor estimate) */ 
+  double gam_ch;      /* core level energy width                                     */
+  double kf;          /* k value at Fermi level                                      */
+  double mu;          /* Fermi level, eV                                             */
+  double rnorman;     /* Norman radius                                               */
+  double rs_int;      /* interstitial radius                                         */
+  double vint;        /* interstitial potential                                      */
+  char *exch;         /* string describing electronic exchange model                 */
+  char *version;      /* Feff version                                                */
+
+  /* OUTPUT: geometry information (leg length, beta, eta, Z)                         */
+  long *iz;           /* atomic numbers of atoms in path     obtained from phase.bin */
   double *ri;         /* leg lengths                                                 */
   double *beta;       /* beta angles                                                 */
   double *eta;        /* eta angles                                                  */
@@ -68,7 +83,7 @@ typedef struct {
   double *pha_feff;   /* phase of F_eff                     column 4 in feffNNNN.dat */ 
   double *red_fact;   /* reduction factor                   column 5 in feffNNNN.dat */ 
   double *lam;        /* mean free path                     column 6 in feffNNNN.dat */
-  double *realp;      /* real part of complex momentum      column 7 in feffNNNN.dat */
+  double *rep;        /* real part of complex momentum      column 7 in feffNNNN.dat */
 
   /* OUTPUT: error handling                                                          */
   long errorcode;     /* error code from add_scatterer or make_path                  */
@@ -105,6 +120,7 @@ void onepath_(char *,
 	      /* scattering geometry */
 	      long (*)[legtot+1],       /* list of unique potentials */
 	      double (*)[legtot+2][3],  /* list of cartesian coordinates */
+	      long (*)[nphx+1],         /* list of atomic numbers */
 	      /* polarization and ellipticity */
 	      long *,                   /* flag to compute polarization */
 	      double (*)[3],            /* polarization vector */

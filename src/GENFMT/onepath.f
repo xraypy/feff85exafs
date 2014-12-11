@@ -1,5 +1,5 @@
       subroutine onepath(phbin, index, nleg, deg, iorder,
-     &       ipot, rat,
+     &       ipot, rat, iz,
      &       ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne1,col1,col2,col3,col4,col5,col6,col7)
@@ -186,6 +186,9 @@ c     &       ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
 c+----------------------------------------------------------------------
 c     initialize everything needed for the genfmt calculation
 c+----------------------------------------------------------------------
+      do 7 i=0,nphx
+         iz(i) = 0
+ 7    continue
       call genfmt_prep(phbin, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,

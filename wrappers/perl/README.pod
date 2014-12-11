@@ -30,7 +30,9 @@ copper metal:
   use Xray::FeffPath;
 
   my $path = Xray::FeffPath->new();
-  $path->create_path;
+  $path->deg(48);
+  $path->Index(4);
+  $path->phbin('../fortran/phase.bin');
   $path->atom(0, 0, -3.61, 1);
   $path->atom(-1.805, 0, -1.805, 1);
   $path->path;
@@ -40,8 +42,21 @@ copper metal:
   my @phff   = @{ $path->pha_feff };
   my @redfac = @{ $path->red_fact };
   my @lambda = @{ $path->lam };
-  my @realp  = @{ $path->realp };
+  my @rep    = @{ $path->rep };
   undef $path
+
+=head1 INSTALLATION
+
+After you have built and installed I<feff85exafs>, do the following:
+
+  perl Makefile.PL
+  make
+  make test
+  sudo make install
+
+That's it!  Note, though, that building this wrapper B<requires> that
+the fortran and C code I<feff85exafs> be completely compiled and thet
+the resulting libraries (and other files) be successfully installed.
 
 =head1 METHODS
 
@@ -52,13 +67,6 @@ copper metal:
 Create the FeffPath object
 
    my $path = Xray::FeffPath->new();
-
-=item C<create_path>
-
-Initialize the underlying C struct.  This is the necessary first step
-to a feffpath calculation.
-
-   $path->create_path;
 
 =item C<atom>
 
@@ -96,6 +104,12 @@ Compute the scattering path
 Reinitialize the scattering path
 
    $path->clear;
+
+=item C<clear>
+
+Destroy the scattering path, freeing the memory used by the library
+
+   $path->clean;
 
 =back
 
@@ -282,7 +296,7 @@ column 5 from F<feffNNNN.dat>.
 A reference to an array containing lambda, the mean free path.  This is
 column 6 from F<feffNNNN.dat>.
 
-=item C<realp>
+=item C<rep>
 
 A reference to an array containing the real part of the complex
 momentum.  This is column 7 from F<feffNNNN.dat>.
@@ -351,6 +365,10 @@ ellipticity not between 0 and 1
 
 iorder not between 0 and 10
 
+=item I<64>
+
+F<phase.bin> cannot be found or cannot be read
+
 =back
 
 =head1 DEPENDENCIES
@@ -381,7 +399,7 @@ Patches are welcome.
 
 Bruce Ravel (bravel AT bnl DOT gov)
 
-L<http://cars9.uchicago.edu/~ravel/software/>
+L<https://github.com/bruceravel>
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -392,8 +410,8 @@ about Authorship may be retained in some files for historical reasons,
 this work is hereby placed in the Public Domain.  This work is
 published from: United States.
 
-Note that the feffpath library itself is NOT public domain, nor is the
-Fortran source code it relies upon.
+Note that the feffpath and onepath libraries themselves are NOT public
+domain, nor is the Fortran source code for Feff that it relies upon.
 
 Author: Bruce Ravel (bravel AT bnl DOT gov).
 Last update: 4 November, 2014

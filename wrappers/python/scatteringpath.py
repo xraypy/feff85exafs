@@ -225,7 +225,7 @@ class FeffPath(Group):
     pha_feff  = FeffPathColumn('pha_feff')
     red_fact  = FeffPathColumn('red_fact')
     lam       = FeffPathColumn('lam')
-    realp     = FeffPathColumn('realp')
+    rep       = FeffPathColumn('rep')
 
     def __init__(self, folder=None, _larch=None, **kws):
         kwargs = dict(name='FeffPath wrapper')

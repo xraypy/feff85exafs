@@ -11,9 +11,8 @@ script `makepath.lar` will read from `phase.bin` (this example is
 calculated from copper metal) and write the files `feff0001.dat` and
 `feff0004.dat`.
 
-You **must** build and install feff85exafs before attemtping to build
+You **must** build and install feff85exafs before attempting to build
 this wrapper.
-
 
 To compile the python wrapper:
 
@@ -22,6 +21,11 @@ To compile the python wrapper:
 To install:
 
     >~ sudo python setup.py install_data
+
+I know that's not the standard python installation incantation, but
+those commands will see the files installed into Larch's space (which
+is required for `scatteringpath` to be recognized as a plugin) rather
+than into Python's space.
 
 
 ## Sample program
@@ -56,7 +60,7 @@ show a
 
 5. F_eff is calcuated using the make method.  This writes the
    `feff0001.dat` file and stores the columns of that file in the `k`,
-   `real_phc`, `mag_feff`, `pha_feff`, `red_fact`, `lam`, and `realp`
+   `real_phc`, `mag_feff`, `pha_feff`, `red_fact`, `lam`, and `rep`
    attributes of the Group.
 
 
@@ -65,7 +69,7 @@ show a
 ### Input:
 
 | element   | type     | description                           | default              |
-| ----------| -------- | --------------------------------------| -------------------- |
+| ----------| -------- | ------------------------------------- | -------------------- |
 | phbin     | string   | path to `phase.bin`                   |  `phase.bin`         |
 | index     | integer  | path index                            |  9999                |
 | deg       | float    | path degeneracy                       |  required input      |

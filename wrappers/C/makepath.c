@@ -22,6 +22,10 @@ long main()
   ret = add_scatterer(path,  1.805, 0,  1.805, 1); /* sole scatterer in an SS path */
   ret = make_path(path);
 
+  for (i=0; i<nphx; i++) {
+    printf(" %ld  %ld\n", i, path->iz[i]);
+  };
+
   clear_path(path);
 
   /* fourth path in copper */
@@ -41,7 +45,7 @@ long main()
   
   /* for (i = 0; i < path->ne; i++) { */
   /*   printf(" %6.3f %11.4e %11.4e %11.4e %10.3e %11.4e %11.4e\n", */
-  /*   	   path->k[i], path->real_phc[i], path->mag_feff[i], path->pha_feff[i], path->red_fact[i], path->lam[i], path->realp[i]); */
+  /*   	   path->k[i], path->real_phc[i], path->mag_feff[i], path->pha_feff[i], path->red_fact[i], path->lam[i], path->rep[i]); */
   /* } */
 
   cleanup(path);

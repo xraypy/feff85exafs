@@ -3,16 +3,18 @@
 #+STARTUP: showall
 
 
-* The feff85exafs to do list [3/9]
+* The feff85exafs to do list [3/10]
 
  1. [ ] write header into ~f3ffNNNN.dat~ files
  2. [ ] use polarization correctly in feffpath library (fix
     test_materials.py around line 56)
  3. [ ] capture rat and ipot into STRUCT, propagate to wrappers
- 4. [ ] capture header information in C struct, propagated into wrappers
- 5. [X] check for existance/readability of phase.bin at level of
+ 4. [ ] capture a list of Z numbers so ipots can be readily translated
+    to atomic species
+ 5. [ ] capture header information in C struct, propagated into wrappers
+ 6. [X] check for existance/readability of phase.bin at level of
     feffpath.c (need to learn how to use fopen or whatever, see line 212)
- 6. [X] python wrapper / Larch plugin
- 7. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
- 8. [ ] fit with different feff versions -- comparison framework
- 9. [ ] library for encapsolating generation of ~phase.bin~
+ 7. [X] python wrapper / Larch plugin
+ 8. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
+ 9. [ ] fit with different feff versions -- comparison framework
+ 10. [ ] library for encapsolating generation of ~phase.bin~

@@ -55,8 +55,8 @@ has 'red_fact' => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', def
 		   handles => {clear_red_fact => 'clear', push_red_fact  => 'push', });
 has 'lam'      => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', default => sub { [] },
 		   handles => {clear_lam => 'clear', push_lam  => 'push', });
-has 'realp'    => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', default => sub { [] },
-		   handles => {clear_realp => 'clear', push_realp  => 'push', });
+has 'rep'      => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', default => sub { [] },
+		   handles => {clear_rep => 'clear', push_rep  => 'push', });
 
 sub BUILD {
   my ($self) = @_;
@@ -142,7 +142,7 @@ sub path {
   $self->clear_pha_feff;
   $self->clear_red_fact;
   $self->clear_lam;
-  $self->clear_realp;
+  $self->clear_rep;
   ## fill with the results of the calculation
   for my $i (0 .. $self->nleg-1) {
     $self->push_ri($self->wrapper->get_ri($i));
@@ -158,11 +158,11 @@ sub path {
     $self->push_red_fact($self->wrapper->get_red_fact($i));
     $self->push_lam($self->wrapper->get_lam($i));
   };
-  # accessing the wrapper get_realp method intermittently causes a SIGSEGV
-  # but only get_realp...?
+  # accessing the wrapper get_rep method intermittently causes a SIGSEGV
+  # but only get_rep...?
   for my $i (0 .. $self->ne-1) {
-    $trinket = $self->wrapper->get_realp($i);
-    $self->push_realp($trinket);
+    $trinket = $self->wrapper->get_rep($i);
+    $self->push_rep($trinket);
   };
   return $self;
 };
@@ -180,7 +180,7 @@ sub clear {
   $self->clear_pha_feff;
   $self->clear_red_fact;
   $self->clear_lam;
-  $self->clear_realp;
+  $self->clear_rep;
   ## occassional failure to call this method
   $self->wrapper->clear_path;
   foreach my $att (qw(Index nleg deg iorder nnnn json verbose ipol elpty)) {
@@ -253,7 +253,9 @@ copper metal:
   use Xray::FeffPath;
 
   my $path = Xray::FeffPath->new();
-  $path->create_path;
+  $path->deg(48);
+  $path->Index(4);
+  $path->phbin('../fortran/phase.bin');
   $path->atom(0, 0, -3.61, 1);
   $path->atom(-1.805, 0, -1.805, 1);
   $path->path;
@@ -263,8 +265,21 @@ copper metal:
   my @phff   = @{ $path->pha_feff };
   my @redfac = @{ $path->red_fact };
   my @lambda = @{ $path->lam };
-  my @realp  = @{ $path->realp };
+  my @rep    = @{ $path->rep };
   undef $path
+
+=head1 INSTALLATION
+
+After you have built and installed I<feff85exafs>, do the following:
+
+  perl Makefile.PL
+  make
+  make test
+  sudo make install
+
+That's it!  Note, though, that building this wrapper B<requires> that
+the fortran and C code I<feff85exafs> be completely compiled and thet
+the resulting libraries (and other files) be successfully installed.
 
 =head1 METHODS
 
@@ -275,13 +290,6 @@ copper metal:
 Create the FeffPath object
 
    my $path = Xray::FeffPath->new();
-
-=item C<create_path>
-
-Initialize the underlying C struct.  This is the necessary first step
-to a feffpath calculation.
-
-   $path->create_path;
 
 =item C<atom>
 
@@ -319,6 +327,12 @@ Compute the scattering path
 Reinitialize the scattering path
 
    $path->clear;
+
+=item C<clear>
+
+Destroy the scattering path, freeing the memory used by the library
+
+   $path->clean;
 
 =back
 
@@ -505,7 +519,7 @@ column 5 from F<feffNNNN.dat>.
 A reference to an array containing lambda, the mean free path.  This is
 column 6 from F<feffNNNN.dat>.
 
-=item C<realp>
+=item C<rep>
 
 A reference to an array containing the real part of the complex
 momentum.  This is column 7 from F<feffNNNN.dat>.
@@ -574,6 +588,10 @@ ellipticity not between 0 and 1
 
 iorder not between 0 and 10
 
+=item I<64>
+
+F<phase.bin> cannot be found or cannot be read
+
 =back
 
 =head1 DEPENDENCIES
@@ -604,7 +622,7 @@ Patches are welcome.
 
 Bruce Ravel (bravel AT bnl DOT gov)
 
-L<http://cars9.uchicago.edu/~ravel/software/>
+L<https://github.com/bruceravel>
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -615,8 +633,8 @@ about Authorship may be retained in some files for historical reasons,
 this work is hereby placed in the Public Domain.  This work is
 published from: United States.
 
-Note that the onepath library itself is NOT public domain, nor is the
-Fortran source code for Feff that it relies upon.
+Note that the feffpath and onepath libraries themselves are NOT public
+domain, nor is the Fortran source code for Feff that it relies upon.
 
 Author: Bruce Ravel (bravel AT bnl DOT gov).
 Last update: 4 November, 2014
