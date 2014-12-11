@@ -36,6 +36,9 @@ has 'xivec'   => (traits  => ['Array'],
 		  default => sub { [0,0,0] },
 		  trigger => \&xivec_set);
 
+has 'iz'       => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Int]', default => sub { [] },
+		   handles => {clear_iz => 'clear', push_iz  => 'push', });
+
 has 'ri'       => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', default => sub { [] },
 		   handles => {clear_ri => 'clear', push_ri  => 'push', });
 has 'beta'     => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', default => sub { [] },
@@ -133,6 +136,7 @@ sub path {
   $self->errormessage($self->wrapper->swig_errormessage_get);
   ## clear out all the arrays
   $self->ne($self->wrapper->swig_ne_get);
+  $self->clear_iz;
   $self->clear_ri;
   $self->clear_beta;
   $self->clear_eta;
@@ -144,6 +148,9 @@ sub path {
   $self->clear_lam;
   $self->clear_rep;
   ## fill with the results of the calculation
+  for my $i (0 .. $Xray::FeffPathWrapper::nphx) {
+    $self->push_iz($self->wrapper->get_iz($i));
+  };
   for my $i (0 .. $self->nleg-1) {
     $self->push_ri($self->wrapper->get_ri($i));
     $self->push_beta($self->wrapper->get_beta($i));
@@ -171,6 +178,7 @@ sub clear {
   my ($self) = @_;
   $self->evec([0,0,0]);
   $self->xivec([0,0,0]);
+  $self->clear_iz;
   $self->clear_ri;
   $self->clear_beta;
   $self->clear_eta;

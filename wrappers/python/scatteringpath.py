@@ -330,6 +330,30 @@ class FeffPath(Group):
         self.wrapper.ipol = True
 
 
+    @property
+    def iz(self):
+        lst = [];
+        for i in range(feffpathwrapper.nphx):
+            lst.append(int(feffpathwrapper.get_iz(self.wrapper,i)))
+        return lst
+    @iz.setter
+    def iz(self, vec):
+        pass
+
+    @property
+    def amp(self):
+        return self.mag_feff * self.red_fact
+    @amp.setter
+    def amp(self, value):
+        pass
+
+    @property
+    def pha(self):
+        return self.pha_feff + self.real_phc
+    @pha.setter
+    def pha(self, value):
+        pass
+
 
     ## ---- methods
 

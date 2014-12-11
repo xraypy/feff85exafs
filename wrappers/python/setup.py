@@ -30,8 +30,8 @@ else:
     elif system.lower().startswith('darw'):
         dlldir = 'darwin'
 
-print installdir
-print dlldir
+#print installdir
+#print dlldir
 
 
 feffpath_module = Extension('_feffpathwrapper',

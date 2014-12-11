@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 34;
+use Test::More tests => 35;
 use Cwd;
 
 use Xray::FeffPath;
@@ -79,6 +79,7 @@ ok($path->wrapper->swig_nleg_get == 3,							  "low level nleg");
 $ret = $path->path;
 ok($ret == $path,									  "called path");
 
+ok( (($path->iz->[0] == 29) and ($path->iz->[1] == 29)),                                  "iz array is correct");
 
 
 ok(( ( abs($path->ri->[0] - 3.61)    < $epsilon) and
