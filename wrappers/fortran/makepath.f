@@ -8,6 +8,8 @@ c     taken from feff's HEADERS/dim.h
       parameter (npatx = 8)
       integer legtot
       parameter (legtot=npatx+1)
+      integer nphx
+      parameter (nphx = 11)
 c      parameter (pi = 3.14159 26535 89793 23846 26433d0)
 
 
@@ -19,7 +21,7 @@ c     block of parameter declarations for onepath
       double precision elpty
 
       double precision rat(3,0:legtot+1)
-      integer ipot(0:legtot)
+      integer ipot(0:legtot), iz(0:nphx)
 
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
@@ -77,7 +79,7 @@ c     compute first shell of Copper (SS, deg=12)
       call addatom(1,  1.805, 0.,  1.805, 1, ipot, rat)
 
       call onepath(phbin, index, nleg, deg, iorder,
-     &       ipot, rat,
+     &       ipot, rat, iz,
      &       ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
@@ -106,7 +108,7 @@ c     compute fourth shell of Copper (DS, deg=48)
       call addatom(2, -1.805,  0., -1.805, 1, ipot, rat)
 
       call onepath(phbin, index, nleg, deg, iorder,
-     &       ipot, rat, ipol, evec, elpty, xivec,
+     &       ipot, rat, iz, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
 

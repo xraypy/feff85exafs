@@ -49,6 +49,7 @@ c+---------------------------------------------------------------------
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
+      include '../HEADERS/vers.h'
 
       character*256 phbin
 

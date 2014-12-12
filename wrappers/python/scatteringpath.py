@@ -41,8 +41,8 @@ Attributes (input):
   index        : integer  path index                                9999              
   deg          : float    path degeneracy                           required input    
   nleg         : integer  number of legs in path                    set using atom method (read-only)
-  rat          : array    cartesian positions of atoms in path      set using atom method (not yet available)
-  ipot         : integer  unique potentials of atoms in path        set using atom method (not yet available)
+  rat          : list of tuples  cartesian positions of atoms in path      set using atom method
+  ipot         : list of int     unique potentials of atoms in path        set using atom method
   iorder       : integer  order of approximation in genfmt          2
          
   nnnn         : boolean  flag to write `feffNNNN.dat` file         False             
@@ -70,8 +70,23 @@ Attributes (output):
   lam          : array    mean free path, column 6 in `feffNNNN.dat`
   rep          : array    real part of complex momentum, column 7 in `feffNNNN.dat`
 
+  amp          : array    mag_feff * red_fact
+  pha          : array    pha_feff + real_phc
+
   errorcode    : integer  error code from `atom` or `make`
   errormessage : string   error message from `atom` or `make`
+
+  edge         : float    energy threshold relative to atomic value (a poor estimate)
+  exch         : string   electronic exchange model
+  gam_ch       : float    core level energy width
+  geom         : list     path geometry: list of (Symbol, Z, ipot, x, y, z)
+  kf           : float    k value at Fermi level
+  mu           : float    Fermi level, eV
+  potentials   : list     path potentials: list of (ipot, z, r_MuffinTin, r_Norman)
+  rnorman      : float    Norman radius
+  rs_int       : float    interstitial radius
+  version      : string   Feff version
+  vint         : float    interstitial potential
 
 """
 
@@ -90,11 +105,12 @@ Attributes (output):
 # this work is hereby placed in the Public Domain.  This work is
 # published from: United States.
 #
-# Note that the onepath library itself is NOT public domain, nor is the
-# Fortran source code for Feff that it relies upon.
+# Note that the onepath and feffpath libraries themselves are NOT
+# public domain, nor is the Fortran source code for Feff that it
+# relies upon.
 #
 # Author: Bruce Ravel (bravel AT bnl DOT gov).
-# Last update: 4 December, 2014
+# Last update: 12 December, 2014
 
 import larch
 from larch import (Group, Parameter, isParameter, ValidateLarchPlugin, param_value,
@@ -104,7 +120,7 @@ from   os        import name
 from   os.path   import isfile
 from   numpy     import array
 from   platform  import uname, architecture
-
+from   xraydb_plugin import atomic_symbol
 
 ## make sure that the SWIG wrapper library can be found and imported
 if name == 'nt':
@@ -131,6 +147,7 @@ else:
 dllfile=installdir+'/dlls/'+dlldir
 if not dllfile in sys.path:
     sys.path.append(dllfile)
+
 import feffpathwrapper
 
 
@@ -235,6 +252,9 @@ class FeffPath(Group):
         self.wrapper    = feffpathwrapper.FEFFPATH()
         feffpathwrapper.create_path(self.wrapper)
         self.wrapper.phbin = ''
+        self.ipot = []
+        self.rat  = []
+        self.geom = []
 
 
     ## ---- scalar valued attributs, these get their own properties so
@@ -303,7 +323,9 @@ class FeffPath(Group):
 
     @property
     def evec(self):
-        return [feffpathwrapper.get_evec(self.wrapper,0), feffpathwrapper.get_evec(self.wrapper,1), feffpathwrapper.get_evec(self.wrapper,2)]
+        return [feffpathwrapper.get_evec(self.wrapper,0),
+                feffpathwrapper.get_evec(self.wrapper,1),
+                feffpathwrapper.get_evec(self.wrapper,2)]
     @evec.setter
     def evec(self, vec):
         if type(vec).__name__ not in ('list', 'tuple'):
@@ -317,7 +339,9 @@ class FeffPath(Group):
 
     @property
     def xivec(self):
-        return [feffpathwrapper.get_xivec(self.wrapper,0), feffpathwrapper.get_xivec(self.wrapper,1), feffpathwrapper.get_xivec(self.wrapper,2)]
+        return [feffpathwrapper.get_xivec(self.wrapper,0),
+                feffpathwrapper.get_xivec(self.wrapper,1),
+                feffpathwrapper.get_xivec(self.wrapper,2)]
     @xivec.setter
     def xivec(self, vec):
         if type(vec) not in ('list', 'tuple'):
@@ -368,6 +392,8 @@ class FeffPath(Group):
 
         The Cartesian coordinates are relative to the ABSORBER AT 0,0,0
         """
+        self.ipot.append(ip)
+        self.rat.append((x, y, z))
         feffpathwrapper.add_scatterer(self.wrapper, x, y, z, ip)
 
     def make(self):
@@ -382,6 +408,11 @@ class FeffPath(Group):
 
         """
         feffpathwrapper.make_path(self.wrapper)
+        self.geom = []
+        for i in range(self.nleg-1):
+            this = (str(atomic_symbol(self.iz[i], _larch=self._larch)),
+                    self.iz[i], self.ipot[i], self.rat[i][0], self.rat[i][1], self.rat[i][2])
+            self.geom.append(this)
 
     def clear(self):
         """
@@ -391,6 +422,9 @@ class FeffPath(Group):
 
         """
         feffpathwrapper.clear_path(self.wrapper)
+        self.ipot = []
+        self.rat  = []
+        self.geom = []
 
 
 
