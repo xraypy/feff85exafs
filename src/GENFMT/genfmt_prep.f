@@ -1,7 +1,7 @@
       subroutine genfmt_prep(phbin, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
-     &       xmu, edge, ik0,
+     &       xmu, edge, ik0, ixc, rs, vint,
      &       em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1,
 c     arguments for setkap
      &       kinit, linit, ilinit,
@@ -69,8 +69,9 @@ c+----------------------------------------------------------------------
 c     Read phase calculation input
 c      print *, 'calling rdxsph'
       call rdxsph (phbin,
-     1       ne, ne1, ne3, npot, ihole, rnrmav, xmu, edge, ik0,
-     2       em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1)
+     1     ne, ne1, ne3, npot, ihole, rnrmav, xmu, edge, ik0,
+     2     ixc, rs, vint,
+     3     em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1)
       call setkap (ihole, kinit, linit)
       ilinit = linit + 1
 

@@ -6,9 +6,9 @@ epsilon=1e-4
 def test_phbin():
     yield check_phbin
 
-def test_deg():
-    yield check_deg, 0
-    yield check_deg, 48
+def test_degen():
+    yield check_degen, 0
+    yield check_degen, 48
 
 def test_index():
     yield check_index, 0
@@ -37,7 +37,7 @@ def test_xivec():
 def test_atom():
     a.clear()
     yield check_index, 0
-    a.deg   = 48
+    a.degen = 48
     a.index = 4
     a.phbin = "../fortran/phase.bin"
     a.nnnn  = False
@@ -77,11 +77,11 @@ def test_atom_errors():
 
     a.clear();
     try:
-        a.deg=-12
+        a.degen=-12
     except ValueError:
-        yield check_pythonerror, 'deg'        # degeneracy negative
+        yield check_pythonerror, 'degen'        # degeneracy negative
     else:
-        yield check_wrong_pythonerror, 'deg'
+        yield check_wrong_pythonerror, 'degen'
 
     try:
         a.index=40000
@@ -120,12 +120,12 @@ def check_phbin():
     a.phbin = pb
     assert a.wrapper.phbin == pb
 
-def check_deg(deg):
-    if deg:
-        a.deg = deg
-        assert a.wrapper.deg == deg
+def check_degen(degen):
+    if degen:
+        a.degen = degen
+        assert a.wrapper.degen == degen
     else:
-        assert a.deg == 1
+        assert a.degen == 1
 
 def check_index(ind):
     if ind:

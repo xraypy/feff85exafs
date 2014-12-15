@@ -10,7 +10,7 @@ has 'wrapper' => (is => 'ro', isa => 'Xray::FeffPathWrapper', default => sub{ Xr
 has 'phbin'   => (is => 'rw', isa => 'Str',  default => 0,   trigger => sub{pushback(@_, 'phbin'  )},);
 has 'Index'   => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{pushback(@_, 'Index'  )},);
 has 'nleg'    => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{pushback(@_, 'nleg'   )},);
-has 'deg'     => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'deg'    )},);
+has 'degen'   => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'degen'  )},);
 has 'iorder'  => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{pushback(@_, 'iorder' )},);
 has 'nnnn'    => (is => 'rw', isa => 'Bool', default => 0,   trigger => sub{pushback(@_, 'nnnn'   )},);
 has 'json'    => (is => 'rw', isa => 'Bool', default => 0,   trigger => sub{pushback(@_, 'json'   )},);
@@ -22,6 +22,20 @@ has 'ne'      => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{push
 has 'errorcode'    => (is => 'rw', isa => 'Int',  default => 0,);
 has 'errormessage' => (is => 'rw', isa => 'Str',  default => q{},);
 
+has 'edge'    => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'edge'    )},);
+has 'gam_ch'  => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'gam_ch'  )},);
+has 'kf'      => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'kf'      )},);
+has 'mu'      => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'mu'      )},);
+has 'rnorman' => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'rnorman' )},);
+has 'version' => (is => 'rw', isa => 'Str',  default => 1.0, trigger => sub{pushback(@_, 'version' )},);
+has 'exch'    => (is => 'rw', isa => 'Str',  default => 1.0, trigger => sub{pushback(@_, 'exch'    )},);
+has 'rs_int'  => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'rs_int'  )},);
+has 'vint'    => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'vint'    )},);
+has potentials => (traits  => ['Array'],
+		   is      => 'rw',
+		   isa     => 'ArrayRef[ArrayRef]',
+		   default => sub { [] },
+		  );
 
 ## arrays
 has 'evec'    => (traits  => ['Array'],
@@ -36,6 +50,10 @@ has 'xivec'   => (traits  => ['Array'],
 		  default => sub { [0,0,0] },
 		  trigger => \&xivec_set);
 
+has 'ipot'     => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Int]', default => sub { [] },
+		   handles => {clear_ipot => 'clear', push_ipot  => 'push', });
+has 'rat'      => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[ArrayRef[Num]]', default => sub { [] },
+		   handles => {clear_rat => 'clear', push_rat  => 'push', });
 has 'iz'       => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Int]', default => sub { [] },
 		   handles => {clear_iz => 'clear', push_iz  => 'push', });
 
@@ -78,7 +96,7 @@ sub DEMOLISH {
 ## this is the trigger for all the scalar-valued attributes.  it pushes the value back to the wrapper object.
 sub pushback {
   my ($self, $new, $old, $which) = @_;
-  return if (any {$_ eq $which} qw(nleg ne));
+  return if (any {$_ eq $which} qw(nleg ne edge gam_ch kf mu rnorman version exch rs_int vint));
   my $method = join("_", "swig", lc($which), "set");
   if ($self->meta->get_attribute($which)->type_constraint eq 'Num') {
     $self->wrapper->$method(1.0*$new);
@@ -110,7 +128,7 @@ sub xivec_set {
 sub create_path {
   my ($self) = @_;
   $self->wrapper->create_path;
-  foreach my $att (qw(Index nleg deg iorder nnnn json verbose ipol elpty)) {
+  foreach my $att (qw(Index nleg degen iorder nnnn json verbose ipol elpty)) {
     my $method = join("_", "swig", lc($att), "get");
     $self->$att($self->wrapper->$method||0);
   };
@@ -124,6 +142,8 @@ sub atom {
   $self->errorcode($ret);
   $self->errormessage($self->wrapper->swig_errormessage_get);
   $self->nleg($self->wrapper->swig_nleg_get);
+  $self->push_ipot($ip);
+  $self->push_rat([$x, $y, $z]);
   return $self;
 };
 
@@ -164,13 +184,9 @@ sub path {
     $self->push_pha_feff($self->wrapper->get_pha_feff($i));
     $self->push_red_fact($self->wrapper->get_red_fact($i));
     $self->push_lam($self->wrapper->get_lam($i));
+    $self->push_rep($self->wrapper->get_rep($i));
   };
-  # accessing the wrapper get_rep method intermittently causes a SIGSEGV
-  # but only get_rep...?
-  for my $i (0 .. $self->ne-1) {
-    $trinket = $self->wrapper->get_rep($i);
-    $self->push_rep($trinket);
-  };
+  #edge gam_ch kf mu rnorman version exch rs_int vint
   return $self;
 };
 
@@ -191,7 +207,7 @@ sub clear {
   $self->clear_rep;
   ## occassional failure to call this method
   $self->wrapper->clear_path;
-  foreach my $att (qw(Index nleg deg iorder nnnn json verbose ipol elpty)) {
+  foreach my $att (qw(Index nleg degen iorder nnnn json verbose ipol elpty)) {
     my $method = join("_", "swig", lc($att), "get");
     $self->$att($self->wrapper->$method||0);
   };
@@ -261,7 +277,7 @@ copper metal:
   use Xray::FeffPath;
 
   my $path = Xray::FeffPath->new();
-  $path->deg(48);
+  $path->degen(48);
   $path->Index(4);
   $path->phbin('../fortran/phase.bin');
   $path->atom(0, 0, -3.61, 1);
@@ -375,7 +391,7 @@ Moose-y way:
 Note that this attribute (but only this one) is capitalized to avoid
 confusion with the built-in C<index> function.
 
-=item C<deg> (float, default = 0)
+=item C<degen> (float, default = 0)
 
 The path degeneracy.  This is required input for a calculation.
 
@@ -437,7 +453,7 @@ C<errormessage> for an explanation of the problem.
 
 A explanation of words of the problem found during C<atom> or C<path>.
 
-   $path->deg(-48);
+   $path->degen(-48);
    $path->atom(0, 0, 3.61, 1);
    $path->path;
    if ($path->errorcode) {
@@ -618,7 +634,22 @@ L<Moose>
 
 =item *
 
-Getter method(s) for rat and ipot
+The following attributes are not yet captured from Feff
+
+These are readily available in onepath
+  edge         : float    energy threshold relative to atomic value (a poor estimate)
+  gam_ch       : float    core level energy width
+  kf           : float    k value at Fermi level
+  mu           : float    Fermi level, eV
+  rnorman      : float    Norman radius
+  version      : string   Feff version
+
+These are mostly caught up in the standard header 
+  exch         : string   electronic exchange model
+  potentials   : list     path potentials: list of (ipot, z, r_MuffinTin, r_Norman)
+  rs_int       : float    interstitial radius
+  vint         : float    interstitial potential
+
 
 =back
 

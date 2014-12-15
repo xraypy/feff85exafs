@@ -18,19 +18,19 @@ long main()
 
   /* first path in copper */
   path->index   = 1;
-  path->deg     = 12.0;
+  path->degen   = 12.0;
   ret = add_scatterer(path,  1.805, 0,  1.805, 1); /* sole scatterer in an SS path */
   ret = make_path(path);
 
-  for (i=0; i<nphx; i++) {
-    printf(" %ld  %ld\n", i, path->iz[i]);
-  };
+  /* for (i=0; i<nphx; i++) { */
+  /*   printf(" %ld  %ld\n", i, path->iz[i]); */
+  /* }; */
 
   clear_path(path);
 
   /* fourth path in copper */
   path->index   = 4;
-  path->deg     = 48.0;
+  path->degen   = 48.0;
   ret = add_scatterer(path,  0,     0, -3.61,  1); /* first atom after absorber */
   ret = add_scatterer(path, -1.805, 0, -1.805, 1); /* last atom before absorber */
   if (ret > 0) {  /* check for errors */

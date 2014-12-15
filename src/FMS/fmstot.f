@@ -76,7 +76,8 @@ c     need less data than rphbin.f provides, also dimensions of ph
 c     array are different.
       phbin = 'phase.bin'
       call rdxsph (phbin, ne, ne1, ne3, nph, ihole, rnrmav, xmu, edge,
-     1           ik0, em, eref, iz, potlbl, ph, rkk, lmax, lmaxp1)
+     1     ik0, ixc, rs, vint,
+     2     em, eref, iz, potlbl, ph, rkk, lmax, lmaxp1)
       call setkap (ihole, kinit, linit)
       npot = nph
       if (rclust.le.0.0) goto 100

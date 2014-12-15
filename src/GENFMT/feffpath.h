@@ -41,7 +41,7 @@ typedef struct {
   /* INPUT: structure of path                                                        */
   long index;         /* path index                                default = 9999    */
   long nleg;          /* number of legs in path                    use add_scatterer */
-  double deg;         /* path degeneracy                           must be supplied  */
+  double degen;       /* path degeneracy                           must be supplied  */
   double **rat;       /* cartesian positions of atoms in path      use add_scatterer */
   long *ipot;         /* unique potentials of atoms in path        use add_scatterer */
   long iorder;        /* order of approximation in genfmt          default = 2       */

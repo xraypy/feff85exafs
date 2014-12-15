@@ -56,3 +56,35 @@ To make HTML files explaining data I/O for each fortran source file, do
 # Call graph
 
 ![call graph for the GENFMT folder](tree/genfmt.png)
+
+# Feff's standard header
+
+Feff's standard header, which is parsed by Larch's feffdat reader,
+contains information that is available in several different parts of
+Feff.
+
+The following parameters are available (or readily computed) in
+`onepath.f`:
+
+ * `edge` : float, energy threshold relative to atomic value (a poor estimate)
+ * `gam_ch` : float, core level energy width
+ * `kf` : float, k value at Fermi level
+ * `mu` : float, Fermi level, eV
+ * `rnorman` : float, Norman radius
+ * `version` : string, Feff version
+
+The following are not available to `onepath.f`.  In normal Feff, these
+are passed via common block in the form of the pre-written standard
+header.  All of this information is written to `pot.bin` by the pot
+module, read from `pot.bin` by xsph, and written to the standard
+header in `xsph.f`.
+
+ * `exch`, a string giving the electronic exchange model (see
+   `head.f`, this is evaluated from `ixc` and a Data block
+ * `r_MuffinTin` and `r_Norman` for each unique potential.  Larch
+   places these in the `potentials` attribute, which is a list of tuples
+ * `rs_int`, the interstitial radius
+ * `vint`, the interstitial potential
+
+The best solution would be to write that information into `phase.bin`
+to that it can be read by `onepath`.

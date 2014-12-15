@@ -3,20 +3,25 @@
 #+STARTUP: showall
 
 
-* The feff85exafs to do list [4/11]
+* The feff85exafs to do list
+
+** feffpath library [6/9]
 
  1. [ ] write header into ~f3ffNNNN.dat~ files
- 2. [ ] deg --> degen to match larch's _feffdat group
+ 2. [X] deg --> degen to match larch's _feffdat group
  3. [ ] use polarization correctly in feffpath library (fix
     test_materials.py around line 56)
- 4. [ ] +capture rat and ipot into STRUCT+, accumulate ipot and rat
-    wrappers as part of call to add_scatterer
+ 4. [X] +capture rat and ipot from STRUCT+, accumulate ipot and rat
+    wrappers as part of call to add_scatterer, also geom for python wrapper
  5. [X] capture a list of Z numbers so ipots can be readily translated
     to atomic species
  6. [ ] capture header information in C struct, propagated into wrappers
  7. [X] check for existance/readability of phase.bin at level of
-    feffpath.c (need to learn how to use fopen or whatever, see line 212)
+    feffpath.c
  8. [X] python wrapper / Larch plugin
  9. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
- 10. [ ] fit with different feff versions -- comparison framework
- 11. [ ] library for encapsolating generation of ~phase.bin~
+
+** big jobs [0/2]
+
+ 1. [ ] fit with different feff versions -- comparison framework
+ 2. [ ] library for encapsolating generation of ~phase.bin~

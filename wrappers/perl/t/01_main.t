@@ -29,9 +29,9 @@ $path->phbin($str);
 ok($path->phbin eq $phbin,                                                                "set and read phbin");
 ok($path->wrapper->swig_phbin_get eq $phbin ,                                             "low level phbin");
 
-$path->deg(48);
-ok($path->deg == 48,									  "set and read degeneracy");
-ok($path->wrapper->swig_deg_get == 48,							  "low level deg");
+$path->degen(48);
+ok($path->degen == 48,									  "set and read degeneracy");
+ok($path->wrapper->swig_degen_get == 48,						  "low level degen");
 
 
 
@@ -138,7 +138,7 @@ $path->clear;
 
 
 
-$path->deg(-48);
+$path->degen(-48);
 $path->atom( 0,     0, -3.61,  1);
 $path->atom(-1.805, 0, -1.805, 1);
 $path->path;
@@ -184,6 +184,7 @@ ok($path->errorcode == 64,                                                      
 
 
 $path->clean;
+#Xray::FeffPathWrapper::FEFFPATH->DISOWN;
 undef $path;
 #ok(1, "after destruction");
 chdir($here);

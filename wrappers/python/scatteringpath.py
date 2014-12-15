@@ -13,9 +13,9 @@ and that the SWIG wrapper has been built, compiled, and installed.
      print "Bad index value, index still %" : a.index
   #endtry
   try:
-     a.deg = 48
+     a.degen = 48
   except ValueError:
-     print "Bad degeneracy value, deg still %" : a.deg
+     print "Bad degeneracy value, degen still %" : a.degen
   #endtry
   a.atom(1.805,0,1.805,1)
   if a.errorcode:
@@ -39,7 +39,7 @@ Attributes (input):
 
   phbin        : string   path to `phase.bin`                       `phase.bin`       
   index        : integer  path index                                9999              
-  deg          : float    path degeneracy                           required input    
+  degen        : float    path degeneracy                           required input    
   nleg         : integer  number of legs in path                    set using atom method (read-only)
   rat          : list of tuples  cartesian positions of atoms in path      set using atom method
   ipot         : list of int     unique potentials of atoms in path        set using atom method
@@ -70,31 +70,32 @@ Attributes (output):
   lam          : array    mean free path, column 6 in `feffNNNN.dat`
   rep          : array    real part of complex momentum, column 7 in `feffNNNN.dat`
 
+Output attributes related to Larch's feffdat Group
+  geom         : list     path geometry: list of (Symbol, Z, ipot, x, y, z)
   amp          : array    mag_feff * red_fact
   pha          : array    pha_feff + real_phc
 
+Error handling attributes
   errorcode    : integer  error code from `atom` or `make`
   errormessage : string   error message from `atom` or `make`
 
+The following attributes are not yet captured from Feff
+
+These are readily available in onepath
   edge         : float    energy threshold relative to atomic value (a poor estimate)
-  exch         : string   electronic exchange model
   gam_ch       : float    core level energy width
-  geom         : list     path geometry: list of (Symbol, Z, ipot, x, y, z)
   kf           : float    k value at Fermi level
   mu           : float    Fermi level, eV
-  potentials   : list     path potentials: list of (ipot, z, r_MuffinTin, r_Norman)
   rnorman      : float    Norman radius
-  rs_int       : float    interstitial radius
   version      : string   Feff version
+
+These are mostly caught up in the standard header 
+  exch         : string   electronic exchange model
+  potentials   : list     path potentials: list of (ipot, z, r_MuffinTin, r_Norman)
+  rs_int       : float    interstitial radius
   vint         : float    interstitial potential
 
 """
-
-# Missing features:
-#
-#  * Getter method(s) for rat and ipot (this is a missing feature in
-#    the feffpath library
-
 
 # LICENSE AND COPYRIGHT
 #
@@ -116,6 +117,7 @@ import larch
 from larch import (Group, Parameter, isParameter, ValidateLarchPlugin, param_value,
                    use_plugin_path, isNamedClass, Interpreter)
 use_plugin_path('xafs')
+use_plugin_path('xray')
 from   os        import name
 from   os.path   import isfile
 from   numpy     import array
@@ -280,13 +282,13 @@ class FeffPath(Group):
         self.wrapper.index = long(value)
 
     @property
-    def deg(self):
-        return self.wrapper.deg
-    @deg.setter
-    def deg(self,value):
+    def degen(self):
+        return self.wrapper.degen
+    @degen.setter
+    def degen(self,value):
         if value < 1:
             raise ValueError("Negative degeneracies not allowed: %s" % value)
-        self.wrapper.deg = value
+        self.wrapper.degen = value
 
     @property
     def iorder(self):
@@ -309,7 +311,7 @@ class FeffPath(Group):
         self.wrapper.elpty = value
         self.wrapper.ipol  = True
 
-    ## ---- error handling (this is the only string-valued attribute returned from atom and make)
+    ## ---- error handling (this is the only string-valued attribute, it is returned from atom and make)
 
     @property
     def errormessage(self):
@@ -408,11 +410,13 @@ class FeffPath(Group):
 
         """
         feffpathwrapper.make_path(self.wrapper)
-        self.geom = []
-        for i in range(self.nleg-1):
-            this = (str(atomic_symbol(self.iz[i], _larch=self._larch)),
-                    self.iz[i], self.ipot[i], self.rat[i][0], self.rat[i][1], self.rat[i][2])
-            self.geom.append(this)
+        if self.errorcode == 0:
+            self.geom = []
+            for i in range(self.nleg-1):
+                ip = self.ipot[i]
+                this = (str(atomic_symbol(self.iz[ip], _larch=self._larch)),
+                        self.iz[ip], ip, self.rat[i][0], self.rat[i][1], self.rat[i][2])
+                self.geom.append(this)
 
     def clear(self):
         """

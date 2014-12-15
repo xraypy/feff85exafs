@@ -40,7 +40,7 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   path->index     = 9999;
   path->iorder    = 2;
   path->nleg      = 0;
-  path->deg       = 1.0;
+  path->degen     = 1.0;
   path->nnnn      = false;
   path->json      = false;
   path->verbose   = false;
@@ -109,7 +109,7 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
   path->index     = 9999;
   path->iorder    = 2;
   path->nleg      = 0;
-  path->deg       = 0.0;
+  path->degen     = 1.0;
   /* path->nnnn       = 0; */
   /* path->json       = 0; */
   /* path->verbose    = 0; */
@@ -178,7 +178,7 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   long index;
   long iorder;
   long nleg;
-  double deg;
+  double degen;
   long ipot[legtot+1], iz[nphx+1];
   double rat[legtot+2][3];
   double ri[legtot], beta[legtot+1], eta[legtot+2];
@@ -205,7 +205,7 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   iorder = path->iorder;
   index = path->index;
   nleg = path->nleg;
-  deg = path->deg;
+  degen = path->degen;
   for (i = 0; i < legtot+1; i++) {
     ipot[i] = path->ipot[i];
   }
@@ -230,7 +230,7 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   if ( (rat[nleg-1][0] == 0) && (rat[nleg-1][1] == 0) && (rat[nleg-1][2] == 0) ) {
     error = error + ERR_NLEGISABS;
   };
-  if (deg < 0) { /* degeneracy must be non-negative */
+  if (degen < 0) { /* degeneracy must be non-negative */
     error = error + ERR_DEGNEG;
   };
   if ( (index < 0) || (index > 9999) ) { /* 0 <= index <= 9999 */
@@ -258,7 +258,7 @@ _EXPORT(long) make_path(FEFFPATH *path) {
 
   /* printf(">%s<\n", phbin); */
   /* fflush(stdout); */
-  onepath_(phbin, &index, &nleg, &deg, &iorder, &ipot, &rat, &iz,
+  onepath_(phbin, &index, &nleg, &degen, &iorder, &ipot, &rat, &iz,
 	   &ipol, &evec, &elpty, &xivec,
 	   &nnnn, &json, &verbose, &ri, &beta, &eta,
 	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
@@ -426,14 +426,14 @@ make_scatterer_errorstring(FEFFPATH *path) {
 }
 
 make_path_errorstring(FEFFPATH *path) {
-  double deg, elpty;
+  double degen, elpty;
   long index, iorder;
   char message[500];
   char error[100];
   long errcode = path->errorcode;
   long nleg = path->nleg;
   char phbin[256] = {'\0'};
-  deg    = path->deg;
+  degen  = path->degen;
   index  = path->index;
   iorder = path->iorder;
   elpty  = path->elpty;
@@ -450,7 +450,7 @@ make_path_errorstring(FEFFPATH *path) {
     strcat(message, error);
   };
   if (errcode & ERR_DEGNEG) {
-    sprintf(error, "\t(code 4) path degeneracy (%.2f) is negative\n", deg);
+    sprintf(error, "\t(code 4) path degeneracy (%.2f) is negative\n", degen);
     strcat(message, error);
   };
   if (errcode & ERR_BADINDEX) {

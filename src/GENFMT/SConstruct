@@ -44,12 +44,15 @@ misc_feff = [join('..','COMMON','wlog'       + env['SHOBJSUFFIX']), # called ind
              join('..','COMMON','pertab'     + env['SHOBJSUFFIX']),
              join('..','COMMON','pijump'     + env['SHOBJSUFFIX']),
              join('..','COMMON','rdxsph'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','setgam'     + env['SHOBJSUFFIX']),
              join('..','COMMON','setkap'     + env['SHOBJSUFFIX']),
              join('..','COMMON','str'        + env['SHOBJSUFFIX']),
              join('..','MATH',  'bcoef'      + env['SHOBJSUFFIX']),
              join('..','MATH',  'cwig3j'     + env['SHOBJSUFFIX']),
              join('..','MATH',  'dist'       + env['SHOBJSUFFIX']),
+             join('..','MATH',  'polint'     + env['SHOBJSUFFIX']),
              join('..','MATH',  'rotwig'     + env['SHOBJSUFFIX']),
+             join('..','MATH',  'terp'       + env['SHOBJSUFFIX']),
              join('..','MATH',  'trap'       + env['SHOBJSUFFIX']),
              join('..','PAR',   'sequential' + env['SHOBJSUFFIX'])]
 

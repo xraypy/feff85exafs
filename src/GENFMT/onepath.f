@@ -2,6 +2,7 @@
      &       ipot, rat, iz,
      &       ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
+     &       
      &       ne1,col1,col2,col3,col4,col5,col6,col7)
 
       implicit double precision (a-h, o-z)
@@ -96,11 +97,11 @@ c      character*80 text(5)
       complex caps(nex)
       double precision rat(3,0:legtot+1), rathea(3,legtot)
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
-      double precision deg, rnrmav, xmu, edge
+      double precision deg, rnrmav, xmu, edge, rs, vint
       integer lmax(nex,0:nphx), ipot(0:legtot), ipthea(legtot),
      &       iz(0:nphx)
 c      integer ltext(5), ntext
-      integer nsc, nleg, npot, ne, ik0, ihole
+      integer nsc, nleg, npot, ne, ik0, ihole, ixc
       integer kinit, linit, ilinit, lmaxp1
 c     common /pdata/ ph(nex,-ltot:ltot,0:nphx), !complex phase shifts ipot=0
 c     .  eref(nex),                             !complex energy reference
@@ -158,6 +159,7 @@ c+----------------------------------------------------------------------
       real sxk(nex)
       complex sck(nex)
 
+      double precision gamach
 
 c     used for divide-by-zero and trig tests
       parameter (eps = 1.0e-16)
@@ -193,7 +195,7 @@ c+----------------------------------------------------------------------
       call genfmt_prep(phbin, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
-     &       xmu, edge, ik0,
+     &       xmu, edge, ik0, ixc, rs, vint,
      &       em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1,
 c     arguments for setkap
      &       kinit, linit, ilinit,
@@ -202,6 +204,12 @@ c     argument for snlm (an output)
 c     things set in genfmt_prep
      &       eref, ph, xk, ck, ckmag, xkr,
      &       nsp, ll, npath, ntotal, nused, xportx)
+
+c      print *, "ik0  mu  kf  edge  rnrmav"
+c      print *, ik0, real(em(ik0))*hart, real(ck(ik0))/bohr, edge*hart,
+c     &     rnrmav
+      call setgam(iz(0), ihole, gamach)
+c      print *, "iz(0), ihole, gamach", iz(0), ihole, gamach
 
 c+----------------------------------------------------------------------
 c     pull out the central atom phase shifts

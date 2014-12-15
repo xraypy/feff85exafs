@@ -511,7 +511,8 @@ c     disable for now since dimensions are different
 
 c     Write out phases for paths and genfmt
       call wrxsph (nsp, ne, ne1, ne3, nph, ihole, rnrmav, xmuvr,
-     &     edge,ik0,em, eref, lmax, iz, potlbl, ph, rkk)
+     &     edge, ik0, ixc, rs, vint,
+     &     em, eref, lmax, iz, potlbl, ph, rkk)
 
       if (ipr2 .ge. 1) then
 c       calculate axafs
