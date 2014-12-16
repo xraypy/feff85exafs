@@ -25,7 +25,7 @@ Here is the simplest program using the Fortran entry point:
 	  implicit double precision (a-h, o-z)
 
 c     taken from the feff HEADERS/dim.h
-      integer nex, legtot
+      integer nex, legtot, ixc
       parameter (nex = 150, legtot = 9)
       double precision evec(3), xivec(3)
 
@@ -50,6 +50,15 @@ c     initialize everything
       ipol    = 0 
       elpty   = 0.0
       ne      = 0
+
+      ixc    = 0
+      rs     = 0.
+      vint   = 0.
+      xmu    = 0.
+      edge   = 0.
+      xkf    = 0.
+      rnrmav = 0.
+      gamach = 0.
       
       do 5  i=1,3
          evec(i)  = 0
@@ -87,9 +96,10 @@ c     compute first shell of Copper (SS, deg=12)
       deg   = 12
       call addatom(1, -1.805, 0., -1.805, 1, ipot, rat)
       call onepath(phbin, index, nleg, deg, iorder,
-     &       ipot, rat, ipol, evec, elpty, xivec,
-     &       innnn, ijson, ivrbse, ri, beta, eta,
-     &       ne,col1,col2,col3,col4,col5,col6,col7)
+     &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &     ipot, rat, ipol, evec, elpty, xivec,
+     &     innnn, ijson, ivrbse, ri, beta, eta,
+     &     ne,col1,col2,col3,col4,col5,col6,col7)
 
       end
 
@@ -148,6 +158,14 @@ naming conventions in Feff.
 |  evec      | double(3)     | I   | polarization vector                     |  (0,0,0)             |
 |  elpty     | double        | I   | ellipticity                             |  0                   |
 |  xivec     | double(3)     | I   | direction of X-ray propagation          |  (0,0,0)             |
+|  ixc       | integer       | O   | potential model index                   | |
+|  rs        | double        | O   | interstitial radius approximation       | |
+|  vint      | double        | O   | interstitial potential in hartree       | |
+|  xmu       | double        | O   | Fermi energy in hartree                 | |
+|  edge      | double        | O   | approximate edge energy in hartree      | |
+|  xkf       | double        | O   | k value of Fermi energy                 | |
+|  rnrmav    | double        | O   | average Nroman radius                   | |
+|  gamach    | double        | O   | core-hole lifetime in eV                | |
 |  ri        | double(legtot)     | O | leg lengths                          |                      |
 |  beta      | double(legtot+1)   | O | beta angles                          |                      |
 |  eta       | double(0:legtot+1) | O | eta angles                           |                      |

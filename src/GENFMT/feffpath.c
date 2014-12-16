@@ -1,16 +1,6 @@
 /* ********************************************************************** */
 /* LICENSE AND COPYRIGHT                                                  */
 /*                                                                        */
-/* To the extent possible, the authors have waived all rights granted by  */
-/* copyright law and related laws for the code and documentation that     */
-/* make up the C Interface to the feffpath library.  While information    */
-/* about Authorship may be retained in some files for historical reasons, */
-/* this work is hereby placed in the Public Domain.  This work is         */
-/* published from: United States.                                         */
-/*                                                                        */
-/* Note that the onepath library itself is NOT public domain, nor is the  */
-/* Fortran source code for Feff that it relies upon.                      */
-/*                                                                        */
 /* Author: Bruce Ravel (bravel AT bnl DOT gov).                           */
 /* Last update: 5 December, 2014                                          */
 /* ********************************************************************** */
@@ -175,13 +165,15 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   long error = 0;
 
   /* scattering and path geometry */
-  long index;
-  long iorder;
-  long nleg;
+  long index, iorder, nleg;
   double degen;
   long ipot[legtot+1], iz[nphx+1];
   double rat[legtot+2][3];
   double ri[legtot], beta[legtot+1], eta[legtot+2];
+
+  /* potentials parameters */
+  long ixc;
+  double rs, vint, mu, edge, kf, rnrmav, gamach;
 
   /* onepath.f output */
   long nnnn, json, verbose;
@@ -258,8 +250,9 @@ _EXPORT(long) make_path(FEFFPATH *path) {
 
   /* printf(">%s<\n", phbin); */
   /* fflush(stdout); */
-  onepath_(phbin, &index, &nleg, &degen, &iorder, &ipot, &rat, &iz,
-	   &ipol, &evec, &elpty, &xivec,
+  onepath_(phbin, &index, &nleg, &degen, &iorder, 
+	   &ixc, &rs, &vint, &mu, &edge, &kf, &rnrmav, &gamach,
+	   &ipot, &rat, &iz, &ipol, &evec, &elpty, &xivec,
 	   &nnnn, &json, &verbose, &ri, &beta, &eta,
 	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
   /* printf("after onepath_\n"); */
@@ -267,6 +260,15 @@ _EXPORT(long) make_path(FEFFPATH *path) {
 
   /* --------------------------------------------------- */
   /* transfer everything into the struct                 */
+
+  /* potentials parameters */
+  path->rs_int = rs;
+  path->vint = vint * hart;
+  path->gam_ch = gamach;
+  path->kf = kf / bohr;
+  path->edge = edge * hart;
+  path->mu = mu * hart;
+  path->rnorman = rnrmav;
 
   /* path geometry */
   for (i = 0; i <= nphx; i++) {

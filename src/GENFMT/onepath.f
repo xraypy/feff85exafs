@@ -1,9 +1,9 @@
       subroutine onepath(phbin, index, nleg, deg, iorder,
-     &       ipot, rat, iz,
-     &       ipol, evec, elpty, xivec,
-     &       innnn, ijson, ivrbse, ri, beta, eta,
-     &       
-     &       ne1,col1,col2,col3,col4,col5,col6,col7)
+     &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &     ipot, rat, iz,
+     &     ipol, evec, elpty, xivec,
+     &     innnn, ijson, ivrbse, ri, beta, eta,
+     &     ne1,col1,col2,col3,col4,col5,col6,col7)
 
       implicit double precision (a-h, o-z)
 
@@ -46,6 +46,15 @@ c    col4:     phase of F_eff                        double(nex)
 c    col5:     reduction factor                      double(nex)
 c    col6:     mean free path                        double(nex)
 c    col7:     real partof complex momentum          double(nex)
+c
+c  Potential information:
+c    ixc:
+c    rs:
+c    vint:
+c    xmu:
+c    edge:
+c    xkf:
+c    rnrmav:
 c+---------------------------------------------------------------------
 
       include '../HEADERS/const.h'
@@ -208,6 +217,7 @@ c     things set in genfmt_prep
 c      print *, "ik0  mu  kf  edge  rnrmav"
 c      print *, ik0, real(em(ik0))*hart, real(ck(ik0))/bohr, edge*hart,
 c     &     rnrmav
+      xkf = real(ck(ik0))
       call setgam(iz(0), ihole, gamach)
 c      print *, "iz(0), ihole, gamach", iz(0), ihole, gamach
 
