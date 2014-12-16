@@ -18,9 +18,9 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   /* Return an error code -- currently hardwired to return 0. */
   long i;
   char message[500] = {'\0'};
-  char phbin[256] = {'\0'};
-  char exch[8] = {'\0'};
-  char version[30] = {'\0'};
+  char phbin[257] = {'\0'};
+  char exch[9] = {'\0'};
+  char version[31] = {'\0'};
 
   strcpy(message, " ");
   strcpy(phbin, " ");
@@ -46,9 +46,9 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   path->rnorman   = 0.0;
   path->rs_int    = 0.0;
   path->vint      = 0.0;
-  path->exch = calloc(8, sizeof(char));
+  path->exch = calloc(9, sizeof(char));
   strcpy(path->exch, exch);
-  path->version = calloc(30, sizeof(char));
+  path->version = calloc(31, sizeof(char));
   strcpy(path->version, version);
 
 
@@ -83,7 +83,7 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   /* COPY_STRING(path->phbin, phbin); */
   path->errormessage = calloc(500, sizeof(char));
   strcpy(path->errormessage, message);
-  path->phbin = calloc(256, sizeof(char));
+  path->phbin = calloc(257, sizeof(char));
   strcpy(path->phbin, phbin);
 
   return 0;
@@ -188,7 +188,9 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   double evec[3];
   double xivec[3];
 
-  char phbin[256] = {'\0'};
+  char phbin[257] = {'\0'};
+  char exch[9] = {'\0'};
+  char version[31] = {'\0'};
   FILE *ifp;
 
   /* printf("entering make_path\n"); */
@@ -251,8 +253,8 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   /* printf(">%s<\n", phbin); */
   /* fflush(stdout); */
   onepath_(phbin, &index, &nleg, &degen, &iorder, 
-	   &ixc, &rs, &vint, &mu, &edge, &kf, &rnrmav, &gamach,
-	   &ipot, &rat, &iz, &ipol, &evec, &elpty, &xivec,
+	   exch, &rs, &vint, &mu, &edge, &kf, &rnrmav, &gamach,
+	   version, &ipot, &rat, &iz, &ipol, &evec, &elpty, &xivec,
 	   &nnnn, &json, &verbose, &ri, &beta, &eta,
 	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
   /* printf("after onepath_\n"); */
@@ -269,6 +271,8 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   path->edge = edge * hart;
   path->mu = mu * hart;
   path->rnorman = rnrmav;
+  strncpy(path->exch, exch, 8);
+  strncpy(path->version, version, 30);
 
   /* path geometry */
   for (i = 0; i <= nphx; i++) {

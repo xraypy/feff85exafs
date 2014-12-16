@@ -79,21 +79,20 @@ Error handling attributes
   errorcode    : integer  error code from `atom` or `make`
   errormessage : string   error message from `atom` or `make`
 
-The following attributes are not yet captured from Feff
-
-These are readily available in onepath
+The following attributes are related to Feff's potential model
   edge         : float    energy threshold relative to atomic value (a poor estimate)
   gam_ch       : float    core level energy width
   kf           : float    k value at Fermi level
   mu           : float    Fermi level, eV
   rnorman      : float    Norman radius
   version      : string   Feff version
-
-These are mostly caught up in the standard header 
-  exch         : string   electronic exchange model
-  potentials   : list     path potentials: list of (ipot, z, r_MuffinTin, r_Norman)
+  exch         : string   brief description of the electronic exchange model
   rs_int       : float    interstitial radius
   vint         : float    interstitial potential
+  version      : string   the version of feff and the feffpath revision
+
+This attribute of Larch's _feffdat group is not captured
+  potentials   : list     path potentials: list of (ipot, z, r_MuffinTin, r_Norman)
 
 """
 
@@ -180,6 +179,36 @@ class FeffPathUnsettableInteger(object):
     def __set__(self, instance, val):
         pass
 
+class FeffPathUnsettableString(object):
+    """A descriptor for string-valued FeffPath attributes which are not
+    intended to be set by the user, instead are set by calls to the
+    make method.
+
+    """
+    def __init__(self, name):
+        self._name = name
+
+    def __get__(self, instance, owner):
+        return str(getattr(instance.wrapper, self._name))
+
+    def __set__(self, instance, val):
+        pass
+
+class FeffPathUnsettableFloat(object):
+    """A descriptor for float-valued FeffPath attributes which are not
+    intended to be set by the user, instead are set by calls to the
+    make method.
+
+    """
+    def __init__(self, name):
+        self._name = name
+
+    def __get__(self, instance, owner):
+        return float(getattr(instance.wrapper, self._name))
+
+    def __set__(self, instance, val):
+        pass
+
 class FeffPathNlegList(object):
     """A descriptor for list-valued FeffPath attributes which have nleg
     members and describe the geometry of the path, i.e. ri, beta, and
@@ -233,6 +262,18 @@ class FeffPath(Group):
     nleg      = FeffPathUnsettableInteger('nleg')
     ne        = FeffPathUnsettableInteger('ne')
     errorcode = FeffPathUnsettableInteger('errorcode')
+
+    exch      = FeffPathUnsettableString('exch')
+    version   = FeffPathUnsettableString('version')
+    errormessage = FeffPathUnsettableString('errormessage')
+
+    edge      = FeffPathUnsettableFloat('edge')
+    gam_ch    = FeffPathUnsettableFloat('gam_ch')
+    kf        = FeffPathUnsettableFloat('kf')
+    mu        = FeffPathUnsettableFloat('mu')
+    rnorman   = FeffPathUnsettableFloat('rnorman')
+    rs_int    = FeffPathUnsettableFloat('rs_int')
+    vint      = FeffPathUnsettableFloat('vint')
 
     ri        = FeffPathNlegList('ri')
     beta      = FeffPathNlegList('beta')
@@ -313,12 +354,12 @@ class FeffPath(Group):
 
     ## ---- error handling (this is the only string-valued attribute, it is returned from atom and make)
 
-    @property
-    def errormessage(self):
-        return self.wrapper.errormessage
-    @errormessage.setter
-    def errormessage(self,value):
-        pass
+    # @property
+    # def errormessage(self):
+    #     return self.wrapper.errormessage
+    # @errormessage.setter
+    # def errormessage(self,value):
+    #     pass
 
 
     ## ---- 3-vec valued attributes (with tailored ValueErrors)

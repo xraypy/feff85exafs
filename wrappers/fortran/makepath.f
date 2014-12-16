@@ -16,6 +16,8 @@ c      parameter (pi = 3.14159 26535 89793 23846 26433d0)
 c+---------------------------------------------------------------------
 c     block of parameter declarations for onepath
       character*256 phbin
+      character*8 cxc
+      character*30 versn
       integer index, iorder, innnn, ijson, ivrbse, ixc
       double precision evec(3), xivec(3)
       double precision elpty, rs, vint, xmu, edge, xkf, rnrmav, gamach
@@ -30,8 +32,8 @@ c+---------------------------------------------------------------------
 
 c     initialize everything
       call inipath(index, nleg, deg, iorder,
-     &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &       ipot, rat, ipol, evec, elpty, xivec,
+     &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &       versn, ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
@@ -60,6 +62,7 @@ c
 c    also requires a phase.bin file from an earlier run of xsph
 c
 c  OUTPUT
+c
 c    ri:       leg lengths                           double(legtot)
 c    beta:     beta angles                           double(legtot+1)
 c    eta:      eta angles                            double(legtot+2)
@@ -80,8 +83,8 @@ c     compute first shell of Copper (SS, deg=12)
       call addatom(1,  1.805, 0.,  1.805, 1, ipot, rat)
 
       call onepath(phbin, index, nleg, deg, iorder,
-     &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &     ipot, rat, iz,
+     &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &     versn, ipot, rat, iz,
      &     ipol, evec, elpty, xivec,
      &     innnn, ijson, ivrbse, ri, beta, eta,
      &     ne,col1,col2,col3,col4,col5,col6,col7)
@@ -97,8 +100,8 @@ c        1       2(1pe11.4,1x))
 
 c     compute fourth shell of Copper (DS, deg=48)
       call inipath(index, nleg, deg, iorder,
-     &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &       ipot, rat, ipol, evec, elpty, xivec,
+     &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &       versn, ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
@@ -111,8 +114,8 @@ c     compute fourth shell of Copper (DS, deg=48)
       call addatom(2, -1.805,  0., -1.805, 1, ipot, rat)
 
       call onepath(phbin, index, nleg, deg, iorder,
-     &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &       ipot, rat, iz, ipol, evec, elpty, xivec,
+     &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &       versn, ipot, rat, iz, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
 
@@ -140,8 +143,8 @@ c     compute fourth shell of Copper (DS, deg=48)
 
 
       subroutine inipath(index, nleg, deg, iorder,
-     &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &       ipot, rat, ipol, evec, elpty, xivec,
+     &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &       versn, ipot, rat, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       implicit double precision (a-h, o-z)
@@ -161,6 +164,8 @@ c     taken from feff's HEADERS/dim.h
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
       dimension col6(nex), col7(nex)
       character*256 phbin
+      character*8 cxc
+      character*30 versn
 
       index  = 9999
       nleg   = 0
@@ -173,7 +178,8 @@ c     taken from feff's HEADERS/dim.h
       elpty  = 0.
       ne     = 0
 
-      ixc    = 0
+      versn  = ""
+      cxc    = ""
       rs     = 0.
       vint   = 0.
       xmu    = 0.

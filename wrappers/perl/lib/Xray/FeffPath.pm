@@ -154,6 +154,12 @@ sub path {
   my $ret = $self->wrapper->make_path();
   $self->errorcode($ret);
   $self->errormessage($self->wrapper->swig_errormessage_get);
+
+  foreach my $att (qw(version exch edge gam_ch kf mu rnorman rs_int vint)) {
+    my $method = join('_', 'swig', $att, 'get');
+    $self->$att($self->wrapper->$method);
+  };
+
   ## clear out all the arrays
   $self->ne($self->wrapper->swig_ne_get);
   $self->clear_iz;
@@ -465,9 +471,80 @@ A explanation of words of the problem found during C<atom> or C<path>.
 
 =back
 
+=head2 Attributes related to the potential model
+
+Several parameters are captured by the C struct (and therefore
+available via the perl wrapper) which are related to how Feff's
+potential model was calculated.
+
+=over 4
+
+=item  C<version> 
+
+A string identifying the version number and the `feffpath` wrapper
+revision.
+
+=item  C<exch>
+
+A string identifying the type of potential model used.  The
+possibilities are
+
+  H-L exch (the default)
+  D-H exch
+  Gd state
+  DH - HL
+  DH + HL
+  val=s+d
+  sigmd(r)
+  sigmd=c
+
+See the description of the EXCHANGE keyword in the Feff document
+L<http://feffproject.org/feff/Docs/feff9/feff90/feff90_users_guide.pdf>
+at page 92.
+
+=item  C<edge>
+
+A poor estimate of the energy threshold relative to the atomic value, in eV.
+
+=item  C<gam_ch>
+
+The core-hole lifetime, in eV.
+
+=item  C<kf>
+
+The k value at the Fermi energy, in inverse Angstroms.
+
+=item  C<mu>
+
+The Fermi energy, in eV.
+
+=item  C<rnorman>
+
+The average Norman radius.
+
+=item  C<rs_int>
+
+An estimate of the interstitial radius.
+
+=item  C<vint>
+
+The interstitial potential, in eV.
+
+=back
+
 =head2 Array reference valued attributes
 
 =over 4
+
+=item C<ipot>
+
+A list of the unique potentials of the scatterers in a path.  This is
+populated by the calls to the C<atom> method.
+
+=item C<rat>
+
+A list of lists of the Cartesian coordinates of the scatterers in a
+path.  This is populated by the calls to the C<atom> method.
 
 =item C<evec>
 
@@ -618,7 +695,7 @@ F<phase.bin> cannot be found or cannot be read
 
 =back
 
-=head1 DEPENDENCIES
+=head1 EXTERNAL DEPENDENCIES
 
 =over 4
 
@@ -634,22 +711,8 @@ L<Moose>
 
 =item *
 
-The following attributes are not yet captured from Feff
-
-These are readily available in onepath
-  edge         : float    energy threshold relative to atomic value (a poor estimate)
-  gam_ch       : float    core level energy width
-  kf           : float    k value at Fermi level
-  mu           : float    Fermi level, eV
-  rnorman      : float    Norman radius
-  version      : string   Feff version
-
-These are mostly caught up in the standard header 
-  exch         : string   electronic exchange model
-  potentials   : list     path potentials: list of (ipot, z, r_MuffinTin, r_Norman)
-  rs_int       : float    interstitial radius
-  vint         : float    interstitial potential
-
+The muffin tin and Norman radii (and ionizations) of the unique
+potentials are not captured.
 
 =back
 

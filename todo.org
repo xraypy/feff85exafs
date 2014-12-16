@@ -5,9 +5,9 @@
 
 * The feff85exafs to do list
 
-** feffpath library [6/9]
+** feffpath library [8/10]
 
- 1. [ ] write header into ~f3ffNNNN.dat~ files
+ 1. [X] write header into ~f3ffNNNN.dat~ files
  2. [X] deg --> degen to match larch's _feffdat group
  3. [ ] use polarization correctly in feffpath library (fix
     test_materials.py around line 56)
@@ -15,11 +15,13 @@
     wrappers as part of call to add_scatterer, also geom for python wrapper
  5. [X] capture a list of Z numbers so ipots can be readily translated
     to atomic species
- 6. [ ] capture header information in C struct, propagated into wrappers
- 7. [X] check for existance/readability of phase.bin at level of
+ 6. [X] capture header information in C struct, propagated into wrappers
+ 7. [ ] capture information about muffin tin radii, norman radii,
+    ionization, a lá Larch _feffdat's potentials attribute
+ 8. [X] check for existance/readability of phase.bin at level of
     feffpath.c
- 8. [X] python wrapper / Larch plugin
- 9. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
+ 9. [X] python wrapper / Larch plugin
+ 10. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
 
 ** big jobs [0/2]
 

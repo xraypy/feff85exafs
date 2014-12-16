@@ -57,34 +57,62 @@ To make HTML files explaining data I/O for each fortran source file, do
 
 ![call graph for the GENFMT folder](tree/genfmt.png)
 
-# Feff's standard header
+# The phase.bin file
 
-Feff's standard header, which is parsed by Larch's feffdat reader,
-contains information that is available in several different parts of
-Feff.
+Along with the primary goal of wrapping up the calculation of the
+columns of the `feffNNNN.dat` file, one of the goals of the C wrapper
+is to provide a way of encapsulating *all* the information in that
+file in a C struct.  We also aimed to do this without requiring any of
+Feff's intermediate files.  That is, we want the only input for the
+use of the `onepath`/`feffpath` libraries to be a `phase.bin` file.
 
-The following parameters are available (or readily computed) in
-`onepath.f`:
+A few of the bits of information in the header of the `feffNNNN.dat`
+file are not used in the calculations -- computation of F\_eff and of
+the columns of `feffNNNN.dat` -- performed by the `onepath` library
+and so were not readily available.  To overcome this problem, the
+content `phase.bin` file was modified slightly, but in a way that
+should be both forward and backward compatible.
 
- * `edge` : float, energy threshold relative to atomic value (a poor estimate)
- * `gam_ch` : float, core level energy width
- * `kf` : float, k value at Fermi level
- * `mu` : float, Fermi level, eV
- * `rnorman` : float, Norman radius
- * `version` : string, Feff version
+The first line in `phase.bin` is not padded ASCII.  Rather, it is a
+straight print of several integers.  See
+https://github.com/xraypy/feff85exafs/blob/master/src/XSPH/wrxsph.f#L46
 
-The following are not available to `onepath.f`.  In normal Feff, these
-are passed via common block in the form of the pre-written standard
-header.  All of this information is written to `pot.bin` by the pot
-module, read from `pot.bin` by xsph, and written to the standard
-header in `xsph.f`.
+An integer and two floats were added to the end of this list.  Those
+three new parameters are initialized to zero before `phase.bin` is
+read.  An old version of Feff reading this newly modified `phase.bin`
+will simply ignore the three new numbers.  The newly modified Feff
+reading an old version of `phase.bin` will simply report 0 for each of
+these parameters. 
 
- * `exch`, a string giving the electronic exchange model (see
-   `head.f`, this is evaluated from `ixc` and a Data block
- * `r_MuffinTin` and `r_Norman` for each unique potential.  Larch
-   places these in the `potentials` attribute, which is a list of tuples
- * `rs_int`, the interstitial radius
- * `vint`, the interstitial potential
 
-The best solution would be to write that information into `phase.bin`
-to that it can be read by `onepath`.
+# The feffNNNN.dat file
+
+When told to do so,, the `onepath`/`feffpath` libraries write out a
+file called `f3ffNNNN.dat` which is a close approximation of the
+traditional `feffNNNN.dat` file.
+
+There is a little bit of information that is simply not available to
+`onepath` without lifting the requirement that `phase.bin` be the only
+required input file.  Here are the missing pieces of information, all
+from the header:
+
+* The user supplied title lines
+
+* The title line which explains how the potentials are overlapped
+   (see `POT/reapot.f` lines 233-280)
+
+* The values for muffin tin and norman radii of the unique potentials
+   (also the ionizations, if those are used).  This is actually a
+   troublesome shortcoming that will have to be corrected via
+   interaction with the forthcoming wrapper around the calcuation of
+   the `phase.bin` file.
+
+* The header line giving the keep and heap limits and the plane wave
+  criterion.  These may not even be relevant, depending on how
+  `onepath`/`feffpath` is used.
+
+* Feff has an odd habit of specifying a 0 coordinate as `-0.0000`.
+  `onepath`/`feffpath` will never write "negative zero".
+
+Finally, there may be small differences in the data table at the level
+of the fifth decimal place in floating point value.

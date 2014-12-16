@@ -31,8 +31,8 @@ and `errors` whenever changes are made to the feffpath library.
 
 Using [Valgrind](http://valgrind.org/) like so work wonders:
 
-	~> valgrind --track-origins=yes --leak-check=full ./makepath
-	~> valgrind --track-origins=yes --leak-check=full ./errors
+	~> valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./makepath
+	~> valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./errors
 
 If you can get both programs to run without any error reports from
 Valgrind, the wrappers for other languages will have a fighting chance

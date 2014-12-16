@@ -40,6 +40,7 @@ other_obj = [join('..','FF2X', 'fdtarr'      + env['SHOBJSUFFIX']), # called dir
 misc_feff = [join('..','COMMON','wlog'       + env['SHOBJSUFFIX']), # called indeirectly
              join('..','COMMON','chopen'     + env['SHOBJSUFFIX']),
              join('..','COMMON','getxk'      + env['SHOBJSUFFIX']),
+             join('..','COMMON','head'       + env['SHOBJSUFFIX']),
              join('..','COMMON','padlib'     + env['SHOBJSUFFIX']),
              join('..','COMMON','pertab'     + env['SHOBJSUFFIX']),
              join('..','COMMON','pijump'     + env['SHOBJSUFFIX']),

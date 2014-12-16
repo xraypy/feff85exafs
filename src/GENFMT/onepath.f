@@ -1,6 +1,6 @@
       subroutine onepath(phbin, index, nleg, deg, iorder,
-     &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &     ipot, rat, iz,
+     &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &     versn, ipot, rat, iz,
      &     ipol, evec, elpty, xivec,
      &     innnn, ijson, ivrbse, ri, beta, eta,
      &     ne1,col1,col2,col3,col4,col5,col6,col7)
@@ -48,13 +48,14 @@ c    col6:     mean free path                        double(nex)
 c    col7:     real partof complex momentum          double(nex)
 c
 c  Potential information:
-c    ixc:
-c    rs:
-c    vint:
-c    xmu:
-c    edge:
-c    xkf:
-c    rnrmav:
+c    cxc:      description of the potential model    character*8
+c    rs:       approximate interstitial radius       double
+c    vint:     interstitial potential                double
+c    xmu:      Fermi energy                          double
+c    edge:     threshold relative to atomic value    double
+c    xkf:      k value at Fermi energy               double
+c    rnrmav:   average Norman radius                 double
+c    versn:    Feff versioning                       character*__
 c+---------------------------------------------------------------------
 
       include '../HEADERS/const.h'
@@ -109,6 +110,15 @@ c      character*80 text(5)
       double precision deg, rnrmav, xmu, edge, rs, vint
       integer lmax(nex,0:nphx), ipot(0:legtot), ipthea(legtot),
      &       iz(0:nphx)
+
+
+c+----------------------------------------------------------------------
+c     parameters used for calling sthead
+c+----------------------------------------------------------------------
+      double precision xion(0:nphx), rmt(0:nphx), rnrm(0:nphx)
+      logical lreal
+
+
 c      integer ltext(5), ntext
       integer nsc, nleg, npot, ne, ik0, ihole, ixc
       integer kinit, linit, ilinit, lmaxp1
@@ -175,6 +185,12 @@ c     used for divide-by-zero and trig tests
       external xstar
 
       dimension atarr(3,natx)
+
+      character*30 versn
+      character*8 cxc, sout(0:7)
+      data sout /'H-L exch', 'D-H exch', 'Gd state', 'DH - HL ',
+     1           'DH + HL ', 'val=s+d ', 'sigmd(r)', 'sigmd=c '/
+
       do 5 i=1,natx
          atarr(1, i) = 0
          atarr(2, i) = 0
@@ -198,9 +214,9 @@ c     &       ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
 c+----------------------------------------------------------------------
 c     initialize everything needed for the genfmt calculation
 c+----------------------------------------------------------------------
-      do 7 i=0,nphx
+      do 10 i=0,nphx
          iz(i) = 0
- 7    continue
+ 10   continue
       call genfmt_prep(phbin, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
@@ -218,15 +234,18 @@ c      print *, "ik0  mu  kf  edge  rnrmav"
 c      print *, ik0, real(em(ik0))*hart, real(ck(ik0))/bohr, edge*hart,
 c     &     rnrmav
       xkf = real(ck(ik0))
+      cxc = sout(ixc)
+      write(versn,12)  vfeff//vf85e
       call setgam(iz(0), ihole, gamach)
 c      print *, "iz(0), ihole, gamach", iz(0), ihole, gamach
+ 12   format( a30)
 
 c+----------------------------------------------------------------------
 c     pull out the central atom phase shifts
 c+----------------------------------------------------------------------
-      do 10 ie=1,ne
+      do 100 ie=1,ne
          caps(ie) = cmplx(ph(ie, ll, 0))
- 10   continue
+ 100  continue
 
 c+----------------------------------------------------------------------
 c     read the input JSON file for this program: onepath.json
@@ -538,6 +557,21 @@ c+----------------------------------------------------------------------
                rathea(ix,il) = rat(ix,il)
  33         continue
  36      continue
+
+         do 38 ip = 0, nphx
+            xion(ip) = 0.
+            rmt(ip)  = 0.
+            rnrm(ip) = 0.
+ 38      continue
+         lreal = .false.
+         rgrd  = 0.05
+         gamach = gamach/hart
+         call sthead (ntit, titles, npot, iz, rmt, rnrm,
+     1          xion, ihole, ixc,
+     2          vr0, vi0, gamach, xmu, xkf, vint, rs,
+     2          lreal, rgrd)
+         gamach = gamach*hart
+
          call fdthea(ntit, titles, index, iorder, nleg, real(deg),
      &          real(reff), real(rnrmav), real(edge), rathea, ipthea,
      &          iz, potlbl, nlines, lines)

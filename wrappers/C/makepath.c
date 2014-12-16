@@ -48,13 +48,15 @@ long main()
   /*   	   path->k[i], path->real_phc[i], path->mag_feff[i], path->pha_feff[i], path->red_fact[i], path->lam[i], path->rep[i]); */
   /* } */
 
-  printf("%s = %.5f \n", "edge", path->edge);
-  printf("%s = %.5f \n", "gam_ch", path->gam_ch);
-  printf("%s = %.5f \n", "kf", path->kf);
-  printf("%s = %.5f \n", "mu", path->mu);
+  printf("%s = %31s \n", "version", path->version);
+  printf("%s = %9s  \n", "exch",    path->exch);
+  printf("%s = %.5f \n", "edge",    path->edge);
+  printf("%s = %.5f \n", "gam_ch",  path->gam_ch);
+  printf("%s = %.5f \n", "kf",      path->kf);
+  printf("%s = %.5f \n", "mu",      path->mu);
   printf("%s = %.5f \n", "rnorman", path->rnorman);
-  printf("%s = %.5f \n", "rs_int", path->rs_int);
-  printf("%s = %.5f \n", "vint", path->vint);
+  printf("%s = %.5f \n", "rs_int",  path->rs_int);
+  printf("%s = %.5f \n", "vint",    path->vint);
 
   cleanup(path);
   return 0;

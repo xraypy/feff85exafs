@@ -48,6 +48,14 @@ def test_atom():
     a.make()
     yield check_ri, 'ri'
     yield check_beta, 'beta'
+    yield check_param, 'edge'
+    yield check_param, 'gam_ch'
+    yield check_param, 'kf'
+    yield check_param, 'mu'
+    yield check_param, 'rnorman'
+    yield check_param, 'rs_int'
+    yield check_param, 'vint'
+    yield check_param, 'exch'
 
 def test_atom_errors():
     a.clear();
@@ -173,3 +181,23 @@ def check_pythonerror(which):
     assert True
 def check_wrong_pythonerror(which):
     assert False
+
+def check_param(which):
+    if (which == 'edge'):
+        assert abs(a.edge + 3.82035) < epsilon
+    elif (which == 'gam_ch'):
+        assert abs(a.gam_ch - 1.72919) < epsilon
+    elif (which == 'kf'):
+        assert abs(a.kf - 1.824) < epsilon
+    elif (which == 'mu'):
+        assert abs(a.mu + 3.82035) < epsilon
+    elif (which == 'rnorman'):
+        assert abs(a.rnorman - 2.63173) < epsilon
+    elif (which == 'rs_int'):
+        assert abs(a.rs_int - 1.98947) < epsilon
+    elif (which == 'vint'):
+        assert abs(a.vint + 16.48140) < epsilon
+    elif (which == 'exch'):
+        assert a.exch == 'H-L exch'
+    else:
+        assert False;

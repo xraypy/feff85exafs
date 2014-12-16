@@ -117,7 +117,7 @@ void onepath_(char *,
 	      long *,                   /* nlegs */
 	      double *,                 /* degeneracy */
 	      long *,                   /* iorder */
-	      long *,                   /* ixc, potential model index */
+	      char *,                   /* exch, potential model description */
 	      double *,                 /* rs, interstitial radius estimate */
 	      double *,                 /* vint, interstitial potential energy */
 	      double *,                 /* mu */
@@ -125,6 +125,7 @@ void onepath_(char *,
 	      double *,                 /* kf */
 	      double *,                 /* rnrmav, average R_norman */
 	      double *,                 /* gamach, chore hole lifetime in eV */
+	      char *,                   /* version, Feff's versioning string */
 	      /* scattering geometry */
 	      long (*)[legtot+1],       /* list of unique potentials */
 	      double (*)[legtot+2][3],  /* list of cartesian coordinates */
