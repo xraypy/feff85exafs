@@ -563,8 +563,10 @@ c+----------------------------------------------------------------------
             rmt(ip)  = 0.
             rnrm(ip) = 0.
  38      continue
-         lreal = .false.
-         rgrd  = 0.05
+         lreal  = .false.
+         rgrd   = 0.05
+         vr0    = 0.
+         vi0    = 0.
          gamach = gamach/hart
          call sthead (ntit, titles, npot, iz, rmt, rnrm,
      1          xion, ihole, ixc,

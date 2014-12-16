@@ -107,6 +107,10 @@ from the header:
    interaction with the forthcoming wrapper around the calcuation of
    the `phase.bin` file.
 
+* The `vi0` and `vr0` parameters of the EXCHANGE card are not
+  captured.  These are reported after `exch` in the header if either
+  is non-zero.  Non-default values of RGRID are also not captured.
+
 * The header line giving the keep and heap limits and the plane wave
   criterion.  These may not even be relevant, depending on how
   `onepath`/`feffpath` is used.
