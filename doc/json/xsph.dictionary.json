@@ -1,5 +1,5 @@
 {
-    "mod":      "module number, XSPH is 2",
+    "mod":      "module number, XSPH is 2 (this is only here to help the human reader)",
     "vfeff":    "feff version number",
     "vf85e":    "feff85exafs release number",
 

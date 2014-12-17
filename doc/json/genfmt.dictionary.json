@@ -1,5 +1,5 @@
 {
-    "mod":    "module number, GENFMT is 5",
+    "mod":    "module number, GENFMT is 5 (this is only here to help the human reader)",
     "vfeff":  "feff version number",
     "vf85e":  "feff85exafs release number",
 

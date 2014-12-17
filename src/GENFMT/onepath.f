@@ -530,7 +530,7 @@ c+----------------------------------------------------------------------
 c+----------------------------------------------------------------------
 c        compute the columns of feffNNNN.dat
 c+----------------------------------------------------------------------
-      call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk,sck,
+      call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk, sck,
      &       col1, col2, col3, col4, col5, col6, col7)
 
 
