@@ -73,7 +73,7 @@ and so were not readily available.  To overcome this problem, the
 content `phase.bin` file was modified slightly, but in a way that
 should be both forward and backward compatible.
 
-The first line in `phase.bin` is not padded ASCII.  Rather, it is a
+The first line in `phase.bin` is not packed ASCII.  Rather, it is a
 straight print of several integers.  See
 https://github.com/xraypy/feff85exafs/blob/master/src/XSPH/wrxsph.f#L46
 

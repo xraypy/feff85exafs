@@ -21,11 +21,12 @@
  8. [X] python wrapper / Larch plugin
  9. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
 
-** big jobs [0/4]
+** big jobs [0/5]
 
- 1. [ ] make scatteringpath a drop in replacement for feffdat
- 2. [ ] nosetests on result of scatteringpath with nnnn=False
- 3. [ ] fit with different feff versions -- comparison framework
- 4. [ ] library for encapsolating generation of ~phase.bin~
+ 1. [ ] build on Windows and Mac
+ 2. [ ] make scatteringpath a drop in replacement for feffdat
+ 3. [ ] nosetests on result of scatteringpath with nnnn=False
+ 4. [ ] fit with different feff versions -- comparison framework
+ 5. [ ] library for encapsolating generation of ~phase.bin~
     * capture information about muffin tin radii, norman radii,
       ionization, a lá Larch _feffdat's potentials attribute

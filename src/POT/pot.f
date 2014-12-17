@@ -119,6 +119,14 @@ c       criteria for self-consistency
       character*512 slog
 c     Josh use nhtmp to save nohole value
       integer nhtmp
+
+      do 4 i=1,30
+         do 2 j=0,nphx+1
+            kappa(i,j) = 0
+            eorb(i,j) = 0
+ 2       continue
+ 4    continue
+
    10 format (4x, a, i5)
 
 c     Josh - for now if nohole=2 reset to 0 so that regular nohole

@@ -123,6 +123,14 @@ c  initialize loops of number of potentials
         potlbl(i) = ' '
  110  continue
 
+      do 114 i=0,nphx
+         do 112 j=1,novrx
+            iphovr(j,i)=0
+            nnovr(j,i)=0
+            rovr(j,i)=dzero
+ 112     continue
+ 114  continue
+
 c  initialize polarization data
       ipol = 0
       ispin = 0

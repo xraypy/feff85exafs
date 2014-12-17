@@ -186,7 +186,8 @@ c--json--      close(3)
 
          call json%get('potlbl', strings, found)
                    if (.not. found) call bailout('potlbl', 'xsph.json')
-         do 1000 itit = 1, nheadx
+         do 1000 itit = 1, nphx
+c            potlbl(itit-1) = strings(itit)
             potlbl(itit-1) = strings(itit)(1:6)
  1000    continue
          call json%get('lmaxph', intgs, found)

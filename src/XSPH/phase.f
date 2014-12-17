@@ -74,6 +74,11 @@ c      so besjn should be declared  external
          external besjn
 c#mn}
 
+      do 5 i=1,MxPole
+         WpCorr(1) = -1.d30
+ 5    continue
+
+
       clz = 0.d0
 
 c     zero phase shifts (some may not be set below)

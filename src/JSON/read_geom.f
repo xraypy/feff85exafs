@@ -18,7 +18,9 @@
       do 10 iph = 0, nphx
          iatph(iph) = 0
  10   continue
-      call json%load_file('geom.json')
+
+      call json_initialize()
+      call json%load_file(filename='geom.json')
       if (json_failed()) then   !if there was an error reading the file
          print *, "failed to read geom.json"
          stop
@@ -53,8 +55,8 @@ c     this line follows how iatph was set as data was read from geom.dat
             if (iphat(i).gt.nph) nph = iphat(i)
             if ( iatph(iphat(i)).eq.0) iatph(iphat(i)) = i
  20      continue
-         call json%destroy()
       end if
-
+      call json%destroy()
+         
       return
       end
