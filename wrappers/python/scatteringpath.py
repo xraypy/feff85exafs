@@ -117,11 +117,13 @@ from larch import (Group, Parameter, isParameter, ValidateLarchPlugin, param_val
                    use_plugin_path, isNamedClass, Interpreter)
 use_plugin_path('xafs')
 use_plugin_path('xray')
-from   os        import name
-from   os.path   import isfile
-from   numpy     import array
-from   platform  import uname, architecture
 from   xraydb_plugin import atomic_symbol
+
+import sys
+from   os            import name
+from   os.path       import isfile
+from   numpy         import array
+from   platform      import uname, architecture
 
 ## make sure that the SWIG wrapper library can be found and imported
 if name == 'nt':
@@ -130,7 +132,6 @@ else:
     installdir = larch.site_configdata.unix_installdir
 
 ## swiped from larch's dylibs/configure.py
-import sys
 system = uname()[0]
 arch   = architecture()[0]
 dlldir = None
@@ -148,6 +149,9 @@ else:
 dllfile=installdir+'/dlls/'+dlldir
 if not dllfile in sys.path:
     sys.path.append(dllfile)
+moddir=installdir+'/modules'
+if not moddir in sys.path:
+    sys.path.append(moddir)
 
 import feffpathwrapper
 
@@ -372,9 +376,9 @@ class FeffPath(Group):
     @evec.setter
     def evec(self, vec):
         if type(vec).__name__ not in ('list', 'tuple'):
-            raise ValueError("evec must be 3 element list (or tuple) with (x,y,z) of the electric vector")
+            raise ValueError("evec must be 3 element list (or tuple) with (x,y,z) of the electric vector (not a list/tuple)")
         elif len(vec) != 3:
-            raise ValueError("evec must be 3 element list (or tuple) with (x,y,z) of the electric vector")
+            raise ValueError("evec must be 3 element list (or tuple) with (x,y,z) of the electric vector (not of length 3)")
         feffpathwrapper.set_evec(self.wrapper,0,vec[0])
         feffpathwrapper.set_evec(self.wrapper,1,vec[1])
         feffpathwrapper.set_evec(self.wrapper,2,vec[2])
@@ -387,10 +391,10 @@ class FeffPath(Group):
                 feffpathwrapper.get_xivec(self.wrapper,2)]
     @xivec.setter
     def xivec(self, vec):
-        if type(vec) not in ('list', 'tuple'):
-            raise ValueError("xivec must be 3 element list/tuple with (x,y,z) of the Poynting vector")
+        if type(vec).__name__ not in ('list', 'tuple'):
+            raise ValueError("xivec must be 3 element list/tuple with (x,y,z) of the Poynting vector (not a list/tuple)")
         elif len(vec) != 3:
-            raise ValueError("xivec must be 3 element list/tuple with (x,y,z) of the Poynting vector")
+            raise ValueError("xivec must be 3 element list/tuple with (x,y,z) of the Poynting vector (not of length 3)")
         feffpathwrapper.set_xivec(self.wrapper,0,vec[0])
         feffpathwrapper.set_xivec(self.wrapper,1,vec[1])
         feffpathwrapper.set_xivec(self.wrapper,2,vec[2])

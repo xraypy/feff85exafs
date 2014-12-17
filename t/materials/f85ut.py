@@ -270,9 +270,10 @@ class Feff85exafsUnitTestGroup(Group):
         nnnndat = "feff%4.4d.dat" % nnnn
         
         blpath = feffpath(join(self.baseline, nnnndat))
-        if use_wrapper and self.wrapper_available:
+        if use_wrapper and self.wrapper_available: # make the f3ffNNNN.dat file on the fly
             self.sp.phbin=join(self.testrun, 'phase.bin')
             self.sp.nnnn=True
+            self.sp.index=nnnn
             self.sp.verbose=self.verbose
             self.snarf_geometry(nnnn)
             here = getcwd()
@@ -281,7 +282,7 @@ class Feff85exafsUnitTestGroup(Group):
             chdir(here)
             n3nndat = "f3ff%4.4d.dat" % nnnn
             trpath = feffpath(join(self.testrun,  n3nndat))
-        else:
+        else:                   # the feffNNNN.dat file was made by the monolithic feff run
             trpath = feffpath(join(self.testrun,  nnnndat))
         
         if part=='feff':
