@@ -30,7 +30,7 @@ copper metal:
   use Xray::FeffPath;
 
   my $path = Xray::FeffPath->new();
-  $path->deg(48);
+  $path->degen(48);
   $path->Index(4);
   $path->phbin('../fortran/phase.bin');
   $path->atom(0, 0, -3.61, 1);
@@ -144,7 +144,7 @@ Moose-y way:
 Note that this attribute (but only this one) is capitalized to avoid
 confusion with the built-in C<index> function.
 
-=item C<deg> (float, default = 0)
+=item C<degen> (float, default = 0)
 
 The path degeneracy.  This is required input for a calculation.
 
@@ -206,7 +206,7 @@ C<errormessage> for an explanation of the problem.
 
 A explanation of words of the problem found during C<atom> or C<path>.
 
-   $path->deg(-48);
+   $path->degen(-48);
    $path->atom(0, 0, 3.61, 1);
    $path->path;
    if ($path->errorcode) {
@@ -218,9 +218,80 @@ A explanation of words of the problem found during C<atom> or C<path>.
 
 =back
 
+=head2 Attributes related to the potential model
+
+Several parameters are captured by the C struct (and therefore
+available via the perl wrapper) which are related to how Feff's
+potential model was calculated.
+
+=over 4
+
+=item  C<version> 
+
+A string identifying the version number and the `feffpath` wrapper
+revision.
+
+=item  C<exch>
+
+A string identifying the type of potential model used.  The
+possibilities are
+
+  H-L exch (the default)
+  D-H exch
+  Gd state
+  DH - HL
+  DH + HL
+  val=s+d
+  sigmd(r)
+  sigmd=c
+
+See the description of the EXCHANGE keyword in the Feff document
+L<http://feffproject.org/feff/Docs/feff9/feff90/feff90_users_guide.pdf>
+at page 92.
+
+=item  C<edge>
+
+A poor estimate of the energy threshold relative to the atomic value, in eV.
+
+=item  C<gam_ch>
+
+The core-hole lifetime, in eV.
+
+=item  C<kf>
+
+The k value at the Fermi energy, in inverse Angstroms.
+
+=item  C<mu>
+
+The Fermi energy, in eV.
+
+=item  C<rnorman>
+
+The average Norman radius.
+
+=item  C<rs_int>
+
+An estimate of the interstitial radius.
+
+=item  C<vint>
+
+The interstitial potential, in eV.
+
+=back
+
 =head2 Array reference valued attributes
 
 =over 4
+
+=item C<ipot>
+
+A list of the unique potentials of the scatterers in a path.  This is
+populated by the calls to the C<atom> method.
+
+=item C<rat>
+
+A list of lists of the Cartesian coordinates of the scatterers in a
+path.  This is populated by the calls to the C<atom> method.
 
 =item C<evec>
 
@@ -371,7 +442,7 @@ F<phase.bin> cannot be found or cannot be read
 
 =back
 
-=head1 DEPENDENCIES
+=head1 EXTERNAL DEPENDENCIES
 
 =over 4
 
@@ -387,7 +458,8 @@ L<Moose>
 
 =item *
 
-Getter method(s) for rat and ipot
+The muffin tin and Norman radii (and ionizations) of the unique
+potentials are not captured.
 
 =back
 

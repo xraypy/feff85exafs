@@ -104,6 +104,24 @@ show a
 | errorcode    | integer  | error code from `atom` or `make`                            |
 | errormessage | string   | error message from `atom` or `make`                         |
 
+Additionally, several bits of information about the potential model
+are capture.  These are things that Feff writes to the header of the
+`feffNNNN.dat` file:
+
+| attribute  | type    |  description                             |
+| ---------- | ------- | ---------------------------------------- |
+|  edge      | float   |  energy threshold relative to atomic value (a poor estimate) |
+|  gam\_ch   | float   |  core level energy width |
+|  kf        | float   |  k value at Fermi level |
+|  mu        | float   |  Fermi level, eV |
+|  rnorman   | float   |  average Norman radius |
+|  version   | string  |  Feff version |
+|  exch      | string  |  brief description of the electronic exchange model |
+|  rs\_int   | float   |  interstitial radius |
+|  vint      | float   |  interstitial potential |
+|  version   | string  |  the version of feff and the feffpath revision |
+
+
 A polarization calculation is enabled by setting the `ipol` element to
 a true value.  `evec` has 3 elements and represents the polarization
 vector of the incident beam.  `elpty` and `xivec` are the ellipticity

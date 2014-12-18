@@ -51,7 +51,6 @@ long main()
 {
   long i, ret;
   FEFFPATH *path;
-  char errormessage[240] = {'\0'};
 
   path = malloc(sizeof(FEFFPATH));
   ret = create_path(path);
@@ -143,7 +142,7 @@ naming conventions in Feff.  The output arrays for the columns of
 `feffNNNN.dat` are those
 [used by Larch](http://xraypy.github.io/xraylarch/xafs/feffpaths.html#the-feffdat-group-full-details-of-the-feff-dat-file).
 
-| element    | type       | I/O | description                             | default              |
+| attribute  | type       | I/O | description                             | default              |
 | ---------- | --------   | --- |---------------------------------------- | -------------------- |
 |  phbin     | \*char     | I   | path to `phase.bin`                     |  `phase.bin`         |
 |  index     | long       | I   | path index                              |  9999                |
@@ -173,6 +172,22 @@ naming conventions in Feff.  The output arrays for the columns of
 |  rep       | \*double   | O   | real part of complex momentum, column 7 in `feffNNNN.dat`    | |
 |  errorcode | long       | O   | error code from `add_scatterer` or `make_path`               | |
 |  errormessage | \*char  | O   | error message from `add_scatterer` or `make_path`            | |
+
+Additionally, this struct captures several bits of information about
+the potential model that Feff writes to the header of the `feffNNNN.dat` file:
+
+| attribute  | type    | I/O | description                             |
+| ---------- | ------- | --- |---------------------------------------- |
+|  edge      | float   |  O  | energy threshold relative to atomic value (a poor estimate) |
+|  gam\_ch   | float   |  O  | core level energy width |
+|  kf        | float   |  O  | k value at Fermi level |
+|  mu        | float   |  O  | Fermi level, eV |
+|  rnorman   | float   |  O  | average Norman radius |
+|  version   | string  |  O  | Feff version |
+|  exch      | string  |  O  | brief description of the electronic exchange model |
+|  rs\_int   | float   |  O  | interstitial radius |
+|  vint      | float   |  O  | interstitial potential |
+|  version   | string  |  O  | the version of feff and the feffpath revision |
 
 A polarization calculation is enabled by setting the `ipol` element to
 a true value.  `evec` has 3 elements and represents the polarization
