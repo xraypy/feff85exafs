@@ -48,11 +48,14 @@ c     Local variables
       complex*16 rkk(nex,8,nspx), eref2(nex,nspx)
       complex*16 ph4(nex, -ltot:ltot, nspx, 0:nphx)
 
+      character*256 phbin
+
 c     Need stuff from phase.bin
 c     Read phase calculation input, data returned via commons
-      call rdxsph (ne, ne1, ne3, npot, ihole,
-     1    rnrmav, xmu, edge, ik0, em, eref2, iz, potlbl, ph4, rkk,
-     2    lmax, lmaxp1  )
+      phbin = 'phase.bin'
+      call rdxsph (phbin, ne, ne1, ne3, npot, ihole,
+     1     rnrmav, xmu, edge, ik0, ixc, rs, vint,
+     2     em, eref2, iz, potlbl, ph4, rkk, lmax, lmaxp1  )
  
       do 10 ie = 1, ne
   10  eref(ie) = eref2(ie,1)

@@ -6,65 +6,123 @@ import sys
 sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment
 from distutils.spawn import find_executable
-import os
-from   os.path   import realpath, join
+import os, re
+from   os.path   import realpath, join, isdir
 
-
-env  = CompilationEnvironment()
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
 ienv = InstallEnvironment()
+
+env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME'] = 1
 
 ## ------------------------------------------------------------------------------------------------------
 ## build libgenfmt: contains most of the functionality of genfmt
 lib_src = ['genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'import.f',
            'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f', 'trig.f']
-env.StaticLibrary('libfeffgenfmt', lib_src)
-env.Install(ienv['i_lib'], 'libfeffgenfmt.a')
+env.SharedLibrary('libfeffgenfmt', lib_src)
+env.Install(ienv['i_lib'], 'libfeffgenfmt.so')
 
-## ------------------------------------------------------------------------------------------------------
-## build the genfmt standalone program
 bin_src = ['ffmod5.f', 'genfmt.f', 'rdpath.f']
-env.Program('genfmt', ['regenf.f']+bin_src, \
-            LIBS = ['feffgenfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+env.Program('genfmt', ['regenf.f']+bin_src,
+            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
+            OBJSUFFIX = env['SHOBJSUFFIX'],
+            LIBS = ['feffgenfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'],
             LIBPATH = ['.', join('..','COMMON'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
 env.Install(ienv['i_bin'], 'genfmt')
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the onepath fortran librtary
+other_obj = [join('..','FF2X', 'fdtarr'      + env['SHOBJSUFFIX']), # called directly
+             join('..','FF2X', 'fdthea'      + env['SHOBJSUFFIX']),
+             join('..','RDINP','mkptz'       + env['SHOBJSUFFIX'])]
+misc_feff = [join('..','COMMON','wlog'       + env['SHOBJSUFFIX']), # called indeirectly
+             join('..','COMMON','chopen'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','getxk'      + env['SHOBJSUFFIX']),
+             join('..','COMMON','head'       + env['SHOBJSUFFIX']),
+             join('..','COMMON','padlib'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','pertab'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','pijump'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','rdxsph'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','setgam'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','setkap'     + env['SHOBJSUFFIX']),
+             join('..','COMMON','str'        + env['SHOBJSUFFIX']),
+             join('..','MATH',  'bcoef'      + env['SHOBJSUFFIX']),
+             join('..','MATH',  'cwig3j'     + env['SHOBJSUFFIX']),
+             join('..','MATH',  'dist'       + env['SHOBJSUFFIX']),
+             join('..','MATH',  'polint'     + env['SHOBJSUFFIX']),
+             join('..','MATH',  'rotwig'     + env['SHOBJSUFFIX']),
+             join('..','MATH',  'terp'       + env['SHOBJSUFFIX']),
+             join('..','MATH',  'trap'       + env['SHOBJSUFFIX']),
+             join('..','PAR',   'sequential' + env['SHOBJSUFFIX'])]
+
+
+
 onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
-other_obj = [join('..','FF2X','fdtarr.o'), join('..','FF2X','fdthea.o'), join('..','RDINP','mkptz.o')]
-env.StaticLibrary('libonepath', onepath_src + other_obj)
-env.Install(ienv['i_lib'], 'libonepath.a')
+env.SharedLibrary('libonepath', onepath_src + other_obj + lib_src + misc_feff)
+env.Install(ienv['i_lib'], 'libonepath.so')
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the feffpath C wrapper around onepath
-env.StaticLibrary('libfeffpath', 'feffpath.c')
-env.Install(ienv['i_lib'], 'libfeffpath.a')
+env.SharedLibrary('libfeffpath', ['feffpath.c'] + onepath_src + other_obj + lib_src + misc_feff)
 
+
+env.Install(ienv['i_lib'], 'libfeffpath.so')
+
+
+
+perl_wrapper_path = realpath(join('..', '..', 'wrappers', 'perl'))
+python_wrapper_path = realpath(join('..', '..', 'wrappers', 'python'))
 ## ------------------------------------------------------------------------------------------------------
-## build the test program for the C wrapper
-env.Program('makepath', 'makepath.c', \
-            LIBS = ['feffpath', 'onepath', 'feffgenfmt', 'feffcom', 'feffmath', 'feffpar', 'gfortran', 'm'], \
-            LIBPATH = ['.', join('..','COMMON'), join('..','MATH'), join('..','PAR')])
+## the C wrapper example needs the header file
+if 'SUDO_UID' in os.environ.keys():
+    env.InstallOwner(join(perl_wrapper_path, 'src'), 'feffpath.h', int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
+    env.Install(ienv['i_inc'], 'feffpath.h')
+else:
+    env.Install([join(perl_wrapper_path, 'src'), ienv['i_inc']], 'feffpath.h')
+
+
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the SWIG Perl wrapper
 
 ## FIXME:  find_executable needs an argument that works on all the platforms
 ##         perhaps 'import platform', then 'platform.system()'...
+
 if find_executable("swig"):
-    bld = Builder(action = 'swig -perl5 $SOURCE')
+
+    here=os.getcwd()
+
+    ## -- perl wrapper ------------------------------------------------------
+    if not isdir('perl'): os.mkdir('perl')
+    bld = Builder(action = 'swig -perl5 -outdir '+here+'/perl -o '+here+'/perl/feffpath_wrap.c $SOURCE')
     env = Environment(BUILDERS = {'SwigPerl' : bld})
-    env.SwigPerl(['feffpath_wrap.c', 'FeffPathWrapper.pm'], 'feffpath.i') # builder befined in FeffBuild.py
-    Depends(['feffpath_wrap.c', 'FeffPathWrapper.pm'], 'feffpath.h')
+    env.SwigPerl([join(here, 'perl', 'feffpath_wrap.c'), join(here, 'perl', 'FeffPathWrapper.pm')], 'feffpath.i') # builder befined in FeffBuild.py
+    Depends([join(here, 'perl', 'feffpath_wrap.c'), join(here, 'perl', 'FeffPathWrapper.pm')], 'feffpath.h')
     if 'SUDO_UID' in os.environ.keys():
-        env.InstallOwner('../../wrappers/perl/src/',      ['feffpath.h', 'feffpath_wrap.c'], int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
-        env.InstallOwner('../../wrappers/perl/lib/Xray/', 'FeffPathWrapper.pm',              int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
+        env.InstallOwner(join(perl_wrapper_path, 'src'),          join(here, 'perl', 'feffpath_wrap.c'),    int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
+        env.InstallOwner(join(perl_wrapper_path, 'lib', 'Xray/'), join(here, 'perl', 'FeffPathWrapper.pm'), int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
     else:
-        env.Install('../../wrappers/perl/src/',      ['feffpath.h', 'feffpath_wrap.c'])
-        env.Install('../../wrappers/perl/lib/Xray/', 'FeffPathWrapper.pm')
+        env.Install(join(perl_wrapper_path, 'src'),          join(here, 'perl', 'feffpath_wrap.c'))
+        env.Install(join(perl_wrapper_path, 'lib', 'Xray/'), join(here, 'perl', 'FeffPathWrapper.pm'))
+
+    ## -- python wrapper ----------------------------------------------------
+    if not isdir('python'): os.mkdir('python')
+    bld = Builder(action = 'swig -python -outdir '+here+'/python -o '+here+'/python/feffpath_wrap.c $SOURCE')
+    env = Environment(BUILDERS = {'SwigPython' : bld})
+    env.SwigPython([join(here, 'python', 'feffpath_wrap.c'), join(here, 'python', 'feffpathwrapper.py')], 'feffpath.i') # builder befined in FeffBuild.py
+    Depends([join(here, 'python', 'feffpath_wrap.c'), join(here, 'python', 'feffpathwrapper.py')], 'feffpath.h')
+    if 'SUDO_UID' in os.environ.keys():
+        env.InstallOwner(python_wrapper_path, join(here, 'python', 'feffpath_wrap.c'),    int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
+        env.InstallOwner(python_wrapper_path, join(here, 'python', 'feffpathwrapper.py'), int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
+    else:
+        env.Install(python_wrapper_path, join(here, 'python', 'feffpath_wrap.c'))
+        env.Install(python_wrapper_path, join(here, 'python', 'feffpathwrapper.py'))
+
 else:
     print "\nSWIG not installed, skipping perl wrapper for libfeffpath in GENFMT\n"
 
-perl_wrapper_path = realpath(join('..', '..', 'wrappers', 'perl'))
 env.Alias('install', [join(perl_wrapper_path, 'src'), join(perl_wrapper_path, 'lib', 'Xray/'),
-                      ienv['i_lib'], ienv['i_bin'] ])
+                      python_wrapper_path,
+                      ienv['i_lib'], ienv['i_bin'], ienv['i_inc'] ])

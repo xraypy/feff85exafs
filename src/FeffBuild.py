@@ -23,6 +23,7 @@ def CompilationEnvironment():
     """
     env = Environment()
     jsondir = realpath(join(getcwd(), '..', 'JSON'))
+    jsondir = '/usr/local/lib'
 
     if env['FORTRAN'] == 'gfortran':
         # this was the suggestion in the top level Makefile in what
@@ -31,7 +32,7 @@ def CompilationEnvironment():
         # the advantage of -ffree-line-length-none -- it seems to 
         # encourage poor code style -- like we need more of that!
         # also,  -finit-local-zero fails on FMS/fmstot.f
-        env = Environment(FORTRANFLAGS = '-O3 -ffree-line-length-none -Wall -I'+jsondir)   ## -pedantic -finit-local-zero
+        env = Environment(FORTRANFLAGS = '-O3 -ffree-line-length-none -g -Wall -I'+jsondir, CFLAGS = '-g')   ## -pedantic -finit-local-zero
     elif env['FORTRAN'] == 'g77':
         env = Environment(FORTRANFLAGS = '-Wall -O2')
     elif env['FORTRAN'] == 'xlf':

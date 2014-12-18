@@ -34,29 +34,40 @@ the names chosen by the original build system for feff85exafs.
 
 The following libraries contain the various parts of Feff.
 
-* `ATOM/libfeffatom.a`
-* `COMMON/libfeffcom.a`
-* `DEBYE/libfeffdw.a`
-* `EXCH/libfeffexch.a`
-* `FMS/libfefffms.a`
-* `FOVRG/libfeffpha.a`
-* `GENFMT/libfeffgenfmt.a`
-* `JSON/libfeffjson.a`
-* `MATH/libfeffmath.a`
-* `PAR/libfeffpar.a`
-* `POT/libfeffint.a`
+* `ATOM/libfeffatom.so`
+* `COMMON/libfeffcom.so`
+* `DEBYE/libfeffdw.so`
+* `EXCH/libfeffexch.so`
+* `FMS/libfefffms.so`
+* `FOVRG/libfeffpha.so`
+* `GENFMT/libfeffgenfmt.so`
+* `JSON/libfeffjson.so`
+* `MATH/libfeffmath.so`
+* `PAR/libfeffpar.so`
+* `POT/libfeffint.so`
 
 Default installation locations:
 
 * Linux: `/usr/local/lib`
-* Windows: `C:\path\to\lib`
-* Mac: `/some/where/lib`
+* Windows: `C:\path\to\lib`  :FIXME:
+* Mac: `/some/where/lib`     :FIXME:
 
 This can be set from the command line:
 
 	~> scons prefix="/other/location"
 
 where the default value for "prefix" is `/usr/local` on Linux, etc.
+
+This location **must** be in the linker/loader path.  With bash, for
+example, you may need to do
+
+	~> export LD_LIBRARY_PATH=/usr/local/lib
+
+or, if LD\_LIBRARY\_PATH already has a value:
+
+	~> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH ":/usr/local/lib"
+
+You may want to put that in your `.bashrc` file.
 
 ## Stand-alone programs
 
@@ -68,19 +79,33 @@ where the default value for "prefix" is `/usr/local` on Linux, etc.
 * `FF2X/ff2x`: module 6, output files
 
 Note that module 3, `fms`, the full multiple scattering XANES
-calculator, is not installed as part of feff85exafs.
+calculator, is not a part of feff85exafs.
 
 Default installation locations:
 
 * Linux: `/usr/local/bin`
-* Windows: `C:\path\to\bin`
-* Mac: `/some/where/bin`
+* Windows: `C:\path\to\bin`  :FIXME:
+* Mac: `/some/where/bin`     :FIXME:
 
 This can be set from the command line:
 
 	~> scons prefix="/other/location"
 
 where the default value for "prefix" is `/usr/local` on Linux, etc.
+
+Note that the ultimate goal of the feff85exafs project is to do away
+with the stand-alone programs.
+ * `rdinp` is a chore better handled by a GUI or other user interface.
+ * `genfmt` and `ff2x` are replaced by the feffpath library, which can
+   be called directly by a program written in fortran, C, or some
+   other language
+ * eventually `pot` and `xsph` will be replaced by similarly callable
+   library
+ * finally the pathfinder is missing critical features (most
+   prominently: caching geometry of degenerate paths and fuzzy
+   degeneracy).  the pathfinder has alrady been rewritten in Perl for
+   Demeter, for example.
+
 
 ## The feffpath library and its wrappers
 
@@ -91,18 +116,21 @@ the "feffpath" calculation, that is, the calculation of a single
 This presumes that `pot` and `xsph` have already been run and that the
 `phase.bin` file is accessible.
 
-* `GENFMT/libonepath.a`: This is the Fortran entry point.
-* `GENFMT/libfeffpath.a`: This is the C wrapper around the Fortran onepath
+* `GENFMT/libonepath.so`: This is the Fortran entry point.
+* `GENFMT/libfeffpath.so`: This is the C wrapper around the Fortran onepath
 * `GENFMT/feffpath.h`: This is the header file, almost certainly required by any language wrapper
-* `GENFMT/feffpath_wrap.c`: This is the SWIG generated wrapper file for use with the Perl wrapper
-* `GENFMT/FeffPathWrapper.pm`: This is the SWIG generated Perl wrapper
+* `GENFMT/perl/feffpath_wrap.c`: The SWIG generated wrapper file for use with the Python wrapper
+* `GENFMT/perl/FeffPathWrapper.pm`: This is the SWIG generated Perl wrapper
+* `GENFMT/python/feffpath_wrap.c`: The SWIG generated wrapper file for use with the Perl wrapper
+* `GENFMT/python/feffpathwrapper.py`: This is the SWIG generated Perl wrapper
 
-`libonepath.a` and `libfeffpath.a` will be installed to the same
+`libonepath.so` and `libfeffpath.so` will be installed to the same
 location (`/usr/local/lib`, etc) as the Feff libraries.
 
-The other three files are "installed" into the proper place in the
-`wrappers` folder of the feff85exafs distribution so that the Perl
-wrapper can be built using Perl's standard tools for such things.
+The other files are transferred into the proper place in the
+`wrappers` folder of the feff85exafs distribution so that the
+language-specific wrapper can be built using language-specific build
+tools.
 
 
 ---
@@ -166,6 +194,16 @@ Matt has these reasonable things to say about compiling against json-fortran:
 
 Clearly, if we stay with json-fortran, these concerns need to be
 addressed and well tested.
+
+---
+
+# To be fixed
+
+1. Many of the SConstruct files explicitly link to libgfortran and
+   libm.  That needs to be fixed for other platforms/compilers.
+
+2. C wrapper's SConstruct has /usr/local/lib hardwired
+
 
 ---
 

@@ -57,6 +57,7 @@ c                  geom.dat
 c                  global.dat
      3             ipol, ispin, evec, xivec)
 c ,eels) !KJ added eels 5/06
+      eels=0
        if (nspx.gt.1) ispin = abs(ispin)
 
       if (ms.eq.1  .and.  mpath.eq.1)  then

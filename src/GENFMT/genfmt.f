@@ -1,4 +1,4 @@
-      subroutine genfmt (ipr3, critcw, iorder, wnstar,
+      subroutine genfmt (ipr5, critcw, iorder, wnstar,
      1       ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
       implicit double precision (a-h, o-z)
 
@@ -77,6 +77,7 @@ c     .  ntext                                  !number of text  lines
       dimension   eps1(3), eps2(3), vec1(3), vec2(3)
 
       character*128 string
+      character*256 phbin
       character*512 slog
       logical done, wnstar
       
@@ -98,10 +99,11 @@ c     used for divide-by-zero and trig tests
 c+---------------------------------------------------------------------
 c begin intialization
 
-      call genfmt_prep(ispin,
+      phbin = 'phase.bin'
+      call genfmt_prep(phbin, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
-     &       xmu, edge, ik0,
+     &       xmu, edge, ik0, ixc, rs, vint,
      &       em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1,
 c     arguments for setkap
      &       kinit, linit, ilinit,
@@ -143,12 +145,12 @@ c     Open nstar.dat if necessary
       endif
       
 c     Set crit0 for keeping feff.dat's
-      if (ipr3 .le. 0)  crit0 = 2*critcw/3
+      if (ipr5 .le. 0)  crit0 = 2*critcw/3
 c     Make a header for the running messages.
       write(slog, 155) critcw
  155  format ('    Curved wave chi amplitude ratio', f7.2, '%')
       call wlog(slog)
-      if (ipr3 .le. 0)  then
+      if (ipr5 .le. 0)  then
          write(slog,165) crit0
          call wlog(slog)
       endif
@@ -414,9 +416,8 @@ c        compute the importance factor of this path
          call import(ne1, nsp, ik0, reff, deg, ckmag, em, eref2,
      &          cchi, xportx, crit)
 
-
 c        Write path data to feff.bin if we need it.
-         if (ipr3 .ge. 1  .or.  crit .ge. crit0)  then
+         if (ipr5 .ge. 1  .or.  crit .ge. crit0)  then
 c           write path info
  7225       format('(i6,1x,i3,1x,f7.3,1x,f11.7,1x,e15.4,',i3,
      &             '(1x,i2))')  !KJ  1-06

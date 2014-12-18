@@ -7,12 +7,15 @@ sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment
 from   os.path   import realpath, join
 
-env = CompilationEnvironment()
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
 ienv = InstallEnvironment()
 
 lib_src = ('fmsie.f', 'fmspack.f', 'gglu.f', 'ggbi.f', 'ggrm.f', 'gggm.f', 'ggtf.f', 'yprep.f', 'xstaff.f')
 
-env.StaticLibrary('libfefffms', lib_src)
+env.SharedLibrary('libfefffms', lib_src)
 
 ## the following lines would build the fms executable, however the
 ## intent of feff85exafs is that the tasks that use this (XANES, LDOS,
@@ -26,7 +29,7 @@ env.StaticLibrary('libfefffms', lib_src)
 #        LIBPATH = ['.', join('..','DEBYE'), join('..','COMMON'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
 
 
-env.Install(ienv['i_lib'], 'libfefffms.a')
+env.Install(ienv['i_lib'], 'libfefffms.so')
 #env.Install(ienv['i_bin'], 'fms')
 
 env.Alias('install', [ienv['i_lib'], ienv['i_bin']])

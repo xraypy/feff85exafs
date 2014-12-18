@@ -1,8 +1,8 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 use strict;
 use warnings;
-use Test::More tests => 21;
+use Test::More tests => 43;
 use Cwd;
 
 use Xray::FeffPath;
@@ -21,10 +21,17 @@ my $ret = $path->create_path;
 ok($ret == $path,									  "called create_path");
 
 
+my $str = "../../fortran/phase.bin";
+$path->phbin($str);
+##print $path->phbin, $/;
+##(-e $path->phbin) ? print "ok\n" : print "nope\n";
+(my $phbin = $path->phbin) =~ s{\s+\z}{};
+ok($path->phbin eq $phbin,                                                                "set and read phbin");
+ok($path->wrapper->swig_phbin_get eq $phbin ,                                             "low level phbin");
 
-$path->deg(48);
-ok($path->deg == 48,									  "set and read degeneracy");
-ok($path->wrapper->swig_deg_get == 48,							  "low level deg");
+$path->degen(48);
+ok($path->degen == 48,									  "set and read degeneracy");
+ok($path->wrapper->swig_degen_get == 48,						  "low level degen");
 
 
 
@@ -46,7 +53,7 @@ ok($path->nnnn,										  "set and read nnnn (boolean)");
 
 
 $path->evec([0,0,1]);
-ok((($path->evec->[0] == 0) and ($path->evec->[1] == 0) and ($path->evec->[2] == 1)),	  "set and read xivec");
+ok((($path->evec->[0] == 0) and ($path->evec->[1] == 0) and ($path->evec->[2] == 1)),	  "set and read evec");
 $path->evec([0,0,0]);
 ok((($path->evec->[0] == 0) and ($path->evec->[1] == 0) and ($path->evec->[2] == 0)),	  "unset evec");
 
@@ -69,10 +76,22 @@ ok($path->nleg == 3,									  "added second scatterer");
 ok($path->wrapper->swig_nleg_get == 3,							  "low level nleg");
 
 
-
 $ret = $path->path;
 ok($ret == $path,									  "called path");
 
+ok($path->exch eq 'H-L exch',                                                             "exchange string ok");
+ok(abs($path->edge + 3.82035) < $epsilon,                                                 "edge ok");
+ok(abs($path->gam_ch - 1.72919) < $epsilon,                                               "gam_ch ok");
+ok(abs($path->kf - 1.824) < $epsilon,                                                     "kf ok");
+ok(abs($path->mu + 3.82035) < $epsilon,                                                   "mu ok");
+ok(abs($path->rnorman - 2.63173) < $epsilon,                                              "rnorman ok");
+ok(abs($path->rs_int - 1.98947) < $epsilon,                                               "rs_int ok");
+ok(abs($path->vint + 16.48140) < $epsilon,                                                "vint ok");
+
+
+
+
+ok( (($path->iz->[0] == 29) and ($path->iz->[1] == 29)),                                  "iz array is correct");
 
 
 ok(( ( abs($path->ri->[0] - 3.61)    < $epsilon) and
@@ -88,6 +107,98 @@ ok(( ( abs($path->beta->[0] - 135) < $epsilon) and
 
 
 ok(-e 'f3ff0004.dat',									  "feffNNNN.dat file written");
+unlink 'f3ff0004.dat';
 
+$path->clear;
+ok($path->Index == 9999,								  "path reset");
+
+
+
+$path->atom( 0,     0, -3.610, 9);
+ok($path->errorcode == 2,                                                                 "error recognized: ipot too big");
+$path->clear;
+
+
+
+$path->atom( 0,     0, -3.610, -1);
+ok($path->errorcode == 1,                                                                 "error recognized: ipot negative");
+$path->clear;
+
+
+
+
+$path->atom( 0,     0, -3.610, 1);
+$path->atom( 0,     0, -3.710, 1);
+ok($path->errorcode == 4,                                                                 "error recognized: atoms too close");
+$path->clear;
+
+
+
+$path->atom( 0, 0,  0,     1);
+$path->atom( 0, 0, -3.61,  1);
+$path->path;
+ok($path->errorcode == 1,                                                                 "error recognized: begins with absorber");
+$path->clear;
+
+
+
+$path->atom( 0, 0, -3.61,  1);
+$path->atom( 0, 0,  0,     1);
+$path->path;
+ok($path->errorcode == 2,                                                                 "error recognized: ends with absorber");
+$path->clear;
+
+
+
+$path->degen(-48);
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 4,                                                                 "error recognized: negative degeneracy");
+$path->clear;
+
+
+
+$path->Index(40000);
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 8,                                                                 "error recognized: bad index");
+$path->clear;
+
+
+
+$path->elpty(-0.5);
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 16,                                                                "error recognized: bad elpty");
+$path->clear;
+
+
+
+$path->iorder(-1);
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 32,                                                                "error recognized: bad iorder");
+$path->clear;
+
+
+$path->phbin("foo.bar");
+$path->atom( 0,     0, -3.61,  1);
+$path->atom(-1.805, 0, -1.805, 1);
+$path->path;
+ok($path->errorcode == 64,                                                                "error recognized: bad phbin");
+#$path->clear;
+
+
+
+
+$path->clean;
+#Xray::FeffPathWrapper::FEFFPATH->DISOWN;
 undef $path;
-chdir(cwd);
+#ok(1, "after destruction");
+chdir($here);
+## fails here,  SIGSEGV (wait status: 139) or SIGFPE (134)
+

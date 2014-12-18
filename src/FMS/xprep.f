@@ -62,7 +62,7 @@ c     rat:    (3, natxx) coordiantes of each atom in extended cluster
 c             as read from geometry file
 c  input for correlated debye model:
 c     izx:    (natxx) Z number of each atom in the cluster
-c     rnrmav: average norman radius in cluster (from pahse.bin)
+c     rnrmav: average norman radius in cluster (from phase.bin)
 c     temper: sample temperature
 c     thetad: Debye temperature
 c

@@ -1,6 +1,16 @@
 
 # Feff85exafs development
 
+## XX November, 2014 (BR)
+
+ 1. Compile to shared object libraries
+ 2. Fortran entry point
+ 3. C wrapper with error handling
+ 4. wrote perl wrapper via SWIG
+ 5. python wrapper via ctypes
+ 6. yet more improvements to scons build system
+ 7. documentation
+
 ## 3 September, 2014 (BR)
 
  1. Further improvements to scons build system

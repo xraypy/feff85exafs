@@ -60,8 +60,8 @@ test.
 
 Please note that the file naming conventions for the test files are
 quite strict.  If you introduce a new material, say Ceria (CeO2), and
-you name the folder containing its files either `Ceria`, then the
-following must be true:
+you name the folder containing its files `Ceria`, then the following
+must be true:
 
 1. The structure file **must** be `Ceria.<extension>` or
    `Ceria_atoms.inp`.  Here `<extension>` is something like `cif` or
@@ -69,12 +69,17 @@ following must be true:
 2. The Mustache template file **must** be called `Ceria.mustache`.
 3. The chi(k) **must** be called `Ceria.chik`, the first data column
    **must** be wavenumber and the second column **must** be
-   un-k-weighted chi(k).
+   un-k-weighted chi(k).  You **should** save the chi(k) file as an
+   XDI file. 
 4. The JSON file with the configuration for the Feff run **must** be
    called `Ceria.json`.
 5. There **must** be a folder called `baseline` which has folders
    called `withSCF` and `noSCF`. These contain the baseline
-   calculations with and without self-consistency.
+   calculations with and without self-consistency.  The baseline
+   calculation should be made using a point in the feff85exafs history
+   ([this point, for example](https://github.com/xraypy/feff85exafs/commit/cac0f8c90749ce52581a658c5a6c8ae144cc2211))
+   from before changes were made to the code as it was delivered to us
+   from the Feff Project.
 6. If you provide an Athena project file, it should be called
    `Ceria.prj`.
 7. If fits to data are part of the test, there must be a file called
@@ -94,6 +99,8 @@ following must be true:
 
 2. **nickel oxide, NiO**: this is a simple, cubic, metal oxide.  It
    represents a problem slightly more complicated than copper metal.
+   It also is easy to get a decent fit out to the sixth coordination
+   shell.
 
 3. **uraninite, UO2**: this is an f-electron system
 
@@ -113,8 +120,9 @@ following must be true:
    the z axis are much farther away than the ones in the plane.  This,
    then, is a test that involves Feff's polarization and ellipticity
    calculations.  There is one folder for calculating with the
-   incident light parallel to the z axis (polarizatin only) and one
-   for light perpendicular to  the z axis (polarizatin and ellipticity).
+   incident light parallel to the z axis (polarization only) and one
+   for light perpendicular to the z axis (polarization and
+   ellipticity).
 
 ---
 
@@ -128,9 +136,8 @@ these are called `python-termcolor`, `python-pystache`, and
 `python-nose`).
 
 (Note that as feff85exafs develops, it may become necessary to modify
-how this test framework interacts with Feff.  At some point, the
-`f85e` script, which mimics a run of a monolithic version of Feff, may
-not work correctly with the current state of feff85exafs.)
+how this test framework interacts with Feff.  The `f85e` script mimics
+a run of a monolithic version of Feff.)
 
 Copy the file `f85ut.py` to the larch plugins folder (either
 `$HOME/.larch/plugins/` or `/usr/local/share/larch/plugins` on Unix,
@@ -161,8 +168,6 @@ time consuming as all the Feff calculations are made before any of the
 actual tests are made.  I find it helpful to run `nosetests
 --verbosity=3`, which gives some feedback about what is actually
 happening.
-
-*At the moment, all data tests are disabled when running through Nose.*
 
 
 #### Run Feff with self-consistency
@@ -291,8 +296,6 @@ Some convenience functions exported by the plugin:
   iterations as a unit test
 
 * More materials:
-	+ something computed with polarization (verify JSON/read_global.f)
-	+ something computed with polarization + ellipticity
 	+ A polymer, i.e. something pseudo-one-dimensional
 	+ Something from the first row of the periodic table
 	+ Something with lead as the absorber

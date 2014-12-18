@@ -3,6 +3,11 @@
 ## This reads a paths.dat file and writes f3ffNNNN.dat files using the
 ## C interface
 
+## test here:
+##   cd to ../t
+##   perl -I../blib/lib -I../blib/arch/ ../examples/pathsdat.pl
+
+
 use strict;
 use warnings;
 use Xray::FeffPath;

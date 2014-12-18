@@ -11,6 +11,12 @@
       dimension  alpha(0:legtot), gamma(legtot)
 
 c+---------------------------------------------------------------------
+c     "Based on or developed using Distribution: FEFF8.5L
+c      Copyright (c) [2013] University of Washington"
+c
+C  See ../HEADERS/license.h for full llicense information
+c+---------------------------------------------------------------------
+c+---------------------------------------------------------------------
 c  the following is cut-n-pasted from rdpath
 c  using the coordinates of the path's constituent atoms,
 c  compute ri, beta, and eta

@@ -39,6 +39,11 @@ c     Local stuff
 c      character*512 slog
       character*32 s1, s2, s3
 
+      intgs   = [INTEGER::]
+      strings = [CHARACTER*80::]
+      dbpcs   = [DOUBLE PRECISION::]
+
+
 c     standard formats for string, integers and real numbers
 c  10  format(a)
 c  20  format (20i4)

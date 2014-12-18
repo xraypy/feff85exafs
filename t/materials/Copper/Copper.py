@@ -53,11 +53,14 @@ def do_fit(self, which):
     fit   = feffit(gds, dset, _larch=self._larch)
 
     if self.doplot:
-        _newplot(dset.data.r,  dset.data.chir_mag, xmax=8, win=2,
+        offset = max(dset.data.chir_mag)
+        _newplot(dset.data.r,  dset.data.chir_mag+offset, xmax=8, win=2,
               xlabel=r'$R \rm\,(\AA)$', label='data',
               ylabel=r'$|\chi(R)| \rm\,(\AA^{-3})$',
               title='Fit to '+self.folder, show_legend=True, _larch=self._larch)
-        _plot(dset.model.r, dset.model.chir_mag, label='fit', win=2, _larch=self._larch)
+        _plot(dset.model.r, dset.model.chir_mag+offset, label='fit', win=2, _larch=self._larch)
+        _plot(dset.data.r,  dset.data.chir_re, label='data', win=2, _larch=self._larch)
+        _plot(dset.model.r, dset.model.chir_re, label='fit', win=2, _larch=self._larch)
     #end if
     
     if self.verbose:

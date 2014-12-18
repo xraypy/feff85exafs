@@ -1,6 +1,12 @@
       subroutine fdthea(ntext, text, ip, iorder, nleg, deg, reff,
      &       rnrmav, edge, rat, ipot, iz, potlbl, nlines, lines)
 
+c+---------------------------------------------------------------------
+c     "Based on or developed using Distribution: FEFF8.5L
+c      Copyright (c) [2013] University of Washington"
+c
+C  See ../HEADERS/license.h for full llicense information
+c+---------------------------------------------------------------------
       implicit double precision (a-h, o-z)
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
@@ -16,8 +22,6 @@
       external istrln
 
       nlines = 1
-c      print *, ipot
-c      print *, rat
       do 300  itext = 1, ntext
          ltxt = istrln(text(itext))
          write(thisln,160)  text(itext)(1:ltxt)

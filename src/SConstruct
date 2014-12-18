@@ -2,30 +2,33 @@
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-from FeffBuild import InstallEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
-env = Environment()
+env  = CompilationEnvironment()
+
+#env = Environment()
 print '\n\tFortran compiler is ' + env['FORTRAN']
 ienv = InstallEnvironment()
 print "\tinstallation prefix is: " + ienv['i_prefix'] +"\n"
 
-SConscript([\
-            'PAR/SConstruct',    \
-            'COMMON/SConstruct', \
-            'JSON/SConstruct',   \
-            'MATH/SConstruct',   \
-            'ATOM/SConstruct',   \
-            'DEBYE/SConstruct',  \
-            'EXCH/SConstruct',   \
-            'FOVRG/SConstruct',  \
-            'FMS/SConstruct',    \
-            'RDINP/SConstruct',  \
-            'POT/SConstruct',    \
-            'XSPH/SConstruct',   \
-            'PATH/SConstruct',   \
-            'GENFMT/SConstruct', \
-	    'FF2X/SConstruct',   \
+SConscript([
+            'PAR/SConstruct',
+            'COMMON/SConstruct',
+            'JSON/SConstruct',
+            'MATH/SConstruct',
+            'ATOM/SConstruct',
+            'DEBYE/SConstruct',
+            'EXCH/SConstruct',
+            'FOVRG/SConstruct',
+            'FMS/SConstruct',
+            'RDINP/SConstruct',
+            'POT/SConstruct',
+            'XSPH/SConstruct',
+            'PATH/SConstruct',
+            'GENFMT/SConstruct',
+	    'FF2X/SConstruct',
         ])
+#, exports='env')
 
 # RDINP  -> feff.inp reader
 # POT    -> module 1

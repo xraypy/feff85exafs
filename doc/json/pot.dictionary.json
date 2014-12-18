@@ -1,5 +1,5 @@
 {
-    "mod": "module number, POT is 1",
+    "mod": "module number, POT is 1 (this is only here to help the human reader)",
     "vfeff": "feff version number",
     "vf85e": "feff85exafs release number",
 
@@ -17,13 +17,13 @@
 
     "nohole": "NOHOLE value from feff.inp; use of no hole for potentials calculation",
     "jumprm": "JUMPRM value from feff.inp; boolean to remove jumps at muffin tin radii",
-    "rfms1": "1st value of SCF from feff.inp; radius of FMS calculation; unused in feff85exafs",
-    "lfms1": "2nd value of SCF from feff.inp; 0=solid, 1=molecule; unused in feff85exafs",
-    "nscmt": "3rd value of SCF from feff.inp; maximum number of iterations; unused in feff85exafs",
-    "ca1": "4th value of SCF from feff.inp; convergence acceleration factor; unused in feff85exafs",
-    "nmix": "5th value of SCF from feff.inp; number of iterations of mixing algorithm, before starting Broyden algorithm; unused in feff85exafs",
-    "ecv": "6th value of SCF from feff.inp; core-valence cut-off (-40); (obsolete) unused in feff85exafs",
-    "icoul": "7th value of SCF from feff.inp; (obsolete) unused in feff85exafs",
+    "rfms1": "1st value of SCF from feff.inp; radius of FMS calculation",
+    "lfms1": "2nd value of SCF from feff.inp; 0=solid, 1=molecule",
+    "nscmt": "3rd value of SCF from feff.inp; maximum number of iterations",
+    "ca1": "4th value of SCF from feff.inp; convergence acceleration factor",
+    "nmix": "5th value of SCF from feff.inp; number of iterations of mixing algorithm, before starting Broyden algorithm",
+    "ecv": "6th value of SCF from feff.inp; core-valence cut-off (-40); (obsolete)",
+    "icoul": "7th value of SCF from feff.inp; (obsolete)",
     "iunf": "UNFREEZEF value from feff.inp; boolean to freeze f-electrons",
 
     "gamach": "core hole lifetime in eV",

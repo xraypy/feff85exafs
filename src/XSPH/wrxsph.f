@@ -1,5 +1,6 @@
       subroutine wrxsph (nsp, ne, ne1, ne3, nph, ihole, rnrmav,xmu,edge,
-     1                   ik0, em, eref, lmax, iz, potlbl, ph, rkk)
+     1     ik0, ixc, rs, vint,
+     2     em, eref, lmax, iz, potlbl, ph, rkk)
       implicit double precision (a-h, o-z)
 c     writes down file 'phase.bin' to be read by rphbin
 c  Energy grid information
@@ -13,11 +14,14 @@ c     xmu  - Fermi energy
 c     edge - x-ray frequency for final state at Fermi level
 c     ik0  - grid point index at Fermi level
 c  Potential type information
-c     nph - number of potential types
-c     iz  - charge of nuclei (atomic number)
+c     ixc    - potential model (this, rs, vint added to phase.bin for sake of onepath.f)
+c     rs     - r_s estimate from rhoint (4/3 r_s**3 * rhoint = 1)
+c     vint   - muffin-tin zero energy (interstitial potential) 
+c     nph    - number of potential types
+c     iz     - charge of nuclei (atomic number)
 c     potlbl - label for each potential type
-c     lmax - max orb momentum for each potential type
-c     ihole - index of core-hole orbital for absorber (iph=0)
+c     lmax   - max orb momentum for each potential type
+c     ihole  - index of core-hole orbital for absorber (iph=0)
 c     rnrmav - average Norman radius (used in headers only)
 c  Main output of xsect and phases module (except that in xsect.bin)
 c     ph  - complex scattering phase shifts
@@ -43,8 +47,9 @@ c     use temp to write ph, rkk, since ne < nex
       open (unit=1, file='phase.bin', status='unknown', iostat=ios)
       call chopen (ios, 'phase.bin', 'wrxsph')
 
-      write(1,10) nsp, ne, ne1, ne3, nph, ihole, ik0, npadx
-  10  format (8(1x,i4))
+      write(1,10) nsp, ne, ne1, ne3, nph, ihole, ik0, npadx, ixc,
+     &     rs, vint
+ 10   format (9(1x,i4), 2(1x,f10.5))
 
       dum(1) = rnrmav
       dum(2) = xmu 

@@ -15,8 +15,9 @@ c        (i.e. one has to make modifications in 3 places)
       ntoss = nabs
 
 !     initialize the module:
-      call json_initialize()
+c      call json_initialize()
 
+      call json_initialize()
       call json_mod1()
       call json_mod2()
 c      call json_mod3()
@@ -82,11 +83,10 @@ c$$$      end
       integer  iunit
       type(json_value),pointer :: m1
       character*7 vname
-      integer,dimension(:),allocatable :: itoss
-      double precision,dimension(:),allocatable :: rtoss
+      integer itoss(novrx)
+      double precision rtoss(novrx)
 
-
-      ! root
+c     root
       call json_value_create(m1)      ! create the value and associate the pointer
       call to_object(m1,'pot.json')  ! add the file name as the name of the overall structure
       
@@ -133,19 +133,19 @@ c     arrays that can be stored as json arrays, see POT/reapot.f line
 c     188 and following for how this gets reconstructed into a 2D array
       do 10 iph = 0, nph
          write (vname, "(A6,I1)") "iphovr", iph
-         do 20 iovr = 1, novr(iph)
+         do 20 iovr = 1, novrx
             itoss(iovr) = iphovr(iovr, iph)
  20      continue
          call json_value_add(m1, vname, itoss)
 
          write (vname, "(A5,I1)") "nnovr", iph
-         do 30 iovr = 1, novr(iph)
+         do 30 iovr = 1, novrx
             itoss(iovr) = nnovr(iovr, iph)
  30      continue
          call json_value_add(m1, vname, itoss)
 
          write (vname, "(A4,I1)") "rovr", iph
-         do 40 iovr = 1, novr(iph)
+         do 40 iovr = 1, novrx
             rtoss(iovr) = rovr(iovr, iph)
  40      continue
          call json_value_add(m1, vname, rtoss)

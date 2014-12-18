@@ -16,6 +16,8 @@ c     Make importance factor, deg*(integral (|chi|*d|p|))
 c     make ffmag (|chi|)
 c     xport   importance factor
       do 10  ie = 1, ne1
+c        this gets ck(ie) set correctly; see lines 257 and 272 in genfmt.f
+         ck(ie) = sqrt (2* (em(ie) - eref2(ie,1)))
          if (nsp.eq.2) then
             eref(ie) = (eref2(ie,1) + eref2(ie,nsp)) /2
 c           !KJ eref(ie) = (eref2(ie,1) + eref2(ie,2)) /2

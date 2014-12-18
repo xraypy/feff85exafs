@@ -39,6 +39,7 @@ c     Also returns hash number for standard ordered path.
 c     Use suffix 0 for (') in variable names
 
 !KJ next block : prepare new calling argument for mpprmp
+      icase = -1
       if(eels.eq.1) then
          icase=7
       else

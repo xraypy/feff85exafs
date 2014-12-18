@@ -110,6 +110,10 @@ c          - to describe Im[eps^-1]
       double precision WpCorr(MxPole), Gamma(MxPole), AmpFac(MxPole)
 c     Josh END
       
+      do 5 i=1,MxPole
+         WpCorr(1) = -1.d30
+ 5    continue
+
       call setkap(ihole, kinit, linit)
       PRINT*, 'dx=',dx
 c     set imt and jri (use general Loucks grid)

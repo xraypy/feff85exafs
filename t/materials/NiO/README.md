@@ -16,4 +16,6 @@ Sheffield University and measured by Bruce at NSLS X23A2.
 
 * [Atoms input file file for NiO](NiO_atoms.inp)
 * [template for feff input file (generated from the atoms input file)](NiO.mustache) -- uses the [mustache](http://mustache.github.io/) templating system
+* [XDI data file: chi(k)](NiO.chik)
+* [Athena project file](NiO.prj) -- Data processed with a pre-release of Demeter 0.9.21 using the larch (0.9.24) backend and XDI 1.0
 

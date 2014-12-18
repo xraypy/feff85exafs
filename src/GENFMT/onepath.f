@@ -1,16 +1,23 @@
-      subroutine onepath(index, nleg, deg, iorder,
-     &       ipot, rat,
-     &       ipol, evec, elpty, xivec,
-     &       innnn, ijson, ivrbse, ri, beta, eta,
-     &       ne1,col1,col2,col3,col4,col5,col6,col7)
+      subroutine onepath(phbin, index, nleg, deg, iorder,
+     &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &     versn, ipot, rat, iz,
+     &     ipol, evec, elpty, xivec,
+     &     innnn, ijson, ivrbse, ri, beta, eta,
+     &     ne1,col1,col2,col3,col4,col5,col6,col7)
 
       implicit double precision (a-h, o-z)
 
+c+---------------------------------------------------------------------
+c     "Based on or developed using Distribution: FEFF8.5L
+c      Copyright (c) [2013] University of Washington"
+c
+C  See ../HEADERS/license.h for full llicense information
 c+---------------------------------------------------------------------
 c  compute a single path, generating the F matrix then returning the 
 c  information contained in a feffNNNN.dat file
 c
 c  INPUT:
+c    phbin:    path to phase.bin file                character*256
 c    index:    path index                            integer
 c    nleg:     number of legs in path                integer
 c    deg:      path degeneracy                       double
@@ -39,10 +46,23 @@ c    col4:     phase of F_eff                        double(nex)
 c    col5:     reduction factor                      double(nex)
 c    col6:     mean free path                        double(nex)
 c    col7:     real partof complex momentum          double(nex)
+c
+c  Potential information:
+c    cxc:      description of the potential model    character*8
+c    rs:       approximate interstitial radius       double
+c    vint:     interstitial potential                double
+c    xmu:      Fermi energy                          double
+c    edge:     threshold relative to atomic value    double
+c    xkf:      k value at Fermi energy               double
+c    rnrmav:   average Norman radius                 double
+c    versn:    Feff versioning                       character*__
 c+---------------------------------------------------------------------
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
+      include '../HEADERS/vers.h'
+
+      character*256 phbin
 
 c+---------------------------------------------------------------------
 c     parameters related to the call to regenf
@@ -87,11 +107,20 @@ c      character*80 text(5)
       complex caps(nex)
       double precision rat(3,0:legtot+1), rathea(3,legtot)
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
-      double precision deg, rnrmav, xmu, edge
+      double precision deg, rnrmav, xmu, edge, rs, vint
       integer lmax(nex,0:nphx), ipot(0:legtot), ipthea(legtot),
      &       iz(0:nphx)
+
+
+c+----------------------------------------------------------------------
+c     parameters used for calling sthead
+c+----------------------------------------------------------------------
+      double precision xion(0:nphx), rmt(0:nphx), rnrm(0:nphx)
+      logical lreal
+
+
 c      integer ltext(5), ntext
-      integer nsc, nleg, npot, ne, ik0, ihole
+      integer nsc, nleg, npot, ne, ik0, ihole, ixc
       integer kinit, linit, ilinit, lmaxp1
 c     common /pdata/ ph(nex,-ltot:ltot,0:nphx), !complex phase shifts ipot=0
 c     .  eref(nex),                             !complex energy reference
@@ -149,13 +178,19 @@ c+----------------------------------------------------------------------
       real sxk(nex)
       complex sck(nex)
 
+      double precision gamach
 
 c     used for divide-by-zero and trig tests
       parameter (eps = 1.0e-16)
       external xstar
 
       dimension atarr(3,natx)
-c      print *, '-- starting onepath'
+
+      character*30 versn
+      character*8 cxc, sout(0:7)
+      data sout /'H-L exch', 'D-H exch', 'Gd state', 'DH - HL ',
+     1           'DH + HL ', 'val=s+d ', 'sigmd(r)', 'sigmd=c '/
+
       do 5 i=1,natx
          atarr(1, i) = 0
          atarr(2, i) = 0
@@ -179,11 +214,13 @@ c     &       ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
 c+----------------------------------------------------------------------
 c     initialize everything needed for the genfmt calculation
 c+----------------------------------------------------------------------
-c      print *, '-- before genfmt_prep'
-      call genfmt_prep(ispin,
+      do 10 i=0,nphx
+         iz(i) = 0
+ 10   continue
+      call genfmt_prep(phbin, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
-     &       xmu, edge, ik0,
+     &       xmu, edge, ik0, ixc, rs, vint,
      &       em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1,
 c     arguments for setkap
      &       kinit, linit, ilinit,
@@ -193,13 +230,22 @@ c     things set in genfmt_prep
      &       eref, ph, xk, ck, ckmag, xkr,
      &       nsp, ll, npath, ntotal, nused, xportx)
 
+c      print *, "ik0  mu  kf  edge  rnrmav"
+c      print *, ik0, real(em(ik0))*hart, real(ck(ik0))/bohr, edge*hart,
+c     &     rnrmav
+      xkf = real(ck(ik0))
+      cxc = sout(ixc)
+      write(versn,12)  vfeff//vf85e
+      call setgam(iz(0), ihole, gamach)
+c      print *, "iz(0), ihole, gamach", iz(0), ihole, gamach
+ 12   format( a30)
+
 c+----------------------------------------------------------------------
 c     pull out the central atom phase shifts
 c+----------------------------------------------------------------------
-c      print *, '-- caps'
-      do 10 ie=1,ne
+      do 100 ie=1,ne
          caps(ie) = cmplx(ph(ie, ll, 0))
- 10   continue
+ 100  continue
 
 c+----------------------------------------------------------------------
 c     read the input JSON file for this program: onepath.json
@@ -212,13 +258,10 @@ c+----------------------------------------------------------------------
       spvec(3) = 0
 c     call json_read_onepath(index, iorder, ipol,
 c    &       nleg, deg, rat, ipot, elpty, evec, xivec, nnnn, json)
-c      print *, '-- before pathgeom'
       call pathgeom(nleg, nsc, ipol, rat, ipot, ri, beta, eta)
-c      print *, '-- before mkptz'
       call mkptz(ipol, elpty, evec, xivec, ispin, spvec, natx, atarr,
      &       angks, le2, ptz)
 
-c      print *, '-- logicals'
       nnnn = .false.
       if (innnn .gt. 0) nnnn=.true.
       json = .false.
@@ -229,9 +272,8 @@ c      print *, '-- logicals'
 c+----------------------------------------------------------------------
 c     fetch the standard output header lines from xsect.json
 c+----------------------------------------------------------------------
-c      print *, '-- before read_titles'
+      ntit = 0
 c      call read_titles(ntit, titles)
-c      print *, '-- done with startup'
 
 c+----------------------------------------------------------------------
 c  this section is cut-n-pasted from genfmt
@@ -475,7 +517,6 @@ c        remove 2 pi jumps in phase
          sck(ie)  = cmplx(ck(ie))
  15   continue
 
-
 c+----------------------------------------------------------------------
 c  the following get stored in feff.bin for each path:
 c        ipath, nleg, deg, reff (*bohr), crit, ipot(1, nleg)
@@ -489,7 +530,7 @@ c+----------------------------------------------------------------------
 c+----------------------------------------------------------------------
 c        compute the columns of feffNNNN.dat
 c+----------------------------------------------------------------------
-      call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk,sck,
+      call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk, sck,
      &       col1, col2, col3, col4, col5, col6, col7)
 
 
@@ -516,6 +557,23 @@ c+----------------------------------------------------------------------
                rathea(ix,il) = rat(ix,il)
  33         continue
  36      continue
+
+         do 38 ip = 0, nphx
+            xion(ip) = 0.
+            rmt(ip)  = 0.
+            rnrm(ip) = 0.
+ 38      continue
+         lreal  = .false.
+         rgrd   = 0.05
+         vr0    = 0.
+         vi0    = 0.
+         gamach = gamach/hart
+         call sthead (ntit, titles, npot, iz, rmt, rnrm,
+     1          xion, ihole, ixc,
+     2          vr0, vi0, gamach, xmu, xkf, vint, rs,
+     2          lreal, rgrd)
+         gamach = gamach*hart
+
          call fdthea(ntit, titles, index, iorder, nleg, real(deg),
      &          real(reff), real(rnrmav), real(edge), rathea, ipthea,
      &          iz, potlbl, nlines, lines)

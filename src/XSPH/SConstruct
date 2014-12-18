@@ -7,7 +7,10 @@ sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment
 from   os.path   import realpath, join
 
-env = CompilationEnvironment()
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
 ienv = InstallEnvironment()
 
 bin_src = ('acoef.f',  'ffmod2.f', 'getedg.f', 'phmesh.f', 'radint.f',
@@ -16,9 +19,11 @@ bin_src = ('acoef.f',  'ffmod2.f', 'getedg.f', 'phmesh.f', 'radint.f',
            'szlz.f',   'wrxsph.f', 'xsect.f')
 unused = ('phmesh2.f')
 
-other_objects = ('../FF2X/xscorr.o', '../POT/grids.o')
+other_obj = (join('..','FF2X','xscorr'+env['SHOBJSUFFIX']), join('..','POT','grids'+env['SHOBJSUFFIX']))
 
-env.Program('xsph', bin_src + other_objects,
+env.Program('xsph', bin_src + other_obj,
+            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
+            OBJSUFFIX = env['SHOBJSUFFIX'],
             LIBS = ['feffint', 'jsonfortran', 'feffjson', 'feffpha', 'feffatom', 'feffcom', 'feffexch', 'feffmath', 'fefffms', 'feffpar'], \
             LIBPATH = [join('..','COMMON'), join('..','JSON'), join('..','MATH'), join('..','ATOM'),
                        join('..','EXCH'), join('..','FOVRG'), join('..','FMS'), join('..','POT'), join('..','PAR')])
