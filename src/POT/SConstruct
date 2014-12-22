@@ -25,8 +25,10 @@ env.Program('pot', bin_src,
             FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
             OBJSUFFIX = env['SHOBJSUFFIX'],
             LIBS = ['feffpha', 'feffatom', 'feffint', 'feffcom', 'feffmath', 'jsonfortran', 'feffjson', 'feffexch', 'fefffms', 'feffpar'], \
-            LIBPATH = ['.', join('..','COMMON'), join('..','MATH'), join('..','JSON'), join('..','ATOM'),
+            LIBPATH = ['.', join('..','COMMON'), join('..','MATH'), join('..','json-fortran'), join('..','JSON'), join('..','ATOM'),
                        join('..','EXCH'), join('..','FOVRG'), join('..','FMS'), join('..','PAR')])
+
+env.Depends('reapot'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
 env.Install(ienv['i_lib'], 'libfeffint.so')
 env.Install(ienv['i_bin'], 'pot')

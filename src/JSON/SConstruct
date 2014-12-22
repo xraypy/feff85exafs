@@ -18,6 +18,14 @@ lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f', 'read_fp
 
 env.SharedLibrary('libfeffjson', lib_src)
 
+env.Depends(['read_geom'   + env['SHOBJSUFFIX'],
+             'read_atoms'  + env['SHOBJSUFFIX'],
+             'read_global' + env['SHOBJSUFFIX'],
+             'read_fpf0'   + env['SHOBJSUFFIX'],
+             'read_xsect'  + env['SHOBJSUFFIX'],
+             'read_xsect'  + env['SHOBJSUFFIX'],
+             'read_nnnn'   + env['SHOBJSUFFIX'], ], join('..', 'json-fortran', 'libjsonfortran.a'))
+
 #            LIBS = ['jsonfortran'],
 
 env.Install(ienv['i_lib'], 'libfeffjson.so')

@@ -25,8 +25,10 @@ env.Program('xsph', bin_src + other_obj,
             FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
             OBJSUFFIX = env['SHOBJSUFFIX'],
             LIBS = ['feffint', 'jsonfortran', 'feffjson', 'feffpha', 'feffatom', 'feffcom', 'feffexch', 'feffmath', 'fefffms', 'feffpar'], \
-            LIBPATH = [join('..','COMMON'), join('..','JSON'), join('..','MATH'), join('..','ATOM'),
+            LIBPATH = [join('..','COMMON'), join('..','json-fortran'), join('..','JSON'), join('..','MATH'), join('..','ATOM'),
                        join('..','EXCH'), join('..','FOVRG'), join('..','FMS'), join('..','POT'), join('..','PAR')])
+
+env.Depends('rexsph'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
 env.Install(ienv['i_bin'], 'xsph')
 

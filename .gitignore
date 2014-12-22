@@ -1,6 +1,7 @@
 *.o
 *.os
 *.a
+*.mod
 *.so
 *.sconsign.dblite
 *~
@@ -10,6 +11,8 @@
 fort.*
 log*.dat
 global.dat
+*.pad
+!wrappers/fortran/phase.pad
 
 ## nonsense that Athena writes out
 .gnuplot*

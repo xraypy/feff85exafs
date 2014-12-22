@@ -17,6 +17,8 @@ lib_src = ('fmsie.f', 'fmspack.f', 'gglu.f', 'ggbi.f', 'ggrm.f', 'gggm.f', 'ggtf
 
 env.SharedLibrary('libfefffms', lib_src)
 
+env.Depends('reafms'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+
 ## the following lines would build the fms executable, however the
 ## intent of feff85exafs is that the tasks that use this (XANES, LDOS,
 ## and so on) are not supported.  However, the fms library is required

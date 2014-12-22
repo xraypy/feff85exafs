@@ -21,7 +21,9 @@ env.Program('ff2x', bin_src,
             FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
             OBJSUFFIX = env['SHOBJSUFFIX'],
             LIBS = ['feffdw', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'],
-            LIBPATH = [join('..','DEBYE'), join('..','COMMON'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
+            LIBPATH = [join('..','DEBYE'), join('..','COMMON'), join('..','json-fortran'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
+
+env.Depends('reff2x'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
 env.Install(ienv['i_bin'], 'ff2x')
 

@@ -21,7 +21,8 @@ env.Program('pathfinder', bin_src,
             FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
             OBJSUFFIX = env['SHOBJSUFFIX'],
             LIBS = ['feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
-            LIBPATH = [join('..','COMMON'), join('..','JSON/'), join('..','MATH'), join('..','PAR')])
+            LIBPATH = [join('..','COMMON'), join('..','json-fortran'), join('..','JSON/'), join('..','MATH'), join('..','PAR')])
+env.Depends('repath'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
 env.Install(ienv['i_bin'], 'pathfinder')
 

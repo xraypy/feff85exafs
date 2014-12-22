@@ -22,8 +22,9 @@ def CompilationEnvironment():
     Determine how to build the Fortran parts of feff85exafs
     """
     env = Environment()
-    jsondir = realpath(join(getcwd(), '..', 'JSON'))
-    jsondir = '/usr/local/lib'
+    #jsondir = realpath(join(getcwd(), '..', 'JSON'))
+    #jsondir = '/usr/local/lib'
+    jsondir = realpath(join(getcwd(), '..', 'json-fortran'))
 
     if env['FORTRAN'] == 'gfortran':
         # this was the suggestion in the top level Makefile in what

@@ -29,7 +29,8 @@ env.Program('genfmt', ['regenf.f']+bin_src,
             FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
             OBJSUFFIX = env['SHOBJSUFFIX'],
             LIBS = ['feffgenfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'],
-            LIBPATH = ['.', join('..','COMMON'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
+            LIBPATH = ['.', join('..','COMMON'), join('..','json-fortran'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
+env.Depends('regenf'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 env.Install(ienv['i_bin'], 'genfmt')
 
 ## ------------------------------------------------------------------------------------------------------
@@ -62,6 +63,9 @@ misc_feff = [join('..','COMMON','wlog'       + env['SHOBJSUFFIX']), # called ind
 onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
 env.SharedLibrary('libonepath', onepath_src + other_obj + lib_src + misc_feff)
 env.Install(ienv['i_lib'], 'libonepath.so')
+
+# env.Depends('read_onepath'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the feffpath C wrapper around onepath

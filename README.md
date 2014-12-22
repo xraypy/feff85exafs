@@ -6,7 +6,7 @@ Feff 8.50 for EXAFS: Open Source theoretical EXAFS calculations
 Based on or developed using Distribution: FEFF8.5L
 Copyright (c) [2013] University of Washington
 
-For information, see [the feff85exafs wiki](https://github.com/bruceravel/feff85exafs/wiki).
+For information, see [the feff85exafs wiki](https://github.com/xraypy/feff85exafs/wiki).
 
 ----
 

@@ -18,7 +18,10 @@ lib_src = Split('akeato.f  cofcon.f  etotal.f  fpf0.f   lagdat.f  nucdev.f  pots
                  tabrat.f  yzkrdf.f  bkmrdf.f  dsordf.f fdrirk.f  intdir.f  muatco.f  potrdf.f \
                  scfdat.f  vlda.f    yzkteg.f')
 
-env.SharedLibrary('libfeffatom', lib_src)
+lib = env.SharedLibrary('libfeffatom', lib_src)
+##print realpath(join('..', 'json-fortran', 'json_module.mod'))
+
+env.Depends('fpf0'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
 env.Install(ienv['i_lib'], 'libfeffatom.so')
 
