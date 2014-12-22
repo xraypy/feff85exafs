@@ -114,7 +114,7 @@ the "feffpath" calculation, that is, the calculation of a single
 `feffNNNN.dat` file given an input scattering geometry.
 
 This presumes that `pot` and `xsph` have already been run and that the
-`phase.bin` file is accessible.
+`phase.pad` file is accessible.
 
 * `GENFMT/libonepath.so`: This is the Fortran entry point.
 * `GENFMT/libfeffpath.so`: This is the C wrapper around the Fortran onepath

@@ -16,7 +16,7 @@
  5. [X] capture a list of Z numbers so ipots can be readily translated
     to atomic species
  6. [X] capture header information in C struct, propagated into wrappers
- 7. [X] check for existance/readability of phase.bin at level of
+ 7. [X] check for existance/readability of phase.pad at level of
     feffpath.c
  8. [X] python wrapper / Larch plugin
  9. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
@@ -27,6 +27,6 @@
  2. [ ] make scatteringpath a drop in replacement for feffdat
  3. [ ] nosetests on result of scatteringpath with nnnn=False
  4. [ ] fit with different feff versions -- comparison framework
- 5. [ ] library for encapsolating generation of ~phase.bin~
+ 5. [ ] library for encapsolating generation of ~phase.pad~
     * capture information about muffin tin radii, norman radii,
       ionization, a lá Larch _feffdat's potentials attribute

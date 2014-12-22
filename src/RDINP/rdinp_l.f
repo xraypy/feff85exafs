@@ -317,13 +317,13 @@ c              SS index ipot deg rss
             elseif (itok .eq. 13)  then
 c              PRINT  ipr1  ipr2  ipr3  ipr4 ipr5 ipr6
 c              print flags for various modules
-c              ipr1 potph  0 pot.bin only
+c              ipr1 potph  0 pot.pad only
 c                          1 add misc.dat
 c                          2 add pot.dat
 c                          5 add atom.dat
 c                          6 add central atom dirac stuff
 c                          7 stop after doing central atom dirac stuff
-c              ipr2 xsph   0 phase.bin only
+c              ipr2 xsph   0 phase.pad only
 c                          2 add  phase.dat
 c                          3 add  emesh.dat
 c              ipr3 fmstot  currently is dummy

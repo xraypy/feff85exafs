@@ -3,8 +3,8 @@ from scatteringpath import scatpath
 a=scatpath()
 epsilon=1e-4
 
-def test_phbin():
-    yield check_phbin
+def test_phpad():
+    yield check_phpad
 
 def test_degen():
     yield check_degen, 0
@@ -39,7 +39,7 @@ def test_atom():
     yield check_index, 0
     a.degen = 48
     a.index = 4
-    a.phbin = "../fortran/phase.bin"
+    a.phpad = "../fortran/phase.pad"
     a.nnnn  = False
     a.atom(0, 0, -3.61, 1)
     yield check_atom, 2
@@ -113,20 +113,20 @@ def test_atom_errors():
         yield check_wrong_pythonerror, 'iorder'
 
     try:
-        a.phbin='foo.bar'
+        a.phpad='foo.bar'
     except ValueError:
-        yield check_pythonerror, 'phbin'        # bad phbin
+        yield check_pythonerror, 'phpad'        # bad phpad
     else:
-        yield check_wrong_pythonerror, 'phbin'
+        yield check_wrong_pythonerror, 'phpad'
 
 
 ################################################################################
 
 
-def check_phbin():
-    pb = "../fortran/phase.bin";
-    a.phbin = pb
-    assert a.wrapper.phbin == pb
+def check_phpad():
+    pb = "../fortran/phase.pad";
+    a.phpad = pb
+    assert a.wrapper.phpad == pb
 
 def check_degen(degen):
     if degen:

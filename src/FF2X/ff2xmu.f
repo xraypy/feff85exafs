@@ -33,7 +33,7 @@ c     to keep Im part of cchi 11.18.97 ala
       character*2 coment
       parameter (coment='# ')
 
-c     Stuff from feff.bin, note that floating point numbers are
+c     Stuff from feff.pad, note that floating point numbers are
 c     single precision.  Be careful throughout this routine, especially
 c     when passing things to subroutines or intrinsic functions.
       real rnrmav, xmu, edge
@@ -102,7 +102,7 @@ c     read xsect.bin file
 
 
 c !KJ loop over iip added to process several spectra at once  1-06
-c !KJ reading of feff.bin moved inside the loop (used to be before reading
+c !KJ reading of feff.pad moved inside the loop (used to be before reading
 c !KJ xsect.bin      
       do iip=ipmin,ipmax,ipstep
         cross=(.not.(iip.eq.1.or.iip.eq.10.or.iip.eq.5.or.iip.eq.9))
@@ -111,7 +111,7 @@ c !KJ choose different filename for each spectrum.
         if(iip.eq.1) then
            f1(1:9)='chi.dat  '
            f2(1:9)='xmu.dat  '
-           f0(1:10)='feff.bin  '
+           f0(1:10)='feff.pad  '
            f3(1:10)='list.dat  '
         elseif(iip.eq.10) then
            f1(1:9)='chi10.dat'
@@ -157,7 +157,7 @@ c       ip is index of path, sig2u is debye-waller from user
       close (unit=1)
 
 
-       call rdfbin (f0, nphx, nex, npx, legtot, !KJ changed 'feff.bin' to f0  1-06
+       call rdfbin (f0, nphx, nex, npx, legtot, !KJ changed 'feff.pad' to f0  1-06
      $     nptot, ne, npot, ihole, iorder, ilinit, 
      $     rnrmav, xmu, edge, potlbl, iz, phc, ck, xk,
      $     index, nleg, deg, reff,
@@ -287,12 +287,12 @@ c     read or initialize chia - result of configuration average
       endif
 
       if(iabs.eq.1) then
-c        compare grids in xsect.bin and feff.bin
+c        compare grids in xsect.bin and feff.pad
          do 680 i = 1, nxsec
             print *, del, xk(i)**2, xkxs(i)**2
            del = xk(i)**2 - xkxs(i)**2
            if (abs(del) .gt.  10*eps4)  then
-             call wlog(' Emesh in feff.bin and xsect.bin different.')
+             call wlog(' Emesh in feff.pad and xsect.bin different.')
              call par_stop('FF2XMU-1') 
            endif
   680    continue

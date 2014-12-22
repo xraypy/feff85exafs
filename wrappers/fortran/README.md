@@ -2,7 +2,7 @@
 
 The `onepath` library will be installed when feff85exafs is built.
 This folder contains an example of its use in a Fortran program.  The
-program `makepath` will read from `phase.bin` (this example is
+program `makepath` will read from `phase.pad` (this example is
 calculated from copper metal) and write the files `feff0001.dat` and
 `feff0004.dat`.
 
@@ -36,10 +36,10 @@ c     taken from the feff HEADERS/dim.h
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
       dimension col6(nex), col7(nex)
 
-      character*256 phbin
+      character*256 phpad
 
 c     initialize everything
-      phbin   = 'phase.bin'
+      phpad   = 'phase.pad
       index   = 9999
       nleg    = 0
       deg     = 1.0
@@ -95,7 +95,7 @@ c     compute first shell of Copper (SS, deg=12)
       nleg  = 2
       deg   = 12
       call addatom(1, -1.805, 0., -1.805, 1, ipot, rat)
-      call onepath(phbin, index, nleg, deg, iorder,
+      call onepath(phpad, index, nleg, deg, iorder,
      &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &     ipot, rat, ipol, evec, elpty, xivec,
      &     innnn, ijson, ivrbse, ri, beta, eta,
@@ -107,9 +107,9 @@ c     compute first shell of Copper (SS, deg=12)
 
 1. All the necessary variables are typed, dimensioned, and initialized.
 
-2. `phbin` is a character*256 parameter containing the path to the
-   `phase.bin` file.  If not specified (or if the file does not
-   exist), `onepath` will try to read `phase.bin` in the current
+2. `phpad` is a character*256 parameter containing the path to the
+   `phase.pad` file.  If not specified (or if the file does not
+   exist), `onepath` will try to read `phase.pad` in the current
    working directory.
 
 3. Setting `nnnn` and `verbose` to a true value tells the program to
@@ -144,7 +144,7 @@ naming conventions in Feff.
 
 | element    | type          | I/O | description                             | default              |
 | ---------- | ------------  | --- |---------------------------------------- | -------------------- |
-|  phbin     | character*256 | I   | path index                              |  `phase.bin`         |
+|  phpad     | character*256 | I   | path to `phase.pad` file                |  `phase.pad`         |
 |  index     | integer       | I   | path index                              |  9999                |
 |  deg       | double        | I   | path degeneracy                         |  required input      |
 |  nleg      | integer       | I   | number of legs in path                  |  required input      |

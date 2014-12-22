@@ -57,31 +57,31 @@ To make HTML files explaining data I/O for each fortran source file, do
 
 ![call graph for the GENFMT folder](tree/genfmt.png)
 
-# The phase.bin file
+## The phase.pad file ##
 
 Along with the primary goal of wrapping up the calculation of the
 columns of the `feffNNNN.dat` file, one of the goals of the C wrapper
 is to provide a way of encapsulating *all* the information in that
 file in a C struct.  We also aimed to do this without requiring any of
 Feff's intermediate files.  That is, we want the only input for the
-use of the `onepath`/`feffpath` libraries to be a `phase.bin` file.
+use of the `onepath`/`feffpath` libraries to be a `phase.pad` file.
 
 A few of the bits of information in the header of the `feffNNNN.dat`
 file are not used in the calculations -- computation of F\_eff and of
 the columns of `feffNNNN.dat` -- performed by the `onepath` library
 and so were not readily available.  To overcome this problem, the
-content `phase.bin` file was modified slightly, but in a way that
+content `phase.pad` file was modified slightly, but in a way that
 should be both forward and backward compatible.
 
-The first line in `phase.bin` is not packed ASCII.  Rather, it is a
+The first line in `phase.pad` is not packed ASCII.  Rather, it is a
 straight print of several integers.  See
 https://github.com/xraypy/feff85exafs/blob/master/src/XSPH/wrxsph.f#L46
 
 An integer and two floats were added to the end of this list.  Those
-three new parameters are initialized to zero before `phase.bin` is
-read.  An old version of Feff reading this newly modified `phase.bin`
+three new parameters are initialized to zero before `phase.pad` is
+read.  An old version of Feff reading this newly modified `phase.pad`
 will simply ignore the three new numbers.  The newly modified Feff
-reading an old version of `phase.bin` will simply report 0 for each of
+reading an old version of `phase.pad` will simply report 0 for each of
 these parameters. 
 
 
@@ -92,7 +92,7 @@ file called `f3ffNNNN.dat` which is a close approximation of the
 traditional `feffNNNN.dat` file.
 
 There is a little bit of information that is simply not available to
-`onepath` without lifting the requirement that `phase.bin` be the only
+`onepath` without lifting the requirement that `phase.pad` be the only
 required input file.  Here are the missing pieces of information, all
 from the header:
 
@@ -105,7 +105,7 @@ from the header:
    (also the ionizations, if those are used).  This is actually a
    troublesome shortcoming that will have to be corrected via
    interaction with the forthcoming wrapper around the calcuation of
-   the `phase.bin` file.
+   the `phase.pad` file.
 
 * The `vi0` and `vr0` parameters of the EXCHANGE card are not
   captured.  These are reported after `exch` in the header if either

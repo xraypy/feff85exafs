@@ -3,7 +3,7 @@
       implicit double precision (a-h, o-z)
 
 c     altered by matt newville (jan 1999): 
-c     format of feff.bin changed to packed-ascii, and all writes changed.
+c     format of feff.pad changed to packed-ascii, and all writes changed.
 c     altered by alex ankudinov(feb 2000); disabled use of paths in LDOS.
 
       include '../HEADERS/const.h'
@@ -77,7 +77,7 @@ c     .  ntext                                  !number of text  lines
       dimension   eps1(3), eps2(3), vec1(3), vec2(3)
 
       character*128 string
-      character*256 phbin
+      character*256 phpad
       character*512 slog
       logical done, wnstar
       
@@ -99,8 +99,8 @@ c     used for divide-by-zero and trig tests
 c+---------------------------------------------------------------------
 c begin intialization
 
-      phbin = 'phase.bin'
-      call genfmt_prep(phbin, ispin,
+      phpad = 'phase.pad'
+      call genfmt_prep(phpad, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
      &       xmu, edge, ik0, ixc, rs, vint,
@@ -160,17 +160,17 @@ c     Make a header for the running messages.
  195  format ('    path  cw ratio     deg    nleg  reff')
       call wlog(slog)
 
-c     open feff.bin for storing path info
+c     open feff.pad for storing path info
 c     for now, use double precision.  After it's working, try
 c     single precision.
-c     Use single precision for all fp numbers in feff.bin
-c     !KJ replaced by next lines      open (unit=3, file='feff.bin', status='unknown', iostat=ios)
-c     !KJ idem      call chopen (ios, 'feff.bin', 'genfmt')
-      open (unit=3, file='feff.bin', status='unknown', iostat=ios) !KJ f1  1-06
-      call chopen (ios, 'feff.bin', 'genfmt') !KJ introduced f1
-c     put label line in feff.bin so other programs know it really
-c     is a feff.bin file
-      string = '#_feff.bin v03: ' // vfeff // vf85e
+c     Use single precision for all fp numbers in feff.pad
+c     !KJ replaced by next lines      open (unit=3, file='feff.pad', status='unknown', iostat=ios)
+c     !KJ idem      call chopen (ios, 'feff.pad', 'genfmt')
+      open (unit=3, file='feff.pad', status='unknown', iostat=ios) !KJ f1  1-06
+      call chopen (ios, 'feff.pad', 'genfmt') !KJ introduced f1
+c     put label line in feff.pad so other programs know it really
+c     is a feff.pad file
+      string = '#_feff.pad v03: ' // vfeff // vf85e
       jstr   = istrln(string)
       write(3, '(a)')  string(1:jstr)
 
@@ -178,7 +178,7 @@ c     save stuff that is the same for all paths
 c     header, ck, central atom phase shifts
       write(3, '(a2,6(1x,i4))') '#_', npot, ne, mpadx
 
-c     Misc stuff from phase.bin and genfmt call
+c     Misc stuff from phase.pad and genfmt call
  345  format(a2,3(1x,i7), 3(1x,g14.7))
       write(3, 345) '#&', ihole, iorder, ilinit, rnrmav, xmu, edge
  395  format('(',i3,'(1x,a6),',i3,'(1x,i3))')
@@ -416,7 +416,7 @@ c        compute the importance factor of this path
          call import(ne1, nsp, ik0, reff, deg, ckmag, em, eref2,
      &          cchi, xportx, crit)
 
-c        Write path data to feff.bin if we need it.
+c        Write path data to feff.pad if we need it.
          if (ipr5 .ge. 1  .or.  crit .ge. crit0)  then
 c           write path info
  7225       format('(i6,1x,i3,1x,f7.3,1x,f11.7,1x,e15.4,',i3,
@@ -469,7 +469,7 @@ c        goto next path
          goto 1000
 c        done with loop over paths
       end if
-c     close paths.dat, list.dat, feff.bin, nstar.dat
+c     close paths.dat, list.dat, feff.pad, nstar.dat
       close (unit=1)
       close (unit=2)
       close (unit=3)

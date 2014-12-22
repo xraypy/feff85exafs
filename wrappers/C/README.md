@@ -2,7 +2,7 @@
 
 The wrapper will be installed when feff85exafs is built.  This folder
 contains an example of its use in a C program.  The program
-`makepath.c` will read from `phase.bin` (this example is calculated
+`makepath.c` will read from `phase.pad` (this example is calculated
 from copper metal) and write the files `feff0001.dat` and
 `feff0004.dat`.
 
@@ -55,7 +55,7 @@ long main()
   path = malloc(sizeof(FEFFPATH));
   ret = create_path(path);
 
-  strcpy(path->phbin, "../fortran/phase.bin");
+  strcpy(path->phpad, "../fortran/phase.pad");
   path->nnnn    = 1;
   path->verbose = 1;
 
@@ -87,12 +87,12 @@ long main()
    allocated for it.
 
 3. The call to `create_path` allocates memory for all elements of the
-   struct and initializes everything.  The `phbin` attribute, which
-   specifies the location of the `phase.bin` file, is set to
-   `phase.bin` in the current working directory.
+   struct and initializes everything.  The `phpad` attribute, which
+   specifies the location of the `phase.pad` file, is set to
+   `phase.pad` in the current working directory.
 
-4. `strcpy` is used to set the phbin attribute to the actual location
-   of the `phase.bin` file.  Note that the fortran parameter in the
+4. `strcpy` is used to set the `phpad` attribute to the actual location
+   of the `phase.pad` file.  Note that the fortran parameter in the
    `onepath` library has this string dimensioned to be 256 characters.
    And it's fortran, so it probably won't deal gracefully with unicode
    characters.
@@ -125,7 +125,7 @@ long main()
 10. The call to `clear_path` reinitializes the struct.  This is not
 	strictly necessary in this case, but would be were the program to
 	go on to compute another path.  Note that clear_path does not
-	reset `phbin`, `nnnn`, or `json`, which are assumed to be constant
+	reset `phpad`, `nnnn`, or `json`, which are assumed to be constant
 	from time to time calling `make_path`.
 
 11. Finally, the memory for `path` is deallocated and the program
@@ -144,7 +144,7 @@ naming conventions in Feff.  The output arrays for the columns of
 
 | attribute  | type       | I/O | description                             | default              |
 | ---------- | --------   | --- |---------------------------------------- | -------------------- |
-|  phbin     | \*char     | I   | path to `phase.bin`                     |  `phase.bin`         |
+|  phpad     | \*char     | I   | path to `phase.pad`                     |  `phase.pad`         |
 |  index     | long       | I   | path index                              |  9999                |
 |  deg       | double     | I   | path degeneracy                         |  required input      |
 |  nleg      | long       | I   | number of legs in path                  |  use add\_scatterer  |

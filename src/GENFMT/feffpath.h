@@ -35,8 +35,8 @@
 #define hart   2.0 * ryd      /* hartree, a unit of energy, in eV */
 
 typedef struct {
-  /* INPUT: path to phase.bin file                                                   */
-  char *phbin;
+  /* INPUT: path to phase.pad file                                                   */
+  char *phpad;
 
   /* INPUT: structure of path                                                        */
   long index;         /* path index                                default = 9999    */
@@ -69,7 +69,7 @@ typedef struct {
   char *version;      /* Feff version                                                */
 
   /* OUTPUT: geometry information (leg length, beta, eta, Z)                         */
-  long *iz;           /* atomic numbers of atoms in path     obtained from phase.bin */
+  long *iz;           /* atomic numbers of atoms in path     obtained from phase.pad */
   double *ri;         /* leg lengths                                                 */
   double *beta;       /* beta angles                                                 */
   double *eta;        /* eta angles                                                  */
@@ -161,7 +161,7 @@ void onepath_(char *,
 #define ERR_BADINDEX          8  /* index lt 0 or gt 9999 */
 #define ERR_BADELPTY         16  /* elpty lt 0 or gt 1 */
 #define ERR_BADIORDER        32  /* iorder lt 0 or gt ? */
-#define ERR_NOPHBIN          64  /* phase.bin file cannot be found or cannot be read */
+#define ERR_NOPHPAD          64  /* phase.pad file cannot be found or cannot be read */
 
 #define COPY_STRING(dest,src)  dest=calloc(strlen(src)+1, sizeof(char));\
   strcpy(dest, src);

@@ -11,7 +11,7 @@ long main()
   path = malloc(sizeof(FEFFPATH));
   ret = create_path(path);
 
-  strcpy(path->phbin, "../fortran/phase.bin");
+  strcpy(path->phpad, "../fortran/phase.pad");
   path->nnnn    = 1;
   path->json    = 0;
   path->verbose = 1;

@@ -15,7 +15,7 @@ c      parameter (pi = 3.14159 26535 89793 23846 26433d0)
 
 c+---------------------------------------------------------------------
 c     block of parameter declarations for onepath
-      character*256 phbin
+      character*256 phpad
       character*8 cxc
       character*30 versn
       integer index, iorder, innnn, ijson, ivrbse, ixc
@@ -38,7 +38,7 @@ c     initialize everything
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
       ivrbse = 1
-      phbin  = 'phase.bin'
+      phpad  = 'phase.pad'
 
 c+---------------------------------------------------------------------
 c  compute a single path, generating the F matrix then returning the 
@@ -59,7 +59,7 @@ c    innnn:    flag to write feffNNNN.dat file       integer
 c    ijson:    flag to write feffNNNN.json file      integer
 c    ivrbse:   flag to write screen messages         integer
 c
-c    also requires a phase.bin file from an earlier run of xsph
+c    also requires a phase.pad file from an earlier run of xsph
 c
 c  OUTPUT
 c
@@ -82,7 +82,7 @@ c     compute first shell of Copper (SS, deg=12)
       deg   = 12
       call addatom(1,  1.805, 0.,  1.805, 1, ipot, rat)
 
-      call onepath(phbin, index, nleg, deg, iorder,
+      call onepath(phpad, index, nleg, deg, iorder,
      &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &     versn, ipot, rat, iz,
      &     ipol, evec, elpty, xivec,
@@ -113,7 +113,7 @@ c     compute fourth shell of Copper (DS, deg=48)
       call addatom(1,  0.,     0., -3.61,  1, ipot, rat)
       call addatom(2, -1.805,  0., -1.805, 1, ipot, rat)
 
-      call onepath(phbin, index, nleg, deg, iorder,
+      call onepath(phpad, index, nleg, deg, iorder,
      &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &       versn, ipot, rat, iz, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
@@ -163,7 +163,7 @@ c     taken from feff's HEADERS/dim.h
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
       dimension col6(nex), col7(nex)
-      character*256 phbin
+      character*256 phpad
       character*8 cxc
       character*30 versn
 

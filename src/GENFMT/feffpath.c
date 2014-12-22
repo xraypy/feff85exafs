@@ -18,12 +18,12 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   /* Return an error code -- currently hardwired to return 0. */
   long i;
   char message[500] = {'\0'};
-  char phbin[257] = {'\0'};
+  char phpad[257] = {'\0'};
   char exch[9] = {'\0'};
   char version[31] = {'\0'};
 
   strcpy(message, " ");
-  strcpy(phbin, " ");
+  strcpy(phpad, " ");
   strcpy(exch, " ");
   strcpy(version, " ");
 
@@ -80,21 +80,21 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   /* --------------------------------------------------- */
 
   /* COPY_STRING(path->errormessage, message); */
-  /* COPY_STRING(path->phbin, phbin); */
+  /* COPY_STRING(path->phpad, phpad); */
   path->errormessage = calloc(500, sizeof(char));
   strcpy(path->errormessage, message);
-  path->phbin = calloc(257, sizeof(char));
-  strcpy(path->phbin, phbin);
+  path->phpad = calloc(257, sizeof(char));
+  strcpy(path->phpad, phpad);
 
   return 0;
 }
 
 _EXPORT(void) clear_path(FEFFPATH *path) {
   /* Reinitialize a FEFFPATH struct, returning everything to default */
-  /* except phbin, verbose, nnnn, and json. */
+  /* except phpad, verbose, nnnn, and json. */
   long i,j;
-  /* char phbin[256] = {'\0'}; */
-  /* sprintf(phbin, "%-256s", " "); */
+  /* char phpad[256] = {'\0'}; */
+  /* sprintf(phpad, "%-256s", " "); */
 
   path->index     = 9999;
   path->iorder    = 2;
@@ -153,7 +153,7 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
   }
 
   strcpy(path->errormessage, "");
-  /* strcpy(path->phbin, "phase.bin"); */
+  /* strcpy(path->phpad, "phase.pad"); */
 }
 
 
@@ -188,14 +188,14 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   double evec[3];
   double xivec[3];
 
-  char phbin[257] = {'\0'};
+  char phpad[257] = {'\0'};
   char exch[9] = {'\0'};
   char version[31] = {'\0'};
   FILE *ifp;
 
   /* printf("entering make_path\n"); */
   /* fflush(stdout); */
-  strcpy(phbin, path->phbin);
+  strcpy(phpad, path->phpad);
   iorder = path->iorder;
   index = path->index;
   nleg = path->nleg;
@@ -236,9 +236,9 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   if ( (iorder < 0) || (iorder > 10) ) { /* 0 <= iorder <= 10 */
     error = error + ERR_BADIORDER;
   };
-  ifp = fopen(phbin, "r");  /* cannot find or read phase.bin */
+  ifp = fopen(phpad, "r");  /* cannot find or read phase.pad */
   if( ifp == NULL ) {
-    error = error + ERR_NOPHBIN;
+    error = error + ERR_NOPHPAD;
   } else {
     fclose(ifp);
   };
@@ -250,9 +250,9 @@ _EXPORT(long) make_path(FEFFPATH *path) {
     return error;
   };
 
-  /* printf(">%s<\n", phbin); */
+  /* printf(">%s<\n", phpad); */
   /* fflush(stdout); */
-  onepath_(phbin, &index, &nleg, &degen, &iorder, 
+  onepath_(phpad, &index, &nleg, &degen, &iorder, 
 	   exch, &rs, &vint, &mu, &edge, &kf, &rnrmav, &gamach,
 	   version, &ipot, &rat, &iz, &ipol, &evec, &elpty, &xivec,
 	   &nnnn, &json, &verbose, &ri, &beta, &eta,
@@ -377,7 +377,7 @@ _EXPORT(void) cleanup(FEFFPATH *path) {
   free(path->rep);
 
   free(path->errormessage);
-  free(path->phbin);
+  free(path->phpad);
   free(path->exch);
   free(path->version);
 
@@ -438,12 +438,12 @@ make_path_errorstring(FEFFPATH *path) {
   char error[100];
   long errcode = path->errorcode;
   long nleg = path->nleg;
-  char phbin[256] = {'\0'};
+  char phpad[256] = {'\0'};
   degen  = path->degen;
   index  = path->index;
   iorder = path->iorder;
   elpty  = path->elpty;
-  strcpy(phbin, path->phbin);
+  strcpy(phpad, path->phpad);
 
   if (errcode == 0) { return; }
   sprintf(message, "Error in make_path\n");
@@ -471,8 +471,8 @@ make_path_errorstring(FEFFPATH *path) {
     sprintf(error, "\t(code 32) iorder (%ld) not between 0 and 10\n", iorder);
     strcat(message, error);
   };
-  if (errcode & ERR_NOPHBIN) {
-    sprintf(error, "\t(code 64) phase.bin file (%s) does not exist or cannot be read\n", phbin);
+  if (errcode & ERR_NOPHPAD) {
+    sprintf(error, "\t(code 64) phase.pad file (%s) does not exist or cannot be read\n", phpad);
     strcat(message, error);
   };
   strcpy(path->errormessage, message);

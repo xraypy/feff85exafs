@@ -8,7 +8,7 @@ c     Note that path finder is single precision, so be sure that
 c     things are correct precision in calls and declarations!
 c     See declarations below for details.
 c     
-c     Inputs:  Reads phase.bin
+c     Inputs:  Reads phase.pad
 c     Output:  neout   'ne', number of energy grid points
 c              ik0out  index of energy grid with k=0
 c              cksp    |p| at each energy grid point in single precision
@@ -48,12 +48,12 @@ c     Local variables
       complex*16 rkk(nex,8,nspx), eref2(nex,nspx)
       complex*16 ph4(nex, -ltot:ltot, nspx, 0:nphx)
 
-      character*256 phbin
+      character*256 phpad
 
-c     Need stuff from phase.bin
+c     Need stuff from phase.pad
 c     Read phase calculation input, data returned via commons
-      phbin = 'phase.bin'
-      call rdxsph (phbin, ne, ne1, ne3, npot, ihole,
+      phpad = 'phase.pad'
+      call rdxsph (phpad, ne, ne1, ne3, npot, ihole,
      1     rnrmav, xmu, edge, ik0, ixc, rs, vint,
      2     em, eref2, iz, potlbl, ph4, rkk, lmax, lmaxp1  )
  

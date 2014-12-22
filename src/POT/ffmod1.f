@@ -10,7 +10,7 @@ c       coded by a.l. ankudinov 2000, for modular code structure
 c       modified by a.l. ankudinov 2001, for new i/o structure
 
 c     INPUT files: mod1.inp, geom.dat
-c     OUTPUT file: pot.bin
+c     OUTPUT file: pot.pad
 
       implicit double precision (a-h, o-z)
       include '../HEADERS/dim.h'
@@ -101,7 +101,7 @@ c     and transform it to atomic hartree units
 c                  gamach
       endif
 
-c     OUTPUT: subroutine pot writes main output file pot.bin
+c     OUTPUT: subroutine pot writes main output file pot.pad
 c     with information on potentials, necessary for other modules;
 c     additional output files can be obtained using PRINT card
 

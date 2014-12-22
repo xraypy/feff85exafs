@@ -216,7 +216,7 @@ c        find index of path
   420    format (' did not find path i, ip(i) ', 2i10)
          call wlog(slog)
   430    continue
-c        Path ipath is the path from feff.bin that corresponds to
+c        Path ipath is the path from feff.pad that corresponds to
 c        the path ilist in list.dat.  The index of the path is
 c        ip(ilist) and index(ipath).
 
@@ -229,7 +229,7 @@ c        A note about units:  sig2g, sig2u() and sig2d are all in
 c        Angs**2.  Convert to code units after we've summed them.
          sig2 = sig2g + sig2u(ilist)
          if (dwcorr .and. idwopt.ge.0)  then
-c           note that stuff from feff.bin is single precision and
+c           note that stuff from feff.pad is single precision and
 c           mostly in multidim. arrays.  sigms is double precision
 c           and its arrays are dimensioned for a single path, so
 c           use tmp variables to call it.  tk, thetad and sig2d are 

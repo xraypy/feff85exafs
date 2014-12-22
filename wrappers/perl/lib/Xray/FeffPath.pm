@@ -7,7 +7,7 @@ use List::MoreUtils qw(any);
 has 'wrapper' => (is => 'ro', isa => 'Xray::FeffPathWrapper', default => sub{ Xray::FeffPathWrapper::FEFFPATH->new() });
 
 ## simple scalars
-has 'phbin'   => (is => 'rw', isa => 'Str',  default => 0,   trigger => sub{pushback(@_, 'phbin'  )},);
+has 'phpad'   => (is => 'rw', isa => 'Str',  default => 0,   trigger => sub{pushback(@_, 'phpad'  )},);
 has 'Index'   => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{pushback(@_, 'Index'  )},);
 has 'nleg'    => (is => 'rw', isa => 'Int',  default => 0,   trigger => sub{pushback(@_, 'nleg'   )},);
 has 'degen'   => (is => 'rw', isa => 'Num',  default => 1.0, trigger => sub{pushback(@_, 'degen'  )},);
@@ -285,7 +285,7 @@ copper metal:
   my $path = Xray::FeffPath->new();
   $path->degen(48);
   $path->Index(4);
-  $path->phbin('../fortran/phase.bin');
+  $path->phpad('../fortran/phase.pad');
   $path->atom(0, 0, -3.61, 1);
   $path->atom(-1.805, 0, -1.805, 1);
   $path->path;
@@ -375,9 +375,9 @@ method of the same name.  Each of the following exists:
 
 =over 4
 
-=item C<phbin> (character, default = phase.bin)
+=item C<phpad> (character, default = phase.pad)
 
-The path to the F<phase.bin> file.  This gets right-padded with spaces
+The path to the F<phase.pad> file.  This gets right-padded with spaces
 to 256 characters, which is the length of the parameter in the
 underlying Fortran library.  Therefore, the value returned by the
 getter will be right-padded.
@@ -691,7 +691,7 @@ iorder not between 0 and 10
 
 =item I<64>
 
-F<phase.bin> cannot be found or cannot be read
+F<phase.pad> cannot be found or cannot be read
 
 =back
 

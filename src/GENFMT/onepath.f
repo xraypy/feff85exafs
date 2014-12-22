@@ -1,4 +1,4 @@
-      subroutine onepath(phbin, index, nleg, deg, iorder,
+      subroutine onepath(phpad, index, nleg, deg, iorder,
      &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &     versn, ipot, rat, iz,
      &     ipol, evec, elpty, xivec,
@@ -17,7 +17,7 @@ c  compute a single path, generating the F matrix then returning the
 c  information contained in a feffNNNN.dat file
 c
 c  INPUT:
-c    phbin:    path to phase.bin file                character*256
+c    phpad:    path to phase.pad file                character*256
 c    index:    path index                            integer
 c    nleg:     number of legs in path                integer
 c    deg:      path degeneracy                       double
@@ -32,7 +32,7 @@ c    innnn:    flag to write feffNNNN.dat file       integer
 c    ijson:    flag to write feffNNNN.json file      integer
 c    ivrbse:   flag to write screen messages         integer
 c
-c    also requires a phase.bin file from an earlier run of xsph
+c    also requires a phase.pad file from an earlier run of xsph
 c
 c  OUTPUT
 c    ri:       leg lengths                           double(legtot)
@@ -62,7 +62,7 @@ c+---------------------------------------------------------------------
       include '../HEADERS/dim.h'
       include '../HEADERS/vers.h'
 
-      character*256 phbin
+      character*256 phpad
 
 c+---------------------------------------------------------------------
 c     parameters related to the call to regenf
@@ -217,7 +217,7 @@ c+----------------------------------------------------------------------
       do 10 i=0,nphx
          iz(i) = 0
  10   continue
-      call genfmt_prep(phbin, ispin,
+      call genfmt_prep(phpad, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
      &       xmu, edge, ik0, ixc, rs, vint,
@@ -518,12 +518,12 @@ c        remove 2 pi jumps in phase
  15   continue
 
 c+----------------------------------------------------------------------
-c  the following get stored in feff.bin for each path:
+c  the following get stored in feff.pad for each path:
 c        ipath, nleg, deg, reff (*bohr), crit, ipot(1, nleg)
 c        rat beta eta ri amff phff
 c
 c  instead, we'll skip straight to the chore performed in feffdt where
-c  the stuff from feff.bin has been read and is written out to the form
+c  the stuff from feff.pad has been read and is written out to the form
 c  of a feffNNNN.dat file
 c+----------------------------------------------------------------------
 

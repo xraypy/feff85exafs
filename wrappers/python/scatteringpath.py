@@ -37,7 +37,7 @@ Methods:
 
 Attributes (input):
 
-  phbin        : string   path to `phase.bin`                       `phase.bin`       
+  phpad        : string   path to `phase.pad`                       `phase.pad`       
   index        : integer  path index                                9999              
   degen        : float    path degeneracy                           required input    
   nleg         : integer  number of legs in path                    set using atom method (read-only)
@@ -298,7 +298,7 @@ class FeffPath(Group):
         self._larch     = Interpreter()
         self.wrapper    = feffpathwrapper.FEFFPATH()
         feffpathwrapper.create_path(self.wrapper)
-        self.wrapper.phbin = ''
+        self.wrapper.phpad = ''
         self.ipot = []
         self.rat  = []
         self.geom = []
@@ -308,13 +308,13 @@ class FeffPath(Group):
     ##      tailored ValueErrors can be issued
 
     @property
-    def phbin(self):
-        return self.wrapper.phbin
-    @phbin.setter
-    def phbin(self,value):
+    def phpad(self):
+        return self.wrapper.phpad
+    @phpad.setter
+    def phpad(self,value):
         if not isfile(value):
             raise ValueError("%s is not a readable file" % value)
-        self.wrapper.phbin = value
+        self.wrapper.phpad = value
 
     @property
     def index(self):

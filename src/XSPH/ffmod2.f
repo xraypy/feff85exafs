@@ -5,7 +5,7 @@ c     subroutine ffmod2
 c     cross-section and phase shifts calculations
 c     coded by a.ankudinov 2000
 
-c     INPUT: mod2.inp geom.dat global.inp and pot.bin
+c     INPUT: mod2.inp geom.dat global.inp and pot.pad
 c     OUTPUT: xsect.bin and xsph.bin
 
       implicit double precision (a-h, o-z)

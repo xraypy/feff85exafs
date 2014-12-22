@@ -7,7 +7,7 @@ c     (EXAFS, XANES, FPRIME, DANES, XES)
 c     written by a.ankudinov 2000
 c     modified by a.ankudinov 2001 for new I/O structure
 
-c     INPUT: mod6.inp global.dat xsect.bin fms.bin list.dat and feff.bin
+c     INPUT: mod6.inp global.dat xsect.bin fms.bin list.dat and feff.pad
 c     OUTPUT: xmu.dat (chi.dat for EXAFS)
 
       implicit double precision (a-h, o-z)

@@ -21,7 +21,7 @@ c
       character*512 slog
       dimension iplst(npx)
 
-c     Stuff from feff.bin, note that floating point numbers are
+c     Stuff from feff.pad, note that floating point numbers are
 c     single precision
 cc      character*78 string
       real rnrmav, edge
@@ -54,11 +54,11 @@ c      complex*16 cchi, cfms
 
       external istrln
 
-      call wlog (' feffdt, feff.bin to feff.dat conversion: ' // vfeff
+      call wlog (' feffdt, feff.pad to feff.dat conversion: ' // vfeff
      1            // 'release ' // vf85e)
 
-c     read feff.bin
-c     Use single precision for all fp numbers in feff.bin
+c     read feff.pad
+c     Use single precision for all fp numbers in feff.pad
       do 20  itext = 1, ntext
          ltxt = istrln(text(itext))
 c        text(itext) does not have carriage control
@@ -100,7 +100,7 @@ c        find index of path
   420    format (' did not find path i, iplst(i) ', 2i10)
          call wlog(slog)
   430    continue
-c        Path i is the path from feff.bin that corresponds to
+c        Path i is the path from feff.pad that corresponds to
 c        the path ilist in list.dat.  The index of the path is
 c        iplst(ilist) and index(i).
 
@@ -176,7 +176,7 @@ c$$$     1              ' red factor   lambda     real[p]@#')
 c        Make the feff.dat stuff and write it to feff.dat
 c        Also write out for inspection to fort.66
 c        note that dimag takes complex*16 argument, aimag takes
-c        single precision complex argument.  Stuff from feff.bin
+c        single precision complex argument.  Stuff from feff.pad
 c        is single precision, cchi is complex*16
 c$$$         do 450  ie = 1, ne
 c$$$c           Consider chi in the standard XAFS form.  Use R = rtot/2.

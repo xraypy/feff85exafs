@@ -13,8 +13,8 @@ Input/output routines:
 * `padlib.f` - PAD library written by M. Newville
 * `str2dp.f` - additional routines to work with PAD format
 * `str.f` - routines to deal with strings
-* `rdpot.f` - read information from pot.bin (PAD format)
-* `rdxsph.f` - read information from phase.bin (PAD format)
+* `rdpot.f` - read information from pot.pad
+* `rdxsph.f` - read information from phase.pad
 * `isnum.f` - tests whether a string can be a number
 * `nxtunt.f` - returns the value of the next unopened unit number
 

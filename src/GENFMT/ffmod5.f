@@ -7,8 +7,8 @@ c     written by a.ankudinov 2000, using subroutines
 c     which were written earlier by j.rehr and others
 c     modified by a.ankudinov 2001 for new I/O structure
 
-c     INPUT: phase.bin, paths.dat, mod5.inp and global.dat
-c     OUTPUT: feff.bin and list.dat files
+c     INPUT: phase.pad, paths.dat, mod5.inp and global.dat
+c     OUTPUT: feff.pad and list.dat files
       implicit double precision (a-h, o-z)
 
       include '../HEADERS/dim.h'

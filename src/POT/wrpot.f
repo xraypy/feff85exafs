@@ -5,7 +5,7 @@
      3                  edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
      4                  eorb, kappa, iorb, qnrm, xnmues, nohole, ihole,
      5                  inters, totvol, iafolp, xion, iunf, iz, jumprm)
-c  opens pot.bin file and writes following information
+c  opens pot.pad file and writes following information
 c  General:
 c     ntitle - number of title lines
 c     title  - title itself
@@ -76,8 +76,8 @@ c     wp     - estimate of plasmon frequency from rhoint
       write (wfmt, 35) nph + 1
   35  format( '(', i3, '(1x,i4))' )
 
-      open (unit=3, file='pot.bin', status='unknown', iostat=ios)
-      call chopen (ios, 'pot.bin', 'pot')
+      open (unit=3, file='pot.pad', status='unknown', iostat=ios)
+      call chopen (ios, 'pot.pad', 'pot')
       write(3,20) ntitle, nph, npadx, nohole, ihole, inters, iafolp,
      1            jumprm, iunf
   20  format (9(1x,i4))
@@ -85,7 +85,7 @@ c     wp     - estimate of plasmon frequency from rhoint
          ll = istrln(title(i))
          write(3,10) title(i)(1:ll)
   133 continue
-c     Misc stuff from pot.bin
+c     Misc stuff from pot.pad
       dum(1)  = rnrmav
       dum(2)  = xmu
       dum(3)  = vint

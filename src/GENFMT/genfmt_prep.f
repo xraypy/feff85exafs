@@ -1,4 +1,4 @@
-      subroutine genfmt_prep(phbin, ispin,
+      subroutine genfmt_prep(phpad, ispin,
 c     arguments for rdxsph
      &       ne, ne1, ne3, npot, ihole, rnrmav,
      &       xmu, edge, ik0, ixc, rs, vint,
@@ -21,7 +21,7 @@ c  abstract out the initialization parts of genfmt.  this can then be
 c  dropped into genfmt for normal use or be used as part of a single-path
 c  library
 c+----------------------------------------------------------------------
-c     phbin  - specify path to phase.bin     (character*256)
+c     phpad  - specify path to phase.pad     (character*256)
 c  Energy grid information
 c     em     - complex energy grid
 c     eref   - V_int + i*gamach/2 + self-energy correction
@@ -64,11 +64,11 @@ c+----------------------------------------------------------------------
       character*2 atsym
       external atsym
 
-      character*256 phbin
+      character*256 phpad
 
 c     Read phase calculation input
 c      print *, 'calling rdxsph'
-      call rdxsph (phbin,
+      call rdxsph (phpad,
      1     ne, ne1, ne3, npot, ihole, rnrmav, xmu, edge, ik0,
      2     ixc, rs, vint,
      3     em, eref2, iz, potlbl, ph4, rkk2, lmax, lmaxp1)

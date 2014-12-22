@@ -1,11 +1,11 @@
-      subroutine rdxsph ( phbin, 
+      subroutine rdxsph ( phpad, 
      1     ne, ne1, ne3, nph, ihole, rnrmav, xmu, edge,
      2     ik0, ixc, rs, vint,
      3     em, eref, iz, potlbl, ph, rkk, lmax, lmaxp1)
       implicit double precision (a-h, o-z)
-c     reads file 'phase.bin' 
+c     reads file 'phase.pad' 
 c
-c     phbin - specify path to phase.bin     (character*256)
+c     phpad - specify path to phase.pad     (character*256)
 c  Energy grid information
 c     em   - complex energy grid
 c     eref - V_int + i*gamach/2 + self-energy correction
@@ -32,7 +32,7 @@ c     rkk - complex multipole matrix elements
 
       include '../HEADERS/dim.h'
 
-      character*256 phbin
+      character*256 phpad
 
       character*6  potlbl
       dimension  potlbl(0:nphx)
@@ -52,22 +52,22 @@ c     use temp to write ph, rkk, since ne < nex
       complex*16 temp(nex*(2*ltot+1))
       dimension dum(3)
 
-      call triml(phbin)
-c      print *, istrln(phbin), '--', phbin(1:istrln(phbin)), '--'
-      open (unit=1, file=phbin, status='old', iostat=ios, err=3)
+      call triml(phpad)
+c      print *, istrln(phpad), '--', phpad(1:istrln(phpad)), '--'
+      open (unit=1, file=phpad, status='old', iostat=ios, err=3)
       goto 6
  3    continue
-      open (unit=1, file='phase.bin', status='old', iostat=ios, err=4)
+      open (unit=1, file='phase.pad', status='old', iostat=ios, err=4)
       goto 5
 
  4    continue
-      stop 'cannot find phase.bin in rdxsph'
+      stop 'cannot find phase.pad in rdxsph'
 
  5    continue
-      phbin = 'phase.bin'
+      phpad = 'phase.pad'
 
  6    continue
-      call chopen (ios, 'phase.bin', 'rdxsph')
+      call chopen (ios, 'phase.pad', 'rdxsph')
 
       ixc = 0
       rs = 0.

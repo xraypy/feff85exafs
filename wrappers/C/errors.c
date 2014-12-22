@@ -11,7 +11,7 @@ long main()
   path = malloc(sizeof(FEFFPATH));
   ret  = create_path(path);
 
-  strcpy(path->phbin, "../fortran/phase.bin");
+  strcpy(path->phpad, "../fortran/phase.pad");
   path->nnnn    = 1;
   path->json    = 0;
   path->verbose = 1;
@@ -89,7 +89,7 @@ long main()
   path->degen   = 12.0;
   path->elpty   = -0.5;
   path->iorder  = -1;    /* bad iorder, make_path error 32 */
-  strcpy(path->phbin, "foo.bar");  /* bad phbin, make_path error 64 */
+  strcpy(path->phpad, "foo.bar");  /* bad phpad, make_path error 64 */
   ret = add_scatterer(path,  1.805, 0,  1.805, -1);
   ret = make_path(path);
   if (path->errorcode != 0) {

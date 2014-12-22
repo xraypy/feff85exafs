@@ -271,7 +271,7 @@ class Feff85exafsUnitTestGroup(Group):
         
         blpath = feffpath(join(self.baseline, nnnndat))
         if use_wrapper and self.wrapper_available: # make the f3ffNNNN.dat file on the fly
-            self.sp.phbin=join(self.testrun, 'phase.bin')
+            self.sp.phpad=join(self.testrun, 'phase.pad')
             self.sp.nnnn=True
             self.sp.index=nnnn
             self.sp.verbose=self.verbose

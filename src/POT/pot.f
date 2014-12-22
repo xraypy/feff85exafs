@@ -137,7 +137,7 @@ c     Josh
 
 c     variables ecv0 and folp0 serve as input only; do not change them
 c     since it will change file feff.ior content
-c     ecv and folp are passed through pot.bin to next modules.
+c     ecv and folp are passed through pot.pad to next modules.
       ecv = ecv0
       do 12 i = 0, nph
    12 folp(i) = folp0(i)
@@ -522,7 +522,7 @@ c     to worse estimate of edge position. fix later. ala
      1              rho, vclap, vcoul, vtot, ntitle, title)
       endif
 
-c     write stuff into pot.bin
+c     write stuff into pot.pad
       call wrpot (nph, ntitle, title, rnrmav, xmu, vint, rhoint,
      1            emu, s02, erelax, wp, ecv,rs,xf, qtotel,
      2            imt, rmt, inrm, rnrm, folp, folpx, xnatph,

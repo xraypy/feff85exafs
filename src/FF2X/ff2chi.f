@@ -34,7 +34,7 @@ c     to keep Im part of cchi 11.18.97 ala
       character*2 coment
       parameter (coment='# ')
 
-c     Stuff from feff.bin, note that floating point numbers are
+c     Stuff from feff.pad, note that floating point numbers are
 c     single precision.  Be careful throughout this routine, especially
 c     when passing things to subroutines or intrinsic functions.
       real rnrmav, xmu, edge
@@ -71,7 +71,7 @@ c !KJ locals  1-06
 
 c     lines below allow to skip FMS module for DANES
 c     after XANES calculations
-      open (unit=1, file='phase.bin', status='old', iostat=ios)
+      open (unit=1, file='phase.pad', status='old', iostat=ios)
       if (ios.le.0 .and. abs(ispec).eq.3) then
         read(1,*) ne3, ne3, ne3, ne3
       endif
@@ -79,7 +79,7 @@ c     after XANES calculations
 
 
 c !KJ loop over iip added to process several spectra at once  1-06
-c !KJ reading of feff.bin and list.dat moved inside the loop (used to be before reading
+c !KJ reading of feff.pad and list.dat moved inside the loop (used to be before reading
 c !KJ xsect.bin      
       do iip=ipmin,ipmax,ipstep
         cross=(.not.(iip.eq.1.or.iip.eq.10.or.iip.eq.5.or.iip.eq.9))
@@ -88,7 +88,7 @@ c !KJ choose different filename for each spectrum.
         if(iip.eq.1) then
            f1(1:9)='chi.dat  '
            f2(1:9)='xmu.dat  '
-           f0(1:10)='feff.bin  '
+           f0(1:10)='feff.pad  '
            f3(1:10)='list.dat  '
         elseif(iip.eq.10) then
            f1(1:9)='chi10.dat'
@@ -137,7 +137,7 @@ c !KJ which is a problem if the loop executes more than once.
 c !KJ Simply reading the file again and again is the lazy solution,
 c !KJ but it avoids confusing changes to the code (eg., new variables).
 
-       call rdfbin (f0, nphx, nex, npx, legtot,  !KJ changed 'feff.bin' to f0  1-06
+       call rdfbin (f0, nphx, nex, npx, legtot,  !KJ changed 'feff.pad' to f0  1-06
      $      nptot, ne, npot, ihole, iorder, ilinit, 
      $      rnrmav, xmu, edge, potlbl, iz, phc, ck, xk, index, 
      $      nleg, deg, reff, crit, ipot, 
@@ -157,11 +157,11 @@ c     write feffnnnn.dat
        end if
 
       if (iabs.eq.1) then
-c        compare grids in xsect.bin and feff.bin
+c        compare grids in xsect.bin and feff.pad
          do 680 i = 1, nxsec
            del = xk(i)**2 - xkxs(i)**2
            if (abs(ispec).ne.3 .and. abs(del) .gt. 10*eps4)  then
-             call wlog(' Emesh in feff.bin and xsect.bin different.')
+             call wlog(' Emesh in feff.pad and xsect.bin different.')
              call wlog
      1       (' Results may be meaningless, check input files.')
              call wlog

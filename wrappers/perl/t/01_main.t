@@ -21,13 +21,13 @@ my $ret = $path->create_path;
 ok($ret == $path,									  "called create_path");
 
 
-my $str = "../../fortran/phase.bin";
-$path->phbin($str);
-##print $path->phbin, $/;
-##(-e $path->phbin) ? print "ok\n" : print "nope\n";
-(my $phbin = $path->phbin) =~ s{\s+\z}{};
-ok($path->phbin eq $phbin,                                                                "set and read phbin");
-ok($path->wrapper->swig_phbin_get eq $phbin ,                                             "low level phbin");
+my $str = "../../fortran/phase.pad";
+$path->phpad($str);
+##print $path->phpad, $/;
+##(-e $path->phpad) ? print "ok\n" : print "nope\n";
+(my $phpad = $path->phpad) =~ s{\s+\z}{};
+ok($path->phpad eq $phpad,                                                                "set and read phpad");
+ok($path->wrapper->swig_phpad_get eq $phpad ,                                             "low level phpad");
 
 $path->degen(48);
 ok($path->degen == 48,									  "set and read degeneracy");
@@ -76,7 +76,7 @@ ok($path->nleg == 3,									  "added second scatterer");
 ok($path->wrapper->swig_nleg_get == 3,							  "low level nleg");
 
 
-$ret = $path->path;
+my $ret = $path->path;
 ok($ret == $path,									  "called path");
 
 ok($path->exch eq 'H-L exch',                                                             "exchange string ok");
@@ -185,11 +185,11 @@ ok($path->errorcode == 32,                                                      
 $path->clear;
 
 
-$path->phbin("foo.bar");
+$path->phpad("foo.bar");
 $path->atom( 0,     0, -3.61,  1);
 $path->atom(-1.805, 0, -1.805, 1);
 $path->path;
-ok($path->errorcode == 64,                                                                "error recognized: bad phbin");
+ok($path->errorcode == 64,                                                                "error recognized: bad phpad");
 #$path->clear;
 
 

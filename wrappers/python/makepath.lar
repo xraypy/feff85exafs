@@ -1,6 +1,6 @@
 ## -*- python -*-
 ##
-## Read the phase.bin file from a calculation on Copper metal.  Write the 
+## Read the phase.pad file from a calculation on Copper metal.  Write the 
 ## feffNNNN.dat files for the 1st (SS) and 4th (MS) paths
 ##
 
@@ -8,7 +8,7 @@
 a=scatteringpath()
 
 ## set some attributes common to all paths from this calculation
-a.phbin   = '../fortran/phase.bin'
+a.phpad   = '../fortran/phase.pad'
 a.nnnn    = True
 a.verbose = True
 
@@ -18,7 +18,7 @@ a.index   = 1
 a.atom( 1.805, 0,  1.805, 1);
 a.make()
 
-## reinitialize the group (except for the phbin, verbose, nnnn, and json attributes)
+## reinitialize the group (except for the phpad, verbose, nnnn, and json attributes)
 a.clear()
 
 ## make the 4th path (DS, two calls to atom) path

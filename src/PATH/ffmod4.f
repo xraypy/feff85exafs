@@ -11,7 +11,7 @@ c     modified by a.ankudinov 2001 for new I/O structure
 c     INPUT FILES
 c       global.dat, geom.dat - global infomation file is read here 
 c       mod4.inp - specific information for present module
-c       phase.bin - output of XSPH module is read using subroutine 
+c       phase.pad - output of XSPH module is read using subroutine 
 c                  'rdxsph' inside subroutine 'prcrit'.
 c                   needed  data: (list of variables)
 c                  (ne, ne1, npot, ik0, em, eref2, potlbl, ph4)
