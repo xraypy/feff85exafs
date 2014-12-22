@@ -157,10 +157,10 @@ cc        extension of SCF procedure.
           jri1 = jri+1
           eref = vtotph(jri1)
           do 40 i = 1, jri1
-  40      vtotph(i) = vtotph(i) - dble(eref)
+  40      vtotph(i) = vtotph(i) - eref
           if (ixc.ge.5) then
             do 50 i = 1, jri1
-  50        vvalph(i) = vvalph(i) - dble(eref)
+  50        vvalph(i) = vvalph(i) - eref
           else
             do 60 i = 1, jri1
   60        vvalph(i) = vtotph(i)
@@ -260,8 +260,6 @@ c-- Needed here since we aren't done yet
 c     fast loop (does not need parallel execution)
 c     uses results of the above loop to find Fermi level
 c     and to decide on next set of energy points
-      xndif = 0.
-      xndifp = 0.
       do 300 ie = n1, n2
         ipr = 1+ ie -n1
         ee = emg(ie)
@@ -297,7 +295,7 @@ c       if (master) print*,'xndif = ', xndif, 'xntot = ',xntot
 
 c       check if the fermi level is found
         if ( iflr.eq.1) then
-          if (xndifp*xndif .le. 0.d0) then
+          if (xndifp*xndif .le. 0.e0) then
 c         Fermi level is found ; exit from energy loop
              if (xndif.eq.0) then
                xmunew = dble(emg(ie))
