@@ -404,7 +404,7 @@ c     1. xwg
 c     2. xgam
       DPPar(2) = Gamma/EFermi
 c     3. xe
-      DPPar(3) = Energy/EFermi
+      DPPar(3) = dble(Energy/EFermi)
 c     4. xeg
       DPPar(4) = 0.d0
 c     CPar is array of complex parameters to evaluate functions in cgratr.
@@ -867,7 +867,7 @@ c     print*, 'fn call 2'
       dif=abs(value-valu)
 c     If the following condition is true, add in this integral to the total,
 c     and reduce the number of regions under consideration.
-      frac = del / (xmax - xmin)
+      frac = dble(del / (xmax - xmin))
       atsing = .false.
       if(frac .le. 1.0e-8) atsing = .true.
       if(dif .le. abr*frac .or. dif.le.rlr*abs(value) .or. 

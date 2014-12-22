@@ -107,10 +107,10 @@ c     Start the cycle over energy points (ie)
         jri1 = jri+1
         eref = vtotph(jri1)
         do 40 i = 1, jri1
-  40    vtotph(i) = vtotph(i) - eref
+  40    vtotph(i) = vtotph(i) - dble(eref)
         if (ixc.ge.5) then
            do 50 i = 1, jri1
-  50       vvalph(i) = vvalph(i) - eref
+  50       vvalph(i) = vvalph(i) - dble(eref)
         else
            do 60 i = 1, jri1
   60       vvalph(i) = vtotph(i)

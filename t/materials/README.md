@@ -262,8 +262,8 @@ To test to see if a path index was saved from the Feff calculation
 To examine various quantities from the Feff calculation:
 
      larch> print my_ut.feffterms
-	 larch> print my_ut.radii('testrun', 'muffintin') my_ut.radii(baseline', 'muffintin') 
-	 larch> print my_ut.s02('testrun') my_ut.s02(baseline') 
+	 larch> print my_ut.radii('testrun', 'muffintin') my_ut.radii('baseline', 'muffintin') 
+	 larch> print my_ut.s02('testrun') my_ut.s02('baseline') 
 
 Some of the materials have data tests.  This
 

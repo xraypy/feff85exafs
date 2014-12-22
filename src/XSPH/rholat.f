@@ -66,6 +66,7 @@ c     nesvi
       dimension xq(nrptx),xp(nrptx)
 
 c     initialize
+      factor = (1.,0.)
       lmax=lmaxsc
       if (lmax.gt.lx) lmax = lx
       if (iz.le.4) lmax=2

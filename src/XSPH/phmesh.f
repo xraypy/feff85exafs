@@ -112,7 +112,8 @@ c        grid for atomic f' calculation regular in energy
          do 88 i = 1,ne3-1
             dep = 0
             if (dble(em(ne1+i)).gt.0) 
-     1      dep=em(ne1+i)*(exp( log( elimit/em(ne1+i) ) / (ne3-i) ) -1)
+     1             dep=dble(em(ne1+i) * 
+     2             (exp( log( elimit/em(ne1+i) ) / (ne3-i) ) -1))
             if (dep.lt.de) dep = de
             em(ne1+i+1) = em(ne1+i) + dep
   88     continue

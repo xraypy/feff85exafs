@@ -109,6 +109,11 @@ c          - to describe Im[eps^-1]
       integer iPl, ipole
       double precision WpCorr(MxPole), Gamma(MxPole), AmpFac(MxPole)
 c     Josh END
+
+c     explicitly intialize some things
+      rkk0  = (0.,0.)
+      rkk1  = (0.,0.)
+      phold = (0.,0.)
       
       do 5 i=1,MxPole
          WpCorr(1) = -1.d30

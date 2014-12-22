@@ -33,7 +33,7 @@ c+---------------------------------------------------------------------
 c     initialize everything
       call inipath(index, nleg, deg, iorder,
      &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &       versn, ipot, rat, ipol, evec, elpty, xivec,
+     &       versn, ipot, rat, iz, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
@@ -84,8 +84,7 @@ c     compute first shell of Copper (SS, deg=12)
 
       call onepath(phpad, index, nleg, deg, iorder,
      &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &     versn, ipot, rat, iz,
-     &     ipol, evec, elpty, xivec,
+     &     versn, ipot, rat, iz, ipol, evec, elpty, xivec,
      &     innnn, ijson, ivrbse, ri, beta, eta,
      &     ne,col1,col2,col3,col4,col5,col6,col7)
 
@@ -101,7 +100,7 @@ c        1       2(1pe11.4,1x))
 c     compute fourth shell of Copper (DS, deg=48)
       call inipath(index, nleg, deg, iorder,
      &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &       versn, ipot, rat, ipol, evec, elpty, xivec,
+     &       versn, ipot, rat, iz, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
@@ -144,21 +143,21 @@ c     compute fourth shell of Copper (DS, deg=48)
 
       subroutine inipath(index, nleg, deg, iorder,
      &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &       versn, ipot, rat, ipol, evec, elpty, xivec,
+     &       versn, ipot, rat, iz, ipol, evec, elpty, xivec,
      &       innnn, ijson, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       implicit double precision (a-h, o-z)
 
 c     taken from feff's HEADERS/dim.h
       integer nex, npatx, legtot, ixc
-      parameter (nex = 150, npatx = 8, legtot=npatx+1)
+      parameter (nex = 150, npatx = 8, legtot=npatx+1, nphx=11)
 
       integer index, iorder, innnn, ijson, ivrbse
       double precision evec(3), xivec(3)
       double precision elpty,rs, vint, xmu, edge, xkf, rnrmav, gamach
 
       double precision rat(3,0:legtot+1)
-      integer ipot(0:legtot)
+      integer ipot(0:legtot), iz(0:nphx)
 
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
@@ -206,6 +205,10 @@ c     taken from feff's HEADERS/dim.h
  10   continue
       beta(legtot+1) = 0
       eta(legtot+1)  = 0
+
+      do 15 i=0,nphx
+         iz(i) = 0
+ 15   continue
 
       do 20 i=1, nex
          col1(i) = 0

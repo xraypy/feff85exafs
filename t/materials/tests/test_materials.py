@@ -151,7 +151,7 @@ def check_feffterms(folder, term):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
     bl = feffpath(join(tests[folder].baseline, 'feff0001.dat'))
     tr = feffpath(join(tests[folder].testrun,  'feff0001.dat'))
-    assert getattr(bl._feffdat, term) == getattr(tr._feffdat, term), "feff term %s calculated incorrectly for %s" % (term, folder)
+    assert abs(getattr(bl._feffdat, term) - getattr(tr._feffdat, term)) < tests[folder].eps4, "feff term %s calculated incorrectly for %s" % (term, folder)
 
 def check_s02(folder):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder

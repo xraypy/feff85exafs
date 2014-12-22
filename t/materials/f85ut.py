@@ -84,6 +84,9 @@ class Feff85exafsUnitTestGroup(Group):
         self.f85escript = join(self.repotop, 'bin', 'f85e')
         self.epsilon    = 0.00001
         self.epsfit     = 0.001
+        self.eps5       = 0.00001
+        self.eps4       = 0.0001
+        self.eps3       = 0.001
         self.wrapper_available = wrapper_available
         if wrapper_available:
             self.sp = scatpath()
@@ -447,7 +450,7 @@ class Feff85exafsUnitTestGroup(Group):
             print "-----------------------------------------------------------------------------------"
         ok = True
         for key in termdict:
-            same = getattr(bl._feffdat, key) == getattr(tr._feffdat, key)
+            same = abs(getattr(bl._feffdat, key) - getattr(tr._feffdat, key)) < self.epsilon
             if self.verbose: print "%-6s   %-42s : %10s  %10s  %s" % (key, termdict[key], getattr(bl._feffdat, key),
                                                                       getattr(tr._feffdat, key), same)
             ok = ok and same

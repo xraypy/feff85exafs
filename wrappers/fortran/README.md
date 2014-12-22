@@ -29,7 +29,8 @@ c     taken from the feff HEADERS/dim.h
       parameter (nex = 150, legtot = 9)
       double precision evec(3), xivec(3)
 
-	  integer iorder, innnn, ijson, ivrbse, ipot(0:legtot)
+	  integer iorder, innnn, ijson, ivrbse
+	  integer ipot(0:legtot), iz(0:nphx)
       double precision elpty, rat(3,0:legtot+1)
 
       double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
@@ -37,21 +38,23 @@ c     taken from the feff HEADERS/dim.h
       dimension col6(nex), col7(nex)
 
       character*256 phpad
+      character*8 cxc
 
 c     initialize everything
-      phpad   = 'phase.pad
+      phpad   = 'phase.pad'
       index   = 9999
       nleg    = 0
       deg     = 1.0
       iorder  = 2
       innnn   = 1 
-      ijson   = 0 
+      ijson   = 0
       ivrbse  = 1
       ipol    = 0 
       elpty   = 0.0
       ne      = 0
 
-      ixc    = 0
+      cxc    = ''
+      versn  = ''
       rs     = 0.
       vint   = 0.
       xmu    = 0.
@@ -79,7 +82,11 @@ c     initialize everything
       beta(legtot+1) = 0
       eta(legtot+1)  = 0
 
-      do 20 i=1, nex
+      do 15 i=0,nphx
+         iz(i) = 0
+ 15   continue
+
+	  do 20 i=1, nex
          col1(i) = 0
          col2(i) = 0
          col3(i) = 0
@@ -91,16 +98,21 @@ c     initialize everything
 c     done initializing
 
 c     compute first shell of Copper (SS, deg=12)
-      index = 1
-      nleg  = 2
-      deg   = 12
+      index  = 1
+      nleg   = 2
+      deg    = 12
+
+c                  leg   x	  y      z   ip  ipot and rat arrays
       call addatom(1, -1.805, 0., -1.805, 1, ipot, rat)
       call onepath(phpad, index, nleg, deg, iorder,
-     &     ixc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
-     &     ipot, rat, ipol, evec, elpty, xivec,
+     &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
+     &     versn, ipot, rat, iz, ipol, evec, elpty, xivec,
      &     innnn, ijson, ivrbse, ri, beta, eta,
      &     ne,col1,col2,col3,col4,col5,col6,col7)
 
+c
+c     now you can do things with the colN arrays
+c
       end
 
 ```
@@ -158,14 +170,6 @@ naming conventions in Feff.
 |  evec      | double(3)     | I   | polarization vector                     |  (0,0,0)             |
 |  elpty     | double        | I   | ellipticity                             |  0                   |
 |  xivec     | double(3)     | I   | direction of X-ray propagation          |  (0,0,0)             |
-|  ixc       | integer       | O   | potential model index                   | |
-|  rs        | double        | O   | interstitial radius approximation       | |
-|  vint      | double        | O   | interstitial potential in hartree       | |
-|  xmu       | double        | O   | Fermi energy in hartree                 | |
-|  edge      | double        | O   | approximate edge energy in hartree      | |
-|  xkf       | double        | O   | k value of Fermi energy                 | |
-|  rnrmav    | double        | O   | average Nroman radius                   | |
-|  gamach    | double        | O   | core-hole lifetime in eV                | |
 |  ri        | double(legtot)     | O | leg lengths                          |                      |
 |  beta      | double(legtot+1)   | O | beta angles                          |                      |
 |  eta       | double(0:legtot+1) | O | eta angles                           |                      |
@@ -178,22 +182,21 @@ naming conventions in Feff.
 |  col6      | double(nex)   | O   | mean free path, column 6 in `feffNNNN.dat`                   | |
 |  col7      | double(nex)   | O   | real part of complex momentum, column 7 in `feffNNNN.dat`    | |
 
-Additionally, the entry point returns several bits of information about
-the potential model that Feff writes to the header of the `feffNNNN.dat` file:
+Additionally, the entry point returns several bits of information
+about the potential model that Feff traditionally writes to the header
+of the `feffNNNN.dat` file:
 
 | attribute  | type    | I/O | description                             |
 | ---------- | ------- | --- |---------------------------------------- |
+|  versn     | string  |  O  | the version of feff and the feffpath revision |
+|  cxc       | string  |  O  | brief description of the electronic exchange model |
 |  edge      | float   |  O  | energy threshold relative to atomic value (a poor estimate) |
 |  gamach    | float   |  O  | core level energy width |
 |  xkf       | float   |  O  | k value at Fermi level |
 |  xmu       | float   |  O  | Fermi level, eV |
 |  rnrmav    | float   |  O  | average Norman radius |
-|  versn     | string  |  O  | Feff version |
-|  cxc       | string  |  O  | brief description of the electronic exchange model |
 |  rs        | float   |  O  | interstitial radius |
 |  vint      | float   |  O  | interstitial potential |
-|  version   | string  |  O  | the version of feff and the feffpath revision |
-
 
 A polarization calculation is enabled by setting the `ipol` element to
 a true value.  `evec` has 3 elements and represents the polarization

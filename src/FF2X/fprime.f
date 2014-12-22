@@ -236,6 +236,7 @@ c     icase=3  pure imaginary w (absolute value is input)
       implicit double precision (a-h, o-z)
       include '../HEADERS/const.h'
       parameter (eps4 = 1.0d-4)
+      funlog = (0.d0,0.d0)
 
       if (icase.eq.1) then 
          if (abs(dele).ge.eps4) then 

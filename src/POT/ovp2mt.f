@@ -52,7 +52,7 @@ c     prepare cvovp and bvec from vtot
         ncp = ncp + 1
         ix1 = imt(ip1)-novp + i
         cvovp(ncp)= real( vtot(ix1,ip1) )
-       if (lrewr.eq.2) cvovp(ncp) = cvovp(ncp) - vint
+       if (lrewr.eq.2) cvovp(ncp) = cvovp(ncp) - real(vint)
   25  continue
       do 27 ip1=0,nph
          if (irav .eq. 1) then
@@ -81,10 +81,10 @@ c           switch from average equation for vint to the local one
             nphlst = 0
             if (ipot .eq. 0) nphlst = nph
             do 430 iph=0,nphlst
-               cvovp(ncp) = cvovp(ncp) + vtotav(iph)*xnatph(iph)
+               cvovp(ncp) = cvovp(ncp) + real(vtotav(iph)*xnatph(iph))
                bsum = bsum + xnatph(iph)
   430       continue
-            cvovp(ncp) = cvovp(ncp) / bsum
+            cvovp(ncp) = cvovp(ncp) / real(bsum)
          endif
 
          call cgetrs(trans, ncp, nrhs, cmovp, istatx,
