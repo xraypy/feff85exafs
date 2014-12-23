@@ -71,7 +71,8 @@ c     Following passed to pathfinder, which is single precision.
 c     save stuff from rdinp, so no need to call it again
       save   ri05, ient
 
-
+      xndif = 0.
+      xndifp = 0.
       ient = ient + 1
       if (ient.eq.1) then
          xmu = -0.25d0
@@ -157,10 +158,10 @@ cc        extension of SCF procedure.
           jri1 = jri+1
           eref = vtotph(jri1)
           do 40 i = 1, jri1
-  40      vtotph(i) = vtotph(i) - eref
+  40      vtotph(i) = vtotph(i) - dble(eref)
           if (ixc.ge.5) then
             do 50 i = 1, jri1
-  50        vvalph(i) = vvalph(i) - eref
+  50        vvalph(i) = vvalph(i) - dble(eref)
           else
             do 60 i = 1, jri1
   60        vvalph(i) = vtotph(i)
