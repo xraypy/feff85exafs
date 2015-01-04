@@ -252,7 +252,7 @@ _EXPORT(long) make_path(FEFFPATH *path) {
 
   /* printf(">%s<\n", phpad); */
   /* fflush(stdout); */
-  onepath_(phpad, &index, &nleg, &degen, &iorder, 
+  onepath_(phpad, &index, &nleg, &degen, &iorder,
 	   exch, &rs, &vint, &mu, &edge, &kf, &rnrmav, &gamach,
 	   version, &ipot, &rat, &iz, &ipol, &evec, &elpty, &xivec,
 	   &nnnn, &json, &verbose, &ri, &beta, &eta,
@@ -324,13 +324,13 @@ _EXPORT(long) add_scatterer(FEFFPATH *path, double x, double y, double z, long i
   long nleg = path->nleg;
   if (nleg == 0) {nleg = 1;}
   nleg = nleg + 1;
-  
+
   path->rat[nleg-1][0] = x;
   path->rat[nleg-1][1] = y;
   path->rat[nleg-1][2] = z;
   path->ipot[nleg-1]   = ip;
   path->nleg           = nleg;
-  
+
   error = 0;
   if (ip < 0) {
     error = error + ERR_NEGIPOT;
@@ -384,7 +384,7 @@ _EXPORT(void) cleanup(FEFFPATH *path) {
   free(path);
 }
 
-leglength(FEFFPATH *path) {
+double leglength(FEFFPATH *path) {
   double x1, y1, z1, x2, y2, z2;
   long nleg = path->nleg;
   x1 = path->rat[nleg-2][0];
@@ -398,7 +398,7 @@ leglength(FEFFPATH *path) {
 
 
 /* error string interpretation */
-make_scatterer_errorstring(FEFFPATH *path) {
+void make_scatterer_errorstring(FEFFPATH *path) {
   double x, y, z;
   long ip;
   char message[500];
@@ -431,7 +431,7 @@ make_scatterer_errorstring(FEFFPATH *path) {
   strcpy(path->errormessage, message);
 }
 
-make_path_errorstring(FEFFPATH *path) {
+void make_path_errorstring(FEFFPATH *path) {
   double degen, elpty;
   long index, iorder;
   char message[500];
@@ -477,4 +477,3 @@ make_path_errorstring(FEFFPATH *path) {
   };
   strcpy(path->errormessage, message);
 }
-
