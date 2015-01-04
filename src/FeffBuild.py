@@ -4,6 +4,8 @@
 import SCons
 
 from SCons.Environment import Environment
+import sys
+import os
 from os      import getcwd, chown
 from os.path import realpath, join
 
@@ -11,9 +13,10 @@ from SCons.Script.SConscript import SConsEnvironment
 from pwd import getpwnam, getpwuid
 from grp import getgrnam, getgrgid
 
+DEBUG_ENV = False
 
 ## jsondir:
-##   -I or -module flags: see 
+##   -I or -module flags: see
 ##   http://stackoverflow.com/questions/8855896/specify-directory-where-gfortran-should-look-for-modules
 ##   n.b.: this gets evaluated in one of the subfolders, hence the ..
 
@@ -21,19 +24,38 @@ def CompilationEnvironment():
     """
     Determine how to build the Fortran parts of feff85exafs
     """
-    env = Environment()
-    #jsondir = realpath(join(getcwd(), '..', 'JSON'))
-    #jsondir = '/usr/local/lib'
+    args = {}
     jsondir = realpath(join(getcwd(), '..', 'json-fortran'))
+    flags = {'jsondir': jsondir}
+
+    gfortran_comp_flags = '-O3 -ffree-line-length-none -g -Wall'
+    gfortran_link_flags = None
+
+    json_comp_flags = ' -I{jsondir} -J{jsondir}'.format(**flags)
+    json_link_flags = ' -L{jsondir} -ljsonfortran'.format(**flags)
+
+    # darwin:
+    if os.name == 'posix' and sys.platform=='darwin':
+        args['platform'] = 'darwin'
+        gfortran_comp_flags = '-O2 -arch x86_64 -Wall'
+        gfortran_link_flags = '-dynamiclib -L/usr/local/gfortran/lib/ -lgfortran -lgfortranbegin'
+
+    # windows: needs work!
+    if os.name  == 'nt':
+        args['platform'] = 'windows'
+
+    env = Environment(**args)
 
     if env['FORTRAN'] == 'gfortran':
         # this was the suggestion in the top level Makefile in what
         # the FP gave us: "-O3 -ffree-line-length-none -finit-local-zero"
         # -O3 makes sense, as does -finit-local-zero.  I don't understand
-        # the advantage of -ffree-line-length-none -- it seems to 
+        # the advantage of -ffree-line-length-none -- it seems to
         # encourage poor code style -- like we need more of that!
         # also,  -finit-local-zero fails on FMS/fmstot.f
-        env = Environment(FORTRANFLAGS = '-O3 -ffree-line-length-none -g -Wall -I'+jsondir, CFLAGS = '-g')   ## -pedantic -finit-local-zero
+        env = Environment(FORTRANFLAGS = gfortran_comp_flags + json_comp_flags, CFLAGS = '-g')
+        if gfortran_link_flags is not None:
+            env.Replace(SHLINKFLAGS = gfortran_link_flags + json_link_flags)
     elif env['FORTRAN'] == 'g77':
         env = Environment(FORTRANFLAGS = '-Wall -O2')
     elif env['FORTRAN'] == 'xlf':
@@ -42,6 +64,13 @@ def CompilationEnvironment():
         ## I think the -module flg is correct ... untested ...
         env = Environment(FORTRANFLAGS = '-O3 -module '+jsondir)
 
+    if DEBUG_ENV:
+        for key, val in env.items():
+            try:
+                print( key, val)
+            except:
+                pass
+        sys.exit()
     return env
 
 ## need to be able to get prefix from command line
@@ -61,6 +90,13 @@ def InstallEnvironment():
     return ienv
 
 
+def FindOtherObjects(deplist, env):
+    objsuff = env['SHOBJSUFFIX']
+    out = []
+    for dep in deplist:
+        dname, fname = dep.split('/')
+        out.append(join('..', dname, fname + objsuff))
+    return out
 
 ##+----------------------------------------------------------------------------------------------------
 ## This implementation of a Chown factory closely follows Chmod from /usr/lib/scons/SCons/Defaults.py
@@ -100,4 +136,3 @@ def InstallOwner(env, dest, files, owner, group):
     return dest
 
 SConsEnvironment.InstallOwner = InstallOwner
-
