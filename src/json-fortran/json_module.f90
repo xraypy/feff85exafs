@@ -171,7 +171,6 @@
         type(json_data_non_polymorphic) :: data
 
         !for the linked list:
-        type(json_value), pointer :: previous => null()
         type(json_value), pointer :: next => null()
         type(json_value), pointer :: parent => null()
         type(json_value), pointer :: children => null()
@@ -193,11 +192,7 @@
     !
     !  EXAMPLE
     !    type(json_file) :: json
-    !    integer :: ival
-    !    real(wp) :: rval
-    !    character(len=:),allocatable :: cval
-    !    logical :: found
-    !    call json%load_file(filename='myfile.json')
+    !    call json%load_file(filename)
     !    call json%print_file()
     !    call json%get('var.i',ival,found)
     !    call json%get('var.d',rval,found)
@@ -258,33 +253,12 @@
             integer,intent(in) :: count    !size of array
         end subroutine array_callback_func
     end interface
-
-	!*************************************************************************************
-	!****f* json_module/json_value_get
-	!
-	!  NAME
-	!    json_value_get
-	!
-	!  DESCRIPTION
-	!    Get a child, either by index or name string.
-	!
-	!  SOURCE
+    
     interface json_value_get           !consider renaming this json_value_get_child
         module procedure get_by_index
         module procedure get_by_name_chars
     end interface json_value_get
-	!*************************************************************************************
 
-	!*************************************************************************************
-	!****f* json_module/json_value_add
-	!
-	!  NAME
-	!    json_value_add
-	!
-	!  DESCRIPTION
-	!    Add objects to a linked list of json_values.
-	!
-	!  SOURCE
     interface json_value_add
         module procedure :: json_value_add_member
         module procedure :: json_value_add_integer, json_value_add_integer_vec
@@ -292,27 +266,15 @@
         module procedure :: json_value_add_logical, json_value_add_logical_vec
         module procedure :: json_value_add_string,  json_value_add_string_vec
     end interface json_value_add
-	!*************************************************************************************
     
-	!*************************************************************************************
-	!****f* json_module/json_get
-	!
-	!  NAME
-	!    json_get
-	!
-	!  DESCRIPTION
-	!    Get data from a json_value linked list.
-	!
-	!  SOURCE
     interface json_get
         module procedure :: json_get_by_path
         module procedure :: json_get_integer, json_get_integer_vec
-        module procedure :: json_get_double,  json_get_double_vec
+        module procedure :: json_get_double, json_get_double_vec
         module procedure :: json_get_logical, json_get_logical_vec
-        module procedure :: json_get_chars,   json_get_char_vec
+        module procedure :: json_get_chars, json_get_char_vec
         module procedure :: json_get_array
     end interface json_get
-	!*************************************************************************************
     
     interface json_print_to_string
         module procedure :: json_value_to_string
@@ -321,15 +283,10 @@
     interface json_destroy
         module procedure :: json_value_destroy
     end interface
-    
-    interface json_remove
-        module procedure :: json_value_remove
-    end interface
 
     !public routines:
     public :: json_initialize            !to initialize the module
     public :: json_destroy               !clear a JSON structure (destructor)
-    public :: json_remove                !remove from a JSON structure
     public :: json_parse                 !read a JSON file and populate the structure
     public :: json_clear_exceptions      !clear exceptions
     public :: json_check_for_errors      !check for error and get error message
@@ -351,15 +308,18 @@
     public :: to_object                  !
     public :: to_array                   !
     
+    public :: integer_to_string          !basic integer to string routine
+
     !exception handling [private variables]
     logical :: exception_thrown = .false.            !the error flag
     character(len=:),allocatable :: err_message      !the error message
+    logical,parameter :: print_tracebacks = .false.  !used when debugging
 
     ! POP/PUSH CHARACTER [private variables]
     integer :: char_count = 0
     integer :: line_count = 1
     integer :: pushed_index = 0
-    character(len=10) :: pushed_char    !JW : what is this magic number 10??
+    character (len = 10) :: pushed_char              !JW : what is this magic number 10??
 
     contains
 !*****************************************************************************************
@@ -673,6 +633,7 @@
     integer,dimension(:),allocatable,intent(out)    :: vec
     logical,intent(out),optional                    :: found
 
+
     call json_get(me%p, path, vec, found)
 
     end subroutine get_integer_vec_from_json_file
@@ -886,8 +847,7 @@
     implicit none
 
     !clear any errors from previous runs:
-!    call json_clear_exceptions()
-    exception_thrown = .false.
+    call json_clear_exceptions()
 
     !Just in case, clear these global variables also:
     pushed_index = 0
@@ -949,6 +909,17 @@
 
     exception_thrown = .true.
     err_message = trim(msg)
+
+    !if (print_tracebacks) then
+    !
+    !    !This is a feature of the Intel Fortran Compiler:
+    !    !Throw a traceback and return control to the user.
+    !    call tracebackqq(string=trim(msg), user_exit_code=-1)
+    !
+    !    !write(*,'(A)') trim(msg)        !gfortran version
+    !    !stop
+    !
+    !end if
 
     end subroutine throw_exception
 !*****************************************************************************************
@@ -1100,80 +1071,13 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* json_module/json_value_remove
-!
-!  NAME
-!    json_value_destroy
-!
-!  DESCRIPTION
-!    Remove and destroy a json_value (and all its children) 
-!        from a linked-list structure.
-!
-!  AUTHOR
-!    Jacob Williams : 9/9/2014
-!
-!  SOURCE
-
-    subroutine json_value_remove(me)
-
-    implicit none
-
-    type(json_value),pointer :: me
-    
-    type(json_value),pointer :: parent,previous,next
-    
-    if (associated(me)) then
-        if (associated(me%parent)) then
-            if (associated(me%next)) then
-        
-                !there are later items in the list:
-            
-                next => me%next
-                nullify(me%next)
-            
-                if (associated(me%previous)) then           
-                    !there are earlier items in the list
-                    previous => me%previous                
-                    previous%next => next
-                    next%previous => previous
-                else
-                    !this is the first item in the list
-                    parent => me%parent                    
-                    parent%children => next
-                    next%previous => null()
-                end if
-                
-            else
-            
-                if (associated(me%previous)) then
-                	!there are earlier items in the list:
-                    previous => me%previous 
-                    previous%next => null()  
-                else
-                	!this is the only item in the list:
-                    parent => me%parent 
-                    parent%children => null()                   
-                end if
-                
-            end if     
-                   
-        end if
-            
-        call json_value_destroy(me)
-
-    end if
-
-    end subroutine json_value_remove
-!*****************************************************************************************
-
-!*****************************************************************************************
 !****f* json_module/json_value_add_member
 !
 !  NAME
 !    json_value_add_member
 !
 !  DESCRIPTION
-!    Adds the member as a child of this.
+!    Adds the member to the linked list
 !
 !  SOURCE
 
@@ -1201,15 +1105,13 @@
                 p => p % next
             end do
 
-            p%next => member
-            member%previous => p
+            p % next => member
 
             nullify(p)    !cleanup
 
         else
 
-            this%children => member
-            member%previous => null()
+            this % children => member
 
         end if
 
