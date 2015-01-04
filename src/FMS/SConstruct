@@ -4,7 +4,7 @@
 
 import sys
 sys.path.append('..')
-from FeffBuild import CompilationEnvironment, InstallEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from   os.path   import realpath, join
 
 try:
@@ -13,9 +13,11 @@ except:
     env  = CompilationEnvironment()
 ienv = InstallEnvironment()
 
-lib_src = ('fmsie.f', 'fmspack.f', 'gglu.f', 'ggbi.f', 'ggrm.f', 'gggm.f', 'ggtf.f', 'yprep.f', 'xstaff.f')
+lib_src = ['fmsie.f', 'fmspack.f', 'gglu.f', 'ggbi.f', 'ggrm.f', 'gggm.f', 'ggtf.f', 'yprep.f', 'xstaff.f']
 
-env.SharedLibrary('libfefffms', lib_src)
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen', 'PAR/sequential', 'MATH/lu')
+
+env.SharedLibrary('libfefffms', lib_src + FindOtherObjects(deps, env))
 
 env.Depends('reafms'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
@@ -31,7 +33,7 @@ env.Depends('reafms'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfort
 #        LIBPATH = ['.', join('..','DEBYE'), join('..','COMMON'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
 
 
-env.Install(ienv['i_lib'], 'libfefffms.so')
+env.Install(ienv['i_lib'], 'libfefffms' + env['SHLIBSUFFIX'])
 #env.Install(ienv['i_bin'], 'fms')
 
 env.Alias('install', [ienv['i_lib'], ienv['i_bin']])

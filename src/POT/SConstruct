@@ -4,7 +4,7 @@
 
 import sys
 sys.path.append('..')
-from FeffBuild import CompilationEnvironment, InstallEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from   os.path   import realpath, join
 
 try:
@@ -19,7 +19,11 @@ bin_src = Split('ffmod1.f pot.f    scmtmp.f afolp.f broydn.f corval.f coulom.f f
                  grids.f  inipot.f istval.f moveh.f ovrlp.f  reapot.f rholie.f \
                  scmt.f   sumax.f  wpot.f   wrpot.f')
 
-env.SharedLibrary('libfeffint', lib_src)
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen', 'COMMON/padlib', 'COMMON/xx',
+        'PAR/sequential', 'MATH/terp', 'MATH/polint', 'MATH/somm2', 'MATH/dist', 'MATH/lu',
+        'EXCH/edp', 'EXCH/vbh')
+
+env.SharedLibrary('libfeffint', lib_src + FindOtherObjects(deps, env))
 
 env.Program('pot', bin_src,
             FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
@@ -30,7 +34,7 @@ env.Program('pot', bin_src,
 
 env.Depends('reapot'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
-env.Install(ienv['i_lib'], 'libfeffint.so')
+env.Install(ienv['i_lib'], 'libfeffint' + env['SHLIBSUFFIX'])
 env.Install(ienv['i_bin'], 'pot')
 
 env.Alias('install', [ienv['i_lib'], ienv['i_bin']])

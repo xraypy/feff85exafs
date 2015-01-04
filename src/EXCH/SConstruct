@@ -4,7 +4,7 @@
 
 import sys
 sys.path.append('..')
-from FeffBuild import CompilationEnvironment, InstallEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from   os.path   import realpath, join
 
 try:
@@ -16,8 +16,11 @@ ienv = InstallEnvironment()
 lib_src = Split('csigma.f  csigz.f  cubic.f  edp.f  ffq.f  fndsng.f  imhl.f  mpse.f \
                  qsorti.f  quinn.f  rhl.f  rhlbp.f  vbh.f  xcpot.f')
 
-env.SharedLibrary('libfeffexch', lib_src)
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/rdcmt', 'COMMON/pertab',
+        'COMMON/chopen', 'MATH/czeros', 'MATH/terp', 'MATH/polint', 'PAR/sequential')
 
-env.Install(ienv['i_lib'], 'libfeffexch.so')
+env.SharedLibrary('libfeffexch', lib_src + FindOtherObjects(deps, env))
+
+env.Install(ienv['i_lib'], 'libfeffexch' + env['SHLIBSUFFIX'])
 
 env.Alias('install', ienv['i_lib'])

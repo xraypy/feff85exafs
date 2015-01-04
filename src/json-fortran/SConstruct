@@ -39,5 +39,5 @@ else:
     libinstall = '/usr/local/lib'
     docinstall = '/usr/local/share/doc/json-fortran'
 
-env.Install(libinstall, [ar,mod])
-env.Alias('install', libinstall)
+# env.Install(libinstall, [ar,mod])
+# env.Alias('install', libinstall)

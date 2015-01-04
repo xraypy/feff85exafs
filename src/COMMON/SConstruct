@@ -4,7 +4,7 @@
 
 import sys
 sys.path.append('..')
-from FeffBuild import CompilationEnvironment, InstallEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from   os.path   import realpath, join
 
 try:
@@ -18,8 +18,10 @@ lib_src = Split('chopen.f  fixvar.f  head.f    itoken.f  pertab.f  rdcmt.f   rdx
                  str2dp.f  fixdsx.f  getxk.f   isnum.f   padlib.f  qsorti.f  rdpot.f   setkap.f \
                  wlog.f')
 
-env.SharedLibrary('libfeffcom', lib_src)
+deps = ('PAR/sequential', 'MATH/terp', 'MATH/polint')
 
-env.Install(ienv['i_lib'], 'libfeffcom.so')
+env.SharedLibrary('libfeffcom', lib_src + FindOtherObjects(deps, env))
+
+env.Install(ienv['i_lib'], 'libfeffcom' + env['SHLIBSUFFIX'])
 
 env.Alias('install', ienv['i_lib'])

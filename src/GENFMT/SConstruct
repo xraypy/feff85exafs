@@ -4,7 +4,7 @@
 
 import sys
 sys.path.append('..')
-from FeffBuild import CompilationEnvironment, InstallEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from distutils.spawn import find_executable
 import os, re
 from   os.path   import realpath, join, isdir
@@ -21,8 +21,13 @@ env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME'] = 1
 ## build libgenfmt: contains most of the functionality of genfmt
 lib_src = ['genfmt_prep.f', 'fmtrxi.f', 'mmtr.f', 'mmtrxi.f', 'import.f',
            'rot3i.f', 'sclmz.f', 'setlam.f', 'snlm.f', 'xstar.f', 'trig.f']
-env.SharedLibrary('libfeffgenfmt', lib_src)
-env.Install(ienv['i_lib'], 'libfeffgenfmt.so')
+
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/pertab', 'COMMON/getxk', 'COMMON/rdxsph',
+        'COMMON/setkap', 'COMMON/chopen', 'COMMON/padlib',
+        'PAR/sequential', 'MATH/trap', 'MATH/bcoef', 'MATH/cwig3j', 'MATH/rotwig')
+
+env.SharedLibrary('libfeffgenfmt', lib_src + FindOtherObjects(deps, env))
+env.Install(ienv['i_lib'], 'libfeffgenfmt' + env['SHLIBSUFFIX'])
 
 bin_src = ['ffmod5.f', 'genfmt.f', 'rdpath.f']
 env.Program('genfmt', ['regenf.f']+bin_src,
@@ -62,7 +67,7 @@ misc_feff = [join('..','COMMON','wlog'       + env['SHOBJSUFFIX']), # called ind
 
 onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
 env.SharedLibrary('libonepath', onepath_src + other_obj + lib_src + misc_feff)
-env.Install(ienv['i_lib'], 'libonepath.so')
+env.Install(ienv['i_lib'], 'libonepath' + env['SHLIBSUFFIX'])
 
 # env.Depends('read_onepath'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
@@ -72,7 +77,7 @@ env.Install(ienv['i_lib'], 'libonepath.so')
 env.SharedLibrary('libfeffpath', ['feffpath.c'] + onepath_src + other_obj + lib_src + misc_feff)
 
 
-env.Install(ienv['i_lib'], 'libfeffpath.so')
+env.Install(ienv['i_lib'], 'libfeffpath' + env['SHLIBSUFFIX'])
 
 
 
