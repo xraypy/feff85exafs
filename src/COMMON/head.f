@@ -45,15 +45,15 @@ c     Does not include line of dashes at the end.
       if (ntitle .ge. 1 ) then
          ii = istrln(title(1)) 
          if (ii.gt.1)  then
-            write(store,100)  title(1)(1:), vfeff
+            write(store,100)  title(1)(1:59), vfeff//vf85e
          else
-            write(store,102)  vfeff
+            write(store,102)  vfeff//vf85e
          endif
       else
-         write(store,102)   vfeff
+         write(store,102)   vfeff//vf85e
       endif
-  100 format( a55, t66, a12)
-  102 format( t66, a12)
+  100 format( a45, t48, a30)
+  102 format( t48, a30)
       title(1) = store
       nstor = 1
 

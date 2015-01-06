@@ -1,0 +1,16 @@
+## -*- python -*-
+
+from os.path import realpath, join
+
+env = Environment()
+
+## ------------------------------------------------------------------------------------------------------
+## build the test program for the C wrapper
+## Feff libraries should have already been installed
+env.Program('makepath', 'makepath.c',
+            CFLAGS = ['-g',],
+            LIBS = ['feffpath'])
+
+env.Program('errors', 'errors.c',
+            CFLAGS = ['-g',],
+            LIBS = ['feffpath'])

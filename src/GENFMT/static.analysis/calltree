@@ -1,0 +1,44 @@
+
+Tree of subprogram calls:
+FFMOD5
+    CHOPEN
+    GENFMT
+        ATSYM
+        CHOPEN
+        FMTRXI
+        GETXK
+        INIPTZ
+        ISTRLN
+        MMTR
+            BCOEF
+        MMTRXI
+        PIJUMP
+        RDHEAD
+        RDPATH
+            ARG
+            DIST
+            PAR_STOP
+            TRIG
+            WLOG
+        RDXSPH
+        ROT3I
+        SCLMZ
+        SETKAP
+        SETLAM
+            PAR_STOP
+            WLOG
+        SNLM
+            FACTST
+        TRAP
+        WLOG
+        WRPADD
+        WRPADX
+        WTHEAD
+        XSTAR
+            XXCOS
+            YSTAR
+    PAR_BARRIER
+    PAR_BEGIN
+    PAR_END
+    REGENF
+    WLOG

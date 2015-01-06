@@ -1,0 +1,130 @@
+graph: {
+title: "ffmod2.f"
+color: lightgray
+
+graph: {
+title:"[FFMOD2]"
+node: { title: "FFMOD2" label: "FFMOD2 \n (ffmod2.f)" info1:"1" }
+edge: { sourcename: "FFMOD2" targetname: "REXSPH" class:1} 
+edge: { sourcename: "FFMOD2" targetname: "XSPH" class:1} 
+
+graph: {
+title:"[REXSPH]"
+node: { title: "REXSPH" label: "REXSPH \n (rexsph.f)" info1:"2" }
+}
+
+graph: {
+title:"[XSPH]"
+node: { title: "XSPH" label: "XSPH \n (xsph.f)" info1:"2" }
+edge: { sourcename: "XSPH" targetname: "AXAFS" class:2} 
+edge: { sourcename: "XSPH" targetname: "GETEDG" class:2} 
+edge: { sourcename: "XSPH" targetname: "PHASE" class:2} 
+edge: { sourcename: "XSPH" targetname: "PHMESH" class:2} 
+edge: { sourcename: "XSPH" targetname: "SZLZ" class:2} 
+edge: { sourcename: "XSPH" targetname: "WPHASE" class:2} 
+edge: { sourcename: "XSPH" targetname: "WRXSPH" class:2} 
+edge: { sourcename: "XSPH" targetname: "XSECT" class:2} 
+
+graph: {
+title:"[AXAFS]"
+node: { title: "AXAFS" label: "AXAFS \n (axafs.f)" info1:"3" }
+}
+
+graph: {
+title:"[GETEDG]"
+node: { title: "GETEDG" label: "GETEDG \n (getedg.f)" info1:"3" }
+}
+
+graph: {
+title:"[PHASE]"
+node: { title: "PHASE" label: "PHASE \n (phase.f)" info1:"3" }
+}
+
+graph: {
+title:"[PHMESH]"
+node: { title: "PHMESH" label: "PHMESH \n (phmesh.f)" info1:"3" }
+}
+
+graph: {
+title:"[SZLZ]"
+node: { title: "SZLZ" label: "SZLZ \n (szlz.f)" info1:"3" }
+edge: { sourcename: "SZLZ" targetname: "ACOEF" class:3} 
+edge: { sourcename: "SZLZ" targetname: "FMSSZ" class:3} 
+edge: { sourcename: "SZLZ" targetname: "KFROMI" class:3} 
+edge: { sourcename: "SZLZ" targetname: "RHOLAT" class:3} 
+edge: { sourcename: "SZLZ" targetname: "RHOLSZ" class:3} 
+
+graph: {
+title:"[ACOEF]"
+node: { title: "ACOEF" label: "ACOEF \n (acoef.f)" info1:"4" }
+edge: { sourcename: "ACOEF" targetname: "KFROMI" class:4} 
+
+graph: {
+title:"[KFROMI]"
+node: { title: "KFROMI" label: "KFROMI \n (acoef.f)" info1:"5" }
+}
+}
+
+graph: {
+title:"[FMSSZ]"
+node: { title: "FMSSZ" label: "FMSSZ \n (fmssz.f)" info1:"4" }
+}
+
+graph: {
+title:"[RHOLAT]"
+node: { title: "RHOLAT" label: "RHOLAT \n (rholat.f)" info1:"4" }
+}
+
+graph: {
+title:"[RHOLSZ]"
+node: { title: "RHOLSZ" label: "RHOLSZ \n (rholsz.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[WPHASE]"
+node: { title: "WPHASE" label: "WPHASE \n (wphase.f)" info1:"3" }
+}
+
+graph: {
+title:"[WRXSPH]"
+node: { title: "WRXSPH" label: "WRXSPH \n (wrxsph.f)" info1:"3" }
+}
+
+graph: {
+title:"[XSECT]"
+node: { title: "XSECT" label: "XSECT \n (xsect.f)" info1:"3" }
+edge: { sourcename: "XSECT" targetname: "RADINT" class:3} 
+
+graph: {
+title:"[RADINT]"
+node: { title: "RADINT" label: "RADINT \n (radint.f)" info1:"4" }
+edge: { sourcename: "RADINT" targetname: "XMULT" class:4} 
+edge: { sourcename: "RADINT" targetname: "XRCI" class:4} 
+
+graph: {
+title:"[XMULT]"
+node: { title: "XMULT" label: "XMULT \n (xmult.f)" info1:"5" }
+edge: { sourcename: "XMULT" targetname: "NINEJ" class:5} 
+
+graph: {
+title:"[NINEJ]"
+node: { title: "NINEJ" label: "NINEJ \n (xmult.f)" info1:"6" }
+edge: { sourcename: "NINEJ" targetname: "SIXJ" class:6} 
+
+graph: {
+title:"[SIXJ]"
+node: { title: "SIXJ" label: "SIXJ \n (xmult.f)" info1:"7" }
+}
+}
+}
+
+graph: {
+title:"[XRCI]"
+node: { title: "XRCI" label: "XRCI \n (radint.f)" info1:"5" }
+}
+}
+}
+}
+}
+}

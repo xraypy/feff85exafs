@@ -1,7 +1,17 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
+from   os.path   import realpath, join
+
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = Split('istprm.f movrlp.f ovp2mt.f fermi.f sidx.f')
 
@@ -9,8 +19,22 @@ bin_src = Split('ffmod1.f pot.f    scmtmp.f afolp.f broydn.f corval.f coulom.f f
                  grids.f  inipot.f istval.f moveh.f ovrlp.f  reapot.f rholie.f \
                  scmt.f   sumax.f  wpot.f   wrpot.f')
 
-env.StaticLibrary('libint', lib_src)
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen', 'COMMON/padlib', 'COMMON/xx',
+        'PAR/sequential', 'MATH/terp', 'MATH/polint', 'MATH/somm2', 'MATH/dist', 'MATH/lu',
+        'EXCH/edp', 'EXCH/vbh')
+
+env.SharedLibrary('libfeffint', lib_src + FindOtherObjects(deps, env))
 
 env.Program('pot', bin_src,
-        LIBS = ['pha', 'atom', 'int', 'feffcom', 'feffmath', 'exch', 'fms', 'feffpar'], \
-        LIBPATH = ['.', '../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../PAR'])
+            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
+            OBJSUFFIX = env['SHOBJSUFFIX'],
+            LIBS = ['feffpha', 'feffatom', 'feffint', 'feffcom', 'feffmath', 'jsonfortran', 'feffjson', 'feffexch', 'fefffms', 'feffpar'], \
+            LIBPATH = ['.', join('..','COMMON'), join('..','MATH'), join('..','json-fortran'), join('..','JSON'), join('..','ATOM'),
+                       join('..','EXCH'), join('..','FOVRG'), join('..','FMS'), join('..','PAR')])
+
+env.Depends('reapot'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+
+env.Install(ienv['i_lib'], 'libfeffint' + env['SHLIBSUFFIX'])
+env.Install(ienv['i_bin'], 'pot')
+
+env.Alias('install', [ienv['i_lib'], ienv['i_bin']])

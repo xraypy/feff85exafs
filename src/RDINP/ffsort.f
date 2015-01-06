@@ -1,4 +1,5 @@
       subroutine ffsort (iabs,doptz)
+
 c KJ 1-06 : I added second input argument doptz      
       implicit double precision (a-h, o-z)
 
@@ -12,20 +13,21 @@ c      modified by a.l.ankudinov, march 2001 for new i/o structure
       include '../HEADERS/dim.h'
       include '../HEADERS/vers.h'
       include '../HEADERS/parallel.h'
+      include '../RDINP/allinp.h'
 
 cc    INPUT
 cc    atoms.dat
-        integer  natt
-        integer iphatx(nattx)
-        double precision  ratx(3,nattx)
+c--allinp--        integer  natt
+c--allinp--        integer iphatx(nattx)
+c--allinp--        double precision  ratx(3,nattx)
         logical doptz  !KJ 1-06 : call mkptz or not?    
 cc    global.dat
 c       configuration average
-        integer nabs, iphabs
+c--allinp--        integer nabs, iphabs
 c       global polarization data
-        integer  ipol, ispin, le2
-        double precision evec(3), xivec(3), spvec(3), elpty,angks,rclabs
-        complex*16 ptz(-1:1, -1:1)
+c--allinp--        integer  ipol, ispin, le2
+c--allinp--        double precision evec(3), xivec(3), spvec(3), elpty,angks,rclabs
+c--allinp--        complex*16 ptz(-1:1, -1:1)
 cc    OUTPUT: geom.dat
         integer  nat
         integer iatph(0:nphx), iphat(natx), index(natx)
@@ -40,44 +42,50 @@ c     Local stuff
 c     if (worker) go to 400
 
 c     standard formats for string, integers and real numbers
-  10  format(a)
-  20  format (20i4)
-  30  format (6f13.5)
+c  10  format(a)
+c  20  format (20i4)
+c  30  format (6f13.5)
 
-cc    read atoms.dat file
-      open (file='atoms.dat', unit=3, status='old',iostat=ios)
-        read(3, 35) slog, natt
-  35    format (a8, i7)
-        read  (3, 10) slog
-        do 40  iat = 1, natt
-          read (3,36) ratx(1,iat), ratx(2,iat), ratx(3,iat), iphatx(iat)
-  36      format( 3f13.5, i4)
-  40    continue
-      close(3)
+c--json--cc    read atoms.dat file
+c--json--      open (file='atoms.dat', unit=3, status='old',iostat=ios)
+c--json--        read(3, 35) slog, natt
+c--json--  35    format (a8, i7)
+c--json--        read  (3, 10) slog
+c--json--        do 40  iat = 1, natt
+c--json--          read (3,36) ratx(1,iat), ratx(2,iat), ratx(3,iat), iphatx(iat)
+c--json--  36      format( 3f13.5, i4)
+c--json--  40    continue
+c--json--      close(3)
 
-c     read global.inp
-c     CFAVERAGE iphabs nabs rclabs
-        open (file='global.dat', unit=3, status='old',iostat=ios)
-        call chopen (ios, 'global.inp', 'ffsort')
-        read (3, 10) slog
-        read (3, 45) nabs, iphabs, rclabs
-  45    format ( 2i8, f13.5)
-c       global polarization data
-        read  (3,10) slog
-        read  (3, 50)  ipol, ispin, le2, elpty, angks
-  50    format ( 3i5, 2f12.4)
-        read  (3, 10) slog
-        do 60 i = 1,3
-          read  (3,30) evec(i), xivec(i), spvec(i)
-  60    continue
-        read  (3, 10) slog
-        do 70 i = -1, 1
-          read (3,30) a1, b1, a2, b2, a3, b3
-          ptz(-1,i)= cmplx(a1,b1) 
-          ptz(0,i) = cmplx(a2,b2) 
-          ptz(1,i) = cmplx(a3,b3) 
-  70    continue
-      close(3)
+c  45    format ( 2i8, f13.5)
+c  50    format ( 3i5, 2f12.4)
+c--json--c     read global.inp
+c--json--c     CFAVERAGE iphabs nabs rclabs
+c--json--        open (file='global.dat', unit=3, status='old',iostat=ios)
+c--json--        call chopen (ios, 'global.inp', 'ffsort')
+c--json--        read (3, 10) slog
+c--json--        read (3, 45) nabs, iphabs, rclabs
+c--json--c       global polarization data
+c--json--        read  (3,10) slog
+c--json--        read  (3, 50)  ipol, ispin, le2, elpty, angks
+c--json--        read  (3, 10) slog
+c--json--        do 60 i = 1,3
+c--json--          read  (3,30) evec(i), xivec(i), spvec(i)
+c--json--  60    continue
+c--json--        read  (3, 10) slog
+c--json--        do 70 i = -1, 1
+c--json--          read (3,30) a1, b1, a2, b2, a3, b3
+c--json--          ptz(-1,i)= dcmplx(a1,b1) 
+c--json--          ptz(0,i) = dcmplx(a2,b2) 
+c--json--          ptz(1,i) = dcmplx(a3,b3) 
+c--json--  70    continue
+c--json--      close(3)
+
+      call json_read_atoms(natt, ratx, iphatx)
+
+      call json_read_global(nabs, iphabs, rclabs, ipol, ispin, le2,
+     1                      elpty, angks, evec, xivec, spvec, ptz)
+
 
 c     Find the first absorber (iphabs type) in a long list (iabs.le.0),
 c     or find iabs-th atom in the list of type iphabs (iabs.gt.0)
@@ -175,24 +183,28 @@ c     make polarization tensor when z-axis is along k-vector
       if (doptz)  !KJ I added this if-statement 1-06
      1  call mkptz( ipol, elpty, evec, xivec, ispin, spvec, nat, rat,
      2           angks, le2, ptz)
-c     rewrite global.inp for initial iteration to update 'ptz'
-      open (file='global.dat', unit=3, status='unknown',iostat=ios)
-c       configuration average data
-        write (3, 10) ' nabs, iphabs - CFAVERAGE data'
-        write (3, 45) nabs, iphabs, rclabs
-c       global polarization data
-        write (3,10) ' ipol, ispin, le2, elpty, angks'
-        write (3, 50)  ipol, ispin, le2, elpty, angks
-        write (3, 10) 'evec         xivec        spvec'
-        do 360 i = 1,3
-          write (3,30) evec(i), xivec(i), spvec(i)
- 360    continue
-        write (3, 10) ' polarization tensor '
-        do 370 i = -1, 1
-          write(3,30) dble(ptz(-1,i)), dimag(ptz(-1,i)), dble(ptz(0,i)),
-     1                dimag(ptz(0,i)),  dble(ptz(1,i)), dimag(ptz(1,i))
- 370    continue
-      close(3)
+c     rewrite global.json for initial iteration to update 'ptz'
+      call json_global(nabs)
+
+c--json--c     rewrite global.inp for initial iteration to update 'ptz'
+c--json--      open (file='global.dat', unit=3, status='unknown',iostat=ios)
+c--json--c       configuration average data
+c--json--        write (3, 10) ' nabs, iphabs - CFAVERAGE data'
+c--json--        write (3, 45) nabs, iphabs, rclabs
+c--json--c       global polarization data
+c--json--        write (3,10) ' ipol, ispin, le2, elpty, angks'
+c--json--        write (3, 50)  ipol, ispin, le2, elpty, angks
+c--json--        write (3, 10) 'evec         xivec        spvec'
+c--json--        do 360 i = 1,3
+c--json--          write (3,30) evec(i), xivec(i), spvec(i)
+c--json-- 360    continue
+c--json--        write (3, 10) ' polarization tensor '
+c--json--        do 370 i = -1, 1
+c--json--          write(3,30) dble(ptz(-1,i)), dimag(ptz(-1,i)), dble(ptz(0,i)),
+c--json--     1                dimag(ptz(0,i)),  dble(ptz(1,i)), dimag(ptz(1,i))
+c--json-- 370    continue
+c--json--      close(3)
+
 c     Find model atoms for unique pots that have them
 c     Use atom closest to absorber for model
       do 316  iph = 1, nphx
@@ -238,21 +250,22 @@ c     Check if 2 atoms are closer together than 1.75 bohr (~.93 Ang)
   470    continue
   480 continue
 
-c     Write output geom.dat
-      open (file='geom.dat', unit=3, status='unknown',iostat=ios)
-        write (3,535) nat, nph
-  535   format ('nat, nph = ', 2i5)
-        write (3,516) (iatph(iph), iph=0,nph)
-  516   format(16i5)
-        write (3, 10) ' iat     x       y        z       iph  '
-        write (3, 526)
-  526   format (1x, 71('-'))
-        ibounc = 1
-        do 540  i = 1, nat
-          write(3,536) i, rat(1,i), rat(2,i), rat(3,i), iphat(i), ibounc
-  536     format(i4, 3f13.5, 2i4)
-  540   continue
-      close(3)
+c--json--c     Write output geom.dat
+c--json--      open (file='geom.dat', unit=3, status='unknown',iostat=ios)
+c--json--        write (3,535) nat, nph
+c--json--  535   format ('nat, nph = ', 2i5)
+c--json--        write (3,516) (iatph(iph), iph=0,nph)
+c--json--  516   format(16i5)
+c--json--        write (3, 10) ' iat     x       y        z       iph  '
+c--json--        write (3, 526)
+c--json--  526   format (1x, 71('-'))
+c--json--        ibounc = 1
+c--json--        do 540  i = 1, nat
+c--json--          write(3,536) i, rat(1,i), rat(2,i), rat(3,i), iphat(i), ibounc
+c--json--  536     format(i4, 3f13.5, 2i4)
+c--json--  540   continue
+c--json--      close(3)
+      call json_geom(iatph,rat,iphat)
 
 c     Atoms for the pathfinder
       if (iatabs .le. 0)  then

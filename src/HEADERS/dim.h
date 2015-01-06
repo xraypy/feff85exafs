@@ -1,3 +1,4 @@
+C -*-fortran-*-
 c      maximum number of atoms for FMS. Reduce nclusx if you need
 c      smaller executable.
       integer nclusx
@@ -30,7 +31,7 @@ c      Loucks r grid used through overlap and in phase work arrays
 c      Number of energy points genfmt, etc.
       integer nex
       parameter (nex = 150)
-c      Max number of distinct lambda's for genfmt
+c      Max number of distinct lambda values for genfmt
 c      15 handles iord 2 and exact ss
       integer lamtot
       parameter (lamtot=15)

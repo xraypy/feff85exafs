@@ -1,11 +1,32 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
+from   os.path   import realpath, join
+
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+ienv = InstallEnvironment()
+
+## Quiet compiler warnings on LAPACK and other well-tested files
+flags = env['FORTRANFLAGS']
+env['FORTRANFLAGS'] = flags.replace('-Wall', '')
 
 lib_src = Split('bcoef.f   besjn.f   conv.f    csomm.f   cwig3j.f  determ.f  exjlnl.f  phamp.f \
                  quartc.f  sdist.f   somm2.f   terp.f    trap.f    besjh.f   bjnser.f  cpl0.f  \
                  csomm2.f  czeros.f  dist.f    lu.f      polint.f  rotwig.f  somm.f    strap.f \
                  terpc.f')
 
-env.StaticLibrary('libfeffmath', lib_src)
+
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen', 'PAR/sequential')
+
+env.SharedLibrary('libfeffmath', lib_src + FindOtherObjects(deps, env))
+
+env.Install(ienv['i_lib'], 'libfeffmath' + env['SHLIBSUFFIX'])
+
+env.Alias('install', ienv['i_lib'])

@@ -1,7 +1,7 @@
       subroutine ff2afs (ipr4, idwopt, critcw, s02, sig2g,
      1                   tk, thetad, mbconv, absolu,  !KJ added absolu 4-06
      1                   vrcorr, vicorr, alphat, thetae, iabs, nabs,
-     4            elnes,ipmin,ipmax,ipstep)   !KJ added this line  4-06
+     4            ipmin,ipmax,ipstep)   !KJ added this line  4-06
 c     calculate anomalous scattering amplitude for a given edge
 c     Writes down main output: chi.dat and xmu.dat
       implicit double precision (a-h, o-z)
@@ -9,7 +9,7 @@ c     Writes down main output: chi.dat and xmu.dat
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
       parameter (eps4 = 1.0e-4)
-      integer ipmin,ipmax,ipstep,elnes !KJ my variables  4-06    
+      integer ipmin,ipmax,ipstep !KJ my variables  4-06    
       integer absolu !KJ 4-06  
 
 
@@ -34,7 +34,7 @@ c     to keep Im part of cchi 11.18.97 ala
       character*2 coment
       parameter (coment='# ')
 
-c     Stuff from feff.bin, note that floating point numbers are
+c     Stuff from feff.pad, note that floating point numbers are
 c     single precision.  Be careful throughout this routine, especially
 c     when passing things to subroutines or intrinsic functions.
       real rnrmav, xmu, edge
@@ -100,7 +100,7 @@ c     get gtr - result of FMS
 
 
 c !KJ loop over iip added to process several spectra at once  4-06
-c !KJ reading of feff.bin and list.dat moved inside the loop (used to be before reading
+c !KJ reading of feff.pad and list.dat moved inside the loop (used to be before reading
 c !KJ xsect.bin      
       do iip=ipmin,ipmax,ipstep
         cross=(.not.(iip.eq.1.or.iip.eq.10.or.iip.eq.5.or.iip.eq.9))
@@ -109,7 +109,7 @@ c !KJ choose different filename for each spectrum.
         if(iip.eq.1) then
            f1(1:9)='chi.dat  '
            f2(1:9)='xmu.dat  '
-           f0(1:10)='feff.bin  '
+           f0(1:10)='feff.pad  '
            f3(1:10)='list.dat  '
         elseif(iip.eq.10) then
            f1(1:9)='chi10.dat'
@@ -159,13 +159,13 @@ c       ip is index of path, sig2u is debye-waller from user
 
 c     lines below allow to skip FMS module for DANES 
 c     after XANES calculations
-      open (unit=1, file='phase.bin', status='old', iostat=ios)
+      open (unit=1, file='phase.pad', status='old', iostat=ios)
       if (ios.le.0) then
         read(1,*) ne3, ne3, ne3, ne3
       endif
       close (unit=1)
 
-       call rdfbin (f0, nphx, nex, npx, legtot,   !KJ changed 'feff.bin' to f0  4-06
+       call rdfbin (f0, nphx, nex, npx, legtot,   !KJ changed 'feff.pad' to f0  4-06
      $     nptot, ne, npot, ihole, iorder, ilinit, 
      $     rnrmav, xmu, edge, potlbl, iz, phc, ck, xk,
      $     index, nleg, deg, reff,
@@ -193,10 +193,10 @@ c     make combined title
 
 c     write feffnnnn.dat
       if (ipr4.eq.3) then
-         call feffdt(ntotal,ip,nptot,ntitle,title,ne,npot,
-     $        ihole, iorder, ilinit, rnrmav, xmu, edge, potlbl,
+         call feffdt(ntotal,ip,nptot,ntitle,title,ne,
+     $        iorder, ilinit, rnrmav, edge, potlbl,
      $        iz,phc,ck,xk,index,
-     $        nleg,deg,nepts,reff,crit,ipot,rat,achi,phchi)
+     $        nleg,deg,reff,crit,ipot,rat,achi,phchi)
        end if
 
 c     If there is a vicorr, will need a mean free path factor xlam0.
@@ -208,7 +208,7 @@ c     ckp is ck' = ck prime.
             xlam0 = aimag(ck(ie)) - dimag(ckp)
             do 170  ipath = 1, nptot
                achi(ie,ipath) = achi(ie,ipath) * 
-     1               exp (2 * reff(ipath) * xlam0)
+     1               real(exp (2 * reff(ipath) * xlam0))
   170       continue
   180    continue
       endif
@@ -220,7 +220,7 @@ c           interpolations with original grid.
 
 c     vrcorr shifts the edge and the k grid
       if (abs(vrcorr) .gt. eps4)  then
-         edge = edge - vrcorr
+         edge = edge - real(vrcorr)
       endif
 
 c     ik0 is index at fermi level
@@ -312,11 +312,11 @@ c     read or initialize chia - result of configuration average
       endif
 
       if(iabs.eq.1) then
-c        compare grids in xsect.bin and feff.bin
+c        compare grids in xsect.bin and feff.pad
          do 680 i = 1, nxsec
            del = xk(i)**2 - xkxs(i)**2
            if (abs(del) .gt.  10*eps4)  then
-             call wlog(' Emesh in feff.bin and xsect.bin different.')
+             call wlog(' Emesh in feff.pad and xsect.bin different.')
 c            stop 
            endif
   680    continue

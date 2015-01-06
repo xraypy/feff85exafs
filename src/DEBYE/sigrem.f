@@ -122,18 +122,18 @@ c Integration parameters:
       dt=2.*pi/wmaxx/15.
 c top limit in t integration:
       cutoff=2.*sqrt(2.*acut)/res/wmaxx 
-      nstep=cutoff/dt
+      nstep=int(cutoff/dt)
       xlam=acut/(cutoff)**2
       wl=0.0000001
 c top limit in w integration:
       wm=wmax*wmaxx 
       dw=0.01 
-      nw=(wm-wl)/dw + 1
+      nw=int((wm-wl)/dw) + 1
       if (nw .gt. nwx) then
           nw = nwx
           dw = (wm-wl)/(nw -1)
       endif
-      nfit = dosfit*nw/20.
+      nfit = int(dosfit*nw/20.)
 
       endif
 c------------------------------------
@@ -165,7 +165,7 @@ c        read(2,*,end=1010) (rat(j,ileg),j=1,3)
          rat(n,1)=aa
   88  continue
       do 89 i=1,nleg
-         nq0(i)=0.
+         nq0(i)=0
   89  continue
 
 c nconv converts # of an atom in the nleg list of coordinates (rat) to
@@ -459,6 +459,7 @@ c     Local stuff
       parameter (big = 1.0e5)
       character*512 slog
 
+      iat0 = 0
    10 format (a)
    20 format (bn, i15)
    30 format (bn, f15.0)
@@ -744,6 +745,8 @@ c local variables:
 
       logical iscomm
 
+      ix=0
+      jx=0
    10 format (a)
    20 format (bn, i15)
    30 format (bn, f15.0)
@@ -1468,7 +1471,7 @@ c        read(2,*,end=1010) (rat(j,ileg),j=1,3)
          rat(n,1)=aa
   88  continue
       do 89 i=1,nleg
-         nq0(i)=0.
+         nq0(i)=0
   89  continue
 
 c nconv converts # of an atom in the nleg list of coordinates (rat) to

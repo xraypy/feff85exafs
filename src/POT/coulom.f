@@ -40,7 +40,7 @@ c     make  radial grid with 0.05 step
         if (icoul.eq. 1) then
 c         find the change of coulomb potential at norman radius for
 c         each type of iph
-          jnrm = (log(rnrm(ip)) + 8.8) / 0.05  +  2
+          jnrm = int((log(rnrm(ip)) + 8.8) / 0.05)  +  2
           dvnrm = dq(ip) / rnrm(ip)
           iat0 = iatph(ip)
           do 570 iat=1,nat
@@ -83,7 +83,7 @@ c         out the Madelung constants (icoul=2 optinon to be done later).
   710     drho(i) = edens(i,ip) - edenvl (i,ip) +rhoval(i,ip)
           call frnrm (drho, iz(ip), rnrm2)
           rmin = min (rnrm1, rnrm2)
-          inrm = (log(rmin) + 8.8) / 0.05  +  1
+          inrm = int((log(rmin) + 8.8) / 0.05)  +  1
           r0 = ri05(inrm)
 
           delv = 0.d0

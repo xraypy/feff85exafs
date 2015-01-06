@@ -1,4 +1,4 @@
-      subroutine fmssz( iph0, ie, em, eref, ph, iz, nph,
+      subroutine fmssz( iph0, ie, em, eref, ph, nph,
      1           rfms, lfms, nat, iphat, rath, amat, lipotx, gctr, gtr)
 c     uses Bruce Ravel subroutine to do FMS in self-consistency loop
 c     written by alexei ankudinov 06.1997
@@ -11,11 +11,11 @@ c     input
       real rat(3,natx), rfms
       real rpart,aipart
       integer nph
-      dimension iz(0:nphx)
+c      dimension iz(0:nphx)
 
 c     work space
       complex*16 ph(lx+1, 0:nphx)
-      integer iph
+c      integer iph
       complex*16 em, eref
       character*512 slog
 c     fms staff
@@ -45,8 +45,7 @@ c       transform to single precision
 c       it will be nice to call yprep once for all energy points,
 c       fix later, and now call it every time
         if (ie.eq.1 .or. lfms.eq.0) 
-     1    call yprep(iph0, nat, inclus, nph, iphat, rfms, rat,
-     2       iz, rdirec)
+     1    call yprep(iph0, nat, inclus, iphat, rfms, rat)
 
         if (inclus.gt.1) then
 cc        call fms for a cluster around central atom

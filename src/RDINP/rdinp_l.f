@@ -29,18 +29,20 @@ c     Local stuff
       parameter (nwordx = 20)
       character*20 words(nwordx)
       integer iatph(0:nphx)
-      integer icnt  !KJ 1-06 this is just a local index that doesn't need to be saved
+      integer icnt  !KJ 1-06 this is just a local index that does not need to be saved
 
       parameter (nbr=30)
       logical nogeom
       parameter (big = 1.0e5)
       character*512 slog
-      character*12 tmpstr
+      character*38 tmpstr
       logical ceels  !KJ for monolithic version 5-6
 
       external dist
 
-   10 format (a)
+      icnt = 0
+
+c   10 format (a)
    20 format (bn, i15)
    30 format (bn, f15.0)
 
@@ -51,7 +53,7 @@ c     open the log file, unit 11.  See subroutine wlog.
       open (unit=11, file='log.dat', status='unknown', iostat=ios)
       call chopen (ios, 'log.dat', 'feff')
 
-      tmpstr = vfeff
+      tmpstr = vfeff // 'release '//vf85e
       call triml (tmpstr)
       call wlog(' ' // tmpstr)
 
@@ -315,13 +317,13 @@ c              SS index ipot deg rss
             elseif (itok .eq. 13)  then
 c              PRINT  ipr1  ipr2  ipr3  ipr4 ipr5 ipr6
 c              print flags for various modules
-c              ipr1 potph  0 pot.bin only
+c              ipr1 potph  0 pot.pad only
 c                          1 add misc.dat
 c                          2 add pot.dat
 c                          5 add atom.dat
 c                          6 add central atom dirac stuff
 c                          7 stop after doing central atom dirac stuff
-c              ipr2 xsph   0 phase.bin only
+c              ipr2 xsph   0 phase.pad only
 c                          2 add  phase.dat
 c                          3 add  emesh.dat
 c              ipr3 fmstot  currently is dummy
@@ -718,7 +720,7 @@ c              Change mode and process current card.
             endif
 c           No potential label if user didn't give us one
 c           Default set above is potlbl=' '
-            if (nwords .ge. 3)  potlbl(iph) = words(3)
+            if (nwords .ge. 3)  potlbl(iph) = words(3)(1:6)
             if (nwords .ge. 4)  then
               read(words(4),20,err=900) ltmp
               if (ltmp.ge.1 .and. ltmp.le.lx) lmaxsc(iph) = ltmp
@@ -1000,7 +1002,7 @@ c     Set rmax if necessary
       if (rmax.le.0 .and. nss.le.0 .and. ispec.le.0)  then
 c        set to min (2+ times ratmin, ratmax) (magic numbers to
 c        avoid roundoff, note that rmax is single precision).
-         rmax = min (2.2 * ratmin, 1.01 * ratmax)
+         rmax = min (2.2 * real(ratmin), 1.01 * real(ratmax))
       endif
 
 c     Set core hole lifetime (central atom quantity) and s02
@@ -1010,8 +1012,8 @@ c     Set core hole lifetime (central atom quantity) and s02
 
 c     Convert everything to code units, and use rmult factor
 c     rmax is for pathfinder, so leave it in Ang.
-      rmax = rmax * rmult
-      rfms1 = rfms1 * rmult 
+      rmax = rmax * real(rmult)
+      rfms1 = rfms1 * real(rmult)
       rfms2 = rfms2 * rmult 
       totvol = totvol * rmult**3
 c     Use rmult factor.  Leave distances in Ang.
@@ -1066,7 +1068,8 @@ c       no SCF loop
       nttl = ntitle
 
 c     write atoms.dat, global.inp, modN.inp and ldos.inp
-      call wrtall (nabs)
+c      call wrtall (nabs)
+      call wrtjsn (nabs)
 
 c     In case of OVERLAP and SS calculateions write 'paths.dat'
 c     without invoking the pathfinder. Single scattering paths only.
@@ -1105,7 +1108,7 @@ c              NB, rmax and rss are in angstroms
          call wlog(' ' // title(i)(1:ltit(i)))
   120 continue
 
-c     if user doesn't want geom.dat, don't do it
+c     if user does not want geom.dat, don't do it
       if (nogeom)  then
 c        don't delete geom.dat when done with it either...
          if (ipr4 .lt. 2)  ipr4 = 2
@@ -1114,7 +1117,7 @@ c        don't delete geom.dat when done with it either...
       else
 c       temporarily call ffsort. here
         iabs = 1
-c !KJ 1-06 : If the user does EELS and doesn't calculate cross terms for an
+c !KJ 1-06 : If the user does EELS and does not calculate cross terms for an
 c       orientation sensitive calculation, FEFF mustn't change the
 c       coordinate system, as this would lead to the appearance of
 c       cross terms after all.  Therefore, I added an argument to the

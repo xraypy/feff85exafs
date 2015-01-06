@@ -1,0 +1,32 @@
+#+TITLE: feff85exafs to do list
+#+AUTHOR: Bruce Ravel
+#+STARTUP: showall
+
+
+* The feff85exafs to do list
+
+** feffpath library [9/9]
+
+ 1. [X] write header into ~f3ffNNNN.dat~ files
+ 2. [X] deg --> degen to match larch's _feffdat group
+ 3. [X] use polarization correctly in feffpath library (fix
+    test_materials.py around line 56)
+ 4. [X] +capture rat and ipot from STRUCT+, accumulate ipot and rat
+    wrappers as part of call to add_scatterer, also geom for python wrapper
+ 5. [X] capture a list of Z numbers so ipots can be readily translated
+    to atomic species
+ 6. [X] capture header information in C struct, propagated into wrappers
+ 7. [X] check for existance/readability of phase.pad at level of
+    feffpath.c
+ 8. [X] python wrapper / Larch plugin
+ 9. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
+
+** big jobs [0/5]
+
+ 1. [ ] build on Windows and Mac
+ 2. [ ] make scatteringpath a drop in replacement for feffdat
+ 3. [ ] nosetests on result of scatteringpath with nnnn=False
+ 4. [ ] fit with different feff versions -- comparison framework
+ 5. [ ] library for encapsolating generation of ~phase.pad~
+    * capture information about muffin tin radii, norman radii,
+      ionization, a lá Larch _feffdat's potentials attribute

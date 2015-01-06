@@ -1,0 +1,537 @@
+graph: {
+title: "bcoef.f"
+color: lightgray
+
+graph: {
+title:"[BCOEF]"
+node: { title: "BCOEF" label: "BCOEF \n (bcoef.f)" info1:"1" }
+edge: { sourcename: "BCOEF" targetname: "CWIG3J" class:1} 
+edge: { sourcename: "BCOEF" targetname: "ROTWIG" class:1} 
+
+graph: {
+title:"[CWIG3J]"
+node: { title: "CWIG3J" label: "CWIG3J \n (cwig3j.f)" info1:"2" }
+}
+
+graph: {
+title:"[ROTWIG]"
+node: { title: "ROTWIG" label: "ROTWIG \n (rotwig.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[BESJH]"
+node: { title: "BESJH" label: "BESJH \n (besjh.f)" info1:"1" }
+edge: { sourcename: "BESJH" targetname: "BJNSER" class:1} 
+
+graph: {
+title:"[BJNSER]"
+node: { title: "BJNSER" label: "BJNSER \n (bjnser.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[BESJN]"
+node: { title: "BESJN" label: "BESJN \n (besjn.f)" info1:"1" }
+edge: { sourcename: "BESJN" targetname: "BJNSER" class:1} 
+}
+
+graph: {
+title:"[CONV]"
+node: { title: "CONV" label: "CONV \n (conv.f)" info1:"1" }
+edge: { sourcename: "CONV" targetname: "CONV1" class:1} 
+
+graph: {
+title:"[CONV1]"
+node: { title: "CONV1" label: "CONV1 \n (conv.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[CPL0]"
+node: { title: "CPL0" label: "CPL0 \n (cpl0.f)" info1:"1" }
+}
+
+graph: {
+title:"[CSOMM2]"
+node: { title: "CSOMM2" label: "CSOMM2 \n (csomm2.f)" info1:"1" }
+}
+
+graph: {
+title:"[CSOMM]"
+node: { title: "CSOMM" label: "CSOMM \n (csomm.f)" info1:"1" }
+}
+
+graph: {
+title:"[CCUBIC]"
+node: { title: "CCUBIC" label: "CCUBIC \n (czeros.f)" info1:"1" }
+edge: { sourcename: "CCUBIC" targetname: "CQDRTC" class:1} 
+
+graph: {
+title:"[CQDRTC]"
+node: { title: "CQDRTC" label: "CQDRTC \n (czeros.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[DETERM]"
+node: { title: "DETERM" label: "DETERM \n (determ.f)" info1:"1" }
+}
+
+graph: {
+title:"[DIST]"
+node: { title: "DIST" label: "DIST \n (dist.f)" info1:"1" }
+}
+
+graph: {
+title:"[EXJLNL]"
+node: { title: "EXJLNL" label: "EXJLNL \n (exjlnl.f)" info1:"1" }
+edge: { sourcename: "EXJLNL" targetname: "BJNSER" class:1} 
+}
+
+graph: {
+title:"[CGETRF]"
+node: { title: "CGETRF" label: "CGETRF \n (lu.f)" info1:"1" }
+edge: { sourcename: "CGETRF" targetname: "CGEMM" class:1} 
+edge: { sourcename: "CGETRF" targetname: "CGETF2" class:1} 
+edge: { sourcename: "CGETRF" targetname: "CLASWP" class:1} 
+edge: { sourcename: "CGETRF" targetname: "CTRSM" class:1} 
+edge: { sourcename: "CGETRF" targetname: "ILAENV" class:1} 
+edge: { sourcename: "CGETRF" targetname: "XERBLA" class:1} 
+
+graph: {
+title:"[CGEMM]"
+node: { title: "CGEMM" label: "CGEMM \n (lu.f)" info1:"2" }
+edge: { sourcename: "CGEMM" targetname: "LSAME" class:2} 
+edge: { sourcename: "CGEMM" targetname: "XERBLA" class:2} 
+
+graph: {
+title:"[LSAME]"
+node: { title: "LSAME" label: "LSAME \n (lu.f)" info1:"3" }
+}
+
+graph: {
+title:"[XERBLA]"
+node: { title: "XERBLA" label: "XERBLA \n (lu.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[CGETF2]"
+node: { title: "CGETF2" label: "CGETF2 \n (lu.f)" info1:"2" }
+edge: { sourcename: "CGETF2" targetname: "CGERU" class:2} 
+edge: { sourcename: "CGETF2" targetname: "CSCAL" class:2} 
+edge: { sourcename: "CGETF2" targetname: "CSWAP" class:2} 
+edge: { sourcename: "CGETF2" targetname: "ICAMAX" class:2} 
+edge: { sourcename: "CGETF2" targetname: "XERBLA" class:2} 
+
+graph: {
+title:"[CGERU]"
+node: { title: "CGERU" label: "CGERU \n (lu.f)" info1:"3" }
+edge: { sourcename: "CGERU" targetname: "XERBLA" class:3} 
+}
+
+graph: {
+title:"[CSCAL]"
+node: { title: "CSCAL" label: "CSCAL \n (lu.f)" info1:"3" }
+}
+
+graph: {
+title:"[CSWAP]"
+node: { title: "CSWAP" label: "CSWAP \n (lu.f)" info1:"3" }
+}
+
+graph: {
+title:"[ICAMAX]"
+node: { title: "ICAMAX" label: "ICAMAX \n (lu.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[CLASWP]"
+node: { title: "CLASWP" label: "CLASWP \n (lu.f)" info1:"2" }
+edge: { sourcename: "CLASWP" targetname: "CSWAP" class:2} 
+}
+
+graph: {
+title:"[CTRSM]"
+node: { title: "CTRSM" label: "CTRSM \n (lu.f)" info1:"2" }
+edge: { sourcename: "CTRSM" targetname: "LSAME" class:2} 
+edge: { sourcename: "CTRSM" targetname: "XERBLA" class:2} 
+}
+
+graph: {
+title:"[ILAENV]"
+node: { title: "ILAENV" label: "ILAENV \n (lu.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[CGETRS]"
+node: { title: "CGETRS" label: "CGETRS \n (lu.f)" info1:"1" }
+edge: { sourcename: "CGETRS" targetname: "CLASWP" class:1} 
+edge: { sourcename: "CGETRS" targetname: "CTRSM" class:1} 
+edge: { sourcename: "CGETRS" targetname: "LSAME" class:1} 
+edge: { sourcename: "CGETRS" targetname: "XERBLA" class:1} 
+}
+
+graph: {
+title:"[CTRTI2]"
+node: { title: "CTRTI2" label: "CTRTI2 \n (lu.f)" info1:"1" }
+edge: { sourcename: "CTRTI2" targetname: "CSCAL" class:1} 
+edge: { sourcename: "CTRTI2" targetname: "CTRMV" class:1} 
+edge: { sourcename: "CTRTI2" targetname: "LSAME" class:1} 
+edge: { sourcename: "CTRTI2" targetname: "XERBLA" class:1} 
+
+graph: {
+title:"[CTRMV]"
+node: { title: "CTRMV" label: "CTRMV \n (lu.f)" info1:"2" }
+edge: { sourcename: "CTRMV" targetname: "LSAME" class:2} 
+edge: { sourcename: "CTRMV" targetname: "XERBLA" class:2} 
+}
+}
+
+graph: {
+title:"[CAXPY]"
+node: { title: "CAXPY" label: "CAXPY \n (lu.f)" info1:"1" }
+}
+
+graph: {
+title:"[CGEMV]"
+node: { title: "CGEMV" label: "CGEMV \n (lu.f)" info1:"1" }
+edge: { sourcename: "CGEMV" targetname: "LSAME" class:1} 
+edge: { sourcename: "CGEMV" targetname: "XERBLA" class:1} 
+}
+
+graph: {
+title:"[CLACON]"
+node: { title: "CLACON" label: "CLACON \n (lu.f)" info1:"1" }
+edge: { sourcename: "CLACON" targetname: "CCOPY" class:1} 
+edge: { sourcename: "CLACON" targetname: "ICMAX1" class:1} 
+edge: { sourcename: "CLACON" targetname: "SCSUM1" class:1} 
+edge: { sourcename: "CLACON" targetname: "SLAMCH" class:1} 
+
+graph: {
+title:"[CCOPY]"
+node: { title: "CCOPY" label: "CCOPY \n (lu.f)" info1:"2" }
+}
+
+graph: {
+title:"[ICMAX1]"
+node: { title: "ICMAX1" label: "ICMAX1 \n (lu.f)" info1:"2" }
+}
+
+graph: {
+title:"[SCSUM1]"
+node: { title: "SCSUM1" label: "SCSUM1 \n (lu.f)" info1:"2" }
+}
+
+graph: {
+title:"[SLAMCH]"
+node: { title: "SLAMCH" label: "SLAMCH \n (lu.f)" info1:"2" }
+edge: { sourcename: "SLAMCH" targetname: "LSAME" class:2} 
+edge: { sourcename: "SLAMCH" targetname: "SLAMC2" class:2} 
+
+graph: {
+title:"[SLAMC2]"
+node: { title: "SLAMC2" label: "SLAMC2 \n (lu.f)" info1:"3" }
+edge: { sourcename: "SLAMC2" targetname: "SLAMC1" class:3} 
+edge: { sourcename: "SLAMC2" targetname: "SLAMC3" class:3} 
+edge: { sourcename: "SLAMC2" targetname: "SLAMC4" class:3} 
+edge: { sourcename: "SLAMC2" targetname: "SLAMC5" class:3} 
+
+graph: {
+title:"[SLAMC1]"
+node: { title: "SLAMC1" label: "SLAMC1 \n (lu.f)" info1:"4" }
+edge: { sourcename: "SLAMC1" targetname: "SLAMC3" class:4} 
+
+graph: {
+title:"[SLAMC3]"
+node: { title: "SLAMC3" label: "SLAMC3 \n (lu.f)" info1:"5" }
+}
+}
+
+graph: {
+title:"[SLAMC4]"
+node: { title: "SLAMC4" label: "SLAMC4 \n (lu.f)" info1:"4" }
+edge: { sourcename: "SLAMC4" targetname: "SLAMC3" class:4} 
+}
+
+graph: {
+title:"[SLAMC5]"
+node: { title: "SLAMC5" label: "SLAMC5 \n (lu.f)" info1:"4" }
+edge: { sourcename: "SLAMC5" targetname: "SLAMC3" class:4} 
+}
+}
+}
+}
+
+graph: {
+title:"[ZGBTRF]"
+node: { title: "ZGBTRF" label: "ZGBTRF \n (lu.f)" info1:"1" }
+edge: { sourcename: "ZGBTRF" targetname: "ILAENV" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "IZAMAX" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "XERBLA" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "ZCOPY" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "ZGBTF2" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "ZGEMM" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "ZGERU" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "ZLASWP" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "ZSCAL" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "ZSWAP" class:1} 
+edge: { sourcename: "ZGBTRF" targetname: "ZTRSM" class:1} 
+
+graph: {
+title:"[IZAMAX]"
+node: { title: "IZAMAX" label: "IZAMAX \n (lu.f)" info1:"2" }
+edge: { sourcename: "IZAMAX" targetname: "DCABS1" class:2} 
+
+graph: {
+title:"[DCABS1]"
+node: { title: "DCABS1" label: "DCABS1 \n (lu.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[ZCOPY]"
+node: { title: "ZCOPY" label: "ZCOPY \n (lu.f)" info1:"2" }
+}
+
+graph: {
+title:"[ZGBTF2]"
+node: { title: "ZGBTF2" label: "ZGBTF2 \n (lu.f)" info1:"2" }
+edge: { sourcename: "ZGBTF2" targetname: "IZAMAX" class:2} 
+edge: { sourcename: "ZGBTF2" targetname: "XERBLA" class:2} 
+edge: { sourcename: "ZGBTF2" targetname: "ZGERU" class:2} 
+edge: { sourcename: "ZGBTF2" targetname: "ZSCAL" class:2} 
+edge: { sourcename: "ZGBTF2" targetname: "ZSWAP" class:2} 
+
+graph: {
+title:"[ZGERU]"
+node: { title: "ZGERU" label: "ZGERU \n (lu.f)" info1:"3" }
+edge: { sourcename: "ZGERU" targetname: "XERBLA" class:3} 
+}
+
+graph: {
+title:"[ZSCAL]"
+node: { title: "ZSCAL" label: "ZSCAL \n (lu.f)" info1:"3" }
+}
+
+graph: {
+title:"[ZSWAP]"
+node: { title: "ZSWAP" label: "ZSWAP \n (lu.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[ZGEMM]"
+node: { title: "ZGEMM" label: "ZGEMM \n (lu.f)" info1:"2" }
+edge: { sourcename: "ZGEMM" targetname: "LSAME" class:2} 
+edge: { sourcename: "ZGEMM" targetname: "XERBLA" class:2} 
+}
+
+graph: {
+title:"[ZLASWP]"
+node: { title: "ZLASWP" label: "ZLASWP \n (lu.f)" info1:"2" }
+}
+
+graph: {
+title:"[ZTRSM]"
+node: { title: "ZTRSM" label: "ZTRSM \n (lu.f)" info1:"2" }
+edge: { sourcename: "ZTRSM" targetname: "LSAME" class:2} 
+edge: { sourcename: "ZTRSM" targetname: "XERBLA" class:2} 
+}
+}
+
+graph: {
+title:"[ZGETRF]"
+node: { title: "ZGETRF" label: "ZGETRF \n (lu.f)" info1:"1" }
+edge: { sourcename: "ZGETRF" targetname: "ILAENV" class:1} 
+edge: { sourcename: "ZGETRF" targetname: "XERBLA" class:1} 
+edge: { sourcename: "ZGETRF" targetname: "ZGEMM" class:1} 
+edge: { sourcename: "ZGETRF" targetname: "ZGETF2" class:1} 
+edge: { sourcename: "ZGETRF" targetname: "ZLASWP" class:1} 
+edge: { sourcename: "ZGETRF" targetname: "ZTRSM" class:1} 
+
+graph: {
+title:"[ZGETF2]"
+node: { title: "ZGETF2" label: "ZGETF2 \n (lu.f)" info1:"2" }
+edge: { sourcename: "ZGETF2" targetname: "IZAMAX" class:2} 
+edge: { sourcename: "ZGETF2" targetname: "XERBLA" class:2} 
+edge: { sourcename: "ZGETF2" targetname: "ZGERU" class:2} 
+edge: { sourcename: "ZGETF2" targetname: "ZSCAL" class:2} 
+edge: { sourcename: "ZGETF2" targetname: "ZSWAP" class:2} 
+}
+}
+
+graph: {
+title:"[ZGETRS]"
+node: { title: "ZGETRS" label: "ZGETRS \n (lu.f)" info1:"1" }
+edge: { sourcename: "ZGETRS" targetname: "LSAME" class:1} 
+edge: { sourcename: "ZGETRS" targetname: "XERBLA" class:1} 
+edge: { sourcename: "ZGETRS" targetname: "ZLASWP" class:1} 
+edge: { sourcename: "ZGETRS" targetname: "ZTRSM" class:1} 
+}
+
+graph: {
+title:"[DGETRF]"
+node: { title: "DGETRF" label: "DGETRF \n (lu.f)" info1:"1" }
+edge: { sourcename: "DGETRF" targetname: "DGEMM" class:1} 
+edge: { sourcename: "DGETRF" targetname: "DGETF2" class:1} 
+edge: { sourcename: "DGETRF" targetname: "DLASWP" class:1} 
+edge: { sourcename: "DGETRF" targetname: "DTRSM" class:1} 
+edge: { sourcename: "DGETRF" targetname: "ILAENV" class:1} 
+edge: { sourcename: "DGETRF" targetname: "XERBLA" class:1} 
+
+graph: {
+title:"[DGEMM]"
+node: { title: "DGEMM" label: "DGEMM \n (lu.f)" info1:"2" }
+edge: { sourcename: "DGEMM" targetname: "LSAME" class:2} 
+edge: { sourcename: "DGEMM" targetname: "XERBLA" class:2} 
+}
+
+graph: {
+title:"[DGETF2]"
+node: { title: "DGETF2" label: "DGETF2 \n (lu.f)" info1:"2" }
+edge: { sourcename: "DGETF2" targetname: "DGER" class:2} 
+edge: { sourcename: "DGETF2" targetname: "DSCAL" class:2} 
+edge: { sourcename: "DGETF2" targetname: "DSWAP" class:2} 
+edge: { sourcename: "DGETF2" targetname: "IDAMAX" class:2} 
+edge: { sourcename: "DGETF2" targetname: "XERBLA" class:2} 
+
+graph: {
+title:"[DGER]"
+node: { title: "DGER" label: "DGER \n (lu.f)" info1:"3" }
+edge: { sourcename: "DGER" targetname: "XERBLA" class:3} 
+}
+
+graph: {
+title:"[DSCAL]"
+node: { title: "DSCAL" label: "DSCAL \n (lu.f)" info1:"3" }
+}
+
+graph: {
+title:"[DSWAP]"
+node: { title: "DSWAP" label: "DSWAP \n (lu.f)" info1:"3" }
+}
+
+graph: {
+title:"[IDAMAX]"
+node: { title: "IDAMAX" label: "IDAMAX \n (lu.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[DLASWP]"
+node: { title: "DLASWP" label: "DLASWP \n (lu.f)" info1:"2" }
+}
+
+graph: {
+title:"[DTRSM]"
+node: { title: "DTRSM" label: "DTRSM \n (lu.f)" info1:"2" }
+edge: { sourcename: "DTRSM" targetname: "LSAME" class:2} 
+edge: { sourcename: "DTRSM" targetname: "XERBLA" class:2} 
+}
+}
+
+graph: {
+title:"[DGETRS]"
+node: { title: "DGETRS" label: "DGETRS \n (lu.f)" info1:"1" }
+edge: { sourcename: "DGETRS" targetname: "DLASWP" class:1} 
+edge: { sourcename: "DGETRS" targetname: "DTRSM" class:1} 
+edge: { sourcename: "DGETRS" targetname: "LSAME" class:1} 
+edge: { sourcename: "DGETRS" targetname: "XERBLA" class:1} 
+}
+
+graph: {
+title:"[IEEECK]"
+node: { title: "IEEECK" label: "IEEECK \n (lu.f)" info1:"1" }
+}
+
+graph: {
+title:"[PHAMP]"
+node: { title: "PHAMP" label: "PHAMP \n (phamp.f)" info1:"1" }
+edge: { sourcename: "PHAMP" targetname: "ATAN2C" class:1} 
+
+graph: {
+title:"[ATAN2C]"
+node: { title: "ATAN2C" label: "ATAN2C \n (phamp.f)" info1:"2" }
+edge: { sourcename: "ATAN2C" targetname: "ATANCC" class:2} 
+
+graph: {
+title:"[ATANCC]"
+node: { title: "ATANCC" label: "ATANCC \n (phamp.f)" info1:"3" }
+}
+}
+}
+
+graph: {
+title:"[QUARTIC]"
+node: { title: "QUARTIC" label: "QUARTIC \n (quartc.f)" info1:"1" }
+}
+
+graph: {
+title:"[SDIST]"
+node: { title: "SDIST" label: "SDIST \n (sdist.f)" info1:"1" }
+}
+
+graph: {
+title:"[SOMM2]"
+node: { title: "SOMM2" label: "SOMM2 \n (somm2.f)" info1:"1" }
+}
+
+graph: {
+title:"[SOMM]"
+node: { title: "SOMM" label: "SOMM \n (somm.f)" info1:"1" }
+}
+
+graph: {
+title:"[STRAP]"
+node: { title: "STRAP" label: "STRAP \n (strap.f)" info1:"1" }
+}
+
+graph: {
+title:"[TERPC]"
+node: { title: "TERPC" label: "TERPC \n (terpc.f)" info1:"1" }
+edge: { sourcename: "TERPC" targetname: "LOCAT" class:1} 
+edge: { sourcename: "TERPC" targetname: "POLINC" class:1} 
+
+graph: {
+title:"[LOCAT]"
+node: { title: "LOCAT" label: "LOCAT \n (terp.f)" info1:"2" }
+}
+
+graph: {
+title:"[POLINC]"
+node: { title: "POLINC" label: "POLINC \n (terpc.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[TERP]"
+node: { title: "TERP" label: "TERP \n (terp.f)" info1:"1" }
+edge: { sourcename: "TERP" targetname: "LOCAT" class:1} 
+edge: { sourcename: "TERP" targetname: "POLINT" class:1} 
+
+graph: {
+title:"[POLINT]"
+node: { title: "POLINT" label: "POLINT \n (polint.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[TERP1]"
+node: { title: "TERP1" label: "TERP1 \n (terp.f)" info1:"1" }
+edge: { sourcename: "TERP1" targetname: "LOCAT1" class:1} 
+
+graph: {
+title:"[LOCAT1]"
+node: { title: "LOCAT1" label: "LOCAT1 \n (terp.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[TRAP]"
+node: { title: "TRAP" label: "TRAP \n (trap.f)" info1:"1" }
+}
+}

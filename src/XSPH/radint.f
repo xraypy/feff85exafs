@@ -44,6 +44,8 @@ c     local staff
       complex*16 coni
       parameter (coni = (0.d0, 1.d0))
 
+      temp = (1.,0.)
+
       linit = kinit
       if (kinit.lt.0) linit = - kinit - 1
       lfin = ikap

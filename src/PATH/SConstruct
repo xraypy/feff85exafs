@@ -1,14 +1,30 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment
+from   os.path   import realpath, join
+
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 bin_src = Split('ffmod4.f   ccrit.f   heap.f    ipack.f   mcrith.f  mcritk.f  mpprmd.f \
                  mpprmp.f   mrb.f     outcrt.f  repath.f  paths.f   pathsd.f  phash.f  \
                  prcrit.f   sortix.f  timrep.f')
 
-env.Program('path', bin_src,
-        LIBS = ['feffcom', 'feffmath', 'feffpar'], \
-        LIBPATH = ['../COMMON', '../MATH', '../PAR'])
+env.Program('pathfinder', bin_src,
+            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
+            OBJSUFFIX = env['SHOBJSUFFIX'],
+            LIBS = ['feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+            LIBPATH = [join('..','COMMON'), join('..','json-fortran'), join('..','JSON/'), join('..','MATH'), join('..','PAR')])
+env.Depends('repath'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
+env.Install(ienv['i_bin'], 'pathfinder')
+
+env.Alias('install', ienv['i_bin'])
 

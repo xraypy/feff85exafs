@@ -5,7 +5,7 @@
      3                  edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
      4                  eorb, kappa, iorb, qnrm, xnmues, nohole, ihole,
      5                  inters, totvol, iafolp, xion, iunf, iz, jumprm)
-c  opens pot.bin file and reads following information
+c  opens pot.pad file and reads following information
 c  General:
 c     ntitle - number of title lines
 c     title  - title itself
@@ -72,7 +72,7 @@ c     wp     - estimate of plasmon frequency from rhoint
 
   10  format(a)
 
-      open (unit=3, file='pot.bin', status='old')
+      open (unit=3, file='pot.pad', status='old')
       read(3,30) ntitle, nph, npadx, nohole, ihole, inters, iafolp,
      1            jumprm, iunf
   30  format(9(1x,i4))
@@ -81,7 +81,7 @@ c     nph and npadx are not passed to calling subroutine
          read(3,10) title(i)
          call triml(title(i))
   133 continue
-c     Misc double precision stuff from pot.bin
+c     Misc double precision stuff from pot.pad
       call rdpadd(3, npadx, dum(1), 13)
       rnrmav = dum(1)
       xmu    = dum(2)

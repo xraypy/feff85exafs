@@ -32,9 +32,10 @@ c     work space
       complex*16 ph(nex, -ltot:ltot, nspx, 0:nphx)
       dimension lmax(nex, 0:nphx)
 c     complex energy grid emg is decomposed into em and eref to have
-c     the same structure in phase.bin
+c     the same structure in phase.pad
       complex*16 em(nex), eref(nex, nspx)
       character*6  potlbl(0:nphx)
+      character*(*) phpad
       character*512 slog
 c     fms staff
       integer lmaxph(0:nphx)
@@ -63,15 +64,20 @@ c     fms staff
       do 10 ip = ipmin,ipmax !KJ I added this line
   10  gtr(ie,ip) = 0  !KJ added ip
   
-      do 12 iph = 0,nphx
-      do 12 ill = -lx, lx
-      do 12 isp =  1,nspx
-  12   xphase(isp, ill, iph) = 0
+      do 14 iph = 0,nphx
+         do 13 ill = -lx, lx
+            do 12 isp =  1,nspx
+               xphase(isp, ill, iph) = 0
+ 12         continue
+ 13      continue
+ 14   continue
 
-c     need less data than rphbin.f provides, also dimensions of ph
+c     need less data than rphpad.f provides, also dimensions of ph
 c     array are different.
-      call rdxsph (ne, ne1, ne3, nph, ihole, rnrmav, xmu, edge,
-     1           ik0, em, eref, iz, potlbl, ph, rkk, lmax, lmaxp1)
+      phpad = 'phase.pad'
+      call rdxsph (phpad, ne, ne1, ne3, nph, ihole, rnrmav, xmu, edge,
+     1     ik0, ixc, rs, vint,
+     2     em, eref, iz, potlbl, ph, rkk, lmax, lmaxp1)
       call setkap (ihole, kinit, linit)
       npot = nph
       if (rclust.le.0.0) goto 100

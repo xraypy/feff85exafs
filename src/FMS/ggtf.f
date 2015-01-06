@@ -32,6 +32,8 @@ c     big work matrices
 c     return matrix containing info about each unique potential
       complex   gg(nspx*(lx+1)**2, nspx*(lx+1)**2, 0:nphasx)
 
+      alpha = (1., 0.)
+
 c      notice that in gglu we invert (1-Gt), but here (1-tG).
 c     multiply T and G0 matrices together, construct g0t = 1 - T*G0
 c     notice that the signs below for g0t ARE correct since 1 is the

@@ -1,0 +1,324 @@
+Warning: Subprogram CWIG3J never defined
+    Invoked in module ACOEF line 42 file acoef.f
+
+Warning: Subprogram AXAFS argument arrayness mismatch at position 3:
+    Dummy arg XSEC in module AXAFS line 1 file axafs.f is whole array
+    Actual arg XSEC(1,1) in module XSPH line 489 file xsph.f is array element
+
+Warning: Subprogram DETERM never defined
+    Invoked in module AXAFS line 81 file axafs.f
+    (possibly it is an array which was not declared)
+
+Warning: Subprogram PAR_BEGIN never defined
+    Invoked in module FFMOD2 line 50 file ffmod2.f
+
+Warning: Subprogram CHOPEN never defined
+    Invoked in module FFMOD2 line 55 file ffmod2.f
+
+Warning: Subprogram WLOG never defined
+    Invoked in module FFMOD2 line 73 file ffmod2.f
+
+Warning: Subprogram PAR_BARRIER never defined
+    Invoked in module FFMOD2 line 80 file ffmod2.f
+
+Warning: Subprogram PAR_END never defined
+    Invoked in module FFMOD2 line 81 file ffmod2.f
+
+Warning: Subprogram FMSSZ argument usage mismatch at position 1:
+    Dummy arg IPH0 in module FMSSZ line 1 file fmssz.f may be modified
+    Actual arg IPH0 in module SZLZ line 168 file szlz.f is active DO index
+
+Warning: Subprogram YPREP never defined
+    Invoked in module FMSSZ line 48 file fmssz.f
+
+Warning: Subprogram FMS never defined
+    Invoked in module FMSSZ line 78 file fmssz.f
+
+Warning: Subprogram PHASE argument arrayness mismatch at position 25:
+    Dummy arg ADGC in module PHASE line 2 file phase.f is whole array
+    Actual arg ADGC(1,1,IPH) in module XSPH line 439 file xsph.f is array
+ element
+  and at position 26:
+    Dummy arg ADPC in module PHASE line 2 file phase.f is whole array
+    Actual arg ADPC(1,1,IPH) in module XSPH line 439 file xsph.f is array
+ element
+  and at position 27:
+    Dummy arg EREF in module PHASE line 2 file phase.f is whole array
+    Actual arg EREF(1,ISP) in module XSPH line 439 file xsph.f is array
+ element
+ etc...
+
+Warning: Subprogram PHASE argument usage mismatch at position 1:
+    Dummy arg IPH in module PHASE line 2 file phase.f may be modified
+    Actual arg IPH in module XSPH line 439 file xsph.f is active DO index
+
+Warning: Subprogram BESJN never defined
+    Invoked in module PHASE line 165 file phase.f
+
+Warning: Subprogram PAR_STOP never defined
+    Invoked in module PHASE line 106 file phase.f
+
+Warning: Subprogram RDCMT never defined
+    Invoked in module PHASE line 116 file phase.f
+
+Warning: Subprogram XCPOT never defined
+    Invoked in module PHASE line 147 file phase.f
+
+Warning: Subprogram DFOVRG never defined
+    Invoked in module PHASE line 221 file phase.f
+
+Warning: Subprogram PHAMP never defined
+    Invoked in module PHASE line 236 file phase.f
+
+Warning: Subprogram PHMESH2 never invoked
+    Defined in module PHMESH2 line 1 file phmesh2.f
+
+Warning: Subprogram GETXK never defined
+    Invoked in module PHMESH2 line 186 file phmesh2.f
+
+Warning: Subprogram EXAFSGRID84 never invoked
+    Defined in module EXAFSGRID84 line 281 file phmesh2.f
+
+Warning: Subprogram XANESGRID84 never invoked
+    Defined in module XANESGRID84 line 341 file phmesh2.f
+
+Warning: Subprogram FPRIMEGRID84 never invoked
+    Defined in module FPRIMEGRID84 line 429 file phmesh2.f
+
+Warning: Subprogram RDGRID never invoked
+    Defined in module RDGRID line 1 file rdgrid.f
+
+Warning: Subprogram MKEMESH never invoked
+    Defined in module MKEMESH line 524 file phmesh2.f
+
+Warning: Subprogram MKKMESH never invoked
+    Defined in module MKKMESH line 564 file phmesh2.f
+
+Warning: Subprogram MKEXPMESH never invoked
+    Defined in module MKEXPMESH line 260 file phmesh2.f
+
+Warning: Subprogram SORTE never invoked
+    Defined in module SORTE line 625 file phmesh2.f
+
+Warning: Subprogram REVERSEGRID never invoked
+    Defined in module REVERSEGRID line 498 file phmesh2.f
+
+Warning: Subprogram MKVGRID84 never invoked
+    Defined in module MKVGRID84 line 194 file phmesh2.f
+
+Warning: Subprogram WRTE never invoked
+    Defined in module WRTE line 606 file phmesh2.f
+
+Warning: Subprogram QSORTI never defined
+    Invoked in module SORTE line 657 file phmesh2.f
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 1 file radint.f may be modified
+    Actual arg MULT in module XSECT line 372 file xsect.f is active DO index
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 1 file radint.f may be modified
+    Actual arg MULT in module XSECT line 475 file xsect.f is active DO index
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 1 file radint.f may be modified
+    Actual arg MULT in module XSECT line 611 file xsect.f is active DO index
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 1 file radint.f may be modified
+    Actual arg MULT in module XSECT line 616 file xsect.f is active DO index
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(1) in module RADINT line 76 file radint.f may be same as arg 
+ 6: XM(2)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(2) in module RADINT line 76 file radint.f may be same as arg 
+ 5: XM(1)
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(3) in module RADINT line 77 file radint.f may be same as arg 
+ 6: XM(4)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(4) in module RADINT line 77 file radint.f may be same as arg 
+ 5: XM(3)
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(1) in module RADINT line 82 file radint.f may be same as arg 
+ 6: XM(2)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(2) in module RADINT line 82 file radint.f may be same as arg 
+ 5: XM(1)
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(1) in module RADINT line 85 file radint.f may be same as arg 
+ 6: XM(2)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 1 file xmult.f is modified
+    Actual arg XM(2) in module RADINT line 85 file radint.f may be same as arg 
+ 5: XM(1)
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 98 file radint.f is array element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 125 file radint.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 126 file radint.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 149 file radint.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 184 file radint.f is whole array
+    Actual arg BF(0,I) in module RADINT line 156 file radint.f is array
+ element
+
+Warning: Subprogram CSOMM never defined
+    Invoked in module RADINT line 177 file radint.f
+
+Warning: Subprogram ISNUM never defined
+    Invoked in module RDGRID line 142 file rdgrid.f
+
+Warning: Subprogram UNTAB never defined
+    Invoked in module RDGRID line 136 file rdgrid.f
+
+Warning: Subprogram BWORDS never defined
+    Invoked in module RDGRID line 137 file rdgrid.f
+
+Warning: Subprogram SETGRIDMIN never invoked
+    Defined in module SETGRIDMIN line 182 file rdgrid.f
+
+Warning: Subprogram GRIDERROR never invoked
+    Defined in module GRIDERROR line 216 file rdgrid.f
+
+Warning: Subprogram RDHEAD never defined
+    Invoked in module REXSPH line 48 file rexsph.f
+
+Warning: Subprogram RHOLAT argument arrayness mismatch at position 11:
+    Dummy arg XNVAL in module RHOLAT line 1 file rholat.f is whole array
+    Actual arg XNVAL(1,IPH) in module SZLZ line 125 file szlz.f is array
+ element
+  and at position 12:
+    Dummy arg IORB in module RHOLAT line 1 file rholat.f is whole array
+    Actual arg IORB(-4,IPH) in module SZLZ line 125 file szlz.f is array
+ element
+  and at position 16:
+    Dummy arg ADGC in module RHOLAT line 1 file rholat.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SZLZ line 125 file szlz.f is array
+ element
+ etc...
+
+Warning: Subprogram SOMM2 never defined
+    Invoked in module RHOLAT line 107 file rholat.f
+
+Warning: Subprogram EXJLNL never defined
+    Invoked in module RHOLAT line 414 file rholat.f
+
+Warning: Subprogram CSOMM2 never defined
+    Invoked in module RHOLAT line 377 file rholat.f
+
+Warning: Subprogram RHOLSZ argument arrayness mismatch at position 10:
+    Dummy arg XNVAL in module RHOLSZ line 1 file rholsz.f is whole array
+    Actual arg XNVAL(1,IPH) in module SZLZ line 133 file szlz.f is array
+ element
+  and at position 14:
+    Dummy arg ADGC in module RHOLSZ line 1 file rholsz.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SZLZ line 133 file szlz.f is array
+ element
+  and at position 15:
+    Dummy arg ADPC in module RHOLSZ line 1 file rholsz.f is whole array
+    Actual arg ADPC(1,1,IPH) in module SZLZ line 133 file szlz.f is array
+ element
+ etc...
+
+Warning: Subprogram SZLZ argument arrayness mismatch at position 12:
+    Dummy arg DMAG in module SZLZ line 1 file szlz.f has 2 dims size 3263
+    Actual arg DMAG in module XSPH line 321 file xsph.f has 2 dims size 3012
+  and at position 29:
+    Dummy arg ADGC in module SZLZ line 1 file szlz.f has 3 dims size 3900
+    Actual arg ADGC in module XSPH line 321 file xsph.f has 3 dims size 3600
+  and at position 30:
+    Dummy arg ADPC in module SZLZ line 1 file szlz.f has 3 dims size 3900
+    Actual arg ADPC in module XSPH line 321 file xsph.f has 3 dims size 3600
+ etc...
+
+Warning: Subprogram SETKAP never defined
+    Invoked in module SZLZ line 48 file szlz.f
+
+Warning: Subprogram GRIDS never defined
+    Invoked in module SZLZ line 70 file szlz.f
+
+Warning: Subprogram FIXVAR never defined
+    Invoked in module SZLZ line 99 file szlz.f
+
+Warning: Subprogram FIXDSX never defined
+    Invoked in module SZLZ line 105 file szlz.f
+
+Warning: Subprogram ISTRLN never defined
+    Invoked in module WPHASE line 37 file wphase.f
+    (possibly it is an array which was not declared)
+
+Warning: Subprogram WRPADD never defined
+    Invoked in module WRXSPH line 52 file wrxsph.f
+
+Warning: Subprogram WRPADX never defined
+    Invoked in module WRXSPH line 84 file wrxsph.f
+
+Warning: Subprogram XSECT argument arrayness mismatch at position 31:
+    Dummy arg ADGC in module XSECT line 2 file xsect.f is whole array
+    Actual arg ADGC(1,1,IPH) in module XSPH line 348 file xsph.f is array
+ element
+  and at position 32:
+    Dummy arg ADPC in module XSECT line 2 file xsect.f is whole array
+    Actual arg ADPC(1,1,IPH) in module XSPH line 348 file xsph.f is array
+ element
+  and at position 33:
+    Dummy arg XSEC in module XSECT line 2 file xsect.f is whole array
+    Actual arg XSEC(1,ISP) in module XSPH line 348 file xsph.f is array
+ element
+ etc...
+
+Warning: Subprogram SOMM never defined
+    Invoked in module XSECT line 133 file xsect.f
+
+Warning: Subprogram BCOEF never defined
+    Invoked in module XSECT line 156 file xsect.f
+
+Warning: Subprogram BJNSER never defined
+    Invoked in module XSECT line 237 file xsect.f
+
+Warning: Subprogram XSCORR never defined
+    Invoked in module XSECT line 688 file xsect.f
+
+Warning: Subprogram TERP never defined
+    Invoked in module XSECT line 698 file xsect.f
+
+Warning: Subprogram RDPOT never defined
+    Invoked in module XSPH line 126 file xsph.f
+
+Warning: Subprogram STHEAD never defined
+    Invoked in module XSPH line 147 file xsph.f
+
+Warning: Subprogram WTHEAD never defined
+    Invoked in module XSPH line 249 file xsph.f
+
+Warning: Subprogram ISTPRM never defined
+    Invoked in module XSPH line 299 file xsph.f
+
+Warning: Subprogram FIXDSP never defined
+    Invoked in module XSPH line 344 file xsph.f

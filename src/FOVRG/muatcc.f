@@ -17,7 +17,7 @@ c#mn
       do 511 j=1,30
       do 511 k=0,3
  511  afgkc(i,j,k)=0.0d 00
- 601  do 701 ikap=-ltot-1,ltot
+      do 701 ikap=-ltot-1,ltot
          if (ikap .eq. 0) go to 701
          li= abs(ikap)*2-1
          do 700 j=1,norb-1

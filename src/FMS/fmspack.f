@@ -144,7 +144,8 @@ c********************************************************************
       parameter (one = 1, zero = 0)
       complex coni
       parameter (coni = (0,1))
-      complex   term, prefac, gllmz, ck(nspx)
+      complex   prefac, gllmz, ck(nspx)
+c      complex term
       complex   clm(lx+2, 2*lx+3), xclm(0:lx, 0:lx, nclusx, nclusx,nspx)
       complex   xrho( nclusx, nclusx, nspx)
       integer   lipotx(0:nphasx)
@@ -163,11 +164,12 @@ c     return matrix containing info about each unique potential
       complex   gg(nspx*(lx+1)**2, nspx*(lx+1)**2, 0:nphasx)
 
       integer i0(0:nphx)
-      character*3  cerr, dec
-      character*13 trans
+c      character*3  cerr
+      character*3  dec
+c      character*13 trans
       character*75 messg
 
- 400  format(i4)
+c 400  format(i4)
 
       do 10 i=0,nphx
         if (lipotx(i).le.0)  lipotx(i) = lx
@@ -191,7 +193,7 @@ c     initialize gg to zero
         ipf = npot
       endif
 c --- get basis kets; output array 'lrstat' passed through common
-      call getkts(nsp, inclus, npot, iphx, lipotx, i0)
+      call getkts(nsp, inclus, iphx, lipotx, i0)
 
 c --- sanity check for i0(ip)
       do 30 ip = ipi, ipf
@@ -370,7 +372,7 @@ c -----   end of loops over states
       return
       end
 c--------------------------------------------------------------------
-      subroutine getkts(nsp, nat, npot, iphx, lipotx, i0)
+      subroutine getkts(nsp, nat, iphx, lipotx, i0)
 
       implicit real (a-h,o-z)
       implicit integer (i-n)

@@ -1,12 +1,32 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
+from   os.path   import realpath, join
+
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = Split('akeato.f  cofcon.f  etotal.f  fpf0.f   lagdat.f  nucdev.f  potslw.f  soldir.f \
                  wfirdf.f  aprdev.f  dentfa.f  fdmocc.f inmuat.f  messer.f  ortdat.f  s02at.f  \
-                 tabrat.f  yzkrdf.f  bkmrdf.f  dsordf.f fdrirk.f  intdir.f  muatco.f  potrdf.f \
-                 scfdat.f  vlda.f    yzkteg.f')
+                tabrat.f  yzkrdf.f  bkmrdf.f  dsordf.f fdrirk.f  intdir.f  muatco.f  potrdf.f \
+                scfdat.f  vlda.f    yzkteg.f')
 
-env.StaticLibrary('libatom', lib_src)
 
+deps = ('COMMON/wlog', 'COMMON/getorb', 'COMMON/str',
+        'PAR/sequential', 'MATH/determ', 'MATH/somm',
+        'MATH/somm2', 'MATH/cwig3j', 'EXCH/vbh', 'EXCH/edp')
+
+lib = env.SharedLibrary('libfeffatom', lib_src + FindOtherObjects(deps, env))
+
+env.Depends('fpf0'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+
+env.Install(ienv['i_lib'], lib)
+
+env.Alias('install', ienv['i_lib'])

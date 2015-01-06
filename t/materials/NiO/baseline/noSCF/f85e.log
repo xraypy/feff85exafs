@@ -1,0 +1,232 @@
+Beginning feff85exafs calculation
+
+======= running module 1: RDINP ====================================================
+ Feff 8.50L
+ name:     NiO
+ formula:  NiO
+ sites:    Ni1,O1
+ refer1:   wyckoff 1,III,88
+ refer2:
+ schoen:
+ notes1:   salt, halite
+
+======= running module 2: POT ====================================================
+ Calculating potentials ...
+    free atom potential and density for atom type    0
+    free atom potential and density for atom type    1
+    free atom potential and density for atom type    2
+    initial state energy
+    overlapped potential and density for unique potential    0
+    overlapped potential and density for unique potential    1
+    overlapped potential and density for unique potential    2
+    muffin tin radii and interstitial parameters
+ iph, rnrm(iph)*bohr, rmt(iph)*bohr, folp(iph)
+    0  1.37489E+00  1.31534E+00  1.11812E+00
+    1  1.38100E+00  1.32030E+00  1.12017E+00
+    2  1.06100E+00  1.01447E+00  1.11984E+00
+ mu_old=    -3.100
+ Done with module 1: potentials.
+
+======= running module 3: XSPH ====================================================
+ Calculating cross-section and phases...
+  0.57913971043602464        4.2568459219916439E-004   2.8956985521801232E-002          10
+    absorption cross section
+ dx=   5.0000000000000003E-002
+    phase shifts for unique potential    0
+    phase shifts for unique potential    1
+    phase shifts for unique potential    2
+ Done with module 2: cross-section and phases...
+
+======= running module 4: PATH ====================================================
+ Preparing plane wave scattering amplitudes...
+ Searching for paths...
+   WARNING:  rmax > distance to most distant atom.
+             Some paths may be missing.
+             rmax, ratx   5.90000E+00  0.00000E+00
+    Rmax  5.9000  keep and heap limits   0.0000000   0.0000000
+    Preparing neighbor table
+    nfound  heapsize  maxheap  maxscatt   reff
+      1000      904      904      4      5.0317
+      2000     1282     1284      4      5.1052
+      3000     1611     1611      4      5.6089
+      4000     1268     1624      5      5.6422
+      5000      976     1624      5      5.6422
+      6000      674     1624      5      5.6422
+      7000      480     1624      5      5.7946
+      8000      297     1624      5      5.7946
+      9000       71     1624      5      5.8950
+    Paths found     9296   (maxheap, maxscatt    1624   5)
+ Eliminating path degeneracies...
+    Plane wave chi amplitude filter   2.50%
+    Unique paths     72,  total paths    3320
+ Done with module 4: pathfinder.
+Note: The following floating-point exceptions are signalling: IEEE_DENORMAL
+
+======= running module 5: GENFMT ====================================================
+ Calculating EXAFS parameters...
+ doing ip =            1
+    Curved wave chi amplitude ratio   4.00%
+    Discard feff.dat for paths with cw ratio <   2.67%
+    path  cw ratio     deg    nleg  reff
+      1     0.1000E+03     6.000     2   2.0842
+      2     0.9412E+02    12.000     2   2.9475
+      3     0.1359E+02    24.000     3   3.5580
+      4     0.1895E+02    48.000     3   3.5580
+      5     0.3571E+02     8.000     2   3.6099
+      6     0.2029E+02     6.000     2   4.1684
+      7     0.1427E+02     6.000     3   4.1684
+      8     0.5134E+02    12.000     3   4.1684
+      9     0.9227E+01     6.000     4   4.1684
+     10     0.4435E+01     6.000     4   4.1684
+     11     0.3290E+02     6.000     4   4.1684
+     12     0.5747E+01    24.000     4   4.1684
+     13     0.848    24.000     4   4.1684 neglected
+     14     0.6468E+01    48.000     3   4.3208
+     15     0.1833E+02    48.000     3   4.3208
+     16     0.2012E+02    48.000     3   4.3208
+     17     0.7054E+01    48.000     3   4.4213
+     18     0.5446E+02    24.000     2   4.6604
+     19     0.2082E+02    48.000     3   4.8461
+     20     0.4664E+02    48.000     3   4.8461
+     21     0.2121E+02    48.000     3   4.8461
+     22     0.5903E+01    48.000     3   5.0317
+     23     0.4154E+01    48.000     4   5.0317
+     24     0.4526E+01    48.000     4   5.0317
+     25     0.9738E+01    48.000     4   5.0317
+     26     0.1026E+02    24.000     4   5.0317
+     27     0.1602E+02    24.000     4   5.0317
+     28     0.2826E+01    24.000     4   5.0317
+     29     0.5424E+01    48.000     4   5.0317
+     30     0.9050E+01    48.000     4   5.0317
+     31     0.8398E+01    48.000     4   5.0317
+     32     0.4771E+02    24.000     2   5.1052
+     33     0.1900E+02    48.000     3   5.3997
+     34     0.1364E+02    48.000     3   5.3997
+     35     0.1612E+02    48.000     3   5.3997
+     36     0.3070E+01    48.000     3   5.4565
+     37     0.8089E+01    48.000     3   5.4565
+     38     0.8253E+01    48.000     3   5.4565
+     39     0.2917E+01    48.000     4   5.4565
+     40     0.9891E+01    48.000     4   5.4565
+     41     0.6198E+01    48.000     4   5.4565
+     42     0.7182E+01    48.000     3   5.5001
+     43     0.1321E+02    96.000     3   5.5001
+     44     0.4157E+01    96.000     3   5.6089
+     45     0.1348E+02    96.000     3   5.6089
+     46     0.1199E+02    96.000     3   5.6089
+     47     2.220    48.000     4   5.6422 neglected
+     48     2.325    48.000     4   5.6422 neglected
+     49     0.6682E+01    48.000     4   5.6422
+     50     1.683    48.000     4   5.6422 neglected
+     51     0.8666E+01    48.000     5   5.6422
+     52     1.291    48.000     5   5.6422 neglected
+     53     0.3425E+01    48.000     4   5.6941
+     54     0.3513E+01    24.000     4   5.6941
+     55     2.591    24.000     4   5.6941 neglected
+     56     0.5041E+01    48.000     4   5.6941
+     57     0.7040E+01    96.000     4   5.7946
+     58     0.8860E+01    96.000     4   5.7946
+     59     0.4755E+01    96.000     4   5.7946
+     60     0.3145E+01    96.000     4   5.7946
+     61     0.7992E+01    96.000     4   5.7946
+     62     0.5154E+01    96.000     4   5.7946
+     63     0.5770E+01    96.000     4   5.7946
+     64     0.3772E+01    96.000     4   5.7946
+     65     0.2997E+01    96.000     4   5.7946
+     66     2.183    96.000     4   5.7946 neglected
+     67     0.1603E+02    12.000     2   5.8950
+     68     0.5806E+01    12.000     3   5.8950
+     69     0.3799E+02    24.000     3   5.8950
+     70     0.6497E+01    12.000     4   5.8950
+     71     2.287    12.000     4   5.8950 neglected
+     72     0.2833E+02    12.000     4   5.8950
+   64 paths kept,   72 examined.
+ Done with module 5: F_eff.
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+
+======= running module 6: FF2X ====================================================
+ Calculating chi...
+ feffdt, feff.bin to feff.dat conversion Feff 8.50L
+ name:     NiO                                                    Feff 8.50L
+ formula:  NiO
+ sites:    Ni1,O1
+ refer1:   wyckoff 1,III,88
+ refer2:
+ schoen:
+ notes1:   salt, halite
+ POT  Non-SCF, core-hole, AFOLP (folp(0)= 1.150)
+ Abs   Z=28 Rmt= 1.315 Rnm= 1.375 K  shell
+ Pot 1 Z=28 Rmt= 1.320 Rnm= 1.381
+ Pot 2 Z= 8 Rmt= 1.014 Rnm= 1.061
+ Gam_ch=1.576E+00 H-L exch
+ Mu=-3.100E+00 kf=2.249E+00 Vint=-2.236E+01 Rs_int= 1.613
+ PATH  Rmax= 5.900,  Keep_limit= 0.00, Heap_limit 0.00  Pwcrit= 2.50%
+      64 paths to process
+    path     filename
+       1     feff0001.dat
+       2     feff0002.dat
+       3     feff0003.dat
+       4     feff0004.dat
+       5     feff0005.dat
+       6     feff0006.dat
+       7     feff0007.dat
+       8     feff0008.dat
+       9     feff0009.dat
+      10     feff0010.dat
+      11     feff0011.dat
+      12     feff0012.dat
+      13     feff0014.dat
+      14     feff0015.dat
+      15     feff0016.dat
+      16     feff0017.dat
+      17     feff0018.dat
+      18     feff0019.dat
+      19     feff0020.dat
+      20     feff0021.dat
+      21     feff0022.dat
+      22     feff0023.dat
+      23     feff0024.dat
+      24     feff0025.dat
+      25     feff0026.dat
+      26     feff0027.dat
+      27     feff0028.dat
+      28     feff0029.dat
+      29     feff0030.dat
+      30     feff0031.dat
+      31     feff0032.dat
+      32     feff0033.dat
+      33     feff0034.dat
+      34     feff0035.dat
+      35     feff0036.dat
+      36     feff0037.dat
+      37     feff0038.dat
+      38     feff0039.dat
+      39     feff0040.dat
+      40     feff0041.dat
+      41     feff0042.dat
+      42     feff0043.dat
+      43     feff0044.dat
+      44     feff0045.dat
+      45     feff0046.dat
+      46     feff0049.dat
+      47     feff0051.dat
+      48     feff0053.dat
+      49     feff0054.dat
+      50     feff0056.dat
+      51     feff0057.dat
+      52     feff0058.dat
+      53     feff0059.dat
+      54     feff0060.dat
+      55     feff0061.dat
+      56     feff0062.dat
+      57     feff0063.dat
+      58     feff0064.dat
+      59     feff0065.dat
+      60     feff0067.dat
+      61     feff0068.dat
+      62     feff0069.dat
+      63     feff0070.dat
+      64     feff0072.dat
+    Use all paths with cw amplitude ratio   4.00%
+    S02  0.951  Global sig2  0.00000
+ Done with module 6: DW + final sum over paths.

@@ -1,4 +1,4 @@
-      subroutine fmsie( iph0, nph, lipotx, ie, em, eref, ph, iz,
+      subroutine fmsie( iph0, nph, lipotx, ie, em, eref, ph,
      1                 rfms, lfms, nat, iphat, rath, gtr)
 
 c     full multiple scattering code for single energy point
@@ -18,7 +18,7 @@ c     input
       real rat(3,natx), rfms, rdirec, toler1, toler2
       real rpart,aipart
       integer nph
-      dimension iz(0:nphx)
+c      dimension iz(0:nphx)
       complex*16 ph(lx+1, 0:nphx)
 
 c     work space
@@ -58,8 +58,7 @@ c     transform to single precision
 c      it will be nice to call yprep once for all energy points,
 c      fix later, and now call it every time
       if (ie.eq.1 .or. lfms.eq.0 .or. lfms.eq.2) 
-     1  call yprep(iph0, nat, inclus, nph, iphat, rfms, rat,
-     2     iz, rdirec )
+     1  call yprep(iph0, nat, inclus, iphat, rfms, rat)
 
       if (inclus.gt.1) then
 
@@ -72,13 +71,13 @@ cc     call fms for a cluster around central atom
        endif
 
        dck=sqrt(2*(em-eref))
-       rpart  = dble(dck)
+       rpart  = real(dble(dck))
        aipart = real(dimag(dck))
        ck(1) = cmplx(rpart, aipart)
        do 1020 ipp = 0,nph
          do 1010 ill = -lipotx(ipp), lipotx(ipp)
-           rpart  = dble( ph( 1+abs(ill), ipp))
-           aipart = dimag(ph( 1+abs(ill), ipp)) 
+           rpart  = real(dble (ph( 1+abs(ill), ipp)))
+           aipart = real(dimag(ph( 1+abs(ill), ipp)))
            xphase(1, ill, ipp) = cmplx(rpart, aipart)
  1010    continue
  1020  continue

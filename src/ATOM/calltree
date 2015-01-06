@@ -1,0 +1,61 @@
+Tree of subprogram calls:
+  (no main program found)
+    SCFDAT
+        COFCON
+        DSORDF
+            APRDEV
+        ETOTAL
+            AKEATO
+            AKEATO entry BKEATO
+            BKMRDF
+                CWIG3J
+            FDMOCC
+            FDRIRK
+                DSORDF (see above)
+                YZKRDF
+                    APRDEV
+                    YZKTEG
+        FPF0
+            SOMM
+        GETORB
+        INMUAT
+            GETORB
+            PAR_STOP
+        LAGDAT
+            AKEATO
+            AKEATO entry BKEATO
+            FDRIRK (see above)
+        MESSER
+            WLOG
+        MUATCO
+            CWIG3J
+        ORTDAT
+            DSORDF (see above)
+        PAR_STOP
+        POTRDF
+            AKEATO
+            APRDEV
+            AKEATO entry BKEATO
+            YZKRDF (see above)
+        POTSLW
+        S02AT
+            DETERM
+            ELIMIN
+        SOLDIR
+            INTDIR
+            NORM
+        SOMM
+        TABRAT
+            DSORDF (see above)
+        VLDA
+            EDP
+            PAR_STOP
+            VBH
+        WFIRDF
+            DENTFA
+            MESSER (see above)
+            NUCDEV
+                PAR_STOP
+            SOLDIR (see above)
+            WLOG
+        WLOG

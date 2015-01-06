@@ -61,7 +61,8 @@ c     the countour
       parameter (nflrx = 17)
       dimension step(nflrx)
 c     stuff from feff.f for rdinp, pathfinder and genfmt
-      logical wnstar, ok
+      logical ok
+c      logical wnstar
 c     Following passed to pathfinder, which is single precision.
       character*512 slog
       integer ient
@@ -70,7 +71,8 @@ c     Following passed to pathfinder, which is single precision.
 c     save stuff from rdinp, so no need to call it again
       save   ri05, ient
 
-
+      xndif = 0.
+      xndifp = 0.
       ient = ient + 1
       if (ient.eq.1) then
          xmu = -0.25d0
@@ -152,14 +154,14 @@ cc        extension of SCF procedure.
           endif
 
           call fixdsx (iph, dx, rgrd , dgc, dpc, dgcn, dpcn)
-          jri = (log(rmt(iph)) + x0) / rgrd + 2
+          jri = int((log(rmt(iph)) + x0) / rgrd) + 2
           jri1 = jri+1
           eref = vtotph(jri1)
           do 40 i = 1, jri1
-  40      vtotph(i) = vtotph(i) - eref
+  40      vtotph(i) = vtotph(i) - dble(eref)
           if (ixc.ge.5) then
             do 50 i = 1, jri1
-  50        vvalph(i) = vvalph(i) - eref
+  50        vvalph(i) = vvalph(i) - dble(eref)
           else
             do 60 i = 1, jri1
   60        vvalph(i) = vtotph(i)
@@ -190,11 +192,11 @@ cc      call fms for a cluster around central atom
 c           set logic to call yprep on every processor
             lfms = lfms1
             if (ietot0.eq.1) lfms = 2
-            call fmsie( iph0, nph, lmaxsc, ietot, em, eref, ph, iz,
+            call fmsie( iph0, nph, lmaxsc, ietot, em, eref, ph,
      1           rfms1, lfms, nat, iphat, rat, gtr(0,0,ipr))
           else
             do 190 iph0 = 0, nph 
-  190       call fmsie( iph0, nph, lmaxsc, ietot, em, eref, ph, iz,
+  190       call fmsie( iph0, nph, lmaxsc, ietot, em, eref, ph,
      1           rfms1, lfms1, nat, iphat, rat, gtr(0,0,ipr))
           endif
         endif

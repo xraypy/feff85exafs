@@ -1,15 +1,35 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment
+from   os.path   import realpath, join
 
-bin_src = Split('acoef.f   ffmod2.f  getedg.f  phmesh.f   radint.f  rexsph.f  rholsz.f  \
-                 wphase.f  xmult.f   xsph.f    axafs.f    fmssz.f   phase.f   phmesh2.f \
-                 rdgrid.f  rholat.f  szlz.f    wrxsph.f   xsect.f')
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+ienv = InstallEnvironment()
 
-other_objects = ['../FF2X/xscorr.o', '../POT/grids.o']
+bin_src = ('acoef.f',  'ffmod2.f', 'getedg.f', 'phmesh.f', 'radint.f',
+           'rexsph.f', 'rholsz.f', 'wphase.f', 'xmult.f',  'xsph.f',
+           'axafs.f',  'fmssz.f',  'phase.f',  'rdgrid.f', 'rholat.f',
+           'szlz.f',   'wrxsph.f', 'xsect.f')
+unused = ('phmesh2.f')
 
-env.Program('xsph', bin_src + other_objects,
-        LIBS = ['int', 'pha', 'atom', 'feffcom', 'exch', 'feffmath', 'fms', 'feffpar'], \
-        LIBPATH = ['../COMMON', '../MATH', '../ATOM', '../EXCH', '../FOVRG', '../FMS', '../POT', '../PAR'])
+other_obj = (join('..','FF2X','xscorr'+env['SHOBJSUFFIX']), join('..','POT','grids'+env['SHOBJSUFFIX']))
 
+env.Program('xsph', bin_src + other_obj,
+            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
+            OBJSUFFIX = env['SHOBJSUFFIX'],
+            LIBS = ['feffint', 'jsonfortran', 'feffjson', 'feffpha', 'feffatom', 'feffcom', 'feffexch', 'feffmath', 'fefffms', 'feffpar'], \
+            LIBPATH = [join('..','COMMON'), join('..','json-fortran'), join('..','JSON'), join('..','MATH'), join('..','ATOM'),
+                       join('..','EXCH'), join('..','FOVRG'), join('..','FMS'), join('..','POT'), join('..','PAR')])
+
+env.Depends('rexsph'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+
+env.Install(ienv['i_bin'], 'xsph')
+
+env.Alias('install', ienv['i_bin'])

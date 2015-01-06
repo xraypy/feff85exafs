@@ -1,9 +1,31 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys, re
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
+from   os.path   import realpath, join
 
-env.StaticLibrary('libfeffpar', 'sequential.f')
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+ienv = InstallEnvironment()
+
+## Compiling sequential.f throws up LOTS of unused dummy argument warnings.
+## Quiet those warnings because that is the very purpose of sequential.f
+flags = env['FORTRANFLAGS']
+env['FORTRANFLAGS'] = flags.replace('-Wall', '')
+
+
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen')
+
+env.SharedLibrary('libfeffpar', ['sequential.f'] + FindOtherObjects(deps, env))
 
 ## this is what would be needed for MPI compilation...
-## StaticLibrary('libfeffpar', 'parallel.f')
+## SharedLibrary('libfeffpar', 'parallel.f')
+
+env.Install(ienv['i_lib'], 'libfeffpar' + env['SHLIBSUFFIX'])
+
+env.Alias('install', ienv['i_lib'])

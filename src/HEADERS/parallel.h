@@ -1,3 +1,4 @@
+c -*-fortran-*-
       integer par_type, this_process, numprocs, my_rank
       logical master, worker, parallel_run
       real*8 wall_comm, time_comm

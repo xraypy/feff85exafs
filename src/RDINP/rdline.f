@@ -130,7 +130,7 @@ c   error messages
        call wlog(' # read error: recursive use of file')
        go to 4500
  4500  continue
-       errmsg = ' # >> file name = '//files(nfil)
+       errmsg = ' # >> file name = '//files(nfil)(1:72)
        ilen   = istrln(errmsg)
        call wlog(errmsg(1:ilen) )
        line = 'read_line_error'
@@ -177,8 +177,8 @@ c
 c   note: iunit, iexist, and ierr may be overwritten by this routine
        character*(*)  file, status, stat*10
        integer        iunit, iexist, ierr
-       logical        opend, exist
-c
+       logical        exist
+
 c make sure there is a unit number and file name
        ierr   = -3
        iexist =  -1

@@ -1,0 +1,29 @@
+## -*- python -*-
+##
+## Read the phase.pad file from a calculation on Copper metal.  Write the 
+## feffNNNN.dat files for the 1st (SS) and 4th (MS) paths
+##
+
+## create a FeffPath object to work with
+a=scatteringpath()
+
+## set some attributes common to all paths from this calculation
+a.phpad   = '../fortran/phase.pad'
+a.nnnn    = True
+a.verbose = True
+
+## make the 1st path (1st shell SS, one call to atom) path
+a.deg     = 12
+a.index   = 1
+a.atom( 1.805, 0,  1.805, 1);
+a.make()
+
+## reinitialize the group (except for the phpad, verbose, nnnn, and json attributes)
+a.clear()
+
+## make the 4th path (DS, two calls to atom) path
+a.deg   = 48
+a.index = 4
+a.atom( 0,     0, -3.61,  1)
+a.atom(-1.805, 0, -1.805, 1);
+a.make()

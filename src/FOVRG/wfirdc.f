@@ -1,5 +1,6 @@
       subroutine wfirdc (eph,kap,nmax,vxc,ps,qs,aps,aqs,irr,ic3,vm,
-     1                   rmt,jri, iwkb) 
+     1                   jri, iwkb) 
+c     1                   rmt,jri, iwkb) 
 c     calculate photoelectron orbital using lda in dirac equation
 c     cg (cp) large (small) radial components
 c     bg (bp) development coefficients at the origin of cg (cp)
@@ -88,16 +89,20 @@ c     resolution of the dirac equation to get initial orbital
          endif
       endif
 
- 211  np=1+(8.8 + log(10.0))/hx
+      np=1+int((8.8 + log(10.0))/hx)
 c     exp(-8.8+(np-1)*hx) = 10.0 bohrs - max distance
       if (idim .lt. np) np=idim
       if (nmax(norb) .gt. np) nmax(norb)=np
          
       if (irr.lt.0) then
-         call solout( eph, fl(norb), aps(1), aqs(1), kap(norb), rmt,
+c         call solout( eph, fl(norb), aps(1), aqs(1), kap(norb), rmt,
+c     1              jri, nmax(norb), ic3, vm, iwkb)
+         call solout( eph, fl(norb), aps(1), aqs(1), kap(norb),
      1              jri, nmax(norb), ic3, vm, iwkb)
       else
-         call solin( eph, fl(norb), aps(1), aqs(1), kap(norb), rmt,
+c         call solin( eph, fl(norb), aps(1), aqs(1), kap(norb), rmt,
+c     1              jri, nmax(norb), ic3, vm, iwkb)
+         call solin( eph, fl(norb), kap(norb),
      1              jri, nmax(norb), ic3, vm, iwkb)
       endif
          

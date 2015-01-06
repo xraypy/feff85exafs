@@ -1,0 +1,168 @@
+graph: {
+title: "ffmod1.f"
+color: lightgray
+
+graph: {
+title:"[FFMOD1]"
+node: { title: "FFMOD1" label: "FFMOD1 \n (ffmod1.f)" info1:"1" }
+edge: { sourcename: "FFMOD1" targetname: "POT" class:1} 
+edge: { sourcename: "FFMOD1" targetname: "REAPOT" class:1} 
+
+graph: {
+title:"[POT]"
+node: { title: "POT" label: "POT \n (pot.f)" info1:"2" }
+edge: { sourcename: "POT" targetname: "AFOLP" class:2} 
+edge: { sourcename: "POT" targetname: "CORVAL" class:2} 
+edge: { sourcename: "POT" targetname: "INIPOT" class:2} 
+edge: { sourcename: "POT" targetname: "ISTPRM" class:2} 
+edge: { sourcename: "POT" targetname: "MOVEH" class:2} 
+edge: { sourcename: "POT" targetname: "OVRLP" class:2} 
+edge: { sourcename: "POT" targetname: "SCMT" class:2} 
+edge: { sourcename: "POT" targetname: "SCMTMP" class:2} 
+edge: { sourcename: "POT" targetname: "WPOT" class:2} 
+edge: { sourcename: "POT" targetname: "WRPOT" class:2} 
+
+graph: {
+title:"[AFOLP]"
+node: { title: "AFOLP" label: "AFOLP \n (afolp.f)" info1:"3" }
+edge: { sourcename: "AFOLP" targetname: "ISTPRM" class:3} 
+
+graph: {
+title:"[ISTPRM]"
+node: { title: "ISTPRM" label: "ISTPRM \n (istprm.f)" info1:"4" }
+edge: { sourcename: "ISTPRM" targetname: "CALCVL" class:4} 
+edge: { sourcename: "ISTPRM" targetname: "FERMI" class:4} 
+edge: { sourcename: "ISTPRM" targetname: "MOVRLP" class:4} 
+edge: { sourcename: "ISTPRM" targetname: "OVP2MT" class:4} 
+edge: { sourcename: "ISTPRM" targetname: "SIDX" class:4} 
+
+graph: {
+title:"[CALCVL]"
+node: { title: "CALCVL" label: "CALCVL \n (istprm.f)" info1:"5" }
+}
+
+graph: {
+title:"[FERMI]"
+node: { title: "FERMI" label: "FERMI \n (fermi.f)" info1:"5" }
+}
+
+graph: {
+title:"[MOVRLP]"
+node: { title: "MOVRLP" label: "MOVRLP \n (movrlp.f)" info1:"5" }
+edge: { sourcename: "MOVRLP" targetname: "CALCVL" class:5} 
+}
+
+graph: {
+title:"[OVP2MT]"
+node: { title: "OVP2MT" label: "OVP2MT \n (ovp2mt.f)" info1:"5" }
+}
+
+graph: {
+title:"[SIDX]"
+node: { title: "SIDX" label: "SIDX \n (sidx.f)" info1:"5" }
+}
+}
+}
+
+graph: {
+title:"[CORVAL]"
+node: { title: "CORVAL" label: "CORVAL \n (corval.f)" info1:"3" }
+edge: { sourcename: "CORVAL" targetname: "RHOLIE" class:3} 
+
+graph: {
+title:"[RHOLIE]"
+node: { title: "RHOLIE" label: "RHOLIE \n (rholie.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[INIPOT]"
+node: { title: "INIPOT" label: "INIPOT \n (inipot.f)" info1:"3" }
+}
+
+graph: {
+title:"[MOVEH]"
+node: { title: "MOVEH" label: "MOVEH \n (moveh.f)" info1:"3" }
+}
+
+graph: {
+title:"[OVRLP]"
+node: { title: "OVRLP" label: "OVRLP \n (ovrlp.f)" info1:"3" }
+edge: { sourcename: "OVRLP" targetname: "FRNRM" class:3} 
+edge: { sourcename: "OVRLP" targetname: "SUMAX" class:3} 
+
+graph: {
+title:"[FRNRM]"
+node: { title: "FRNRM" label: "FRNRM \n (frnrm.f)" info1:"4" }
+}
+
+graph: {
+title:"[SUMAX]"
+node: { title: "SUMAX" label: "SUMAX \n (sumax.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[SCMT]"
+node: { title: "SCMT" label: "SCMT \n (scmt.f)" info1:"3" }
+edge: { sourcename: "SCMT" targetname: "BROYDN" class:3} 
+edge: { sourcename: "SCMT" targetname: "COULOM" class:3} 
+edge: { sourcename: "SCMT" targetname: "FF2G" class:3} 
+edge: { sourcename: "SCMT" targetname: "GRIDS" class:3} 
+edge: { sourcename: "SCMT" targetname: "RHOLIE" class:3} 
+
+graph: {
+title:"[BROYDN]"
+node: { title: "BROYDN" label: "BROYDN \n (broydn.f)" info1:"4" }
+}
+
+graph: {
+title:"[COULOM]"
+node: { title: "COULOM" label: "COULOM \n (coulom.f)" info1:"4" }
+edge: { sourcename: "COULOM" targetname: "FAB" class:4} 
+edge: { sourcename: "COULOM" targetname: "FRNRM" class:4} 
+
+graph: {
+title:"[FAB]"
+node: { title: "FAB" label: "FAB \n (coulom.f)" info1:"5" }
+}
+}
+
+graph: {
+title:"[FF2G]"
+node: { title: "FF2G" label: "FF2G \n (ff2g.f)" info1:"4" }
+}
+
+graph: {
+title:"[GRIDS]"
+node: { title: "GRIDS" label: "GRIDS \n (grids.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[SCMTMP]"
+node: { title: "SCMTMP" label: "SCMTMP \n (scmtmp.f)" info1:"3" }
+edge: { sourcename: "SCMTMP" targetname: "BROYDN" class:3} 
+edge: { sourcename: "SCMTMP" targetname: "COULOM" class:3} 
+edge: { sourcename: "SCMTMP" targetname: "FF2G" class:3} 
+edge: { sourcename: "SCMTMP" targetname: "GRIDS" class:3} 
+edge: { sourcename: "SCMTMP" targetname: "RHOLIE" class:3} 
+}
+
+graph: {
+title:"[WPOT]"
+node: { title: "WPOT" label: "WPOT \n (wpot.f)" info1:"3" }
+}
+
+graph: {
+title:"[WRPOT]"
+node: { title: "WRPOT" label: "WRPOT \n (wrpot.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[REAPOT]"
+node: { title: "REAPOT" label: "REAPOT \n (reapot.f)" info1:"2" }
+}
+}
+}

@@ -11,28 +11,30 @@ c      mu(omega) = xsec + xsnorm*chia  + (cchi)
 
       dimension  xsnorm(nex), omega(nex)
       complex*16 emxs(nex), xsec(nex), chia(nex), cchi(nex) 
-      complex*16 xmu(nex), aa, bb, c1, x1, x2, ec, temp
+      complex*16 xmu(nex), aa, bb, temp
+c      complex*16 c1, ec, x1, x2
       complex*16 xmup(nex)
       dimension emp(nex)
       parameter (eps4 = 1.0d-4)
       complex*16 lorenz, funlog, value
       external lorenz, funlog
       dimension dout(7,nex)
-      character*72 string
-      dimension oscstr(14), enosc(14)
+c      character*72 string
+c      dimension oscstr(14),enosc(14)
       integer ient
       data ient /0/
 
-c     read data from fpf0.dat
-      open (unit=16, file='fpf0.dat', status='old', iostat=ios)
-      read  (16,*)  string
-      read  (16,*)  eatom
-      read  (16,*)  nosc
-      do 5 i=1, nosc
-        read (16,*) oscstr(i), enosc(i)
-   5  continue
-c     the rest is f0(Q) and is not currently needed
-      close (unit=16)
+c$$$c     read data from fpf0.dat
+c$$$      open (unit=16, file='fpf0.dat', status='old', iostat=ios)
+c$$$      read  (16,*)  string
+c$$$      read  (16,*)  eatom
+c$$$      read  (16,*)  nosc
+c$$$      do 5 i=1, nosc
+c$$$        read (16,*) oscstr(i), enosc(i)
+c$$$   5  continue
+c$$$c     the rest is f0(Q) and is not currently needed
+c$$$      close (unit=16)
+c$$$      call json_read_fpf0(nosc, oscstr, enosc)
 
       ient = ient+1
       ifp = 1
@@ -100,22 +102,22 @@ c        dele = delp
             w3 = dimag(emxs(ne1+3))
 
 c           matsubara pole
-            temp = lorenz(ifp,xloss,w1,dele)*xmu(ne1+1)*2*coni*w1
-            temp = temp + lorenz(ifp,xloss,w1,delp)*xmu(ne1+1)*2*coni*w1
+            temp = lorenz(xloss,w1,dele)*xmu(ne1+1)*2*coni*w1
+            temp = temp + lorenz(xloss,w1,delp)*xmu(ne1+1)*2*coni*w1
             dout(2,ie)=dble(temp)
 c           sommerfeld correction
-            temp = coni*w1**2/ 6*(lorenz(ifp,xloss,w3,dele)*xmu(ne1+3)-
-     2      lorenz(ifp,xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
+            temp = coni*w1**2/ 6*(lorenz(xloss,w3,dele)*xmu(ne1+3)-
+     2      lorenz(xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
             dout(3,ie)=dble(temp)
 
-            cchi(ie) = lorenz(ifp,xloss,w1,dele)*xmu(ne1+1) *2*coni*w1
-     1      + coni * w1**2 / 6 * (lorenz(ifp,xloss,w3,dele)*xmu(ne1+3)-
-     2      lorenz(ifp,xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
+            cchi(ie) = lorenz(xloss,w1,dele)*xmu(ne1+1) *2*coni*w1
+     1      + coni * w1**2 / 6 * (lorenz(xloss,w3,dele)*xmu(ne1+3)-
+     2      lorenz(xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
 c           from negative pole has additional minus sign
             cchi(ie) = cchi(ie) + 
-     1      lorenz(ifp,xloss,w1,delp)*xmu(ne1+1) *2*coni*w1
-     1      + coni * w1**2 / 6 * (lorenz(ifp,xloss,w3,delp)*xmu(ne1+3)-
-     2      lorenz(ifp,xloss,w2,delp)*xmu(ne1+2)) / (w3-w2) 
+     1      lorenz(xloss,w1,delp)*xmu(ne1+1) *2*coni*w1
+     1      + coni * w1**2 / 6 * (lorenz(xloss,w3,delp)*xmu(ne1+3)-
+     2      lorenz(xloss,w2,delp)*xmu(ne1+2)) / (w3-w2) 
 
 c           theta funcion contribution only for positive pole
             if (dele .lt. eps4)    cchi(ie) = cchi(ie) - xmu(ie)
@@ -234,6 +236,7 @@ c     icase=3  pure imaginary w (absolute value is input)
       implicit double precision (a-h, o-z)
       include '../HEADERS/const.h'
       parameter (eps4 = 1.0d-4)
+      funlog = (0.d0,0.d0)
 
       if (icase.eq.1) then 
          if (abs(dele).ge.eps4) then 

@@ -103,14 +103,14 @@ c     Start the cycle over energy points (ie)
          endif
 
          call fixdsx (iph, dx, rgrd , dgc, dpc, dgcn, dpcn)
-        jri = (log(rmt(iph)) + x0) / rgrd + 2
+        jri = int((log(rmt(iph)) + x0) / rgrd) + 2
         jri1 = jri+1
         eref = vtotph(jri1)
         do 40 i = 1, jri1
-  40    vtotph(i) = vtotph(i) - eref
+  40    vtotph(i) = vtotph(i) - dble(eref)
         if (ixc.ge.5) then
            do 50 i = 1, jri1
-  50       vvalph(i) = vvalph(i) - eref
+  50       vvalph(i) = vvalph(i) - dble(eref)
         else
            do 60 i = 1, jri1
   60       vvalph(i) = vtotph(i)
@@ -161,11 +161,11 @@ ctemp if (ispin.ne.0)  rfms = rfms2
 
       if (lfms2 .ne. 0) then
         iph0 = 0
-        call fmssz( iph0, ie,  em, eref, ph, iz, nph,
+        call fmssz( iph0, ie,  em, eref, ph, nph,
      1        rfms, lfms2, nat, iphat, rat, amat, lmaxph, gctr, gtr)
       else
         do 190 iph0 = 0, nph 
-  190   call fmssz( iph0,  ie, em, eref, ph, iz, nph,
+  190   call fmssz( iph0,  ie, em, eref, ph, nph,
      1        rfms, lfms2, nat, iphat, rat, amat, lmaxph, gctr, gtr)
       endif
 

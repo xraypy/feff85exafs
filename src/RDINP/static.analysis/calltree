@@ -1,0 +1,48 @@
+
+Tree of subprogram calls:
+RDINP
+    BWORDS
+    CHOPEN
+    DIST
+    FFSORT
+        CHOPEN
+        DIST
+        MKPTZ
+            PAR_STOP
+            ROTATE
+            WLOG
+        PAR_STOP
+        WLOG
+    INIALL
+    ISTRLN
+    ITOKEN
+    PAR_BARRIER
+    PAR_BEGIN
+    PAR_END
+    PAR_STOP
+    PHSTOP
+        PAR_STOP
+        WLOG
+    RDLINE
+        BWORDS
+        GETFLN
+            ISTRLN
+            TRIML
+        ISCOMM
+        ISTRLN
+        LOWER
+        OPENFL
+            LOWER
+            NXTUNT
+        TRIML
+        UNTAB
+        WLOG
+    SETEDG
+        PAR_STOP
+    SETGAM
+    TRIML
+    WARNEX
+        WLOG
+    WLOG
+    WRTALL
+

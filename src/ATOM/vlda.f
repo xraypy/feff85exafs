@@ -1,4 +1,5 @@
-      subroutine vlda(ia, xnval,srho, srhovl,vtrho, ilast, idfock)
+c      subroutine vlda(ia, xnval,srho, srhovl,vtrho, ilast, idfock)
+      subroutine vlda(xnval,srho, srhovl,vtrho, ilast, idfock)
 c    this program calculates xc potential, using core-vlaence separation
 c    discussed in ankuodinov's thesis.  
 c    written by alexei ankoudinov. 11.07.96

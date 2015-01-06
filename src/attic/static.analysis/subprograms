@@ -1,0 +1,3819 @@
+Warning: Subprogram FFMOD6 argument usage mismatch at position 1:
+    Dummy arg IABS in module FFMOD6 line 29851 file feff85L.f may be modified
+    Actual arg IABS in module FEFF line 102 file feff85L.f is active DO index
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL) in module SIGCL line 35673 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL) in module SIGCL line 35673 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL-1) in module SIGCL line 35677 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL-1) in module SIGCL line 35677 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL) in module SIGCL line 35681 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL-1) in module SIGCL line 35681 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL-1) in module SIGCL line 35685 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL) in module SIGCL line 35685 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL) in module SIGCL line 35689 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL-1) in module SIGCL line 35689 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL) in module SIGCL line 35690 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL-1) in module SIGCL line 35690 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,II) in module SIGRM line 35386 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,L) in module SIGRM line 35386 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,I) in module RDSPR line 34788 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,J) in module RDSPR line 34788 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,K) in module RDSPR line 34794 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,L) in module RDSPR line 34794 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,I) in module RDSPR line 34824 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,J) in module RDSPR line 34824 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,K) in module RDSPR line 34825 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,J) in module RDSPR line 34825 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,II) in module RDSPR line 34831 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,JJ) in module RDSPR line 34831 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,KK) in module RDSPR line 34834 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,JJ) in module RDSPR line 34834 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,I) in module RDSPR line 34889 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,J) in module RDSPR line 34889 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,I) in module RDSPR line 34958 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,J) in module RDSPR line 34958 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,K) in module RDSPR line 34959 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT1(1,J) in module RDSPR line 34959 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IAT) in module DWRDIN line 34515 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IATABS) in module DWRDIN line 34515 file feff85L.f is
+ array element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL) in module SIGMS line 33637 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL) in module SIGMS line 33637 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL-1) in module SIGMS line 33641 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL-1) in module SIGMS line 33641 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL) in module SIGMS line 33645 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL-1) in module SIGMS line 33645 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL-1) in module SIGMS line 33649 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL) in module SIGMS line 33649 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL) in module SIGMS line 33653 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IL-1) in module SIGMS line 33653 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL) in module SIGMS line 33654 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JL-1) in module SIGMS line 33654 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,I) in module RDPATH line 28730 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IM1) in module RDPATH line 28730 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IAT0) in module MOVRLP line 6539 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IAT) in module MOVRLP line 6539 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,INAT) in module ISTPRM line 6146 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IAT) in module ISTPRM line 6146 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,INAT) in module OVRLP line 4684 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IAT) in module OVRLP line 4684 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATH(1,IAT) in module MOVEH line 4517 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATH(1,I) in module MOVEH line 4517 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATH(1,IA) in module MOVEH line 4533 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATH(1,I) in module MOVEH line 4533 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATH(1,IAT) in module MOVEH line 4551 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATH(1,I) in module MOVEH line 4551 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATH(1,IA) in module MOVEH line 4559 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATH(1,IB) in module MOVEH line 4559 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IAT) in module COULOM line 3881 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IAT0) in module COULOM line 3881 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATX(1,IAT) in module FFSORT line 1718 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATX(1,IATABS) in module FFSORT line 1718 file feff85L.f is
+ array element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IAT) in module FFSORT line 1799 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,1) in module FFSORT line 1799 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,IAT) in module FFSORT line 1815 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RAT(1,JAT) in module FFSORT line 1815 file feff85L.f is array
+ element
+
+Warning: Subprogram DIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATX(1,IAT) in module RDINP line 1291 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module DIST line 44761 file feff85L.f is whole array
+    Actual arg RATX(1,IATABS) in module RDINP line 1291 file feff85L.f is
+ array element
+
+Warning: Subprogram TRIML argument usage mismatch at position 1:
+    Dummy arg STRING in module TRIML line 56462 file feff85L.f is used before
+ set
+    Actual arg STR in module RDPADX line 57198 file feff85L.f is not set
+
+Warning: Subprogram TRIML argument usage mismatch at position 1:
+    Dummy arg STRING in module TRIML line 56462 file feff85L.f is used before
+ set
+    Actual arg STR in module RDPADC line 57141 file feff85L.f is not set
+
+Warning: Subprogram TRIML argument usage mismatch at position 1:
+    Dummy arg STRING in module TRIML line 56462 file feff85L.f is used before
+ set
+    Actual arg STR in module RDPADR line 57084 file feff85L.f is not set
+
+Warning: Subprogram TRIML argument usage mismatch at position 1:
+    Dummy arg STRING in module TRIML line 56462 file feff85L.f is used before
+ set
+    Actual arg STR in module RDPADD line 57028 file feff85L.f is not set
+
+Warning: Subprogram ITOKEN argument mismatch at position 2:
+    Dummy arg FLNAME in module ITOKEN line 55680 file feff85L.f is type 
+ char*20
+    Actual arg 'spring.inp' in module RDSPR line 34662 file feff85L.f is type 
+ char*10
+
+Warning: Subprogram ITOKEN argument mismatch at position 2:
+    Dummy arg FLNAME in module ITOKEN line 55680 file feff85L.f is type 
+ char*20
+    Actual arg 'feff.inp' in module DWRDIN line 34349 file feff85L.f is type 
+ char*8
+
+Warning: Subprogram ITOKEN argument mismatch at position 2:
+    Dummy arg FLNAME in module ITOKEN line 55680 file feff85L.f is type 
+ char*20
+    Actual arg 'feff.inp' in module RDINP line 484 file feff85L.f is type 
+ char*8
+
+Warning: Subprogram ROTATE argument arrayness mismatch at position 1:
+    Dummy arg VEC in module ROTATE line 2414 file feff85L.f is whole array
+    Actual arg RAT(1,I) in module MKPTZ line 2277 file feff85L.f is array
+ element
+
+Warning: Subprogram ROTATE argument arrayness mismatch at position 1:
+    Dummy arg VEC in module ROTATE line 2414 file feff85L.f is whole array
+    Actual arg RAT(1,I) in module MKPTZ line 2405 file feff85L.f is array
+ element
+
+Warning: Subprogram ISTPRM argument arrayness mismatch at position 17:
+    Dummy arg DMAG in module ISTPRM line 5991 file feff85L.f has 2 dims size 
+ 3263
+    Actual arg DMAG in module XSPH line 17800 file feff85L.f has 2 dims size 
+ 3012
+
+Warning: Subprogram ISTPRM argument usage mismatch at position 8:
+    Dummy arg IPHOVR in module ISTPRM line 5991 file feff85L.f is used before
+ set
+    Actual arg IPHOVR in module XSPH line 17800 file feff85L.f is not set
+  and at position 9:
+    Dummy arg NNOVR in module ISTPRM line 5991 file feff85L.f is used before
+ set
+    Actual arg NNOVR in module XSPH line 17800 file feff85L.f is not set
+  and at position 10:
+    Dummy arg ROVR in module ISTPRM line 5991 file feff85L.f is used before
+ set
+    Actual arg ROVR in module XSPH line 17800 file feff85L.f is not set
+
+Warning: Subprogram CORVAL argument arrayness mismatch at position 3:
+    Dummy arg EORB in module CORVAL line 3426 file feff85L.f has 2 dims size 
+ 360
+    Actual arg EORB in module POT line 7387 file feff85L.f has 2 dims size 390
+  and at position 4:
+    Dummy arg NORB in module CORVAL line 3426 file feff85L.f has 1 dim size 12
+    Actual arg NORB in module POT line 7387 file feff85L.f has 1 dim size 13
+  and at position 5:
+    Dummy arg XNVAL in module CORVAL line 3426 file feff85L.f has 2 dims size 
+ 360
+    Actual arg XNVAL in module POT line 7387 file feff85L.f has 2 dims size 
+ 390
+ etc...
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENS(1,IPH) in module SZLZ line 18142 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VTOT(1,IPH) in module SZLZ line 18142 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg DMAG in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg DMAG(1,IPH) in module SZLZ line 18142 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENVL(1,IPH) in module SZLZ line 18147 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VVALGS(1,IPH) in module SZLZ line 18147 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg DMAG in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg DMAG(1,IPH) in module SZLZ line 18147 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENS(1,0) in module XSPH line 17834 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VTOT(1,0) in module XSPH line 17834 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg DMAG in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg DMAG(1,0) in module XSPH line 17834 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENVL(1,0) in module XSPH line 17840 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VVALGS(1,0) in module XSPH line 17840 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg DMAG in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg DMAG(1,0) in module XSPH line 17840 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENS(1,0) in module XSPH line 17880 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg DMAG in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg DMAG(1,0) in module XSPH line 17880 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENS(1,IPH) in module XSPH line 17923 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VTOT(1,IPH) in module XSPH line 17923 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg DMAG in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg DMAG(1,IPH) in module XSPH line 17923 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENVL(1,IPH) in module XSPH line 17928 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VVALGS(1,IPH) in module XSPH line 17928 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg DMAG in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg DMAG(1,IPH) in module XSPH line 17928 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENS(1,IPH) in module SCMTMP line 7783 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VTOT(1,IPH) in module SCMTMP line 7783 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENVL(1,IPH) in module SCMTMP line 7788 file feff85L.f is
+ array element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VVALGS(1,IPH) in module SCMTMP line 7788 file feff85L.f is
+ array element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENS(1,IPH) in module SCMT line 5362 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VTOT(1,IPH) in module SCMT line 5362 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENVL(1,IPH) in module SCMT line 5367 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VVALGS(1,IPH) in module SCMT line 5367 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENS(1,IPH) in module CORVAL line 3586 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VTOT(1,IPH) in module CORVAL line 3586 file feff85L.f is array
+ element
+
+Warning: Subprogram FIXVAR argument arrayness mismatch at position 2:
+    Dummy arg EDENS in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg EDENVL(1,IPH) in module CORVAL line 3591 file feff85L.f is
+ array element
+  and at position 3:
+    Dummy arg VTOT in module FIXVAR line 54410 file feff85L.f is whole array
+    Actual arg VVALGS(1,IPH) in module CORVAL line 3591 file feff85L.f is
+ array element
+
+Warning: Subprogram FIXDSX argument arrayness mismatch at position 4:
+    Dummy arg DGC in module FIXDSX line 54269 file feff85L.f has 3 dims size 
+ 97890
+    Actual arg DGC in module XSPH line 17837 file feff85L.f has 3 dims size 
+ 90360
+  and at position 5:
+    Dummy arg DPC in module FIXDSX line 54269 file feff85L.f has 3 dims size 
+ 97890
+    Actual arg DPC in module XSPH line 17837 file feff85L.f has 3 dims size 
+ 90360
+
+Warning: Subprogram FIXDSX argument arrayness mismatch at position 4:
+    Dummy arg DGC in module FIXDSX line 54269 file feff85L.f has 3 dims size 
+ 97890
+    Actual arg DGC in module XSPH line 17932 file feff85L.f has 3 dims size 
+ 90360
+  and at position 5:
+    Dummy arg DPC in module FIXDSX line 54269 file feff85L.f has 3 dims size 
+ 97890
+    Actual arg DPC in module XSPH line 17932 file feff85L.f has 3 dims size 
+ 90360
+
+Warning: Subprogram RHOLIE argument arrayness mismatch at position 12:
+    Dummy arg XNVAL in module RHOLIE line 4916 file feff85L.f is whole array
+    Actual arg XNVAL(1,IPH) in module SCMTMP line 7810 file feff85L.f is array
+ element
+  and at position 16:
+    Dummy arg ADGC in module RHOLIE line 4916 file feff85L.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SCMTMP line 7810 file feff85L.f is
+ array element
+  and at position 17:
+    Dummy arg ADPC in module RHOLIE line 4916 file feff85L.f is whole array
+    Actual arg ADPC(1,1,IPH) in module SCMTMP line 7810 file feff85L.f is
+ array element
+ etc...
+
+Warning: Subprogram RHOLIE argument arrayness mismatch at position 12:
+    Dummy arg XNVAL in module RHOLIE line 4916 file feff85L.f is whole array
+    Actual arg XNVAL(1,IPH) in module SCMT line 5389 file feff85L.f is array
+ element
+  and at position 16:
+    Dummy arg ADGC in module RHOLIE line 4916 file feff85L.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SCMT line 5389 file feff85L.f is array
+ element
+  and at position 17:
+    Dummy arg ADPC in module RHOLIE line 4916 file feff85L.f is whole array
+    Actual arg ADPC(1,1,IPH) in module SCMT line 5389 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram RHOLIE argument arrayness mismatch at position 12:
+    Dummy arg XNVAL in module RHOLIE line 4916 file feff85L.f is whole array
+    Actual arg XNVAL(1,IPH) in module CORVAL line 3628 file feff85L.f is array
+ element
+  and at position 16:
+    Dummy arg ADGC in module RHOLIE line 4916 file feff85L.f is whole array
+    Actual arg ADGC(1,1,IPH) in module CORVAL line 3628 file feff85L.f is
+ array element
+  and at position 17:
+    Dummy arg ADPC in module RHOLIE line 4916 file feff85L.f is whole array
+    Actual arg ADPC(1,1,IPH) in module CORVAL line 3628 file feff85L.f is
+ array element
+
+Warning: Subprogram FRNRM argument arrayness mismatch at position 1:
+    Dummy arg RHO in module FRNRM line 4081 file feff85L.f is whole array
+    Actual arg EDENS(1,IPH) in module OVRLP line 4696 file feff85L.f is array
+ element
+
+Warning: Subprogram FRNRM argument arrayness mismatch at position 1:
+    Dummy arg RHO in module FRNRM line 4081 file feff85L.f is whole array
+    Actual arg EDENS(1,IP) in module COULOM line 3914 file feff85L.f is array
+ element
+
+Warning: Subprogram FRNRM argument arrayness mismatch at position 1:
+    Dummy arg RHO in module FRNRM line 4081 file feff85L.f has 1 dim size 1251
+    Actual arg DRHO in module COULOM line 3917 file feff85L.f has 1 dim size 
+ 251
+
+Warning: Subprogram FF2G argument arrayness mismatch at position 1:
+    Dummy arg GTR in module FF2G line 3965 file feff85L.f is whole array
+    Actual arg GTR(0,IPH,IPR) in module SCMTMP line 7923 file feff85L.f is
+ array element
+  and at position 5:
+    Dummy arg XRHOCE in module FF2G line 3965 file feff85L.f is whole array
+    Actual arg XRHOCE(0,0,IPR) in module SCMTMP line 7923 file feff85L.f is
+ array element
+  and at position 6:
+    Dummy arg XRHOLE in module FF2G line 3965 file feff85L.f is whole array
+    Actual arg XRHOLE(0,IPH,.. in module SCMTMP line 7923 file feff85L.f is
+ array element
+ etc...
+
+Warning: Subprogram FF2G argument arrayness mismatch at position 1:
+    Dummy arg GTR in module FF2G line 3965 file feff85L.f is whole array
+    Actual arg GTR(0,IPH) in module SCMT line 5424 file feff85L.f is array
+ element
+  and at position 6:
+    Dummy arg XRHOLE in module FF2G line 3965 file feff85L.f is whole array
+    Actual arg XRHOLE(0,IPH) in module SCMT line 5424 file feff85L.f is array
+ element
+  and at position 10:
+    Dummy arg YRHOLE in module FF2G line 3965 file feff85L.f is whole array
+    Actual arg YRHOLE(1,0,IPH) in module SCMT line 5424 file feff85L.f is
+ array element
+ etc...
+
+Warning: Subprogram ISTVAL never invoked
+    Defined in module ISTVAL line 4337 file feff85L.f
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg VCOUL(1,INFR) in module OVRLP line 4667 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg VCLAP(1,IPH) in module OVRLP line 4667 file feff85L.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg RHO(1,INFR) in module OVRLP line 4668 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg EDENS(1,IPH) in module OVRLP line 4668 file feff85L.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg RHO(1,INFR) in module OVRLP line 4669 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg EDENVL(1,IPH) in module OVRLP line 4669 file feff85L.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg VCOUL(1,INFR) in module OVRLP line 4688 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg VCLAP(1,IPH) in module OVRLP line 4688 file feff85L.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg RHO(1,INFR) in module OVRLP line 4689 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg EDENS(1,IPH) in module OVRLP line 4689 file feff85L.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg RHO(1,INFR) in module OVRLP line 4690 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 5626 file feff85L.f is whole array
+    Actual arg EDENVL(1,IPH) in module OVRLP line 4690 file feff85L.f is array
+ element
+
+Warning: Subprogram DFOVRG argument usage mismatch at position 16:
+    Dummy arg PU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PU in module GETWF line 60582 file feff85L.f is not set
+  and at position 17:
+    Dummy arg QU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg QU in module GETWF line 60582 file feff85L.f is not set
+  and at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg P in module GETWF line 60582 file feff85L.f is not set
+ etc...
+
+Warning: Subprogram DFOVRG argument usage mismatch at position 16:
+    Dummy arg PU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PU in module GETCHI0 line 59399 file feff85L.f is not set
+  and at position 17:
+    Dummy arg QU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg QU in module GETCHI0 line 59399 file feff85L.f is not set
+  and at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg P in module GETCHI0 line 59399 file feff85L.f is not set
+ etc...
+
+Warning: Subprogram DFOVRG argument arrayness mismatch at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg PN(1,IM,J) in module RHOLAT line 19123 file feff85L.f is array
+ element
+  and at position 19:
+    Dummy arg QS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg QN(1,IM,J) in module RHOLAT line 19123 file feff85L.f is array
+ element
+
+Warning: Subprogram DFOVRG argument usage mismatch at position 16:
+    Dummy arg PU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PU in module RHOLAT line 19123 file feff85L.f is not set
+  and at position 17:
+    Dummy arg QU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg QU in module RHOLAT line 19123 file feff85L.f is not set
+  and at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PN(1,IM,J) in module RHOLAT line 19123 file feff85L.f is not
+ set
+ etc...
+
+Warning: Subprogram DFOVRG argument arrayness mismatch at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg PN(1,IM,J) in module RHOLAT line 19227 file feff85L.f is array
+ element
+  and at position 19:
+    Dummy arg QS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg QN(1,IM,J) in module RHOLAT line 19227 file feff85L.f is array
+ element
+
+Warning: Subprogram DFOVRG argument arrayness mismatch at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg PR(1,IM,1) in module RHOLAT line 19368 file feff85L.f is array
+ element
+  and at position 19:
+    Dummy arg QS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg QR(1,IM,1) in module RHOLAT line 19368 file feff85L.f is array
+ element
+
+Warning: Subprogram DFOVRG argument arrayness mismatch at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg PN(1,IM,J) in module RHOLSZ line 18783 file feff85L.f is array
+ element
+  and at position 19:
+    Dummy arg QS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg QN(1,IM,J) in module RHOLSZ line 18783 file feff85L.f is array
+ element
+
+Warning: Subprogram DFOVRG argument usage mismatch at position 16:
+    Dummy arg PU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PU in module RHOLSZ line 18783 file feff85L.f is not set
+  and at position 17:
+    Dummy arg QU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg QU in module RHOLSZ line 18783 file feff85L.f is not set
+  and at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PN(1,IM,J) in module RHOLSZ line 18783 file feff85L.f is not
+ set
+ etc...
+
+Warning: Subprogram DFOVRG argument arrayness mismatch at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg PN(1,IM,J) in module RHOLSZ line 18815 file feff85L.f is array
+ element
+  and at position 19:
+    Dummy arg QS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg QN(1,IM,J) in module RHOLSZ line 18815 file feff85L.f is array
+ element
+
+Warning: Subprogram DFOVRG argument arrayness mismatch at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg PR(1,IM,1) in module RHOLSZ line 18893 file feff85L.f is array
+ element
+  and at position 19:
+    Dummy arg QS in module DFOVRG line 38692 file feff85L.f is whole array
+    Actual arg QR(1,IM,1) in module RHOLSZ line 18893 file feff85L.f is array
+ element
+
+Warning: Subprogram DFOVRG argument usage mismatch at position 16:
+    Dummy arg PU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PU in module XSECT line 17040 file feff85L.f is not set
+  and at position 17:
+    Dummy arg QU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg QU in module XSECT line 17040 file feff85L.f is not set
+  and at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg P in module XSECT line 17040 file feff85L.f is not set
+ etc...
+
+Warning: Subprogram DFOVRG argument usage mismatch at position 4:
+    Dummy arg JLAST in module DFOVRG line 38692 file feff85L.f is modified
+    Actual arg JRI in module PHASE line 14700 file feff85L.f same as arg 5: 
+ JRI
+  and at position 5:
+    Dummy arg JRI in module DFOVRG line 38692 file feff85L.f may be modified
+    Actual arg JRI in module PHASE line 14700 file feff85L.f same as arg 4: 
+ JRI
+  and at position 16:
+    Dummy arg PU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PU in module PHASE line 14700 file feff85L.f is not set
+ etc...
+
+Warning: Subprogram DFOVRG argument usage mismatch at position 16:
+    Dummy arg PU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PU in module RHOLIE line 5093 file feff85L.f is not set
+  and at position 17:
+    Dummy arg QU in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg QU in module RHOLIE line 5093 file feff85L.f is not set
+  and at position 18:
+    Dummy arg PS in module DFOVRG line 38692 file feff85L.f is used before set
+    Actual arg PN in module RHOLIE line 5093 file feff85L.f is not set
+ etc...
+
+Warning: Subprogram EXJLNL argument usage mismatch at position 2:
+    Dummy arg L in module EXJLNL line 44991 file feff85L.f may be modified
+    Actual arg LLL in module RHOLAT line 19128 file feff85L.f is active DO
+ index
+
+Warning: Subprogram EXJLNL argument usage mismatch at position 2:
+    Dummy arg L in module EXJLNL line 44991 file feff85L.f may be modified
+    Actual arg LLL in module RHOLAT line 19373 file feff85L.f is active DO
+ index
+
+Warning: Subprogram EXJLNL argument usage mismatch at position 2:
+    Dummy arg L in module EXJLNL line 44991 file feff85L.f may be modified
+    Actual arg LLL in module RHOLSZ line 18788 file feff85L.f is active DO
+ index
+
+Warning: Subprogram EXJLNL argument usage mismatch at position 2:
+    Dummy arg L in module EXJLNL line 44991 file feff85L.f may be modified
+    Actual arg LLL in module RHOLSZ line 18898 file feff85L.f is active DO
+ index
+
+Warning: Subprogram EXJLNL argument usage mismatch at position 2:
+    Dummy arg L in module EXJLNL line 44991 file feff85L.f may be modified
+    Actual arg LLL in module RHOLIE line 5097 file feff85L.f is active DO
+ index
+
+Warning: Subprogram TERPC argument arrayness mismatch at position 2:
+    Dummy arg Y in module TERPC line 45326 file feff85L.f is whole array
+    Actual arg XMU(NE1+1) in module FPRIME line 32445 file feff85L.f is array
+ element
+
+Warning: Subprogram SCMT argument arrayness mismatch at position 20:
+    Dummy arg XNVAL in module SCMT line 5186 file feff85L.f has 2 dims size 
+ 360
+    Actual arg XNVAL in module POT line 7437 file feff85L.f has 2 dims size 
+ 390
+
+Warning: Subprogram SCMT argument usage mismatch at position 1:
+    Dummy arg ISCMT in module SCMT line 5186 file feff85L.f may be modified
+    Actual arg ISCMT in module POT line 7437 file feff85L.f is active DO index
+
+Warning: Subprogram FMSIE argument arrayness mismatch at position 14:
+    Dummy arg GTR in module FMSIE line 20477 file feff85L.f is whole array
+    Actual arg GTR(0,0,IPR) in module SCMTMP line 7833 file feff85L.f is array
+ element
+
+Warning: Subprogram FMSIE argument arrayness mismatch at position 14:
+    Dummy arg GTR in module FMSIE line 20477 file feff85L.f is whole array
+    Actual arg GTR(0,0,IPR) in module SCMTMP line 7837 file feff85L.f is array
+ element
+
+Warning: Subprogram FMSIE argument usage mismatch at position 1:
+    Dummy arg IPH0 in module FMSIE line 20477 file feff85L.f may be modified
+    Actual arg IPH0 in module SCMTMP line 7837 file feff85L.f is active DO
+ index
+
+Warning: Subprogram FMSIE argument usage mismatch at position 1:
+    Dummy arg IPH0 in module FMSIE line 20477 file feff85L.f may be modified
+    Actual arg IPH0 in module SCMT line 5413 file feff85L.f is active DO index
+
+Warning: Subprogram WRPOT argument arrayness mismatch at position 25:
+    Dummy arg DGC in module WRPOT line 5810 file feff85L.f has 3 dims size 
+ 90360
+    Actual arg DGC in module POT line 7558 file feff85L.f has 3 dims size 
+ 97890
+  and at position 26:
+    Dummy arg DPC in module WRPOT line 5810 file feff85L.f has 3 dims size 
+ 90360
+    Actual arg DPC in module POT line 7558 file feff85L.f has 3 dims size 
+ 97890
+  and at position 27:
+    Dummy arg ADGC in module WRPOT line 5810 file feff85L.f has 3 dims size 
+ 3600
+    Actual arg ADGC in module POT line 7558 file feff85L.f has 3 dims size 
+ 3900
+ etc...
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg RAT(1,1) in module GENFMT line 28030 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg DUM(1) in module WRXSPH line 16282 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg DUM(1) in module WRPOT line 5950 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg RMT(0) in module WRPOT line 5955 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg RNRM(0) in module WRPOT line 5961 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg FOLP(0) in module WRPOT line 5962 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg FOLPX(0) in module WRPOT line 5963 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg XNATPH(0) in module WRPOT line 5964 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg XION(0) in module WRPOT line 5965 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg DGC0(1) in module WRPOT line 5966 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg DPC0(1) in module WRPOT line 5967 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg DGC(1,1,0) in module WRPOT line 5968 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg DPC(1,1,0) in module WRPOT line 5969 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg ADGC(1,1,0) in module WRPOT line 5970 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg ADPC(1,1,0) in module WRPOT line 5971 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg EDENS(1,0) in module WRPOT line 5972 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg VCLAP(1,0) in module WRPOT line 5973 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg VTOT(1,0) in module WRPOT line 5974 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg EDENVL(1,0) in module WRPOT line 5975 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg VVALGS(1,0) in module WRPOT line 5976 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg DMAG(1,0) in module WRPOT line 5977 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg XNVAL(1,0) in module WRPOT line 5978 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg EORB(1) in module WRPOT line 5979 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg QNRM(0) in module WRPOT line 5985 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADD line 56825 file feff85L.f is whole array
+    Actual arg XNMUES(0,0) in module WRPOT line 5986 file feff85L.f is array
+ element
+
+Warning: Subprogram SIDX argument arrayness mismatch at position 1:
+    Dummy arg RHOLAP in module SIDX line 6947 file feff85L.f is whole array
+    Actual arg EDENS(1,IPH) in module ISTPRM line 6256 file feff85L.f is array
+ element
+
+Warning: Subprogram OVP2MT argument usage mismatch at position 14:
+    Dummy arg VINT in module OVP2MT line 6691 file feff85L.f is used before
+ set
+    Actual arg VINTVL in module ISTPRM line 6355 file feff85L.f is not set
+
+Warning: Subprogram CGETRF argument usage mismatch at position 1:
+    Dummy arg M in module CGETRF line 45503 file feff85L.f may be modified
+    Actual arg ISTATE in module CHIKLU line 62058 file feff85L.f same as arg 2
+ : ISTATE
+  and at position 2:
+    Dummy arg N in module CGETRF line 45503 file feff85L.f may be modified
+    Actual arg ISTATE in module CHIKLU line 62058 file feff85L.f same as arg 1
+ : ISTATE
+
+Warning: Subprogram CGETRF argument usage mismatch at position 1:
+    Dummy arg M in module CGETRF line 45503 file feff85L.f may be modified
+    Actual arg MATSIZE in module DMSCF line 59008 file feff85L.f same as arg 4
+ : MATSIZE
+  and at position 2:
+    Dummy arg N in module CGETRF line 45503 file feff85L.f may be modified
+    Actual arg MATSIZE in module DMSCF line 59008 file feff85L.f same as arg 1
+ : MATSIZE
+  and at position 4:
+    Dummy arg LDA in module CGETRF line 45503 file feff85L.f may be modified
+    Actual arg MATSIZE in module DMSCF line 59008 file feff85L.f same as arg 2
+ : MATSIZE
+
+Warning: Subprogram CGETRF argument usage mismatch at position 1:
+    Dummy arg M in module CGETRF line 45503 file feff85L.f may be modified
+    Actual arg ISTATE in module GGLU line 21531 file feff85L.f same as arg 2: 
+ ISTATE
+  and at position 2:
+    Dummy arg N in module CGETRF line 45503 file feff85L.f may be modified
+    Actual arg ISTATE in module GGLU line 21531 file feff85L.f same as arg 1: 
+ ISTATE
+
+Warning: Subprogram CGETRF argument usage mismatch at position 1:
+    Dummy arg M in module CGETRF line 45503 file feff85L.f may be modified
+    Actual arg NCP in module MOVRLP line 6678 file feff85L.f same as arg 2: 
+ NCP
+  and at position 2:
+    Dummy arg N in module CGETRF line 45503 file feff85L.f may be modified
+    Actual arg NCP in module MOVRLP line 6678 file feff85L.f same as arg 1: 
+ NCP
+
+Warning: Subprogram TERP argument arrayness mismatch at position 2:
+    Dummy arg Y in module TERP line 45229 file feff85L.f is whole array
+    Actual arg DGC(1,IORB,IPH) in module FIXDSX line 54397 file feff85L.f is
+ array element
+
+Warning: Subprogram TERP argument arrayness mismatch at position 2:
+    Dummy arg Y in module TERP line 45229 file feff85L.f is whole array
+    Actual arg DPC(1,IORB,IPH) in module FIXDSX line 54398 file feff85L.f is
+ array element
+
+Warning: Subprogram TERP argument arrayness mismatch at position 2:
+    Dummy arg Y in module TERP line 45229 file feff85L.f is whole array
+    Actual arg VTOT(1,IP1) in module OVP2MT line 6810 file feff85L.f is array
+ element
+
+Warning: Subprogram TERP argument arrayness mismatch at position 2:
+    Dummy arg Y in module TERP line 45229 file feff85L.f is whole array
+    Actual arg VTOT(1,IPH) in module OVP2MT line 6867 file feff85L.f is array
+ element
+
+Warning: Subprogram TERP argument usage mismatch at position 1:
+    Dummy arg X in module TERP line 45229 file feff85L.f may be modified
+    Actual arg RI in module OVP2MT line 6867 file feff85L.f may be same as arg 
+ 5: RI(J)
+  and at position 2:
+    Dummy arg Y in module TERP line 45229 file feff85L.f may be modified
+    Actual arg VTOT(1,IPH) in module OVP2MT line 6867 file feff85L.f may be
+ same as arg 6: VTOT(J,IPH)
+  and at position 5:
+    Dummy arg X0 in module TERP line 45229 file feff85L.f may be modified
+    Actual arg RI(J) in module OVP2MT line 6867 file feff85L.f may be same as
+ arg 1: RI
+ etc...
+
+Warning: Subprogram TERP argument usage mismatch at position 1:
+    Dummy arg X in module TERP line 45229 file feff85L.f may be modified
+    Actual arg RI in module OVP2MT line 6893 file feff85L.f may be same as arg 
+ 5: RI(I)
+  and at position 2:
+    Dummy arg Y in module TERP line 45229 file feff85L.f may be modified
+    Actual arg CRHO in module OVP2MT line 6893 file feff85L.f may be same as
+ arg 6: CRHO(I)
+  and at position 5:
+    Dummy arg X0 in module TERP line 45229 file feff85L.f may be modified
+    Actual arg RI(I) in module OVP2MT line 6893 file feff85L.f may be same as
+ arg 1: RI
+ etc...
+
+Warning: Subprogram CGETRS argument usage mismatch at position 5:
+    Dummy arg LDA in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg ISTATX in module CHIKLU line 62097 file feff85L.f same as arg 8
+ : ISTATX
+  and at position 8:
+    Dummy arg LDB in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg ISTATX in module CHIKLU line 62097 file feff85L.f same as arg 5
+ : ISTATX
+
+Warning: Subprogram CGETRS argument arrayness mismatch at position 7:
+    Dummy arg B in module CGETRS line 45800 file feff85L.f has 2 dims size 0
+    Actual arg RHS in module DMSCF line 59017 file feff85L.f has 1 dim size 0
+
+Warning: Subprogram CGETRS argument usage mismatch at position 2:
+    Dummy arg N in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg MATSIZE in module DMSCF line 59017 file feff85L.f same as arg 8
+ : MATSIZE
+  and at position 5:
+    Dummy arg LDA in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg MATSIZE in module DMSCF line 59017 file feff85L.f same as arg 2
+ : MATSIZE
+  and at position 8:
+    Dummy arg LDB in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg MATSIZE in module DMSCF line 59017 file feff85L.f same as arg 5
+ : MATSIZE
+
+Warning: Subprogram CGETRS argument usage mismatch at position 5:
+    Dummy arg LDA in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg ISTATX in module GGLU line 21563 file feff85L.f same as arg 8: 
+ ISTATX
+  and at position 8:
+    Dummy arg LDB in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg ISTATX in module GGLU line 21563 file feff85L.f same as arg 5: 
+ ISTATX
+
+Warning: Subprogram CGETRS argument arrayness mismatch at position 7:
+    Dummy arg B in module CGETRS line 45800 file feff85L.f has 2 dims size 0
+    Actual arg CVOVP in module OVP2MT line 6834 file feff85L.f has 1 dim size 
+ 481
+
+Warning: Subprogram CGETRS argument usage mismatch at position 5:
+    Dummy arg LDA in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg ISTATX in module OVP2MT line 6834 file feff85L.f same as arg 8: 
+ ISTATX
+  and at position 8:
+    Dummy arg LDB in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg ISTATX in module OVP2MT line 6834 file feff85L.f same as arg 5: 
+ ISTATX
+
+Warning: Subprogram CGETRS argument arrayness mismatch at position 7:
+    Dummy arg B in module CGETRS line 45800 file feff85L.f has 2 dims size 0
+    Actual arg CVOVP in module OVP2MT line 6876 file feff85L.f has 1 dim size 
+ 481
+
+Warning: Subprogram CGETRS argument usage mismatch at position 5:
+    Dummy arg LDA in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg ISTATX in module OVP2MT line 6876 file feff85L.f same as arg 8: 
+ ISTATX
+  and at position 8:
+    Dummy arg LDB in module CGETRS line 45800 file feff85L.f may be modified
+    Actual arg ISTATX in module OVP2MT line 6876 file feff85L.f same as arg 5: 
+ ISTATX
+
+Warning: Subprogram SCFDAT argument arrayness mismatch at position 8:
+    Dummy arg VCOUL in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg VCOUL(1,NPH+1) in module POT line 7213 file feff85L.f is array
+ element
+  and at position 9:
+    Dummy arg SRHO in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg RHO(1,NPH+1) in module POT line 7213 file feff85L.f is array
+ element
+  and at position 10:
+    Dummy arg DMAG in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg DMAG(1,NPH+1) in module POT line 7213 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram SCFDAT argument arrayness mismatch at position 8:
+    Dummy arg VCOUL in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg VCOUL(1,IPH) in module POT line 7222 file feff85L.f is array
+ element
+  and at position 9:
+    Dummy arg SRHO in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg RHO(1,IPH) in module POT line 7222 file feff85L.f is array
+ element
+  and at position 10:
+    Dummy arg DMAG in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg DMAG(1,IPH) in module POT line 7222 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram SCFDAT argument arrayness mismatch at position 8:
+    Dummy arg VCOUL in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg VCOUL(1,IPH) in module POT line 7244 file feff85L.f is array
+ element
+  and at position 9:
+    Dummy arg SRHO in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg RHO(1,IPH) in module POT line 7244 file feff85L.f is array
+ element
+  and at position 10:
+    Dummy arg DMAG in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg DMAG(1,IPH) in module POT line 7244 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram SCFDAT argument arrayness mismatch at position 8:
+    Dummy arg VCOUL in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg VCOUL(1,NPH+1) in module POT line 7253 file feff85L.f is array
+ element
+  and at position 9:
+    Dummy arg SRHO in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg RHO(1,NPH+1) in module POT line 7253 file feff85L.f is array
+ element
+  and at position 10:
+    Dummy arg DMAG in module SCFDAT line 35896 file feff85L.f is whole array
+    Actual arg DMAG(1,NPH+1) in module POT line 7253 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram SCMTMP argument arrayness mismatch at position 21:
+    Dummy arg XNVAL in module SCMTMP line 7580 file feff85L.f has 2 dims size 
+ 360
+    Actual arg XNVAL in module POT line 7446 file feff85L.f has 2 dims size 
+ 390
+  and at position 48:
+    Dummy arg GTR in module SCMTMP line 7580 file feff85L.f has 3 dims size 0
+    Actual arg GTR in module POT line 7446 file feff85L.f has 1 dim size 60
+  and at position 49:
+    Dummy arg XRHOLE in module SCMTMP line 7580 file feff85L.f has 3 dims size 
+ 0
+    Actual arg XRHOLE in module POT line 7446 file feff85L.f has 1 dim size 60
+ etc...
+
+Warning: Subprogram SCMTMP argument usage mismatch at position 2:
+    Dummy arg ISCMT in module SCMTMP line 7580 file feff85L.f may be modified
+    Actual arg ISCMT in module POT line 7446 file feff85L.f is active DO index
+
+Warning: Subprogram PAR_SEND_INT argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_SEND_INT line 57911 file feff85L.f is array
+    Actual arg IXL in module SCMTMP line 7854 file feff85L.f is scalar
+
+Warning: Subprogram PAR_SEND_INT argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_SEND_INT line 57911 file feff85L.f is array
+    Actual arg IXLY in module SCMTMP line 7855 file feff85L.f is scalar
+
+Warning: Subprogram PAR_SEND_INT argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_SEND_INT line 57911 file feff85L.f is array
+    Actual arg IXLC in module SCMTMP line 7856 file feff85L.f is scalar
+
+Warning: Subprogram PAR_SEND_CMPLX argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_SEND_CMPLX line 57920 file feff85L.f is whole
+ array
+    Actual arg GTR(0,0,IPR) in module SCMTMP line 7859 file feff85L.f is array
+ element
+
+Warning: Subprogram PAR_SEND_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_SEND_DC line 57929 file feff85L.f is whole
+ array
+    Actual arg XRHOCE(0,0,IPR) in module SCMTMP line 7860 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_SEND_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_SEND_DC line 57929 file feff85L.f is whole
+ array
+    Actual arg XRHOLE(0,0,IPR) in module SCMTMP line 7861 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_SEND_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_SEND_DC line 57929 file feff85L.f is whole
+ array
+    Actual arg YRHOLE(1,0,0,.. in module SCMTMP line 7864 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_SEND_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_SEND_DC line 57929 file feff85L.f is whole
+ array
+    Actual arg YRHOCE(1,0,IPR) in module SCMTMP line 7866 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_RECV_INT argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_RECV_INT line 57938 file feff85L.f is array
+    Actual arg IXL in module SCMTMP line 7870 file feff85L.f is scalar
+
+Warning: Subprogram PAR_RECV_INT argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_RECV_INT line 57938 file feff85L.f is array
+    Actual arg IXLY in module SCMTMP line 7871 file feff85L.f is scalar
+
+Warning: Subprogram PAR_RECV_INT argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_RECV_INT line 57938 file feff85L.f is array
+    Actual arg IXLC in module SCMTMP line 7872 file feff85L.f is scalar
+
+Warning: Subprogram PAR_RECV_CMPLX argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_RECV_CMPLX line 57947 file feff85L.f is whole
+ array
+    Actual arg GTR(0,0,I+1) in module SCMTMP line 7875 file feff85L.f is array
+ element
+
+Warning: Subprogram PAR_RECV_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_RECV_DC line 57956 file feff85L.f is whole
+ array
+    Actual arg XRHOCE(0,0,I+1) in module SCMTMP line 7876 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_RECV_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_RECV_DC line 57956 file feff85L.f is whole
+ array
+    Actual arg XRHOLE(0,0,I+1) in module SCMTMP line 7877 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_RECV_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_RECV_DC line 57956 file feff85L.f is whole
+ array
+    Actual arg YRHOLE(1,0,0,.. in module SCMTMP line 7880 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_RECV_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_RECV_DC line 57956 file feff85L.f is whole
+ array
+    Actual arg YRHOCE(1,0,I+1) in module SCMTMP line 7882 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_BCAST_CMPLX argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_BCAST_CMPLX line 57974 file feff85L.f is whole
+ array
+    Actual arg GTR(0,0,1) in module SCMTMP line 7890 file feff85L.f is array
+ element
+
+Warning: Subprogram PAR_BCAST_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_BCAST_DC line 57983 file feff85L.f is whole
+ array
+    Actual arg XRHOCE(0,0,1) in module SCMTMP line 7891 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_BCAST_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_BCAST_DC line 57983 file feff85L.f is whole
+ array
+    Actual arg XRHOLE(0,0,1) in module SCMTMP line 7892 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_BCAST_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_BCAST_DC line 57983 file feff85L.f is whole
+ array
+    Actual arg YRHOLE(1,0,0,1) in module SCMTMP line 7893 file feff85L.f is
+ array element
+
+Warning: Subprogram PAR_BCAST_DC argument arrayness mismatch at position 1:
+    Dummy arg BUF in module PAR_BCAST_DC line 57983 file feff85L.f is whole
+ array
+    Actual arg YRHOCE(1,0,1) in module SCMTMP line 7894 file feff85L.f is
+ array element
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module D2RENERGIES line 11827 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module D2RENERGIES line 11827 file feff85L.f is not
+ set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module D2RENERGIES line 11829 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module D2RENERGIES line 11829 file feff85L.f is not
+ set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module D2RENERGIES line 11831 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module D2RENERGIES line 11831 file feff85L.f is not
+ set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module D2RENERGIES line 11834 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module D2RENERGIES line 11834 file feff85L.f is not
+ set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module D2RENERGIES line 11836 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module D2RENERGIES line 11836 file feff85L.f is not
+ set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module D2RENERGIES line 11838 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module D2RENERGIES line 11838 file feff85L.f is not
+ set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module D2RENERGIES line 11841 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module D2RENERGIES line 11841 file feff85L.f is not
+ set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module D2RENERGIES line 11843 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module D2RENERGIES line 11843 file feff85L.f is not
+ set
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DRSEINT1 in module DRENERGIES line 11619 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module DRENERGIES line 11619 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module DRENERGIES line 11619 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DRSEINT1 in module DRENERGIES line 11621 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module DRENERGIES line 11621 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module DRENERGIES line 11621 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DRSEINT2 in module DRENERGIES line 11623 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module DRENERGIES line 11623 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module DRENERGIES line 11623 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DRSEINT1 in module DRENERGIES line 11626 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module DRENERGIES line 11626 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module DRENERGIES line 11626 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DRSEINT2 in module DRENERGIES line 11628 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module DRENERGIES line 11628 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module DRENERGIES line 11628 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DRSEINT3 in module DRENERGIES line 11630 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module DRENERGIES line 11630 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module DRENERGIES line 11630 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DRSEINT1 in module DRENERGIES line 11633 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module DRENERGIES line 11633 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module DRENERGIES line 11633 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DRSEINT2 in module DRENERGIES line 11635 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module DRENERGIES line 11635 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module DRENERGIES line 11635 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGR1 in module DBRSIGMA line 10937 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGI1 in module DBRSIGMA line 10939 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNR1 in module DBRSIGMA line 10941 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNI1 in module DBRSIGMA line 10943 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGR2 in module DBRSIGMA line 10946 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGI2 in module DBRSIGMA line 10948 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNR2 in module DBRSIGMA line 10950 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNI2 in module DBRSIGMA line 10952 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGR3 in module DBRSIGMA line 10955 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGI3 in module DBRSIGMA line 10957 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNR3 in module DBRSIGMA line 10959 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNI3 in module DBRSIGMA line 10961 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGR1 in module DBRSIGMA line 10966 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGI1 in module DBRSIGMA line 10968 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNR1 in module DBRSIGMA line 10970 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNI1 in module DBRSIGMA line 10972 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGR4 in module DBRSIGMA line 10976 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQLOGI4 in module DBRSIGMA line 10978 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNR4 in module DBRSIGMA line 10980 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument data type mismatch at position 1:
+    Dummy arg FN in module GRATER line 8486 file feff85L.f is type dble 
+ subprog
+    Actual arg DQATNI4 in module DBRSIGMA line 10982 file feff85L.f is type 
+ subr subprog
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module RENERGIES line 10196 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module RENERGIES line 10196 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module RENERGIES line 10198 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module RENERGIES line 10198 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module RENERGIES line 10200 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module RENERGIES line 10200 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module RENERGIES line 10203 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module RENERGIES line 10203 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module RENERGIES line 10205 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module RENERGIES line 10205 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module RENERGIES line 10207 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module RENERGIES line 10207 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module RENERGIES line 10210 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module RENERGIES line 10210 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module RENERGIES line 10212 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module RENERGIES line 10212 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module XMKAK line 8951 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module XMKAK line 8951 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module XMKISAT line 8873 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module XMKISAT line 8873 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module XMKISAT line 8875 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module XMKISAT line 8875 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module XMKXSAT line 8834 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module XMKXSAT line 8834 file feff85L.f is not set
+
+Warning: Subprogram GRATER argument arrayness mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is array
+    Actual arg XSING in module XMKXSAT line 8836 file feff85L.f is scalar
+
+Warning: Subprogram GRATER argument usage mismatch at position 7:
+    Dummy arg XSING in module GRATER line 8486 file feff85L.f is used before
+ set
+    Actual arg XSING in module XMKXSAT line 8836 file feff85L.f is not set
+
+Warning: Subprogram INTERPSF argument arrayness mismatch at position 2:
+    Dummy arg EPTS in module INTERPSF line 8591 file feff85L.f has 1 dim size 
+ 110
+    Actual arg EPTS in module SO2CONV line 13576 file feff85L.f has 1 dim size 
+ 112
+  and at position 4:
+    Dummy arg SPECTF in module INTERPSF line 8591 file feff85L.f has 2 dims 
+ size 880
+    Actual arg SPECTF in module SO2CONV line 13576 file feff85L.f has 2 dims 
+ size 896
+
+Warning: Subprogram XMKSSAT never defined nor invoked
+    Declared in module MKSPECTF line 9203 file feff85L.f
+
+Warning: Subprogram XMKXG never defined nor invoked
+    Declared in module MKSPECTF line 9203 file feff85L.f
+
+Warning: Subprogram XMKIG never defined nor invoked
+    Declared in module MKSPECTF line 9203 file feff85L.f
+
+Warning: Subprogram DWDQ never invoked
+    Defined in module DWDQ line 9840 file feff85L.f
+
+Warning: Subprogram D2WDQ2 never invoked
+    Defined in module D2WDQ2 line 9856 file feff85L.f
+
+Warning: Subprogram RW1BETA never defined nor invoked
+    Declared in module RENERGIES line 10185 file feff85L.f
+
+Warning: Subprogram DQLOGR1 invoked inconsistently
+    Defined in module DQLOGR1 line 10997 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10937 file feff85L.f as type subr
+  and
+    Invoked in module DBRSIGMA line 10966 file feff85L.f as type subr
+
+Warning: Subprogram DQLOGR2 invoked inconsistently
+    Defined in module DQLOGR2 line 11057 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10946 file feff85L.f as type subr
+
+Warning: Subprogram DQLOGR3 invoked inconsistently
+    Defined in module DQLOGR3 line 11117 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10955 file feff85L.f as type subr
+
+Warning: Subprogram DQLOGR4 invoked inconsistently
+    Defined in module DQLOGR4 line 11178 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10976 file feff85L.f as type subr
+
+Warning: Subprogram DQLOGI1 invoked inconsistently
+    Defined in module DQLOGI1 line 11027 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10939 file feff85L.f as type subr
+  and
+    Invoked in module DBRSIGMA line 10968 file feff85L.f as type subr
+
+Warning: Subprogram DQLOGI2 invoked inconsistently
+    Defined in module DQLOGI2 line 11087 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10948 file feff85L.f as type subr
+
+Warning: Subprogram DQLOGI3 invoked inconsistently
+    Defined in module DQLOGI3 line 11147 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10957 file feff85L.f as type subr
+
+Warning: Subprogram DQLOGI4 invoked inconsistently
+    Defined in module DQLOGI4 line 11208 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10978 file feff85L.f as type subr
+
+Warning: Subprogram DQATNR1 invoked inconsistently
+    Defined in module DQATNR1 line 11268 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10941 file feff85L.f as type subr
+  and
+    Invoked in module DBRSIGMA line 10970 file feff85L.f as type subr
+
+Warning: Subprogram DQATNR2 invoked inconsistently
+    Defined in module DQATNR2 line 11328 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10950 file feff85L.f as type subr
+
+Warning: Subprogram DQATNR3 invoked inconsistently
+    Defined in module DQATNR3 line 11388 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10959 file feff85L.f as type subr
+
+Warning: Subprogram DQATNR4 invoked inconsistently
+    Defined in module DQATNR4 line 11448 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10980 file feff85L.f as type subr
+
+Warning: Subprogram DQATNI1 invoked inconsistently
+    Defined in module DQATNI1 line 11238 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10943 file feff85L.f as type subr
+  and
+    Invoked in module DBRSIGMA line 10972 file feff85L.f as type subr
+
+Warning: Subprogram DQATNI2 invoked inconsistently
+    Defined in module DQATNI2 line 11298 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10952 file feff85L.f as type subr
+
+Warning: Subprogram DQATNI3 invoked inconsistently
+    Defined in module DQATNI3 line 11358 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10961 file feff85L.f as type subr
+
+Warning: Subprogram DQATNI4 invoked inconsistently
+    Defined in module DQATNI4 line 11418 file feff85L.f as type dble
+    Invoked in module DBRSIGMA line 10982 file feff85L.f as type subr
+
+Warning: Subprogram XIW1BETA never defined nor invoked
+    Declared in module XIENERGIES line 11568 file feff85L.f
+
+Warning: Subprogram DRSEINT1 invoked inconsistently
+    Defined in module DRSEINT1 line 12179 file feff85L.f as type dble
+    Invoked in module DRENERGIES line 11619 file feff85L.f as type subr
+  and
+    Invoked in module DRENERGIES line 11621 file feff85L.f as type subr
+  and
+    Invoked in module DRENERGIES line 11626 file feff85L.f as type subr
+ etc...
+
+Warning: Subprogram DRSEINT2 invoked inconsistently
+    Defined in module DRSEINT2 line 12215 file feff85L.f as type dble
+    Invoked in module DRENERGIES line 11623 file feff85L.f as type subr
+  and
+    Invoked in module DRENERGIES line 11628 file feff85L.f as type subr
+  and
+    Invoked in module DRENERGIES line 11635 file feff85L.f as type subr
+
+Warning: Subprogram DRSEINT3 invoked inconsistently
+    Defined in module DRSEINT3 line 12260 file feff85L.f as type dble
+    Invoked in module DRENERGIES line 11630 file feff85L.f as type subr
+
+Warning: Subprogram D2RENERGIES never invoked
+    Defined in module D2RENERGIES line 11779 file feff85L.f
+
+Warning: Subprogram D2RSEINT1 never invoked
+    Defined in module D2RSEINT1 line 12296 file feff85L.f
+
+Warning: Subprogram D2RSEINT2 never invoked
+    Defined in module D2RSEINT2 line 12332 file feff85L.f
+
+Warning: Subprogram D2RSEINT3 never invoked
+    Defined in module D2RSEINT3 line 12377 file feff85L.f
+
+Warning: Subprogram D2IENERGIES never invoked
+    Defined in module D2IENERGIES line 11850 file feff85L.f
+
+Warning: Subprogram D2FACT never invoked
+    Defined in module D2FACT line 12018 file feff85L.f
+
+Warning: Subprogram PPSET never invoked
+    Defined in module PPSET line 14035 file feff85L.f
+
+Warning: Subprogram AXAFS argument arrayness mismatch at position 3:
+    Dummy arg XSEC in module AXAFS line 14259 file feff85L.f is whole array
+    Actual arg XSEC(1,1) in module XSPH line 17990 file feff85L.f is array
+ element
+
+Warning: Subprogram PHASE argument arrayness mismatch at position 25:
+    Dummy arg ADGC in module PHASE line 14427 file feff85L.f is whole array
+    Actual arg ADGC(1,1,IPH) in module XSPH line 17940 file feff85L.f is array
+ element
+  and at position 26:
+    Dummy arg ADPC in module PHASE line 14427 file feff85L.f is whole array
+    Actual arg ADPC(1,1,IPH) in module XSPH line 17940 file feff85L.f is array
+ element
+  and at position 27:
+    Dummy arg EREF in module PHASE line 14427 file feff85L.f is whole array
+    Actual arg EREF(1,ISP) in module XSPH line 17940 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram PHASE argument usage mismatch at position 1:
+    Dummy arg IPH in module PHASE line 14427 file feff85L.f may be modified
+    Actual arg IPH in module XSPH line 17940 file feff85L.f is active DO index
+
+Warning: Subprogram XCPOT argument usage mismatch at position 5:
+    Dummy arg IFIRST in module XCPOT line 41029 file feff85L.f is used before
+ set
+    Actual arg IFIRST in module XSECTD line 58496 file feff85L.f is not set
+
+Warning: Subprogram PHMESH2 never invoked
+    Defined in module PHMESH2 line 14735 file feff85L.f
+
+Warning: Subprogram EXAFSGRID84 never invoked
+    Defined in module EXAFSGRID84 line 15084 file feff85L.f
+
+Warning: Subprogram XANESGRID84 never invoked
+    Defined in module XANESGRID84 line 15159 file feff85L.f
+
+Warning: Subprogram FPRIMEGRID84 never invoked
+    Defined in module FPRIMEGRID84 line 15262 file feff85L.f
+
+Warning: Subprogram RDGRID never invoked
+    Defined in module RDGRID line 20149 file feff85L.f
+
+Warning: Subprogram MKEMESH never invoked
+    Defined in module MKEMESH line 15372 file feff85L.f
+
+Warning: Subprogram MKKMESH never invoked
+    Defined in module MKKMESH line 15412 file feff85L.f
+
+Warning: Subprogram MKEXPMESH never invoked
+    Defined in module MKEXPMESH line 15063 file feff85L.f
+
+Warning: Subprogram SORTE never invoked
+    Defined in module SORTE line 15473 file feff85L.f
+
+Warning: Subprogram REVERSEGRID never invoked
+    Defined in module REVERSEGRID line 15346 file feff85L.f
+
+Warning: Subprogram MKVGRID84 never invoked
+    Defined in module MKVGRID84 line 14982 file feff85L.f
+
+Warning: Subprogram WRTE never invoked
+    Defined in module WRTE line 15454 file feff85L.f
+
+Warning: Subprogram QSORTI argument data type mismatch at position 3:
+    Dummy arg A in module QSORTI line 57659 file feff85L.f is type dble
+    Actual arg XSING in module FNDSNG line 43495 file feff85L.f is type 
+ cplx*16
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 15841 file feff85L.f may be modified
+    Actual arg MULT in module XSECT line 17082 file feff85L.f is active DO
+ index
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 15841 file feff85L.f may be modified
+    Actual arg MULT in module XSECT line 17185 file feff85L.f is active DO
+ index
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 15841 file feff85L.f may be modified
+    Actual arg MULT in module XSECT line 17321 file feff85L.f is active DO
+ index
+
+Warning: Subprogram RADINT argument usage mismatch at position 2:
+    Dummy arg MULT in module RADINT line 15841 file feff85L.f may be modified
+    Actual arg MULT in module XSECT line 17326 file feff85L.f is active DO
+ index
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 16320 file feff85L.f is modified
+    Actual arg XM(1) in module RADINT line 15955 file feff85L.f may be same as
+ arg 6: XM(2)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 16320 file feff85L.f is modified
+    Actual arg XM(2) in module RADINT line 15955 file feff85L.f may be same as
+ arg 5: XM(1)
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 16320 file feff85L.f is modified
+    Actual arg XM(3) in module RADINT line 15956 file feff85L.f may be same as
+ arg 6: XM(4)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 16320 file feff85L.f is modified
+    Actual arg XM(4) in module RADINT line 15956 file feff85L.f may be same as
+ arg 5: XM(3)
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 16320 file feff85L.f is modified
+    Actual arg XM(1) in module RADINT line 15961 file feff85L.f may be same as
+ arg 6: XM(2)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 16320 file feff85L.f is modified
+    Actual arg XM(2) in module RADINT line 15961 file feff85L.f may be same as
+ arg 5: XM(1)
+
+Warning: Subprogram XMULT argument usage mismatch at position 5:
+    Dummy arg XM1 in module XMULT line 16320 file feff85L.f is modified
+    Actual arg XM(1) in module RADINT line 15964 file feff85L.f may be same as
+ arg 6: XM(2)
+  and at position 6:
+    Dummy arg XM2 in module XMULT line 16320 file feff85L.f is modified
+    Actual arg XM(2) in module RADINT line 15964 file feff85L.f may be same as
+ arg 5: XM(1)
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 16063 file feff85L.f is whole array
+    Actual arg BF(0,I) in module RADINT line 15977 file feff85L.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 16063 file feff85L.f is whole array
+    Actual arg BF(0,I) in module RADINT line 16004 file feff85L.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 16063 file feff85L.f is whole array
+    Actual arg BF(0,I) in module RADINT line 16005 file feff85L.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 16063 file feff85L.f is whole array
+    Actual arg BF(0,I) in module RADINT line 16028 file feff85L.f is array
+ element
+
+Warning: Subprogram XRCI argument arrayness mismatch at position 7:
+    Dummy arg BF in module XRCI line 16063 file feff85L.f is whole array
+    Actual arg BF(0,I) in module RADINT line 16035 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADX argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADX line 56870 file feff85L.f is whole array
+    Actual arg PH(1,LL,0) in module GENFMT line 27784 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADX argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADX line 56870 file feff85L.f is whole array
+    Actual arg EM(1) in module WRXSPH line 16284 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADX argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADX line 56870 file feff85L.f is whole array
+    Actual arg TEMP(1) in module WRXSPH line 16291 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADX argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADX line 56870 file feff85L.f is whole array
+    Actual arg TEMP(1) in module WRXSPH line 16303 file feff85L.f is array
+ element
+
+Warning: Subprogram WRPADX argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module WRPADX line 56870 file feff85L.f is whole array
+    Actual arg TEMP(1) in module WRXSPH line 16314 file feff85L.f is array
+ element
+
+Warning: Subprogram XSECT argument arrayness mismatch at position 31:
+    Dummy arg ADGC in module XSECT line 16658 file feff85L.f is whole array
+    Actual arg ADGC(1,1,IPH) in module XSPH line 17849 file feff85L.f is array
+ element
+  and at position 32:
+    Dummy arg ADPC in module XSECT line 16658 file feff85L.f is whole array
+    Actual arg ADPC(1,1,IPH) in module XSPH line 17849 file feff85L.f is array
+ element
+  and at position 33:
+    Dummy arg XSEC in module XSECT line 16658 file feff85L.f is whole array
+    Actual arg XSEC(1,ISP) in module XSPH line 17849 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram XSCORR argument arrayness mismatch at position 8:
+    Dummy arg CHIA in module XSCORR line 33192 file feff85L.f has 1 dim size 
+ 150
+    Actual arg CHIA in module FF2CHI line 31261 file feff85L.f has 1 dim size 
+ 601
+  and at position 11:
+    Dummy arg CCHI in module XSCORR line 33192 file feff85L.f has 1 dim size 
+ 150
+    Actual arg CCHI in module FF2CHI line 31261 file feff85L.f has 1 dim size 
+ 601
+
+Warning: Subprogram SZLZ argument arrayness mismatch at position 12:
+    Dummy arg DMAG in module SZLZ line 17995 file feff85L.f has 2 dims size 
+ 3263
+    Actual arg DMAG in module XSPH line 17822 file feff85L.f has 2 dims size 
+ 3012
+  and at position 29:
+    Dummy arg ADGC in module SZLZ line 17995 file feff85L.f has 3 dims size 
+ 3900
+    Actual arg ADGC in module XSPH line 17822 file feff85L.f has 3 dims size 
+ 3600
+  and at position 30:
+    Dummy arg ADPC in module SZLZ line 17995 file feff85L.f has 3 dims size 
+ 3900
+    Actual arg ADPC in module XSPH line 17822 file feff85L.f has 3 dims size 
+ 3600
+ etc...
+
+Warning: Subprogram RDPOTP argument arrayness mismatch at position 1:
+    Dummy arg VTOT in module RDPOTP line 61108 file feff85L.f has 2 dims size 
+ 3012
+    Actual arg VCH in module XSPH line 17861 file feff85L.f has 1 dim size 251
+
+Warning: Subprogram XSECTD argument arrayness mismatch at position 32:
+    Dummy arg ADGC in module XSECTD line 58116 file feff85L.f is whole array
+    Actual arg ADGC(1,1,IPH) in module XSPH line 17908 file feff85L.f is array
+ element
+  and at position 33:
+    Dummy arg ADPC in module XSECTD line 58116 file feff85L.f is whole array
+    Actual arg ADPC(1,1,IPH) in module XSPH line 17908 file feff85L.f is array
+ element
+  and at position 34:
+    Dummy arg XSEC in module XSECTD line 58116 file feff85L.f is whole array
+    Actual arg XSEC(1,ISP) in module XSPH line 17908 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram RHOLAT argument arrayness mismatch at position 11:
+    Dummy arg XNVAL in module RHOLAT line 18907 file feff85L.f is whole array
+    Actual arg XNVAL(1,IPH) in module SZLZ line 18173 file feff85L.f is array
+ element
+  and at position 12:
+    Dummy arg IORB in module RHOLAT line 18907 file feff85L.f is whole array
+    Actual arg IORB(-4,IPH) in module SZLZ line 18173 file feff85L.f is array
+ element
+  and at position 16:
+    Dummy arg ADGC in module RHOLAT line 18907 file feff85L.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SZLZ line 18173 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram RHOLSZ argument arrayness mismatch at position 10:
+    Dummy arg XNVAL in module RHOLSZ line 18611 file feff85L.f is whole array
+    Actual arg XNVAL(1,IPH) in module SZLZ line 18181 file feff85L.f is array
+ element
+  and at position 14:
+    Dummy arg ADGC in module RHOLSZ line 18611 file feff85L.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SZLZ line 18181 file feff85L.f is array
+ element
+  and at position 15:
+    Dummy arg ADPC in module RHOLSZ line 18611 file feff85L.f is whole array
+    Actual arg ADPC(1,1,IPH) in module SZLZ line 18181 file feff85L.f is array
+ element
+ etc...
+
+Warning: Subprogram FMSSZ argument usage mismatch at position 1:
+    Dummy arg IPH0 in module FMSSZ line 18467 file feff85L.f may be modified
+    Actual arg IPH0 in module SZLZ line 18216 file feff85L.f is active DO
+ index
+
+Warning: Subprogram SETGRIDMIN never invoked
+    Defined in module SETGRIDMIN line 20345 file feff85L.f
+
+Warning: Subprogram GRIDERROR never invoked
+    Defined in module GRIDERROR line 20394 file feff85L.f
+
+Warning: Subprogram XGLLM argument arrayness mismatch at position 5:
+    Dummy arg XCLM in module XGLLM line 21274 file feff85L.f is whole array
+    Actual arg XCLM(0,0,1,1,.. in module FMS line 21007 file feff85L.f is
+ array element
+
+Warning: Subprogram VECVEC never invoked
+    Defined in module VECVEC line 22113 file feff85L.f
+
+Warning: Subprogram SORTAT never invoked
+    Defined in module SORTAT line 23260 file feff85L.f
+
+Warning: Subprogram CCRIT argument arrayness mismatch at position 2:
+    Dummy arg IPAT in module CCRIT line 24104 file feff85L.f is whole array
+    Actual arg IPAT(1,IP) in module PATHS line 25880 file feff85L.f is array
+ element
+
+Warning: Subprogram CCRIT argument arrayness mismatch at position 2:
+    Dummy arg IPAT in module CCRIT line 24104 file feff85L.f is whole array
+    Actual arg IPAT(1,IP) in module PATHS line 25972 file feff85L.f is array
+ element
+
+Warning: Subprogram CCRIT argument arrayness mismatch at position 2:
+    Dummy arg IPAT in module CCRIT line 24104 file feff85L.f is whole array
+    Actual arg IPAT(1,IP) in module PATHS line 26018 file feff85L.f is array
+ element
+
+Warning: Subprogram SWAP argument usage mismatch at position 1:
+    Dummy arg A in module SWAP line 24321 file feff85L.f is modified
+    Actual arg H(I) in module HDOWN line 24312 file feff85L.f may be same as
+ arg 2: H(J)
+  and at position 2:
+    Dummy arg B in module SWAP line 24321 file feff85L.f is modified
+    Actual arg H(J) in module HDOWN line 24312 file feff85L.f may be same as
+ arg 1: H(I)
+
+Warning: Subprogram SWAP argument usage mismatch at position 1:
+    Dummy arg A in module SWAP line 24321 file feff85L.f is modified
+    Actual arg H(I) in module HUP line 24280 file feff85L.f may be same as arg 
+ 2: H(J)
+  and at position 2:
+    Dummy arg B in module SWAP line 24321 file feff85L.f is modified
+    Actual arg H(J) in module HUP line 24280 file feff85L.f may be same as arg 
+ 1: H(I)
+
+Warning: Subprogram ISWAP argument usage mismatch at position 1:
+    Dummy arg I in module ISWAP line 24328 file feff85L.f is modified
+    Actual arg IH(I) in module HDOWN line 24313 file feff85L.f may be same as
+ arg 2: IH(J)
+  and at position 2:
+    Dummy arg J in module ISWAP line 24328 file feff85L.f is modified
+    Actual arg IH(J) in module HDOWN line 24313 file feff85L.f may be same as
+ arg 1: IH(I)
+
+Warning: Subprogram ISWAP argument usage mismatch at position 1:
+    Dummy arg I in module ISWAP line 24328 file feff85L.f is modified
+    Actual arg IH(I) in module HUP line 24281 file feff85L.f may be same as
+ arg 2: IH(J)
+  and at position 2:
+    Dummy arg J in module ISWAP line 24328 file feff85L.f is modified
+    Actual arg IH(J) in module HUP line 24281 file feff85L.f may be same as
+ arg 1: IH(I)
+
+Warning: Subprogram UPACK argument arrayness mismatch at position 1:
+    Dummy arg IOUT in module UPACK line 24368 file feff85L.f is whole array
+    Actual arg IOUT(1,IP) in module PATHSD line 26261 file feff85L.f is array
+ element
+
+Warning: Subprogram UPACK argument arrayness mismatch at position 1:
+    Dummy arg IOUT in module UPACK line 24368 file feff85L.f is whole array
+    Actual arg IOUT(1,INDEX(.. in module PATHSD line 26300 file feff85L.f is
+ array element
+
+Warning: Subprogram UPACK argument arrayness mismatch at position 1:
+    Dummy arg IOUT in module UPACK line 24368 file feff85L.f is whole array
+    Actual arg IOUT(1,INDEX(.. in module PATHSD line 26307 file feff85L.f is
+ array element
+
+Warning: Subprogram SDIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,IAT) in module PATHS line 25754 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,IAT0) in module PATHS line 25754 file feff85L.f is array
+ element
+
+Warning: Subprogram SDIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,IR) in module PATHS line 25820 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,J) in module PATHS line 25820 file feff85L.f is array
+ element
+
+Warning: Subprogram SDIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,J) in module PATHS line 25821 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,0) in module PATHS line 25821 file feff85L.f is array
+ element
+
+Warning: Subprogram SDIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,JAT) in module MRB line 25251 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,JM1AT) in module MRB line 25251 file feff85L.f is array
+ element
+
+Warning: Subprogram SDIST argument arrayness mismatch at position 1:
+    Dummy arg R0 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,I) in module MPPRMD line 24788 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R1 in module SDIST line 45107 file feff85L.f is whole array
+    Actual arg RAT(1,IM1) in module MPPRMD line 24788 file feff85L.f is array
+ element
+
+Warning: Subprogram DOTCOS argument arrayness mismatch at position 1:
+    Dummy arg RM1 in module DOTCOS line 25265 file feff85L.f is whole array
+    Actual arg RAT(1,JM1AT) in module MRB line 25254 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg R in module DOTCOS line 25265 file feff85L.f is whole array
+    Actual arg RAT(1,JAT) in module MRB line 25254 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg RP1 in module DOTCOS line 25265 file feff85L.f is whole array
+    Actual arg RAT(1,JP1AT) in module MRB line 25254 file feff85L.f is array
+ element
+
+Warning: Subprogram OUTCRT argument arrayness mismatch at position 2:
+    Dummy arg IPAT in module OUTCRT line 25287 file feff85L.f has 1 dim size 8
+    Actual arg IPAT0 in module PATHSD line 26368 file feff85L.f has 1 dim size 
+ 9
+
+Warning: Subprogram STRAP argument arrayness mismatch at position 1:
+    Dummy arg X in module STRAP line 45206 file feff85L.f is whole array
+    Actual arg CKSP(IK0) in module OUTCRT line 25410 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg Y in module STRAP line 45206 file feff85L.f is whole array
+    Actual arg XPORTI(IK0) in module OUTCRT line 25410 file feff85L.f is array
+ element
+
+Warning: Subprogram SORTII never invoked
+    Defined in module SORTII line 26824 file feff85L.f
+
+Warning: Subprogram MMTR argument usage mismatch at position 3:
+    Dummy arg ISPIN in module MMTR line 28086 file feff85L.f may be modified
+    Actual arg IS in module GENFMT line 27859 file feff85L.f is active DO
+ index
+
+Warning: Subprogram TRAP argument arrayness mismatch at position 1:
+    Dummy arg X in module TRAP line 45386 file feff85L.f is whole array
+    Actual arg CKMAG(IK0) in module GENFMT line 28013 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg Y in module TRAP line 45386 file feff85L.f is whole array
+    Actual arg FFMAG(IK0) in module GENFMT line 28013 file feff85L.f is array
+ element
+
+Warning: Subprogram PIJUMP argument usage mismatch at position 2:
+    Dummy arg OLD in module PIJUMP line 55985 file feff85L.f is used before
+ set
+    Actual arg PHASE0 in module DWADD line 31831 file feff85L.f is not set
+
+Warning: Subprogram PIJUMP argument usage mismatch at position 2:
+    Dummy arg OLD in module PIJUMP line 55985 file feff85L.f is used before
+ set
+    Actual arg PHASE0 in module FF2CHI line 31203 file feff85L.f is not set
+
+Warning: Subprogram PIJUMP argument usage mismatch at position 2:
+    Dummy arg OLD in module PIJUMP line 55985 file feff85L.f is used before
+ set
+    Actual arg PHFFO in module FEFFDT line 30269 file feff85L.f is not set
+
+Warning: Subprogram PIJUMP argument usage mismatch at position 2:
+    Dummy arg OLD in module PIJUMP line 55985 file feff85L.f is used before
+ set
+    Actual arg CDELTO in module FEFFDT line 30270 file feff85L.f is not set
+
+Warning: Subprogram RDPADX argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADX line 57162 file feff85L.f is whole array
+    Actual arg EM(1) in module RDXSPH line 56333 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADX argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADX line 57162 file feff85L.f is whole array
+    Actual arg TEMP(1) in module RDXSPH line 56335 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADX argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADX line 57162 file feff85L.f is whole array
+    Actual arg TEMP(1) in module RDXSPH line 56349 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADX argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADX line 57162 file feff85L.f is whole array
+    Actual arg TEMP(1) in module RDXSPH line 56359 file feff85L.f is array
+ element
+
+Warning: Subprogram DWADD argument arrayness mismatch at position 30:
+    Dummy arg XK0 in module DWADD line 31514 file feff85L.f has 1 dim size 601
+    Actual arg XKP in module FF2XMU line 32181 file feff85L.f has 1 dim size 
+ 150
+  and at position 31:
+    Dummy arg XKP in module DWADD line 31514 file feff85L.f has 1 dim size 601
+    Actual arg XKP in module FF2XMU line 32181 file feff85L.f has 1 dim size 
+ 150
+  and at position 32:
+    Dummy arg CCHI in module DWADD line 31514 file feff85L.f has 1 dim size 
+ 601
+    Actual arg CCHI in module FF2XMU line 32181 file feff85L.f has 1 dim size 
+ 150
+
+Warning: Subprogram DWADD argument usage mismatch at position 30:
+    Dummy arg XK0 in module DWADD line 31514 file feff85L.f may be modified
+    Actual arg XKP in module FF2XMU line 32181 file feff85L.f may be same as
+ arg 31: XKP
+
+Warning: Subprogram DWADD argument arrayness mismatch at position 30:
+    Dummy arg XK0 in module DWADD line 31514 file feff85L.f has 1 dim size 601
+    Actual arg XKP in module FF2AFS line 30651 file feff85L.f has 1 dim size 
+ 150
+  and at position 31:
+    Dummy arg XKP in module DWADD line 31514 file feff85L.f has 1 dim size 601
+    Actual arg XKP in module FF2AFS line 30651 file feff85L.f has 1 dim size 
+ 150
+  and at position 32:
+    Dummy arg CCHI in module DWADD line 31514 file feff85L.f has 1 dim size 
+ 601
+    Actual arg CCHI in module FF2AFS line 30651 file feff85L.f has 1 dim size 
+ 150
+
+Warning: Subprogram DWADD argument usage mismatch at position 30:
+    Dummy arg XK0 in module DWADD line 31514 file feff85L.f may be modified
+    Actual arg XKP in module FF2AFS line 30651 file feff85L.f may be same as
+ arg 31: XKP
+
+Warning: Subprogram FPRIME argument arrayness mismatch at position 9:
+    Dummy arg CHIA in module FPRIME line 32317 file feff85L.f has 1 dim size 
+ 150
+    Actual arg CHIA in module FF2CHI line 31255 file feff85L.f has 1 dim size 
+ 601
+  and at position 12:
+    Dummy arg CCHI in module FPRIME line 32317 file feff85L.f has 1 dim size 
+ 150
+    Actual arg CCHI in module FF2CHI line 31255 file feff85L.f has 1 dim size 
+ 601
+
+Warning: Subprogram SIGEM argument arrayness mismatch at position 2:
+    Dummy arg SIG2X in module SIGEM line 33846 file feff85L.f has 2 dims size 
+ 64
+    Actual arg SIG2X in module DWADD line 31697 file feff85L.f has 2 dims size 
+ 144
+
+Warning: Subprogram SIGRM argument arrayness mismatch at position 2:
+    Dummy arg SIG2X in module SIGRM line 35205 file feff85L.f has 2 dims size 
+ 64
+    Actual arg SIG2X in module DWADD line 31705 file feff85L.f has 2 dims size 
+ 144
+
+Warning: Subprogram TERP1 argument arrayness mismatch at position 2:
+    Dummy arg Y in module TERP1 line 45275 file feff85L.f is whole array
+    Actual arg ACHI(1,IPATH) in module DWADD line 31756 file feff85L.f is
+ array element
+
+Warning: Subprogram TERP1 argument arrayness mismatch at position 2:
+    Dummy arg Y in module TERP1 line 45275 file feff85L.f is whole array
+    Actual arg PHCHI(1,IPATH) in module DWADD line 31757 file feff85L.f is
+ array element
+
+Warning: Subprogram RDPADR argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADR line 57049 file feff85L.f is whole array
+    Actual arg RAT(1,1,I) in module RDFBIN line 33029 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADR argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADR line 57049 file feff85L.f is whole array
+    Actual arg BETA(1,I) in module RDFBIN line 33030 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADR argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADR line 57049 file feff85L.f is whole array
+    Actual arg ETA(1,I) in module RDFBIN line 33031 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADR argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADR line 57049 file feff85L.f is whole array
+    Actual arg RI(1,I) in module RDFBIN line 33032 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADR argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADR line 57049 file feff85L.f is whole array
+    Actual arg ACHI(1,I) in module RDFBIN line 33033 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADR argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADR line 57049 file feff85L.f is whole array
+    Actual arg PHCHI(1,I) in module RDFBIN line 33034 file feff85L.f is array
+ element
+
+Warning: Subprogram COSS argument arrayness mismatch at position 1:
+    Dummy arg V1 in module COSS line 35141 file feff85L.f is whole array
+    Actual arg RAT1(1,I) in module RDSPR line 34823 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg V2 in module COSS line 35141 file feff85L.f is whole array
+    Actual arg RAT1(1,J) in module RDSPR line 34823 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg V3 in module COSS line 35141 file feff85L.f is whole array
+    Actual arg RAT1(1,K) in module RDSPR line 34823 file feff85L.f is array
+ element
+
+Warning: Subprogram COSS argument arrayness mismatch at position 1:
+    Dummy arg V1 in module COSS line 35141 file feff85L.f is whole array
+    Actual arg RAT1(1,II) in module RDSPR line 34848 file feff85L.f is array
+ element
+  and at position 2:
+    Dummy arg V2 in module COSS line 35141 file feff85L.f is whole array
+    Actual arg RAT1(1,JJ) in module RDSPR line 34848 file feff85L.f is array
+ element
+  and at position 3:
+    Dummy arg V3 in module COSS line 35141 file feff85L.f is whole array
+    Actual arg RAT1(1,KK) in module RDSPR line 34848 file feff85L.f is array
+ element
+
+Warning: Subprogram GETORB argument arrayness mismatch at position 13:
+    Dummy arg XMAG in module GETORB line 54561 file feff85L.f has 1 dim size 
+ 30
+    Actual arg EPS in module SCFDAT line 36261 file feff85L.f has 1 dim size 
+ 435
+
+Warning: Subprogram INTDIR argument usage mismatch at position 1:
+    Dummy arg GG in module INTDIR line 36387 file feff85L.f is aliased to
+ common var 3: BID1 in block COMDIR
+    Dummy arg GG in module INTDIR line 36387 file feff85L.f is modified
+    Actual arg GG in module SOLDIR line 38226 file feff85L.f is in common
+ block COMDIR
+  and at position 2:
+    Dummy arg GP in module INTDIR line 36387 file feff85L.f is aliased to
+ common var 5: AV in block COMDIR
+    Dummy arg GP in module INTDIR line 36387 file feff85L.f is modified
+    Actual arg GP in module SOLDIR line 38226 file feff85L.f is in common
+ block COMDIR
+  and at position 3:
+    Dummy arg AG in module INTDIR line 36387 file feff85L.f is aliased to
+ common var 4: DV in block COMDIR
+    Dummy arg AG in module INTDIR line 36387 file feff85L.f is modified
+    Actual arg AG in module SOLDIR line 38226 file feff85L.f is in common
+ block COMDIR
+ etc...
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg I in module ETOTAL line 37871 file feff85L.f same as arg 2: I
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg I in module ETOTAL line 37871 file feff85L.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg I in module ETOTAL line 37871 file feff85L.f same as arg 1: I
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg I in module ETOTAL line 37871 file feff85L.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg I in module ETOTAL line 37894 file feff85L.f same as arg 3: I
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg I in module ETOTAL line 37894 file feff85L.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37894 file feff85L.f same as arg 4: J
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37894 file feff85L.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37917 file feff85L.f same as arg 2: J
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37917 file feff85L.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37917 file feff85L.f same as arg 1: J
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37917 file feff85L.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module ETOTAL line 37955 file feff85L.f same as arg 3: L
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module ETOTAL line 37955 file feff85L.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37955 file feff85L.f same as arg 4: J
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37955 file feff85L.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37958 file feff85L.f same as arg 3: J
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg J in module ETOTAL line 37958 file feff85L.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module ETOTAL line 37958 file feff85L.f same as arg 4: L
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module ETOTAL line 37958 file feff85L.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 1:
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module LAGDAT line 36994 file feff85L.f same as arg 2: L
+    Dummy arg I in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module LAGDAT line 36994 file feff85L.f is active DO index
+  and at position 2:
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module LAGDAT line 36994 file feff85L.f same as arg 1: L
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module LAGDAT line 36994 file feff85L.f is active DO index
+
+Warning: Subprogram FDRIRK argument usage mismatch at position 2:
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module LAGDAT line 37006 file feff85L.f same as arg 4: L
+    Dummy arg J in module FDRIRK line 36907 file feff85L.f may be modified
+    Actual arg L in module LAGDAT line 37006 file feff85L.f is active DO index
+
+Warning: Subprogram FLATV argument usage mismatch at position 8:
+    Dummy arg P2 in module FLATV line 38947 file feff85L.f is modified
+    Actual arg GG(I+1) in module SOLOUT line 40495 file feff85L.f may be same
+ as arg 3: GG(I)
+  and at position 9:
+    Dummy arg Q2 in module FLATV line 38947 file feff85L.f is modified
+    Actual arg GP(I+1) in module SOLOUT line 40495 file feff85L.f may be same
+ as arg 4: GP(I)
+
+Warning: Subprogram FLATV argument usage mismatch at position 8:
+    Dummy arg P2 in module FLATV line 38947 file feff85L.f is modified
+    Actual arg GG(I) in module SOLIN line 40236 file feff85L.f may be same as
+ arg 3: GG(I+1)
+  and at position 9:
+    Dummy arg Q2 in module FLATV line 38947 file feff85L.f is modified
+    Actual arg GP(I) in module SOLIN line 40236 file feff85L.f may be same as
+ arg 4: GP(I+1)
+
+Warning: Subprogram DSORDC never invoked
+    Defined in module DSORDC line 39109 file feff85L.f
+
+Warning: Subprogram ORTDAC never invoked
+    Defined in module ORTDAC line 39781 file feff85L.f
+
+Warning: Subprogram TERP2D argument arrayness mismatch at position 3:
+    Dummy arg Z in module TERP2D line 42028 file feff85L.f is whole array
+    Actual arg SIGMA(1,1,1) in module RHLBP line 42016 file feff85L.f is array
+ element
+
+Warning: Subprogram TERP2D argument arrayness mismatch at position 3:
+    Dummy arg Z in module TERP2D line 42028 file feff85L.f is whole array
+    Actual arg SIGMA(1,1,2) in module RHLBP line 42017 file feff85L.f is array
+ element
+
+Warning: Subprogram DSIGMA never invoked
+    Defined in module DSIGMA line 42456 file feff85L.f
+
+Warning: Subprogram INTGRL never invoked
+    Defined in module INTGRL line 43022 file feff85L.f
+
+Warning: Subprogram DR1 never invoked
+    Defined in module DR1 line 42753 file feff85L.f
+
+Warning: Subprogram DR2 never invoked
+    Defined in module DR2 line 42848 file feff85L.f
+
+Warning: Subprogram DR3 never invoked
+    Defined in module DR3 line 42935 file feff85L.f
+
+Warning: Subprogram CQDRTC argument arrayness mismatch at position 2:
+    Dummy arg SOL in module CQDRTC line 45402 file feff85L.f has 1 dim size 2
+    Actual arg SOL in module CCUBIC line 45469 file feff85L.f has 1 dim size 4
+
+Warning: Subprogram CQDRTC argument arrayness mismatch at position 1:
+    Dummy arg COEF in module CQDRTC line 45402 file feff85L.f has 1 dim size 3
+    Actual arg COEF in module FNDSNG line 43477 file feff85L.f has 1 dim size 
+ 4
+  and at position 2:
+    Dummy arg SOL in module CQDRTC line 45402 file feff85L.f has 1 dim size 2
+    Actual arg SOL in module FNDSNG line 43477 file feff85L.f has 1 dim size 4
+
+Warning: Subprogram POLINT argument arrayness mismatch at position 1:
+    Dummy arg XA in module POLINT line 45062 file feff85L.f is whole array
+    Actual arg X(K) in module TERP line 45237 file feff85L.f is array element
+  and at position 2:
+    Dummy arg YA in module POLINT line 45062 file feff85L.f is whole array
+    Actual arg Y(K) in module TERP line 45237 file feff85L.f is array element
+
+Warning: Subprogram POLINC argument arrayness mismatch at position 1:
+    Dummy arg XA in module POLINC line 45340 file feff85L.f is whole array
+    Actual arg X(K) in module TERPC line 45335 file feff85L.f is array element
+  and at position 2:
+    Dummy arg YA in module POLINC line 45340 file feff85L.f is whole array
+    Actual arg Y(K) in module TERPC line 45335 file feff85L.f is array element
+
+Warning: Subprogram CGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module CGEMM line 46736 file feff85L.f is whole array
+    Actual arg A(J+JB,J) in module CGETRF line 45650 file feff85L.f is array
+ element
+  and at position 9:
+    Dummy arg B in module CGEMM line 46736 file feff85L.f is whole array
+    Actual arg A(J,J+JB) in module CGETRF line 45650 file feff85L.f is array
+ element
+  and at position 12:
+    Dummy arg C in module CGEMM line 46736 file feff85L.f is whole array
+    Actual arg A(J+JB,J+JB) in module CGETRF line 45650 file feff85L.f is
+ array element
+
+Warning: Subprogram CGEMM argument usage mismatch at position 12:
+    Dummy arg C in module CGEMM line 46736 file feff85L.f is modified
+    Actual arg A(J+JB,J+JB) in module CGETRF line 45650 file feff85L.f may be
+ same as arg 9: A(J,J+JB)
+
+Warning: Subprogram CGETF2 argument arrayness mismatch at position 3:
+    Dummy arg A in module CGETF2 line 45664 file feff85L.f is whole array
+    Actual arg A(J,J) in module CGETRF line 45620 file feff85L.f is array
+ element
+  and at position 5:
+    Dummy arg IPIV in module CGETF2 line 45664 file feff85L.f is whole array
+    Actual arg IPIV(J) in module CGETRF line 45620 file feff85L.f is array
+ element
+
+Warning: Subprogram CLASWP argument arrayness mismatch at position 2:
+    Dummy arg A in module CLASWP line 46218 file feff85L.f is whole array
+    Actual arg A(1,J+JB) in module CGETRF line 45638 file feff85L.f is array
+ element
+
+Warning: Subprogram CTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module CTRSM line 46318 file feff85L.f is whole array
+    Actual arg A(J,J) in module CGETRF line 45643 file feff85L.f is array
+ element
+  and at position 10:
+    Dummy arg B in module CTRSM line 46318 file feff85L.f is whole array
+    Actual arg A(J,J+JB) in module CGETRF line 45643 file feff85L.f is array
+ element
+
+Warning: Subprogram CTRSM argument usage mismatch at position 10:
+    Dummy arg B in module CTRSM line 46318 file feff85L.f is modified
+    Actual arg A(J,J+JB) in module CGETRF line 45643 file feff85L.f may be
+ same as arg 8: A(J,J)
+
+Warning: Subprogram ICAMAX argument arrayness mismatch at position 2:
+    Dummy arg CX in module ICAMAX line 47660 file feff85L.f is whole array
+    Actual arg A(J,J) in module CGETF2 line 45768 file feff85L.f is array
+ element
+
+Warning: Subprogram CGERU argument arrayness mismatch at position 4:
+    Dummy arg X in module CGERU line 46060 file feff85L.f is whole array
+    Actual arg A(J+1,J) in module CGETF2 line 45791 file feff85L.f is array
+ element
+  and at position 6:
+    Dummy arg Y in module CGERU line 46060 file feff85L.f is whole array
+    Actual arg A(J,J+1) in module CGETF2 line 45791 file feff85L.f is array
+ element
+  and at position 8:
+    Dummy arg A in module CGERU line 46060 file feff85L.f is whole array
+    Actual arg A(J+1,J+1) in module CGETF2 line 45791 file feff85L.f is array
+ element
+
+Warning: Subprogram CGERU argument usage mismatch at position 8:
+    Dummy arg A in module CGERU line 46060 file feff85L.f is modified
+    Actual arg A(J+1,J+1) in module CGETF2 line 45791 file feff85L.f may be
+ same as arg 6: A(J,J+1)
+
+Warning: Subprogram CSCAL argument arrayness mismatch at position 3:
+    Dummy arg CX in module CSCAL line 46032 file feff85L.f is whole array
+    Actual arg A(1,J) in module CTRTI2 line 48088 file feff85L.f is array
+ element
+
+Warning: Subprogram CSCAL argument arrayness mismatch at position 3:
+    Dummy arg CX in module CSCAL line 46032 file feff85L.f is whole array
+    Actual arg A(J+1,J) in module CTRTI2 line 48107 file feff85L.f is array
+ element
+
+Warning: Subprogram CSCAL argument arrayness mismatch at position 3:
+    Dummy arg CX in module CSCAL line 46032 file feff85L.f is whole array
+    Actual arg A(J+1,J) in module CGETF2 line 45780 file feff85L.f is array
+ element
+
+Warning: Subprogram CSWAP argument arrayness mismatch at position 2:
+    Dummy arg CX in module CSWAP line 45996 file feff85L.f is whole array
+    Actual arg A(I,1) in module CLASWP line 46295 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg CY in module CSWAP line 45996 file feff85L.f is whole array
+    Actual arg A(IP,1) in module CLASWP line 46295 file feff85L.f is array
+ element
+
+Warning: Subprogram CSWAP argument usage mismatch at position 2:
+    Dummy arg CX in module CSWAP line 45996 file feff85L.f is modified
+    Actual arg A(I,1) in module CLASWP line 46295 file feff85L.f may be same
+ as arg 4: A(IP,1)
+  and at position 4:
+    Dummy arg CY in module CSWAP line 45996 file feff85L.f is modified
+    Actual arg A(IP,1) in module CLASWP line 46295 file feff85L.f may be same
+ as arg 2: A(I,1)
+
+Warning: Subprogram CSWAP argument arrayness mismatch at position 2:
+    Dummy arg CX in module CSWAP line 45996 file feff85L.f is whole array
+    Actual arg A(I,1) in module CLASWP line 46301 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg CY in module CSWAP line 45996 file feff85L.f is whole array
+    Actual arg A(IP,1) in module CLASWP line 46301 file feff85L.f is array
+ element
+
+Warning: Subprogram CSWAP argument usage mismatch at position 2:
+    Dummy arg CX in module CSWAP line 45996 file feff85L.f is modified
+    Actual arg A(I,1) in module CLASWP line 46301 file feff85L.f may be same
+ as arg 4: A(IP,1)
+  and at position 4:
+    Dummy arg CY in module CSWAP line 45996 file feff85L.f is modified
+    Actual arg A(IP,1) in module CLASWP line 46301 file feff85L.f may be same
+ as arg 2: A(I,1)
+
+Warning: Subprogram CSWAP argument arrayness mismatch at position 2:
+    Dummy arg CX in module CSWAP line 45996 file feff85L.f is whole array
+    Actual arg A(I,1) in module CLASWP line 46308 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg CY in module CSWAP line 45996 file feff85L.f is whole array
+    Actual arg A(IP,1) in module CLASWP line 46308 file feff85L.f is array
+ element
+
+Warning: Subprogram CSWAP argument usage mismatch at position 2:
+    Dummy arg CX in module CSWAP line 45996 file feff85L.f is modified
+    Actual arg A(I,1) in module CLASWP line 46308 file feff85L.f may be same
+ as arg 4: A(IP,1)
+  and at position 4:
+    Dummy arg CY in module CSWAP line 45996 file feff85L.f is modified
+    Actual arg A(IP,1) in module CLASWP line 46308 file feff85L.f may be same
+ as arg 2: A(I,1)
+
+Warning: Subprogram CSWAP argument arrayness mismatch at position 2:
+    Dummy arg CX in module CSWAP line 45996 file feff85L.f is whole array
+    Actual arg A(J,1) in module CGETF2 line 45775 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg CY in module CSWAP line 45996 file feff85L.f is whole array
+    Actual arg A(JP,1) in module CGETF2 line 45775 file feff85L.f is array
+ element
+
+Warning: Subprogram CSWAP argument usage mismatch at position 2:
+    Dummy arg CX in module CSWAP line 45996 file feff85L.f is modified
+    Actual arg A(J,1) in module CGETF2 line 45775 file feff85L.f may be same
+ as arg 4: A(JP,1)
+  and at position 4:
+    Dummy arg CY in module CSWAP line 45996 file feff85L.f is modified
+    Actual arg A(JP,1) in module CGETF2 line 45775 file feff85L.f may be same
+ as arg 2: A(J,1)
+
+Warning: Subprogram CTRTI2 never invoked
+    Defined in module CTRTI2 line 47969 file feff85L.f
+
+Warning: Subprogram CTRMV never invoked
+    Defined in module CTRMV line 48117 file feff85L.f
+
+Warning: Subprogram CTRMV argument arrayness mismatch at position 7:
+    Dummy arg X in module CTRMV line 48117 file feff85L.f is whole array
+    Actual arg A(1,J) in module CTRTI2 line 48086 file feff85L.f is array
+ element
+
+Warning: Subprogram CTRMV argument usage mismatch at position 7:
+    Dummy arg X in module CTRMV line 48117 file feff85L.f is modified
+    Actual arg A(1,J) in module CTRTI2 line 48086 file feff85L.f may be same
+ as arg 5: A
+
+Warning: Subprogram CTRMV argument arrayness mismatch at position 5:
+    Dummy arg A in module CTRMV line 48117 file feff85L.f is whole array
+    Actual arg A(J+1,J+1) in module CTRTI2 line 48105 file feff85L.f is array
+ element
+  and at position 7:
+    Dummy arg X in module CTRMV line 48117 file feff85L.f is whole array
+    Actual arg A(J+1,J) in module CTRTI2 line 48105 file feff85L.f is array
+ element
+
+Warning: Subprogram CTRMV argument usage mismatch at position 7:
+    Dummy arg X in module CTRMV line 48117 file feff85L.f is modified
+    Actual arg A(J+1,J) in module CTRTI2 line 48105 file feff85L.f may be same
+ as arg 5: A(J+1,J+1)
+
+Warning: Subprogram CAXPY never invoked
+    Defined in module CAXPY line 48438 file feff85L.f
+
+Warning: Subprogram CCOPY never invoked
+    Defined in module CCOPY line 48472 file feff85L.f
+
+Warning: Subprogram CGEMV never invoked
+    Defined in module CGEMV line 48506 file feff85L.f
+
+Warning: Subprogram DCABS1 never invoked
+    Defined in module DCABS1 line 48787 file feff85L.f
+
+Warning: Subprogram DGEMM never invoked
+    Defined in module DGEMM line 48795 file feff85L.f
+
+Warning: Subprogram DGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module DGEMM line 48795 file feff85L.f is whole array
+    Actual arg A(J+JB,J) in module DGETRF line 52611 file feff85L.f is array
+ element
+  and at position 9:
+    Dummy arg B in module DGEMM line 48795 file feff85L.f is whole array
+    Actual arg A(J,J+JB) in module DGETRF line 52611 file feff85L.f is array
+ element
+  and at position 12:
+    Dummy arg C in module DGEMM line 48795 file feff85L.f is whole array
+    Actual arg A(J+JB,J+JB) in module DGETRF line 52611 file feff85L.f is
+ array element
+
+Warning: Subprogram DGEMM argument usage mismatch at position 12:
+    Dummy arg C in module DGEMM line 48795 file feff85L.f is modified
+    Actual arg A(J+JB,J+JB) in module DGETRF line 52611 file feff85L.f may be
+ same as arg 9: A(J,J+JB)
+
+Warning: Subprogram DGER never invoked
+    Defined in module DGER line 49108 file feff85L.f
+
+Warning: Subprogram DGER argument arrayness mismatch at position 4:
+    Dummy arg X in module DGER line 49108 file feff85L.f is whole array
+    Actual arg A(J+1,J) in module DGETF2 line 52455 file feff85L.f is array
+ element
+  and at position 6:
+    Dummy arg Y in module DGER line 49108 file feff85L.f is whole array
+    Actual arg A(J,J+1) in module DGETF2 line 52455 file feff85L.f is array
+ element
+  and at position 8:
+    Dummy arg A in module DGER line 49108 file feff85L.f is whole array
+    Actual arg A(J+1,J+1) in module DGETF2 line 52455 file feff85L.f is array
+ element
+
+Warning: Subprogram DGER argument usage mismatch at position 8:
+    Dummy arg A in module DGER line 49108 file feff85L.f is modified
+    Actual arg A(J+1,J+1) in module DGETF2 line 52455 file feff85L.f may be
+ same as arg 6: A(J,J+1)
+
+Warning: Subprogram DSCAL never invoked
+    Defined in module DSCAL line 49265 file feff85L.f
+
+Warning: Subprogram DSCAL argument arrayness mismatch at position 3:
+    Dummy arg DX in module DSCAL line 49265 file feff85L.f is whole array
+    Actual arg A(J+1,J) in module DGETF2 line 52444 file feff85L.f is array
+ element
+
+Warning: Subprogram DSWAP never invoked
+    Defined in module DSWAP line 49308 file feff85L.f
+
+Warning: Subprogram DSWAP argument arrayness mismatch at position 2:
+    Dummy arg DX in module DSWAP line 49308 file feff85L.f is whole array
+    Actual arg A(J,1) in module DGETF2 line 52439 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg DY in module DSWAP line 49308 file feff85L.f is whole array
+    Actual arg A(JP,1) in module DGETF2 line 52439 file feff85L.f is array
+ element
+
+Warning: Subprogram DSWAP argument usage mismatch at position 2:
+    Dummy arg DX in module DSWAP line 49308 file feff85L.f is modified
+    Actual arg A(J,1) in module DGETF2 line 52439 file feff85L.f may be same
+ as arg 4: A(JP,1)
+  and at position 4:
+    Dummy arg DY in module DSWAP line 49308 file feff85L.f is modified
+    Actual arg A(JP,1) in module DGETF2 line 52439 file feff85L.f may be same
+ as arg 2: A(J,1)
+
+Warning: Subprogram DTRSM never invoked
+    Defined in module DTRSM line 49364 file feff85L.f
+
+Warning: Subprogram DTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module DTRSM line 49364 file feff85L.f is whole array
+    Actual arg A(J,J) in module DGETRF line 52604 file feff85L.f is array
+ element
+  and at position 10:
+    Dummy arg B in module DTRSM line 49364 file feff85L.f is whole array
+    Actual arg A(J,J+JB) in module DGETRF line 52604 file feff85L.f is array
+ element
+
+Warning: Subprogram DTRSM argument usage mismatch at position 10:
+    Dummy arg B in module DTRSM line 49364 file feff85L.f is modified
+    Actual arg A(J,J+JB) in module DGETRF line 52604 file feff85L.f may be
+ same as arg 8: A(J,J)
+
+Warning: Subprogram IDAMAX never invoked
+    Defined in module IDAMAX line 49742 file feff85L.f
+
+Warning: Subprogram IDAMAX argument arrayness mismatch at position 2:
+    Dummy arg DX in module IDAMAX line 49742 file feff85L.f is whole array
+    Actual arg A(J,J) in module DGETF2 line 52432 file feff85L.f is array
+ element
+
+Warning: Subprogram IZAMAX never invoked
+    Defined in module IZAMAX line 49781 file feff85L.f
+
+Warning: Subprogram IZAMAX argument arrayness mismatch at position 2:
+    Dummy arg ZX in module IZAMAX line 49781 file feff85L.f is whole array
+    Actual arg A(J,J) in module ZGETF2 line 51867 file feff85L.f is array
+ element
+
+Warning: Subprogram IZAMAX argument arrayness mismatch at position 2:
+    Dummy arg ZX in module IZAMAX line 49781 file feff85L.f is whole array
+    Actual arg AB(KV+1,JJ) in module ZGBTRF line 51550 file feff85L.f is array
+ element
+
+Warning: Subprogram IZAMAX argument arrayness mismatch at position 2:
+    Dummy arg ZX in module IZAMAX line 49781 file feff85L.f is whole array
+    Actual arg AB(KV+1,J) in module ZGBTF2 line 51283 file feff85L.f is array
+ element
+
+Warning: Subprogram ZCOPY never invoked
+    Defined in module ZCOPY line 49822 file feff85L.f
+
+Warning: Subprogram ZCOPY argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZCOPY line 49822 file feff85L.f is whole array
+    Actual arg AB(KV+KL+1-JJ.. in module ZGBTRF line 51601 file feff85L.f is
+ array element
+  and at position 4:
+    Dummy arg ZY in module ZCOPY line 49822 file feff85L.f is whole array
+    Actual arg WORK31(1,JJ-J.. in module ZGBTRF line 51601 file feff85L.f is
+ array element
+
+Warning: Subprogram ZCOPY argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZCOPY line 49822 file feff85L.f is whole array
+    Actual arg WORK31(1,JJ-J.. in module ZGBTRF line 51752 file feff85L.f is
+ array element
+  and at position 4:
+    Dummy arg ZY in module ZCOPY line 49822 file feff85L.f is whole array
+    Actual arg AB(KV+KL+1-JJ.. in module ZGBTRF line 51752 file feff85L.f is
+ array element
+
+Warning: Subprogram ZGEMM never invoked
+    Defined in module ZGEMM line 49855 file feff85L.f
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg A(J+JB,J) in module ZGETRF line 52046 file feff85L.f is array
+ element
+  and at position 9:
+    Dummy arg B in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg A(J,J+JB) in module ZGETRF line 52046 file feff85L.f is array
+ element
+  and at position 12:
+    Dummy arg C in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg A(J+JB,J+JB) in module ZGETRF line 52046 file feff85L.f is
+ array element
+
+Warning: Subprogram ZGEMM argument usage mismatch at position 12:
+    Dummy arg C in module ZGEMM line 49855 file feff85L.f is modified
+    Actual arg A(J+JB,J+JB) in module ZGETRF line 52046 file feff85L.f may be
+ same as arg 9: A(J,J+JB)
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg AB(KV+1+JB,J) in module ZGBTRF line 51653 file feff85L.f is
+ array element
+  and at position 9:
+    Dummy arg B in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 51653 file feff85L.f is
+ array element
+  and at position 12:
+    Dummy arg C in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg AB(KV+1,J+JB) in module ZGBTRF line 51653 file feff85L.f is
+ array element
+
+Warning: Subprogram ZGEMM argument usage mismatch at position 12:
+    Dummy arg C in module ZGEMM line 49855 file feff85L.f is modified
+    Actual arg AB(KV+1,J+JB) in module ZGBTRF line 51653 file feff85L.f may be
+ same as arg 9: AB(KV+1-JB,J+..
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 9:
+    Dummy arg B in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 51663 file feff85L.f is
+ array element
+  and at position 12:
+    Dummy arg C in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg AB(KV+KL+1-JB.. in module ZGBTRF line 51663 file feff85L.f is
+ array element
+
+Warning: Subprogram ZGEMM argument usage mismatch at position 12:
+    Dummy arg C in module ZGEMM line 49855 file feff85L.f is modified
+    Actual arg AB(KV+KL+1-JB.. in module ZGBTRF line 51663 file feff85L.f may
+ be same as arg 9: AB(KV+1-JB,J+..
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 7:
+    Dummy arg A in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg AB(KV+1+JB,J) in module ZGBTRF line 51691 file feff85L.f is
+ array element
+  and at position 12:
+    Dummy arg C in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg AB(1+JB,J+KV) in module ZGBTRF line 51691 file feff85L.f is
+ array element
+
+Warning: Subprogram ZGEMM argument usage mismatch at position 12:
+    Dummy arg C in module ZGEMM line 49855 file feff85L.f is modified
+    Actual arg AB(1+JB,J+KV) in module ZGBTRF line 51691 file feff85L.f may be
+ same as arg 7: AB(KV+1+JB,J)
+
+Warning: Subprogram ZGEMM argument arrayness mismatch at position 12:
+    Dummy arg C in module ZGEMM line 49855 file feff85L.f is whole array
+    Actual arg AB(1+KL,J+KV) in module ZGBTRF line 51701 file feff85L.f is
+ array element
+
+Warning: Subprogram ZGERU never invoked
+    Defined in module ZGERU line 50270 file feff85L.f
+
+Warning: Subprogram ZGERU argument arrayness mismatch at position 4:
+    Dummy arg X in module ZGERU line 50270 file feff85L.f is whole array
+    Actual arg A(J+1,J) in module ZGETF2 line 51890 file feff85L.f is array
+ element
+  and at position 6:
+    Dummy arg Y in module ZGERU line 50270 file feff85L.f is whole array
+    Actual arg A(J,J+1) in module ZGETF2 line 51890 file feff85L.f is array
+ element
+  and at position 8:
+    Dummy arg A in module ZGERU line 50270 file feff85L.f is whole array
+    Actual arg A(J+1,J+1) in module ZGETF2 line 51890 file feff85L.f is array
+ element
+
+Warning: Subprogram ZGERU argument usage mismatch at position 8:
+    Dummy arg A in module ZGERU line 50270 file feff85L.f is modified
+    Actual arg A(J+1,J+1) in module ZGETF2 line 51890 file feff85L.f may be
+ same as arg 6: A(J,J+1)
+
+Warning: Subprogram ZGERU argument arrayness mismatch at position 4:
+    Dummy arg X in module ZGERU line 50270 file feff85L.f is whole array
+    Actual arg AB(KV+2,JJ) in module ZGBTRF line 51585 file feff85L.f is array
+ element
+  and at position 6:
+    Dummy arg Y in module ZGERU line 50270 file feff85L.f is whole array
+    Actual arg AB(KV,JJ+1) in module ZGBTRF line 51585 file feff85L.f is array
+ element
+  and at position 8:
+    Dummy arg A in module ZGERU line 50270 file feff85L.f is whole array
+    Actual arg AB(KV+1,JJ+1) in module ZGBTRF line 51585 file feff85L.f is
+ array element
+
+Warning: Subprogram ZGERU argument usage mismatch at position 8:
+    Dummy arg A in module ZGERU line 50270 file feff85L.f is modified
+    Actual arg AB(KV+1,JJ+1) in module ZGBTRF line 51585 file feff85L.f may be
+ same as arg 6: AB(KV,JJ+1)
+
+Warning: Subprogram ZGERU argument arrayness mismatch at position 4:
+    Dummy arg X in module ZGERU line 50270 file feff85L.f is whole array
+    Actual arg AB(KV+2,J) in module ZGBTF2 line 51302 file feff85L.f is array
+ element
+  and at position 6:
+    Dummy arg Y in module ZGERU line 50270 file feff85L.f is whole array
+    Actual arg AB(KV,J+1) in module ZGBTF2 line 51302 file feff85L.f is array
+ element
+  and at position 8:
+    Dummy arg A in module ZGERU line 50270 file feff85L.f is whole array
+    Actual arg AB(KV+1,J+1) in module ZGBTF2 line 51302 file feff85L.f is
+ array element
+
+Warning: Subprogram ZGERU argument usage mismatch at position 8:
+    Dummy arg A in module ZGERU line 50270 file feff85L.f is modified
+    Actual arg AB(KV+1,J+1) in module ZGBTF2 line 51302 file feff85L.f may be
+ same as arg 6: AB(KV,J+1)
+
+Warning: Subprogram ZSCAL never invoked
+    Defined in module ZSCAL line 50427 file feff85L.f
+
+Warning: Subprogram ZSCAL argument arrayness mismatch at position 3:
+    Dummy arg ZX in module ZSCAL line 50427 file feff85L.f is whole array
+    Actual arg A(J+1,J) in module ZGETF2 line 51879 file feff85L.f is array
+ element
+
+Warning: Subprogram ZSCAL argument arrayness mismatch at position 3:
+    Dummy arg ZX in module ZSCAL line 50427 file feff85L.f is whole array
+    Actual arg AB(KV+2,JJ) in module ZGBTRF line 51576 file feff85L.f is array
+ element
+
+Warning: Subprogram ZSCAL argument arrayness mismatch at position 3:
+    Dummy arg ZX in module ZSCAL line 50427 file feff85L.f is whole array
+    Actual arg AB(KV+2,J) in module ZGBTF2 line 51297 file feff85L.f is array
+ element
+
+Warning: Subprogram ZSWAP never invoked
+    Defined in module ZSWAP line 50456 file feff85L.f
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg A(J,1) in module ZGETF2 line 51874 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg A(JP,1) in module ZGETF2 line 51874 file feff85L.f is array
+ element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg A(J,1) in module ZGETF2 line 51874 file feff85L.f may be same
+ as arg 4: A(JP,1)
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg A(JP,1) in module ZGETF2 line 51874 file feff85L.f may be same
+ as arg 2: A(J,1)
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 51560 file feff85L.f is
+ array element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+JP+JJ-J.. in module ZGBTRF line 51560 file feff85L.f is
+ array element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 51560 file feff85L.f may
+ be same as arg 4: AB(KV+JP+JJ-J..
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg AB(KV+JP+JJ-J.. in module ZGBTRF line 51560 file feff85L.f may
+ be same as arg 2: AB(KV+1+JJ-J,J)
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 51567 file feff85L.f is
+ array element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg WORK31(JP+JJ-.. in module ZGBTRF line 51567 file feff85L.f is
+ array element
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+1,JJ) in module ZGBTRF line 51569 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+JP,JJ) in module ZGBTRF line 51569 file feff85L.f is
+ array element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg AB(KV+1,JJ) in module ZGBTRF line 51569 file feff85L.f may be
+ same as arg 4: AB(KV+JP,JJ)
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg AB(KV+JP,JJ) in module ZGBTRF line 51569 file feff85L.f may be
+ same as arg 2: AB(KV+1,JJ)
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 51737 file feff85L.f is
+ array element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+JP+JJ-J.. in module ZGBTRF line 51737 file feff85L.f is
+ array element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 51737 file feff85L.f may
+ be same as arg 4: AB(KV+JP+JJ-J..
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg AB(KV+JP+JJ-J.. in module ZGBTRF line 51737 file feff85L.f may
+ be same as arg 2: AB(KV+1+JJ-J,J)
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+1+JJ-J,J) in module ZGBTRF line 51743 file feff85L.f is
+ array element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg WORK31(JP+JJ-.. in module ZGBTRF line 51743 file feff85L.f is
+ array element
+
+Warning: Subprogram ZSWAP argument arrayness mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+JP,J) in module ZGBTF2 line 51291 file feff85L.f is array
+ element
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is whole array
+    Actual arg AB(KV+1,J) in module ZGBTF2 line 51291 file feff85L.f is array
+ element
+
+Warning: Subprogram ZSWAP argument usage mismatch at position 2:
+    Dummy arg ZX in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg AB(KV+JP,J) in module ZGBTF2 line 51291 file feff85L.f may be
+ same as arg 4: AB(KV+1,J)
+  and at position 4:
+    Dummy arg ZY in module ZSWAP line 50456 file feff85L.f is modified
+    Actual arg AB(KV+1,J) in module ZGBTF2 line 51291 file feff85L.f may be
+ same as arg 2: AB(KV+JP,J)
+
+Warning: Subprogram ZTRSM never invoked
+    Defined in module ZTRSM line 50492 file feff85L.f
+
+Warning: Subprogram ZTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module ZTRSM line 50492 file feff85L.f is whole array
+    Actual arg A(J,J) in module ZGETRF line 52039 file feff85L.f is array
+ element
+  and at position 10:
+    Dummy arg B in module ZTRSM line 50492 file feff85L.f is whole array
+    Actual arg A(J,J+JB) in module ZGETRF line 52039 file feff85L.f is array
+ element
+
+Warning: Subprogram ZTRSM argument usage mismatch at position 10:
+    Dummy arg B in module ZTRSM line 50492 file feff85L.f is modified
+    Actual arg A(J,J+JB) in module ZGETRF line 52039 file feff85L.f may be
+ same as arg 8: A(J,J)
+
+Warning: Subprogram ZTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module ZTRSM line 50492 file feff85L.f is whole array
+    Actual arg AB(KV+1,J) in module ZGBTRF line 51645 file feff85L.f is array
+ element
+  and at position 10:
+    Dummy arg B in module ZTRSM line 50492 file feff85L.f is whole array
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 51645 file feff85L.f is
+ array element
+
+Warning: Subprogram ZTRSM argument usage mismatch at position 10:
+    Dummy arg B in module ZTRSM line 50492 file feff85L.f is modified
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 51645 file feff85L.f may
+ be same as arg 8: AB(KV+1,J)
+
+Warning: Subprogram ZTRSM argument arrayness mismatch at position 8:
+    Dummy arg A in module ZTRSM line 50492 file feff85L.f is whole array
+    Actual arg AB(KV+1,J) in module ZGBTRF line 51683 file feff85L.f is array
+ element
+
+Warning: Subprogram CLACON never invoked
+    Defined in module CLACON line 50906 file feff85L.f
+
+Warning: Subprogram ICMAX1 never invoked
+    Defined in module ICMAX1 line 52976 file feff85L.f
+
+Warning: Subprogram SCSUM1 never invoked
+    Defined in module SCSUM1 line 52894 file feff85L.f
+
+Warning: Subprogram SLAMCH never invoked
+    Defined in module SLAMCH line 53220 file feff85L.f
+
+Warning: Subprogram ZGBTF2 never invoked
+    Defined in module ZGBTF2 line 51117 file feff85L.f
+
+Warning: Subprogram ZGBTRF never invoked
+    Defined in module ZGBTRF line 51320 file feff85L.f
+
+Warning: Subprogram ZLASWP never invoked
+    Defined in module ZLASWP line 52209 file feff85L.f
+
+Warning: Subprogram ZLASWP argument arrayness mismatch at position 2:
+    Dummy arg A in module ZLASWP line 52209 file feff85L.f is whole array
+    Actual arg A(1,J+JB) in module ZGETRF line 52034 file feff85L.f is array
+ element
+
+Warning: Subprogram ZLASWP argument arrayness mismatch at position 2:
+    Dummy arg A in module ZLASWP line 52209 file feff85L.f is whole array
+    Actual arg AB(KV+1-JB,J+.. in module ZGBTRF line 51614 file feff85L.f is
+ array element
+  and at position 6:
+    Dummy arg IPIV in module ZLASWP line 52209 file feff85L.f is whole array
+    Actual arg IPIV(J) in module ZGBTRF line 51614 file feff85L.f is array
+ element
+
+Warning: Subprogram ZGETF2 never invoked
+    Defined in module ZGETF2 line 51763 file feff85L.f
+
+Warning: Subprogram ZGETF2 argument arrayness mismatch at position 3:
+    Dummy arg A in module ZGETF2 line 51763 file feff85L.f is whole array
+    Actual arg A(J,J) in module ZGETRF line 52016 file feff85L.f is array
+ element
+  and at position 5:
+    Dummy arg IPIV in module ZGETF2 line 51763 file feff85L.f is whole array
+    Actual arg IPIV(J) in module ZGETRF line 52016 file feff85L.f is array
+ element
+
+Warning: Subprogram ZGETRF never invoked
+    Defined in module ZGETRF line 51899 file feff85L.f
+
+Warning: Subprogram ZGETRS never invoked
+    Defined in module ZGETRS line 52059 file feff85L.f
+
+Warning: Subprogram DGETF2 never invoked
+    Defined in module DGETF2 line 52329 file feff85L.f
+
+Warning: Subprogram DGETF2 argument arrayness mismatch at position 3:
+    Dummy arg A in module DGETF2 line 52329 file feff85L.f is whole array
+    Actual arg A(J,J) in module DGETRF line 52581 file feff85L.f is array
+ element
+  and at position 5:
+    Dummy arg IPIV in module DGETF2 line 52329 file feff85L.f is whole array
+    Actual arg IPIV(J) in module DGETRF line 52581 file feff85L.f is array
+ element
+
+Warning: Subprogram DGETRF never invoked
+    Defined in module DGETRF line 52464 file feff85L.f
+
+Warning: Subprogram DLASWP never invoked
+    Defined in module DLASWP line 52774 file feff85L.f
+
+Warning: Subprogram DLASWP argument arrayness mismatch at position 2:
+    Dummy arg A in module DLASWP line 52774 file feff85L.f is whole array
+    Actual arg A(1,J+JB) in module DGETRF line 52599 file feff85L.f is array
+ element
+
+Warning: Subprogram DGETRS never invoked
+    Defined in module DGETRS line 52624 file feff85L.f
+
+Warning: Subprogram IEEECK never invoked
+    Defined in module IEEECK line 53072 file feff85L.f
+
+Warning: Subprogram SLAMC2 never invoked
+    Defined in module SLAMC2 line 53537 file feff85L.f
+
+Warning: Subprogram SLAMC1 never invoked
+    Defined in module SLAMC1 line 53350 file feff85L.f
+
+Warning: Subprogram SLAMC3 never invoked
+    Defined in module SLAMC3 line 53796 file feff85L.f
+
+Warning: Subprogram SLAMC4 never invoked
+    Defined in module SLAMC4 line 53834 file feff85L.f
+
+Warning: Subprogram SLAMC5 never invoked
+    Defined in module SLAMC5 line 53918 file feff85L.f
+
+Warning: Subprogram ATWTS never invoked
+    Defined in module ATWTS line 55927 file feff85L.f
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DUM(1) in module RDPOTP line 61196 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg RMT(0) in module RDPOTP line 61214 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg RNRM(0) in module RDPOTP line 61219 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg FOLP(0) in module RDPOTP line 61220 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg FOLPX(0) in module RDPOTP line 61221 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg XNATPH(0) in module RDPOTP line 61222 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg XION(0) in module RDPOTP line 61223 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DGC0(1) in module RDPOTP line 61224 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DPC0(1) in module RDPOTP line 61225 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DGC(1,1,0) in module RDPOTP line 61226 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DPC(1,1,0) in module RDPOTP line 61227 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg ADGC(1,1,0) in module RDPOTP line 61228 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg ADPC(1,1,0) in module RDPOTP line 61229 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg EDENS(1,0) in module RDPOTP line 61230 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg VCLAP(1,0) in module RDPOTP line 61231 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg VTOT(1,0) in module RDPOTP line 61232 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg EDENVL(1,0) in module RDPOTP line 61233 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg VVALGS(1,0) in module RDPOTP line 61234 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DMAG(1,0) in module RDPOTP line 61235 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg XNVAL(1,0) in module RDPOTP line 61236 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg EORB(1) in module RDPOTP line 61237 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg QNRM(0) in module RDPOTP line 61241 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg XNMUES(0,0) in module RDPOTP line 61243 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DUM(1) in module RDXSPH line 56328 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DUM(1) in module RDPOT line 56186 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg RMT(0) in module RDPOT line 56204 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg RNRM(0) in module RDPOT line 56209 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg FOLP(0) in module RDPOT line 56210 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg FOLPX(0) in module RDPOT line 56211 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg XNATPH(0) in module RDPOT line 56212 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg XION(0) in module RDPOT line 56213 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DGC0(1) in module RDPOT line 56214 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DPC0(1) in module RDPOT line 56215 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DGC(1,1,0) in module RDPOT line 56216 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DPC(1,1,0) in module RDPOT line 56217 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg ADGC(1,1,0) in module RDPOT line 56218 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg ADPC(1,1,0) in module RDPOT line 56219 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg EDENS(1,0) in module RDPOT line 56220 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg VCLAP(1,0) in module RDPOT line 56221 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg VTOT(1,0) in module RDPOT line 56222 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg EDENVL(1,0) in module RDPOT line 56223 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg VVALGS(1,0) in module RDPOT line 56224 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg DMAG(1,0) in module RDPOT line 56225 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg XNVAL(1,0) in module RDPOT line 56226 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg EORB(1) in module RDPOT line 56227 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg QNRM(0) in module RDPOT line 56231 file feff85L.f is array
+ element
+
+Warning: Subprogram RDPADD argument arrayness mismatch at position 3:
+    Dummy arg ARRAY in module RDPADD line 56994 file feff85L.f is whole array
+    Actual arg XNMUES(0,0) in module RDPOT line 56233 file feff85L.f is array
+ element
+
+Warning: Subprogram LBLANK never invoked
+    Defined in module LBLANK line 56751 file feff85L.f
+
+Warning: Subprogram WRPADR never invoked
+    Defined in module WRPADR line 56909 file feff85L.f
+
+Warning: Subprogram WRPADC never invoked
+    Defined in module WRPADC line 56955 file feff85L.f
+
+Warning: Subprogram PAR_BCAST_INT never invoked
+    Defined in module PAR_BCAST_INT line 57965 file feff85L.f
+
+Warning: Subprogram MPE_DECOMP1D never invoked
+    Defined in module MPE_DECOMP1D line 57992 file feff85L.f
+
+Warning: Subprogram GETWF argument data type mismatch at position 11:
+    Dummy arg EM in module GETWF line 60360 file feff85L.f is type dble
+    Actual arg TEMP in module XSECTD line 58501 file feff85L.f is type cplx*16
+
+Warning: Subprogram GETWF argument usage mismatch at position 24:
+    Dummy arg DGCNP in module GETWF line 60360 file feff85L.f is used before
+ set
+    Actual arg DGCNP in module XSECTD line 58501 file feff85L.f is not set
+  and at position 25:
+    Dummy arg DPCNP in module GETWF line 60360 file feff85L.f is used before
+ set
+    Actual arg DPCNP in module XSECTD line 58501 file feff85L.f is not set
+
+Warning: Subprogram GETCHI0 argument arrayness mismatch at position 51:
+    Dummy arg XKMATP in module GETCHI0 line 59030 file feff85L.f is whole
+ array
+    Actual arg XKMATP(1,1,IE) in module XSECTD line 58636 file feff85L.f is
+ array element
+
+Warning: Subprogram YZKTD argument arrayness mismatch at position 4:
+    Dummy arg PS in module YZKTD line 60988 file feff85L.f is whole array
+    Actual arg PF(1,IMJ) in module GETCHI0 line 59265 file feff85L.f is array
+ element
+  and at position 5:
+    Dummy arg QS in module YZKTD line 60988 file feff85L.f is whole array
+    Actual arg QF(1,IMJ) in module GETCHI0 line 59265 file feff85L.f is array
+ element
+  and at position 6:
+    Dummy arg APS in module YZKTD line 60988 file feff85L.f is whole array
+    Actual arg APSM(1,IMJ) in module GETCHI0 line 59265 file feff85L.f is
+ array element
+ etc...
+
+Warning: Subprogram YZKTD argument usage mismatch at position 3:
+    Dummy arg FLPS in module YZKTD line 60988 file feff85L.f is used before
+ set
+    Actual arg FLPS in module GETCHI0 line 59265 file feff85L.f is not set
+  and at position 4:
+    Dummy arg PS in module YZKTD line 60988 file feff85L.f is used before set
+    Actual arg PF(1,IMJ) in module GETCHI0 line 59265 file feff85L.f is not
+ set
+  and at position 5:
+    Dummy arg QS in module YZKTD line 60988 file feff85L.f is used before set
+    Actual arg QF(1,IMJ) in module GETCHI0 line 59265 file feff85L.f is not
+ set
+ etc...
+
+Warning: Subprogram YZKTD argument arrayness mismatch at position 4:
+    Dummy arg PS in module YZKTD line 60988 file feff85L.f is whole array
+    Actual arg PF(1,IMJ) in module GETCHI0 line 59737 file feff85L.f is array
+ element
+  and at position 5:
+    Dummy arg QS in module YZKTD line 60988 file feff85L.f is whole array
+    Actual arg QF(1,IMJ) in module GETCHI0 line 59737 file feff85L.f is array
+ element
+  and at position 6:
+    Dummy arg APS in module YZKTD line 60988 file feff85L.f is whole array
+    Actual arg APSM(1,IMJ) in module GETCHI0 line 59737 file feff85L.f is
+ array element
+ etc...
+
+Warning: Subprogram YZKTD argument arrayness mismatch at position 4:
+    Dummy arg PS in module YZKTD line 60988 file feff85L.f is whole array
+    Actual arg PF(1,IMJ) in module GETCHI0 line 59855 file feff85L.f is array
+ element
+  and at position 5:
+    Dummy arg QS in module YZKTD line 60988 file feff85L.f is whole array
+    Actual arg QF(1,IMJ) in module GETCHI0 line 59855 file feff85L.f is array
+ element
+  and at position 6:
+    Dummy arg APS in module YZKTD line 60988 file feff85L.f is whole array
+    Actual arg APSM(1,IMJ) in module GETCHI0 line 59855 file feff85L.f is
+ array element
+ etc...
+
+Warning: Subprogram LUDCMP never invoked
+    Defined in module LUDCMP line 60272 file feff85L.f
+
+Warning: Subprogram LUBKSB never invoked
+    Defined in module LUBKSB line 60331 file feff85L.f

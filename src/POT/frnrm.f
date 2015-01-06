@@ -5,6 +5,7 @@
          dimension xpc(251), ri(251)
 c#mn
        external rr
+       x=0
 
 c     finds norman radius
 
@@ -49,7 +50,7 @@ c     add initial point (r=0) correction (see subroutine somm2)
 c     add next order correction ALA 3/97
         dx05 = 0.05
         x0 = 8.8
-        jnrm =  (log(rnrm) + x0) / dx05  +  2
+        jnrm =  int((log(rnrm) + x0) / dx05)  +  2
         i0=jnrm+1
         xirf = 2
         do 710 ir = 1, jnrm+2

@@ -1,14 +1,39 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
+from   os.path   import realpath, join
 
-lib_src = Split('fmsie.f fmspack.f gglu.f ggbi.f ggrm.f gggm.f ggtf.f yprep.f xstaff.f')
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+ienv = InstallEnvironment()
 
-bin_src = Split('ffmod3.f fmstot.f reafms.f xprep.f')
+lib_src = ['fmsie.f', 'fmspack.f', 'gglu.f', 'ggbi.f', 'ggrm.f', 'gggm.f', 'ggtf.f', 'yprep.f', 'xstaff.f']
 
-env.StaticLibrary('libfms', lib_src)
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen', 'PAR/sequential', 'MATH/lu')
 
-env.Program('fms', bin_src, \
-        LIBS    = ['fms', 'dw', 'feffcom', 'feffmath', 'feffpar'], \
-        LIBPATH = ['.', '../DEBYE', '../COMMON', '../MATH', '../PAR'])
+env.SharedLibrary('libfefffms', lib_src + FindOtherObjects(deps, env))
+
+env.Depends('reafms'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+
+## the following lines would build the fms executable, however the
+## intent of feff85exafs is that the tasks that use this (XANES, LDOS,
+## and so on) are not supported.  However, the fms library is required
+## for xsph.
+
+#bin_src = ('ffmod3.f', 'fmstot.f', 'reafms.f')
+
+#env.Program('fms', bin_src, \
+#        LIBS    = ['fms', 'feffdw', 'feffcom', 'libjsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
+#        LIBPATH = ['.', join('..','DEBYE'), join('..','COMMON'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
+
+
+env.Install(ienv['i_lib'], 'libfefffms' + env['SHLIBSUFFIX'])
+#env.Install(ienv['i_bin'], 'fms')
+
+env.Alias('install', [ienv['i_lib'], ienv['i_bin']])

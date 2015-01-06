@@ -1,0 +1,26 @@
+#!/bin/bash
+
+FeffRoot=${0/bin\/f85e/src}  # /home/bruce/git/feff85exafs/src
+logfile=f85e.log
+module() {
+    count=$((count+1))
+    if [ $1 == "path" ]; then
+	mod="pathfinder"
+    else 
+	mod=$1
+    fi
+    folder=$(echo "$1" | tr '[:lower:]' '[:upper:]')
+
+    echo ""
+    echo "======= running module $mod ====================================================" | tee  -a $logfile
+    $FeffRoot/$folder/$mod  2>&1 | tee -a $logfile
+}
+
+echo "Beginning feff85exafs calculation"  | tee $logfile
+module "rdinp"
+module "pot"
+module "xsph"
+module "path"
+module "genfmt"
+module "ff2x"
+rm -f log*.dat

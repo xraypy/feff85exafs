@@ -1,4 +1,4 @@
-      subroutine snlm (lmaxp1, mmaxp1)
+      subroutine snlm (lmaxp1, mmaxp1, xnlm)
       implicit double precision(a-h,o-z)
 
 c     Set nlm, legendre normalization factors, xnlm in common /nlm/
@@ -6,7 +6,9 @@ c     Calculates legendre norm factors
 c     xnlm= sqrt ((2l+1)(l-m)!/(l+m)!)
 
       include '../HEADERS/dim.h'
-      include 'nlm.h'
+c     include 'nlm.h'
+      dimension xnlm(ltot+1,mtot+1)
+
 
 c     flg(i) = i! * afac**i, set in factst
       dimension flg(0:210)

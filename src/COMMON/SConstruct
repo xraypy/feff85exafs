@@ -1,11 +1,27 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-Import('env')
+import sys
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
+from   os.path   import realpath, join
+
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+ienv = InstallEnvironment()
 
 lib_src = Split('chopen.f  fixvar.f  head.f    itoken.f  pertab.f  rdcmt.f   rdxsph.f  str.f    \
                  xx.f      fixdsp.f  getorb.f  iniptz.f  nxtunt.f  pijump.f  rdhead.f  setgam.f \
                  str2dp.f  fixdsx.f  getxk.f   isnum.f   padlib.f  qsorti.f  rdpot.f   setkap.f \
                  wlog.f')
 
-env.StaticLibrary('libfeffcom', lib_src)
+deps = ('PAR/sequential', 'MATH/terp', 'MATH/polint')
+
+env.SharedLibrary('libfeffcom', lib_src + FindOtherObjects(deps, env))
+
+env.Install(ienv['i_lib'], 'libfeffcom' + env['SHLIBSUFFIX'])
+
+env.Alias('install', ienv['i_lib'])

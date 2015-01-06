@@ -2,12 +2,14 @@ c     Josh - argument iPl has been added to arguments of xsect
       subroutine xsect (ipr2, dx, x0, ri, ne, ne1, ik0, em, edge,
      1                  ihole, emu, corr, dgc0, dpc0, jnew,
      2                  ixc, lreal, rmt, rnrm, xmu,
-     2                  vi0, iPl, gamach,
+     2                  iPl,
      3                  vtot, vvalgs, edens, dmag, edenvl,
      4                  dgcn, dpcn, adgc, adpc, xsec, xsnorm, rkk,
      5                  iz, xion, iunf, xnval,
-     5                  izstd, ifxc, eorb, kappa, iorb, l2lp,
+     5                  izstd, iorb, l2lp,
      6                  ipol, ispin, le2, angks, ptz)
+
+c gamach, eorb, ifxc, kappa
 
 c     right know the same self-energy is used for calculation
 c     of the central atom part (xsec) and dipole m.e. for
@@ -59,7 +61,8 @@ c                 of termination matrix in genfmt.
       complex*16 em(nex)
       dimension ri(nrptx), vtot(nrptx), edens(nrptx),dmag(nrptx)
       dimension dgc0(nrptx), dpc0(nrptx), vvalgs(nrptx), edenvl(nrptx)
-      dimension dgcn(nrptx,30), dpcn(nrptx,30), eorb(30), kappa(30)
+      dimension dgcn(nrptx,30), dpcn(nrptx,30)
+c      dimension eorb(30), kappa(30)
       dimension adgc(10,30), adpc(10,30), xnval(30), iorb(-4:3)
       complex*16 rkk(nex, 8), xsec(nex)
       complex*16 bmat(-lx:lx,0:1,8, -lx:lx,0:1,8)
@@ -76,14 +79,15 @@ c     work space for fovrg
       complex*16 p(nrptx), q(nrptx), pn(nrptx), qn(nrptx), fscf(nrptx)
       complex*16 pp(nrptx), qp(nrptx), pnp(nrptx), qnp(nrptx)
 c     storage for calculation of cross term (SPIN 1 only)
-      complex*16 xrcold(nrptx) , xncold(nrptx), yvec(nrptx,1)
+      complex*16 xrcold(nrptx) , xncold(nrptx)
 
-      complex*16  p2, ck, xkmt, xkmtp
+      complex*16  p2, ck, xkmt
+c      complex*16  xkmtp, xm1, xm2, xm3, xm4, yvec(nrptx,1)
       complex*16  pu, qu, dum1, factor
       complex*16  xfnorm, xirf, xirf1
       complex*16  temp, aa, bb, cc, rkk1, rkk0, phold
       complex*16  phx(8), ph0
-      complex*16  eref, xm1, xm2, xm3, xm4
+      complex*16  eref
 
       complex*16 jl,jlp1,nl,nlp1
       complex*16  v(nrptx), vval(nrptx)
@@ -97,25 +101,35 @@ c     nesvi:
       dimension pat(nrptx),qat(nrptx)
       complex*16 intr(nrptx),var(nrptx) 
 c     to pass energy levels and projected DOS
-      dimension neg(30), eng(nex, 30), rhoj(nex,30)
+c      dimension neg(30), rhoj(nex,30)
+      dimension eng(nex, 30)
 c     Josh - Added iPl switch for PLASMON card
 c          - and WpCorr = Wi/Wp, Gamma, AmpFac
 c          - to describe Im[eps^-1]
       integer iPl, ipole
       double precision WpCorr(MxPole), Gamma(MxPole), AmpFac(MxPole)
 c     Josh END
+
+c     explicitly intialize some things
+      rkk0  = (0.,0.)
+      rkk1  = (0.,0.)
+      phold = (0.,0.)
       
+      do 5 i=1,MxPole
+         WpCorr(1) = -1.d30
+ 5    continue
+
       call setkap(ihole, kinit, linit)
       PRINT*, 'dx=',dx
 c     set imt and jri (use general Loucks grid)
 c     rmt is between imt and jri (see function ii(r) in file xx.f)
-      imt = (log(rmt) + x0) / dx  +  1
+      imt = int((log(rmt) + x0) / dx)  +  1
       jri = imt+1
       jri1 = jri+1
       if (jri1 .gt. nrptx)  call par_stop('jri .gt. nrptx in phase')
 
 c     nesvi: define jnrm
-      inrm = (log(rnrm) + x0) / dx + 1
+      inrm = int((log(rnrm) + x0) / dx) + 1
       jnrm = inrm + 1
 
 c     We'll need <i|i> later to normalize dipole matrix elements
@@ -203,8 +217,13 @@ c             - iPl, WpCorr, Gamma, AmpFac
          call xcpot (iph, ie, index, lreal, ifirst, jri,
      1               em(ie), xmu,
      2               vtot, vvalgs, edens, dmag, edenvl,
-     3               eref, v, vval, iPl, WpCorr, Gamma, AmpFac,
+     3               eref, v, vval, iPl, WpCorr, AmpFac,
      4               vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim,rnrm)
+c         call xcpot (iph, ie, index, lreal, ifirst, jri,
+c     1               em(ie), xmu,
+c     2               vtot, vvalgs, edens, dmag, edenvl,
+c     3               eref, v, vval, iPl, WpCorr, Gamma, AmpFac,
+c     4               vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim,rnrm)
 
 c       set the method to calculate atomic cross section
 c       p2 is (complex momentum)**2 referenced to energy dep xc

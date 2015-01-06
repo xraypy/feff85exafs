@@ -1,4 +1,5 @@
-      double precision function xstar (eps1,eps2, vec1,vec2, ndeg,elpty)
+      double precision function xstar(eps1,eps2, vec1,vec2, ndeg, elpty,
+     &       ilinit)
       implicit double precision (a-h, o-z)
 c     calculating nstar=deg*cos(eps r1)*cos(eps rN)
 c     written by alexei ankudinov 08.13.96
@@ -7,11 +8,13 @@ c     vec1 - direction to the first atom in path
 c     vec2 - direction to the last atom in path
 c     ndeg - may be not equal to 'deg' in diff. paths
 c             subroutines
-c     the rest of the data is passed through commons.
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      include 'pdata.h'
+c      include 'pdata.h'
+      integer ilinit 
+
+
       dimension eps1(3), eps2(3), vec1(3), vec2(3)
 
       lfin = ilinit

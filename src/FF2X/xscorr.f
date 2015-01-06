@@ -27,7 +27,8 @@ c       and then goes horizontally to infinity + i*xloss
 
       dimension  xsnorm(nex), omega(nex)
       complex*16 emxs(nex), xsec(nex), chia(nex), cchi(nex) 
-      complex*16 xmu(nex), aa, bb, c1, f1, f2, ff(nex), xmu0
+      complex*16 xmu(nex), aa, bb, f1, f2, ff(nex), xmu0
+c      complex*16 c1
       parameter (eps4 = 1.0d-4)
       complex*16 ec(nex), fc(nex), e1,e2, z1,z2, corr
       complex*16 lorenz
@@ -36,6 +37,7 @@ c       and then goes horizontally to infinity + i*xloss
       ne2 = ne-ne1
       efermi = dble(emxs(ne)) 
       xloss = dimag(emxs(1))
+      vicorr = 0
 
 c     xmu - analytic function in complex energy plain
       do  ie = 1,ne
@@ -134,11 +136,11 @@ c     cycle over frequency points
 
 c       add half matsubara pole contribution
 c       equivalent to integral from efermi to efermi+i*w1
-        corr = corr + lorenz(ip,xloss,w1,dele)*ff(1) *coni*w1
+        corr = corr + lorenz(xloss,w1,dele)*ff(1) *coni*w1
         if (nc0.gt.3) then
 c       add sommerfeld correction (correction for derivative)
 c         corr = corr + coni * w1**2 / 6   / (w3-w2) *
-c    2   (lorenz(ip,xloss,w3,dele)*ff(3)-lorenz(ip,xloss,w2,dele)*ff(2))
+c    2   (lorenz(xloss,w3,dele)*ff(3)-lorenz(xloss,w2,dele)*ff(2))
         endif
 
 
@@ -182,7 +184,7 @@ c     restore the input energy mesh
       return
       end
 
-      complex*16 function lorenz (ifp, xloss, w, dele)
+      complex*16 function lorenz (xloss, w, dele)
       implicit double precision (a-h, o-z)
       include '../HEADERS/const.h'
 c     ifp is dummy now. correspond to ifp=0 in old code

@@ -1,11 +1,12 @@
       subroutine pot (rgrd, nohole, inters, totvol, ecv0,
      $             nscmt, nmix, ntitle, title,
-     $             nat, nph, ihole, gamach, iafolp,
+     $             nat, nph, ihole, iafolp,
      $             ixc, iphat, rat, iatph,
      $             xnatph, novr,
      $             iphovr, nnovr, rovr, folp0, xion, iunf, iz, ipr1,
      $             ispec, jumprm,
      $             lmaxsc, icoul, ca1, rfms1, lfms1)
+c gamach
 
 c     Cluster code -- multiple shell single scattering version of FEFF
 c     This program (or subroutine) calculates potentials and phase
@@ -118,6 +119,14 @@ c       criteria for self-consistency
       character*512 slog
 c     Josh use nhtmp to save nohole value
       integer nhtmp
+
+      do 4 i=1,30
+         do 2 j=0,nphx+1
+            kappa(i,j) = 0
+            eorb(i,j) = 0
+ 2       continue
+ 4    continue
+
    10 format (4x, a, i5)
 
 c     Josh - for now if nohole=2 reset to 0 so that regular nohole
@@ -128,7 +137,7 @@ c     Josh
 
 c     variables ecv0 and folp0 serve as input only; do not change them
 c     since it will change file feff.ior content
-c     ecv and folp are passed through pot.bin to next modules.
+c     ecv and folp are passed through pot.pad to next modules.
       ecv = ecv0
       do 12 i = 0, nph
    12 folp(i) = folp0(i)
@@ -155,6 +164,7 @@ c     rnrm)
       do 99 ifree = 1, nfree
 
       ispinr = 0
+      etfin  = 0
       do 20  iph = 0, nph
          write(slog,10) 
      1     'free atom potential and density for atom type', iph
@@ -512,7 +522,7 @@ c     to worse estimate of edge position. fix later. ala
      1              rho, vclap, vcoul, vtot, ntitle, title)
       endif
 
-c     write stuff into pot.bin
+c     write stuff into pot.pad
       call wrpot (nph, ntitle, title, rnrmav, xmu, vint, rhoint,
      1            emu, s02, erelax, wp, ecv,rs,xf, qtotel,
      2            imt, rmt, inrm, rnrm, folp, folpx, xnatph,

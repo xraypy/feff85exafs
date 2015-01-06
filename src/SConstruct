@@ -1,37 +1,40 @@
+## -*- python -*-
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-env = Environment()
-print '\n\tFortran compiler is ' + env['FORTRAN'] + '\n'
+from FeffBuild import CompilationEnvironment, InstallEnvironment
 
-if env['FORTRAN'] == 'gfortran':
-    env = Environment(FORTRANFLAGS = '-O3 -ffree-line-length-none -Wall')   ## -Wall -finit-local-zero
-elif env['FORTRAN'] == 'g77':
-    env = Environment(FORTRANFLAGS = '-Wall -O2')
-elif env['FORTRAN'] == 'xlf':
-    env = Environment(FORTRANFLAGS = '-qextern=trap')
-elif env['FORTRAN'] == 'ifort':
-    env = Environment(FORTRANFLAGS = '-O3')
+env  = CompilationEnvironment()
 
+#env = Environment()
+print '\n\tFortran compiler is ' + env['FORTRAN']
+ienv = InstallEnvironment()
+print "\tinstallation prefix is: " + ienv['i_prefix'] +"\n"
 
-Export('env')
-SConscript(['PAR/SConstruct',    \
-            'COMMON/SConstruct', \
-            'MATH/SConstruct',   \
-            'ATOM/SConstruct',   \
-            'DEBYE/SConstruct',  \
-            'EXCH/SConstruct',   \
-            'FOVRG/SConstruct',  \
-            'RDINP/SConstruct',  \
-            'POT/SConstruct',    \
-	    'FF2X/SConstruct',   \
-            'XSPH/SConstruct',   \
-            'FMS/SConstruct',    \
-            'PATH/SConstruct',   \
-            'GENFMT/SConstruct'], exports='env') 
+SConscript([
+            'PAR/SConstruct',
+            'COMMON/SConstruct',
+            'json-fortran/SConstruct',
+            'JSON/SConstruct',
+            'MATH/SConstruct',
+            'ATOM/SConstruct',
+            'DEBYE/SConstruct',
+            'EXCH/SConstruct',
+            'FOVRG/SConstruct',
+            'FMS/SConstruct',
+            'RDINP/SConstruct',
+            'POT/SConstruct',
+            'XSPH/SConstruct',
+            'PATH/SConstruct',
+            'GENFMT/SConstruct',
+	    'FF2X/SConstruct',
+        ])
+#, exports='env')
 
+# RDINP  -> feff.inp reader
 # POT    -> module 1
 # XSPH   -> module 2
-# FMS    -> module 3
+# FMS    -> module 3, executable is not a part of feff85exafs
 # PATH   -> module 4
 # GENFMT -> module 5
+# FF2X   -> module 6

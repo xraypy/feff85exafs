@@ -1,4 +1,4 @@
-      subroutine sclmz (rho, lmaxp1, mmaxp1, ileg)
+      subroutine sclmz (rho, lmaxp1, mmaxp1, ileg, clmi)
       implicit double precision (a-h, o-z)
 
 c     Set CLM(Z) for current leg.
@@ -15,7 +15,8 @@ c     To test pw approx, set z = 0
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      include 'clmz.h'
+c      include 'clmz.h'
+      complex*16 clmi(ltot+1,mtot+ntot+1,legtot)
 
       complex*16 rho(legtot)
       complex*16 z, cmm

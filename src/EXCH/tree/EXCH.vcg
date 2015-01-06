@@ -1,0 +1,181 @@
+graph: {
+title: "csigma.f"
+color: lightgray
+
+graph: {
+title:"[DSIGMA]"
+node: { title: "DSIGMA" label: "DSIGMA \n (csigma.f)" info1:"1" }
+edge: { sourcename: "DSIGMA" targetname: "CGRATR" class:1} 
+edge: { sourcename: "DSIGMA" targetname: "DR1" class:1} 
+edge: { sourcename: "DSIGMA" targetname: "DR2" class:1} 
+edge: { sourcename: "DSIGMA" targetname: "DR3" class:1} 
+edge: { sourcename: "DSIGMA" targetname: "FNDSNG" class:1} 
+
+graph: {
+title:"[CGRATR]"
+node: { title: "CGRATR" label: "CGRATR \n (csigma.f)" info1:"2" }
+}
+
+graph: {
+title:"[DR1]"
+node: { title: "DR1" label: "DR1 \n (csigma.f)" info1:"2" }
+edge: { sourcename: "DR1" targetname: "FQ" class:2} 
+
+graph: {
+title:"[FQ]"
+node: { title: "FQ" label: "FQ \n (csigma.f)" info1:"3" }
+}
+}
+
+graph: {
+title:"[DR2]"
+node: { title: "DR2" label: "DR2 \n (csigma.f)" info1:"2" }
+edge: { sourcename: "DR2" targetname: "FQ" class:2} 
+}
+
+graph: {
+title:"[DR3]"
+node: { title: "DR3" label: "DR3 \n (csigma.f)" info1:"2" }
+edge: { sourcename: "DR3" targetname: "FQ" class:2} 
+}
+
+graph: {
+title:"[FNDSNG]"
+node: { title: "FNDSNG" label: "FNDSNG \n (fndsng.f)" info1:"2" }
+edge: { sourcename: "FNDSNG" targetname: "QSORTI" class:2} 
+
+graph: {
+title:"[QSORTI]"
+node: { title: "QSORTI" label: "QSORTI \n (qsorti.f)" info1:"3" }
+}
+}
+}
+
+graph: {
+title:"[MPSE]"
+node: { title: "MPSE" label: "MPSE \n (mpse.f)" info1:"1" }
+edge: { sourcename: "MPSE" targetname: "CSIGMA" class:1} 
+edge: { sourcename: "MPSE" targetname: "CSIGZ" class:1} 
+
+graph: {
+title:"[CSIGMA]"
+node: { title: "CSIGMA" label: "CSIGMA \n (csigma.f)" info1:"2" }
+edge: { sourcename: "CSIGMA" targetname: "HFEXC" class:2} 
+edge: { sourcename: "CSIGMA" targetname: "SIGMA1" class:2} 
+
+graph: {
+title:"[HFEXC]"
+node: { title: "HFEXC" label: "HFEXC \n (csigma.f)" info1:"3" }
+}
+
+graph: {
+title:"[SIGMA1]"
+node: { title: "SIGMA1" label: "SIGMA1 \n (csigma.f)" info1:"3" }
+edge: { sourcename: "SIGMA1" targetname: "CGRATR" class:3} 
+edge: { sourcename: "SIGMA1" targetname: "FNDSNG" class:3} 
+edge: { sourcename: "SIGMA1" targetname: "R1" class:3} 
+edge: { sourcename: "SIGMA1" targetname: "R2" class:3} 
+edge: { sourcename: "SIGMA1" targetname: "R3" class:3} 
+
+graph: {
+title:"[R1]"
+node: { title: "R1" label: "R1 \n (csigma.f)" info1:"4" }
+edge: { sourcename: "R1" targetname: "FQ" class:4} 
+}
+
+graph: {
+title:"[R2]"
+node: { title: "R2" label: "R2 \n (csigma.f)" info1:"4" }
+edge: { sourcename: "R2" targetname: "FQ" class:4} 
+}
+
+graph: {
+title:"[R3]"
+node: { title: "R3" label: "R3 \n (csigma.f)" info1:"4" }
+edge: { sourcename: "R3" targetname: "FQ" class:4} 
+}
+}
+}
+
+graph: {
+title:"[CSIGZ]"
+node: { title: "CSIGZ" label: "CSIGZ \n (csigz.f)" info1:"2" }
+edge: { sourcename: "CSIGZ" targetname: "HFEXC" class:2} 
+edge: { sourcename: "CSIGZ" targetname: "SIGMA1" class:2} 
+}
+}
+
+graph: {
+title:"[VBH]"
+node: { title: "VBH" label: "VBH \n (vbh.f)" info1:"1" }
+edge: { sourcename: "VBH" targetname: "FLARGE" class:1} 
+
+graph: {
+title:"[FLARGE]"
+node: { title: "FLARGE" label: "FLARGE \n (vbh.f)" info1:"2" }
+}
+}
+
+graph: {
+title:"[XCPOT]"
+node: { title: "XCPOT" label: "XCPOT \n (xcpot.f)" info1:"1" }
+edge: { sourcename: "XCPOT" targetname: "CSIGMA" class:1} 
+edge: { sourcename: "XCPOT" targetname: "CSIGZ" class:1} 
+edge: { sourcename: "XCPOT" targetname: "SIGMA" class:1} 
+
+graph: {
+title:"[SIGMA]"
+node: { title: "SIGMA" label: "SIGMA \n (xcpot.f)" info1:"2" }
+edge: { sourcename: "SIGMA" targetname: "EDP" class:2} 
+edge: { sourcename: "SIGMA" targetname: "IMHL" class:2} 
+edge: { sourcename: "SIGMA" targetname: "RHL" class:2} 
+edge: { sourcename: "SIGMA" targetname: "RHLBP" class:2} 
+
+graph: {
+title:"[EDP]"
+node: { title: "EDP" label: "EDP \n (edp.f)" info1:"3" }
+}
+
+graph: {
+title:"[IMHL]"
+node: { title: "IMHL" label: "IMHL \n (imhl.f)" info1:"3" }
+edge: { sourcename: "IMHL" targetname: "CUBIC" class:3} 
+edge: { sourcename: "IMHL" targetname: "FFQ" class:3} 
+edge: { sourcename: "IMHL" targetname: "QUINN" class:3} 
+
+graph: {
+title:"[CUBIC]"
+node: { title: "CUBIC" label: "CUBIC \n (cubic.f)" info1:"4" }
+}
+
+graph: {
+title:"[FFQ]"
+node: { title: "FFQ" label: "FFQ \n (ffq.f)" info1:"4" }
+}
+
+graph: {
+title:"[QUINN]"
+node: { title: "QUINN" label: "QUINN \n (quinn.f)" info1:"4" }
+}
+}
+
+graph: {
+title:"[RHL]"
+node: { title: "RHL" label: "RHL \n (rhl.f)" info1:"3" }
+edge: { sourcename: "RHL" targetname: "IMHL" class:3} 
+}
+
+graph: {
+title:"[RHLBP]"
+node: { title: "RHLBP" label: "RHLBP \n (rhlbp.f)" info1:"3" }
+edge: { sourcename: "RHLBP" targetname: "QUINN" class:3} 
+edge: { sourcename: "RHLBP" targetname: "TERP2D" class:3} 
+
+graph: {
+title:"[TERP2D]"
+node: { title: "TERP2D" label: "TERP2D \n (rhlbp.f)" info1:"4" }
+}
+}
+}
+}
+}

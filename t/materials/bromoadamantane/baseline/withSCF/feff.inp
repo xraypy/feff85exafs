@@ -1,0 +1,64 @@
+
+ TITLE  1-bromo-adamantane
+
+ *  Br K edge energy = 13474 eV
+ EDGE      K
+ S02       0
+
+ *         pot    xsph  fms   paths genfmt ff2chi
+ CONTROL   1      1     1     1     1      1
+ PRINT     1      0     0     0     0      3
+
+ *         ixc  [ Vr  Vi ]     *** ixc=0 means to use Hedin-Lundqvist
+ EXCHANGE  0
+                                           *** Radius for self-consistent pots (2 shells is a good choice)
+ *         r_scf  [ l_scf   n_scf   ca ]   *** l_scf = 0 for a solid, 1 for a molecule
+ SCF       8
+
+ *         kmax   [ delta_k  delta_e ]     *** Upper limit of XANES calculation.
+ * XANES     4.0
+
+ *         r_fms     l_fms      *** Radius for Full Mult. Scatt. l_fms = 0 for a solid, 1 for a molecule
+ * FMS      14.33531  1
+
+ *         emin  emax   eimag   *** Energy grid over which to calculate DOS functions
+ * LDOS      -30   20     0.1
+
+               *** for EXAFS: RPATH 5.0 and uncomment the EXAFS card
+ RPATH     3.5
+ EXAFS     20
+
+ POTENTIALS
+ *    ipot   Z  element
+       0    35  Br      2    2     1
+       1     6  C       1    1    10
+       2     1  H       1    1    15
+
+ ATOMS
+ *   x          y          z      ipot
+    3.1692    0.0002    0.0002 0
+    1.2171    0.0000    0.0002 1
+   -0.8314    1.4000    0.4043 1
+   -0.8310   -0.3499   -1.4146 1
+   -0.8312   -1.0502    1.0102 1
+    0.7083    1.3943    0.4027 1
+    0.7089   -0.3484   -1.4087 1
+    0.7086   -1.0458    1.0061 1
+   -1.3394    1.0438   -1.0042 1
+   -1.3397    0.3477    1.4059 1
+   -1.3393   -1.3916   -0.4020 1
+   -1.1980    2.3919    0.6908 2
+   -1.1974   -0.5977   -2.4170 2
+   -1.1978   -1.7943    1.7261 2
+    1.0795    2.1592   -0.2919 2
+    1.0796    1.6712    1.3981 2
+    1.0802   -1.3324   -1.7237 2
+    1.0801    0.3753   -2.1461 2
+    1.0797   -0.8267    2.0159 2
+    1.0799   -2.0463    0.7481 2
+   -2.4360    1.0619   -1.0220 2
+   -0.9967    1.7948   -1.7266 2
+   -0.9973    0.5978    2.4175 2
+   -2.4364    0.3536    1.4302 2
+   -2.4360   -1.4159   -0.4092 2
+   -0.9967   -2.3927   -0.6910 2

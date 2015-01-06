@@ -1,10 +1,11 @@
 c     Josh - argument iPl has been added to arguments of xsect
       subroutine phase (iph, dx, x0, ri, ne, ne1, ne3, em,
      1                  ixc, nsp, lreal, rmt,rnrm, xmu,
-     2                  vi0, iPl, gamach,
+     2                  iPl,
      2                  vtot, vvalgs, edens, dmag, edenvl,
      3                  dgcn, dpcn, adgc, adpc, eref, ph, lmax,
      2                  iz, ihole, xion, iunf, xnval, ispin)
+c     2                  vi0, iPl, gamach,
 
       implicit double precision (a-h, o-z)
 
@@ -54,8 +55,9 @@ c     work space for xcpot
 c     p and q were needed in xsect to calc. matrix elements.
       complex*16 p(nrptx), q(nrptx)
 
-      complex*16  p2, ck, xkmtp, xkmt, temp, pu, qu
-      complex*16 jl(ltot+2), nl(ltot+2), jlp(ltot+2), nlp(ltot+2)
+      complex*16  p2, ck, xkmt, temp, pu, qu
+      complex*16 jl(ltot+2), nl(ltot+2)
+c      complex*16 xkmtp, nlp(ltot+2), jlp(ltot+2)
 
       complex*16 v(nrptx), vval(nrptx)
       character*512 slog
@@ -71,6 +73,14 @@ c{#mn: g77 (and other compilers) have an intrinsic function besjn,
 c      so besjn should be declared  external 
          external besjn
 c#mn}
+
+      do 5 i=1,MxPole
+         WpCorr(1) = -1.d30
+ 5    continue
+
+
+      clz = 0.d0
+
 c     zero phase shifts (some may not be set below)
       xkmax = 0
       ne12 = ne - ne3
@@ -86,7 +96,7 @@ c     Use kmax to find accurate l-points
 c     limit l, lmax = prefac* kmax * rmt
 c     prefac is set not to have warning message for Cu metal for kmax=20
       prefac = 0.7d0
-      lmax = prefac * rmt * xkmax
+      lmax = int(prefac * rmt * xkmax)
       lmax = max(lmax, 5)
       if (lmax.gt.ltot) then
         ik = nint( ltot / rmt / bohr / prefac )
@@ -100,7 +110,7 @@ c     prefac is set not to have warning message for Cu metal for kmax=20
       lmax = min (lmax, ltot)
 c     set imt and jri (use general Loucks grid)
 c     rmt is between imt and jri (see function ii(r) in file xx.f)
-      imt = (log(rmt) + x0) / dx  +  1
+      imt = int((log(rmt) + x0) / dx)  +  1
       jri = imt+1
       jri1 = jri+1
       if (jri1 .gt. nrptx)  call par_stop('jri .gt. nrptx in phase')
@@ -147,8 +157,13 @@ c             - iPl, WpCorr, Gamma, AmpFac
          call xcpot (iph, ie, index, lreal, ifirst, jri,
      1               em(ie), xmu,
      2               vtot, vvalgs, edens, dmag, edenvl,
-     3               eref(ie), v, vval, iPl, WpCorr, Gamma, AmpFac,
+     3               eref(ie), v, vval, iPl, WpCorr, AmpFac,
      4               vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim, rnrm)
+c         call xcpot (iph, ie, index, lreal, ifirst, jri,
+c     1               em(ie), xmu,
+c     2               vtot, vvalgs, edens, dmag, edenvl,
+c     3               eref(ie), v, vval, iPl, WpCorr, Gamma, AmpFac,
+c     4               vxcrmu, vxcimu, gsrel, vvxcrm, vvxcim, rnrm)
 
          if (dble(em(ie)).lt.-10.d0 .or. dble(em(ie)) .gt.3.d2) goto 220
 c        p2 is (complex momentum)**2 referenced to energy dep xc

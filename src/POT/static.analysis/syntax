@@ -1,0 +1,1112 @@
+
+FTNCHEK Version 3.3 November 2004
+
+File afolp.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+
+ 0 syntax errors detected in file afolp.f
+ 1 warning issued in file afolp.f
+
+File broydn.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     41            ri05(i) = exp(-8.8+dx05*(i-1))
+                                     ^
+Warning near line 41 col 30 file broydn.f: promotion may not give desired
+ precision: real expr -8.8 + dble expr DX05*(I-1)
+    114         jnrm =  (log(rnrm(iph)) + x0) / dx05  +  2
+                     ^
+Warning near line 114 col 14 file broydn.f: dble expr (LOG(RNRM(IPH))+X0)/DX05 
+ .. truncated to intg JNRM
+
+Warning in module BROYDN in file broydn.f: Variables may be used before set:
+    RHOOLD used at line 88 file broydn.f
+    RHOOLD set at line 102 file broydn.f
+
+ 0 syntax errors detected in file broydn.f
+ 4 warnings issued in file broydn.f
+
+File corval.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     71   15  ri05(i) = exp (-8.8+0.05*(i-1))
+                      ^
+Warning near line 71 col 15 file corval.f: real expr EXP(-8.8+0.05*(I-1)) 
+ promoted to dble RI05: may not give desired precision
+     83       eimag = coni*1.5/hart
+                          ^
+Warning near line 83 col 19 file corval.f: promotion may not give desired
+ precision: cplx*16 CONI * real const 1.5
+    101           if (xnval(iorb,iph).lt. 0.1) ival(lll,iph)=-1
+                                     ^
+Warning near line 101 col 30 file corval.f: comparison mixes terms of
+ different precision: dble XNVAL .LT. real const 0.1
+    119          jri = (log(rmt(iph)) + x0) / rgrd + 2
+                     ^
+Warning near line 119 col 14 file corval.f: dble expr (LOG(RMT(IPH))+X0)/RGRD+ 
+ .. truncated to intg JRI
+    123   40     vtotph(i) = vtotph(i) - eref
+                           ^
+Warning near line 123 col 20 file corval.f: dcpx expr VTOTPH(I)-EREF truncated
+ to dble VTOTPH
+    126   50       vvalph(i) = vvalph(i) - eref
+                             ^
+Warning near line 126 col 22 file corval.f: dcpx expr VVALPH(I)-EREF truncated
+ to dble VVALPH
+    292          if (xnval(iorb,iph).lt.0.1) then
+                                    ^
+Warning near line 292 col 29 file corval.f: comparison mixes terms of
+ different precision: dble XNVAL .LT. real const 0.1
+
+Warning in module CORVAL in file corval.f: Variables may be used before set:
+    EN used at line 193 file corval.f
+    EN set at line 196 file corval.f
+    ICV used at line 197 file corval.f
+    ICV set at line 197 file corval.f
+    IP used at line 199 file corval.f
+    IP set at line 199 file corval.f
+    LL used at line 198 file corval.f
+    LL set at line 198 file corval.f
+
+ 0 syntax errors detected in file corval.f
+ 9 warnings issued in file corval.f
+
+File coulom.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     27          ri05(i) = exp(-8.8+dx05*(i-1))
+                                   ^
+Warning near line 27 col 28 file coulom.f: promotion may not give desired
+ precision: real expr -8.8 + dble expr DX05*(I-1)
+     43           jnrm = (log(rnrm(ip)) + 8.8) / 0.05  +  2
+                                        ^
+Warning near line 43 col 33 file coulom.f: promotion may not give desired
+ precision: dble expr LOG(RNRM(IP)) + real const 8.8
+                                               ^
+Warning near line 43 col 40 file coulom.f: promotion may not give desired
+ precision: dble expr (LOG(RNRM(IP))+8.8) / real const 0.05
+                       ^
+Warning near line 43 col 16 file coulom.f: dble expr (LOG(RNRM(IP))+8.8)/0.05 
+ .. truncated to intg JNRM
+     86           inrm = (log(rmin) + 8.8) / 0.05  +  1
+                                    ^
+Warning near line 86 col 29 file coulom.f: promotion may not give desired
+ precision: dble expr LOG(RMIN) + real const 8.8
+                                           ^
+Warning near line 86 col 36 file coulom.f: promotion may not give desired
+ precision: dble expr (LOG(RMIN)+8.8) / real const 0.05
+                       ^
+Warning near line 86 col 16 file coulom.f: dble expr (LOG(RMIN)+8.8)/0.05+1 
+ truncated to intg INRM
+
+ 0 syntax errors detected in file coulom.f
+ 8 warnings issued in file coulom.f
+
+File fermi.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+ 0 syntax errors detected in file fermi.f
+ 1 warning issued in file fermi.f
+
+File ff2g.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+
+ 0 syntax errors detected in file ff2g.f
+ 1 warning issued in file ff2g.f
+
+File ffmod1.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/parallel.h:
+     71       wall_comm = 0.0
+                        ^
+Warning near line 71 col 17 file ffmod1.f: real const 0.0 promoted to real*8 
+ WALL_COMM: may not give desired precision
+
+ 0 syntax errors detected in file ffmod1.f
+ 1 warning issued in file ffmod1.f
+
+File frnrm.f:
+Including file ../HEADERS/dim.h:
+     18       dpas = 0.05
+                   ^
+Warning near line 18 col 12 file frnrm.f: real const 0.05 promoted to dble 
+ DPAS: may not give desired precision
+     19       d1 = 3.0
+                 ^
+Warning near line 19 col 10 file frnrm.f: real const 3.0 promoted to dble D1:
+ may not give desired precision
+     20       dd=exp(dpas)-1.0
+                          ^
+Warning near line 20 col 19 file frnrm.f: promotion may not give desired
+ precision: dble expr EXP(DPAS) - real const 1.0
+     21       db=d1*(d1+1.0)*dd*exp((d1-1.0)*dpas)
+                       ^
+Warning near line 21 col 16 file frnrm.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                                       ^
+Warning near line 21 col 32 file frnrm.f: promotion may not give desired
+ precision: dble D1 - real const 1.0
+     23       dd=rr(1)*(1.0+1.0/(dd*(d1+1.0)))/d1
+                                       ^
+Warning near line 23 col 32 file frnrm.f: promotion may not give desired
+ precision: dble D1 + real const 1.0
+                               ^
+Warning near line 23 col 24 file frnrm.f: promotion may not give desired
+ precision: real const 1.0 / dble expr (DD*(D1+1.0))
+                           ^
+Warning near line 23 col 20 file frnrm.f: promotion may not give desired
+ precision: real const 1.0 + dble expr 1.0/(DD*(D1+1.0))
+     47       rnrm = rr(inrm)*(1 + x*0.05)
+                                    ^
+Warning near line 47 col 29 file frnrm.f: promotion may not give desired
+ precision: dble X * real const 0.05
+     50         dx05 = 0.05
+                     ^
+Warning near line 50 col 14 file frnrm.f: real const 0.05 promoted to dble 
+ DX05: may not give desired precision
+     51         x0 = 8.8
+                   ^
+Warning near line 51 col 12 file frnrm.f: real const 8.8 promoted to dble X0:
+ may not give desired precision
+     52         jnrm =  (log(rnrm) + x0) / dx05  +  2
+                     ^
+Warning near line 52 col 14 file frnrm.f: dble expr (LOG(RNRM)+X0)/DX05+2 
+ truncated to intg JNRM
+     64         if (abs(x2-x).gt.0.0001) then
+                             ^
+Warning near line 64 col 22 file frnrm.f: comparison mixes terms of different
+ precision: dble expr ABS(X2-X) .GT. real const 0.0001
+     66           rnrm = rr(inrm)*(1 + x2*0.05)
+                                         ^
+Warning near line 66 col 34 file frnrm.f: promotion may not give desired
+ precision: dble X2 * real const 0.05
+     72         rnrm = rr(inrm)*(1 + x*0.05)
+                                      ^
+Warning near line 72 col 31 file frnrm.f: promotion may not give desired
+ precision: dble X * real const 0.05
+
+ 0 syntax errors detected in file frnrm.f
+ 15 warnings issued in file frnrm.f
+
+File grids.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     20       eimmin = coni*0.05/hart
+                           ^
+Warning near line 20 col 20 file grids.f: promotion may not give desired
+ precision: cplx*16 CONI * real const 0.05
+
+ 0 syntax errors detected in file grids.f
+ 2 warnings issued in file grids.f
+
+File inipot.f:
+Including file ../HEADERS/dim.h:
+ 0 syntax errors detected in file inipot.f
+File istprm.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     65       if (rmt(0).le.0.0) then
+                        ^
+Warning near line 65 col 17 file istprm.f: comparison mixes terms of different
+ precision: dble RMT .LE. real const 0.0
+    170               rmt(iph) = exp(xx(imax)) - 0.0001
+                                               ^
+Warning near line 170 col 40 file istprm.f: promotion may not give desired
+ precision: dble expr EXP(XX(IMAX)) - real const 0.0001
+    184             temp = 0.2 + 0.8 * rnrm(iph) / rmt(iph)
+                                     ^
+Warning near line 184 col 30 file istprm.f: promotion may not give desired
+ precision: real const 0.8 * dble RNRM
+                               ^
+Warning near line 184 col 24 file istprm.f: promotion may not give desired
+ precision: real const 0.2 + dble expr 0.8*RNRM(IPH)/RMT(IPH)
+    186             temp = 0.3 + 0.7 * rnrm(iph) / rmt(iph)
+                                     ^
+Warning near line 186 col 30 file istprm.f: promotion may not give desired
+ precision: real const 0.7 * dble RNRM
+                               ^
+Warning near line 186 col 24 file istprm.f: promotion may not give desired
+ precision: real const 0.3 + dble expr 0.7*RNRM(IPH)/RMT(IPH)
+    222              xmag=1.0
+                         ^
+Warning near line 222 col 18 file istprm.f: real const 1.0 promoted to dble 
+ XMAG: may not give desired precision
+    229               xmag = 1.0 + idmag*dmag(i,iph)
+                                 ^
+Warning near line 229 col 26 file istprm.f: promotion may not give desired
+ precision: real const 1.0 + dble expr IDMAG*DMAG(I,IPH)
+    238               rsval = 10.0
+                            ^
+Warning near line 238 col 21 file istprm.f: real const 10.0 promoted to dble 
+ RSVAL: may not give desired precision
+    239               if (edenvl(i,iph) .gt. 0.00001) 
+                                        ^
+Warning near line 239 col 33 file istprm.f: comparison mixes terms of
+ different precision: dble EDENVL .GT. real const 0.00001
+    241               if (rsval.gt.10.0) rsval = 10.0
+                               ^
+Warning near line 241 col 24 file istprm.f: comparison mixes terms of
+ different precision: dble RSVAL .GT. real const 10.0
+                                               ^
+Warning near line 241 col 40 file istprm.f: real const 10.0 promoted to dble 
+ RSVAL: may not give desired precision
+    242               xmagvl = 1.0 + idmag * dmag(i,iph) 
+                                   ^
+Warning near line 242 col 28 file istprm.f: promotion may not give desired
+ precision: real const 1.0 + dble expr IDMAG*DMAG(I,IPH)*EDENS( ..
+    248                  rscore =101.0
+                                ^
+Warning near line 248 col 25 file istprm.f: real const 101.0 promoted to dble 
+ RSCORE: may not give desired precision
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+
+ 0 syntax errors detected in file istprm.f
+ 16 warnings issued in file istprm.f
+
+File istval.f:
+Including file ../HEADERS/dim.h:
+     15       parameter (delta = 0.050 000 000 000 000)
+                                 ^
+Warning near line 15 col 26 file istval.f: Single-precision real constant has
+ more digits than are stored
+                                 ^
+Warning near line 15 col 26 file istval.f: real const 0.050 000 000 000 000 
+ promoted to dble DELTA: may not give desired precision
+
+ 0 syntax errors detected in file istval.f
+ 2 warnings issued in file istval.f
+
+File moveh.f:
+Including file ../HEADERS/dim.h:
+     41           if (rab.lt.ratmax) ratmax = 0.95*rab + 0.05*rah
+                                                  ^
+Warning near line 41 col 43 file moveh.f: promotion may not give desired
+ precision: real const 0.95 * dble RAB
+                                                             ^
+Warning near line 41 col 54 file moveh.f: promotion may not give desired
+ precision: real const 0.05 * dble RAH
+     63              ratmax = 0.95*rattmp +0.05*rah
+                                  ^
+Warning near line 63 col 27 file moveh.f: promotion may not give desired
+ precision: real const 0.95 * dble RATTMP
+                                               ^
+Warning near line 63 col 40 file moveh.f: promotion may not give desired
+ precision: real const 0.05 * dble RAH
+
+ 0 syntax errors detected in file moveh.f
+ 4 warnings issued in file moveh.f
+
+File movrlp.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     49         cmovp(i1,i2) = 0.d0
+                             ^
+Warning near line 49 col 22 file movrlp.f: dble const 0.D0 truncated to cplx 
+ CMOVP
+     50         if ( i1.eq.i2 ) cmovp(i1,i2) = 1.d0
+                                             ^
+Warning near line 50 col 38 file movrlp.f: dble const 1.D0 truncated to cplx 
+ CMOVP
+     51         if (i2.eq.ncp) cmovp(i1,i2) = 0.01d0
+                                            ^
+Warning near line 51 col 37 file movrlp.f: dble const 0.01D0 truncated to cplx 
+ CMOVP
+     55         bmat (i1,i2) = 0.d0
+                             ^
+Warning near line 55 col 22 file movrlp.f: dble const 0.D0 truncated to real 
+ BMAT
+    211   250      cmovp(ncp,ix1) = cmovp(ncp, ix1) + aa*bmat(iph+1,ix1)
+                                                        ^
+Warning near line 211 col 49 file movrlp.f: promotion may not give desired
+ precision: dble AA * real BMAT
+                                                    ^
+Warning near line 211 col 45 file movrlp.f: promotion may not give desired
+ precision: cplx CMOVP + dble expr AA*BMAT(IPH+1,IX1)
+                                  ^
+Warning near line 211 col 27 file movrlp.f: dcpx expr CMOVP(NCP,IX1)+AA*BMAT(I 
+ .. truncated to cplx CMOVP
+
+ 0 syntax errors detected in file movrlp.f
+ 8 warnings issued in file movrlp.f
+
+File ovp2mt.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     55        if (lrewr.eq.2) cvovp(ncp) = cvovp(ncp) - vint
+                                                       ^
+Warning near line 55 col 48 file ovp2mt.f: promotion may not give desired
+ precision: cplx CVOVP - dble VINT
+                                          ^
+Warning near line 55 col 35 file ovp2mt.f: dcpx expr CVOVP(NCP)-VINT truncated
+ to cplx CVOVP
+     84                cvovp(ncp) = cvovp(ncp) + vtotav(iph)*xnatph(iph)
+                                               ^
+Warning near line 84 col 40 file ovp2mt.f: promotion may not give desired
+ precision: cplx CVOVP + dble expr VTOTAV(IPH)*XNATPH(IPH)
+                                  ^
+Warning near line 84 col 27 file ovp2mt.f: dcpx expr CVOVP(NCP)+VTOTAV(IPH)*X 
+ .. truncated to cplx CVOVP
+     87             cvovp(ncp) = cvovp(ncp) / bsum
+                                            ^
+Warning near line 87 col 37 file ovp2mt.f: promotion may not give desired
+ precision: cplx CVOVP / dble BSUM
+                               ^
+Warning near line 87 col 24 file ovp2mt.f: dcpx expr CVOVP(NCP)/BSUM truncated
+ to cplx CVOVP
+     97          if (lrewr.eq.1) vint = dble(real(cvovp(ncp))) /100.0
+                                                               ^
+Warning near line 97 col 56 file ovp2mt.f: promotion may not give desired
+ precision: dble expr DBLE(REAL(CVOVP(NCP))) / real const 100.0
+    146                  crho(i) = real(cvovp(ix1)) * ri(i)**2
+                                                    ^
+Warning near line 146 col 45 file ovp2mt.f: promotion may not give desired
+ precision: real expr REAL(CVOVP(IX1)) * dble expr RI(I)**2
+
+ 0 syntax errors detected in file ovp2mt.f
+ 9 warnings issued in file ovp2mt.f
+
+File ovrlp.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+
+ 0 syntax errors detected in file ovrlp.f
+ 1 warning issued in file ovrlp.f
+
+File pot.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/parallel.h:
+Including file ../HEADERS/dim.h:
+    220       hx = 0.05
+                 ^
+Warning near line 220 col 10 file pot.f: real const 0.05 promoted to dble HX:
+ may not give desired precision
+    221       x0 = -8.8
+                 ^
+Warning near line 221 col 10 file pot.f: real expr -8.8 promoted to dble X0:
+ may not give desired precision
+    331       wp = sqrt(12.*rs/fa**4) * xf**2 / 2.d0
+                           ^
+Warning near line 331 col 20 file pot.f: promotion may not give desired
+ precision: real const 12. * dble RS
+    440             if (abs(sum).gt.0.05) lpass = .false.
+                                ^
+Warning near line 440 col 25 file pot.f: comparison mixes terms of different
+ precision: dble expr ABS(SUM) .GT. real const 0.05
+
+Warning in module POT in file pot.f: Variables declared but never referenced:
+    GAMACH declared at line 3 file pot.f (dummy argument)
+
+Warning in module POT in file pot.f: Variables set but never used:
+    NRX set at line 109 file pot.f
+
+ 0 syntax errors detected in file pot.f
+ 7 warnings issued in file pot.f
+
+File reapot.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     90       rfms1 = rfms1 / bohr
+                            ^
+Warning near line 90 col 21 file reapot.f: promotion may not give desired
+ precision: real RFMS1 / dble BOHR
+                    ^
+Warning near line 90 col 13 file reapot.f: dble expr RFMS1/BOHR truncated to 
+ real RFMS1
+    109              write(s1, 230) nscmt, rfms1*bohr, lfms1
+                                                ^
+Warning near line 109 col 41 file reapot.f: promotion may not give desired
+ precision: real RFMS1 * dble BOHR
+
+Warning in module REAPOT in file reapot.f: Variables set but never used:
+    I1B set at line 55 file reapot.f
+    IDUM set at line 55 file reapot.f
+
+ 0 syntax errors detected in file reapot.f
+ 5 warnings issued in file reapot.f
+
+File rholie.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     75       imt  = (log(rmt) + x0) / dx  +  1
+                   ^
+Warning near line 75 col 12 file rholie.f: dble expr (LOG(RMT)+X0)/DX+1 
+ truncated to intg IMT
+     78       inrm = (log(rnrm) + x0) / dx  +  1
+                   ^
+Warning near line 78 col 12 file rholie.f: dble expr (LOG(RNRM)+X0)/DX+1 
+ truncated to intg INRM
+     82       nr05= (log(rnrm) + x0) / 0.05d0 + 5
+                  ^
+Warning near line 82 col 11 file rholie.f: dble expr (LOG(RNRM)+X0)/0.05D0+5 
+ truncated to intg NR05
+
+Warning in module RHOLIE in file rholie.f: Variables declared but never
+ referenced:
+    XCK declared at line 56 file rholie.f
+
+ 0 syntax errors detected in file rholie.f
+ 5 warnings issued in file rholie.f
+
+File scmt.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+     65   15     ri05(i) = exp (-8.8+0.05*(i-1))
+                         ^
+Warning near line 65 col 18 file scmt.f: real expr EXP(-8.8+0.05*(I-1)) 
+ promoted to dble RI05: may not give desired precision
+    135         jri = (log(rmt(iph)) + x0) / rgrd + 2
+                    ^
+Warning near line 135 col 13 file scmt.f: dble expr (LOG(RMT(IPH))+X0)/RGRD+ 
+ .. truncated to intg JRI
+    139   40    vtotph(i) = vtotph(i) - eref
+                          ^
+Warning near line 139 col 19 file scmt.f: dcpx expr VTOTPH(I)-EREF truncated
+ to dble VTOTPH
+    142   50       vvalph(i) = vvalph(i) - eref
+                             ^
+Warning near line 142 col 22 file scmt.f: dcpx expr VVALPH(I)-EREF truncated
+ to dble VVALPH
+    229      1                xndifp*xndif .le. 0.e0) then
+                                           ^
+Warning near line 229 col 36 file scmt.f: comparison mixes terms of different
+ precision: dble expr XNDIFP*XNDIF .LE. real const 0.E0
+    320          if (diff.gt.13.1 .or. (il.eq.2 .and. diff.gt. 9.1) .or.
+                         ^
+Warning near line 320 col 18 file scmt.f: comparison mixes terms of different
+ precision: dble DIFF .GT. real const 13.1
+                                                          ^
+Warning near line 320 col 51 file scmt.f: comparison mixes terms of different
+ precision: dble DIFF .GT. real const 9.1
+    321      1   (il.eq.1 .and. diff.gt.5.1) .or.
+                                    ^
+Warning near line 321 col 29 file scmt.f: comparison mixes terms of different
+ precision: dble DIFF .GT. real const 5.1
+    322      2   (il.eq.0 .and. diff.gt.1.95)) then
+                                    ^
+Warning near line 322 col 29 file scmt.f: comparison mixes terms of different
+ precision: dble DIFF .GT. real const 1.95
+
+Warning in module SCMT in file scmt.f: Variables declared but never
+ referenced:
+    WNSTAR declared at line 53 file scmt.f
+
+Warning in module SCMT in file scmt.f: Variables may be used before set:
+    XNDIF used at line 191 file scmt.f
+    XNDIF set at line 192 file scmt.f
+
+ 0 syntax errors detected in file scmt.f
+ 12 warnings issued in file scmt.f
+
+File scmtmp.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/parallel.h:
+     78   15     ri05(i) = exp (-8.8+0.05*(i-1))
+                         ^
+Warning near line 78 col 18 file scmtmp.f: real expr EXP(-8.8+0.05*(I-1)) 
+ promoted to dble RI05: may not give desired precision
+    155           jri = (log(rmt(iph)) + x0) / rgrd + 2
+                      ^
+Warning near line 155 col 15 file scmtmp.f: dble expr (LOG(RMT(IPH))+X0)/RGRD+ 
+ .. truncated to intg JRI
+    159   40      vtotph(i) = vtotph(i) - eref
+                            ^
+Warning near line 159 col 21 file scmtmp.f: dcpx expr VTOTPH(I)-EREF truncated
+ to dble VTOTPH
+    162   50        vvalph(i) = vvalph(i) - eref
+                              ^
+Warning near line 162 col 23 file scmtmp.f: dcpx expr VVALPH(I)-EREF truncated
+ to dble VVALPH
+    297           if (xndifp*xndif .le. 0.e0) then
+                                   ^
+Warning near line 297 col 28 file scmtmp.f: comparison mixes terms of
+ different precision: dble expr XNDIFP*XNDIF .LE. real const 0.E0
+    380          if (diff.gt.13.1 .or. (il.eq.2 .and. diff.gt. 9.1) .or.
+                         ^
+Warning near line 380 col 18 file scmtmp.f: comparison mixes terms of
+ different precision: dble DIFF .GT. real const 13.1
+                                                          ^
+Warning near line 380 col 51 file scmtmp.f: comparison mixes terms of
+ different precision: dble DIFF .GT. real const 9.1
+    381      1   (il.eq.1 .and. diff.gt.5.1) .or.
+                                    ^
+Warning near line 381 col 29 file scmtmp.f: comparison mixes terms of
+ different precision: dble DIFF .GT. real const 5.1
+    382      2   (il.eq.0 .and. diff.gt.1.95)) then
+                                    ^
+Warning near line 382 col 29 file scmtmp.f: comparison mixes terms of
+ different precision: dble DIFF .GT. real const 1.95
+
+Warning in module SCMTMP in file scmtmp.f: Variables declared but never
+ referenced:
+    WNSTAR declared at line 64 file scmtmp.f
+
+Warning in module SCMTMP in file scmtmp.f: Variables may be used before set:
+    XNDIF used at line 291 file scmtmp.f
+    XNDIF set at line 292 file scmtmp.f
+
+ 0 syntax errors detected in file scmtmp.f
+ 12 warnings issued in file scmtmp.f
+
+File sidx.f:
+     14          if (rholap(i) .le. 1.0e-5)  goto 230
+                               ^
+Warning near line 14 col 24 file sidx.f: comparison mixes terms of different
+ precision: dble RHOLAP .LE. real const 1.0E-5
+
+ 0 syntax errors detected in file sidx.f
+ 1 warning issued in file sidx.f
+
+File sumax.f:
+     52          xint = 0.0
+                      ^
+Warning near line 52 col 15 file sumax.f: real const 0.0 promoted to dble XINT
+ : may not give desired precision
+     56          jbl = 2.0+20.0*(blx+8.8)
+                                    ^
+Warning near line 56 col 29 file sumax.f: promotion may not give desired
+ precision: dble BLX + real const 8.8
+                               ^
+Warning near line 56 col 24 file sumax.f: promotion may not give desired
+ precision: real const 20.0 * dble expr (BLX+8.8)
+                          ^
+Warning near line 56 col 19 file sumax.f: promotion may not give desired
+ precision: real const 2.0 + dble expr 20.0*(BLX+8.8)
+                     ^
+Warning near line 56 col 14 file sumax.f: dble expr 2.0+20.0*(BLX+8.8) 
+ truncated to intg JBL
+     61             xbl = 0.05 * (xjbl-1.0) - 8.8
+                                      ^
+Warning near line 61 col 31 file sumax.f: promotion may not give desired
+ precision: dble XJBL - real const 1.0
+                               ^
+Warning near line 61 col 24 file sumax.f: promotion may not give desired
+ precision: real const 0.05 * dble expr (XJBL-1.0)
+                                            ^
+Warning near line 61 col 37 file sumax.f: promotion may not give desired
+ precision: dble expr 0.05*(XJBL-1.0) - real const 8.8
+     63             xint = xint+0.5*g*(aa2(jbl)*(2.0-20.0*g)*exp(2.0*xbl)
+                                   ^
+Warning near line 63 col 28 file sumax.f: promotion may not give desired
+ precision: real const 0.5 * dble G
+                                                         ^
+Warning near line 63 col 50 file sumax.f: promotion may not give desired
+ precision: real const 20.0 * dble G
+                                                    ^
+Warning near line 63 col 45 file sumax.f: promotion may not give desired
+ precision: real const 2.0 - dble expr 20.0*G
+                                                                    ^
+Warning near line 63 col 61 file sumax.f: promotion may not give desired
+ precision: real const 2.0 * dble XBL
+     64      1             +20.0*g*aa2(jbl-1)*exp(2.0*(xbl-0.05)))
+                                ^
+Warning near line 64 col 25 file sumax.f: promotion may not give desired
+ precision: real const 20.0 * dble G
+                                                          ^
+Warning near line 64 col 51 file sumax.f: promotion may not give desired
+ precision: dble XBL - real const 0.05
+                                                     ^
+Warning near line 64 col 46 file sumax.f: promotion may not give desired
+ precision: real const 2.0 * dble expr (XBL-0.05)
+     71          jtl = 1.0 + 20.0*(tlx+8.8)
+                                      ^
+Warning near line 71 col 31 file sumax.f: promotion may not give desired
+ precision: dble TLX + real const 8.8
+                                 ^
+Warning near line 71 col 26 file sumax.f: promotion may not give desired
+ precision: real const 20.0 * dble expr (TLX+8.8)
+                           ^
+Warning near line 71 col 20 file sumax.f: promotion may not give desired
+ precision: real const 1.0 + dble expr 20.0*(TLX+8.8)
+                     ^
+Warning near line 71 col 14 file sumax.f: dble expr 1.0+20.0*(TLX+8.8) 
+ truncated to intg JTL
+     74             fzn = aa2(jtl)*exp(2.0*(xbl-0.05))
+                                               ^
+Warning near line 74 col 40 file sumax.f: promotion may not give desired
+ precision: dble XBL - real const 0.05
+                                          ^
+Warning near line 74 col 35 file sumax.f: promotion may not give desired
+ precision: real const 2.0 * dble expr (XBL-0.05)
+     75             fz3 = aa2(jbl)*exp(2.0*xbl)
+                                          ^
+Warning near line 75 col 35 file sumax.f: promotion may not give desired
+ precision: real const 2.0 * dble XBL
+     76             fz2 = fzn+20.0*(fz3-fzn)*(tlx-xbl+0.05)
+                                  ^
+Warning near line 76 col 27 file sumax.f: promotion may not give desired
+ precision: real const 20.0 * dble expr (FZ3-FZN)
+                                                     ^
+Warning near line 76 col 46 file sumax.f: promotion may not give desired
+ precision: dble expr TLX-XBL + real const 0.05
+     77             fz1 = fzn+20.0*(fz3-fzn)*(blx-xbl+0.05)
+                                  ^
+Warning near line 77 col 27 file sumax.f: promotion may not give desired
+ precision: real const 20.0 * dble expr (FZ3-FZN)
+                                                     ^
+Warning near line 77 col 46 file sumax.f: promotion may not give desired
+ precision: dble expr BLX-XBL + real const 0.05
+     78             xint = 0.5*(fz1+fz2)*(tlx-blx)
+                              ^
+Warning near line 78 col 23 file sumax.f: promotion may not give desired
+ precision: real const 0.5 * dble expr (FZ1+FZ2)
+     82          xtl = 0.05*(xjtl-1.0)-8.8
+                                 ^
+Warning near line 82 col 26 file sumax.f: promotion may not give desired
+ precision: dble XJTL - real const 1.0
+                           ^
+Warning near line 82 col 20 file sumax.f: promotion may not give desired
+ precision: real const 0.05 * dble expr (XJTL-1.0)
+                                      ^
+Warning near line 82 col 31 file sumax.f: promotion may not give desired
+ precision: dble expr 0.05*(XJTL-1.0) - real const 8.8
+     84          xint = xint+0.5*c*(aa2(jtl)*(2.0-20.0*c)
+                                ^
+Warning near line 84 col 25 file sumax.f: promotion may not give desired
+ precision: real const 0.5 * dble C
+                                                      ^
+Warning near line 84 col 47 file sumax.f: promotion may not give desired
+ precision: real const 20.0 * dble C
+                                                 ^
+Warning near line 84 col 42 file sumax.f: promotion may not give desired
+ precision: real const 2.0 - dble expr 20.0*C
+     85      1         *exp(2.0*xtl)+aa2(jtl+1)*20.0*c
+                               ^
+Warning near line 85 col 24 file sumax.f: promotion may not give desired
+ precision: real const 2.0 * dble XTL
+                                               ^
+Warning near line 85 col 40 file sumax.f: promotion may not give desired
+ precision: dble AA2 * real const 20.0
+     86      2         *exp(2.0*(xtl+0.05)))
+                                    ^
+Warning near line 86 col 29 file sumax.f: promotion may not give desired
+ precision: dble XTL + real const 0.05
+                               ^
+Warning near line 86 col 24 file sumax.f: promotion may not give desired
+ precision: real const 2.0 * dble expr (XTL+0.05)
+     89   100       xint = xint+0.5*(aa2(jbl)*exp(2.0*xbl)+aa2(jbl+1)
+                                                     ^
+Warning near line 89 col 46 file sumax.f: promotion may not give desired
+ precision: real const 2.0 * dble XBL
+     90      1             *exp(2.0*(xbl+0.05)))*0.05
+                                        ^
+Warning near line 90 col 33 file sumax.f: promotion may not give desired
+ precision: dble XBL + real const 0.05
+                                   ^
+Warning near line 90 col 28 file sumax.f: promotion may not give desired
+ precision: real const 2.0 * dble expr (XBL+0.05)
+                                   ^
+Warning near line 89 col 28 file sumax.f: promotion may not give desired
+ precision: real const 0.5 * dble expr (AA2(JBL)*EXP(2.0*XBL)+A ..
+                                                ^
+Warning near line 90 col 41 file sumax.f: promotion may not give desired
+ precision: dble expr 0.5*(AA2(JBL)*EXP(2.0*XB .. * real const 0.05
+     93                xbl = xbl+0.05
+                                ^
+Warning near line 93 col 25 file sumax.f: promotion may not give desired
+ precision: dble XBL + real const 0.05
+     97   119    stor(i) = 0.5*xint*ann/(rn*et)
+                              ^
+Warning near line 97 col 23 file sumax.f: promotion may not give desired
+ precision: real const 0.5 * dble XINT
+
+ 0 syntax errors detected in file sumax.f
+ 44 warnings issued in file sumax.f
+
+File wpot.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+
+ 0 syntax errors detected in file wpot.f
+ 1 warning issued in file wpot.f
+
+File wrpot.f:
+Including file ../HEADERS/dim.h:
+ 0 syntax errors detected in file wrpot.f
+Warning: Common block TIMING unused in the following modules:
+    Unused in module POT line 4 file ../HEADERS/parallel.h (included at line 
+ 21 in pot.f)
+
+Warning: Subprogram WLOG never defined
+    Invoked in module AFOLP line 49 file afolp.f
+
+Warning: Subprogram SOMM2 never defined
+    Invoked in module BROYDN line 120 file broydn.f
+
+Warning: Subprogram CORVAL argument arrayness mismatch at position 3:
+    Dummy arg EORB in module CORVAL line 1 file corval.f has 2 dims size 360
+    Actual arg EORB in module POT line 345 file pot.f has 2 dims size 390
+  and at position 4:
+    Dummy arg NORB in module CORVAL line 1 file corval.f has 1 dim size 12
+    Actual arg NORB in module POT line 345 file pot.f has 1 dim size 13
+  and at position 5:
+    Dummy arg XNVAL in module CORVAL line 1 file corval.f has 2 dims size 360
+    Actual arg XNVAL in module POT line 345 file pot.f has 2 dims size 390
+ etc...
+
+Warning: Subprogram FIXVAR never defined
+    Invoked in module CORVAL line 112 file corval.f
+
+Warning: Subprogram FIXDSX never defined
+    Invoked in module CORVAL line 117 file corval.f
+
+Warning: Subprogram RHOLIE argument arrayness mismatch at position 12:
+    Dummy arg XNVAL in module RHOLIE line 1 file rholie.f is whole array
+    Actual arg XNVAL(1,IPH) in module SCMTMP line 170 file scmtmp.f is array
+ element
+  and at position 16:
+    Dummy arg ADGC in module RHOLIE line 1 file rholie.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SCMTMP line 170 file scmtmp.f is array
+ element
+  and at position 17:
+    Dummy arg ADPC in module RHOLIE line 1 file rholie.f is whole array
+    Actual arg ADPC(1,1,IPH) in module SCMTMP line 170 file scmtmp.f is array
+ element
+ etc...
+
+Warning: Subprogram RHOLIE argument arrayness mismatch at position 12:
+    Dummy arg XNVAL in module RHOLIE line 1 file rholie.f is whole array
+    Actual arg XNVAL(1,IPH) in module SCMT line 150 file scmt.f is array
+ element
+  and at position 16:
+    Dummy arg ADGC in module RHOLIE line 1 file rholie.f is whole array
+    Actual arg ADGC(1,1,IPH) in module SCMT line 150 file scmt.f is array
+ element
+  and at position 17:
+    Dummy arg ADPC in module RHOLIE line 1 file rholie.f is whole array
+    Actual arg ADPC(1,1,IPH) in module SCMT line 150 file scmt.f is array
+ element
+ etc...
+
+Warning: Subprogram RHOLIE argument arrayness mismatch at position 12:
+    Dummy arg XNVAL in module RHOLIE line 1 file rholie.f is whole array
+    Actual arg XNVAL(1,IPH) in module CORVAL line 149 file corval.f is array
+ element
+  and at position 16:
+    Dummy arg ADGC in module RHOLIE line 1 file rholie.f is whole array
+    Actual arg ADGC(1,1,IPH) in module CORVAL line 149 file corval.f is array
+ element
+  and at position 17:
+    Dummy arg ADPC in module RHOLIE line 1 file rholie.f is whole array
+    Actual arg ADPC(1,1,IPH) in module CORVAL line 149 file corval.f is array
+ element
+
+Warning: Subprogram PAR_STOP never defined
+    Invoked in module CORVAL line 180 file corval.f
+
+Warning: Subprogram DIST never defined
+    Invoked in module COULOM line 48 file coulom.f
+
+Warning: Subprogram POTSLW never defined
+    Invoked in module COULOM line 34 file coulom.f
+
+Warning: Subprogram FRNRM argument arrayness mismatch at position 1:
+    Dummy arg RHO in module FRNRM line 1 file frnrm.f is whole array
+    Actual arg EDENS(1,IPH) in module OVRLP line 73 file ovrlp.f is array
+ element
+
+Warning: Subprogram FRNRM argument arrayness mismatch at position 1:
+    Dummy arg RHO in module FRNRM line 1 file frnrm.f is whole array
+    Actual arg EDENS(1,IP) in module COULOM line 81 file coulom.f is array
+ element
+
+Warning: Subprogram FRNRM argument arrayness mismatch at position 1:
+    Dummy arg RHO in module FRNRM line 1 file frnrm.f has 1 dim size 1251
+    Actual arg DRHO in module COULOM line 84 file coulom.f has 1 dim size 251
+
+Warning: Subprogram FF2G argument arrayness mismatch at position 1:
+    Dummy arg GTR in module FF2G line 1 file ff2g.f is whole array
+    Actual arg GTR(0,IPH,IPR) in module SCMTMP line 283 file scmtmp.f is array
+ element
+  and at position 5:
+    Dummy arg XRHOCE in module FF2G line 1 file ff2g.f is whole array
+    Actual arg XRHOCE(0,0,IPR) in module SCMTMP line 283 file scmtmp.f is
+ array element
+  and at position 6:
+    Dummy arg XRHOLE in module FF2G line 1 file ff2g.f is whole array
+    Actual arg XRHOLE(0,IPH,.. in module SCMTMP line 283 file scmtmp.f is
+ array element
+ etc...
+
+Warning: Subprogram FF2G argument arrayness mismatch at position 1:
+    Dummy arg GTR in module FF2G line 1 file ff2g.f is whole array
+    Actual arg GTR(0,IPH) in module SCMT line 185 file scmt.f is array element
+  and at position 6:
+    Dummy arg XRHOLE in module FF2G line 1 file ff2g.f is whole array
+    Actual arg XRHOLE(0,IPH) in module SCMT line 185 file scmt.f is array
+ element
+  and at position 10:
+    Dummy arg YRHOLE in module FF2G line 1 file ff2g.f is whole array
+    Actual arg YRHOLE(1,0,IPH) in module SCMT line 185 file scmt.f is array
+ element
+ etc...
+
+Warning: Subprogram PAR_BEGIN never defined
+    Invoked in module FFMOD1 line 67 file ffmod1.f
+
+Warning: Subprogram SECONDS never defined
+    Invoked in module FFMOD1 line 110 file ffmod1.f
+
+Warning: Subprogram CHOPEN never defined
+    Invoked in module FFMOD1 line 76 file ffmod1.f
+
+Warning: Subprogram PAR_END never defined
+    Invoked in module FFMOD1 line 115 file ffmod1.f
+
+Warning: Subprogram RR never defined
+    Invoked in module FRNRM line 72 file frnrm.f
+
+Warning: Subprogram II never defined
+    Invoked in module ISTPRM line 163 file istprm.f
+
+Warning: Subprogram XX never defined
+    Invoked in module ISTPRM line 170 file istprm.f
+
+Warning: Subprogram SIDX argument arrayness mismatch at position 1:
+    Dummy arg RHOLAP in module SIDX line 1 file sidx.f is whole array
+    Actual arg EDENS(1,IPH) in module ISTPRM line 212 file istprm.f is array
+ element
+
+Warning: Subprogram VBH never defined
+    Invoked in module ISTPRM line 244 file istprm.f
+
+Warning: Subprogram EDP never defined
+    Invoked in module ISTPRM line 254 file istprm.f
+
+Warning: Subprogram OVP2MT argument usage mismatch at position 14:
+    Dummy arg VINT in module OVP2MT line 1 file ovp2mt.f is used before set
+    Actual arg VINTVL in module ISTPRM line 311 file istprm.f is not set
+
+Warning: Subprogram ISTVAL never invoked
+    Defined in module ISTVAL line 1 file istval.f
+
+Warning: Subprogram CGETRF never defined
+    Invoked in module MOVRLP line 223 file movrlp.f
+
+Warning: Subprogram TERP never defined
+    Invoked in module OVP2MT line 149 file ovp2mt.f
+
+Warning: Subprogram CGETRS never defined
+    Invoked in module OVP2MT line 132 file ovp2mt.f
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 31 file sumax.f is whole array
+    Actual arg VCOUL(1,INFR) in module OVRLP line 44 file ovrlp.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 31 file sumax.f is whole array
+    Actual arg VCLAP(1,IPH) in module OVRLP line 44 file ovrlp.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 31 file sumax.f is whole array
+    Actual arg RHO(1,INFR) in module OVRLP line 45 file ovrlp.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 31 file sumax.f is whole array
+    Actual arg EDENS(1,IPH) in module OVRLP line 45 file ovrlp.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 31 file sumax.f is whole array
+    Actual arg RHO(1,INFR) in module OVRLP line 46 file ovrlp.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 31 file sumax.f is whole array
+    Actual arg EDENVL(1,IPH) in module OVRLP line 46 file ovrlp.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 31 file sumax.f is whole array
+    Actual arg VCOUL(1,INFR) in module OVRLP line 65 file ovrlp.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 31 file sumax.f is whole array
+    Actual arg VCLAP(1,IPH) in module OVRLP line 65 file ovrlp.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 31 file sumax.f is whole array
+    Actual arg RHO(1,INFR) in module OVRLP line 66 file ovrlp.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 31 file sumax.f is whole array
+    Actual arg EDENS(1,IPH) in module OVRLP line 66 file ovrlp.f is array
+ element
+
+Warning: Subprogram SUMAX argument arrayness mismatch at position 3:
+    Dummy arg AA2 in module SUMAX line 31 file sumax.f is whole array
+    Actual arg RHO(1,INFR) in module OVRLP line 67 file ovrlp.f is array
+ element
+  and at position 4:
+    Dummy arg AASUM in module SUMAX line 31 file sumax.f is whole array
+    Actual arg EDENVL(1,IPH) in module OVRLP line 67 file ovrlp.f is array
+ element
+
+Warning: Subprogram SCFDAT never defined
+    Invoked in module POT line 211 file pot.f
+
+Warning: Subprogram SCMT argument arrayness mismatch at position 20:
+    Dummy arg XNVAL in module SCMT line 1 file scmt.f has 2 dims size 360
+    Actual arg XNVAL in module POT line 395 file pot.f has 2 dims size 390
+
+Warning: Subprogram SCMT argument usage mismatch at position 1:
+    Dummy arg ISCMT in module SCMT line 1 file scmt.f may be modified
+    Actual arg ISCMT in module POT line 395 file pot.f is active DO index
+
+Warning: Subprogram SCMTMP argument arrayness mismatch at position 21:
+    Dummy arg XNVAL in module SCMTMP line 1 file scmtmp.f has 2 dims size 360
+    Actual arg XNVAL in module POT line 404 file pot.f has 2 dims size 390
+  and at position 48:
+    Dummy arg GTR in module SCMTMP line 1 file scmtmp.f has 3 dims size 0
+    Actual arg GTR in module POT line 404 file pot.f has 1 dim size 60
+  and at position 49:
+    Dummy arg XRHOLE in module SCMTMP line 1 file scmtmp.f has 3 dims size 0
+    Actual arg XRHOLE in module POT line 404 file pot.f has 1 dim size 60
+ etc...
+
+Warning: Subprogram SCMTMP argument usage mismatch at position 2:
+    Dummy arg ISCMT in module SCMTMP line 1 file scmtmp.f may be modified
+    Actual arg ISCMT in module POT line 404 file pot.f is active DO index
+
+Warning: Subprogram WRPOT argument arrayness mismatch at position 25:
+    Dummy arg DGC in module WRPOT line 1 file wrpot.f has 3 dims size 90360
+    Actual arg DGC in module POT line 516 file pot.f has 3 dims size 97890
+  and at position 26:
+    Dummy arg DPC in module WRPOT line 1 file wrpot.f has 3 dims size 90360
+    Actual arg DPC in module POT line 516 file pot.f has 3 dims size 97890
+  and at position 27:
+    Dummy arg ADGC in module WRPOT line 1 file wrpot.f has 3 dims size 3600
+    Actual arg ADGC in module POT line 516 file pot.f has 3 dims size 3900
+ etc...
+
+Warning: Subprogram WTHEAD never defined
+    Invoked in module POT line 528 file pot.f
+
+Warning: Subprogram PAR_BARRIER never defined
+    Invoked in module POT line 534 file pot.f
+
+Warning: Subprogram RDHEAD never defined
+    Invoked in module REAPOT line 42 file reapot.f
+
+Warning: Subprogram ISTRLN never defined
+    Invoked in module REAPOT line 146 file reapot.f
+    (possibly it is an array which was not declared)
+
+Warning: Subprogram DFOVRG never defined
+    Invoked in module RHOLIE line 153 file rholie.f
+
+Warning: Subprogram EXJLNL never defined
+    Invoked in module RHOLIE line 129 file rholie.f
+
+Warning: Subprogram PHAMP never defined
+    Invoked in module RHOLIE line 130 file rholie.f
+
+Warning: Subprogram TERPC never defined
+    Invoked in module RHOLIE line 206 file rholie.f
+
+Warning: Subprogram CSOMM2 never defined
+    Invoked in module RHOLIE line 211 file rholie.f
+
+Warning: Subprogram FMSIE never defined
+    Invoked in module SCMT line 174 file scmt.f
+
+Warning: Subprogram PAR_SEND_INT never defined
+    Invoked in module SCMTMP line 216 file scmtmp.f
+
+Warning: Subprogram PAR_SEND_CMPLX never defined
+    Invoked in module SCMTMP line 219 file scmtmp.f
+
+Warning: Subprogram PAR_SEND_DC never defined
+    Invoked in module SCMTMP line 226 file scmtmp.f
+
+Warning: Subprogram PAR_RECV_INT never defined
+    Invoked in module SCMTMP line 232 file scmtmp.f
+
+Warning: Subprogram PAR_RECV_CMPLX never defined
+    Invoked in module SCMTMP line 235 file scmtmp.f
+
+Warning: Subprogram PAR_RECV_DC never defined
+    Invoked in module SCMTMP line 242 file scmtmp.f
+
+Warning: Subprogram PAR_BCAST_CMPLX never defined
+    Invoked in module SCMTMP line 250 file scmtmp.f
+
+Warning: Subprogram PAR_BCAST_DC never defined
+    Invoked in module SCMTMP line 254 file scmtmp.f
+
+Warning: Subprogram WRPADD never defined
+    Invoked in module WRPOT line 138 file wrpot.f

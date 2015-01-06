@@ -1,9 +1,9 @@
-      subroutine rot3i (lxp1, mxp1, ileg)
+      subroutine rot3i (lxp1, mxp1, ileg, beta, dri)
       implicit double precision (a-h,o-z)
 
 c     input:  lxp1, mxp1, ileg (lmax+1, mmax+1)
-c             also beta(ileg) used from common /pdata/
-c     output: dri(...ileg) in common /rotmat/
+c             beta(ileg)
+c     output: dri(...ileg)
 
 c     subroutine rot3 calculates rotation matrices for l = 0,lxp1-1
 
@@ -30,11 +30,15 @@ c     l' = 0, and n' and m' = 0; dri0(3,5,5) : l' = 2,n' = 2,m' = 2.
 c--------------------------------------------------------------------
 
       include '../HEADERS/dim.h'
-      include 'rotmat.h'
-      include 'pdata.h'
+c     include 'rotmat.h'
+      dimension dri(ltot+1,2*mtot+1,2*mtot+1,legtot+1)
+c     include 'pdata.h'
+      double precision beta(legtot+1)
+
+
 c     dri0 is larger than needed for genfmt, but necessary for
 c     this calculation algorithm.  Copy result into smaller
-c     dri arrays (in common) at end of this routine.
+c     dri arrays at end of this routine.
       dimension  dri0 (ltot+1, 2*ltot+1, 2*ltot+1)
 
 c     initialize dri0
@@ -87,7 +91,7 @@ c     initialize dri0
             endif
    20    continue
    30 continue
-   40 continue
+c   40 continue
 
 c-----test sum rule on d
 c     open (19,file='rotmat.dat',status='new',carriagecontrol='list')

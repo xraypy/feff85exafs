@@ -26,9 +26,9 @@ c     see abramowitz and stegun pg 17 for formulae.
 
       s13 = dcmplx (r, sqrt(-rad))
       s1 = s13 ** third
-      qz1 = 2*s1 - a2/3
+      qz1 = 2*dble(s1) - a2/3
 c     qz2 = -(s1 + sqrt(three)*dimag(s1) + a2/3)
-      qz3 = -(s1 - sqrt(three)*dimag(s1) + a2/3)
+      qz3 = -(dble(s1) - sqrt(three)*dimag(s1) + a2/3)
       qplus = qz1
       qminus = qz3
 

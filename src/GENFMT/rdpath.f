@@ -1,16 +1,24 @@
-      subroutine rdpath (in, done, ipol)
+      subroutine rdpath (in, done, ipol, potlbl, rat, ri, beta, eta,
+     &       deg, ipot, nsc, nleg, npot, ipath)
       implicit double precision (a-h, o-z)
       logical done
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      include 'pdata.h'
+c     include 'pdata.h'
+      character*6  potlbl(0:nphx)
+      double precision rat(3,0:legtot+1)
+      double precision ri(legtot), beta(legtot+1), eta(0:legtot+1)
+      double precision deg
+      integer ipot(0:legtot)
+      integer nsc, nleg, npot, ipath
+
 
       complex*16  alph, gamm
       dimension  alpha(0:legtot), gamma(legtot)
       character*512 slog
 c#mn
-       external dist
+      external dist
 
       read(in,*,end=200)  ipath, nleg, deg
       if (nleg .gt. legtot)  then
@@ -169,44 +177,5 @@ c     If unexpected end of file, die
       call wlog(' Unexpected end of file')
       call par_stop('ERROR')
       end
-      subroutine trig (x, y, z, ct, st, cp, sp)
-      implicit double precision (a-h, o-z)
-c     returns cos(theta), sin(theta), cos(phi), sin(ph) for (x,y,z)
-c     convention - if x=y=0 and z>0, phi=0, cp=1, sp=0
-c                  if x=y=0 and z<0, phi=180, cp=-1,sp=0
-c                - if x=y=z=0, theta=0, ct=1, st=0
-      parameter (eps = 1.0e-6)
-      r = sqrt (x**2 + y**2 + z**2)
-      rxy = sqrt (x**2 + y**2)
-      if (r .lt. eps)  then
-         ct = 1
-         st = 0
-      else
-         ct = z/r
-         st = rxy/r
-      endif
-      if (rxy .lt. eps)  then
-         cp = 1
-         if (ct .lt. 0) cp = -1
-         sp = 0
-      else
-         cp = x / rxy
-         sp = y / rxy
-      endif
-      return
-      end
-      subroutine arg(c,fi,th)
-      implicit double precision (a-h, o-z)
-      complex*16  c
-      parameter (eps = 1.0e-6)
-      x = dble(c)
-      y = dimag(c)
-      if (abs(x) .lt. eps) x = 0
-      if (abs(y) .lt. eps) y = 0
-      if (abs(x) .lt. eps  .and.  abs(y) .lt. eps) then
-        th = fi
-      else
-        th = atan2(y,x)
-      endif
-      return
-      end
+
+

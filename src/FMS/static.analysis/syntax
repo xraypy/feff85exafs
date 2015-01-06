@@ -1,0 +1,810 @@
+
+FTNCHEK Version 3.3 November 2004
+
+File ffmod3.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/parallel.h:
+     28       wall_comm = 0.0
+                        ^
+Warning near line 28 col 17 file ffmod3.f: real const 0.0 promoted to real*8 
+ WALL_COMM: may not give desired precision
+
+ 0 syntax errors detected in file ffmod3.f
+ 1 warning issued in file ffmod3.f
+
+File fmsie.f:
+Including file ../HEADERS/dim.h:
+     75        rpart  = dble(dck)
+                      ^
+Warning near line 75 col 15 file fmsie.f: dble expr DBLE(DCK) truncated to 
+ real RPART
+     80            rpart  = dble( ph( 1+abs(ill), ipp))
+                          ^
+Warning near line 80 col 19 file fmsie.f: dble expr DBLE(PH(1+ABS(ILL),IPP)) 
+ .. truncated to real RPART
+     81            aipart = dimag(ph( 1+abs(ill), ipp)) 
+                          ^
+Warning near line 81 col 19 file fmsie.f: dble expr DIMAG(PH(1+ABS(ILL),IPP) 
+ .. truncated to real AIPART
+
+Warning in module FMSIE in file fmsie.f: Variables set but never used:
+    SIG2 set at line 56 file fmsie.f
+    TEMPER set at line 54 file fmsie.f
+    THETAX set at line 55 file fmsie.f
+
+ 0 syntax errors detected in file fmsie.f
+ 4 warnings issued in file fmsie.f
+
+File fmspack.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/parallel.h:
+Including file xparam.h:
+    142       parameter (pi = 3.14159 26535 89793 23846 26433e0)
+                              ^
+Warning near line 142 col 23 file fmspack.f: Single-precision real constant
+ has more digits than are stored
+    143       parameter (bohr = 0.529 177 249e0)
+                                ^
+Warning near line 143 col 25 file fmspack.f: Single-precision real constant
+ has more digits than are stored
+
+Warning in module FMS in file fmspack.f: Variables declared but never
+ referenced:
+    CERR declared at line 166 file fmspack.f
+    TERM declared at line 147 file fmspack.f
+    TRANS declared at line 167 file fmspack.f
+
+Warning in module FMS in file fmspack.f: Variables set but never used:
+    JBMAGK set at line 118 file fmspack.f
+    PI set at line 142 file fmspack.f
+    ROTEPS set at line 118 file fmspack.f
+
+Warning in module FMS in file fmspack.f: Labels defined but not used:
+    <400> defined at line 170 file fmspack.f
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GETKTS in file fmspack.f: Variables declared but never
+ referenced:
+    NPOT declared at line 373 file fmspack.f (dummy argument)
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module XGLLM in file fmspack.f: Variables set but never used:
+    JBMAGK set at line 532 file fmspack.f
+    ROTEPS set at line 532 file fmspack.f
+
+ 0 syntax errors detected in file fmspack.f
+ 7 warnings issued in file fmspack.f
+
+File fmstot.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/parallel.h:
+    167               rpart  = dble( ph(ie, ill, isp, ipp))
+                             ^
+Warning near line 167 col 22 file fmstot.f: dble expr DBLE(PH(IE,ILL,ISP,IPP)) 
+ .. truncated to real RPART
+    168               aipart = dimag(ph(ie, ill, isp, ipp)) 
+                             ^
+Warning near line 168 col 22 file fmstot.f: dble expr DIMAG(PH(IE,ILL,ISP,IPP) 
+ .. truncated to real AIPART
+    204      1                        gg(ix1+nsp*m1+is1,ix2+nsp*m2+is2,0) *
+                                                                          ^
+Warning near line 204 col 67 file fmstot.f: promotion may not give desired
+ precision: cplx GG * cplx*16 BMAT
+    203                  gtr(ip,ie) = gtr(ip,ie) +
+                                                 ^
+Warning near line 203 col 42 file fmstot.f: promotion may not give desired
+ precision: cplx GTR + cplx*16 expr GG(IX1+NSP*M1+IS1,IX2+NS ..
+                                    ^
+Warning near line 203 col 29 file fmstot.f: cplx*16 expr 
+ GTR(IP,IE)+GG(IX1+NSP*M1 .. truncated to cplx GTR
+    278          write(1,105) rclust*bohr
+                                    ^
+Warning near line 278 col 29 file fmstot.f: promotion may not give desired
+ precision: real RCLUST * dble BOHR
+
+Warning in module FMSTOT in file fmstot.f: Variables set but never used:
+    IND set at line 186 file fmstot.f
+    IOS set at line 276 file fmstot.f
+
+Warning in module FMSTOT in file fmstot.f: Variables may be used before set:
+    MS1 used at line 186 file fmstot.f
+    MS1 set at line 189 file fmstot.f
+    MS2 used at line 186 file fmstot.f
+    MS2 set at line 190 file fmstot.f
+
+ 0 syntax errors detected in file fmstot.f
+ 9 warnings issued in file fmstot.f
+
+File ggbi.f:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+ 0 syntax errors detected in file ggbi.f
+File gggm.f:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GGGM in file gggm.f: Variables set but never used:
+    ONE set at line 15 file gggm.f
+
+Warning in module GGGM in file gggm.f: Variables may be used before set:
+    Q0 used at line 94 file gggm.f
+    Q0 set at line 127 file gggm.f
+    X0 used at line 94 file gggm.f
+    X0 set at line 103 file gggm.f
+
+ 0 syntax errors detected in file gggm.f
+ 2 warnings issued in file gggm.f
+
+File gglu.f:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GGLU in file gglu.f: Variables set but never used:
+    ZERO set at line 13 file gglu.f
+
+ 0 syntax errors detected in file gglu.f
+ 1 warning issued in file gglu.f
+
+File ggrm.f:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GGRM in file ggrm.f: Variables declared but never
+ referenced:
+    ALPHA declared at line 33 file ggrm.f
+    BETA declared at line 33 file ggrm.f
+    DUM1 declared at line 31 file ggrm.f
+    DUM2 declared at line 31 file ggrm.f
+
+ 0 syntax errors detected in file ggrm.f
+ 1 warning issued in file ggrm.f
+
+File ggtf.f:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GGTF in file ggtf.f: Variables set but never used:
+    CONI set at line 17 file ggtf.f
+
+ 0 syntax errors detected in file ggtf.f
+ 1 warning issued in file ggtf.f
+
+File inc.f:
+Including file ../HEADERS/dim.h:
+    149        rpart  = dble(dck)
+                      ^
+Warning near line 149 col 15 file inc.f: dble expr DBLE(DCK) truncated to real 
+ RPART
+    154            rpart  = dble( ph( 1+abs(ill), ipp))
+                          ^
+Warning near line 154 col 19 file inc.f: dble expr DBLE(PH(1+ABS(ILL),IPP)) .. 
+ truncated to real RPART
+    155            aipart = dimag(ph( 1+abs(ill), ipp)) 
+                          ^
+Warning near line 155 col 19 file inc.f: dble expr DIMAG(PH(1+ABS(ILL),IPP) .. 
+ truncated to real AIPART
+
+Warning in module FMSIE in file inc.f: Variables set but never used:
+    SIG2 set at line 130 file inc.f
+    TEMPER set at line 128 file inc.f
+    THETAX set at line 129 file inc.f
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/parallel.h:
+Including file xparam.h:
+    327       parameter (pi = 3.14159 26535 89793 23846 26433e0)
+                              ^
+Warning near line 327 col 23 file inc.f: Single-precision real constant has
+ more digits than are stored
+    328       parameter (bohr = 0.529 177 249e0)
+                                ^
+Warning near line 328 col 25 file inc.f: Single-precision real constant has
+ more digits than are stored
+
+Warning in module FMS in file inc.f: Variables declared but never referenced:
+    CERR declared at line 351 file inc.f
+    TERM declared at line 332 file inc.f
+    TRANS declared at line 352 file inc.f
+
+Warning in module FMS in file inc.f: Variables set but never used:
+    JBMAGK set at line 303 file inc.f
+    PI set at line 327 file inc.f
+    ROTEPS set at line 303 file inc.f
+
+Warning in module FMS in file inc.f: Labels defined but not used:
+    <400> defined at line 355 file inc.f
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GETKTS in file inc.f: Variables declared but never
+ referenced:
+    NPOT declared at line 558 file inc.f (dummy argument)
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module XGLLM in file inc.f: Variables set but never used:
+    JBMAGK set at line 717 file inc.f
+    ROTEPS set at line 717 file inc.f
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GGLU in file inc.f: Variables set but never used:
+    ZERO set at line 779 file inc.f
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GGRM in file inc.f: Variables declared but never referenced:
+    ALPHA declared at line 1117 file inc.f
+    BETA declared at line 1117 file inc.f
+    DUM1 declared at line 1115 file inc.f
+    DUM2 declared at line 1115 file inc.f
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GGGM in file inc.f: Variables set but never used:
+    ONE set at line 1369 file inc.f
+
+Warning in module GGGM in file inc.f: Variables may be used before set:
+    Q0 used at line 1448 file inc.f
+    Q0 set at line 1481 file inc.f
+    X0 used at line 1448 file inc.f
+    X0 set at line 1457 file inc.f
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module GGTF in file inc.f: Variables set but never used:
+    CONI set at line 1593 file inc.f
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/parallel.h:
+   1926               rpart  = dble( ph(ie, ill, isp, ipp))
+                             ^
+Warning near line 1926 col 22 file inc.f: dble expr DBLE(PH(IE,ILL,ISP,IPP)) 
+ .. truncated to real RPART
+   1927               aipart = dimag(ph(ie, ill, isp, ipp)) 
+                             ^
+Warning near line 1927 col 22 file inc.f: dble expr DIMAG(PH(IE,ILL,ISP,IPP) 
+ .. truncated to real AIPART
+   1963      1                        gg(ix1+nsp*m1+is1,ix2+nsp*m2+is2,0) *
+                                                                          ^
+Warning near line 1963 col 67 file inc.f: promotion may not give desired
+ precision: cplx GG * cplx*16 BMAT
+   1962                  gtr(ip,ie) = gtr(ip,ie) +
+                                                 ^
+Warning near line 1962 col 42 file inc.f: promotion may not give desired
+ precision: cplx GTR + cplx*16 expr GG(IX1+NSP*M1+IS1,IX2+NS ..
+                                    ^
+Warning near line 1962 col 29 file inc.f: cplx*16 expr 
+ GTR(IP,IE)+GG(IX1+NSP*M1 .. truncated to cplx GTR
+   2037          write(1,105) rclust*bohr
+                                    ^
+Warning near line 2037 col 29 file inc.f: promotion may not give desired
+ precision: real RCLUST * dble BOHR
+
+Warning in module FMSTOT in file inc.f: Variables set but never used:
+    IND set at line 1945 file inc.f
+    IOS set at line 2035 file inc.f
+
+Warning in module FMSTOT in file inc.f: Variables may be used before set:
+    MS1 used at line 1945 file inc.f
+    MS1 set at line 1948 file inc.f
+    MS2 used at line 1945 file inc.f
+    MS2 set at line 1949 file inc.f
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+   2136           ptz(-1,i)= cmplx(a1,b1)
+                           ^
+Warning near line 2136 col 20 file inc.f: cplx expr CMPLX(A1,B1) promoted to 
+ cplx*16 PTZ: may not give desired precision
+   2137           ptz(0,i) = cmplx(a2,b2)
+                           ^
+Warning near line 2137 col 20 file inc.f: cplx expr CMPLX(A2,B2) promoted to 
+ cplx*16 PTZ: may not give desired precision
+   2138           ptz(1,i) = cmplx(a3,b3)
+                           ^
+Warning near line 2138 col 20 file inc.f: cplx expr CMPLX(A3,B3) promoted to 
+ cplx*16 PTZ: may not give desired precision
+   2178       rfms2 = rfms2 / bohr
+                            ^
+Warning near line 2178 col 21 file inc.f: promotion may not give desired
+ precision: real RFMS2 / dble BOHR
+                    ^
+Warning near line 2178 col 13 file inc.f: dble expr RFMS2/BOHR truncated to 
+ real RFMS2
+   2179       rdirec = rdirec / bohr
+                              ^
+Warning near line 2179 col 23 file inc.f: promotion may not give desired
+ precision: real RDIREC / dble BOHR
+                     ^
+Warning near line 2179 col 14 file inc.f: dble expr RDIREC/BOHR truncated to 
+ real RDIREC
+
+Warning in module REAFMS in file inc.f: Variables set but never used:
+    ELPTY set at line 2127 file inc.f
+    EVEC set at line 2131 file inc.f
+    I1B set at line 2111 file inc.f
+    IDUM set at line 2111 file inc.f
+    IOS set at line 2095 file inc.f
+    IPHABS set at line 2123 file inc.f
+    NABS set at line 2123 file inc.f
+    RCLABS set at line 2123 file inc.f
+    SPVEC set at line 2131 file inc.f
+    XIVEC set at line 2131 file inc.f
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/parallel.h:
+Including file xparam.h:
+   2316       parameter (bohr = 0.529 177 249e0)
+                                ^
+Warning near line 2316 col 25 file inc.f: Single-precision real constant has
+ more digits than are stored
+
+Warning in module XPREP in file inc.f: Variables declared but never
+ referenced:
+    MINV declared at line 2190 file inc.f (dummy argument)
+    NPOT declared at line 2187 file inc.f (dummy argument)
+    RDIREC declared at line 2190 file inc.f (dummy argument)
+    READDW declared at line 2333 file inc.f
+
+Warning in module XPREP in file inc.f: Variables set but never used:
+    JBMAGK set at line 2293 file inc.f
+    ROTEPS set at line 2293 file inc.f
+   2728       parameter(tiny=1.e-7, zero=0.e0, pi=3.141592654)
+                                                  ^
+Warning near line 2728 col 43 file inc.f: Single-precision real constant has
+ more digits than are stored
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+   2861       parameter (pi = 3.14159 26535 89793 23846 26433e0)
+                              ^
+Warning near line 2861 col 23 file inc.f: Single-precision real constant has
+ more digits than are stored
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module ROTINT in file inc.f: Variables set but never used:
+    ROTEPS set at line 3052 file inc.f
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module XANLM in file inc.f: Variables set but never used:
+    JBMAGK set at line 3282 file inc.f
+    ROTEPS set at line 3282 file inc.f
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+   3405       parameter (bohr = 0.529 177 249e0)
+                                ^
+Warning near line 3405 col 25 file inc.f: Single-precision real constant has
+ more digits than are stored
+
+Warning in module YPREP in file inc.f: Variables declared but never
+ referenced:
+    DRS declared at line 3412 file inc.f
+    DSIGSQ declared at line 3412 file inc.f
+    DTEMP declared at line 3412 file inc.f
+    DTHET declared at line 3412 file inc.f
+    IZPAIR declared at line 3406 file inc.f
+    IZX declared at line 3406 file inc.f (dummy argument)
+    NPOT declared at line 3353 file inc.f (dummy argument)
+    PAIR declared at line 3412 file inc.f
+    RDIREC declared at line 3354 file inc.f (dummy argument)
+    SIG2MX declared at line 3413 file inc.f
+    SIG2X declared at line 3413 file inc.f
+
+Warning in module YPREP in file inc.f: Variables set but never used:
+    BOHR set at line 3405 file inc.f
+    JBMAGK set at line 3385 file inc.f
+    ROTEPS set at line 3385 file inc.f
+
+ 0 syntax errors detected in file inc.f
+ 44 warnings issued in file inc.f
+
+File reafms.f:
+Including file ../HEADERS/const.h:
+      8       parameter (coni = (0,1))
+                                ^
+Warning near line 8 col 25 file ../HEADERS/const.h: cplx const (0,1) promoted
+ to cplx*16 CONI: may not give desired precision
+Including file ../HEADERS/dim.h:
+     82           ptz(-1,i)= cmplx(a1,b1)
+                           ^
+Warning near line 82 col 20 file reafms.f: cplx expr CMPLX(A1,B1) promoted to 
+ cplx*16 PTZ: may not give desired precision
+     83           ptz(0,i) = cmplx(a2,b2)
+                           ^
+Warning near line 83 col 20 file reafms.f: cplx expr CMPLX(A2,B2) promoted to 
+ cplx*16 PTZ: may not give desired precision
+     84           ptz(1,i) = cmplx(a3,b3)
+                           ^
+Warning near line 84 col 20 file reafms.f: cplx expr CMPLX(A3,B3) promoted to 
+ cplx*16 PTZ: may not give desired precision
+    124       rfms2 = rfms2 / bohr
+                            ^
+Warning near line 124 col 21 file reafms.f: promotion may not give desired
+ precision: real RFMS2 / dble BOHR
+                    ^
+Warning near line 124 col 13 file reafms.f: dble expr RFMS2/BOHR truncated to 
+ real RFMS2
+    125       rdirec = rdirec / bohr
+                              ^
+Warning near line 125 col 23 file reafms.f: promotion may not give desired
+ precision: real RDIREC / dble BOHR
+                     ^
+Warning near line 125 col 14 file reafms.f: dble expr RDIREC/BOHR truncated to 
+ real RDIREC
+
+Warning in module REAFMS in file reafms.f: Variables set but never used:
+    ELPTY set at line 73 file reafms.f
+    EVEC set at line 77 file reafms.f
+    I1B set at line 57 file reafms.f
+    IDUM set at line 57 file reafms.f
+    IOS set at line 41 file reafms.f
+    IPHABS set at line 69 file reafms.f
+    NABS set at line 69 file reafms.f
+    RCLABS set at line 69 file reafms.f
+    SPVEC set at line 77 file reafms.f
+    XIVEC set at line 77 file reafms.f
+
+ 0 syntax errors detected in file reafms.f
+ 9 warnings issued in file reafms.f
+
+File xprep.f:
+Including file ../HEADERS/dim.h:
+Including file ../HEADERS/parallel.h:
+Including file xparam.h:
+    130       parameter (bohr = 0.529 177 249e0)
+                                ^
+Warning near line 130 col 25 file xprep.f: Single-precision real constant has
+ more digits than are stored
+
+Warning in module XPREP in file xprep.f: Variables declared but never
+ referenced:
+    MINV declared at line 4 file xprep.f (dummy argument)
+    NPOT declared at line 1 file xprep.f (dummy argument)
+    RDIREC declared at line 4 file xprep.f (dummy argument)
+    READDW declared at line 147 file xprep.f
+
+Warning in module XPREP in file xprep.f: Variables set but never used:
+    JBMAGK set at line 107 file xprep.f
+    ROTEPS set at line 107 file xprep.f
+
+ 0 syntax errors detected in file xprep.f
+ 3 warnings issued in file xprep.f
+
+File xstaff.f:
+    130       parameter(tiny=1.e-7, zero=0.e0, pi=3.141592654)
+                                                  ^
+Warning near line 130 col 43 file xstaff.f: Single-precision real constant has
+ more digits than are stored
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+    263       parameter (pi = 3.14159 26535 89793 23846 26433e0)
+                              ^
+Warning near line 263 col 23 file xstaff.f: Single-precision real constant has
+ more digits than are stored
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module ROTINT in file xstaff.f: Variables set but never used:
+    ROTEPS set at line 454 file xstaff.f
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+
+Warning in module XANLM in file xstaff.f: Variables set but never used:
+    JBMAGK set at line 684 file xstaff.f
+    ROTEPS set at line 684 file xstaff.f
+
+ 0 syntax errors detected in file xstaff.f
+ 4 warnings issued in file xstaff.f
+
+File yprep.f:
+Including file ../HEADERS/dim.h:
+Including file xparam.h:
+     53       parameter (bohr = 0.529 177 249e0)
+                                ^
+Warning near line 53 col 25 file yprep.f: Single-precision real constant has
+ more digits than are stored
+
+Warning in module YPREP in file yprep.f: Variables declared but never
+ referenced:
+    DRS declared at line 60 file yprep.f
+    DSIGSQ declared at line 60 file yprep.f
+    DTEMP declared at line 60 file yprep.f
+    DTHET declared at line 60 file yprep.f
+    IZPAIR declared at line 54 file yprep.f
+    IZX declared at line 54 file yprep.f (dummy argument)
+    NPOT declared at line 1 file yprep.f (dummy argument)
+    PAIR declared at line 60 file yprep.f
+    RDIREC declared at line 2 file yprep.f (dummy argument)
+    SIG2MX declared at line 61 file yprep.f
+    SIG2X declared at line 61 file yprep.f
+
+Warning in module YPREP in file yprep.f: Variables set but never used:
+    BOHR set at line 53 file yprep.f
+    JBMAGK set at line 33 file yprep.f
+    ROTEPS set at line 33 file yprep.f
+
+ 0 syntax errors detected in file yprep.f
+ 3 warnings issued in file yprep.f
+
+Warning: Common block TIMING unused in the following modules:
+    Unused in module XPREP line 4 file ../HEADERS/parallel.h (included at line 
+ 84 in xprep.f)
+    Unused in module XPREP line 4 file ../HEADERS/parallel.h (included at line 
+ 2270 in inc.f)
+    Unused in module FMS line 4 file ../HEADERS/parallel.h (included at line 
+ 281 in inc.f)
+    Unused in module FMS line 4 file ../HEADERS/parallel.h (included at line 
+ 96 in fmspack.f)
+
+Warning: Common block XSTRUC unused in the following modules:
+    Unused in module XANLM line 666 file xstaff.f
+    Unused in module ROTINT line 435 file xstaff.f
+    Unused in module XANLM line 3264 file inc.f
+    Unused in module ROTINT line 3033 file inc.f
+    Unused in module XGLLM line 699 file inc.f
+    Unused in module XGLLM line 514 file fmspack.f
+
+Warning: Common block ROTX unused in the following modules:
+    Unused in module YPREP line 28 file yprep.f
+    Unused in module XANLM line 679 file xstaff.f
+    Unused in module ROTINT line 448 file xstaff.f
+    Unused in module XPREP line 102 file xprep.f
+    Unused in module YPREP line 3380 file inc.f
+    Unused in module XANLM line 3277 file inc.f
+    Unused in module ROTINT line 3046 file inc.f
+    Unused in module XPREP line 2288 file inc.f
+    Unused in module XGLLM line 712 file inc.f
+    Unused in module XGLLM line 527 file fmspack.f
+
+Warning: Common block ROTSAV unused in the following modules:
+    Unused in module YPREP line 36 file yprep.f
+    Unused in module XANLM line 687 file xstaff.f
+    Unused in module XPREP line 110 file xprep.f
+    Unused in module YPREP line 3388 file inc.f
+    Unused in module XANLM line 3285 file inc.f
+    Unused in module XPREP line 2296 file inc.f
+    Unused in module XGLLM line 720 file inc.f
+    Unused in module FMS line 306 file inc.f
+    Unused in module XGLLM line 535 file fmspack.f
+    Unused in module FMS line 121 file fmspack.f
+
+Warning: Common block LNLM unused in the following modules:
+    Unused in module YPREP line 41 file yprep.f
+    Unused in module ROTINT line 464 file xstaff.f
+    Unused in module ROTXAN line 248 file xstaff.f
+    Unused in module XPREP line 115 file xprep.f
+    Unused in module YPREP line 3393 file inc.f
+    Unused in module ROTINT line 3062 file inc.f
+    Unused in module ROTXAN line 2846 file inc.f
+    Unused in module XPREP line 2301 file inc.f
+    Unused in module FMS line 312 file inc.f
+    Unused in module FMS line 127 file fmspack.f
+
+Warning: Common block XDWF unused in the following modules:
+    Unused in module XANLM line 699 file xstaff.f
+    Unused in module ROTINT line 470 file xstaff.f
+    Unused in module ROTXAN line 254 file xstaff.f
+    Unused in module XANLM line 3297 file inc.f
+    Unused in module ROTINT line 3068 file inc.f
+    Unused in module ROTXAN line 2852 file inc.f
+    Unused in module XGLLM line 732 file inc.f
+    Unused in module XGLLM line 547 file fmspack.f
+
+Warning: Subprogram PAR_BEGIN never defined
+    Invoked in module FFMOD3 line 24 file ffmod3.f
+
+Warning: Subprogram SECONDS never defined
+    Invoked in module FFMOD3 line 58 file ffmod3.f
+
+Warning: Subprogram CHOPEN never defined
+    Invoked in module FFMOD3 line 33 file ffmod3.f
+
+Warning: Subprogram REAFMS multiply defined
+    Defined in module REAFMS line 1 file reafms.f
+    Defined in module REAFMS line 2055 file inc.f
+
+Warning: Subprogram REAFMS varying number of arguments:
+    Defined in module REAFMS line 2055 file inc.f with 23 arguments
+    Invoked in module FFMOD3 line 39 file ffmod3.f with 19 arguments
+
+Warning: Subprogram FMSTOT multiply defined
+    Defined in module FMSTOT line 1760 file inc.f
+    Defined in module FMSTOT line 1 file fmstot.f
+
+Warning: Subprogram FMSTOT varying number of arguments:
+    Defined in module FMSTOT line 1 file fmstot.f with 22 arguments
+    Invoked in module FFMOD3 line 46 file ffmod3.f with 18 arguments
+
+Warning: Subprogram WLOG never defined
+    Invoked in module FFMOD3 line 50 file ffmod3.f
+
+Warning: Subprogram PAR_END never defined
+    Invoked in module FFMOD3 line 64 file ffmod3.f
+
+Warning: Subprogram FMSIE multiply defined
+    Defined in module FMSIE line 75 file inc.f
+    Defined in module FMSIE line 1 file fmsie.f
+
+Warning: Subprogram FMSIE never invoked
+    Defined in module FMSIE line 1 file fmsie.f
+
+Warning: Subprogram YPREP multiply defined
+    Defined in module YPREP line 1 file yprep.f
+    Defined in module YPREP line 3353 file inc.f
+
+Warning: Subprogram YPREP never invoked
+    Defined in module YPREP line 3353 file inc.f
+
+Warning: Subprogram FMS multiply defined
+    Defined in module FMS line 186 file inc.f
+    Defined in module FMS line 1 file fmspack.f
+
+Warning: Subprogram GETKTS multiply defined
+    Defined in module GETKTS line 558 file inc.f
+    Defined in module GETKTS line 373 file fmspack.f
+
+Warning: Subprogram PAR_STOP never defined
+    Invoked in module FMS line 201 file fmspack.f
+
+Warning: Subprogram XCLMZ multiply defined
+    Defined in module XCLMZ line 612 file inc.f
+    Defined in module XCLMZ line 427 file fmspack.f
+
+Warning: Subprogram XGLLM multiply defined
+    Defined in module XGLLM line 673 file inc.f
+    Defined in module XGLLM line 488 file fmspack.f
+
+Warning: Subprogram XGLLM argument arrayness mismatch at position 5:
+    Dummy arg XCLM in module XGLLM line 488 file fmspack.f is whole array
+    Actual arg XCLM(0,0,1,1,.. in module FMS line 508 file inc.f is array
+ element
+
+Warning: Subprogram XGLLM argument arrayness mismatch at position 5:
+    Dummy arg XCLM in module XGLLM line 488 file fmspack.f is whole array
+    Actual arg XCLM(0,0,1,1,.. in module FMS line 323 file fmspack.f is array
+ element
+
+Warning: Subprogram GGLU multiply defined
+    Defined in module GGLU line 767 file inc.f
+    Defined in module GGLU line 1 file gglu.f
+
+Warning: Subprogram GGBI multiply defined
+    Defined in module GGBI line 882 file inc.f
+    Defined in module GGBI line 1 file ggbi.f
+
+Warning: Subprogram GGRM multiply defined
+    Defined in module GGRM line 1085 file inc.f
+    Defined in module GGRM line 1 file ggrm.f
+
+Warning: Subprogram GGGM multiply defined
+    Defined in module GGGM line 1355 file inc.f
+    Defined in module GGGM line 1 file gggm.f
+
+Warning: Subprogram GGTF multiply defined
+    Defined in module GGTF line 1577 file inc.f
+    Defined in module GGTF line 1 file ggtf.f
+
+Warning: Subprogram SETKAP never defined
+    Invoked in module FMSTOT line 75 file fmstot.f
+
+Warning: Subprogram RDXSPH never defined
+    Invoked in module FMSTOT line 73 file fmstot.f
+
+Warning: Subprogram XPREP multiply defined
+    Defined in module XPREP line 1 file xprep.f
+    Defined in module XPREP line 2187 file inc.f
+
+Warning: Subprogram INIPTZ never defined
+    Invoked in module FMSTOT line 130 file fmstot.f
+
+Warning: Subprogram BCOEF never defined
+    Invoked in module FMSTOT line 131 file fmstot.f
+
+Warning: Subprogram PAR_SEND_INT never defined
+    Invoked in module FMSTOT line 234 file fmstot.f
+
+Warning: Subprogram PAR_SEND_CMPLX never defined
+    Invoked in module FMSTOT line 237 file fmstot.f
+
+Warning: Subprogram PAR_RECV_INT never defined
+    Invoked in module FMSTOT line 250 file fmstot.f
+
+Warning: Subprogram PAR_RECV_CMPLX never defined
+    Invoked in module FMSTOT line 253 file fmstot.f
+
+Warning: Subprogram WRPADX never defined
+    Invoked in module FMSTOT line 288 file fmstot.f
+
+Warning: Subprogram PAR_BARRIER never defined
+    Invoked in module FMSTOT line 292 file fmstot.f
+
+Warning: Subprogram MATVEC multiply defined
+    Defined in module MATVEC line 1325 file inc.f
+    Defined in module MATVEC line 241 file ggrm.f
+
+Warning: Subprogram CDOT multiply defined
+    Defined in module CDOT line 1289 file inc.f
+    Defined in module CDOT line 205 file ggrm.f
+
+Warning: Subprogram CGETRF never defined
+    Invoked in module GGLU line 62 file gglu.f
+
+Warning: Subprogram CGETRS never defined
+    Invoked in module GGLU line 94 file gglu.f
+
+Warning: Subprogram VECVEC multiply defined
+    Defined in module VECVEC line 1308 file inc.f
+    Defined in module VECVEC line 224 file ggrm.f
+
+Warning: Subprogram VECVEC never invoked
+    Defined in module VECVEC line 224 file ggrm.f
+
+Warning: Subprogram RDHEAD never defined
+    Invoked in module REAFMS line 2098 file inc.f
+
+Warning: Subprogram CWIG3J never defined
+    Invoked in module XPREP line 2591 file inc.f
+
+Warning: Subprogram ATHEAP multiply defined
+    Defined in module ATHEAP line 1 file xstaff.f
+    Defined in module ATHEAP line 2599 file inc.f
+
+Warning: Subprogram ROTINT multiply defined
+    Defined in module ROTINT line 426 file xstaff.f
+    Defined in module ROTINT line 3024 file inc.f
+
+Warning: Subprogram GETANG multiply defined
+    Defined in module GETANG line 109 file xstaff.f
+    Defined in module GETANG line 2707 file inc.f
+
+Warning: Subprogram ROTXAN multiply defined
+    Defined in module ROTXAN line 174 file xstaff.f
+    Defined in module ROTXAN line 2772 file inc.f
+
+Warning: Subprogram XANLM multiply defined
+    Defined in module XANLM line 639 file xstaff.f
+    Defined in module XANLM line 3237 file inc.f
+
+Warning: Subprogram SIGMS never defined
+    Invoked in module XPREP line 2517 file inc.f
+
+Warning: Subprogram SIGEM never defined
+    Invoked in module XPREP line 2532 file inc.f
+
+Warning: Subprogram SIGRM never defined
+    Invoked in module XPREP line 2541 file inc.f
+
+Warning: Subprogram SORTAT multiply defined
+    Defined in module SORTAT line 492 file xstaff.f
+    Defined in module SORTAT line 3090 file inc.f
+
+Warning: Subprogram SORTAT never invoked
+    Defined in module SORTAT line 3090 file inc.f
+
+Warning: Subprogram XFCTST multiply defined
+    Defined in module XFCTST line 726 file xstaff.f
+    Defined in module XFCTST line 3324 file inc.f

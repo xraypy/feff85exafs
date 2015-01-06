@@ -4,7 +4,7 @@ c     output: ne, ne1, em(ne), ik0 [grid point with k=0]
 c             ne -  total number of points in array em
 c             ne1 - number of points on horizontal grid 
 
-      subroutine phmesh (iprint, ispec, edge, emu, vi0, gamach, ecv,
+      subroutine phmesh (iprint, ispec, edge, emu, vi0, gamach,
      1                  xkmax, xkstep, vixan, ne, ne1, em, ik0, ne3)
       implicit double precision (a-h, o-z)
       include '../HEADERS/const.h'
@@ -112,7 +112,8 @@ c        grid for atomic f' calculation regular in energy
          do 88 i = 1,ne3-1
             dep = 0
             if (dble(em(ne1+i)).gt.0) 
-     1      dep=em(ne1+i)*(exp( log( elimit/em(ne1+i) ) / (ne3-i) ) -1)
+     1             dep=dble(em(ne1+i) * 
+     2             (exp( log( elimit/em(ne1+i) ) / (ne3-i) ) -1))
             if (dep.lt.de) dep = de
             em(ne1+i+1) = em(ne1+i) + dep
   88     continue

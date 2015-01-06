@@ -1,0 +1,15 @@
+title name:     zircon
+title formula:  ZrSiO4
+title sites:    Zr1,Si1,O1
+title refer1:   wyckoff XII,157
+title refer2:
+title schoen:
+space  I 41/a m d
+a    =  6.6164   c = 6.0150
+rmax = 7.00
+core = Si1
+atom
+Zr     0.00000   0.75000   0.12500  Zr1
+Si     0.00000   0.25000   0.37500  Si1
+O      0.00000   0.06700   0.19800  O1
+------

@@ -77,8 +77,8 @@ cc initialize reals
       rfms1 = -1 * sone
       rfms2 = -1 * sone
       rdirec = -1 * sone
-      toler1 = 1.d-3
-      toler2 = 1.d-3
+      toler1 = 1.e-3
+      toler2 = 1.e-3
 
 cc initialize double precision scalars
       alphat = dzero
@@ -123,6 +123,14 @@ c  initialize loops of number of potentials
         potlbl(i) = ' '
  110  continue
 
+      do 114 i=0,nphx
+         do 112 j=1,novrx
+            iphovr(j,i)=0
+            nnovr(j,i)=0
+            rovr(j,i)=dzero
+ 112     continue
+ 114  continue
+
 c  initialize polarization data
       ipol = 0
       ispin = 0
@@ -137,7 +145,7 @@ c  initialize polarization data
  130  continue
       do 150 i=-1,1
         do 140 j=-1,1
-          ptz(j,i) = cmplx(dzero,dzero)
+          ptz(j,i) = dcmplx(dzero,dzero)
  140    continue
  150  continue
 

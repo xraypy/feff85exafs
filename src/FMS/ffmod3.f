@@ -46,7 +46,7 @@ c        first do fms inside rfms2
          call fmstot(rfms2, idwopt, tk, thetad, sig2g, 
      1            lmaxph, nat, iphat, rat,
      2            ipol, ispin, le2, angks, ptz,
-     3            minv, rdirec, toler1, toler2)
+     3            minv, rdirec, toler1, toler2,elnes,ipmin,ipmax,ipstep)
          call wlog(' Done with module 3: FMS.')
       endif
 

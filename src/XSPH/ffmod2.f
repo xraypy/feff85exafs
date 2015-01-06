@@ -5,7 +5,7 @@ c     subroutine ffmod2
 c     cross-section and phase shifts calculations
 c     coded by a.ankudinov 2000
 
-c     INPUT: mod2.inp geom.dat global.inp and pot.bin
+c     INPUT: mod2.inp geom.dat global.inp and pot.pad
 c     OUTPUT: xsect.bin and xsph.bin
 
       implicit double precision (a-h, o-z)
@@ -67,8 +67,12 @@ c     Josh - added flag iPl for PLASMON card
          call xsph (ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1             nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2             ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
-     3             ipol, ispin, le2, angks, ptz, iPl, iGrid,
-     4             izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis)
+     3             ipol, ispin, le2, angks, ptz, iPl,
+     4             izstd, ifxc, ipmbse, itdlda, nonlocal)
+c squelch compiler warning about unused dummy variables, apparently
+c removed from f85e
+c     iGrid, (after iPl)
+c   , ibasis)
 
          call wlog(' Done with module 2: cross-section and phases...')
       endif

@@ -155,7 +155,8 @@ c        calculate lagrange parameters
 c        calculate electron potential
          call potrdf (j)
 c        add potential due to xc with valence electrons
-         call vlda (j, xnval, srho, srhovl, dmag, ilast, idfock)
+         call vlda (xnval, srho, srhovl, dmag, ilast, idfock)
+c         call vlda (j, xnval, srho, srhovl, dmag, ilast, idfock)
          e = en(j)
          np = idim
 c        resolution of the dirac equation
@@ -262,7 +263,8 @@ c        tabulation of the results
          iorb = 0
 c        use to test SIC
 c         do 505 iorb = 1,norb
-         call vlda (iorb, xnval, srho, srhovl, dmag, ilast, idfock)
+         call vlda (xnval, srho, srhovl, dmag, ilast, idfock)
+c         call vlda (iorb, xnval, srho, srhovl, dmag, ilast, idfock)
 c 505       call vlda (iorb, xnval, srho, srhovl, dmag, ilast, idfock)
          ecorr =2.0
          call somm(dr,dmag,dmag,hx, ecorr,0,idim)
@@ -389,9 +391,9 @@ c          to handle special case when electron added to new orbital
 
 c        need better control here. for now always print fpf0.dat
 c        if (ipr1.ge.3) call  fpf0 ( iz, iholep, srho, dr, hx,
-         call  fpf0 ( iz, iholep, srho, dr, hx,
-     1     dgc0, dpc0, dgc, dpc,
-     2     eatom, xnel, norb, eorb, kappa)
+c         call  fpf0 ( iz, iholep, srho, dr, hx,
+c     1     dgc0, dpc0, dgc, dpc,
+c     2     eatom, xnel, norb, eorb, kappa)
 
          call s02at (iholep, norb, kap, xnel, ovpint, s02)
 c        print*,'z=',iz, '   s02 calculated = ', s02

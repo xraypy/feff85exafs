@@ -1,0 +1,43 @@
+# -*- python -*-
+#
+#  SConstruct file for building json-fortran using scons
+#
+#  This builds using the same commands as are used in json-fortran's
+#  "build.sh" script, but with proper dependency checking.  It also
+#  deals gracefully with robodoc not being installed on the system.
+#
+
+import os
+from os.path import join
+from SCons.Environment import Environment
+
+env  = Environment()
+here = '.'
+
+if env['FORTRAN'] == 'gfortran':
+    env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -std=f2008 -J'+here,)
+elif env['FORTRAN'] == 'ifort':
+    env = Environment(F90FLAGS = '-O2 -warn -stand f08 -diag-disable 7601 -traceback -module '+here,)
+
+src = join('json_module.f90')
+obj = join('json_module.o')
+ar  = join('libjsonfortran.a')
+mod = join('json_module.mod')
+
+env.Library(ar, src,
+            FORTRANMODDIR='.', # this tells scons that we want the .mod file to be installed in to lib/
+            LIBPREFIX='',      # this tells scons /not/ to assume that the mod file should be libjson_module.mod
+        )
+
+
+## ------ installation ----------
+
+if os.name == 'nt':
+    libinstall = 'C:\MinGW\lib'
+    docinstall = 'C:\MinGW\doc\json-fortran'
+else:
+    libinstall = '/usr/local/lib'
+    docinstall = '/usr/local/share/doc/json-fortran'
+
+# env.Install(libinstall, [ar,mod])
+# env.Alias('install', libinstall)

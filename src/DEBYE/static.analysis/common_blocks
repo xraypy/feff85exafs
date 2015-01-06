@@ -1,0 +1,24 @@
+
+Warning: Common block XY unused in the following modules:
+    Unused in module BINGRT line 191 file sigms.f
+    Unused in module BINGRT2 line 193 file sigcl.f
+
+Warning: Common block TIMING unused anywhere
+
+Warning: Common block PARALLEL Elements used but never set:
+    MASTER
+
+Warning: Common block PARALLEL Elements never used, never set:
+    NUMPROCS MY_RANK THIS_PROCESS WORKER PARALLEL_RUN PAR_TYPE
+
+Warning: Common block TIMING not SAVED consistently
+    is SAVED in module SIGEM line 4 file ../HEADERS/parallel.h (included at
+ line 33 in sigrem.f)
+    is not SAVED in module RDSPR line 4 file ../HEADERS/parallel.h (included
+ at line 713 in sigrem.f)
+
+Warning: Common block PARALLEL not SAVED consistently
+    is SAVED in module SIGEM line 5 file ../HEADERS/parallel.h (included at
+ line 33 in sigrem.f)
+    is not SAVED in module RDSPR line 5 file ../HEADERS/parallel.h (included
+ at line 713 in sigrem.f)

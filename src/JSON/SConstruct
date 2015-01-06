@@ -1,0 +1,33 @@
+## -*- python -*-
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
+
+import sys
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment
+from   os.path   import realpath, join
+
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+ienv = InstallEnvironment()
+
+lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f', 'read_fpf0.f',
+           'json_xsect.f', 'read_xsect.f', 'json_nnnn.f']
+
+env.SharedLibrary('libfeffjson', lib_src)
+
+env.Depends(['read_geom'   + env['SHOBJSUFFIX'],
+             'read_atoms'  + env['SHOBJSUFFIX'],
+             'read_global' + env['SHOBJSUFFIX'],
+             'read_fpf0'   + env['SHOBJSUFFIX'],
+             'read_xsect'  + env['SHOBJSUFFIX'],
+             'read_xsect'  + env['SHOBJSUFFIX'],
+             'read_nnnn'   + env['SHOBJSUFFIX'], ], join('..', 'json-fortran', 'libjsonfortran.a'))
+
+#            LIBS = ['jsonfortran'],
+
+env.Install(ienv['i_lib'], 'libfeffjson' + env['SHLIBSUFFIX'])
+
+env.Alias('install', ienv['i_lib'])

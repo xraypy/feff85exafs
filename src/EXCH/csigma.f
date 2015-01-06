@@ -1,5 +1,7 @@
-      SUBROUTINE CSigma(Energy, Mu, Rs, ReSig, ImSig, WpScl, Gamma,
+      SUBROUTINE CSigma(Energy, Mu, Rs, ReSig, ImSig, WpScl,!
      &     AmpFac)
+c      SUBROUTINE CSigma(Energy, Mu, Rs, ReSig, ImSig, WpScl, Gamma,
+c     &     AmpFac)
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Written by Josh Kas
 c     This subroutine calculates the self energy Sigma(k(Energy),Energy)
@@ -29,8 +31,8 @@ c     WpScl  - Scale Wp in interstitial by WpScl
 c     Gamma  - Use broadening Gamma when calculating Sigma
 c     AmpFac - Use amplitude AmpFac for plasmon pole.
 c     Note: Atomic units are used.
-      DOUBLE PRECISION Rs, WpScl(MxPole), Gamma(MxPole), AmpFac(MxPole),
-     &     Mu
+      DOUBLE PRECISION Rs, WpScl(MxPole), AmpFac(MxPole), Mu
+c      DOUBLE PRECISION Gamma(MxPole)
       COMPLEX*16 Energy
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Output:
@@ -78,6 +80,7 @@ c     Initialization
       SigTot=0.d0
       SigmaF = 0.d0 
       Gam = 0.d0
+      ckF = 0.d0
 
 c     Loop1: Start self consistency loop.
       DO i2 = 1, MxIter
@@ -365,7 +368,8 @@ c     HLInt2 - Integral of dr1 (derivative second integral in eq. 13 of H.L.)
 c     HLInt3 - Integral of dr1 or dr3 (derivative of 3rd or 4th integral)
 c     XSing  - Array of singularities of integrand (used by cgratr)      
       INTEGER NSing, NCalls, MaxNR
-      DOUBLE PRECISION DPPar(10), Wp, Beta
+      DOUBLE PRECISION DPPar(10), Beta
+c      DOUBLE PRECISION Wp
       COMPLEX*16 CPar(10), Limit1, Limit2, HLInt1, HLInt2, HLInt3,
      &     XSing(20)
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc      
@@ -400,7 +404,7 @@ c     1. xwg
 c     2. xgam
       DPPar(2) = Gamma/EFermi
 c     3. xe
-      DPPar(3) = Energy/EFermi
+      DPPar(3) = dble(Energy/EFermi)
 c     4. xeg
       DPPar(4) = 0.d0
 c     CPar is array of complex parameters to evaluate functions in cgratr.
@@ -583,7 +587,7 @@ c     xe, xeg, xwg, xgam
       complex*16 cpar(2)
 
 c     Local Variables:
-      complex*16 fq,fqq,fiq,a1,a2,a3,a4,t1,q,ck,xe
+      complex*16 fq,fqq,fiq,a1,a2,a3,a4,q,ck,xe
       external fq
 
       ck=CPar(1)
@@ -690,7 +694,7 @@ c     valid only for k<kf, q<kf-k ?
       r3=fiq*(log(a1) - log(a2))
 c     Test with r=E
 c      r3=xe      
-30    return
+      return
       end
 c**********************************************************************
       complex*16 function dr3(q,dppar,cpar)
@@ -863,7 +867,7 @@ c     print*, 'fn call 2'
       dif=abs(value-valu)
 c     If the following condition is true, add in this integral to the total,
 c     and reduce the number of regions under consideration.
-      frac = del / (xmax - xmin)
+      frac = dble(del / (xmax - xmin))
       atsing = .false.
       if(frac .le. 1.0e-8) atsing = .true.
       if(dif .le. abr*frac .or. dif.le.rlr*abs(value) .or. 

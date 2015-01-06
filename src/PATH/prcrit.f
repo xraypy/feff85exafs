@@ -8,7 +8,7 @@ c     Note that path finder is single precision, so be sure that
 c     things are correct precision in calls and declarations!
 c     See declarations below for details.
 c     
-c     Inputs:  Reads phase.bin
+c     Inputs:  Reads phase.pad
 c     Output:  neout   'ne', number of energy grid points
 c              ik0out  index of energy grid with k=0
 c              cksp    |p| at each energy grid point in single precision
@@ -48,11 +48,14 @@ c     Local variables
       complex*16 rkk(nex,8,nspx), eref2(nex,nspx)
       complex*16 ph4(nex, -ltot:ltot, nspx, 0:nphx)
 
-c     Need stuff from phase.bin
+      character*256 phpad
+
+c     Need stuff from phase.pad
 c     Read phase calculation input, data returned via commons
-      call rdxsph (ne, ne1, ne3, npot, ihole,
-     1    rnrmav, xmu, edge, ik0, em, eref2, iz, potlbl, ph4, rkk,
-     2    lmax, lmaxp1  )
+      phpad = 'phase.pad'
+      call rdxsph (phpad, ne, ne1, ne3, npot, ihole,
+     1     rnrmav, xmu, edge, ik0, ixc, rs, vint,
+     2     em, eref2, iz, potlbl, ph4, rkk, lmax, lmaxp1  )
  
       do 10 ie = 1, ne
   10  eref(ie) = eref2(ie,1)
@@ -71,11 +74,11 @@ c     |p| at each energy point (path finder uses invA, convert here)
 c     Also make mfp (xlam) in Ang
       do 100  ie = 1, ne
          cktmp = sqrt (2*(em(ie) - eref(ie)))
-         cksp(ie) = dble (cktmp) / bohr
+         cksp(ie) = real(dble (cktmp) / bohr)
 c        xlam code lifted from genfmt
          xlam(ie) = 1.0e10
-         if (abs(dimag(cktmp)) .gt. eps) xlam(ie) = 1/dimag(cktmp)
-         xlam(ie) = xlam(ie) * bohr
+         if (abs(dimag(cktmp)) .gt. eps) xlam(ie) = real(1/dimag(cktmp))
+         xlam(ie) = xlam(ie) * real(bohr)
   100 continue
 
 c     Make the cos(beta)'s
@@ -97,7 +100,7 @@ c     make fbeta (f(beta) for all energy points
                   tl = (exp (2*coni*ph(ie,il,iii)) - 1) / (2*coni)
                   cfbeta = cfbeta + tl*pl(il)*(2*il-1)
   245          continue
-               fbeta(ibeta,iii,ie) = abs(cfbeta)
+               fbeta(ibeta,iii,ie) = real( abs(cfbeta) )
   250       continue
   260    continue
   280 continue

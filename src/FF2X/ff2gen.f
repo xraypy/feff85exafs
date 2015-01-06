@@ -12,32 +12,52 @@ c     header from xsect.bin
       complex*16 emxs(nex), xsec(nex)
       dimension omega(nex), xkxs(nex), xsnorm(nex)
 
-      open (unit=8, file='xsect.bin', status='old', iostat=ios)
-c     read xsect.bin
-      ntitle = nheadx
-      call rdhead (8, ntitle, title, ltitle)
-c     read method for xsec calculation
-      read(8,*)  s02p, erelax, wp, edgep, emu
+      double precision er(nex), ei(nex), xsn(nex)
+      double precision col4(nex), col5(nex)
+
+c$$$      open (unit=8, file='xsect.bin', status='old', iostat=ios)
+c$$$c     read xsect.bin
+c$$$      ntitle = nheadx
+c$$$      call rdhead (8, ntitle, title, ltitle)
+c$$$c     read method for xsec calculation
+c$$$      read(8,*)  s02p, erelax, wp, edgep, emu
+c$$$      if (mbconv .gt.0 .or. s02.le.0.1) s02=s02p
+c$$$c     read gamach (in eV) for use in atan at absorption edge
+c$$$c     and convert to code units
+c$$$      read(8,*)  gamach, ne1, ik0
+c$$$      gamach = gamach / hart
+c$$$c     skip label and read after it
+c$$$      read(8,*)
+c$$$      i = 1
+c$$$  300    read(8,*,end=310)  ereal, eimag, xsnorm(i), dum1, dum2
+c$$$         xsec(i) = dum1 + coni*dum2
+c$$$c        xsect.bin is in eV and invA, convert to code units here
+c$$$         emxs(i) = (ereal + coni*eimag) / hart
+c$$$         xkxs(i) = getxk (dble(emxs(i)) - edgep)
+c$$$         omega(i) = dble(emxs(i)) - edgep + emu
+c$$$         nxsec = i
+c$$$         i = i + 1
+c$$$         if (i.le.nex) goto 300
+c$$$  310 continue
+c$$$      close(unit=8)
+
+      call read_xsect(ntitle, title, s02p, erelax, wp, edgep, emu,
+     1                gamach, nxsec, ne1, ik0,
+     2                er, ei, xsn, col4, col5)
+
       if (mbconv .gt.0 .or. s02.le.0.1) s02=s02p
-c     read gamach (in eV) for use in atan at absorption edge
-c     and convert to code units
-      read(8,*)  gamach, ne1, ik0
       gamach = gamach / hart
-c     skip label and read after it
-      read(8,*)
-      i = 1
-  300    read(8,*,end=310)  ereal, eimag, xsnorm(i), dum1, dum2
-         xsec(i) = dum1 + coni*dum2
-c        xsect.bin is in eV and invA, convert to code units here
-         emxs(i) = (ereal + coni*eimag) / hart
+      do 1000 i=1,nxsec
+         xsec(i) = col4(i) + coni*col5(i)
+         emxs(i) = (er(i) + coni*ei(i)) / hart
          xkxs(i) = getxk (dble(emxs(i)) - edgep)
          omega(i) = dble(emxs(i)) - edgep + emu
-         nxsec = i
-         i = i + 1
-         if (i.le.nex) goto 300
-  310 continue
-      close(unit=8)
- 
+         xsnorm(i) = xsn(i)
+ 1000 continue
+      do 1010 i=1,ntitle
+         ltitle(i) = istrln(title(i))
+ 1010 continue
+
       return
       end
 
@@ -62,8 +82,8 @@ c     add feff verdion to the first line
         head(1)= 'Untitled'
         ll = istrln(head(1))
       endif
-      write(iunit,310) coment, head(1)(1:), vfeff
-  310 format (a2, a55, t66, a12)
+      write(iunit,310) coment, head(1)(1:), vfeff//vf85e
+  310 format (a2, a45, t48, a30)
 
 c     the rest of the title
       do 330  ihead = 2, nhead
@@ -196,7 +216,7 @@ c        find index of path
   420    format (' did not find path i, ip(i) ', 2i10)
          call wlog(slog)
   430    continue
-c        Path ipath is the path from feff.bin that corresponds to
+c        Path ipath is the path from feff.pad that corresponds to
 c        the path ilist in list.dat.  The index of the path is
 c        ip(ilist) and index(ipath).
 
@@ -209,7 +229,7 @@ c        A note about units:  sig2g, sig2u() and sig2d are all in
 c        Angs**2.  Convert to code units after we've summed them.
          sig2 = sig2g + sig2u(ilist)
          if (dwcorr .and. idwopt.ge.0)  then
-c           note that stuff from feff.bin is single precision and
+c           note that stuff from feff.pad is single precision and
 c           mostly in multidim. arrays.  sigms is double precision
 c           and its arrays are dimensioned for a single path, so
 c           use tmp variables to call it.  tk, thetad and sig2d are 
@@ -278,8 +298,9 @@ c        achi and phchi
             dw = dw * dw1 * dw3
             phdw = 0.0
             if (abs(dw).gt.0) phdw = atan2 (dimag(dw), dble(dw))
-            achi(i,ipath) = achi(i,ipath) * abs(dw) * s02 * deg(ipath)
-            phchi(i,ipath) = phchi(i,ipath) + phdw
+            achi(i,ipath) = achi(i,ipath) * 
+     1           real(abs(dw) * s02 * deg(ipath))
+            phchi(i,ipath) = phchi(i,ipath) + real(phdw)
   480    continue
 c        make sure no 2pi jumps in phase
          do 490  i = 2, ne1
@@ -287,7 +308,7 @@ c           phchi is single precision, so use tmp variables
             curr = phchi (i, ipath)
             old = phchi (i-1, ipath)
             call pijump (curr, old)
-            phchi (i, ipath) = curr
+            phchi (i, ipath) = real(curr)
   490    continue
 
          do 500  ik = 1, nkx

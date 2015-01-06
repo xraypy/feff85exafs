@@ -1,4 +1,6 @@
-      subroutine solout(en, fl, agi, api, kap, rmt,
+c      subroutine solout(en, fl, agi, api, kap, rmt,
+c     1                  jri, max0, ic3, vm, iwkb)
+      subroutine solout(en, fl, agi, api, kap,
      1                  jri, max0, ic3, vm, iwkb)
 c                  resolution of the dirac equation
 c                   p' - kap*p/r = - ( en/cl-v )*g - eg/r

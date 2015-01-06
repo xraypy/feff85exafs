@@ -1,8 +1,10 @@
-      subroutine potex( ps, qs, aps, aqs, jri, p2)
+c      subroutine potex( ps, qs, aps, aqs, jri, p2)
+      subroutine potex( ps, qs, aps, aqs, jri)
 c        this programm uses bkeato,aprdec,multrk,yzkrdc
       implicit double precision (a-h,o-z)
       include '../HEADERS/dim.h'
-      complex*16 aprdec, p2
+      complex*16 aprdec
+c      complex*16 p2
       complex*16 ps(nrptx),qs(nrptx),aps(10),aqs(10)
       common/dff/cg(nrptx,30),cp(nrptx,30),bg(10,30),bp(10,30),
      1             fl(30), fix(30), ibgp
@@ -31,7 +33,7 @@ c     ia=norb
  
 c     exchange terms
       do 201 j=1,norb-1
- 105     jj=2* abs(kap(j))-1
+         jj=2* abs(kap(j))-1
          kma=(jj+jia)/2
          k= abs(jj-kma)
          if ((kap(j)*kap(norb)).lt.0) k=k+1
@@ -42,7 +44,8 @@ c        if (k.lt.kma) goto 201
 c111     a=bkeato(j,ia,k)/xnel(ia)
  111     a=afgkc(kap(norb),j,(k-kmin)/2)
          if (a.eq.0.0d 00) go to 151
-         call yzkrdc (j,k,fl(norb),ps,qs,aps,aqs, p2, norb)
+c         call yzkrdc (j,k,fl(norb),ps,qs,aps,aqs, p2, norb)
+         call yzkrdc (j,k,fl(norb),ps,qs,aps,aqs)
          do 121 i=1,idim
             eg(i)=eg(i)+a*dg(i)*cg(i,j)
  121        ep(i)=ep(i)+a*dg(i)*cp(i,j)
