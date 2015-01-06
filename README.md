@@ -12,10 +12,16 @@ Copyright (c) [2013] University of Washington
   [wiki](https://github.com/xraypy/feff85exafs/wiki).
 
 Compilation requires the [scons software construction tool](http://www.scons.org/).
+Testing requires [python's nose tool](https://nose.readthedocs.org/en/latest/).
 
-To set compilation flags, edit the file `src/FortranCompilation.py`.
+To set compilation flags, edit the file `src/FeffBuild.py`.
 
-To compile, cd to the `src/` directory and type `scons`.
+To compile and test
+```
+      ~> scons
+      ~> nosetests --verbosity=3
+      ~> scons install
+```
 
 See [`src/README.md`](src/README.md) for details on compiling this
 version of Feff, including compiling against
