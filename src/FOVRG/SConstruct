@@ -20,6 +20,6 @@ env.SharedLibrary('libfeffpha', lib_src,
                   LIBS = ['feffcom', 'feffmath'], \
                   LIBPATH = [join('..','COMMON'), join('..','MATH')])
 
-env.Install(ienv['i_lib'], 'libfeffpha.so')
+env.Install(ienv['i_lib'], 'libfeffpha' + env['SHLIBSUFFIX'])
 
 env.Alias('install', ienv['i_lib'])

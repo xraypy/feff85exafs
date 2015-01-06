@@ -4,7 +4,7 @@
 
 import sys, re
 sys.path.append('..')
-from FeffBuild import CompilationEnvironment, InstallEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from   os.path   import realpath, join
 
 try:
@@ -18,11 +18,14 @@ ienv = InstallEnvironment()
 flags = env['FORTRANFLAGS']
 env['FORTRANFLAGS'] = flags.replace('-Wall', '')
 
-env.SharedLibrary('libfeffpar', 'sequential.f')
+
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen')
+
+env.SharedLibrary('libfeffpar', ['sequential.f'] + FindOtherObjects(deps, env))
 
 ## this is what would be needed for MPI compilation...
 ## SharedLibrary('libfeffpar', 'parallel.f')
 
-env.Install(ienv['i_lib'], 'libfeffpar.so')
+env.Install(ienv['i_lib'], 'libfeffpar' + env['SHLIBSUFFIX'])
 
 env.Alias('install', ienv['i_lib'])

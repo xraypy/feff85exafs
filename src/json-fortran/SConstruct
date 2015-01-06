@@ -7,14 +7,12 @@
 #  deals gracefully with robodoc not being installed on the system.
 #
 
-from distutils.spawn import find_executable
 import os
 from os.path import join
+from SCons.Environment import Environment
 
-from FeffBuild import CompilationEnvironment, InstallEnvironment
-
-env  = CompilationEnvironment()
-here = 'json-fortran'
+env  = Environment()
+here = '.'
 
 if env['FORTRAN'] == 'gfortran':
     env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -std=f2008 -J'+here,)
@@ -41,6 +39,5 @@ else:
     libinstall = '/usr/local/lib'
     docinstall = '/usr/local/share/doc/json-fortran'
 
-env.Install(libinstall, [ar,mod])
-env.Alias('install', libinstall)
-
+# env.Install(libinstall, [ar,mod])
+# env.Alias('install', libinstall)

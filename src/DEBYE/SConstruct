@@ -4,7 +4,7 @@
 
 import sys
 sys.path.append('..')
-from FeffBuild import CompilationEnvironment, InstallEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from   os.path   import realpath, join
 
 try:
@@ -15,8 +15,11 @@ ienv = InstallEnvironment()
 
 lib_src = Split('sigcl.f  sigm3.f  sigms.f  sigrem.f  sigte3.f')
 
-env.SharedLibrary('libfeffdw', lib_src)
+deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/itoken', 'COMMON/pertab',
+        'COMMON/chopen', 'MATH/dist', 'PAR/sequential')
 
-env.Install(ienv['i_lib'], 'libfeffdw.so')
+env.SharedLibrary('libfeffdw', lib_src + FindOtherObjects(deps, env))
+
+env.Install(ienv['i_lib'], 'libfeffdw' + env['SHLIBSUFFIX'])
 
 env.Alias('install', ienv['i_lib'])

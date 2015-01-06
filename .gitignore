@@ -3,6 +3,7 @@
 *.a
 *.mod
 *.so
+*.dylib
 *.sconsign.dblite
 *~
 *.pyc

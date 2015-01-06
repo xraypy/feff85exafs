@@ -28,6 +28,6 @@ env.Depends(['read_geom'   + env['SHOBJSUFFIX'],
 
 #            LIBS = ['jsonfortran'],
 
-env.Install(ienv['i_lib'], 'libfeffjson.so')
+env.Install(ienv['i_lib'], 'libfeffjson' + env['SHLIBSUFFIX'])
 
 env.Alias('install', ienv['i_lib'])

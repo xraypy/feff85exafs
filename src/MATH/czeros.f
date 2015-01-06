@@ -1,6 +1,6 @@
-      SUBROUTINE CQdrtc(Coef,Sol,NSol)
+      subroutine cqdrtc(Coef,Sol,NSol)
 c     Combutes the zeros of a quadratic polynomial
-ccccccccccccccccccccccccccccccccccccccccccccccccc            
+ccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Input
 c     Coef - array of coefficients
       COMPLEX*16 Coef(3)
@@ -29,7 +29,7 @@ c     Local Variables
          Root = Sqrt(Coef(2)**2-4.d0*Coef(1)*Coef(3))
          Sgn  = SIGN(DBLE(CONJG(Coef(2))*Root),1.d0)
          q    = -0.5d0*(Coef(2) + Sgn*Root)
-         
+
          Sol(1) = q/Coef(1)
          Sol(2) = Coef(3)/q
       END IF
@@ -38,9 +38,9 @@ c     Local Variables
       END
 
 
-      SUBROUTINE CCubic(Coef,Sol,NSol)
+      subroutine ccubic(Coef,Sol,NSol)
 c     Combutes the zeros of a cubic polynomial
-ccccccccccccccccccccccccccccccccccccccccccccccccc            
+ccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Input
 c     Coef - array of coefficients
       COMPLEX*16 Coef(4)
@@ -64,7 +64,7 @@ c     PARAMETERS
       IF(Coef(1).eq.0.d0) THEN
          Coef2(1) = Coef(2)
          Coef2(2) = Coef(3)
-         Coef2(3) = Coef(4)         
+         Coef2(3) = Coef(4)
          CALL CQdrtc(Coef2,Sol,NSol)
       ELSE
          a = Coef(2)/Coef(1)
@@ -98,4 +98,3 @@ c     PARAMETERS
 
       RETURN
       END
-      

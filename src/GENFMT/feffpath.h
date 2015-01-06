@@ -58,7 +58,7 @@ typedef struct {
   double *xivec;      /* direction of X-ray propagation            default = (0,0,0) */
 
   /* OUTPUT: various strings and physical constants from feffNNNN.dat header         */
-  double edge;        /* energy threshold relative to atomic value (a poor estimate) */ 
+  double edge;        /* energy threshold relative to atomic value (a poor estimate) */
   double gam_ch;      /* core level energy width                                     */
   double kf;          /* k value at Fermi level                                      */
   double mu;          /* Fermi level, eV                                             */
@@ -75,13 +75,13 @@ typedef struct {
   double *eta;        /* eta angles                                                  */
   double reff;        /* half path length                          computed from ri  */
 
-  /* OUTPUT: columns of feffNNNN.dat                                                 */ 
+  /* OUTPUT: columns of feffNNNN.dat                                                 */
   long ne;            /* number of energy points actually used by Feff               */
   double *k;          /* k grid for feff path calculation   column 1 in feffNNNN.dat */
-  double *real_phc;   /* central atom phase shifts          column 2 in feffNNNN.dat */ 
-  double *mag_feff;   /* magnitude of F_eff                 column 3 in feffNNNN.dat */ 
-  double *pha_feff;   /* phase of F_eff                     column 4 in feffNNNN.dat */ 
-  double *red_fact;   /* reduction factor                   column 5 in feffNNNN.dat */ 
+  double *real_phc;   /* central atom phase shifts          column 2 in feffNNNN.dat */
+  double *mag_feff;   /* magnitude of F_eff                 column 3 in feffNNNN.dat */
+  double *pha_feff;   /* phase of F_eff                     column 4 in feffNNNN.dat */
+  double *red_fact;   /* reduction factor                   column 5 in feffNNNN.dat */
   double *lam;        /* mean free path                     column 6 in feffNNNN.dat */
   double *rep;        /* real part of complex momentum      column 7 in feffNNNN.dat */
 
@@ -111,6 +111,9 @@ long create_path(FEFFPATH*);
 void clear_path(FEFFPATH*);
 long make_path(FEFFPATH*);
 void cleanup(FEFFPATH*);
+void make_path_errorstring(FEFFPATH*);
+void make_scatterer_errorstring(FEFFPATH*);
+double leglength(FEFFPATH*);
 
 void onepath_(char *,
 	      long *,                   /* path index */
