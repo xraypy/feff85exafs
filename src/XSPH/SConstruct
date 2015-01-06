@@ -13,22 +13,29 @@ except:
     env  = CompilationEnvironment()
 ienv = InstallEnvironment()
 
-bin_src = ('acoef.f',  'ffmod2.f', 'getedg.f', 'phmesh.f', 'radint.f',
+bin_src = ['acoef.f',  'ffmod2.f', 'getedg.f', 'phmesh.f', 'radint.f',
            'rexsph.f', 'rholsz.f', 'wphase.f', 'xmult.f',  'xsph.f',
            'axafs.f',  'fmssz.f',  'phase.f',  'rdgrid.f', 'rholat.f',
-           'szlz.f',   'wrxsph.f', 'xsect.f')
-unused = ('phmesh2.f')
+           'szlz.f',   'wrxsph.f', 'xsect.f']
+unused = ['phmesh2.f']
 
-other_obj = (join('..','FF2X','xscorr'+env['SHOBJSUFFIX']), join('..','POT','grids'+env['SHOBJSUFFIX']))
+other_obj = [join('..','FF2X','xscorr'+env['OBJSUFFIX']), join('..','POT','grids'+env['OBJSUFFIX'])]
+libs = [join('..', 'json-fortran', 'libjsonfortran.a'),
+        join('..', 'ATOM',   'libfeffatom.a'),
+        join('..', 'FOVRG',  'libfeffpha.a'),
+        join('..', 'FMS',    'libfefffms.a'),
+        join('..', 'POT',    'libfeffint.a'),
+        join('..', 'EXCH',   'libfeffexch.a'),
+        join('..', 'COMMON', 'libfeffcom.a'),
+        join('..', 'PAR',    'libfeffpar.a'),
+        join('..', 'MATH',   'libfeffmath.a'),
+        join('..', 'JSON',   'libfeffjson.a'),
+    ]
 
-env.Program('xsph', bin_src + other_obj,
-            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
-            OBJSUFFIX = env['SHOBJSUFFIX'],
-            LIBS = ['feffint', 'jsonfortran', 'feffjson', 'feffpha', 'feffatom', 'feffcom', 'feffexch', 'feffmath', 'fefffms', 'feffpar'], \
-            LIBPATH = [join('..','COMMON'), join('..','json-fortran'), join('..','JSON'), join('..','MATH'), join('..','ATOM'),
-                       join('..','EXCH'), join('..','FOVRG'), join('..','FMS'), join('..','POT'), join('..','PAR')])
 
-env.Depends('rexsph'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+env.Program('xsph', bin_src + other_obj + libs)
+
+env.Depends('rexsph'+env['OBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
 env.Install(ienv['i_bin'], 'xsph')
 

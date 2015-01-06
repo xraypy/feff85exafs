@@ -23,18 +23,24 @@ deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen', 'COMMON/padlib', 'COMMON/x
         'PAR/sequential', 'MATH/terp', 'MATH/polint', 'MATH/somm2', 'MATH/dist', 'MATH/lu',
         'EXCH/edp', 'EXCH/vbh')
 
-env.SharedLibrary('libfeffint', lib_src + FindOtherObjects(deps, env))
+env.Library('libfeffint', lib_src) # + FindOtherObjects(deps, env))
 
-env.Program('pot', bin_src,
-            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
-            OBJSUFFIX = env['SHOBJSUFFIX'],
-            LIBS = ['feffpha', 'feffatom', 'feffint', 'feffcom', 'feffmath', 'jsonfortran', 'feffjson', 'feffexch', 'fefffms', 'feffpar'], \
-            LIBPATH = ['.', join('..','COMMON'), join('..','MATH'), join('..','json-fortran'), join('..','JSON'), join('..','ATOM'),
-                       join('..','EXCH'), join('..','FOVRG'), join('..','FMS'), join('..','PAR')])
+libs = ['libfeffint.a',
+        join('..', 'json-fortran', 'libjsonfortran.a'),
+        join('..', 'ATOM',   'libfeffatom.a'),
+        join('..', 'FOVRG',  'libfeffpha.a'),
+        join('..', 'COMMON', 'libfeffcom.a'),
+        join('..', 'PAR',    'libfeffpar.a'),
+        join('..', 'MATH',   'libfeffmath.a'),
+        join('..', 'JSON',   'libfeffjson.a'),
+        join('..', 'EXCH',   'libfeffexch.a'),
+        join('..', 'FMS',    'libfefffms.a'),
+       ]
+
+env.Program('pot', bin_src + libs)
 
 env.Depends('reapot'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
-env.Install(ienv['i_lib'], 'libfeffint' + env['SHLIBSUFFIX'])
 env.Install(ienv['i_bin'], 'pot')
 
-env.Alias('install', [ienv['i_lib'], ienv['i_bin']])
+env.Alias('install', [ienv['i_bin'],])

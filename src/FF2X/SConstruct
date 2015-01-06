@@ -16,15 +16,20 @@ ienv = InstallEnvironment()
 bin_src = ['exconv.f',  'feffdt.f',  'fdtarr.f', 'fdthea.f', 'ff2afs.f',  'ff2chi.f',  'ff2xmu.f',  'ffmod6.f',
            'fprime.f', 'ff2gen.f', 'rdfbin.f',  'reff2x.f',  'xscorr.f']
 #not_in_f85e = []
+libs = [join('..', 'json-fortran', 'libjsonfortran.a'),
+        join('..', 'DEBYE',  'libfeffdw.a'),
+        join('..', 'COMMON', 'libfeffcom.a'),
+        join('..', 'PAR',    'libfeffpar.a'),
+        join('..', 'MATH',   'libfeffmath.a'),
+        join('..', 'JSON',   'libfeffjson.a'),
+    ]
 
-env.Program('ff2x', bin_src,
-            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
-            OBJSUFFIX = env['SHOBJSUFFIX'],
-            LIBS = ['feffdw', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'],
-            LIBPATH = [join('..','DEBYE'), join('..','COMMON'), join('..','json-fortran'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
 
-env.Depends('reff2x'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+
+env.Program('ff2x', bin_src + libs)
+
+env.SharedObject('fdtarr'+env['SHOBJSUFFIX'], source='fdtarr.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+env.SharedObject('fdthea'+env['SHOBJSUFFIX'], source='fdthea.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
 
 env.Install(ienv['i_bin'], 'ff2x')
-
 env.Alias('install', ienv['i_bin'])

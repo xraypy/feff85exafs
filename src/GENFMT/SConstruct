@@ -26,16 +26,19 @@ deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/pertab', 'COMMON/getxk', 'COMMON/rd
         'COMMON/setkap', 'COMMON/chopen', 'COMMON/padlib',
         'PAR/sequential', 'MATH/trap', 'MATH/bcoef', 'MATH/cwig3j', 'MATH/rotwig')
 
-env.SharedLibrary('libfeffgenfmt', lib_src + FindOtherObjects(deps, env))
-env.Install(ienv['i_lib'], 'libfeffgenfmt' + env['SHLIBSUFFIX'])
+env.Library('libfeffgenfmt', lib_src) # + FindOtherObjects(deps, env))
 
 bin_src = ['ffmod5.f', 'genfmt.f', 'rdpath.f']
-env.Program('genfmt', ['regenf.f']+bin_src,
-            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
-            OBJSUFFIX = env['SHOBJSUFFIX'],
-            LIBS = ['feffgenfmt', 'feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'],
-            LIBPATH = ['.', join('..','COMMON'), join('..','json-fortran'), join('..','JSON'), join('..','MATH'), join('..','PAR')])
-env.Depends('regenf'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+libs = ['libfeffgenfmt.a',
+        join('..', 'json-fortran', 'libjsonfortran.a'),
+        join('..', 'DEBYE',  'libfeffdw.a'),
+        join('..', 'COMMON', 'libfeffcom.a'),
+        join('..', 'PAR',    'libfeffpar.a'),
+        join('..', 'MATH',   'libfeffmath.a'),
+        join('..', 'JSON',   'libfeffjson.a'),
+    ]
+
+env.Program('genfmt', ['regenf.f']+bin_src+libs)
 env.Install(ienv['i_bin'], 'genfmt')
 
 ## ------------------------------------------------------------------------------------------------------
@@ -64,10 +67,8 @@ misc_feff = [join('..','COMMON','wlog'       + env['SHOBJSUFFIX']), # called ind
              join('..','PAR',   'sequential' + env['SHOBJSUFFIX'])]
 
 
-
 onepath_src = ['onepath.f', 'pathgeom.f']  ## , 'read_onepath.f'
 env.SharedLibrary('libonepath', onepath_src + other_obj + lib_src + misc_feff)
-env.Install(ienv['i_lib'], 'libonepath' + env['SHLIBSUFFIX'])
 
 # env.Depends('read_onepath'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
@@ -77,7 +78,7 @@ env.Install(ienv['i_lib'], 'libonepath' + env['SHLIBSUFFIX'])
 env.SharedLibrary('libfeffpath', ['feffpath.c'] + onepath_src + other_obj + lib_src + misc_feff)
 
 
-env.Install(ienv['i_lib'], 'libfeffpath' + env['SHLIBSUFFIX'])
+env.Install(ienv['i_lib'], ['libonepath' + env['SHLIBSUFFIX'], 'libfeffpath' + env['SHLIBSUFFIX']])
 
 
 
@@ -130,7 +131,7 @@ if find_executable("swig"):
         env.Install(python_wrapper_path, join(here, 'python', 'feffpathwrapper.py'))
 
 else:
-    print "\nSWIG not installed, skipping perl wrapper for libfeffpath in GENFMT\n"
+    print "\nSWIG not installed, skipping perl&python wrappers for libfeffpath in GENFMT\n"
 
 env.Alias('install', [join(perl_wrapper_path, 'src'), join(perl_wrapper_path, 'lib', 'Xray/'),
                       python_wrapper_path,

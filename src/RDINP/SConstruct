@@ -4,7 +4,7 @@
 
 import sys
 sys.path.append('..')
-from FeffBuild import CompilationEnvironment, InstallEnvironment
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from   os.path   import realpath, join
 
 try:
@@ -13,15 +13,20 @@ except:
     env  = CompilationEnvironment()
 ienv = InstallEnvironment()
 
-bin_src = Split('rdinp_l.f  ffsort.f iniall.f  mkptz.f  rdline.f  setedg.f wrtall.f wrtjsn.f')
+bin_src = ['rdinp_l.f', 'ffsort.f', 'iniall.f', 'mkptz.f', 'rdline.f', 'setedg.f', 'wrtall.f', 'wrtjsn.f']
+libs    = [join('..', 'json-fortran', 'libjsonfortran.a'),
+           join('..', 'COMMON', 'libfeffcom.a'),
+           join('..', 'PAR',    'libfeffpar.a'),
+           join('..', 'MATH',   'libfeffmath.a'),
+           join('..', 'JSON',   'libfeffjson.a'),
+       ]
 
-env.Program('rdinp', bin_src,
-            FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC',
-            OBJSUFFIX = env['SHOBJSUFFIX'],
-            LIBS = ['feffcom', 'jsonfortran', 'feffjson', 'feffmath', 'feffpar'], \
-            LIBPATH = [join('..','COMMON'), join('..','json-fortran'), join('..','JSON/'), join('..','MATH'), join('..','PAR')])
+deps = ('COMMON/wlog', 'COMMON/str', 'PAR/sequential')
 
-env.Depends('wrtjsn'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
+env.Program('rdinp', bin_src + libs)
+
+## needed for libonepath and libfeffpath shared objects
+env.SharedObject('mkptz'+env['SHOBJSUFFIX'], source='mkptz.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
 
 env.Install(ienv['i_bin'], 'rdinp')
 

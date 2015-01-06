@@ -19,8 +19,7 @@ lib_src = Split('csigma.f  csigz.f  cubic.f  edp.f  ffq.f  fndsng.f  imhl.f  mps
 deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/rdcmt', 'COMMON/pertab',
         'COMMON/chopen', 'MATH/czeros', 'MATH/terp', 'MATH/polint', 'PAR/sequential')
 
-env.SharedLibrary('libfeffexch', lib_src + FindOtherObjects(deps, env))
+env.Library('libfeffexch', lib_src) # + FindOtherObjects(deps, env))
 
-env.Install(ienv['i_lib'], 'libfeffexch' + env['SHLIBSUFFIX'])
-
-env.Alias('install', ienv['i_lib'])
+#env.Install(ienv['i_lib'], 'libfeffexch' + env['SHLIBSUFFIX'])
+#env.Alias('install', ienv['i_lib'])

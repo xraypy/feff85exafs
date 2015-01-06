@@ -17,16 +17,24 @@ ienv = InstallEnvironment()
 flags = env['FORTRANFLAGS']
 env['FORTRANFLAGS'] = flags.replace('-Wall', '')
 
-lib_src = Split('bcoef.f   besjn.f   conv.f    csomm.f   cwig3j.f  determ.f  exjlnl.f  phamp.f \
-                 quartc.f  sdist.f   somm2.f   terp.f    trap.f    besjh.f   bjnser.f  cpl0.f  \
-                 csomm2.f  czeros.f  dist.f    lu.f      polint.f  rotwig.f  somm.f    strap.f \
-                 terpc.f')
+lib_src = ['bcoef.f', 'besjn.f', 'conv.f', 'csomm.f', 'cwig3j.f', 'determ.f', 'exjlnl.f', 'phamp.f',
+           'quartc.f', 'sdist.f', 'somm2.f', 'terp.f', 'trap.f', 'besjh.f', 'bjnser.f', 'cpl0.f',
+           'csomm2.f', 'czeros.f', 'dist.f', 'lu.f', 'polint.f', 'rotwig.f', 'somm.f', 'strap.f', 
+           'terpc.f']
 
 
 deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen', 'PAR/sequential')
 
-env.SharedLibrary('libfeffmath', lib_src + FindOtherObjects(deps, env))
+env.Library('libfeffmath', lib_src) # + FindOtherObjects(deps, env))
 
-env.Install(ienv['i_lib'], 'libfeffmath' + env['SHLIBSUFFIX'])
+## needed for libonepath and libfeffpath shared objects
+env.SharedObject('bcoef' +env['SHOBJSUFFIX'], source='bcoef.f',  FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+env.SharedObject('cwig3j'+env['SHOBJSUFFIX'], source='cwig3j.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+env.SharedObject('dist'  +env['SHOBJSUFFIX'], source='dist.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+env.SharedObject('polint'+env['SHOBJSUFFIX'], source='polint.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+env.SharedObject('rotwig'+env['SHOBJSUFFIX'], source='rotwig.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+env.SharedObject('terp'  +env['SHOBJSUFFIX'], source='terp.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+env.SharedObject('trap'  +env['SHOBJSUFFIX'], source='trap.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
 
-env.Alias('install', ienv['i_lib'])
+#env.Install(ienv['i_lib'], 'libfeffmath' + env['SHLIBSUFFIX'])
+#env.Alias('install', ienv['i_lib'])

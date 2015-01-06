@@ -90,8 +90,9 @@ def InstallEnvironment():
     return ienv
 
 
-def FindOtherObjects(deplist, env):
+def FindOtherObjects(deplist, env, kind):
     objsuff = env['SHOBJSUFFIX']
+    if kind == 'static': objsuff = env['OBJSUFFIX']
     out = []
     for dep in deplist:
         dname, fname = dep.split('/')

@@ -23,10 +23,7 @@ deps = ('COMMON/wlog', 'COMMON/getorb', 'COMMON/str',
         'PAR/sequential', 'MATH/determ', 'MATH/somm',
         'MATH/somm2', 'MATH/cwig3j', 'EXCH/vbh', 'EXCH/edp')
 
-lib = env.SharedLibrary('libfeffatom', lib_src + FindOtherObjects(deps, env))
+lib = env.Library('libfeffatom', lib_src) #  + FindOtherObjects(deps, env))
 
-env.Depends('fpf0'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
-
-env.Install(ienv['i_lib'], lib)
-
-env.Alias('install', ienv['i_lib'])
+#env.Install(ienv['i_lib'], lib)
+#env.Alias('install', ienv['i_lib'])

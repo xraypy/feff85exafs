@@ -8,11 +8,11 @@
 #
 
 import os
-from os.path import join
+from os.path import join, realpath
 from SCons.Environment import Environment
 
 env  = Environment()
-here = '.'
+here = os.getcwd()
 
 if env['FORTRAN'] == 'gfortran':
     env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -std=f2008 -J'+here,)
@@ -25,8 +25,8 @@ ar  = join('libjsonfortran.a')
 mod = join('json_module.mod')
 
 env.Library(ar, src,
-            FORTRANMODDIR='.', # this tells scons that we want the .mod file to be installed in to lib/
-            LIBPREFIX='',      # this tells scons /not/ to assume that the mod file should be libjson_module.mod
+            FORTRANMODDIR=here, # this tells scons that we want the .mod file to be installed in to lib/
+            LIBPREFIX='',       # this tells scons /not/ to assume that the mod file should be libjson_module.mod
         )
 
 
