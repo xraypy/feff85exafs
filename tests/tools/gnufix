@@ -1,8 +1,0 @@
-#!/bin/sh
-#
-#  display data from a feff run to STDOUT in a format suitable for gnuplot
-# uses sed
-# adapted from a script by Steve Zabinsky
-# by Bruce Ravel  Sep 27 1997
-#  
-sed "1,/@#/s/^ /# /" $1

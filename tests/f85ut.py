@@ -51,7 +51,7 @@ class Feff85exafsUnitTestGroup(Group):
        path      :  string,  fully resolved path to folder
        repotop   :  string,  fully resolved path to top of feff85exafs repository
        json      :  json string used to configure the test feff run
-       f85script :  string,  fully resolved path to the f85e script, which emulates monolithic feff
+       f85escript:  string,  fully resolved path to the f85e script, which emulates monolithic feff
        rfactor   :  float,   R-factor computed from feffNNNN.dat columns in testrun compared to baseline
        rfactor_2 :  float,   second R-factor, used when compare called with part='feff'
        epsilon   :  float,   value for comparing columns from feffNNNN.dat with the baseline and other things
@@ -71,15 +71,20 @@ class Feff85exafsUnitTestGroup(Group):
         self.feffcount  = 0
         self.datacount  = 0
         self.failed     = list()
+        if folder[-1] == '/': folder = folder[:-1] # strip trailing /
         self.folder     = folder
-        if self.folder[-1] == '/': self.folder = self.folder[:-1]
-        self.testrun    = realpath(join(self.folder, 'testrun'))
-        self.testpaths()
+
         if not isdir(folder):
-            print colored(folder + " is not one of the available tests", 'magenta', attrs=['bold'])
+            folder = join('tests', folder)
+        if not isdir(folder):
+            print colored(folder + " isn't one of the available tests", 'magenta', attrs=['bold'])
             return None
+
         self.path       = realpath(folder)
-        self.repotop    = realpath(join('..','..'))
+        self.testrun    = realpath(join(self.path, 'testrun'))
+        self.testpaths()
+        self.repotop    = getcwd()
+        if not self.repotop.endswith('feff85exafs'):  self.repotop = realpath(join('..'))
         # the f85e shell script emulates the behavior of the monolithic Feff application
         self.f85escript = join(self.repotop, 'bin', 'f85e')
         self.epsilon    = 0.00001
@@ -104,7 +109,7 @@ class Feff85exafsUnitTestGroup(Group):
     def baseline(self):
         scf = 'noSCF'
         if self.doscf: scf = 'withSCF'
-        return realpath(join(self.folder, 'baseline', scf))
+        return realpath(join(self.path, 'baseline', scf))
         
     @property
     def bpaths(self):
@@ -112,8 +117,8 @@ class Feff85exafsUnitTestGroup(Group):
         Gather a list of feffNNNN.dat files from the baseline calculation
         """
         here = getcwd()
-        chdir(self.baseline)
         p = list()
+        chdir(self.baseline)
         feffoutput = glob.glob("*")
         for f in sorted(feffoutput):
             tosave = re.compile("feff\d+\.dat")
@@ -126,7 +131,7 @@ class Feff85exafsUnitTestGroup(Group):
         """
         Make a feff.inp from the mustache template, then run feff 8.5 in the testrun folder
         """
-        if not isdir(self.folder):
+        if not isdir(self.path):
             print colored(self.folder + " is not one of the available tests", 'magenta', attrs=['bold'])
             return False
             
@@ -134,7 +139,7 @@ class Feff85exafsUnitTestGroup(Group):
         makedirs(self.testrun)
         
         scf = 'without SCF'
-        self.json = json.load(open(join(self.folder, self.folder + '.json')))
+        self.json = json.load(open(join(self.path, self.folder + '.json')))
         self.json['doscf']='* '
         if self.doscf:
             scf = 'with SCF'
@@ -462,7 +467,7 @@ class Feff85exafsUnitTestGroup(Group):
         """
         Perform a canned fit using the baseline and testrun Feff calculations
         """
-        sys.path.append(self.folder)
+        sys.path.append(self.path)
         module = importlib.import_module(self.folder, package=None)
         
         print "\tfitting %s using %s" % (self.folder, 'baseline')

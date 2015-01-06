@@ -1,6 +1,8 @@
 ## feff85exafs unit testing system using larch
 ## see HEADERS/license.h for feff's license information
 
+import nose
+
 import larch
 from f85ut import ut
 larch.use_plugin_path('xafs')
@@ -36,8 +38,7 @@ def test_columns():
 
 def test_columns_wrapper():
     if not tests[folders[0]].wrapper_available:
-        yield check_false, "wrapper unavailable"
-        return;
+        yield check_skip, "wrapper unavailable"
     for f in folders:
         for part in ('lambda', 'caps', 'redfact', 'rep'):
             yield check_columns_wrapper, f, part
@@ -52,8 +53,7 @@ def test_feff():
 
 def test_feff_wrapper():
     if not tests[folders[0]].wrapper_available:
-        yield check_false, "wrapper unavailable"
-        return;
+        yield check_skip, "wrapper unavailable"
     for f in folders:
         for path in tests[f].paths:
             index = int(path[4:8])
@@ -89,7 +89,7 @@ def test_fit():
     for f in folders:
         #if not tests[f].feffran: tests[f].run()
         if isfile(join(tests[f].path, tests[f].folder+'.skip')):
-            yield check_true, "skipping data test for %s" % f
+            yield check_skip, "skipping data test for %s" % f
         elif isfile(join(tests[f].path, tests[f].folder+'.py')):
             tests[f].fit()
             for p in ('chi_reduced', 'chi_square', 'rfactor'):
@@ -101,7 +101,7 @@ def test_fit():
             else:
                 yield check_false, "fit could not evaluate uncertainties for %s" % f
         else:
-            yield check_true, "no data tests for %s" % f
+            yield check_skip, "no data tests for %s" % f
 
 ## remove the test run
 def test_clean():
@@ -162,6 +162,9 @@ def check_true(msg):
 
 def check_false(msg):
     assert False, msg
+
+def check_skip(msg):
+    raise nose.SkipTest(msg)
 
 def check_param(folder, param, part):
     bl=getattr(getattr(tests[folder].blfit.params, param), part)
