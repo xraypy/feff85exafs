@@ -17,8 +17,13 @@ def do_fit(self, which):
 
     if which == 'testrun':
         folder = self.testrun
-    else:
+    elif which == 'baseline':
         folder = self.baseline
+    else:
+        folder = realpath(join(self.folder, 'baseline', which))
+    #endif
+
+    print '>>>>>> %s' % folder
 
     data = read_xdi(join(self.path, 'Copper.chik'), _larch=self._larch)
 
@@ -31,7 +36,7 @@ def do_fit(self, which):
                 _larch=self._larch  )
 
     paths = list()
-    for index in range(1,15):
+    for index in range(1,14):
         nnnn = realpath(join(folder, "feff%4.4d.dat" % index))
         if not exists(nnnn):
             continue

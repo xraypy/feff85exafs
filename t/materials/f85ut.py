@@ -2,7 +2,7 @@
 ## feff85exafs unit testing system using larch
 ## see HEADERS/license.h for feff's license information
 
-from   os        import makedirs, chdir, getcwd, unlink
+from   os        import makedirs, chdir, getcwd, unlink, listdir
 from   os.path   import realpath, isdir, join
 from   shutil    import rmtree
 import sys, subprocess, glob, pystache, json, re
@@ -470,6 +470,29 @@ class Feff85exafsUnitTestGroup(Group):
         print "\tfitting %s using %s" % (self.folder, 'testrun')
         self.trfit = module.do_fit(self, 'testrun')
         
+
+    def fitcompare(self):
+        """
+        Perform a canned fit using the noSCF and withSCF baseline Feff calculations
+        """
+        sys.path.append(self.folder)
+        module = importlib.import_module(self.folder, package=None)
+        save = self.doscf
+
+        self.models = []
+        for d in sorted(listdir(join(self.folder, 'baseline'))):
+            print '>>>>>>>>> fitting with model: %s' % d
+            self.models.append(d)
+            this = module.do_fit(self, d)
+            setattr(self, d, this)
+
+        # self.doscf = False
+        # print "\tfitting %s using %s (without SCF)" % (self.folder, 'baseline')
+        # self.withoutscf = module.do_fit(self, 'baseline')
+        # self.doscf = True
+        # print "\tfitting %s using %s (with SCF)" % (self.folder, 'baseline')
+        # self.withscf = module.do_fit(self, 'baseline')
+        # self.doscf = save
         
     def clean(self):
         """
