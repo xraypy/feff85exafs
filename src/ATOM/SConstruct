@@ -25,5 +25,7 @@ deps = ('COMMON/wlog', 'COMMON/getorb', 'COMMON/str',
 
 lib = env.Library('libfeffatom', lib_src) #  + FindOtherObjects(deps, env))
 
+env.Depends('fpf0.f', join('..', 'json-fortran', 'json_module.mod'))
+
 #env.Install(ienv['i_lib'], lib)
 #env.Alias('install', ienv['i_lib'])

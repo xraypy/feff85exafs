@@ -7,6 +7,7 @@ setup.py file for feffpathwrapper (via SWIG)
 from distutils.core import setup, Extension
 import sys, os
 from platform import uname, architecture
+from os.path import join
 
 import larch
 if os.name == 'nt':
@@ -36,6 +37,7 @@ else:
 
 feffpath_module = Extension('_feffpathwrapper',
                             sources=['feffpath_wrap.c'],
+                            library_dirs = [join('..','..','src','GENFMT')],
                             libraries=['feffpath'],
                            )
 
@@ -47,7 +49,7 @@ setup (name         = 'scatteringpath',
        download_url = 'https://github.com/xraypy/feff85exafs',
        description  = """A Larch wrapper around the feffpath library""",
        ext_modules  = [feffpath_module],
-       data_files   = [(installdir+'/plugins/xafs/', ["scatteringpath.py",]),
-                       (installdir+'/modules/',      ["feffpathwrapper.py",]),
-                       (installdir+'/dlls/'+dlldir,  ["_feffpathwrapper.so",])],
+       data_files   = [(join(installdir,'plugins','xafs'), ["scatteringpath.py",]),
+                       (join(installdir,'modules'),        ["feffpathwrapper.py",]),
+                       (join(installdir,'dlls',dlldir),    ["_feffpathwrapper.so",])],
        )

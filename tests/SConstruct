@@ -1,0 +1,22 @@
+## -*- python -*-
+
+from os.path import join, expanduser
+home = expanduser("~")
+
+import os
+from shutil import copy
+import larch
+if os.name == 'nt':
+    larch_dir = larch.site_configdata.win_userdir
+else:
+    larch_dir = larch.site_configdata.unix_userdir
+
+## this copies the unit testing plugin into place so that it can be used after building and before installing
+Execute(Copy(join(home, larch_dir, 'plugins'), join('f85ut.py')))
+
+## this is an inelegant solution because it runs everytime regardless
+## of whether the target is up to date.  SCons only considers targets
+## that live within the project, thus ~/.larch/plugins/f85ut.py cannot
+## be a target.  Supposedly, SCons' Repository method addresses this
+## issue, but I was unable to get it to work.  In the end, I have
+## settled on simply copying this fiole every time scons is run. -- B

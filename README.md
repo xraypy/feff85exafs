@@ -15,7 +15,13 @@ Compilation requires the [scons software construction tool](http://www.scons.org
 
 To set compilation flags, edit the file `src/FortranCompilation.py`.
 
-To compile, cd to the `src/` directory and type `scons`.
+To compile, test, and build, do the following in the top directory
+
+```
+	  feff85exafs> scons
+	  feff85exafs> LD_LIBRARY_PATH='wrappers/python:src/GENFMT' && nosetests --verbosity=3
+	  feff85exafs> scons install
+```
 
 See [`src/README.md`](src/README.md) for details on compiling this
 version of Feff, including compiling against

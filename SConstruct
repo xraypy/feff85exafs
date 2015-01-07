@@ -6,6 +6,8 @@ import sys
 sys.path.append( 'src' )
 from FeffBuild import CompilationEnvironment, InstallEnvironment
 
+import os
+
 env  = CompilationEnvironment()
 
 #env = Environment()
@@ -13,8 +15,7 @@ print '\n\tFortran compiler is ' + env['FORTRAN']
 ienv = InstallEnvironment()
 print "\tinstallation prefix is: " + ienv['i_prefix'] +"\n"
 
-SConscript([
-            'src/PAR/SConstruct',
+SConscript(['src/PAR/SConstruct',
             'src/COMMON/SConstruct',
             'src/json-fortran/SConstruct',
             'src/JSON/SConstruct',
@@ -30,7 +31,15 @@ SConscript([
             'src/PATH/SConstruct',
             'src/GENFMT/SConstruct',
 	    'src/FF2X/SConstruct',
+            'wrappers/python/SConstruct',
+            'tests/SConstruct',
         ])
+
+
+
+#env = Environment(BUILDERS = {'MyBuild' : b})
+#env.MyBuild(join(home, larch_dir, 'plugins', 'f85ut.py'), join('tests', 'f85ut.py'))
+
 
 # RDINP  -> feff.inp reader
 # POT    -> module 1

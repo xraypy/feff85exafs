@@ -1,0 +1,58 @@
+# -*- python -*-
+#
+#  SConstruct wrapper around python's standard build tools
+#
+
+import os
+from os.path import join, realpath
+from platform import uname, architecture
+
+from SCons.Environment import Environment
+env  = Environment()
+
+
+
+## figure out where to install the larch bits
+
+import larch
+if os.name == 'nt':
+    installdir = larch.site_configdata.win_installdir
+else:
+    installdir = larch.site_configdata.unix_installdir
+
+## swiped from larch's dylibs/configure.py
+system = uname()[0]
+arch   = architecture()[0]
+dlldir = None
+if os.name == 'nt':
+    dlldir = 'win32'
+    if arch.startswith('64'):
+        dlldir = 'win64'
+else:
+    if system.lower().startswith('linu'):
+        dlldir = 'linux32'
+        if arch.startswith('64'):    dlldir = 'linux64'
+    elif system.lower().startswith('darw'):
+        dlldir = 'darwin'
+
+
+
+
+b = Builder(action='python setup.py build_ext --inplace',
+            chdir=1)
+env = Environment(BUILDERS = {'MyBuild' : b})
+env.MyBuild('_feffpathwrapper.so', 'feffpath_wrap.c')
+#env.Command('_feffpathwrapper.so', 'feffpath_wrap.c', ['python setup.py build_ext --inplace'])
+env.Depends('_feffpathwrapper.so', join('..','..','src','GENFMT','libfeffpath'+env['SHLIBSUFFIX']))
+
+
+plugin_dir = join(installdir,'plugins','xafs')
+module_dir = join(installdir,'modules')
+dll_dir    = join(installdir,'dlls',dlldir)
+
+env.Install( plugin_dir, "scatteringpath.py",)
+env.Install( module_dir, "feffpathwrapper.py",)
+env.Install( dll_dir,    "_feffpathwrapper.so",)
+
+env.Alias('install', [plugin_dir, module_dir, dll_dir] )
+
