@@ -22,6 +22,7 @@ To compile, test, and build, do the following in the top directory
 	  feff85exafs> scons
 	  feff85exafs> LD_LIBRARY_PATH='wrappers/python:src/GENFMT' && nosetests --verbosity=3
 	  feff85exafs> scons install
+```
 
 See [`src/README.md`](src/README.md) for details on compiling this
 version of Feff, including compiling against
