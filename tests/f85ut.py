@@ -92,6 +92,8 @@ class Feff85exafsUnitTestGroup(Group):
         self.eps5       = 0.00001
         self.eps4       = 0.0001
         self.eps3       = 0.001
+        self.firstshell = False
+        self.fittest    = None
         self.wrapper_available = wrapper_available
         if wrapper_available:
             self.sp = scatpath()
@@ -477,27 +479,24 @@ class Feff85exafsUnitTestGroup(Group):
         
 
     def fitcompare(self):
-        """
-        Perform a canned fit using the noSCF and withSCF baseline Feff calculations
+        """Perform a canned fit using a sequence of Feff calculations
+
+        This is not used for unit testing feff85exafs.  It is intended
+        for use with a generic testing framework.
+
         """
         sys.path.append(self.folder)
         module = importlib.import_module(self.folder, package=None)
         save = self.doscf
 
         self.models = []
-        for d in sorted(listdir(join(self.folder, 'baseline'))):
-            print '>>>>>>>>> fitting with model: %s' % d
-            self.models.append(d)
-            this = module.do_fit(self, d)
-            setattr(self, d, this)
+        for d in sorted(listdir(join(self.folder, self.fittest))):
+            if isdir(join(self.folder, self.fittest, d)):
+                print '>>>>>>>>> fitting with model: %s' % d
+                self.models.append(d)
+                this = module.do_fit(self, d, firstshell=self.firstshell, fittest=self.fittest)
+                setattr(self, d, this)
 
-        # self.doscf = False
-        # print "\tfitting %s using %s (without SCF)" % (self.folder, 'baseline')
-        # self.withoutscf = module.do_fit(self, 'baseline')
-        # self.doscf = True
-        # print "\tfitting %s using %s (with SCF)" % (self.folder, 'baseline')
-        # self.withscf = module.do_fit(self, 'baseline')
-        # self.doscf = save
         
     def clean(self):
         """
