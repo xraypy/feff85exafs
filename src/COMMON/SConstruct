@@ -2,7 +2,7 @@
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-import sys
+import sys, os
 sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from   os.path   import realpath, join
@@ -23,17 +23,18 @@ lib_src = Split('chopen.f  fixvar.f  head.f    itoken.f  pertab.f  rdcmt.f   rdx
 env.Library('libfeffcom', lib_src) # + FindOtherObjects(deps, env, 'static'))
 
 ## needed for libonepath and libfeffpath shared objects
-env.SharedObject('wlog'  +env['SHOBJSUFFIX'], source='wlog.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('chopen'+env['SHOBJSUFFIX'], source='chopen.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('getxk' +env['SHOBJSUFFIX'], source='getxk.f',  FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('head'  +env['SHOBJSUFFIX'], source='head.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('padlib'+env['SHOBJSUFFIX'], source='padlib.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('pertab'+env['SHOBJSUFFIX'], source='pertab.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('pijump'+env['SHOBJSUFFIX'], source='pijump.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('rdxsph'+env['SHOBJSUFFIX'], source='rdxsph.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('setgam'+env['SHOBJSUFFIX'], source='setgam.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('setkap'+env['SHOBJSUFFIX'], source='setkap.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('str'   +env['SHOBJSUFFIX'], source='str.f',    FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+if os.name != 'nt':
+    env.SharedObject('wlog'  +env['SHOBJSUFFIX'], source='wlog.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('chopen'+env['SHOBJSUFFIX'], source='chopen.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('getxk' +env['SHOBJSUFFIX'], source='getxk.f',  FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('head'  +env['SHOBJSUFFIX'], source='head.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('padlib'+env['SHOBJSUFFIX'], source='padlib.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('pertab'+env['SHOBJSUFFIX'], source='pertab.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('pijump'+env['SHOBJSUFFIX'], source='pijump.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('rdxsph'+env['SHOBJSUFFIX'], source='rdxsph.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('setgam'+env['SHOBJSUFFIX'], source='setgam.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('setkap'+env['SHOBJSUFFIX'], source='setkap.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('str'   +env['SHOBJSUFFIX'], source='str.f',    FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
 
 
 #env.Install(ienv['i_lib'], 'libfeffcom' + env['SHLIBSUFFIX'])

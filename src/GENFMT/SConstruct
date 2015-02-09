@@ -100,7 +100,9 @@ else:
 ## FIXME:  find_executable needs an argument that works on all the platforms
 ##         perhaps 'import platform', then 'platform.system()'...
 
-if find_executable("swig"):
+## problem seems to be the call to Environment(), whihc overwrites the
+## PATH stuff from FeffBuild, perhaps move BUILDERS line to FeffBuild...?
+if False and find_executable("swig"):
 
     here=os.getcwd()
 

@@ -24,6 +24,14 @@ obj = join('json_module.o')
 ar  = join('libjsonfortran.a')
 mod = join('json_module.mod')
 
+## this HAS to come after the if: elif: block above, which will
+## overwrite this change to the PATH
+if os.name == 'nt':
+    env.PrependENVPath('PATH', join('C:', os.sep, 'Program Files',
+                                    'mingw-w64', 'x86_64-4.9.2-win32-seh-rt_v3-rev1',
+                                    'mingw64', 'bin'))
+
+
 env.Library(ar, src,
             FORTRANMODDIR=here, # this tells scons that we want the .mod file to be installed in to lib/
             LIBPREFIX='',       # this tells scons /not/ to assume that the mod file should be libjson_module.mod

@@ -5,6 +5,9 @@
 
 import os
 from os.path import join, realpath
+if os.name == 'nt':
+    import sys
+    sys.path.append(join('C:', os.sep, 'Program Files', 'Larch', 'bin', 'library.zip'))
 from platform import uname, architecture
 
 from SCons.Environment import Environment

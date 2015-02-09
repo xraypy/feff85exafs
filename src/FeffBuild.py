@@ -6,12 +6,16 @@ import SCons
 from SCons.Environment import Environment
 import sys
 import os
-from os      import getcwd, chown
+if os.name == 'nt':
+    from os import getcwd
+else:
+    from os import getcwd, chown
 from os.path import realpath, join
 
 from SCons.Script.SConscript import SConsEnvironment
-from pwd import getpwnam, getpwuid
-from grp import getgrnam, getgrgid
+if os.name != 'nt':
+    from pwd import getpwnam, getpwuid
+    from grp import getgrnam, getgrgid
 
 DEBUG_ENV = False
 
@@ -42,7 +46,8 @@ def CompilationEnvironment():
 
     # windows: needs work!
     if os.name  == 'nt':
-        args['platform'] = 'windows'
+        #args['platform'] = 'Windows'
+        pass
 
     env = Environment(**args)
 
@@ -71,6 +76,13 @@ def CompilationEnvironment():
             except:
                 pass
         sys.exit()
+
+    if os.name == 'nt':
+        env.PrependENVPath('PATH', join('C:', os.sep, 'Program Files',
+                                        'mingw-w64', 'x86_64-4.9.2-win32-seh-rt_v3-rev1',
+                                        'mingw64', 'bin'))
+        env.AppendENVPath('PATH', join('C:', os.sep, 'Program Files', 'swigwin-3.0.5'))
+
     return env
 
 ## need to be able to get prefix from command line

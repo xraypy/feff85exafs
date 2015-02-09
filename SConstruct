@@ -15,6 +15,7 @@ print '\n\tFortran compiler is ' + env['FORTRAN']
 ienv = InstallEnvironment()
 print "\tinstallation prefix is: " + ienv['i_prefix'] +"\n"
 
+
 SConscript(['src/PAR/SConstruct',
             'src/COMMON/SConstruct',
             'src/json-fortran/SConstruct',
@@ -31,8 +32,8 @@ SConscript(['src/PAR/SConstruct',
             'src/PATH/SConstruct',
             'src/GENFMT/SConstruct',
 	    'src/FF2X/SConstruct',
-            'wrappers/python/SConstruct',
-            'tests/SConstruct',
+            #'wrappers/python/SConstruct',
+            #'tests/SConstruct',
         ])
 
 
