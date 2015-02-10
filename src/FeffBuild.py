@@ -78,11 +78,8 @@ def CompilationEnvironment():
         sys.exit()
 
     if os.name == 'nt':
-        env.PrependENVPath('PATH', join('C:', os.sep, 'Program Files',
-                                        'mingw-w64', 'x86_64-4.9.2-win32-seh-rt_v3-rev1',
-                                        'mingw64', 'bin'))
-        env.AppendENVPath('PATH', join('C:', os.sep, 'Program Files', 'swigwin-3.0.5'))
-
+        env.PrependENVPath('PATH', os.environ['PATH'])
+    
     return env
 
 ## need to be able to get prefix from command line
