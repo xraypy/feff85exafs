@@ -2,8 +2,6 @@
 
 import os, sys
 from os.path import realpath,join
-sys.path.append(realpath(join('..', '..', 'src')))
-from FeffBuild import CompilationEnvironment, InstallEnvironment
 
 env = Environment()
 linkdir = ''
