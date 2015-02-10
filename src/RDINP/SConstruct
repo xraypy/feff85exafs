@@ -29,6 +29,6 @@ env.Program('rdinp', bin_src + libs)
 if os.name != 'nt':
     env.SharedObject('mkptz'+env['SHOBJSUFFIX'], source='mkptz.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
 
-env.Install(ienv['i_bin'], 'rdinp')
+env.Install(ienv['i_bin'], 'rdinp'+env['PROGSUFFIX'])
 
 env.Alias('install', ienv['i_bin'])

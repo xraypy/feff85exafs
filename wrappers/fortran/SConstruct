@@ -1,8 +1,25 @@
 ## -*- python -*-
 
+import os, sys
+from os.path import realpath,join
+sys.path.append(realpath(join('..', '..', 'src')))
+from FeffBuild import CompilationEnvironment, InstallEnvironment
+
 env = Environment()
+linkdir = ''
+if os.name == 'nt':
+    env.PrependENVPath('PATH', os.environ['PATH'])
+    import larch
+    from platform import architecture
+    prefix = larch.site_configdata.win_installdir
+    arch   = architecture()[0]
+    dlldir = 'win32'
+    if arch.startswith('64'):
+        dlldir = 'win64'
+    #include = '-L/C/Program Files/larch/dlls/win32' 
+    linkdir = '-L'+join(prefix, 'dlls', dlldir)
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the test program for the fortran wrapper
 ## Feff libraries should have already been installed
-env.Program('makepath', 'makepath.f', FORTRANFLAGS = ['-g',], LIBS = ['onepath'])
+env.Program('makepath', 'makepath.f', FORTRANFLAGS = ['-g',], LINKFLAGS = [linkdir,], LIBS = ['onepath'])

@@ -10,6 +10,8 @@ export PATH=/C/Program\ Files/mingw-w64/x86_64-4.9.2-win32-seh-rt_v3-rev1/mingw6
 
 ## want the installation location of swig at the end of the path
 export PATH=$PATH:/c/Program\ Files/swigwin-3.0.5
+export PATH=$PATH:/c/Program\ Files/larch/bin
+export PATH=$PATH:/c/Program\ Files/larch/dlls/win32
 
 ## these need to be in the path as well
 # /c/Python27

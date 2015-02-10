@@ -26,6 +26,6 @@ libs = [join('..', 'json-fortran', 'libjsonfortran.a'),
 
 env.Program('pathfinder', bin_src + libs)
 
-env.Install(ienv['i_bin'], 'pathfinder')
+env.Install(ienv['i_bin'], 'pathfinder'+env['PROGSUFFIX'])
 env.Alias('install', ienv['i_bin'])
 

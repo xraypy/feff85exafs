@@ -89,13 +89,28 @@ def InstallEnvironment():
     """
     ienv = Environment()
     #prefix = ARGUMENTS.get('prefix', '/usr/local')
-    prefix = '/usr/local'
-    # Here are our installation paths:
-    ienv['i_prefix'] = prefix
-    ienv['i_lib']    = prefix + '/lib'
-    ienv['i_bin']    = prefix + '/bin'
-    ienv['i_inc']    = prefix + '/include'
-    ienv['i_data']   = prefix + '/share'
+    if os.name == 'nt':
+        import larch
+        from platform import architecture
+        prefix = larch.site_configdata.win_installdir
+        arch   = architecture()[0]
+        dlldir = 'win32'
+        if arch.startswith('64'):
+            dlldir = 'win64'
+        # Here are our installation paths:
+        ienv['i_prefix'] = prefix
+        ienv['i_lib']    = join(prefix, 'dlls', dlldir)
+        ienv['i_bin']    = join(prefix, 'bin')
+        ienv['i_inc']    = join(prefix, 'include')
+        ienv['i_data']   = join(prefix, 'share')
+    else:
+        prefix = '/usr/local'
+        # Here are our installation paths:
+        ienv['i_prefix'] = prefix
+        ienv['i_lib']    = join(prefix, '/lib')
+        ienv['i_bin']    = join(prefix, '/bin')
+        ienv['i_inc']    = join(prefix, '/include')
+        ienv['i_data']   = join(prefix, '/share')
     return ienv
 
 

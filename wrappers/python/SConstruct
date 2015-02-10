@@ -13,13 +13,12 @@ from platform import uname, architecture
 from SCons.Environment import Environment
 env  = Environment()
 
-
-
 ## figure out where to install the larch bits
 
 import larch
 if os.name == 'nt':
     installdir = larch.site_configdata.win_installdir
+    env.PrependENVPath('PATH', os.environ['PATH'])
 else:
     installdir = larch.site_configdata.unix_installdir
 

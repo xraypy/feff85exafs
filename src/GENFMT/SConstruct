@@ -39,7 +39,7 @@ libs = ['libfeffgenfmt.a',
     ]
 
 env.Program('genfmt', ['regenf.f']+bin_src+libs)
-env.Install(ienv['i_bin'], 'genfmt')
+env.Install(ienv['i_bin'], 'genfmt'+env['PROGSUFFIX'])
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the onepath fortran librtary
@@ -90,7 +90,7 @@ if 'SUDO_UID' in os.environ.keys():
     env.InstallOwner(join(perl_wrapper_path, 'src'), 'feffpath.h', int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
     env.Install(ienv['i_inc'], 'feffpath.h')
 else:
-    env.Install([join(perl_wrapper_path, 'src'), ienv['i_inc']], 'feffpath.h')
+    env.Install([join(perl_wrapper_path, 'src'), python_wrapper_path, ienv['i_inc']], 'feffpath.h')
 
 
 

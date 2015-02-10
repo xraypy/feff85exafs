@@ -37,6 +37,6 @@ env.Program('xsph', bin_src + other_obj + libs)
 
 env.Depends('rexsph'+env['OBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
-env.Install(ienv['i_bin'], 'xsph')
+env.Install(ienv['i_bin'], 'xsph'+env['PROGSUFFIX'])
 
 env.Alias('install', ienv['i_bin'])

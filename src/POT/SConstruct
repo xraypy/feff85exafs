@@ -41,6 +41,6 @@ env.Program('pot', bin_src + libs)
 
 env.Depends('reapot'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
-env.Install(ienv['i_bin'], 'pot')
+env.Install(ienv['i_bin'], 'pot'+env['PROGSUFFIX'])
 
 env.Alias('install', [ienv['i_bin'],])

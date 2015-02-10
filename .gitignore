@@ -39,6 +39,7 @@ wrappers/perl/pm_to_blib
 wrappers/perl/src/feffpath.h
 wrappers/perl/src/feffpath_wrap.c
 wrappers/perl/lib/Xray/FeffPathWrapper.pm
+wrappers/perl/feffpath.h
 wrappers/python/feffpath_wrap.c
 wrappers/python/feffpathwrapper.py
 
