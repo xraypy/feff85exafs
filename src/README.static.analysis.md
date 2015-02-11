@@ -1,5 +1,15 @@
 # Simple static analysis of Feff
 
+---
+
+**NOTE:** The files discussed below were removed at
+https://github.com/xraypy/feff85exafs/tree/1bc6fdeff71cf5a29e68aa70170a7329f5e19c61 
+Most of the issues uncovered by that static analysis have been
+addressed.  I am leaving this file in the repo in case anyone wants to
+redo a static analysis
+
+---
+
 For each subdir with code, I ran
 [ftnchek](http://www.dsm.fordham.edu/~ftnchek/) a couple times.  (Note
 that ftnchek has a debian/ubuntu package.)

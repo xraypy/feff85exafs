@@ -30,4 +30,4 @@ version of Feff, including compiling against
 
 For the fortran entry point to the stand-alone F_eff calculation, the
 C wrapper around it, or language bindings to C wrapper, see the
-`wrapprs/` directory.
+`wrappers/` directory.

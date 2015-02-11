@@ -9,11 +9,10 @@ written in python and uses configuration files that contain python
 code, it seemed like a good fit for something that would eventually be
 integrated into [Larch](https://github.com/xraypy/xraylarch).
 
-Compilation is as simple as typing `scons` after cd-ing into the
-`src/` folder.
+Compilation is as simple as typing `scons` from the top of the repo.
 
-You can also cd into one of the subfolders and do `scons` to build
-just that piece.
+You can also cd into one of the `src\` subfolders and do `scons` to
+build just that piece.
 
 The file `FeffBuild.py` has a bit of logic for specifying compilation
 flags, which may be attractive for optimization or other reasons, and
@@ -34,40 +33,20 @@ the names chosen by the original build system for feff85exafs.
 
 The following libraries contain the various parts of Feff.
 
-* `ATOM/libfeffatom.so`
-* `COMMON/libfeffcom.so`
-* `DEBYE/libfeffdw.so`
-* `EXCH/libfeffexch.so`
-* `FMS/libfefffms.so`
-* `FOVRG/libfeffpha.so`
-* `GENFMT/libfeffgenfmt.so`
-* `JSON/libfeffjson.so`
-* `MATH/libfeffmath.so`
-* `PAR/libfeffpar.so`
-* `POT/libfeffint.so`
+* `ATOM/libfeffatom.a`
+* `COMMON/libfeffcom.a`
+* `DEBYE/libfeffdw.a`
+* `EXCH/libfeffexch.a`
+* `FMS/libfefffms.a`
+* `FOVRG/libfeffpha.a`
+* `GENFMT/libfeffgenfmt.a`
+* `JSON/libfeffjson.a`
+* `MATH/libfeffmath.a`
+* `PAR/libfeffpar.a`
+* `POT/libfeffint.a`
 
-Default installation locations:
-
-* Linux: `/usr/local/lib`
-* Windows: `C:\path\to\lib`  :FIXME:
-* Mac: `/some/where/lib`     :FIXME:
-
-This can be set from the command line:
-
-	~> scons prefix="/other/location"
-
-where the default value for "prefix" is `/usr/local` on Linux, etc.
-
-This location **must** be in the linker/loader path.  With bash, for
-example, you may need to do
-
-	~> export LD_LIBRARY_PATH=/usr/local/lib
-
-or, if LD\_LIBRARY\_PATH already has a value:
-
-	~> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH ":/usr/local/lib"
-
-You may want to put that in your `.bashrc` file.
+These will be used to compile against the stand-alone executables, but
+will not be installed on the system.
 
 ## Stand-alone programs
 
@@ -84,26 +63,22 @@ calculator, is not a part of feff85exafs.
 Default installation locations:
 
 * Linux: `/usr/local/bin`
-* Windows: `C:\path\to\bin`  :FIXME:
+* Windows: `C:\Program Files\larch\bin`
 * Mac: `/some/where/bin`     :FIXME:
 
-This can be set from the command line:
-
-	~> scons prefix="/other/location"
-
-where the default value for "prefix" is `/usr/local` on Linux, etc.
+See below for hints of setting the prefix from the command line.
 
 Note that the ultimate goal of the feff85exafs project is to do away
 with the stand-alone programs.
  * `rdinp` is a chore better handled by a GUI or other user interface.
- * `genfmt` and `ff2x` are replaced by the feffpath library, which can
-   be called directly by a program written in fortran, C, or some
+ * `genfmt` and `ff2x` are replaced by the `feffpath` library, which
+   can be called directly by a program written in fortran, C, or some
    other language
- * eventually `pot` and `xsph` will be replaced by similarly callable
+ * eventually `pot` and `xsph` will be replaced by a similarly callable
    library
  * finally the pathfinder is missing critical features (most
    prominently: caching geometry of degenerate paths and fuzzy
-   degeneracy).  the pathfinder has alrady been rewritten in Perl for
+   degeneracy).  The pathfinder has already been rewritten in Perl for
    Demeter, for example.
 
 
@@ -124,8 +99,31 @@ This presumes that `pot` and `xsph` have already been run and that the
 * `GENFMT/python/feffpath_wrap.c`: The SWIG generated wrapper file for use with the Perl wrapper
 * `GENFMT/python/feffpathwrapper.py`: This is the SWIG generated Perl wrapper
 
-`libonepath.so` and `libfeffpath.so` will be installed to the same
-location (`/usr/local/lib`, etc) as the Feff libraries.
+`libonepath.so` and `libfeffpath.so` will be installed to:
+
+* Linux: `/usr/local/lib`
+* Windows: `C:\Program Files\larch\dlls\<platform>`
+* Mac: `/some/where/lib`     :FIXME:
+
+For Windows `<platform>` will be either `win32` or `win64`.
+
+This can be set from the command line:
+
+	~> scons prefix="/other/location"
+
+where the default value for "prefix" is `/usr/local` on Linux, etc.
+(This may not work on Windows -- you may have to edit `FeffBuild.py`.)
+
+This location **must** be in the linker/loader path.  With bash, for
+example, you may need to do
+
+	~> export LD_LIBRARY_PATH=/usr/local/lib
+
+or, if LD\_LIBRARY\_PATH already has a value:
+
+	~> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH ":/usr/local/lib"
+
+You may want to put that in your `.bashrc` file.
 
 The other files are transferred into the proper place in the
 `wrappers` folder of the feff85exafs distribution so that the
@@ -154,22 +152,12 @@ I was able to use the `build.sh` script that comes with json-fortran
 to build the static library and the test program.  The static library
 and corresponding module end up in the `lib/` folder.
 
-The files in `lib/` need to end up someplace where the compiler
-and linker can find them.  The simple build script doesn't do an
-install.  I put the `libjsonfortran.a` file in `/usr/lib` and the
-`json_module.mod` file in `src/JSON/`.  This way, the linker was able
-to find the library and the `FortranCompilation.py` file, which
-configures compilation flags for the scons build system, sets the `-I`
-flag to find the module file.
-
-Obviously this is a bit crufty, but it works well enough for now.
-
-## Executive summary
-
-  1. Build json-fortran by running the `build.sh` script
-  2. Copy `libjsonfortran.a` to `/usr/lib`
-  3. Copy `json_module.mod` to `src/JSON/`
-  4. Run scons to build feff against json-fortran
+The files in `lib/` need to end up someplace where the compiler and
+linker can find them.  The simple build script doesn't do an install.
+I put the `libjsonfortran.a` and `json_module.mod` files in
+`/usr/local/lib`.  This way, the linker was able to find the library
+and the `FeffBuild.py` file, which configures compilation flags for
+the scons build system, sets the `-I` and `-J` flags appropriately.
 
 ## Matt's comment on json-fortran
 
@@ -195,14 +183,17 @@ Matt has these reasonable things to say about compiling against json-fortran:
 Clearly, if we stay with json-fortran, these concerns need to be
 addressed and well tested.
 
+**NOTE (2015-02-11):** This seems not to be a problem.  Everything is
+working for me (Bruce) on both linux and Windows with gfortran 4.9.
+
+
 ---
 
 # To be fixed
 
-1. Many of the SConstruct files explicitly link to libgfortran and
-   libm.  That needs to be fixed for other platforms/compilers.
+1. C wrapper's SConstruct has /usr/local/lib hardwired
 
-2. C wrapper's SConstruct has /usr/local/lib hardwired
+2. use of `-fPIC` is hardwired throughout
 
 
 ---
