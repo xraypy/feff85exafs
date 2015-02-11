@@ -91,12 +91,8 @@ def InstallEnvironment():
     #prefix = ARGUMENTS.get('prefix', '/usr/local')
     if os.name == 'nt':
         import larch
-        prefix = larch.site_configdata.win_installdir
-        from platform import architecture
-        arch   = architecture()[0]
-        dlldir = 'win32'
-        if arch.startswith('64'):
-            dlldir = 'win64'
+        prefix = larch.larchlib.sys_larchdir
+        dlldir = larch.larchlib.get_dlldir()
         # Here are our installation paths:
         ienv['i_prefix'] = prefix
         ienv['i_lib']    = join(prefix, 'dlls', dlldir)

@@ -16,7 +16,7 @@ ienv = InstallEnvironment()
 print "\tinstallation prefix is: " + ienv['i_prefix'] +"\n"
 
 
-SConscript(['src/PAR/SConstruct',
+fortran = ['src/PAR/SConstruct',
             'src/COMMON/SConstruct',
             'src/json-fortran/SConstruct',
             'src/JSON/SConstruct',
@@ -31,10 +31,16 @@ SConscript(['src/PAR/SConstruct',
             'src/XSPH/SConstruct',
             'src/PATH/SConstruct',
             'src/GENFMT/SConstruct',
-	    'src/FF2X/SConstruct',
-            'wrappers/python/SConstruct',
-            'tests/SConstruct',
-        ])
+	    'src/FF2X/SConstruct',]
+python   = ['wrappers/python/SConstruct',
+            'tests/SConstruct',]
+
+if os.name == 'nt':
+    everything = fortran
+else:
+    everything = fortran + python
+
+SConscript(everything)
 
 
 #env = Environment(BUILDERS = {'MyBuild' : b})

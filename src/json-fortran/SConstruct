@@ -42,12 +42,8 @@ env.Library(ar, src,
 
 if os.name == 'nt':
     import larch
-    from platform import architecture
     prefix = larch.site_configdata.win_installdir
-    arch   = architecture()[0]
-    dlldir = 'win32'
-    if arch.startswith('64'):
-        dlldir = 'win64'
+    dlldir = larch.larchlib.get_dlldir()
     libinstall = join(prefix, 'dlls', dlldir)        #'C:\MinGW\lib'
     docinstall = join(prefix, 'doc', 'json-fortran') #'C:\MinGW\doc\json-fortran'
 else:

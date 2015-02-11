@@ -7,18 +7,14 @@ env = Environment()
 
 ## for windows, need -I and -L pointing at stuff in /c/Program Files/larch/
 linkdir = ''
-incdir = ''
+incdir  = ''
 if os.name == 'nt':
     env.PrependENVPath('PATH', os.environ['PATH'])
     import larch
-    from platform import architecture
-    prefix = larch.site_configdata.win_installdir
-    arch   = architecture()[0]
-    dlldir = 'win32'
-    if arch.startswith('64'):
-        dlldir = 'win64'
+    prefix  = larch.site_configdata.win_installdir
+    dlldir  = larch.larchlib.get_dlldir()
     linkdir = '-L'+join(prefix, 'dlls', dlldir)
-    incdir = '-I'+join(prefix, 'include')
+    incdir  = '-I'+join(prefix, 'include')
 
 
 ## ------------------------------------------------------------------------------------------------------
