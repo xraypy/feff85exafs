@@ -32,10 +32,9 @@ SConscript(['src/PAR/SConstruct',
             'src/PATH/SConstruct',
             'src/GENFMT/SConstruct',
 	    'src/FF2X/SConstruct',
-            #'wrappers/python/SConstruct',
-            #'tests/SConstruct',
+            'wrappers/python/SConstruct',
+            'tests/SConstruct',
         ])
-
 
 
 #env = Environment(BUILDERS = {'MyBuild' : b})

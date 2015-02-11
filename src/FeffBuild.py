@@ -91,8 +91,8 @@ def InstallEnvironment():
     #prefix = ARGUMENTS.get('prefix', '/usr/local')
     if os.name == 'nt':
         import larch
-        from platform import architecture
         prefix = larch.site_configdata.win_installdir
+        from platform import architecture
         arch   = architecture()[0]
         dlldir = 'win32'
         if arch.startswith('64'):
@@ -107,10 +107,10 @@ def InstallEnvironment():
         prefix = '/usr/local'
         # Here are our installation paths:
         ienv['i_prefix'] = prefix
-        ienv['i_lib']    = join(prefix, '/lib')
-        ienv['i_bin']    = join(prefix, '/bin')
-        ienv['i_inc']    = join(prefix, '/include')
-        ienv['i_data']   = join(prefix, '/share')
+        ienv['i_lib']    = join(prefix, 'lib')
+        ienv['i_bin']    = join(prefix, 'bin')
+        ienv['i_inc']    = join(prefix, 'include')
+        ienv['i_data']   = join(prefix, 'share')
     return ienv
 
 
