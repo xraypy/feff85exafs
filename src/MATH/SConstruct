@@ -2,7 +2,7 @@
 ## feff85exafs build system based on scons
 ## see HEADERS/license.h for license information
 
-import sys
+import sys, os
 sys.path.append('..')
 from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 from   os.path   import realpath, join
@@ -28,13 +28,14 @@ deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen', 'PAR/sequential')
 env.Library('libfeffmath', lib_src) # + FindOtherObjects(deps, env))
 
 ## needed for libonepath and libfeffpath shared objects
-env.SharedObject('bcoef' +env['SHOBJSUFFIX'], source='bcoef.f',  FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('cwig3j'+env['SHOBJSUFFIX'], source='cwig3j.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('dist'  +env['SHOBJSUFFIX'], source='dist.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('polint'+env['SHOBJSUFFIX'], source='polint.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('rotwig'+env['SHOBJSUFFIX'], source='rotwig.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('terp'  +env['SHOBJSUFFIX'], source='terp.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-env.SharedObject('trap'  +env['SHOBJSUFFIX'], source='trap.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+if os.name != 'nt':
+    env.SharedObject('bcoef' +env['SHOBJSUFFIX'], source='bcoef.f',  FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('cwig3j'+env['SHOBJSUFFIX'], source='cwig3j.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('dist'  +env['SHOBJSUFFIX'], source='dist.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('polint'+env['SHOBJSUFFIX'], source='polint.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('rotwig'+env['SHOBJSUFFIX'], source='rotwig.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('terp'  +env['SHOBJSUFFIX'], source='terp.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('trap'  +env['SHOBJSUFFIX'], source='trap.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
 
 #env.Install(ienv['i_lib'], 'libfeffmath' + env['SHLIBSUFFIX'])
 #env.Alias('install', ienv['i_lib'])

@@ -6,12 +6,16 @@ import SCons
 from SCons.Environment import Environment
 import sys
 import os
-from os      import getcwd, chown
+if os.name == 'nt':
+    from os import getcwd
+else:
+    from os import getcwd, chown
 from os.path import realpath, join
 
 from SCons.Script.SConscript import SConsEnvironment
-from pwd import getpwnam, getpwuid
-from grp import getgrnam, getgrgid
+if os.name != 'nt':
+    from pwd import getpwnam, getpwuid
+    from grp import getgrnam, getgrgid
 
 DEBUG_ENV = False
 
@@ -42,7 +46,8 @@ def CompilationEnvironment():
 
     # windows: needs work!
     if os.name  == 'nt':
-        args['platform'] = 'windows'
+        #args['platform'] = 'Windows'
+        pass
 
     env = Environment(**args)
 
@@ -71,6 +76,10 @@ def CompilationEnvironment():
             except:
                 pass
         sys.exit()
+
+    if os.name == 'nt':
+        env.PrependENVPath('PATH', os.environ['PATH'])
+    
     return env
 
 ## need to be able to get prefix from command line
@@ -80,13 +89,24 @@ def InstallEnvironment():
     """
     ienv = Environment()
     #prefix = ARGUMENTS.get('prefix', '/usr/local')
-    prefix = '/usr/local'
-    # Here are our installation paths:
-    ienv['i_prefix'] = prefix
-    ienv['i_lib']    = prefix + '/lib'
-    ienv['i_bin']    = prefix + '/bin'
-    ienv['i_inc']    = prefix + '/include'
-    ienv['i_data']   = prefix + '/share'
+    if os.name == 'nt':
+        import larch
+        prefix = larch.larchlib.sys_larchdir
+        dlldir = larch.larchlib.get_dlldir()
+        # Here are our installation paths:
+        ienv['i_prefix'] = prefix
+        ienv['i_lib']    = join(prefix, 'dlls', dlldir)
+        ienv['i_bin']    = join(prefix, 'bin')
+        ienv['i_inc']    = join(prefix, 'include')
+        ienv['i_data']   = join(prefix, 'share')
+    else:
+        prefix = '/usr/local'
+        # Here are our installation paths:
+        ienv['i_prefix'] = prefix
+        ienv['i_lib']    = join(prefix, 'lib')
+        ienv['i_bin']    = join(prefix, 'bin')
+        ienv['i_inc']    = join(prefix, 'include')
+        ienv['i_data']   = join(prefix, 'share')
     return ienv
 
 

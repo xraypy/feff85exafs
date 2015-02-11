@@ -1,8 +1,19 @@
 ## -*- python -*-
 
+import os, sys
+from os.path import realpath,join
+
 env = Environment()
+linkdir = ''
+if os.name == 'nt':
+    env.PrependENVPath('PATH', os.environ['PATH'])
+    import larch
+    prefix  = larch.site_configdata.win_installdir
+    dlldir  = larch.larchlib.get_dlldir()
+    #include = '-L/C/Program Files/larch/dlls/win32' 
+    linkdir = '-L'+join(prefix, 'dlls', dlldir)
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the test program for the fortran wrapper
 ## Feff libraries should have already been installed
-env.Program('makepath', 'makepath.f', FORTRANFLAGS = ['-g',], LIBS = ['onepath'])
+env.Program('makepath', 'makepath.f', FORTRANFLAGS = ['-g',], LINKFLAGS = [linkdir,], LIBS = ['onepath'])

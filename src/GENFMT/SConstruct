@@ -39,7 +39,7 @@ libs = ['libfeffgenfmt.a',
     ]
 
 env.Program('genfmt', ['regenf.f']+bin_src+libs)
-env.Install(ienv['i_bin'], 'genfmt')
+env.Install(ienv['i_bin'], 'genfmt'+env['PROGSUFFIX'])
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the onepath fortran librtary
@@ -90,7 +90,7 @@ if 'SUDO_UID' in os.environ.keys():
     env.InstallOwner(join(perl_wrapper_path, 'src'), 'feffpath.h', int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
     env.Install(ienv['i_inc'], 'feffpath.h')
 else:
-    env.Install([join(perl_wrapper_path, 'src'), ienv['i_inc']], 'feffpath.h')
+    env.Install([join(perl_wrapper_path, 'src'), python_wrapper_path, ienv['i_inc']], 'feffpath.h')
 
 
 
@@ -100,14 +100,27 @@ else:
 ## FIXME:  find_executable needs an argument that works on all the platforms
 ##         perhaps 'import platform', then 'platform.system()'...
 
+## problem seems to be the call to Environment(), whihc overwrites the
+## PATH stuff from FeffBuild, perhaps move BUILDERS line to FeffBuild...?
+
 if find_executable("swig"):
 
     here=os.getcwd()
 
+    ## make the perl/swig builder
+    perlfolder = join(here, 'perl')
+    perltarget = join(here, 'perl', 'feffpath_wrap.c')
+    perlbld  = Builder(action = 'swig -perl5 -outdir '+perlfolder+' -o '+perltarget+' $SOURCE')
+    env.Append(BUILDERS = {'SwigPerl' : perlbld})
+
+    ## make the python/swig builder
+    pythonfolder = join(here, 'python')
+    pythontarget = join(here, 'python', 'feffpath_wrap.c')
+    pythonbld  = Builder(action = 'swig -python -outdir '+pythonfolder+' -o '+pythontarget+' $SOURCE')
+    env.Append(BUILDERS = {'SwigPython' : pythonbld})
+
     ## -- perl wrapper ------------------------------------------------------
     if not isdir('perl'): os.mkdir('perl')
-    bld = Builder(action = 'swig -perl5 -outdir '+here+'/perl -o '+here+'/perl/feffpath_wrap.c $SOURCE')
-    env = Environment(BUILDERS = {'SwigPerl' : bld})
     env.SwigPerl([join(here, 'perl', 'feffpath_wrap.c'), join(here, 'perl', 'FeffPathWrapper.pm')], 'feffpath.i') # builder befined in FeffBuild.py
     Depends([join(here, 'perl', 'feffpath_wrap.c'), join(here, 'perl', 'FeffPathWrapper.pm')], 'feffpath.h')
     if 'SUDO_UID' in os.environ.keys():
@@ -119,8 +132,6 @@ if find_executable("swig"):
 
     ## -- python wrapper ----------------------------------------------------
     if not isdir('python'): os.mkdir('python')
-    bld = Builder(action = 'swig -python -outdir '+here+'/python -o '+here+'/python/feffpath_wrap.c $SOURCE')
-    env = Environment(BUILDERS = {'SwigPython' : bld})
     env.SwigPython([join(here, 'python', 'feffpath_wrap.c'), join(here, 'python', 'feffpathwrapper.py')], 'feffpath.i') # builder befined in FeffBuild.py
     Depends([join(here, 'python', 'feffpath_wrap.c'), join(here, 'python', 'feffpathwrapper.py')], 'feffpath.h')
     if 'SUDO_UID' in os.environ.keys():

@@ -1,16 +1,31 @@
 ## -*- python -*-
 
+import os, sys
 from os.path import realpath, join
 
 env = Environment()
+
+## for windows, need -I and -L pointing at stuff in /c/Program Files/larch/
+linkdir = ''
+incdir  = ''
+if os.name == 'nt':
+    env.PrependENVPath('PATH', os.environ['PATH'])
+    import larch
+    prefix  = larch.site_configdata.win_installdir
+    dlldir  = larch.larchlib.get_dlldir()
+    linkdir = '-L'+join(prefix, 'dlls', dlldir)
+    incdir  = '-I'+join(prefix, 'include')
+
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the test program for the C wrapper
 ## Feff libraries should have already been installed
 env.Program('makepath', 'makepath.c',
-            CFLAGS = ['-g',],
+            CFLAGS = ['-g', incdir],
+            LINKFLAGS = [linkdir,],
             LIBS = ['feffpath'])
 
 env.Program('errors', 'errors.c',
-            CFLAGS = ['-g',],
+            CFLAGS = ['-g', incdir],
+            LINKFLAGS = [linkdir,],
             LIBS = ['feffpath'])

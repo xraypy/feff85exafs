@@ -18,9 +18,9 @@ import re
 
 
 
-folders = ('Copper',)
+#folders = ('Copper',)
 #folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane')
-#folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane', 'LCO-para', 'LCO-perp')
+folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane', 'LCO-para', 'LCO-perp')
 tests   = dict()
 doscf   = os.getenv('FEFF_TEST_SCF', 'False')
 

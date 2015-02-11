@@ -123,28 +123,10 @@ import sys
 from   os            import name
 from   os.path       import isfile
 from   numpy         import array
-from   platform      import uname, architecture
 
-## make sure that the SWIG wrapper library can be found and imported
-if name == 'nt':
-    installdir = larch.site_configdata.win_installdir
-else:
-    installdir = larch.site_configdata.unix_installdir
+installdir = larch.larchlib.sys_larchdir
+dlldir     = larch.larchlib.get_dlldir() 
 
-## swiped from larch's dylibs/configure.py
-system = uname()[0]
-arch   = architecture()[0]
-dlldir = None
-if name == 'nt':
-    dlldir = 'win32'
-    if arch.startswith('64'):
-        dlldir = 'win64'
-else:
-    if system.lower().startswith('linu'):
-        dlldir = 'linux32'
-        if arch.startswith('64'):    dlldir = 'linux64'
-    elif system.lower().startswith('darw'):
-        dlldir = 'darwin'
 
 dllfile=installdir+'/dlls/'+dlldir
 if not dllfile in sys.path:
