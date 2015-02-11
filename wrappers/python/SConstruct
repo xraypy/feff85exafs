@@ -11,6 +11,7 @@ if os.name == 'nt':
 from platform import uname, architecture
 
 from SCons.Environment import Environment
+
 env  = Environment()
 
 ## figure out where to install the larch bits
@@ -19,6 +20,7 @@ import larch
 if os.name == 'nt':
     installdir = larch.site_configdata.win_installdir
     env.PrependENVPath('PATH', os.environ['PATH'])
+    env.PrependENVPath('VS90COMNTOOLS', os.environ['VS90COMNTOOLS'])
 else:
     installdir = larch.site_configdata.unix_installdir
 
@@ -40,7 +42,7 @@ else:
 
 
 
-b = Builder(action='python setup.py build_ext --inplace',
+b = Builder(action='python setup.py build_ext --inplace --fcompiler=gnu95',
             chdir=1)
 env.Append(BUILDERS = {'MyBuild' : b})
 env.MyBuild('_feffpathwrapper.so', 'feffpath_wrap.c')

@@ -13,6 +13,8 @@ export PATH=$PATH:/c/Program\ Files/swigwin-3.0.5
 export PATH=$PATH:/c/Program\ Files/larch/bin
 export PATH=$PATH:/c/Program\ Files/larch/dlls/win32
 
+export VS90COMNTOOLS="/C/Users/bravel/AppData/Local/Programs/Common/Microsoft/Visual C++ for Python"
+
 ## these need to be in the path as well
 # /c/Python27
 # /c/Program Files/Larch/bin

@@ -37,9 +37,15 @@ else:
 
 feffpath_module = Extension('_feffpathwrapper',
                             sources=['feffpath_wrap.c'],
+                            include_dirs = ['C:\\Program Files\\mingw-w64\\x86_64-4.9.2-win32-seh-rt_v3-rev1\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\4.9.2\\include',],
                             library_dirs = [join('..','..','src','GENFMT')],
                             libraries=['feffpath'],
                            )
+# feffpath_module = Extension('_feffpathwrapper',
+#                             sources=['feffpath_wrap.c'],
+#                             library_dirs = [join('..','..','src','GENFMT')],
+#                             libraries=['feffpath'],
+#                            )
 
 setup (name         = 'scatteringpath',
        version      = '0.1',
