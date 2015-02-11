@@ -15,8 +15,8 @@ env  = Environment()
 
 ## figure out where to install the larch bits
 import larch
-larch.larchlib.sys_larchdir
-larch.larchlib.get_dlldir() 
+installdir = larch.larchlib.sys_larchdir
+dlldir     = larch.larchlib.get_dlldir() 
 if os.name == 'nt':
     env.PrependENVPath('PATH', os.environ['PATH'])
     env.PrependENVPath('VS90COMNTOOLS', os.environ['VS90COMNTOOLS'])
