@@ -1,8 +1,0 @@
-Warning: Common block TIMING unused anywhere
-
-Warning: Common block PARALLEL Elements used but never set:
-    WORKER
-
-Warning: Common block PARALLEL Elements never used, never set:
-    NUMPROCS MY_RANK THIS_PROCESS MASTER PARALLEL_RUN PAR_TYPE
-
