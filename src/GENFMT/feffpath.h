@@ -115,7 +115,7 @@ void make_path_errorstring(FEFFPATH*);
 void make_scatterer_errorstring(FEFFPATH*);
 double leglength(FEFFPATH*);
 
-void onepath_(char *,
+void onepath_(char *,                   /* path to phase.pad file */
 	      long *,                   /* path index */
 	      long *,                   /* nlegs */
 	      double *,                 /* degeneracy */
