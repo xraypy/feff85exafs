@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 12;
+use Test::More tests => 9;
 use Cwd;
 
 use Xray::FeffPath;
@@ -12,11 +12,12 @@ my $epsilon = 1e-3;
 
 my $path = Xray::FeffPath->new();
 ok(ref($path) =~ m{FeffPath},                                                             "object created ".$path);
+$path->absorber([1.1, 1.1, 1.1]);
 
-my $ret = $path->atom(0, 0, -3.61, 1);
+my $ret = $path->atom(1.1, 1.1, -2.51, 1);
 ok((not $ret),                                                                            "added first leg");
 ok($path->nleg == 2,                                                                      "nleg=2");
-$ret = $path->atom(-1.805, 0, -1.805, 1);
+$ret = $path->atom(-0.705, 1.1, -0.705, 1);
 ok((not $ret),                                                                            "added second leg");
 ok($path->nleg == 3,                                                                      "nleg = 3");
 
@@ -27,16 +28,6 @@ $ret = $path->path;
 ok((not $ret),                                                                            "made path");
 
 ok($path->ne == 59,                                                                       "correct length of energy grid");
-ok(abs($path->reff-4.3577) < $epsilon,                                                    "reff");
-
-ok( (($path->rat->[0]->[0] < $epsilon) and
-     ($path->rat->[0]->[1] < $epsilon) and
-     (abs($path->rat->[0]->[2]+3.61) < $epsilon)),                                        "first atom coordinates");
-
-
-ok( ((abs($path->rat->[1]->[0]+1.805) < $epsilon) and
-     ($path->rat->[1]->[1] < $epsilon) and
-     (abs($path->rat->[1]->[2]+1.805) < $epsilon)),                                       "second atom coordinates");
 
 ok( ((abs($path->ri->[0]-3.610) < $epsilon) and
      (abs($path->ri->[1]-2.553) < $epsilon) and

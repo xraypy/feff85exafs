@@ -38,3 +38,5 @@ ok($path->nleg == 0,                                                            
 
 
 ### test make_path errors
+
+undef $path;

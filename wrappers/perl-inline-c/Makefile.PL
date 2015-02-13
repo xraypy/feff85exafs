@@ -27,7 +27,6 @@ WriteMakefile(
 				    Moose            => 2.06,
 				    MooseX::NonMoose => 0.22,
 				    MooseX::Aliases  => 0.10,
-				    MooseX::Clone    => 0.05,
 				   },
 	      ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
 	       (ABSTRACT_FROM  => 'lib/Xray/FeffPath.pm', # retrieve abstract from module
@@ -42,12 +41,15 @@ WriteMakefile(
 	#		},
 );
 
-# To the extent possible, the authors have waived all rights granted by
-# copyright law and related laws for the code and documentation that
-# make up the Perl Interface to the XAS Data Interchange Format.
-# While information about Authorship may be retained in some files for
+# To the extent possible, the authors have waived all rights granted
+# by copyright law and related laws for the code and documentation
+# that make up the Perl Interface to the FeffPath library.  While
+# information about Authorship may be retained in some files for
 # historical reasons, this work is hereby placed in the Public Domain.
 # This work is published from: United States.
 #
+# Note that the feffpath and onepath libraries themselves are NOT public
+# domain, nor is the Fortran source code for Feff that it relies upon.
+#
 # Author: Bruce Ravel (bravel AT bnl DOT gov).
-# Last update: 22 July, 2014
+# Last update: 13 February, 2015

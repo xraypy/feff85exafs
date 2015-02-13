@@ -60,7 +60,7 @@ ok($path->wrapper->_phpad eq '../fortran/phase.pad' ,                           
 
 
 
-
+undef $path;
 
 
 sub truefalse {

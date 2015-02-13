@@ -25,7 +25,7 @@
 #endif
 
 
-#define nex    150            /* from feff */
+#define nex    150            /* from feff, see src/HEADERS/dim.h */
 #define nphx   11             /* from feff */
 #define npatx  8              /* from feff */
 #define legtot npatx+1        /* from feff */

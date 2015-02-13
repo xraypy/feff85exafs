@@ -29,9 +29,10 @@ gds.txt
 ## perl wrapper chaff
 **/_Inline
 **/blib/
-wrappers/perl/MYMETA.*
-wrappers/perl/Makefile
-wrappers/perl/pm_to_blib
+**/*.inl
+wrappers/perl*/MYMETA.*
+wrappers/perl*/Makefile
+wrappers/perl*/pm_to_blib
 **/Makefile.old
 **/*.bs
 

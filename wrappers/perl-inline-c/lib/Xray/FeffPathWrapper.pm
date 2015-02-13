@@ -66,13 +66,16 @@ L<http://cars9.uchicago.edu/~ravel/software/>
 
 To the extent possible, the authors have waived all rights granted by
 copyright law and related laws for the code and documentation that
-make up the Perl Interface to the XAS Data Interchange Format.
-While information about Authorship may be retained in some files for
-historical reasons, this work is hereby placed in the Public Domain.
-This work is published from: United States.
+make up the Perl Interface to the FeffPath library.  While information
+about Authorship may be retained in some files for historical reasons,
+this work is hereby placed in the Public Domain.  This work is
+published from: United States.
+
+Note that the feffpath and onepath libraries themselves are NOT public
+domain, nor is the Fortran source code for Feff that it relies upon.
 
 Author: Bruce Ravel (bravel AT bnl DOT gov).
-Last update: 22 July, 2014
+Last update: 13 February, 2015
 
 =cut
 
@@ -98,6 +101,14 @@ SV* new(char* class) {
   SvREADONLY_on(obj);
   return obj_ref;
 }
+
+int    _nex   (SV* obj) { return nex;    }
+int    _nphx  (SV* obj) { return nphx;   }
+int    _npatx (SV* obj) { return npatx;  }
+int    _legtot(SV* obj) { return legtot; }
+double _bohr  (SV* obj) { return bohr;   }
+double _ryd   (SV* obj) { return ryd;    }
+double _hart  (SV* obj) { return hart;   }
 
 long _create_path(SV* obj) {
   long ret;
@@ -173,14 +184,8 @@ void _set_iorder(SV* obj, long i) {
 bool _nnnn(SV* obj) {
        return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->nnnn;
 }
-void _set_nnnn(SV* obj, SV* i) {
-  bool b;
-  if (i == 0) {
-    b = false;
-  } else {
-    b = true;
-  }
-  (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->nnnn = SvIV(i);
+void _set_nnnn(SV* obj, bool i) {
+  (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->nnnn = i;
 }
 
 /* ----- flag to write feffNNNN.json */
@@ -213,6 +218,38 @@ double _elpty(SV* obj) {
 }
 void _set_elpty(SV* obj, double d) {
        (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->elpty = d;
+}
+
+/* ----- 3-vector valued attributes */
+
+void _evec(SV* obj) {
+  long i;
+  Inline_Stack_Vars;
+  Inline_Stack_Reset;
+  for (i=0; i < 3; i++) {
+    Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->evec[i])));
+  }
+  Inline_Stack_Done;
+}
+void _set_evec(SV* obj, double xx, double yy, double zz) {
+  (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->evec[0] = xx;
+  (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->evec[1] = yy;
+  (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->evec[2] = zz;
+}
+
+void _xivec(SV* obj) {
+  long i;
+  Inline_Stack_Vars;
+  Inline_Stack_Reset;
+  for (i=0; i < 3; i++) {
+    Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->xivec[i])));
+  }
+  Inline_Stack_Done;
+}
+void _set_xivec(SV* obj, double xx, double yy, double zz) {
+  (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->xivec[0] = xx;
+  (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->xivec[1] = yy;
+  (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->xivec[2] = zz;
 }
 
 
