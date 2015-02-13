@@ -452,11 +452,12 @@ A explanation of words of the problem found during C<atom> or C<path>.
 
 Several parameters are captured by the C struct (and therefore
 available via the perl wrapper) which are related to how Feff's
-potential model was calculated.
+potential model was calculated.  This information is written to the
+F<feffNNNN.dat> header.
 
 =over 4
 
-=item  C<version> 
+=item  C<version>
 
 A string identifying the version number and the `feffpath` wrapper
 revision.
@@ -545,9 +546,14 @@ A Hartree, a unit of energy, in eV.
 
 =back
 
-=head2 Array reference valued attributes
+=head2 Attributes with values of array-reference
 
 =over 4
+
+=item C<absorber>
+
+The Cartesian coordinates of the absober atom.  By default the
+absorber is placed at (0,0,0).
 
 =item C<ipot>
 
@@ -715,7 +721,7 @@ F<phase.pad> cannot be found or cannot be read
 
 =item *
 
-L<Inline>, and L<Incline::C>
+L<Inline>, and L<Inline::C>
 
 =item *
 
