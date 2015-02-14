@@ -23,42 +23,45 @@ has 'errorcode'    => (is => 'rw', isa => 'Int',  default => 0,);
 has 'errormessage' => (is => 'rw', isa => 'Str',  default => q{},);
 
 ## constants from feffpath.h
-has 'nex'     => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_nex    });
-has 'nphx'    => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_nphx   });
-has 'npatx'   => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_npatx  });
-has 'legtot'  => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_legtot });
-has 'bohr'    => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPathWrapper->_bohr   });
-has 'ryd'     => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPathWrapper->_ryd    });
-has 'hart'    => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPathWrapper->_hart   });
+has 'nex'      => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_nex    });
+has 'nphx'     => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_nphx   });
+has 'npatx'    => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_npatx  });
+has 'legtot'   => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_legtot });
+has 'bohr'     => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPathWrapper->_bohr   });
+has 'ryd'      => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPathWrapper->_ryd    });
+has 'hart'     => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPathWrapper->_hart   });
 
 ## location of phase.pad file
-has 'phpad'   => (is => 'rw', isa => 'Str',  default => 'phase.pad', trigger => sub{pushback(@_, 'phpad'  )});
+has 'phpad'    => (is => 'rw', isa => 'Str',  default => 'phase.pad', trigger => sub{pushback(@_, 'phpad'  )},
+		   alias => 'phbin');
 
 ## basic path parameters
-has 'Index'   => (is => 'rw', isa => 'Int',  default => 9999, trigger => sub{pushback(@_, 'Index'  )},);
-has 'nleg'    => (is => 'rw', isa => 'Int',  default => 0,    trigger => sub{pushback(@_, 'nleg'   )},);
-has 'degen'   => (is => 'rw', isa => 'Num',  default => 1.0,  trigger => sub{pushback(@_, 'degen'  )},);
-has 'iorder'  => (is => 'rw', isa => 'Int',  default => 2,    trigger => sub{pushback(@_, 'iorder' )},);
+has 'Index'    => (is => 'rw', isa => 'Int',  default => 9999, trigger => sub{pushback(@_, 'Index'  )},);
+has 'nleg'     => (is => 'rw', isa => 'Int',  default => 0,    trigger => sub{pushback(@_, 'nleg'   )},);
+has 'degen'    => (is => 'rw', isa => 'Num',  default => 1.0,  trigger => sub{pushback(@_, 'degen'  )},
+		   alias => 'degeneracy');
+has 'iorder'   => (is => 'rw', isa => 'Int',  default => 2,    trigger => sub{pushback(@_, 'iorder' )},);
 
 ## output and verbosity control
-has 'nnnn'    => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'nnnn'   )},);
-has 'json'    => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'json'   )},);
-has 'verbose' => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'verbose')},);
+has 'nnnn'     => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'nnnn'   )},);
+has 'json'     => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'json'   )},);
+has 'verbose'  => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'verbose')},);
 
 ## header information from feffNNNN.dat
-has 'edge'    => (is => 'rw', isa => 'Num',  default => 0.0);
-has 'gam_ch'  => (is => 'rw', isa => 'Num',  default => 0.0);
-has 'kf'      => (is => 'rw', isa => 'Num',  default => 0.0);
-has 'mu'      => (is => 'rw', isa => 'Num',  default => 0.0);
-has 'rnorman' => (is => 'rw', isa => 'Num',  default => 0.0);
-has 'rs_int'  => (is => 'rw', isa => 'Num',  default => 0.0);
-has 'vint'    => (is => 'rw', isa => 'Num',  default => 0.0);
-has 'exch'    => (is => 'rw', isa => 'Str',  default => '');
-has 'version' => (is => 'rw', isa => 'Str',  default => '');
+has 'edge'     => (is => 'rw', isa => 'Num',  default => 0.0);
+has 'gam_ch'   => (is => 'rw', isa => 'Num',  default => 0.0);
+has 'kf'       => (is => 'rw', isa => 'Num',  default => 0.0);
+has 'mu'       => (is => 'rw', isa => 'Num',  default => 0.0);
+has 'rnorman'  => (is => 'rw', isa => 'Num',  default => 0.0);
+has 'rs_int'   => (is => 'rw', isa => 'Num',  default => 0.0);
+has 'vint'     => (is => 'rw', isa => 'Num',  default => 0.0);
+has 'exch'     => (is => 'rw', isa => 'Str',  default => '');
+has 'version'  => (is => 'rw', isa => 'Str',  default => '');
 
 ## polarization
-has 'ipol'    => (is => 'rw', isa => 'Int',  default => 0,    trigger => sub{pushback(@_, 'ipol'   )},);
-has 'elpty'   => (is => 'rw', isa => 'Num',  default => 0.0,  trigger => sub{pushback(@_, 'elpty'  )},);
+has 'ipol'     => (is => 'rw', isa => 'Int',  default => 0,    trigger => sub{pushback(@_, 'ipol'   )},);
+has 'elpty'    => (is => 'rw', isa => 'Num',  default => 0.0,  trigger => sub{pushback(@_, 'elpty'  )},
+		   alias => 'ellipticity');
 has 'evec'     => (traits  => ['Array'],
 		   is      => 'rw',
 		   isa     => 'ArrayRef[Num]',
@@ -88,13 +91,13 @@ has 'eta'      => (traits  => ['Array'], is => 'rw', isa => 'ArrayRef[Str]', def
 
 ## data table
 has 'ne'       => (is => 'rw', isa => 'Int',      default => 0);
-has 'k'        => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
+has 'k'        => (is => 'rw', isa => 'ArrayRef', default => sub{[]}, alias => 'kgrid');
 has 'real_phc' => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
 has 'mag_feff' => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
 has 'pha_feff' => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
 has 'red_fact' => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
-has 'lam'      => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
-has 'rep'      => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
+has 'lam'      => (is => 'rw', isa => 'ArrayRef', default => sub{[]}, alias => 'lambda');
+has 'rep'      => (is => 'rw', isa => 'ArrayRef', default => sub{[]}, alias => 'realp');
 
 
 sub BUILD {
@@ -175,12 +178,12 @@ sub clear {
 sub atom {
   my ($self, $x, $y, $z, $ip) = @_;
   my $message;
-  my $xx = $x - $self->absorber->[0];
-  my $yy = $y - $self->absorber->[1];
-  my $zz = $z - $self->absorber->[2];
+  my $xx  = $x - $self->absorber->[0];
+  my $yy  = $y - $self->absorber->[1];
+  my $zz  = $z - $self->absorber->[2];
   my $err = $self->wrapper->_add_scatterer($xx, $yy, $zz, $ip);
   $self->errorcode($err);
-  my $em = $self->wrapper->_errormessage;
+  my $em  = $self->wrapper->_errormessage;
   $em =~ s{add_scatterer}{atom method};
   $self->errormessage($em);
   $self->nleg($self->wrapper->_nleg);

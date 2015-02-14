@@ -19,26 +19,24 @@ or install from a package for your system:
 import Inline::MakeMaker;
 
 WriteMakefile(
-	      NAME              => 'Xray::FeffPath',
-	      VERSION_FROM      => 'lib/Xray/FeffPath.pm', # finds $VERSION
-	      PREREQ_PM         => {
-				    Inline           => 0.5,
-				    Inline::C        => 0.62,
-				    Moose            => 2.06,
-				    MooseX::NonMoose => 0.22,
-				    MooseX::Aliases  => 0.10,
-				   },
+	      NAME               => 'Xray::FeffPath',
+	      VERSION_FROM       => 'lib/Xray/FeffPath.pm', # finds $VERSION
+	      PREREQ_PM          => {
+				     Inline           => 0.5,
+				     Inline::C        => 0.62,
+				     Moose            => 2.06,
+				     MooseX::NonMoose => 0.22,
+				     MooseX::Aliases  => 0.10,
+				    },
 	      ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-	       (ABSTRACT_FROM  => 'lib/Xray/FeffPath.pm', # retrieve abstract from module
-		AUTHOR         => 'Bruce Ravel <bravel@bnl.gov>') : ()),
-	      LICENSE          => 'unrestricted',
-	      CONFIGURE_REQUIRES  =>  {
-				       'Inline::MakeMaker'     => 0.45,
-				       'ExtUtils::MakeMaker'   => 6.52,
-				      },
-	      #'test' => {
-	#		 'TESTS' => 't/*.t t/gooddata/*.t t/baddata/*.t t/writer/*.t'
-	#		},
+	       (ABSTRACT_FROM    => 'lib/Xray/FeffPath.pm', # retrieve abstract from module
+		AUTHOR           => 'Bruce Ravel <bravel@bnl.gov>') : ()),
+	      LICENSE            => 'unrestricted',
+	      CONFIGURE_REQUIRES =>  {
+				      'Inline::MakeMaker'     => 0.45,
+				      'ExtUtils::MakeMaker'   => 6.52,
+				     },
+	      #'test' => {'TESTS' => 't/*.t t/gooddata/*.t t/baddata/*.t t/writer/*.t' },
 );
 
 # To the extent possible, the authors have waived all rights granted
