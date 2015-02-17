@@ -37,7 +37,7 @@ Xray::FeffPathWrapper - Inline::C interface to libfeffpath
 
 =item *
 
-L<Inline>
+L<Inline::C>
 
 =back
 

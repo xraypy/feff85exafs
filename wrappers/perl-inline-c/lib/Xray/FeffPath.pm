@@ -152,7 +152,7 @@ sub xivec_set {
 sub clear {
   my ($self) = @_;
   $self->wrapper->_clear_path;
-  foreach my $att (map {$_->name} $self->meta->get_all_attributes) {              # iterate over all attributes
+  foreach my $att (map {$_->name} $self->meta->get_all_attributes) {              # iterate over all attribute names
     next if (not $self->meta->get_attribute($att)->get_write_method);             # skip ro attributes, see Class/MOP/Attribute.pm#Informational
     next if ($self->meta->get_attribute($att)->type_constraint =~ m{FeffPath});   # skip wrapper
     my $method = '_'.lc($att);
@@ -743,6 +743,7 @@ L<MooseX::NonMoose> and L<MooseX::Aliases>
 =item *
 
 Setting a boolean unsets phpad at Inline::C level.  Weird!
+Work-around is at line 130.
 
 =item *
 

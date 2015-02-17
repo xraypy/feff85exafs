@@ -5,7 +5,7 @@
 
 * The feff85exafs to do list
 
-** feffpath library [9/9]
+** feffpath library [10/11]
 
  1. [X] write header into ~f3ffNNNN.dat~ files
  2. [X] deg --> degen to match larch's _feffdat group
@@ -20,13 +20,34 @@
     feffpath.c
  8. [X] python wrapper / Larch plugin
  9. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
+ 10. [X] SWIG-less perl library /(uses Inline::C)/
+ 11. [ ] SWIG-less python library /(Matt has started this)/
 
-** big jobs [0/5]
+** big jobs [0/7]
 
- 1. [ ] build on Windows and Mac
- 2. [ ] make scatteringpath a drop in replacement for feffdat
- 3. [ ] nosetests on result of scatteringpath with nnnn=False
- 4. [ ] fit with different feff versions -- comparison framework
- 5. [ ] library for encapsolating generation of ~phase.pad~
-    * capture information about muffin tin radii, norman radii,
-      ionization, a lá Larch _feffdat's potentials attribute
+ 1. [ ] build on Windows /(partially done)/
+ 2. [ ] build on Mac
+ 3. [ ] make scatteringpath a drop in replacement for feffdat
+ 4. [ ] nosetests on result of scatteringpath with nnnn=False
+ 5. [ ] fit with different feff versions -- comparison framework /(begun in Bruce's privat SCFtests git repo)/
+ 6. [ ] library for encapsolating generation of ~phase.pad~
+ 7. [ ] capture information about muffin tin radii, norman radii,
+    ionization, a lá Larch _feffdat's potentials attribute
+
+** compilation issues
+
+ * ~src/PAR/parallel.f~ cannot be copmpiled -- ~mpif.h~ is missing
+
+ * It seems as though the NOHOLE option won't work.  ~rdinp~ allows
+   it, but ~src/XSPH/xsph.f~ wants, when ~nohole.eq.2~, some data
+   files (see lines 209 to 224) that are nowhere written in f85e
+
+ * In file ~src.EXCH/mpse.f~, ~mpse.f~ did not compile with rank
+   mismatches at lines 37 and 57.  Variable ~edens~ is defined as rank
+   2 and called as rank 1.  I "fixed" this by adding ",1" to the
+   argument of ~edens~.  This does not, in fact, get exercised in
+   feff85exafs -- triggering this bit of code was disabled when the
+   code base was delivered to us.
+
+ * ~src/EXCH/xcpot~ writes to numbered output, but in places that
+   shouldn't get exercised by feff85exafs.
