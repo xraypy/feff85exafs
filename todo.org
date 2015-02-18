@@ -23,16 +23,28 @@
  10. [X] SWIG-less perl library /(uses Inline::C)/
  11. [ ] SWIG-less python library /(Matt has started this)/
 
-** big jobs [0/7]
+** big jobs [0/6]
 
- 1. [ ] build on Windows /(partially done)/
- 2. [ ] build on Mac
- 3. [ ] make scatteringpath a drop in replacement for feffdat
- 4. [ ] nosetests on result of scatteringpath with nnnn=False
- 5. [ ] fit with different feff versions -- comparison framework /(begun in Bruce's privat SCFtests git repo)/
- 6. [ ] library for encapsolating generation of ~phase.pad~
- 7. [ ] capture information about muffin tin radii, norman radii,
+ 1. [ ] build on Mac
+ 2. [ ] make scatteringpath a drop in replacement for feffdat
+ 3. [ ] nosetests on result of scatteringpath with nnnn=False
+ 4. [ ] fit with different feff versions -- comparison framework /(begun in Bruce's privat SCFtests git repo)/
+ 5. [ ] library for encapsolating generation of ~phase.pad~
+ 6. [ ] capture information about muffin tin radii, norman radii,
     ionization, a lá Larch _feffdat's potentials attribute
+
+** build on Windows
+
+ 1. f85ut.py needs to be installed into a place where larch will find
+    it.  (see ~larch> show _sys.path~, but plugins rather than modules)
+
+ 2. need to replace ~bin/f85e~ with something that works on windows.
+
+ 3. ~platforms/windows/prep.sh~ needs aliases for running nosetests
+    and larch
+
+ 4. perl wrapper cannot be linked successfully under Strawberry until
+    a version of Strawberry using gcc 4.9 become available.
 
 ** compilation issues
 

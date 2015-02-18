@@ -15,6 +15,13 @@ use Inline C => 'DATA',
            VERSION => '1.00',
            NAME => 'Xray::FeffPathWrapper';
 
+
+## for Windows, will need
+##   LIBS => '-LC:\\Program Files\\larch\\dlls\\win32 -LC:\\Program Files\\larch\\dlls\\win64 -lfeffpath'
+##   INC  => '-IC:\\Program Files\\larch\\include'
+##
+## also will need Strawberry with gcc 4.9.  Yipes!
+
 1;
 __DATA__
 
