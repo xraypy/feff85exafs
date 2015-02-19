@@ -3,12 +3,13 @@
 ## see HEADERS/license.h for feff's license information
 
 from   os        import makedirs, chdir, getcwd, unlink, listdir
-from   os.path   import realpath, isdir, join
+from   os.path   import realpath, isdir, isfile, join
 from   shutil    import rmtree
 import sys, subprocess, glob, pystache, json, re
 from   termcolor import colored
 import numpy     as np
 import importlib
+from   distutils.spawn import find_executable
 
 from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass, Interpreter)
 use_plugin_path('xafs')
@@ -45,6 +46,7 @@ class Feff85exafsUnitTestGroup(Group):
        feffran   :  boolean, True = feff has been run and testrun folder holds the output
        folder    :  string,  name of folder containing test materials
        testrun   :  string,  name of folder containing output of feff test run
+       fefflog   :  string,  name of log file from feff run
        baseline  :  string,  name of folder containing the baseline feff calculation
        paths     :  list,    list of feffNNNN.dat files in testrun folder
        bpaths    :  string,  list of feffNNNN.dat files from baseline calculation
@@ -82,6 +84,7 @@ class Feff85exafsUnitTestGroup(Group):
 
         self.path       = realpath(folder)
         self.testrun    = realpath(join(self.path, 'testrun'))
+        self.fefflog    = realpath(join(self.path, 'testrun', 'f85e.log'))
         self.testpaths()
         self.repotop    = getcwd()
         if not self.repotop.endswith('feff85exafs'):  self.repotop = realpath(join('..'))
@@ -154,17 +157,60 @@ class Feff85exafsUnitTestGroup(Group):
             
         here     = getcwd()
         chdir(self.testrun)
-        if self.verbose:
-            subprocess.check_call(self.f85escript);
-        else :
-            outout = subprocess.check_output(self.f85escript);
+        if isfile(self.fefflog):
+            unlink(self.fefflog)
+        self.runfeff()
+        for f in glob.glob("*"):
+            if f.startswith('log'): unlink(f)
+
+        # if self.verbose:
+        #     subprocess.check_call(self.f85escript)
+        # else :
+        #     outout = subprocess.check_output(self.f85escript)
             
         if self.verbose: print colored("\nRan Feff85EXAFS on %s (%s)" % (self.folder, scf), 'yellow', attrs=['bold'])
         self.testpaths()
         
         chdir(here)
         self.feffran = True
-        
+
+
+    def runfeff(self, module='monolithic'):
+        """
+        Make a system call to run one or more of the stand-alone executables.
+        """
+        if not module in ('rdinp', 'pot', 'xsph', 'pathfinder', 'genfmt', 'ff2x'):
+            module = 'monolithic'
+
+        count = 0
+        if module.startswith('mono'): # run modules recursively
+            for m in ('rdinp', 'pot', 'xsph', 'pathfinder', 'genfmt', 'ff2x'):
+                self.runfeff(m)
+            return
+
+        ## run the recently compiled executables
+        exe=''
+        # if find_executable(module):
+        #     exe=module
+        # else:
+        folder=module.upper()
+        if module=='pathfinder':
+            folder='PATH'
+        exe=join(self.repotop, 'src', folder, module)
+
+        f = open(self.fefflog, 'a')
+        header = "\n======= running module %s ====================================================\n" % module
+        if self.verbose: print header
+        f.write(header)
+        process=subprocess.Popen(exe, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        while True:
+            line = process.stdout.readline()
+            if not line:
+                break
+            if self.verbose: print line.rstrip()
+            f.write(line)
+        f.close
+
         
     def testpaths(self):
         """
