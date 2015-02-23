@@ -124,8 +124,9 @@ from   os            import name
 from   os.path       import isfile
 from   numpy         import array
 
+#installdir = larch.site_config.larchdir
 installdir = larch.larchlib.sys_larchdir
-dlldir     = larch.larchlib.get_dlldir() 
+dlldir     = larch.larchlib.get_dlldir()
 
 
 dllfile=installdir+'/dlls/'+dlldir

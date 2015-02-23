@@ -14,8 +14,11 @@ from   distutils.spawn import find_executable
 from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass, Interpreter)
 use_plugin_path('xafs')
 from feffdat import feffpath
+from feffrunner import feffrunner
 use_plugin_path('wx')
 from plotter import (_newplot, _plot)
+
+
 
 wrapper_available=True
 try:
@@ -53,11 +56,11 @@ class Feff85exafsUnitTestGroup(Group):
        path      :  string,  fully resolved path to folder
        repotop   :  string,  fully resolved path to top of feff85exafs repository
        json      :  json string used to configure the test feff run
-       f85escript:  string,  fully resolved path to the f85e script, which emulates monolithic feff
        rfactor   :  float,   R-factor computed from feffNNNN.dat columns in testrun compared to baseline
        rfactor_2 :  float,   second R-factor, used when compare called with part='feff'
        epsilon   :  float,   value for comparing columns from feffNNNN.dat with the baseline and other things
        count, datacount, feffcount : count number of tests
+
     """
 
     def __init__(self, folder=None, _larch=None, **kws):
@@ -89,7 +92,6 @@ class Feff85exafsUnitTestGroup(Group):
         self.repotop    = getcwd()
         if not self.repotop.endswith('feff85exafs'):  self.repotop = realpath(join('..'))
         # the f85e shell script emulates the behavior of the monolithic Feff application
-        self.f85escript = join(self.repotop, 'bin', 'f85e')
         self.epsilon    = 0.00001
         self.epsfit     = 0.001
         self.eps5       = 0.00001
@@ -120,6 +122,7 @@ class Feff85exafsUnitTestGroup(Group):
     def bpaths(self):
         """
         Gather a list of feffNNNN.dat files from the baseline calculation
+
         """
         here = getcwd()
         p = list()
@@ -134,7 +137,9 @@ class Feff85exafsUnitTestGroup(Group):
         
     def run(self):
         """
-        Make a feff.inp from the mustache template, then run feff 8.5 in the testrun folder
+        Make a feff.inp from the mustache template, then run feff 8.5 in
+        the testrun folder
+
         """
         if not isdir(self.path):
             print colored(self.folder + " is not one of the available tests", 'magenta', attrs=['bold'])
@@ -159,14 +164,11 @@ class Feff85exafsUnitTestGroup(Group):
         chdir(self.testrun)
         if isfile(self.fefflog):
             unlink(self.fefflog)
-        self.runfeff()
+
+        self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop, _larch=self._larch)
+        self.feffrunner.run()
         for f in glob.glob("*"):
             if f.startswith('log'): unlink(f)
-
-        # if self.verbose:
-        #     subprocess.check_call(self.f85escript)
-        # else :
-        #     outout = subprocess.check_output(self.f85escript)
             
         if self.verbose: print colored("\nRan Feff85EXAFS on %s (%s)" % (self.folder, scf), 'yellow', attrs=['bold'])
         self.testpaths()
@@ -175,46 +177,10 @@ class Feff85exafsUnitTestGroup(Group):
         self.feffran = True
 
 
-    def runfeff(self, module='monolithic'):
-        """
-        Make a system call to run one or more of the stand-alone executables.
-        """
-        if not module in ('rdinp', 'pot', 'xsph', 'pathfinder', 'genfmt', 'ff2x'):
-            module = 'monolithic'
-
-        count = 0
-        if module.startswith('mono'): # run modules recursively
-            for m in ('rdinp', 'pot', 'xsph', 'pathfinder', 'genfmt', 'ff2x'):
-                self.runfeff(m)
-            return
-
-        ## run the recently compiled executables
-        exe=''
-        # if find_executable(module):
-        #     exe=module
-        # else:
-        folder=module.upper()
-        if module=='pathfinder':
-            folder='PATH'
-        exe=join(self.repotop, 'src', folder, module)
-
-        f = open(self.fefflog, 'a')
-        header = "\n======= running module %s ====================================================\n" % module
-        if self.verbose: print header
-        f.write(header)
-        process=subprocess.Popen(exe, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        while True:
-            line = process.stdout.readline()
-            if not line:
-                break
-            if self.verbose: print line.rstrip()
-            f.write(line)
-        f.close
-
-        
     def testpaths(self):
         """
         Gather a list of feffNNNN.dat files from the testrun
+
         """
         self.paths = list()
         if isdir(self.testrun):
@@ -240,6 +206,7 @@ class Feff85exafsUnitTestGroup(Group):
            False
 
         If the argument is 0 or negative, print a list of all available paths files and return None
+
         """
         if which>0:
             nnnn = "feff%4.4d.dat" % which
@@ -293,7 +260,8 @@ class Feff85exafsUnitTestGroup(Group):
             
     def compare(self, nnnn=1, part='feff', use_wrapper=False, _larch=None):
         """
-        compare a feffNNNN.dat file from the testrun with the same file from the baseline calculation
+        Compare a feffNNNN.dat file from the testrun with the same file
+        from the baseline calculation
 
             group.compare(N, part, use_wrapper)
 
@@ -430,6 +398,7 @@ class Feff85exafsUnitTestGroup(Group):
     def geometry(self, path):
         """
         Print out a table showing the scattering geometry of a path
+
         """
         print "path (reff=%.4f nlegs=%d) geometry:" % (path.reff, path.nleg)
         for atom in path.geom:
@@ -487,6 +456,7 @@ class Feff85exafsUnitTestGroup(Group):
         Fetch the various numbers in the feffNNNN.dat header for both the
         baseline and testrun.  A table of these values is printed.
         Return True is all are equal.
+
         """
         nnnndat = "feff%4.4d.dat" % nnnn
         bl      = feffpath(join(self.baseline, nnnndat))
@@ -513,7 +483,9 @@ class Feff85exafsUnitTestGroup(Group):
         
     def fit(self):
         """
-        Perform a canned fit using the baseline and testrun Feff calculations
+        Perform a canned fit using the baseline and testrun Feff
+        calculations
+
         """
         sys.path.append(self.path)
         module = importlib.import_module(self.folder, package=None)
@@ -525,7 +497,8 @@ class Feff85exafsUnitTestGroup(Group):
         
 
     def fitcompare(self):
-        """Perform a canned fit using a sequence of Feff calculations
+        """
+        Perform a canned fit using a sequence of Feff calculations
 
         This is not used for unit testing feff85exafs.  It is intended
         for use with a generic testing framework.
@@ -556,13 +529,16 @@ class Feff85exafsUnitTestGroup(Group):
 
 def ut(folder=None, _larch=None, **kws):
     """
-    Make a Feff85exafsUnitTestGroup group given a folder containing a baseline calculation
+    Make a Feff85exafsUnitTestGroup group given a folder containing a
+    baseline calculation
+
     """
     return Feff85exafsUnitTestGroup(folder=folder, _larch=_larch)
     
 def ir(folder=None, _larch=None, **kws):
     """
     _i_mport and _r_un
+
     """
     utobj=ut(folder)
     utobj.run()
@@ -571,6 +547,7 @@ def ir(folder=None, _larch=None, **kws):
 def irc(folder=None, _larch=None, **kws):
     """
     _i_mport, _r_un, and _c_ompare
+
     """
     utobj=ut(folder)
     utobj.run()
@@ -578,8 +555,8 @@ def irc(folder=None, _larch=None, **kws):
     return utobj
     
 def irf(folder=None, _larch=None, **kws):
-    """
-    _i_mport, _r_un, and _f_it
+    """_i_mport, _r_un, and _f_it
+
     """
     utobj=ut(folder)
     utobj.run()

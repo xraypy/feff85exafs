@@ -9,6 +9,7 @@ import sys, os
 from os.path import join
 
 import larch
+#installdir = larch.site_config.larchdir
 installdir = larch.larchlib.sys_larchdir
 dlldir =  larch.larchlib.get_dlldir()
 
