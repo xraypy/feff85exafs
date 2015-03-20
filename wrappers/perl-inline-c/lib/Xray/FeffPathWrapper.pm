@@ -92,6 +92,7 @@ __C__
 #  define Newx(v,n,t) New(0,v,n,t)
 #endif
 
+#include <string.h>
 #include "feffpath.h"
 
 SV* new(char* class) {
@@ -155,7 +156,7 @@ char* _phpad(SV* obj) {
        return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->phpad;
 }
 void _set_phpad(SV* obj, char* c) {
-       (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->phpad = c;
+       strcpy((INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->phpad, c);
 }
 
 /* ----- path index */

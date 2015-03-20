@@ -127,7 +127,6 @@ sub pushback {
   } elsif ($self->meta->get_attribute($which)->type_constraint eq 'Bool') {
     my $val = ($new) ? 1 : 0;
     $self->wrapper->$method($val);
-    $self->phpad($self->phpad);	# what the hell?  why does this get unset when setting a boolean????
   } else {
     $self->wrapper->$method($new);
   };
