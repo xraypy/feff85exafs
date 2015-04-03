@@ -6,13 +6,9 @@ home = expanduser("~")
 import os
 from shutil import copy
 import larch
-if os.name == 'nt':
-    larch_dir = larch.site_configdata.win_userdir
-else:
-    larch_dir = larch.site_configdata.unix_userdir
 
 ## this copies the unit testing plugin into place so that it can be used after building and before installing
-Execute(Copy(join(home, larch_dir, 'plugins'), join('f85ut.py')))
+Execute(Copy(join(home, larch.larchlib.larchdir, 'plugins'), join('f85ut.py')))
 
 ## this is an inelegant solution because it runs everytime regardless
 ## of whether the target is up to date.  SCons only considers targets

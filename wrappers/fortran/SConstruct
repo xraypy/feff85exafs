@@ -8,7 +8,7 @@ linkdir = ''
 if os.name == 'nt':
     env.PrependENVPath('PATH', os.environ['PATH'])
     import larch
-    prefix  = larch.site_configdata.win_installdir
+    prefix  = larch.larchlib.larchdir
     dlldir  = larch.larchlib.get_dlldir()
     #include = '-L/C/Program Files/larch/dlls/win32' 
     linkdir = '-L'+join(prefix, 'dlls', dlldir)

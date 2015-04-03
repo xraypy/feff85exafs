@@ -34,11 +34,11 @@ class Feff85exafsUnitTestGroup(Group):
        run        : run the test feff calculation, no return value
        testpaths  : fill the paths attribute, no return value
        available  : returns True is a path index has a corresponding feffNNNN.dat file
-       compare    : make a comparison of columns in feffNNNN.dat, returns True is no difference between test and baseline
+       compare    : make a comparison of columns in feffNNNN.dat, returns True if no difference
        geometry   : write a description of scattering path to the screen
        radii      : fetch a list of muffin tin or norman radii for the unique potentials
        s02        : fetch the calculated value of s02 from the testrun or the baseline
-       feffterms  : perform a test on various values in the header of feffNNNN.dat, returns True if no difference
+       feffterms  : perform a test on values in the header of feffNNNN.dat, ret. True if no difference
        clean      : remove the testrun folder
     
 
@@ -55,12 +55,13 @@ class Feff85exafsUnitTestGroup(Group):
        bpaths    :  string,  list of feffNNNN.dat files from baseline calculation
        path      :  string,  fully resolved path to folder
        repotop   :  string,  fully resolved path to top of feff85exafs repository
-       json      :  json string used to configure the test feff run
+       json      :  json string, used to configure the test feff run
        rfactor   :  float,   R-factor computed from feffNNNN.dat columns in testrun compared to baseline
        rfactor_2 :  float,   second R-factor, used when compare called with part='feff'
        epsilon   :  float,   value for comparing columns from feffNNNN.dat with the baseline and other things
-       count, datacount, feffcount : count number of tests
-
+       count     \\
+       datacount  > integers, count number of tests
+       feffcount / 
     """
 
     def __init__(self, folder=None, _larch=None, **kws):

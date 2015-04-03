@@ -11,7 +11,7 @@ incdir  = ''
 if os.name == 'nt':
     env.PrependENVPath('PATH', os.environ['PATH'])
     import larch
-    prefix  = larch.site_configdata.win_installdir
+    prefix  = larch.larchlib.larchdir
     dlldir  = larch.larchlib.get_dlldir()
     linkdir = '-L'+join(prefix, 'dlls', dlldir)
     incdir  = '-I'+join(prefix, 'include')
