@@ -29,6 +29,7 @@ c      call json_s02()
       call json_atoms()
       call json_global(nabs)
 
+      call json_libpotph(nabs)
 
       return
       end
@@ -621,6 +622,138 @@ c     188 and following for how this gets reconstructed into a 2D array
 
 !     cleanup:
       call json_destroy(geom)
+
+      return
+      end
+
+
+      subroutine json_libpotph(nabs)
+
+      use json_module
+
+      implicit double precision (a-h, o-z)
+      include '../HEADERS/vers.h'
+      include '../HEADERS/dim.h'
+      include '../HEADERS/parallel.h'
+      include '../RDINP/allinp.h'
+      double precision xx(nattx), yy(nattx), zz(nattx)
+c      double precision rat(3,natx)
+
+      integer  iunit, nabs
+      type(json_value),pointer :: lpotph
+      character*5 vname
+
+      ! root
+      call json_value_create(lpotph)      ! create the value and associate the pointer
+      call to_object(lpotph,'lpotph.json')  ! add the file name as the name of the overall structure
+
+c     content of atoms.json
+      call json_value_add(lpotph, 'vfeff',  vfeff)
+      call json_value_add(lpotph, 'vf85e',  vf85e)
+      
+      call json_value_add(lpotph, 'natt', natt)
+      do 10 i=1,natt
+         xx(i) = ratx(1,i)
+         yy(i) = ratx(2,i)
+         zz(i) = ratx(3,i)
+ 10   continue
+      call json_value_add(lpotph, 'x', xx(1:natt))
+      call json_value_add(lpotph, 'y', yy(1:natt))
+      call json_value_add(lpotph, 'z', zz(1:natt))
+      call json_value_add(lpotph, 'iphatx', iphatx(1:natt))
+
+
+c     content of global.json
+      call json_value_add(lpotph, 'nabs',   nabs)
+      call json_value_add(lpotph, 'iphabs', iphabs)
+      call json_value_add(lpotph, 'rclabs', rclabs)
+      call json_value_add(lpotph, 'ipol',   ipol)
+      call json_value_add(lpotph, 'ispin',  ispin)
+      call json_value_add(lpotph, 'le2',    le2)
+      call json_value_add(lpotph, 'elpty',  elpty)
+      call json_value_add(lpotph, 'angks',  angks)
+
+      call json_value_add(lpotph, 'evec',   evec)
+      call json_value_add(lpotph, 'xivec',  xivec)
+      call json_value_add(lpotph, 'spvec',  spvec)
+
+      do 20 i = -1, 1
+         write (vname, "(A3,I1)") "ptz", i+1
+         call json_value_add(lpotph, vname,
+     1                 [dble(real(ptz(-1,i))), dble(imag(ptz(-1,i))),
+     2                  dble(real(ptz( 0,i))), dble(imag(ptz( 0,i))),
+     3                  dble(real(ptz( 1,i))), dble(imag(ptz( 1,i)))])
+ 20   continue
+
+
+c     content of (pot|mod1).json with overlap stuff removed
+c     content of (xsph|mod2).json
+
+      call json_value_add(lpotph, 'iGrid',    iGrid)
+      call json_value_add(lpotph, 'iPlsmn',   iPlsmn)
+      call json_value_add(lpotph, 'iafolp',   iafolp)
+      call json_value_add(lpotph, 'ibasis',   ibasis)
+      call json_value_add(lpotph, 'icoul',    icoul)
+      call json_value_add(lpotph, 'ifxc',     ifxc)
+      call json_value_add(lpotph, 'ihole',    ihole)
+      call json_value_add(lpotph, 'inters',   inters)
+      call json_value_add(lpotph, 'ipmbse',   ipmbse)
+      call json_value_add(lpotph, 'ipr1',     ipr1)
+      call json_value_add(lpotph, 'ipr2',     ipr2)
+      call json_value_add(lpotph, 'ispec',    ispec)
+      call json_value_add(lpotph, 'ispec',    ispec)
+      call json_value_add(lpotph, 'itdlda',   itdlda)
+      call json_value_add(lpotph, 'iunf',     iunf)
+      call json_value_add(lpotph, 'ixc',      ixc)
+      call json_value_add(lpotph, 'ixc0',     ixc0)
+      call json_value_add(lpotph, 'izstd',    izstd)
+      call json_value_add(lpotph, 'jumprm',   jumprm)
+      call json_value_add(lpotph, 'l2lp',     l2lp)
+      call json_value_add(lpotph, 'lfms1',    lfms1)
+      call json_value_add(lpotph, 'lfms2',    lfms2)
+      call json_value_add(lpotph, 'lreal',    lreal)
+      call json_value_add(lpotph, 'mphase',   mphase)
+      call json_value_add(lpotph, 'mpot',     mpot)
+      call json_value_add(lpotph, 'nmix',     nmix)
+      call json_value_add(lpotph, 'nohole',   nohole)
+      call json_value_add(lpotph, 'nonlocal', nonlocal)
+      call json_value_add(lpotph, 'nph',      nph)
+      call json_value_add(lpotph, 'nscmt',    nscmt)
+      call json_value_add(lpotph, 'ntitle',   ntitle)
+
+      call json_value_add(lpotph, 'gamach', gamach)
+      call json_value_add(lpotph, 'rgrd',   rgrd)
+      call json_value_add(lpotph, 'ca1',    ca1)
+      call json_value_add(lpotph, 'ecv',    ecv)
+      call json_value_add(lpotph, 'totvol', totvol)
+      call json_value_add(lpotph, 'rfms1',  dble(rfms1))
+      call json_value_add(lpotph, 'vro',    vr0)
+      call json_value_add(lpotph, 'vio',    vi0)
+
+      call json_value_add(lpotph, 'rfms2',  rfms2)
+      call json_value_add(lpotph, 'xkstep', xkstep)
+      call json_value_add(lpotph, 'xkmax',  xkmax)
+      call json_value_add(lpotph, 'vixan',  vixan)
+
+      call json_value_add(lpotph, 'lmaxph', lmaxph)
+      call json_value_add(lpotph, 'potlbl', potlbl)
+      call json_value_add(lpotph, 'spinph', spinph)
+
+      call json_value_add(lpotph, 'titles', title)
+
+      call json_value_add(lpotph, 'iz',     iz)
+      call json_value_add(lpotph, 'lmaxsc', lmaxsc)
+      call json_value_add(lpotph, 'xnatph', xnatph)
+      call json_value_add(lpotph, 'xion',   xion)
+      call json_value_add(lpotph, 'folp',   folp)
+
+
+      open(newunit=iunit, file='libpotph.json', status='REPLACE')
+      call json_print(lpotph,iunit)
+      close(iunit)
+
+!     cleanup:
+      call json_destroy(lpotph)
 
       return
       end
