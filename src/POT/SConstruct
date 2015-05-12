@@ -44,3 +44,16 @@ env.Depends('reapot'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfort
 env.Install(ienv['i_bin'], 'pot'+env['PROGSUFFIX'])
 
 env.Alias('install', [ienv['i_bin'],])
+
+
+
+bin_src = ['libpotph.f', 'inipotph.f', 'ffsort_potph.f',]
+misc_feff = [join('..', 'COMMON', 'wlog'               + env['SHOBJSUFFIX']),
+             join('..', 'MATH',   'dist'               + env['SHOBJSUFFIX']),
+             join('..', 'JSON',   'json_read_libpotph' + env['SHOBJSUFFIX']),
+             join('..', 'JSON',   'bailout'            + env['SHOBJSUFFIX']),
+             join('..', 'PAR',    'sequential'         + env['SHOBJSUFFIX']),]
+libs = [join('..', 'json-fortran', 'libjsonfortran.a'),]
+
+env.Program('libpotph', bin_src + misc_feff + libs);
+
