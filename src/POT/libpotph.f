@@ -24,10 +24,6 @@ c     integer lhead(nheadx)
       real rfms1
       double precision gamach, rgrd, ca1, ecv, totvol
       double precision  xnatph(0:nphx), folp(0:nphx), xion(0:nphx)
-c     for OVERLAP option
-c      integer novr(0:nphx), iphovr(novrx,0:nphx), nnovr(novrx,0:nphx)
-c      double precision  rovr(novrx,0:nphx)
-
 
 c     dimension/type os mod2/xpsh things
       integer mphase, ipr2, ixc0, ispec, lreal, lfms2, l2lp, iPl, 
@@ -39,6 +35,9 @@ c     dimension/type os mod2/xpsh things
       character*6  potlbl(0:nphx)
       integer izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis
 
+c     for OVERLAP option -- DISABLED IN FEFF85EXAFS
+      integer novr(0:nphx), iphovr(novrx,0:nphx), nnovr(novrx,0:nphx)
+      double precision  rovr(novrx,0:nphx)
 
 
       call inipotph(nat, rat, iphat,
@@ -52,6 +51,14 @@ c     dimension/type os mod2/xpsh things
      8       lmaxph, potlbl, spinph, vr0, vi0, ixc0, lreal, 
      9       rfms2, lfms2, l2lp, iPl, iGrid,
      _       izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis)
+      do 20 i=0,nphx
+         novr(i) = 0;
+         do 10 j=1,novrx
+            iphovr(j,i) = 0
+            nnovr(j,i)  = 0
+            rovr(j,i)   = 0
+ 10      continue
+ 20   continue
 
 
 c*****************************************************************************
@@ -73,13 +80,35 @@ c*****************************************************************************
 
 c     iabs != 0 has something to do with CFAVERAGE, outside scope of feff85exafs
       iabs = 1
-      call ffsort(iabs, natt, ratx, iphatx,
+
+c$$$      print *, iabs
+c$$$      print *, nat
+c$$$      print *, nabs
+c$$$      print *, iphabs
+c$$$      print *, rclabs
+c$$$      print *, ipol
+c$$$      print *, ispin
+c$$$      print *, le2
+c$$$      print *, elpty
+c$$$      print *, angks
+
+      call ffsort(iabs, nat, rat, iphat,
      1       nabs, iphabs, rclabs, ipol, ispin, le2,
      2       elpty, angks, evec, xivec, spvec, ptz,
      3       iatph)
 c     iatph,rat,iphat
 
-      print *, rat
+      print *, iatph
+
+
+      call pot (rgrd, nohole,
+     $       inters, totvol, ecv, nscmt, nmix, ntitle, title,
+     $       nat, nph, ihole, iafolp,
+     $       ixc, iphat, rat, iatph, xnatph,
+     $       novr, iphovr, nnovr, rovr,
+     $       folp, xion, iunf, iz, ipr1,
+     $       ispec, jumprm,
+     $       lmaxsc, icoul, ca1, rfms1, lfms1)
 
 
       stop

@@ -49,7 +49,7 @@ c      modified by a.l.ankudinov, march 2001 for new i/o structure
 
       integer nat, natt, ipol, ispin, le2, iabs, iphabs
       integer iatph(0:nphx), iphat(natx), iphatx(natx), index(natx)
-      double precision rclabs, elpty, angks, evec
+      double precision rclabs, elpty, angks
       double precision rat(3,natx), ratx(3,natx)
       double precision evec(3), xivec(3), spvec(3)
       complex*16 ptz(-1:1, -1:1)
@@ -129,6 +129,8 @@ c     make a smaller list of atoms from a big one
             endif
          endif
  309  continue
+c     squelch a compiler warning
+      i=1
 c     sort atoms by distance
       do 315 iat = 1,nat-1
         r2min = rat(1,iat)**2 + rat(2,iat)**2 + rat(3,iat)**2
@@ -159,7 +161,7 @@ c         permute coordinates for atoms iat and imin
 c     rotate xyz frame for the most convinience and make
 c     polarization tensor
 c     make polarization tensor when z-axis is along k-vector 
-      call mkptz( ipol, elpty, evec, xivec, ispin, spvec, nat, rat,
+      call mkptz(ipol, elpty, evec, xivec, ispin, spvec, nat, rat,
      1       angks, le2, ptz)
 
 c     rewrite global.json for initial iteration to update 'ptz'
@@ -225,7 +227,7 @@ c     Atoms for the pathfinder
       if (iatabs .le. 0)  then
          call wlog(' Absorbing atom coords not specified.')
          call wlog(' Cannot find multiple scattering paths.')
-         call par_stop('RDINP')
+         call par_stop('libpotph')
       endif
 
 c 400 call par_barrier
