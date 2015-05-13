@@ -23,3 +23,5 @@ env.Library('libfeffexch', lib_src) # + FindOtherObjects(deps, env))
 
 #env.Install(ienv['i_lib'], 'libfeffexch' + env['SHLIBSUFFIX'])
 #env.Alias('install', ienv['i_lib'])
+
+env.SharedObject(['edp.f', 'vbh.f'])

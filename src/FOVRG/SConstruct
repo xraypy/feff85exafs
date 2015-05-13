@@ -22,3 +22,7 @@ env.Library('libfeffpha', lib_src)
 
 #env.Install(ienv['i_lib'], 'libfeffpha' + env['SHLIBSUFFIX'])
 #env.Alias('install', ienv['i_lib'])
+
+env.SharedObject(['dfovrg.f', 'inmuac.f', 'diff.f', 'wfirdc.f', 'potex.f', 'solin.f', 'solout.f',
+                  'muatcc.f', 'nucdec.f', 'potdvp.f', 'yzkrdc.f', 'aprdep.f', 'intout.f',
+                  'aprdec.f', 'yzktec.f'])

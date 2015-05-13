@@ -36,3 +36,5 @@ env.Depends('reafms'+env['OBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortra
 #env.Install(ienv['i_lib'], 'libfefffms' + env['SHLIBSUFFIX'])
 #env.Install(ienv['i_bin'], 'fms')
 #env.Alias('install', [ienv['i_lib'], ienv['i_bin']])
+
+env.SharedObject(lib_src)

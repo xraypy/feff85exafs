@@ -16,8 +16,9 @@ ienv = InstallEnvironment()
 lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f', 'read_fpf0.f',
            'json_xsect.f', 'read_xsect.f', 'json_nnnn.f']
 
-env.Library('libfeffjson', lib_src)
+env.SharedLibrary('libfeffjson', lib_src)
 
+env.SharedObject('json_read_libpotph' + env['SHOBJSUFFIX'], 'json_read_libpotph.f')
 
 # env.Depends(['read_geom'   + env['OBJSUFFIX'],
 #              'read_atoms'  + env['OBJSUFFIX'],
