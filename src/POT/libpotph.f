@@ -73,7 +73,10 @@ c*****************************************************************************
 
 c     iabs != 0 has something to do with CFAVERAGE, outside scope of feff85exafs
       iabs = 1
-      call ffsort(iabs,.true.)
+      call ffsort(iabs, natt, ratx, iphatx,
+     1       nabs, iphabs, rclabs, ipol, ispin, le2,
+     2       elpty, angks, evec, xivec, spvec, ptz,
+     3       iatph)
 c     iatph,rat,iphat
 
       print *, rat

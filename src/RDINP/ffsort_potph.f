@@ -1,11 +1,35 @@
-      subroutine ffsort (iabs, iatph, rat, iphat)
+      subroutine ffsort(iabs, natt, ratx, iphatx,
+     1       nabs, iphabs, rclabs, ipol, ispin, le2,
+     2       elpty, angks, evec, xivec, spvec, ptz,
+     3       iatph)
 
+
+c***********************************************************************
+c input/output:
+c      ratx:   atomic positions from feff.inp on input
+c              shifted and sorted by distance on output
+c      iphatx: unique potentials from feff.inp on input
+c              sorted by distance on output
+c
 c input:
-c   from atoms.json:   natt, ratx, iphatx
-c   from gloabl:  nabs, iphabs, rclabs, ipol, ispin, le2,
-c                 elpty, angks, evec, xivec, spvec, ptz
-
-c return iatph, rat, iphat from geom.dat and ptz from global.dat
+c      nabs: 
+c      natt: number of atoms in cluster
+c      nabs: 
+c      iphabs: 
+c      rclabs
+c      ipol:
+c      ispin: 
+c      le2:
+c      elpty:
+c      angks:
+c      evec:   polarization vector
+c      xivec:  ellipticipty vecotr
+c      spvec:  spin vector
+c
+c output
+c      ptz: polarization tensor
+c      iatph: 
+c***********************************************************************
 
 c removed doptz boolean, which seems to be used only for eels, which is
 c outside the scope of feff85exafs
@@ -23,9 +47,12 @@ c      modified by a.l.ankudinov, march 2001 for new i/o structure
       include '../HEADERS/vers.h'
       include '../HEADERS/parallel.h'
 
-      integer  nat
-      integer iatph(0:nphx), iphat(natx), index(natx)
-      double precision  rat(3,natx)
+      integer nat, natt, ipol, ispin, le2, iabs, iphabs
+      integer iatph(0:nphx), iphat(natx), iphatx(natx), index(natx)
+      double precision rclabs, elpty, angks, evec
+      double precision rat(3,natx), ratx(3,natx)
+      double precision evec(3), xivec(3), spvec(3)
+      complex*16 ptz(-1:1, -1:1)
 
 c     Local stuff
       parameter (big = 1.0e5)
@@ -185,6 +212,14 @@ c     Check if 2 atoms are closer together than 1.75 bohr (~.93 Ang)
   480 continue
 
 c      call json_geom(iatph,rat,iphat)
+
+c     transfer rat back to ratx and iphat back to iphatx
+      do 1000 j=1,nat
+         ratx(1,j) = rat(1,j)
+         ratx(2,j) = rat(2,j)
+         ratx(3,j) = rat(3,j)
+         iphatx(j) = iphat(i)
+ 1000 continue
 
 c     Atoms for the pathfinder
       if (iatabs .le. 0)  then
