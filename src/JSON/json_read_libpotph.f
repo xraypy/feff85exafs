@@ -1,14 +1,41 @@
-      subroutine json_read_libpotph(nat, rat, iphat,
-     2       le2, elpty, angks, evec, xivec, spvec, ptz,
-     1       nabs, iphabs, rclabs, ipol, ispin,
-     5       mpot, rgrd, ntitle, title, ipr1, ispec,
-     6       nohole, ihole, gamach, nph, iz, lmaxsc, xnatph,
-     7       xion, iunf, ixc, jumprm, iafolp, folp, inters, totvol,
-     8       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
-     3       mphase, ipr2, vixan, xkstep, xkmax,
-     7       lmaxph, potlbl, spinph, vr0, vi0, ixc0, lreal, 
-     1       rfms2, lfms2, l2lp, iPl, iGrid,
-     2       izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis)
+      subroutine json_read_libpotph(
+c     TITLE
+     1       ntitle, title,
+c     ATOMS
+     2       nat, rat, iphat,
+c     POTENTIALS
+     3       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
+c     HOLE/EDGE
+     4       ihole,
+c     SCF
+     5       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
+c     POLARIZATION, ELLIPTICITY
+     6       ipol, evec, elpty, xivec,
+c     SPIN
+     7       ispin, spvec, angks,
+c     computed
+     8       ptz, gamach,
+c     EXCHANGE
+     9       ixc, vr0, vi0, ixc0,
+c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
+     _       iafolp, folp, xion, rgrd, iunf,
+c     INTERSTITIAL, JUMPRM, NOHOLE
+     1       inters, totvol, jumprm, nohole)
+
+
+
+
+c$$$(nat, rat, iphat,
+c$$$     2       le2, elpty, angks, evec, xivec, spvec, ptz,
+c$$$     1       nabs, iphabs, rclabs, ipol, ispin,
+c$$$     5       mpot, rgrd, ntitle, title, ipr1, ispec,
+c$$$     6       nohole, ihole, gamach, nph, iz, lmaxsc, xnatph,
+c$$$     7       xion, iunf, ixc, jumprm, iafolp, folp, inters, totvol,
+c$$$     8       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
+c$$$     3       mphase, ipr2, vixan, xkstep, xkmax,
+c$$$     7       lmaxph, potlbl, spinph, vr0, vi0, ixc0, lreal, 
+c$$$     1       rfms2, lfms2, l2lp, iPl, iGrid,
+c$$$     2       izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis)
 
       use json_module
       implicit double precision (a-h, o-z)
@@ -39,8 +66,8 @@ c     dimension/type os mod1/pot things
       double precision gamach, rgrd, ca1, ecv, totvol
       double precision  xnatph(0:nphx), folp(0:nphx), xion(0:nphx)
 c     for OVERLAP option
-c      integer novr(0:nphx), iphovr(novrx,0:nphx), nnovr(novrx,0:nphx)
-c      double precision  rovr(novrx,0:nphx)
+c$$ovr$$      integer novr(0:nphx), iphovr(novrx,0:nphx), nnovr(novrx,0:nphx)
+c$$ovr$$      double precision  rovr(novrx,0:nphx)
 
 
 c     dimension/type os mod2/xpsh things
@@ -53,6 +80,7 @@ c     dimension/type os mod2/xpsh things
       character*6  potlbl(0:nphx)
       integer izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis
 
+      character*32 s1, s2, s3
 
       call json%load_file('libpotph.json')
       if (json_failed()) then   !if there was an error reading the file
@@ -282,6 +310,76 @@ c            potlbl(itit-1) = strings(itit)
 
          call json%destroy()
       end if
+
+
+c********************************************************************************
+c     the 3000s are taken straight from reapot.f
+
+c     transform to code units (bohrs and hartrees - atomic unuts)
+      rfms1 = rfms1 / real(bohr)
+      gamach = gamach / hart
+      ecv   = ecv   / hart
+      totvol = totvol / bohr**3
+      do 3010 iat = 1, nat
+         do 3000 i = 1,3
+            rat(i,iat) = rat (i, iat) / bohr
+ 3000    continue
+ 3010 continue
+c$$ovr$$      do 3030 iph = 0, nph
+c$$ovr$$         do 3020 iovr = 1, novr(iph)
+c$$ovr$$            rovr(iovr,iph) = rovr(iovr,iph) / bohr
+c$$ovr$$ 3020    continue
+c$$ovr$$ 3030 continue
+
+c     add lines to the title
+      if (mpot.eq.1) then
+         ntitle = ntitle + 1
+         if (nat.gt.1) then
+            if (rfms1.lt.0) rfms1 = 0
+            if (nscmt.gt.0) then
+               write(s1, 3230) nscmt, rfms1*bohr, lfms1
+ 3230          format(' POT  SCF', i4, f8.4, i4)
+            else
+               write(s1, 3235) 
+ 3235          format(' POT  Non-SCF' )
+            endif
+         else
+            write(s1, 3240) 
+ 3240       format(' POT  used OVERLAP geometry,')
+         endif
+         if (nohole.eq.0) then
+            write(s2, 3310) 
+ 3310       format(', NO core-hole,')
+         elseif (nohole.eq.2) then
+            write(s2, 3315) 
+ 3315       format(', screened core-hole,')
+         else
+            write(s2, 3320) 
+ 3320       format(', core-hole,')
+         endif
+         if (iafolp.lt.0) then
+            write(s3, 3330) folp(0)
+ 3330       format(' FOLP (folp(0)=', f6.3, ')' )
+         else
+            write(s3, 3340) folp(0)
+ 3340       format(' AFOLP (folp(0)=', f6.3, ')' )
+         endif
+c        concatenate 3 strings into 1
+         title(ntitle) = ' '
+         ilen = istrln(s1)
+         istart = 1
+         iend = ilen
+         title(ntitle)(istart:iend) = s1(1:ilen)
+         ilen = istrln(s2)
+         istart = iend + 1
+         iend = iend + ilen
+         title(ntitle)(istart:iend) = s2(1:ilen)
+         ilen = istrln(s3)
+         istart = iend + 1
+         iend = iend + ilen
+         title(ntitle)(istart:iend) = s3(1:ilen)
+      endif
+
 
       return
       end

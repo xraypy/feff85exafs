@@ -1130,7 +1130,6 @@ c       Giving '.true.' makes ffsort work exactly as it always has.
            call ffsort(iabs,.true.)
         endif   !KJ end my changes
        endif
-       
        ceels=(eels.eq.1) !KJ 5-6 for monolithic version
 
       close(unit=11)
