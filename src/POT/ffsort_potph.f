@@ -12,16 +12,16 @@ c      iphatx: unique potentials from feff.inp on input
 c              sorted by distance on output
 c
 c input:
-c      nabs: 
-c      natt: number of atoms in cluster
-c      nabs: 
-c      iphabs: 
-c      rclabs
-c      ipol:
-c      ispin: 
-c      le2:
-c      elpty:
-c      angks:
+c      nabs:  absorber index
+c      natt:  number of atoms in cluster
+c      nabs:   \
+c      iphabs:  } stuff related to CFAVERAGE, ignored
+c      rclabs  /
+c      ipol:   flag for polarization calculation
+c      ispin:  flag for spin-dep calculation
+c      le2:    something related to MULTIPOLE, ignored
+c      elpty:  eccentricity of elliptical light
+c      angks:  angle between beam and spin 
 c      evec:   polarization vector
 c      xivec:  ellipticipty vecotr
 c      spvec:  spin vector

@@ -120,6 +120,8 @@ c       criteria for self-consistency
 c     Josh use nhtmp to save nohole value
       integer nhtmp
 
+c      print *, ixc
+
       do 4 i=1,30
          do 2 j=0,nphx+1
             kappa(i,j) = 0

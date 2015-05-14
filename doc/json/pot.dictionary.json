@@ -36,7 +36,7 @@
     "xnatph": "list of stoichiometry values for use in FMS calculation from POTENTIALS list",
 
     "xion": "list of ionization values for the unique potentials from ION in feff.inp",
-    "folp": "list of overlap values for the unique potentials from ION in feff.inp",
+    "folp": "list of overlap values for the unique potentials from FOLP in feff.inp",
 
     "novr": "number of overlapped potentials",
     "iphovr": "2D list from OVERLAP cards in feff.inp; list of potential indeces for which to compute overlap",
