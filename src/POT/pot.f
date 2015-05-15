@@ -1,11 +1,16 @@
       subroutine pot (rgrd, nohole, inters, totvol, ecv0,
-     $             nscmt, nmix, ntitle, title,
-     $             nat, nph, ihole, iafolp,
-     $             ixc, iphat, rat, iatph,
-     $             xnatph, novr,
-     $             iphovr, nnovr, rovr, folp0, xion, iunf, iz, ipr1,
-     $             ispec, jumprm,
-     $             lmaxsc, icoul, ca1, rfms1, lfms1)
+     $       nscmt, nmix, ntitle, title, nat, nph, ihole, iafolp,
+     $       ixc, iphat, rat, iatph, xnatph, novr,
+     $       iphovr, nnovr, rovr, folp0, xion, iunf, iz, ipr1,
+     $       ispec, jumprm, lmaxsc, icoul, ca1, rfms1, lfms1,
+c     return stuff for wrpot
+     -       rnrmav, xmu, vint, rhoint,
+     1       emu, s02, erelax, wp, rs, xf, qtotel,
+     2       imt, rmt, inrm, rnrm, folp, folpx,
+     3       dgc0, dpc0, dgc, dpc, adgc, adpc,
+     4       edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+     5       eorb, kappa, iorb, qnrm, xnmues, nhtmp
+     6       )
 c gamach
 
 c     Cluster code -- multiple shell single scattering version of FEFF
@@ -119,8 +124,6 @@ c       criteria for self-consistency
       character*512 slog
 c     Josh use nhtmp to save nohole value
       integer nhtmp
-
-c      print *, ixc
 
       do 4 i=1,30
          do 2 j=0,nphx+1
@@ -524,24 +527,6 @@ c     to worse estimate of edge position. fix later. ala
      1              rho, vclap, vcoul, vtot, ntitle, title)
       endif
 
-c     write stuff into pot.pad
-      call wrpot (nph, ntitle, title, rnrmav, xmu, vint, rhoint,
-     1            emu, s02, erelax, wp, ecv,rs,xf, qtotel,
-     2            imt, rmt, inrm, rnrm, folp, folpx, xnatph,
-     3            dgc0, dpc0, dgc, dpc, adgc, adpc,
-     3            edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
-     4            eorb(1,0), kappa(1,0), iorb, qnrm, xnmues, nhtmp,
-     5            ihole, inters, totvol, iafolp, xion, iunf, iz, jumprm)
-
-c     write misc.dat
-      if (ipr1 .ge. 1)  then
-         open (unit=1, file='misc.dat', status='unknown', iostat=ios)
-         call chopen (ios, 'misc.dat', 'potph')
-         call wthead(1, ntitle, title)
-         close (unit=1)
-      endif
-
-      call wlog(' Done with module 1: potentials. ')
 
   400 call par_barrier
 

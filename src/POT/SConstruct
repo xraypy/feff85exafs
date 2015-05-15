@@ -47,7 +47,7 @@ env.Alias('install', [ienv['i_bin'],])
 
 
 
-libpotph_src = ['libpotph.f', 'inipotph.f', 'ffsort_potph.f']
+libpotph_src = ['libpotph.f', 'inipotph.f', 'ffsort_potph.f', 'wlog_potph.f']
 reuse = ['pot.f', 'afolp.f', 'inipot.f', 'moveh.f', 'wpot.f', 'ovrlp.f', 'broydn.f', 'ff2g.f',
          'grids.f', 'corval.f', 'wrpot.f', 'scmt.f', 'scmtmp.f', 'sumax.f', 'rholie.f', 'frnrm.f', 'coulom.f']
 misc_feff = [join('..', 'RDINP',  'mkptz'              + env['SHOBJSUFFIX']),
@@ -59,7 +59,7 @@ misc_feff = [join('..', 'RDINP',  'mkptz'              + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'head'               + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'padlib'             + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'str'                + env['SHOBJSUFFIX']),
-             join('..', 'COMMON', 'wlog'               + env['SHOBJSUFFIX']),
+             #join('..', 'COMMON', 'wlog'               + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'xx'                 + env['SHOBJSUFFIX']),
 
              join('..', 'ATOM',   'akeato'             + env['SHOBJSUFFIX']),
