@@ -47,7 +47,7 @@ c      modified by a.l.ankudinov, march 2001 for new i/o structure
       include '../HEADERS/vers.h'
       include '../HEADERS/parallel.h'
 
-      integer nat, natt, ipol, ispin, le2, iabs, iphabs
+      integer nat, natt, ipol, ispin, le2, iabs, nabs, iphabs
       integer iatph(0:nphx), iphat(natx), iphatx(natx), index(natx)
       double precision rclabs, elpty, angks
       double precision rat(3,natx), ratx(3,natx)
@@ -215,12 +215,13 @@ c     Check if 2 atoms are closer together than 1.75 bohr (~.93 Ang)
 
 c      call json_geom(iatph,rat,iphat)
 
+
 c     transfer rat back to ratx and iphat back to iphatx
       do 1000 j=1,nat
          ratx(1,j) = rat(1,j)
          ratx(2,j) = rat(2,j)
          ratx(3,j) = rat(3,j)
-         iphatx(j) = iphat(i)
+         iphatx(j) = iphat(j)
  1000 continue
 
 c     Atoms for the pathfinder

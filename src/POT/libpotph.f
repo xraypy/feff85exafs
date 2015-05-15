@@ -42,17 +42,42 @@ c     for OVERLAP option -- DISABLED IN FEFF85EXAFS
       parameter (big = 1.0e5)
 
 
-c$$$      call inipotph(nat, rat, iphat,
-c$$$     1       le2, elpty, angks, evec, xivec, spvec, ptz,
-c$$$     2       nabs, iphabs, rclabs, ipol, ispin,
-c$$$     3       mpot, rgrd, ntitle, title, ipr1, ispec,
-c$$$     4       nohole, ihole, gamach, nph, iz, lmaxsc, xnatph,
-c$$$     5       xion, iunf, ixc, jumprm, iafolp, folp, inters, totvol,
-c$$$     6       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
-c$$$     7       mphase, ipr2, vixan, xkstep, xkmax,
-c$$$     8       lmaxph, potlbl, spinph, vr0, vi0, ixc0, lreal, 
-c$$$     9       rfms2, lfms2, l2lp, iPl, iGrid,
-c$$$     _       izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis)
+c**********************************************************************
+c     the parameters pass stuff from pot to wrpot and xsph
+      double precision rnrmav, xmu, vint, rhoint, emu, s02, erelax
+      double precision wp, rs, xf, qtotel
+c     r mesh index just inside rmt
+      dimension imt(0:nphx)
+c     r mesh index just inside rnorman
+      dimension inrm(0:nphx)
+c     muffin tin radius
+      dimension rmt(0:nphx)
+c     norman radius
+      dimension rnrm(0:nphx), qnrm(0:nphx)
+c     folp(0:nphx)  - overlap factor for rmt calculation
+      dimension folpx(0:nphx)
+c     need irregular solution for complex potential. fix later
+      dimension dgc0(251), dpc0(251)
+c     additioal data needed for relativistic version
+      dimension dgc(251,30,0:nphx+1), dpc(251,30,0:nphx+1)
+      dimension adgc(10,30,0:nphx+1), adpc(10,30,0:nphx+1)
+c     Overlap calculation results
+c     overlapped density*4*pi
+      dimension edens(251,0:nphx)
+c     overlapped coul pot
+      dimension vclap(251,0:nphx)
+c     overlapped total potential
+      dimension vtot (251,0:nphx)
+      dimension edenvl(251,0:nphx)
+      dimension vvalgs (251,0:nphx)
+      dimension dmag(251,0:nphx+1)
+      dimension xnval(30,0:nphx+1)
+      dimension eorb(30,0:nphx+1)
+      dimension kappa(30,0:nphx+1), iorb(-4:3,0:nphx+1)
+      dimension xnmues(0:lx,0:nphx)
+c     Josh use nhtmp to save nohole value
+      integer nhtmp
+
 
 
       call inipotph(
@@ -85,10 +110,10 @@ c     the following parameters are for features not present or not used
 c     in feff85exafs
 c     they are all set to default/turned-off values
 
-c     CONTROL and PRINT
+c     CONTROL and PRINT (ipr1=1 for misc.dat)
       mpot   = 1
       mphase = 1
-      ipr1   = 1
+      ipr1   = 0
       ipr2   = 0
 c     0=EXAFS, >0 other spectroscopies
       ispec  = 0
@@ -165,48 +190,33 @@ c     INTERSTITIAL, JUMPRM, NOHOLE
      1       inters, totvol, jumprm, nohole)
 
 
-c$$$             nat, rat, iphat,
-c$$$     1       le2, elpty, angks, evec, xivec, spvec, ptz,
-c$$$     2       nabs, iphabs, rclabs, ipol, ispin,
-c$$$     3       mpot, rgrd, ntitle, title, ipr1, ispec,
-c$$$     4       nohole, ihole, gamach, nph, iz, lmaxsc, xnatph,
-c$$$     5       xion, iunf, ixc, jumprm, iafolp, folp, inters, totvol,
-c$$$     6       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
-c$$$     7       mphase, ipr2, vixan, xkstep, xkmax,
-c$$$     8       lmaxph, potlbl, spinph, vr0, vi0, ixc0, lreal, 
-c$$$     9       rfms2, lfms2, l2lp, iPl, iGrid,
-c$$$     _       izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis)
-
 c     iabs != 0 has something to do with CFAVERAGE, outside scope of feff85exafs
       iabs = 1
 
-c$$$      print *, iabs
-c$$$      print *, nat
-c$$$      print *, nabs
-c$$$      print *, iphabs
-c$$$      print *, rclabs
-c$$$      print *, ipol
-c$$$      print *, ispin
-c$$$      print *, le2
-c$$$      print *, elpty
-c$$$      print *, angks
 
       call ffsort(iabs, nat, rat, iphat,
      1       nabs, iphabs, rclabs, ipol, ispin, le2,
      2       elpty, angks, evec, xivec, spvec, ptz,
      3       iatph)
-c     iatph,rat,iphat
-
 
 
       call pot(rgrd, nohole,
      $       inters, totvol, ecv, nscmt, nmix, ntitle, title,
-     $       nat, nph, ihole, iafolp,
-     $       ixc, iphat, rat, iatph, xnatph,
-     $       novr, iphovr, nnovr, rovr,
-     $       folp, xion, iunf, iz, ipr1,
-     $       ispec, jumprm,
-     $       lmaxsc, icoul, ca1, rfms1, lfms1)
+     $       nat, nph, ihole, iafolp, ixc, iphat, rat, iatph, xnatph,
+     $       novr, iphovr, nnovr, rovr, folp, xion, iunf, iz, ipr1,
+     $       ispec, jumprm, lmaxsc, icoul, ca1, rfms1, lfms1,
+c        return stuff for passing to xsph and skipping pot.pad
+     -       rnrmav, xmu, vint, rhoint,
+     1       emu, s02, erelax, wp, rs, xf, qtotel,
+     2       imt, rmt, inrm, rnrm, folp, folpx,
+     3       dgc0, dpc0, dgc, dpc, adgc, adpc,
+     4       edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+     5       eorb, kappa, iorb, qnrm, xnmues, nhtmp
+     6       )
+
+c     could make a conditional call to wrpot here
+
+c     on to xsph
 
 
       stop
