@@ -17,6 +17,7 @@ bin_src = ['acoef.f',  'ffmod2.f', 'getedg.f', 'phmesh.f', 'radint.f',
            'rexsph.f', 'rholsz.f', 'wphase.f', 'xmult.f',  'xsph.f',
            'axafs.f',  'fmssz.f',  'phase.f',  'rdgrid.f', 'rholat.f',
            'szlz.f',   'wrxsph.f', 'xsect.f']
+
 unused = ['phmesh2.f']
 
 other_obj = [join('..','FF2X','xscorr'+env['OBJSUFFIX']), join('..','POT','grids'+env['OBJSUFFIX'])]
@@ -33,6 +34,8 @@ libs = [join('..', 'json-fortran', 'libjsonfortran.a'),
     ]
 
 
+env.SharedObject(bin_src)
+
 env.Program('xsph', bin_src + other_obj + libs)
 
 env.Depends('rexsph'+env['OBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
@@ -40,3 +43,5 @@ env.Depends('rexsph'+env['OBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortra
 env.Install(ienv['i_bin'], 'xsph'+env['PROGSUFFIX'])
 
 env.Alias('install', ienv['i_bin'])
+
+
