@@ -43,7 +43,7 @@ c     for OVERLAP option -- DISABLED IN FEFF85EXAFS
 
 
 c**********************************************************************
-c     the parameters pass stuff from pot to wrpot and xsph
+c     these parameters pass stuff from pot to wrpot and xsph
       double precision rnrmav, xmu, vint, rhoint, emu, s02, erelax
       double precision wp, rs, xf, qtotel
 c     r mesh index just inside rmt
@@ -58,7 +58,7 @@ c     folp(0:nphx)  - overlap factor for rmt calculation
       dimension folpx(0:nphx)
 c     need irregular solution for complex potential. fix later
       dimension dgc0(251), dpc0(251)
-c     additioal data needed for relativistic version
+c     additional data needed for relativistic version
       dimension dgc(251,30,0:nphx+1), dpc(251,30,0:nphx+1)
       dimension adgc(10,30,0:nphx+1), adpc(10,30,0:nphx+1)
 c     Overlap calculation results
@@ -111,39 +111,39 @@ c     in feff85exafs
 c     they are all set to default/turned-off values
 
 c     CONTROL and PRINT (ipr1=1 for misc.dat)
-      mpot   = 1
-      mphase = 1
-      ipr1   = 0
-      ipr2   = 0
-c     0=EXAFS, >0 other spectroscopies
-      ispec  = 0
+      mpot     = 1
+      mphase   = 1
+      ipr1     = 0
+      ipr2     = 0
+c     0        =EXAFS, >0 other spectroscopies
+      ispec    = 0
 c     CFAVERAGE
-      nabs   = 1
-      iphabs = 0
-      rclabs = big
+      nabs     = 1
+      iphabs   = 0
+      rclabs   = big
 c     MULTIPOLE
-      le2    = 0
-      l2lp   = 0
+      le2      = 0
+      l2lp     = 0
 c     FMS
-      rfms2  = dble(-1.)
-      lfms2  = 0
+      rfms2    = dble(-1.)
+      lfms2    = 0
 c     XANES
-      vixan  = dble(0)
-      xkstep = 0
-      xkmax  = 0
+      vixan    = dble(0) / hart
+      xkstep   = dble(0.07) * bohr
+      xkmax    = dble(20) * bohr
 c     RPHASES
-      lreal  = 0
+      lreal    = 0
 c     PMBSE
-      ifxc   = 0
-      ipmbse = 0
+      ifxc     = 0
+      ipmbse   = 0
       nonlocal = 0
-      ibasis = 0
+      ibasis   = 0
 c     TDLDA
-      izstd  = 0
-      itdlda = 0
+      izstd    = 0
+      itdlda   = 0
 c     PLASMON
-      iPl    = 0
-      iGrid  = 0
+      iPl      = 0
+      iGrid    = 0
 
 c     OVERLAP
       do 20 i=0,nphx
@@ -216,8 +216,19 @@ c        return stuff for passing to xsph and skipping pot.pad
 
 c     could make a conditional call to wrpot here
 
-c     on to xsph
-
+      call xsph(ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
+     1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
+     2       ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
+     3       ipol, ispin, le2, angks, ptz, iPl,
+     4       izstd, ifxc, ipmbse, itdlda, nonlocal,
+c        pass parameters from rdpot
+     1       ntitle, title, rnrmav, xmu, vint, rhoint,
+     2       emu, s02, erelax, wp, ecv, rs, xf, qtotel,
+     3       imt, rmt, inrm, rnrm, folp, folpx, xnatph,
+     4       dgc0, dpc0, dgc, dpc, adgc, adpc,
+     5       edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+     6       iorb, nohole, ihole,
+     7       inters, totvol, iafolp, xion, iunf, iz, jumprm)
 
       stop
       end

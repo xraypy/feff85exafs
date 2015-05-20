@@ -125,16 +125,14 @@ c     initialize everything
       ca1    = dble(0.)
       ecv    = dble(-40.)
       totvol = dble(0.)
-      xkstep = dble(0.)
-      xkmax  = dble(0.)
-      xkmax  = dble(20.)
-      xkstep = dble(0.07)
-      vixan  = dble(0.)
-      vr0    = dble(0.)
-      vi0    = dble(0.)
+      xkmax  = dble(20.) * bohr
+      xkstep = dble(0.07) * bohr
+      vixan  = dble(0.) / hart
+      vr0    = dble(0.) / hart
+      vi0    = dble(0.) / hart
 
-      rfms1  = real(-1.)
-      rfms2  = real(-1.)
+      rfms1  = real(-1.) / real(bohr)
+      rfms2  = real(-1.) / real(bohr)
 
       do 10 i=0,nphx
          lmaxph(i) = 0

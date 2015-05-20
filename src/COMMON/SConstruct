@@ -24,21 +24,23 @@ env.Library('libfeffcom', lib_src) # + FindOtherObjects(deps, env, 'static'))
 
 ## needed for libonepath and libfeffpath shared objects
 if os.name != 'nt':
-    env.SharedObject('wlog'  +env['SHOBJSUFFIX'], source='wlog.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('chopen'+env['SHOBJSUFFIX'], source='chopen.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('fixdsp'+env['SHOBJSUFFIX'], source='fixdsp.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('fixdsx'+env['SHOBJSUFFIX'], source='fixdsx.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('fixvar'+env['SHOBJSUFFIX'], source='fixvar.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('getorb'+env['SHOBJSUFFIX'], source='getorb.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('getxk' +env['SHOBJSUFFIX'], source='getxk.f',  FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('head'  +env['SHOBJSUFFIX'], source='head.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('padlib'+env['SHOBJSUFFIX'], source='padlib.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('pertab'+env['SHOBJSUFFIX'], source='pertab.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('pijump'+env['SHOBJSUFFIX'], source='pijump.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('rdcmt' +env['SHOBJSUFFIX'], source='rdcmt.f',  FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('rdxsph'+env['SHOBJSUFFIX'], source='rdxsph.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('setgam'+env['SHOBJSUFFIX'], source='setgam.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('setkap'+env['SHOBJSUFFIX'], source='setkap.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('str'   +env['SHOBJSUFFIX'], source='str.f',    FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-    env.SharedObject('fixdsx'+env['SHOBJSUFFIX'], source='fixdsx.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-    env.SharedObject('fixvar'+env['SHOBJSUFFIX'], source='fixvar.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('wlog'  +env['SHOBJSUFFIX'], source='wlog.f',   FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('xx'    +env['SHOBJSUFFIX'], source='xx.f',     FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
-    env.SharedObject('getorb'+env['SHOBJSUFFIX'], source='getorb.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
 
 
 #env.Install(ienv['i_lib'], 'libfeffcom' + env['SHLIBSUFFIX'])

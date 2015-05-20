@@ -50,14 +50,33 @@ env.Alias('install', [ienv['i_bin'],])
 libpotph_src = ['libpotph.f', 'inipotph.f', 'ffsort_potph.f', 'wlog_potph.f']
 reuse = ['pot.f', 'afolp.f', 'inipot.f', 'moveh.f', 'wpot.f', 'ovrlp.f', 'broydn.f', 'ff2g.f',
          'grids.f', 'corval.f', 'wrpot.f', 'scmt.f', 'scmtmp.f', 'sumax.f', 'rholie.f', 'frnrm.f', 'coulom.f']
+from_xsph = [join('..', 'XSPH',   'acoef'              + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'axafs'              + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'fmssz'              + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'phase'              + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'phmesh'             + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'radint'             + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'rholsz'             + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'szlz'               + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'wphase'             + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'wrxsph'             + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'xmult'              + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'xsect'              + env['SHOBJSUFFIX']),
+             join('..', 'XSPH',   'xsph'               + env['SHOBJSUFFIX']),
+
+         ]
 misc_feff = [join('..', 'RDINP',  'mkptz'              + env['SHOBJSUFFIX']),
 
              join('..', 'COMMON', 'chopen'             + env['SHOBJSUFFIX']),
+             join('..', 'COMMON', 'fixdsp'             + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'fixdsx'             + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'fixvar'             + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'getorb'             + env['SHOBJSUFFIX']),
+             join('..', 'COMMON', 'getxk'              + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'head'               + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'padlib'             + env['SHOBJSUFFIX']),
+             join('..', 'COMMON', 'setkap'             + env['SHOBJSUFFIX']),
+             join('..', 'COMMON', 'rdcmt'              + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'str'                + env['SHOBJSUFFIX']),
              #join('..', 'COMMON', 'wlog'               + env['SHOBJSUFFIX']),
              join('..', 'COMMON', 'xx'                 + env['SHOBJSUFFIX']),
@@ -89,17 +108,21 @@ misc_feff = [join('..', 'RDINP',  'mkptz'              + env['SHOBJSUFFIX']),
              join('..', 'ATOM',   'yzkteg'             + env['SHOBJSUFFIX']),
              join('..', 'ATOM',   'yzkrdf'             + env['SHOBJSUFFIX']),
 
+             join('..', 'MATH',   'bcoef'              + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'besjh'              + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'besjn'              + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'bjnser'             + env['SHOBJSUFFIX']),
+             join('..', 'MATH',   'csomm'              + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'csomm2'             + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'cwig3j'             + env['SHOBJSUFFIX']),
+             join('..', 'MATH',   'czeros'             + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'determ'             + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'dist'               + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'exjlnl'             + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'lu'                 + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'phamp'              + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'polint'             + env['SHOBJSUFFIX']),
+             join('..', 'MATH',   'rotwig'             + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'somm'               + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'somm2'              + env['SHOBJSUFFIX']),
              join('..', 'MATH',   'terp'               + env['SHOBJSUFFIX']),
@@ -115,8 +138,21 @@ misc_feff = [join('..', 'RDINP',  'mkptz'              + env['SHOBJSUFFIX']),
              join('..', 'FMS',    'yprep'              + env['SHOBJSUFFIX']),
              join('..', 'FMS',    'xstaff'             + env['SHOBJSUFFIX']),
 
+             join('..', 'FF2X',   'xscorr'             + env['SHOBJSUFFIX']),
+
+             join('..', 'EXCH',   'cubic'              + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'csigma'             + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'csigz'              + env['SHOBJSUFFIX']),
              join('..', 'EXCH',   'edp'                + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'ffq'                + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'fndsng'             + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'imhl'               + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'qsorti'             + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'quinn'              + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'rhl'                + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'rhlbp'              + env['SHOBJSUFFIX']),
              join('..', 'EXCH',   'vbh'                + env['SHOBJSUFFIX']),
+             join('..', 'EXCH',   'xcpot'              + env['SHOBJSUFFIX']),
 
              join('..', 'FOVRG',  'dfovrg'             + env['SHOBJSUFFIX']),
              join('..', 'FOVRG',  'inmuac'             + env['SHOBJSUFFIX']),
@@ -135,10 +171,11 @@ misc_feff = [join('..', 'RDINP',  'mkptz'              + env['SHOBJSUFFIX']),
              join('..', 'FOVRG',  'intout'             + env['SHOBJSUFFIX']),
 
              join('..', 'JSON',   'json_read_libpotph' + env['SHOBJSUFFIX']),
+             join('..', 'JSON',   'json_xsect'         + env['SHOBJSUFFIX']),
              join('..', 'JSON',   'bailout'            + env['SHOBJSUFFIX']),
 
              join('..', 'PAR',    'sequential'         + env['SHOBJSUFFIX']),]
 libs = [join('..', 'json-fortran', 'libjsonfortran.a'),]
 
-env.Program('libpotph', libpotph_src + reuse + lib_src + misc_feff + libs);
+env.Program('libpotph', libpotph_src + from_xsph + reuse + lib_src + misc_feff + libs);
 
