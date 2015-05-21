@@ -1,5 +1,6 @@
 c     Josh - added argument iPl to control many pole self energy.
-      subroutine xsph (ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
+      subroutine xsph (wrxsec,
+     -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2       ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
      3       ipol, ispin, le2, angks, ptz, iPl,
@@ -30,6 +31,10 @@ c                   xxx.dat      various diagnostics
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
+
+c     control whether xsect.json gets written, .true. for conventional
+c     feff, .false. for libpotph
+      logical wrxsec
 
       double precision col1(nex), col2(nex), col3(nex)
       double precision col4(nex), col5(nex)
@@ -516,9 +521,10 @@ c          nsp=2
       endif
 c--json--      close (unit=1)
 
-      call json_xsect(ntitle, title, s02, erelax, wp, edge, emu,
-     1                gamach*hart, ne, ne1, ik0,
-     2                col1, col2, col3, col4, col5)
+      if (wrxsec) call json_xsect(ntitle, title, s02, erelax,
+     -       wp, edge, emu,
+     1       gamach*hart, ne, ne1, ik0,
+     2       col1, col2, col3, col4, col5)
 
 c     disable for now since dimensions are different
       if (ipr2 .ge. 2)  then

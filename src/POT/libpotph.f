@@ -216,7 +216,8 @@ c        return stuff for passing to xsph and skipping pot.pad
 
 c     could make a conditional call to wrpot here
 
-      call xsph(ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
+      call xsph(.false.,
+     -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2       ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
      3       ipol, ispin, le2, angks, ptz, iPl,
