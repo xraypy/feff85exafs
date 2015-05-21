@@ -115,7 +115,7 @@ c     CONTROL and PRINT (ipr1=1 for misc.dat)
       mphase   = 1
       ipr1     = 0
       ipr2     = 0
-c     0        =EXAFS, >0 other spectroscopies
+c     ispec=0 for EXAFS, >0 other spectroscopies
       ispec    = 0
 c     CFAVERAGE
       nabs     = 1

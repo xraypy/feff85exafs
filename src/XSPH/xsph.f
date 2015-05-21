@@ -141,6 +141,10 @@ c     Atom r grid
 c     Phase r grid
       dxnew = rgrd
 
+c*************************************************************************
+c     move the call to rdpot out to ffmod1.f so that this file can be
+c     reused between the conventional feff programs and libpotph
+c*************************************************************************
 c$$$      call rdpot ( ntitle, title, rnrmav, xmu, vint, rhoint,
 c$$$     1                  emu, s02, erelax, wp, ecv,rs,xf, qtotel,
 c$$$     2                  imt, rmt, inrm, rnrm, folp, folpx, xnatph,

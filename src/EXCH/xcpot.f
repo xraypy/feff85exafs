@@ -364,13 +364,13 @@ c        Josh - Skip SC loop if CSigma is called. CSigma calculates self consist
          delta = dcmplx(delr,deli)
 
 c	 Josh - write out delta sigma at interstitial level to sigma.dat.
-         if(i.eq.jri1) then
-            write(45,'(X,20e14.6)') (DBLE(em) - xmu)*hart, delr*hart, 
-     &                        deli*hart, DBLE(ZRnrm), DIMAG(ZRnrm), 
-     &                        SQRT(DBLE(ZRnrm)**2+DIMAG(ZRnrm)**2), 
-     &                        ATAN2(DIMAG(ZRnrm),DBLE(ZRnrm)),
-     &                        SQRT(DBLE(em-xmu)/2.d0)/ABS(deli)*bohr
-         end if
+c         if(i.eq.jri1) then
+c            write(45,'(X,20e14.6)') (DBLE(em) - xmu)*hart, delr*hart, 
+c     &                        deli*hart, DBLE(ZRnrm), DIMAG(ZRnrm), 
+c     &                        SQRT(DBLE(ZRnrm)**2+DIMAG(ZRnrm)**2), 
+c     &                        ATAN2(DIMAG(ZRnrm),DBLE(ZRnrm)),
+c     &                        SQRT(DBLE(em-xmu)/2.d0)/ABS(deli)*bohr
+c         end if
 c	 Josh END
 
          if (ixc .eq. 5) delta = dcmplx(delr,delvi)
