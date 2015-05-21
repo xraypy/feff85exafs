@@ -43,12 +43,13 @@ def test_columns():
             yield check_columns, f, part
 
 def test_columns_wrapper():
-    if not tests[folders[0]].wrapper_available:
-        yield check_skip, "wrapper unavailable"
-    else:
-        for f in folders:
-            for part in ('lambda', 'caps', 'redfact', 'rep'):
-                yield check_columns_wrapper, f, part
+    yield check_skip, "not checking wrapper"
+    # if not tests[folders[0]].wrapper_available:
+    #     yield check_skip, "wrapper unavailable"
+    # else:
+    #     for f in folders:
+    #         for part in ('lambda', 'caps', 'redfact', 'rep'):
+    #             yield check_columns_wrapper, f, part
 
 ## check F_eff for each path
 def test_feff():
@@ -59,20 +60,21 @@ def test_feff():
                 yield check_feff, f, index, part
 
 def test_feff_wrapper():
-    if not tests[folders[0]].wrapper_available:
-        yield check_skip, "wrapper unavailable"
-    else:
-        for f in folders:
-            for path in tests[f].paths:
-                index = int(path[4:8])
-                for part in ('feff', 'amp', 'phase'):
-                    if f == ('LCO-perp'):
-                        tests[f].sp.evec  = (1,1,0)
-                        tests[f].sp.xivec = (0,0,1)
-                        tests[f].sp.elpty = 1
-                    elif f == ('LCO-para'):
-                        tests[f].sp.evec  = (0,0,1)
-                    yield check_feff_wrapper, f, index, part
+    yield check_skip, "not checking wrapper"
+    # if not tests[folders[0]].wrapper_available:
+    #     yield check_skip, "wrapper unavailable"
+    # else:
+    #     for f in folders:
+    #         for path in tests[f].paths:
+    #             index = int(path[4:8])
+    #             for part in ('feff', 'amp', 'phase'):
+    #                 if f == ('LCO-perp'):
+    #                     tests[f].sp.evec  = (1,1,0)
+    #                     tests[f].sp.xivec = (0,0,1)
+    #                     tests[f].sp.elpty = 1
+    #                 elif f == ('LCO-para'):
+    #                     tests[f].sp.evec  = (0,0,1)
+    #                 yield check_feff_wrapper, f, index, part
 
 ## check norman and muffin tin radii of the ipots from feff
 def test_radii():
