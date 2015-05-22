@@ -14,6 +14,12 @@ if os.name == 'nt':
     linkdir = '-L'+join(prefix, 'dlls', dlldir)
 
 ## ------------------------------------------------------------------------------------------------------
-## build the test program for the fortran wrapper
+## build the test program for the fortran onepath entry point
 ## Feff libraries should have already been installed
 env.Program('makepath', 'makepath.f', FORTRANFLAGS = ['-g',], LINKFLAGS = [linkdir,], LIBS = ['onepath'])
+
+
+## ------------------------------------------------------------------------------------------------------
+## build the test program for the fortran potph entry point
+## Feff libraries should have already been installed
+env.Program('makepotph', 'makepotph.f', FORTRANFLAGS = ['-g',], LINKFLAGS = [linkdir,], LIBS = ['potph', 'jsonfortran'])

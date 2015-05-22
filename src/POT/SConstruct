@@ -170,12 +170,15 @@ misc_feff = [join('..', 'RDINP',  'mkptz'              + env['SHOBJSUFFIX']),
              join('..', 'FOVRG',  'aprdec'             + env['SHOBJSUFFIX']),
              join('..', 'FOVRG',  'intout'             + env['SHOBJSUFFIX']),
 
-             join('..', 'JSON',   'json_read_libpotph' + env['SHOBJSUFFIX']),
-             join('..', 'JSON',   'json_xsect'         + env['SHOBJSUFFIX']),
-             join('..', 'JSON',   'bailout'            + env['SHOBJSUFFIX']),
-
              join('..', 'PAR',    'sequential'         + env['SHOBJSUFFIX']),]
+
+json = [ join('..', 'JSON',   'json_read_libpotph' + env['SHOBJSUFFIX']),
+         join('..', 'JSON',   'json_xsect'         + env['SHOBJSUFFIX']),
+         join('..', 'JSON',   'bailout'            + env['SHOBJSUFFIX'])]
+
+
 libs = [join('..', 'json-fortran', 'libjsonfortran.a'),]
 
-env.Program('libpotph', libpotph_src + from_xsph + reuse + lib_src + misc_feff + libs);
+env.SharedLibrary('libpotph', libpotph_src + misc_feff + from_xsph + reuse + lib_src + json)
 
+env.Install(ienv['i_lib'], ['libpotph' + env['SHLIBSUFFIX']])

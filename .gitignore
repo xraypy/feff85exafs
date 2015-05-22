@@ -60,6 +60,7 @@ src/GENFMT/feffpath
 wrappers/C/makepath
 wrappers/C/errors
 wrappers/fortran/makepath
+wrappers/fortran/makepotph
 src/PATH/pathfinder
 src/XSPH/xsph
 src/FMS/fms
