@@ -10,9 +10,11 @@
 import os
 from os.path import join, realpath
 from SCons.Environment import Environment
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
 
 env  = Environment()
 here = os.getcwd()
+ienv = InstallEnvironment()
 
 if env['FORTRAN'] == 'gfortran':
     env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -std=f2008 -J'+here,)
@@ -40,15 +42,18 @@ env.Library(ar, src,
 
 ## ------ installation ----------
 
-import larch
-if os.name == 'nt':
-    prefix = larch.larchlib.larchdir
-    dlldir = larch.larchlib.get_dlldir()
-    libinstall = join(prefix, 'dlls', dlldir)        #'C:\MinGW\lib'
-    docinstall = join(prefix, 'doc', 'json-fortran') #'C:\MinGW\doc\json-fortran'
-else:
-    libinstall = larch.larchlib.larchdir
-    docinstall = '/usr/local/share/doc/json-fortran'
+# import larch
+# if os.name == 'nt':
+#     prefix = larch.larchlib.larchdir
+#     dlldir = larch.larchlib.get_dlldir()
+#     libinstall = join(prefix, 'dlls', dlldir)        #'C:\MinGW\lib'
+#     docinstall = join(prefix, 'doc', 'json-fortran') #'C:\MinGW\doc\json-fortran'
+# else:
+#     libinstall = larch.larchlib.larchdir
+#     docinstall = '/usr/local/share/doc/json-fortran'
 
-env.Install(libinstall, [ar,mod])
-env.Alias('install', libinstall)
+#env.Install(libinstall, [ar,mod])
+#env.Alias('install', libinstall)
+
+env.Install(ienv['i_lib'], [ar,mod])
+env.Alias('install', ienv['i_lib'])

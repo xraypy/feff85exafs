@@ -1,4 +1,26 @@
-      program libpotph
+      subroutine libpotph(
+c     TITLE
+     1       ntitle, title,
+c     ATOMS
+     2       nat, rat, iphat,
+c     POTENTIALS
+     3       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
+c     HOLE/EDGE
+     4       ihole,
+c     SCF
+     5       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
+c     POLARIZATION, ELLIPTICITY
+     6       ipol, evec, elpty, xivec,
+c     SPIN
+     7       ispin, spvec, angks,
+c     computed
+     8       ptz, gamach,
+c     EXCHANGE
+     9       ixc, vr0, vi0, ixc0,
+c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
+     _       iafolp, folp, xion, rgrd, iunf,
+c     INTERSTITIAL, JUMPRM, NOHOLE
+     1       inters, totvol, jumprm, nohole)
       
       implicit double precision (a-h, o-z)
 
@@ -80,31 +102,6 @@ c     Josh use nhtmp to save nohole value
 
 
 
-      call inipotph(
-c     TITLE
-     1       ntitle, title,
-c     ATOMS
-     2       nat, rat, iphat,
-c     POTENTIALS
-     3       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
-c     HOLE/EDGE
-     4       ihole,
-c     SCF
-     5       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
-c     POLARIZATION, ELLIPTICITY
-     6       ipol, evec, elpty, xivec,
-c     SPIN
-     7       ispin, spvec, angks,
-c     computed
-     8       ptz, gamach,
-c     EXCHANGE
-     9       ixc, vr0, vi0, ixc0,
-c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
-     _       iafolp, folp, xion, rgrd, iunf,
-c     INTERSTITIAL, JUMPRM, NOHOLE
-     1       inters, totvol, jumprm, nohole)
-
-
 c*****************************************************************************
 c     the following parameters are for features not present or not used
 c     in feff85exafs
@@ -159,35 +156,6 @@ c     OVERLAP
  30   continue
 c*****************************************************************************
 
-
-c*****************************************************************************
-c     read the contents of a json file that includes all of global.json,
-c     atoms.json, pot.json & xpsh.json (i.e. global.dat, atoms.dat, mod1.inp,
-c     and mod2.inp)
-c*****************************************************************************
-      call json_read_libpotph(
-c     TITLE
-     1       ntitle, title,
-c     ATOMS
-     2       nat, rat, iphat,
-c     POTENTIALS
-     3       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
-c     HOLE/EDGE
-     4       ihole,
-c     SCF
-     5       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
-c     POLARIZATION, ELLIPTICITY
-     6       ipol, evec, elpty, xivec,
-c     SPIN
-     7       ispin, spvec, angks,
-c     computed
-     8       ptz, gamach,
-c     EXCHANGE
-     9       ixc, vr0, vi0, ixc0,
-c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
-     _       iafolp, folp, xion, rgrd, iunf,
-c     INTERSTITIAL, JUMPRM, NOHOLE
-     1       inters, totvol, jumprm, nohole)
 
 
 c     iabs != 0 has something to do with CFAVERAGE, outside scope of feff85exafs
