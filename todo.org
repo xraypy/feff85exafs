@@ -38,7 +38,7 @@
 *** libpotph issues and things to test
 
  * does NOHOLE work?
- * does SPIN work?  is it needed for EXAFS?
+ * does SPIN work?  is it needed for exafs?
  * how much of AFOLP, FOLP, ION, RGRID, UNFREEZEF, INTERSTITIAL,
    JUMPRM do we want to support?
    - AFOLP: yes
@@ -48,6 +48,9 @@
    - UNFREEZEF: no idea...
    - INTERSTITIAL: no idea...
    - JUMPRM: probably not
+ * does the iafolp parameter need to be carried around?  seems that it
+   serves to indicate that folp was filled with the value given with
+   AFOLP.
  * what is the point of capturing polarization and ellipticity at
    this stage?  is there any effect on the potantials?  or can they
    be put off until libfeffpath?
@@ -55,8 +58,8 @@
  * the following seem outside the scope of feff85exafs and outside
    what the FP wanted to share: PMBSE, TDLDA, PLASMON
  * the following *are* outside the scope of feff85exafs: XANES, FMS
- * I want OVERLAP to be retired -- it is better done in the sense of a
-   Demeter SSPath using libfeffpath
+ * Bruce wants OVERLAP to be retired -- the concept is better done in
+   the sense of a Demeter::SSPath using libfeffpath
  * might want flags for triggering the various output files controled
    by feff's PRINT card...
 
