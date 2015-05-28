@@ -59,6 +59,7 @@ src/GENFMT/onepath
 src/GENFMT/feffpath
 wrappers/C/makepath
 wrappers/C/errors
+wrappers/C/makephases
 wrappers/fortran/makepath
 wrappers/fortran/makepotph
 src/PATH/pathfinder

@@ -17,6 +17,7 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include <complex.h>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #define _EXPORT(a) __declspec(dllexport) a _stdcall
@@ -70,7 +71,7 @@ typedef struct {
   double *spvec;		/* (3) spin array                               */
   double angks;			/* angle between spin and incidient beam        */
   /* return */
-  double **ptz;			/* (-1:1,-1:1) polarization tensor              */
+  double complex **ptz;	        /* (-1:1,-1:1) polarization tensor              */
   double gamach;		/* tabulated core-hole lifetime                 */
   /* AFOLP and FOLP */
   long iafolp;			/* 1=do automated overlapping                   */
