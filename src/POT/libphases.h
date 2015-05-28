@@ -90,47 +90,47 @@ typedef struct {
   long nohole;			/* 1=compute without core-hole                  */
 } FEFFPHASES;
 
-long create_phases(FEFFPATH*);
-void clear_phases(FEFFPATH*);
-void make_phases(FEFFPATH*);
+long create_phases(FEFFPHASES*);
+void clear_phases(FEFFPHASES*);
+long make_phases(FEFFPHASES*);
 
-void libpotph_(long *,		    /* ntitle */
-	       char (*)[nheadx],    /* titles */
-	       long *,		    /* nat */
-	       double (*)[natx][3], /* rat */
-	       long (*)[natx],	    /* iphat */
-	       long *,		    /* nphx */
-	       long (*)[nphx+1],    /* iz */
-	       char (*)[nphx+1],    /* potlbl */
-	       long (*)[nphx+1],    /* lmaxsc */
-	       long (*)[nphx+1],    /* lmaxph */
-	       double (*)[nphx+1],  /* xnatph */
-	       double (*)[nphx+1],  /* spinph */
-	       long *,		    /* ihole */
-	       double *,	    /* rscf */
-	       long *,		    /* lscf */
-	       long *,		    /* nscmt */
-	       double *,	    /* ca */
-	       long *,		    /* nmix */
-	       double *,	    /* ecv */
-	       long *,		    /* icoul */
-	       long *,		    /* ipol */
-	       double (*)[3],	    /* evec */
-	       double *,	    /* elpty */
-	       double (*)[3],	    /* xivec */
-	       long *,		    /* ispin */
-	       double (*)[3],	    /* spvec */
-	       double *,	    /* angks */
-	       double (*)[3][3],    /* ptz */
-	       double *,	    /* gamach */
-	       long *,		    /* iafolp */
-	       double (*)[nphx+1],  /* folp */
-	       double (*)[nphx+1],  /* xion */
-	       double *,	    /* rgrd */
-	       long *,		    /* iunf */
-	       long *,		    /* inters */
-	       double *,	    /* voltot */
-	       long *,		    /* jumprm */
-	       long *,		    /* nohole */
+void libpotph_(long *,		     /* ntitle */
+	       char (*)[nheadx][81], /* titles */
+	       long *,		     /* nat    */
+	       double (*)[natx][3],  /* rat    */
+	       long (*)[natx],	     /* iphat  */
+	       long *,		     /* nphx   */
+	       long (*)[nphx+1],     /* iz     */
+	       char (*)[nphx+1][7],  /* potlbl */
+	       long (*)[nphx+1],     /* lmaxsc */
+	       long (*)[nphx+1],     /* lmaxph */
+	       double (*)[nphx+1],   /* xnatph */
+	       double (*)[nphx+1],   /* spinph */
+	       long *,		     /* ihole  */
+	       double *,	     /* rscf   */
+	       long *,		     /* lscf   */
+	       long *,		     /* nscmt  */
+	       double *,	     /* ca     */
+	       long *,		     /* nmix   */
+	       double *,	     /* ecv    */
+	       long *,		     /* icoul  */
+	       long *,		     /* ipol   */
+	       double (*)[3],	     /* evec   */
+	       double *,	     /* elpty  */
+	       double (*)[3],	     /* xivec  */
+	       long *,		     /* ispin  */
+	       double (*)[3],	     /* spvec  */
+	       double *,	     /* angks  */
+	       double (*)[3][3],     /* ptz    */
+	       double *,	     /* gamach */
+	       long *,		     /* iafolp */
+	       double (*)[nphx+1],   /* folp   */
+	       double (*)[nphx+1],   /* xion   */
+	       double *,	     /* rgrd   */
+	       long *,		     /* iunf   */
+	       long *,		     /* inters */
+	       double *,	     /* voltot */
+	       long *,		     /* jumprm */
+	       long *		     /* nohole */
 	       );
 	       
