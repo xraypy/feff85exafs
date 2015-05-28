@@ -41,9 +41,10 @@ env.Program('pot', bin_src + libs)
 
 env.Depends('reapot'+env['SHOBJSUFFIX'], join('..', 'json-fortran', 'libjsonfortran.a'))
 
+env.Alias('install', [ienv['i_bin'],ienv['i_inc']])
+
 env.Install(ienv['i_bin'], 'pot'+env['PROGSUFFIX'])
 
-env.Alias('install', [ienv['i_bin'],])
 
 
 
@@ -186,10 +187,12 @@ env.SharedLibrary('libpotph', libpotph_src + misc_feff + from_xsph + reuse + lib
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the libphases C wrapper around libpotph
-env.SharedLibrary('libfeffphases', ['libphases.c'] + libpotph_src + misc_feff + from_xsph + reuse + lib_src + json)
+env.SharedLibrary('libfeffphases', ['feffphases.c'] + libpotph_src + ['libpotph_xsect.f'] + misc_feff + from_xsph + reuse + lib_src)
 
 
+## ------------------------------------------------------------------------------------------------------
+## installation
 env.Install(ienv['i_lib'], ['libpotph' + env['SHLIBSUFFIX'], #  Fortran wrapper around the potentials and phases library
                             'libfeffphases' + env['SHLIBSUFFIX']]) #  C wrapper around the potentials and phases library
 
-env.Install(ienv['i_inc'], 'libphases.h')
+env.Install(ienv['i_inc'], 'feffphases.h')

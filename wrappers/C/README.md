@@ -21,6 +21,10 @@ To compile the `makepath` and `errors` sample programs:
 
 That's it!
 
+`nxjson.c` and `nxjson.h` from https://bitbucket.org/yarosla/nxjson
+and Copyright (c) 2013 Yaroslav Stavnichiy. (nxjson is lgpl, is that a
+conflict given that it is used in a public domain part of feff85exafs..?)
+
 ## Memory testing
 
 If `feffpath.c` has memory leaks or other memory use problems, the

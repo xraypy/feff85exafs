@@ -22,7 +22,7 @@
 #include <math.h>
 #include <assert.h>
 
-#include "libphases.h"
+#include "feffphases.h"
 
 _EXPORT(long) create_phases(FEFFPHASES *phases) {
   /* Instantiate and initialize a FEFFPHASES struct */
@@ -78,17 +78,19 @@ _EXPORT(long) create_phases(FEFFPHASES *phases) {
   phases->xion   = calloc(nphx+1, sizeof(double));
 
 
-  phases->ptz  = calloc(3, sizeof(double *));
+  phases->ptz  = calloc(3, sizeof(double complex *));
   for (i = 0; i < 3; i++) {
-    phases->ptz[i] = calloc(3, sizeof(double));
+    phases->ptz[i] = calloc(3, sizeof(double complex));
   }
 
-  phases->titles = malloc(sizeof(char *) *  nheadx * 7);
+  phases->titles = malloc(sizeof(char *) *  nheadx);
   for (i = 0; i < nheadx; i++) {
+    phases->titles[i] = malloc(sizeof(char *) *  81);
     strcpy(phases->titles[i], titl);
   }
-  phases->potlbl = malloc(sizeof(char *) * (nphx+1) * 81);
+  phases->potlbl = malloc(sizeof(char *) * (nphx+1));
   for (i = 0; i < nphx+1; i++) {
+    phases->potlbl[i] = malloc(sizeof(char *) * 7);
     strcpy(phases->potlbl[i], ptlb);
   }
 
@@ -250,7 +252,13 @@ _EXPORT(void) cleanup(FEFFPHASES *phases) {
   }
   free(phases->ptz);
 
+  for (i = 0; i < nheadx; i++) {
+    free(phases->titles[i]);
+  }
   free(phases->titles);
+  for (i = 0; i < nphx+1; i++) {
+    free(phases->potlbl[i]);
+  }
   free(phases->potlbl);
 
 };
