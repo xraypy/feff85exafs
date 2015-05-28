@@ -117,19 +117,19 @@ c     initialize everything
       nonlocal = 0
       ibasis   = 0
 
-      elpty  = dble(0.)
-      angks  = dble(0.)
+      elpty  = 0.0d0
+      angks  = 0.0d0
       rclabs = big
-      gamach = dble(0.)
-      rgrd   = dble(0.05)
-      ca1    = dble(0.)
-      ecv    = dble(-40.)
-      totvol = dble(0.)
-      xkmax  = dble(20.) * bohr
-      xkstep = dble(0.07) * bohr
-      vixan  = dble(0.) / hart
-      vr0    = dble(0.) / hart
-      vi0    = dble(0.) / hart
+      gamach = 0.0d0
+      rgrd   = 0.05d0
+      ca1    = 0.0d0
+      ecv    = -40.0d0
+      totvol = 0.0d0
+      xkmax  = 20.0d0 * bohr
+      xkstep = 0.07d0 * bohr
+      vixan  = 0.0d0 / hart
+      vr0    = 0.0d0 / hart
+      vi0    = 0.0d0 / hart
 
       rfms1  = real(-1.) / real(bohr)
       rfms2  = real(-1.) / real(bohr)
@@ -139,10 +139,10 @@ c     initialize everything
          iz(i)     = 0
          lmaxsc(i) = 0
          potlbl(i) = ' '
-         xnatph(i) = dble(0.)
-         spinph(i) = dble(0.)
-         folp(i)   = dble(1.)
-         xion(i)   = dble(0.)
+         xnatph(i) = 0.0d0
+         spinph(i) = 0.0d0
+         folp(i)   = 1.0d0
+         xion(i)   = 0.0d0
  10   continue
       do 20 i=1,natx
          iphat(i) = -1
@@ -150,19 +150,19 @@ c     initialize everything
 
       do 35 i=-1,1
          do 30 j=-1,1
-            ptz(i,j) = cmplx(0.,0.)
+            ptz(i,j) = cmplx(0.0d0,0.0d0)
  30      continue
  35   continue
 
       do 40 i=1,3
-         evec(i)  = dble(0.)
-         xivec(i) = dble(0.)
-         spvec(i) = dble(0.)
+         evec(i)  = 0.0d0
+         xivec(i) = 0.0d0
+         spvec(i) = 0.0d0
  40   continue
 
       do 55 i=1,3
          do 50 j=1,natx
-            rat(i,j) = dble(0.)
+            rat(i,j) = 0.0d0
  50      continue
  55   continue
 

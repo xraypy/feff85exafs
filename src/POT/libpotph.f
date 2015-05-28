@@ -26,6 +26,7 @@ c     INTERSTITIAL, JUMPRM, NOHOLE
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
+      include '../HEADERS/parallel.h'
 
 
 c     dimension/types of atoms & global.json things
@@ -45,7 +46,7 @@ c     integer lhead(nheadx)
       integer iz(0:nphx), lmaxsc(0:nphx)
       real rfms1
       double precision gamach, rgrd, ca1, ecv, totvol
-      double precision  xnatph(0:nphx), folp(0:nphx), xion(0:nphx)
+      dimension xnatph(0:nphx), folp(0:nphx), xion(0:nphx)
 
 c     dimension/type os mod2/xpsh things
       integer mphase, ipr2, ixc0, ispec, lreal, lfms2, l2lp, iPl, 
@@ -58,10 +59,10 @@ c     dimension/type os mod2/xpsh things
       integer izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis
 
 c     for OVERLAP option -- DISABLED IN FEFF85EXAFS
-      integer novr(0:nphx), iphovr(novrx,0:nphx), nnovr(novrx,0:nphx)
-      double precision  rovr(novrx,0:nphx)
+      dimension novr(0:nphx), iphovr(novrx,0:nphx), nnovr(novrx,0:nphx)
+      dimension rovr(novrx,0:nphx)
 
-      parameter (big = 1.0e5)
+      parameter (big = 1.0d5)
 
 
 c**********************************************************************
@@ -161,12 +162,14 @@ c*****************************************************************************
 c     iabs != 0 has something to do with CFAVERAGE, outside scope of feff85exafs
       iabs = 1
 
-
       call ffsort(iabs, nat, rat, iphat,
      1       nabs, iphabs, rclabs, ipol, ispin, le2,
      2       elpty, angks, evec, xivec, spvec, ptz,
      3       iatph)
 
+c$$$      print *, rgrd, nohole,
+c$$$     $       inters, totvol, ecv, nscmt, nmix, ntitle,
+c$$$     $       nat, nph, ihole, iafolp, ixc
 
       call pot(rgrd, nohole,
      $       inters, totvol, ecv, nscmt, nmix, ntitle, title,
@@ -176,7 +179,7 @@ c     iabs != 0 has something to do with CFAVERAGE, outside scope of feff85exafs
 c        return stuff for passing to xsph and skipping pot.pad
      -       rnrmav, xmu, vint, rhoint,
      1       emu, s02, erelax, wp, rs, xf, qtotel,
-     2       imt, rmt, inrm, rnrm, folp, folpx,
+     2       imt, rmt, inrm, rnrm, folpx,
      3       dgc0, dpc0, dgc, dpc, adgc, adpc,
      4       edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
      5       eorb, kappa, iorb, qnrm, xnmues, nhtmp

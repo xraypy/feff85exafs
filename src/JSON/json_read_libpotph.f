@@ -47,7 +47,11 @@ c$$$     2       izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis)
       type(json_file) :: json   !the JSON structure read from the file:
       integer,dimension(:),allocatable :: intgs
       character*80,dimension(:),allocatable :: strings
-      double precision,dimension(:),allocatable :: dbpcs, dbpcy, dbpcz
+      double precision,dimension(:),allocatable :: dbpcx, dbpcy, dbpcz
+      double precision,dimension(:),allocatable :: dbpc1, dbpc2, dbpc3
+      double precision,dimension(:),allocatable :: dbpc4, dbpc5, dbpc6
+      double precision,dimension(:),allocatable :: dbpc7, dbpc8, dbpc9
+      double precision,dimension(:),allocatable :: dbpc10
 
 c     dimension/types of atoms.json things
 c     dimension/types of global.json things
@@ -102,7 +106,7 @@ c        TITLE
 c        ATOMS
          call json%get('natt', nat, found)
                 if (.not. found) call bailout('natt',   'libpotph.json')
-         call json%get('x',    dbpcs, found)
+         call json%get('x',    dbpcx, found)
                 if (.not. found) call bailout('x',      'libpotph.json')
          call json%get('y',    dbpcy, found)
                 if (.not. found) call bailout('y',      'libpotph.json')
@@ -112,11 +116,10 @@ c        ATOMS
                 if (.not. found) call bailout('iphatx', 'libpotph.json')
          do 20 i=1,nat
             iphat(i)  = intgs(i)
-            rat(1,i)  = dbpcs(i)
+            rat(1,i)  = dbpcx(i)
             rat(2,i)  = dbpcy(i)
             rat(3,i)  = dbpcz(i)
  20      continue
-
 
 c        POTENTIALS
          call json%get('nph',    nph, found)
@@ -142,16 +145,16 @@ c            potlbl(itit-1) = strings(itit)
          do 60 iph = 0, nphx
             lmaxph(iph) = intgs(iph+1)            
  60      continue
-         call json%get('xnatph', dbpcs, found)
+         call json%get('xnatph', dbpc1, found)
                 if (.not. found) call bailout('xnatph', 'libpotph.json')
          do 70 iph = 0, nphx
-            xnatph(iph) = dbpcs(iph+1)            
+            xnatph(iph) = dbpc1(iph+1)            
  70      continue
-         call json%get('spinph', dbpcs, found)
+         call json%get('spinph', dbpc2, found)
                 if (.not. found) call bailout('spinph', 'libpotph.json')
          do 80 iph = 0, nphx
-            spinph(iph) = dbpcs(iph+1)            
- 80    continue
+            spinph(iph) = dbpc2(iph+1)            
+ 80      continue
 
 c        HOLE/EDGE
          call json%get('ihole',  ihole, found)
@@ -177,47 +180,47 @@ c        SCF
 c        POLARIZATION, ELLIPTICITY
          call json%get('ipol', ipol, found)
                 if (.not. found) call bailout('ipol',   'libpotph.json')
-         call json%get('evec',  dbpcs, found)
+         call json%get('evec',  dbpc3, found)
                 if (.not. found) call bailout('evec',   'libpotph.json')
          do 90 i=1,3
-            evec(i) = dbpcs(i)
+            evec(i) = dbpc3(i)
  90      continue
          call json%get('elpty', elpty, found)
                 if (.not. found) call bailout('elpty',  'libpotph.json')
-         call json%get('xivec',  dbpcs, found)
+         call json%get('xivec',  dbpc4, found)
                 if (.not. found) call bailout('xivec',  'libpotph.json')
          do 100 i=1,3
-            xivec(i) = dbpcs(i)
+            xivec(i) = dbpc4(i)
  100     continue
 
 c        SPIN
          call json%get('ispin', ispin, found)
                 if (.not. found) call bailout('ispin',  'libpotph.json')
-         call json%get('spvec',  dbpcs, found)
+         call json%get('spvec',  dbpc5, found)
                 if (.not. found) call bailout('spvec',  'libpotph.json')
          do 110 i=1,3
-            spvec(i) = dbpcs(i)
+            spvec(i) = dbpc5(i)
  110     continue
          call json%get('angks', angks, found)
                 if (.not. found) call bailout('angks',  'libpotph.json')
 
 
 c        computed: ptz and gamach
-         call json%get('ptz0',  dbpcs, found)
+         call json%get('ptz0',  dbpc6, found)
                 if (.not. found) call bailout('ptz0',  'libpotph.json')
-         ptz(-1,-1) = dcmplx(dbpcs(1), dbpcs(2))
-         ptz( 0,-1) = dcmplx(dbpcs(3), dbpcs(4))
-         ptz( 1,-1) = dcmplx(dbpcs(5), dbpcs(6))
-         call json%get('ptz1',  dbpcs, found)
+         ptz(-1,-1) = dcmplx(dbpc6(1), dbpc6(2))
+         ptz( 0,-1) = dcmplx(dbpc6(3), dbpc6(4))
+         ptz( 1,-1) = dcmplx(dbpc6(5), dbpc6(6))
+         call json%get('ptz1',  dbpc7, found)
                 if (.not. found) call bailout('ptz1',  'libpotph.json')
-         ptz(-1, 0) = dcmplx(dbpcs(1), dbpcs(2))
-         ptz( 0, 0) = dcmplx(dbpcs(3), dbpcs(4))
-         ptz( 1, 0) = dcmplx(dbpcs(5), dbpcs(6))
-         call json%get('ptz2',  dbpcs, found)
+         ptz(-1, 0) = dcmplx(dbpc7(1), dbpc7(2))
+         ptz( 0, 0) = dcmplx(dbpc7(3), dbpc7(4))
+         ptz( 1, 0) = dcmplx(dbpc7(5), dbpc7(6))
+         call json%get('ptz2',  dbpc8, found)
                 if (.not. found) call bailout('ptz2',  'libpotph.json')
-         ptz(-1, 1) = dcmplx(dbpcs(1), dbpcs(2))
-         ptz( 0, 1) = dcmplx(dbpcs(3), dbpcs(4))
-         ptz( 1, 1) = dcmplx(dbpcs(5), dbpcs(6))
+         ptz(-1, 1) = dcmplx(dbpc8(1), dbpc8(2))
+         ptz( 0, 1) = dcmplx(dbpc8(3), dbpc8(4))
+         ptz( 1, 1) = dcmplx(dbpc8(5), dbpc8(6))
          call json%get('gamach', gamach, found)
                 if (.not. found) call bailout('gamach', 'libpotph.json')
 
@@ -235,15 +238,15 @@ c        EXCHANGE
 c        AFOLP, FOLP, ION, RGRID, UNFREEZEF
          call json%get('iafolp', iafolp, found)
                 if (.not. found) call bailout('iafolp', 'libpotph.json')
-         call json%get('folp', dbpcs, found)
+         call json%get('folp', dbpc9, found)
                 if (.not. found) call bailout('folp',   'libpotph.json')
          do 120 iph = 0, nphx
-            folp(iph) = dbpcs(iph+1)            
+            folp(iph) = dbpc9(iph+1)            
  120    continue
-         call json%get('xion', dbpcs, found)
+         call json%get('xion', dbpc10, found)
                 if (.not. found) call bailout('xion',   'libpotph.json')
          do 130 iph = 0, nphx
-            xion(iph) = dbpcs(iph+1)            
+            xion(iph) = dbpc10(iph+1)            
  130    continue
          call json%get('rgrd',   rgrd, found)
                 if (.not. found) call bailout('rgrd',   'libpotph.json')
@@ -333,10 +336,8 @@ c                if (.not. found) call bailout('ibasis')
          call json%destroy()
       end if
 
-
 c********************************************************************************
 c     the 3000s are taken straight from reapot.f
-
 c     transform to code units (bohrs and hartrees - atomic unuts)
       rfms1 = rfms1 / real(bohr)
       gamach = gamach / hart
@@ -347,6 +348,7 @@ c     transform to code units (bohrs and hartrees - atomic unuts)
             rat(i,iat) = rat (i, iat) / bohr
  3000    continue
  3010 continue
+
 c$$ovr$$      do 3030 iph = 0, nph
 c$$ovr$$         do 3020 iovr = 1, novr(iph)
 c$$ovr$$            rovr(iovr,iph) = rovr(iovr,iph) / bohr

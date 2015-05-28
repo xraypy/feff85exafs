@@ -126,6 +126,16 @@ c     and transform it to atomic hartree units
 
       if (mpot .eq. 1)  then
          call wlog(' Calculating potentials ...')
+
+c$$$         print *, rgrd, nohole,
+c$$$     $          inters, totvol, ecv, nscmt, nmix, ntitle,
+c$$$     $          nat, nph, ihole, iafolp, ixc
+         print *, 1, rat(1,1), rat(2,1), rat(3,1), iphat(1)
+         print *, 2, rat(1,2), rat(2,2), rat(3,2), iphat(2)
+         print *, 3, rat(1,3), rat(2,3), rat(3,3), iphat(3)
+         print *, 13, rat(1,13), rat(2,13), rat(3,13), iphat(13)
+         print *, 23, rat(1,23), rat(2,23), rat(3,23), iphat(23)
+
          call pot (rgrd, nohole,
      $          inters, totvol, ecv, nscmt, nmix, ntitle, title,
      $          nat, nph, ihole, iafolp, ixc, iphat, rat, iatph,
@@ -135,7 +145,7 @@ c     and transform it to atomic hartree units
 c        return stuff for wrpot
      -          rnrmav, xmu, vint, rhoint,
      1          emu, s02, erelax, wp, rs, xf, qtotel,
-     2          imt, rmt, inrm, rnrm, folp, folpx,
+     2          imt, rmt, inrm, rnrm, folpx,
      3          dgc0, dpc0, dgc, dpc, adgc, adpc,
      4          edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
      5          eorb, kappa, iorb, qnrm, xnmues, nhtmp
