@@ -27,8 +27,8 @@ c      xivec:  ellipticipty vecotr
 c      spvec:  spin vector
 c
 c output
-c      ptz: polarization tensor
-c      iatph: 
+c      ptz:    polarization tensor
+c      iatph:  list of example atoms for each unique potential
 c***********************************************************************
 
 c removed doptz boolean, which seems to be used only for eels, which is

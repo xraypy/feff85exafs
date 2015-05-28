@@ -1,12 +1,12 @@
-      subroutine pot (rgrd, nohole, inters, totvol, ecv0,
-     $       nscmt, nmix, ntitle, title, nat, nph, ihole, iafolp,
-     $       ixc, iphat, rat, iatph, xnatph, novr,
-     $       iphovr, nnovr, rovr, folp0, xion, iunf, iz, ipr1,
+      subroutine pot (rgrd, nohole,
+     $       inters, totvol, ecv0, nscmt, nmix, ntitle, title,
+     $       nat, nph, ihole, iafolp, ixc, iphat, rat, iatph, xnatph,
+     $       novr, iphovr, nnovr, rovr, folp0, xion, iunf, iz, ipr1,
      $       ispec, jumprm, lmaxsc, icoul, ca1, rfms1, lfms1,
 c     return stuff for wrpot
      -       rnrmav, xmu, vint, rhoint,
      1       emu, s02, erelax, wp, rs, xf, qtotel,
-     2       imt, rmt, inrm, rnrm, folp, folpx,
+     2       imt, rmt, inrm, rnrm, folpx,
      3       dgc0, dpc0, dgc, dpc, adgc, adpc,
      4       edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
      5       eorb, kappa, iorb, qnrm, xnmues, nhtmp
@@ -198,6 +198,11 @@ c        Include corehole if absorber (unless user says nohole)
      3         s02, efrozn, et, xnvmu(0,iph),
      4         xnval(1,iph), iorb(-4,iph), norb(iph),
      5         eorb(1,iph), kappa(1,iph) )
+c$$$           print *, ipr1, iph, nph, iz(iph), itmp, xionp, iunf,
+c$$$     1         vcoul(1,iph), rho(1,iph), dmag(1,iph), rhoval(1,iph),
+c$$$     3         s02, efrozn, et, xnvmu(0,iph),
+c$$$     4         xnval(1,iph), iorb(-4,iph), norb(iph),
+c$$$     5         eorb(1,iph), kappa(1,iph)
          endif
 c        etfin is absorbing atom final state total energy, see nohole
 c           case below
@@ -277,6 +282,7 @@ c     Overlap potentials and densitites
      2               rhoval, vcoul, edens, edenvl, vclap, qnrm)
          if (iph.eq.0) emu = emu - vclap(1,0)+vcoul(1,0)
    90 continue
+
       if (ifree.eq.1) then
 c       Set the Norman radii 
         do 92 iph =0, nph
@@ -323,6 +329,10 @@ c     interstitial parameters
       endif
         
       idmag = 0
+c$$$      print *, "nph", nph
+c$$$      print *, "nat", nat
+c$$$      print *, "edenvl", edenvl(1,0), edenvl(2,0), edenvl(251,0)
+c$$$      print *, "edenvl", edenvl(1,1), edenvl(2,1), edenvl(251,1)
       call istprm (nph, nat, iphat, rat, iatph, xnatph,
      1            novr, iphovr, nnovr, rovr, folp, folpx, iafolp,
      1            edens, edenvl, idmag,
@@ -330,6 +340,14 @@ c     interstitial parameters
      3            ixc, rhoint,vint, rs, xf, xmu, xmunew,
      4            rnrmav, qtotel, inters, totvol)
       xmu = xmunew
+c$$$      print *, "rhoint", rhoint
+c$$$      print *, "vint", vint
+c$$$      print *, "rs", rs
+c$$$      print *, "xf", xf
+c$$$      print *, "xmu", xmu
+c$$$      print *, "xmunew", xmunew
+c$$$      print *, "in pot: rnrmav 1 =", rnrmav
+
 
 c     Automatic max reasonable overlap
       if (iafolp .ge. 0)  then

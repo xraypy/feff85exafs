@@ -18,8 +18,8 @@ c      max number of header lines
       integer ntitle, nat, nph, iphat(natx), ipol, ispin, ihole
       integer lfms1, nmix, icoul, ixc, ixc0, iafolp, iunf, inters
       integer jumprm, nohole
-      integer iz(0:nphx), lmaxsc(0:nphx), lmaxph(0:nphx), spinph(0:nphx)
-      double precision evec(3), xivec(3), spvec(3)
+      integer iz(0:nphx), lmaxsc(0:nphx), lmaxph(0:nphx)
+      double precision evec(3), xivec(3), spvec(3), spinph(0:nphx)
       complex*16 ptz(-1:1, -1:1)
       double precision rat(3,natx)
       double precision xnatph(0:nphx), folp(0:nphx), xion(0:nphx)
