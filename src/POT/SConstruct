@@ -179,6 +179,17 @@ json = [ join('..', 'JSON',   'json_read_libpotph' + env['SHOBJSUFFIX']),
 
 libs = [join('..', 'json-fortran', 'libjsonfortran.a'),]
 
+## ------------------------------------------------------------------------------------------------------
+## build the libpotph Fortran library
 env.SharedLibrary('libpotph', libpotph_src + misc_feff + from_xsph + reuse + lib_src + json)
 
-env.Install(ienv['i_lib'], ['libpotph' + env['SHLIBSUFFIX']])
+
+## ------------------------------------------------------------------------------------------------------
+## build the libphases C wrapper around libpotph
+env.SharedLibrary('libfeffphases', ['libphases.c'] + libpotph_src + misc_feff + from_xsph + reuse + lib_src + json)
+
+
+env.Install(ienv['i_lib'], ['libpotph' + env['SHLIBSUFFIX'], #  Fortran wrapper around the potentials and phases library
+                            'libfeffphases' + env['SHLIBSUFFIX']]) #  C wrapper around the potentials and phases library
+
+env.Install(ienv['i_inc'], 'libphases.h')

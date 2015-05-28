@@ -29,3 +29,9 @@ env.Program('errors', 'errors.c',
             CFLAGS = ['-g', incdir],
             LINKFLAGS = [linkdir,],
             LIBS = ['feffpath'])
+
+env.Program('makephases', 'makephases.c',
+            CFLAGS = ['-g', incdir],
+            LINKFLAGS = [linkdir,],
+            LIBS = ['feffphases'])
+
