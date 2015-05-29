@@ -36,6 +36,9 @@
 
 
 typedef struct {
+  /* error handling*/
+  int errorcode;                /* error code                                   */
+  char *errormessage;           /* error message                                */
   /* json file name from rdinp */
   char   *jsonfile;
   /* TITLE */
@@ -101,7 +104,7 @@ typedef struct {
 int create_phases(FEFFPHASES*);
 void clear_phases(FEFFPHASES*);
 int make_phases(FEFFPHASES*);
-void read_libpotph_json(FEFFPHASES*);
+int read_libpotph_json(FEFFPHASES*);
 
 void libpotph_(int *,		     /* ntitle */
 	       char (*)[nheadx][81], /* titles */
@@ -147,3 +150,5 @@ void libpotph_(int *,		     /* ntitle */
 	       int *		     /* nohole */
 	       );
 	       
+/* json file reader error codes */
+#define JSN_NOFILE           1  /* json file does not exist */

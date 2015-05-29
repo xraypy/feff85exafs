@@ -12,7 +12,10 @@ int main()
   ret = create_phases(phases);
 
   strcpy(phases->jsonfile, "../fortran/libpotph.json");
-  read_libpotph_json(phases);
+  ret = read_libpotph_json(phases);
+  if (ret > 0) {
+    printf("%s (error code %d)\n", phases->errormessage, phases->errorcode);
+  } else {
 
   /* printf("reading from >%s<\n", phases->jsonfile); */
   /* printf("nat=%d\n", phases->nat); */
@@ -27,8 +30,8 @@ int main()
   /* printf(">%s<   >%s<\n", phases->potlbl[0], phases->potlbl[1]); */
   /* printf(">%s<\n>%s<\n", phases->titles[0], phases->titles[1]); */
 
-  make_phases(phases);
-
+    make_phases(phases);
+  }
 
 
   cleanup(phases);
