@@ -202,5 +202,5 @@ c        pass parameters from rdpot
      6       iorb, nohole, ihole,
      7       inters, totvol, iafolp, xion, iunf, iz, jumprm)
 
-      stop
+      return
       end

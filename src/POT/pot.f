@@ -410,7 +410,7 @@ c     made in subroutine corval. Need vxcval only for nonlocal exchange.
       endif
 
       write(slog,130) xmu*hart
-  130 format(' mu_old= ',f9.3)
+  130 format('    : mu_old= ',f9.3)
       call wlog(slog)
 
 c     do first nmix iterations with mixing scheme. Need for f-elements.
@@ -513,7 +513,6 @@ c     suspicious exit: run out of iterations (iscmt=nscmt)
 
 c     right exit from the loop: self-consistency is achieved
   210 continue
-
       if (worker) go to 400
 
       if (nohole.gt.0) then

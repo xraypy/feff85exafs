@@ -188,7 +188,7 @@ c        delk = log (xloss/tempk) /(n1+0.5)
 c        n1 = nint( log(1000/hart/tempk) / delk )
 c        n1 = nint( log(50/hart/aa) / delk )
          ee = min(50.d0/hart,20.d0*xloss)
-         print*, ee, aa, xloss, n1
+c         print*, ee, aa, xloss, n1
          n1 = nint( log(ee/aa) / delk )
          do 60 i = 0, n1
   60     em(ne1+3+i) = edge +coni*aa*exp(delk*i)

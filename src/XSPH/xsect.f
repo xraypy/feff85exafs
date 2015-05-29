@@ -120,7 +120,7 @@ c     explicitly intialize some things
  5    continue
 
       call setkap(ihole, kinit, linit)
-      PRINT*, 'dx=',dx
+c      PRINT*, 'dx=',dx
 c     set imt and jri (use general Loucks grid)
 c     rmt is between imt and jri (see function ii(r) in file xx.f)
       imt = int((log(rmt) + x0) / dx)  +  1
