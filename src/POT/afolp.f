@@ -36,7 +36,7 @@ c     written by ala 11.97
          rmtx(iph) = rmt(iph) / folp(iph)
    5  continue
 
-      call wlog(' iph, rnrm(iph)*bohr, rmt(iph)*bohr, folp(iph)')
+      call wlog('    : ipot, Norman radius, Muffin tin radius, Overlap')
       if (iafolp.ge.0) then
          do 400  iph = 0, nph
 c          old algorithm for automatic overlap
@@ -44,7 +44,7 @@ c          folp(iph) = 1 + 0.7*(rnrm(iph)/rmt(iph) - 1)
            folp(iph) = folpx(iph)
            rmt(iph) = folp(iph) * rmtx(iph)
 
-  398      format(i5, 1p, 3e13.5)
+  398      format(i10, 1p, 3e13.5)
            write(slog,398) iph, rnrm(iph)*bohr, rmt(iph)*bohr, folp(iph)
            call wlog(slog)
   400    continue

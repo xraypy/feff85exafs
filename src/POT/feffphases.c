@@ -30,70 +30,74 @@ _EXPORT(int) create_phases(FEFFPHASES *phases) {
   /* Return an error code -- currently hardwired to return 0. */
   int i;
 
-  char jsonfl[257] = {'\0'};
-  char titl[81]    = {'\0'};
-  char ptlb[7]     = {'\0'};
+  char message[500] = {'\0'};
+  char jsonfl[257]  = {'\0'};
+  char titl[81]     = {'\0'};
+  char ptlb[7]      = {'\0'};
 
-  strcpy(jsonfl, " ");
-  strcpy(titl,   " ");
-  strcpy(ptlb,   " ");
+  strcpy(message, " ");
+  strcpy(jsonfl,  " ");
+  strcpy(titl,    " ");
+  strcpy(ptlb,    " ");
 
-  phases->ntitle = 0;
-  phases->nat    = 0;
-  phases->nph    = 0;
-  phases->ihole  = 1;
-  phases->rscf   = 0.0;
-  phases->lscf   = 0;
-  phases->nscmt  = 0;
-  phases->ca     = 0.0;
-  phases->nmix   = 0;
-  phases->ecv    = 0.0;
-  phases->icoul  = 0;
-  phases->ipol   = 0;
-  phases->elpty  = 0.0;
-  phases->ispin  = 0;
-  phases->angks  = 0.0;
-  phases->gamach = 0.0;
-  phases->ixc    = 0;
-  phases->vr0    = 0.0;
-  phases->vi0    = 0.0;
-  phases->ixc0   = 0;
-  phases->iafolp = 0;
-  phases->rgrd   = 0.0;
-  phases->iunf   = 0;
-  phases->inters = 0;
-  phases->totvol = 0.0;
-  phases->jumprm = 0;
-  phases->nohole = 0;
+  /* ints and doubles */
+  phases->errorcode	= 0;
+  phases->ntitle	= 0;
+  phases->nat		= 0;
+  phases->nph		= 0;
+  phases->ihole		= 1;
+  phases->rscf		= 0.0;
+  phases->lscf		= 0;
+  phases->nscmt		= 0;
+  phases->ca		= 0.0;
+  phases->nmix		= 0;
+  phases->ecv		= 0.0;
+  phases->icoul		= 0;
+  phases->ipol		= 0;
+  phases->elpty		= 0.0;
+  phases->ispin		= 0;
+  phases->angks		= 0.0;
+  phases->gamach	= 0.0;
+  phases->ixc		= 0;
+  phases->vr0		= 0.0;
+  phases->vi0		= 0.0;
+  phases->ixc0		= 0;
+  phases->iafolp	= 0;
+  phases->rgrd		= 0.0;
+  phases->iunf		= 0;
+  phases->inters	= 0;
+  phases->totvol	= 0.0;
+  phases->jumprm	= 0;
+  phases->nohole	= 0;
 
-  /* allocate string arrays for titles and potlbl */
-
-
+  /* atom cluster */
   phases->rat  = calloc(natx, sizeof(double *));
   for (i = 0; i < natx; i++) {
     phases->rat[i] = calloc(3, sizeof(double));
   }
   phases->iphat  = calloc(natx, sizeof(int));
 
+  /* properties of unique potentials */
   phases->iz     = calloc(nphx+1, sizeof(int));
   phases->lmaxsc = calloc(nphx+1, sizeof(int));
   phases->lmaxph = calloc(nphx+1, sizeof(int));
   phases->xnatph = calloc(nphx+1, sizeof(double));
   phases->spinph = calloc(nphx+1, sizeof(double));
+  phases->folp   = calloc(nphx+1, sizeof(double));
+  phases->xion   = calloc(nphx+1, sizeof(double));
 
+  /* 3 vectors */
   phases->evec   = calloc(3, sizeof(double));
   phases->xivec  = calloc(3, sizeof(double));
   phases->spvec  = calloc(3, sizeof(double));
 
-  phases->folp   = calloc(nphx+1, sizeof(double));
-  phases->xion   = calloc(nphx+1, sizeof(double));
-
-
+  /* polarization tensor */
   phases->ptz  = calloc(3, sizeof(double complex *));
   for (i = 0; i < 3; i++) {
     phases->ptz[i] = calloc(3, sizeof(double complex));
   }
 
+  /* strings */
   phases->titles = malloc(sizeof(char *) *  nheadx);
   for (i = 0; i < nheadx; i++) {
     phases->titles[i] = malloc(sizeof(char *) *  81);
@@ -107,6 +111,9 @@ _EXPORT(int) create_phases(FEFFPHASES *phases) {
 
   phases->jsonfile = calloc(257, sizeof(char));
   strcpy(phases->jsonfile, jsonfl);
+
+  phases->errormessage = calloc(257, sizeof(char));
+  strcpy(phases->errormessage, message);
 
 
   return 0;
@@ -179,10 +186,14 @@ _EXPORT(void) clear_phases(FEFFPHASES *phases) {
     phases->spvec[i] = 0.0;
   }
 
+  phases->errorcode = 0;
+  strcpy(phases->errormessage, " ");
+  strcpy(phases->jsonfile, " ");
+
 }
 
 
-_EXPORT(void) read_libpotph_json(FEFFPHASES *phases) {
+_EXPORT(int) read_libpotph_json(FEFFPHASES *phases) {
   /* read the libpotph.json file written by rdinp */
 
   int i;
@@ -381,9 +392,15 @@ _EXPORT(void) read_libpotph_json(FEFFPHASES *phases) {
       free(buffer);
     }
     if (fh != NULL) fclose(fh);
+  } else {
+    phases->errorcode = JSN_NOFILE;
+    sprintf(phases->errormessage, "Error reading JSON file \"%s\"", phases->jsonfile);
+    return JSN_NOFILE;
   }
 
-
+  phases->errorcode = 0;
+  strcpy(phases->errormessage, "");
+  return 0;
 };
 
 
@@ -433,6 +450,11 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
   vi0		= phases->vi0;
   rgrd		= phases->rgrd;
   totvol	= (phases->totvol) / (bohr*bohr*bohr); /* code units! */
+  /************************************************************/
+  /* i don't quite understand why the parens are necessary,   */
+  /* but the divisions by hart were not evaluating correctly  */
+  /* without them....	 				      */
+  /************************************************************/
 
   for (i = 0; i < ntitle; i++) {
     strcpy(titles[i], phases->titles[i]);
@@ -522,5 +544,6 @@ _EXPORT(void) cleanup(FEFFPHASES *phases) {
   }
   free(phases->potlbl);
   free(phases->jsonfile);
+  free(phases->errormessage);
 
 };
