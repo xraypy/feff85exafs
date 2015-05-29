@@ -36,102 +36,114 @@
 
 
 typedef struct {
+  /* json file name from rdinp */
+  char   *jsonfile;
   /* TITLE */
-  long ntitle;			/* number of header lines                       */
-  char **titles;		/* (nheadx) array of header string              */
+  int    ntitle;		/* number of header lines                       */
+  char   **titles;		/* (nheadx) array of header string              */
   /* ATOMS */
-  long nat;			/* number of atoms in cluster                   */
+  int    nat;			/* number of atoms in cluster                   */
   double **rat; 		/* (3,natx) cartesian coordinates of atoms in cluster  */
-  long *iphat;			/* (natx) unique potential indeces of atoms in cluster */
+  int    *iphat;		/* (natx) unique potential indeces of atoms in cluster */
   /* POTENTIALS */
-  long nph;			/* number of unique potentials                  */
-  long *iz;			/* (0:nphx) Z numbers of unique potentials      */
-  char **potlbl;		/* (0:nphx) labels of unique potentials         */
-  long *lmaxsc;			/* (0:nphx) l max for SCF for each potential    */
-  long *lmaxph;			/* (0:nphx) l max for FMS for each potential    */
+  int    nph;			/* number of unique potentials                  */
+  int    *iz;			/* (0:nphx) Z numbers of unique potentials      */
+  char   **potlbl;		/* (0:nphx) labels of unique potentials         */
+  int    *lmaxsc;		/* (0:nphx) l max for SCF for each potential    */
+  int    *lmaxph;		/* (0:nphx) l max for FMS for each potential    */
   double *xnatph;		/* (0:nphx) stoichiometry of each potential     */
   double *spinph;		/* (0:nphx) spin on each unique potential       */
   /* HOLE/EDGE */
-  long ihole;			/* edge index, 1=K, 4=L3, etc                   */
+  int    ihole;			/* edge index, 1=K, 4=L3, etc                   */
   /* SCF */
   double rscf;			/* cluster radius for self-consistent calc.     */
-  long lscf;			/* 0=solid, 1=molecule                          */
-  long nscmt; 			/* max number of self-consistency iterations    */
+  int    lscf;			/* 0=solid, 1=molecule                          */
+  int    nscmt;			/* max number of self-consistency iterations    */
   double ca;			/* self-consistency convergence accelerator     */
-  long nmix;			/* number of mixing iterations before Broyden   */
+  int    nmix;			/* number of mixing iterations before Broyden   */
   double ecv;			/* core/valence separation energy               */
-  long icoul;			/* obsolete param. for handling Coulomb pot.    */
+  int    icoul;			/* obsolete param. for handling Coulomb pot.    */
   /* POLARIZATION and ELLIPTICITY */
-  long ipol;			/* 1=do polarization calculation                */
+  int    ipol;			/* 1=do polarization calculation                */
   double *evec;			/* (3) polarization array                       */
   double elpty;			/* eccentricity of ellilptical light            */
   double *xivec;		/* (3) ellipticity array                        */
   /* SPIN */
-  long ispin;			/* 1=do spin calculation                        */
+  int    ispin;			/* 1=do spin calculation                        */
   double *spvec;		/* (3) spin array                               */
   double angks;			/* angle between spin and incidient beam        */
   /* return */
   double complex **ptz;	        /* (-1:1,-1:1) polarization tensor              */
   double gamach;		/* tabulated core-hole lifetime                 */
+  /* EXCHANGE */
+  int    ixc;	                /* exchange index                               */
+  double vr0;                   /* Fermi level offset                           */
+  double vi0;                   /* constant broadening                          */
+  int    ixc0;                  /*                                              */
   /* AFOLP and FOLP */
-  long iafolp;			/* 1=do automated overlapping                   */
+  int    iafolp;		/* 1=do automated overlapping                   */
   double *folp;			/* (0:nphx) overlapping fractions               */
   /* ION */
   double *xion;			/* (0:nphx) potential ionizations               */
   /* RGRID */
   double rgrd;			/* radial grid used for the potentials/phases   */
   /* UNFREEZEF */
-  long iunf;			/* 1=unfreeze f electrons                       */
+  int    iunf;			/* 1=unfreeze f electrons                       */
   /* INTERSTITIAL */
-  long inters;
+  int    inters;
   double totvol;
   /* JUMPRM */
-  long jumprm;			/* 1=remove potential jumps at muffin tin radii */
+  int    jumprm;		/* 1=remove potential jumps at muffin tin radii */
   /* NOHOLE */
-  long nohole;			/* 1=compute without core-hole                  */
+  int    nohole;		/* 1=compute without core-hole                  */
 } FEFFPHASES;
 
-long create_phases(FEFFPHASES*);
+int create_phases(FEFFPHASES*);
 void clear_phases(FEFFPHASES*);
-long make_phases(FEFFPHASES*);
+int make_phases(FEFFPHASES*);
+void read_libpotph_json(FEFFPHASES*);
 
-void libpotph_(long *,		     /* ntitle */
+void libpotph_(int *,		     /* ntitle */
 	       char (*)[nheadx][81], /* titles */
-	       long *,		     /* nat    */
+	       int *,		     /* nat    */
 	       double (*)[natx][3],  /* rat    */
-	       long (*)[natx],	     /* iphat  */
-	       long *,		     /* nphx   */
-	       long (*)[nphx+1],     /* iz     */
+	       int (*)[natx],	     /* iphat  */
+	       int *,		     /* nph    */
+	       int (*)[nphx+1],      /* iz     */
 	       char (*)[nphx+1][7],  /* potlbl */
-	       long (*)[nphx+1],     /* lmaxsc */
-	       long (*)[nphx+1],     /* lmaxph */
+	       int (*)[nphx+1],      /* lmaxsc */
+	       int (*)[nphx+1],      /* lmaxph */
 	       double (*)[nphx+1],   /* xnatph */
 	       double (*)[nphx+1],   /* spinph */
-	       long *,		     /* ihole  */
+	       int *,		     /* ihole  */
 	       double *,	     /* rscf   */
-	       long *,		     /* lscf   */
-	       long *,		     /* nscmt  */
+	       int *,		     /* lscf   */
+	       int *,		     /* nscmt  */
 	       double *,	     /* ca     */
-	       long *,		     /* nmix   */
+	       int *,		     /* nmix   */
 	       double *,	     /* ecv    */
-	       long *,		     /* icoul  */
-	       long *,		     /* ipol   */
+	       int *,		     /* icoul  */
+	       int *,		     /* ipol   */
 	       double (*)[3],	     /* evec   */
 	       double *,	     /* elpty  */
 	       double (*)[3],	     /* xivec  */
-	       long *,		     /* ispin  */
+	       int *,		     /* ispin  */
 	       double (*)[3],	     /* spvec  */
 	       double *,	     /* angks  */
-	       double (*)[3][3],     /* ptz    */
+	       double complex (*)[3][3], /* ptz    */
 	       double *,	     /* gamach */
-	       long *,		     /* iafolp */
+	       int *,		     /* ixc    */
+	       double *,	     /* vr0    */
+	       double *,	     /* vi0    */
+	       int *,		     /* ixc0   */
+	       int *,		     /* iafolp */
 	       double (*)[nphx+1],   /* folp   */
 	       double (*)[nphx+1],   /* xion   */
 	       double *,	     /* rgrd   */
-	       long *,		     /* iunf   */
-	       long *,		     /* inters */
-	       double *,	     /* voltot */
-	       long *,		     /* jumprm */
-	       long *		     /* nohole */
+	       int *,		     /* iunf   */
+	       int *,		     /* inters */
+	       double *,	     /* totvol */
+	       int *,		     /* jumprm */
+	       int *		     /* nohole */
 	       );
 	       

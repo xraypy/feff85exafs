@@ -85,12 +85,12 @@ c     Make several sanity checks
       if (iatabs.eq.0 .and. natt.gt.1) then
          call wlog(' No absorbing atom (unique pot 0 or iphabs in'//
      1             ' CFAVERAGE  card) was defined.')
-         call par_stop('RDINP')
+         call par_stop('libpotph')
       endif
       if (iphabs.eq.0 .and. icount.gt.1) then
          call wlog(' More than one absorbing atom (potential 0)')
          call wlog(' Only one absorbing atom allowed')
-         call par_stop('RDINP')
+         call par_stop('libpotph')
       endif
       if ((icount.gt.0 .and. icount.lt.nabs) .or. nabs.le.0) then
          nabs = icount
@@ -119,7 +119,7 @@ c     make a smaller list of atoms from a big one
      1           ' for the pathfinder =', i6)
                  call wlog (' Use or reduce rclabs in CFAVERAGE card')
                  call wlog (' Or increase parameter natx and recompile')
-                 call par_stop('RDINP')
+                 call par_stop('libpotph')
                endif
                rat(1,nat) = ratx(1,iat)-ratx(1,iatabs)
                rat(2,nat) = ratx(2,iat)-ratx(2,iatabs)

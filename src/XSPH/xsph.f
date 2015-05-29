@@ -242,7 +242,7 @@ c     Need to add file check and emesh check.
          close(14)
       end if
 c     Josh END
-      
+
       if (itdlda.eq.0)  then 
 !     Josh - Replaced call to phmesh with phmesh2, which allows user
 !     defined grids read from grid.inp. Details can be found in phmesh2.f
