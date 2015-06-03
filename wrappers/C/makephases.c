@@ -30,7 +30,10 @@ int main()
   /* printf(">%s<   >%s<\n", phases->potlbl[0], phases->potlbl[1]); */
   /* printf(">%s<\n>%s<\n", phases->titles[0], phases->titles[1]); */
 
-    make_phases(phases);
+    ret = make_phases(phases);
+    if (ret > 0) {
+      printf("%s (error code %d)\n", phases->errormessage, phases->errorcode);
+    };
   }
 
 

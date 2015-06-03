@@ -25,6 +25,7 @@
 #define _EXPORT(a) a
 #endif
 
+#define MIN(a,b) ((a) < (b) ? a : b)
 
 #define natx   1000           /* from feff, see src/HEADERS/dim.h */
 #define nphx   11             /* from feff */
@@ -37,8 +38,8 @@
 
 typedef struct {
   /* error handling*/
-  int errorcode;                /* error code                                   */
-  char *errormessage;           /* error message                                */
+  int    errorcode;             /* error code                                   */
+  char   *errormessage;         /* error message                                */
   /* json file name from rdinp */
   char   *jsonfile;
   /* TITLE */
@@ -69,10 +70,10 @@ typedef struct {
   /* POLARIZATION and ELLIPTICITY */
   int    ipol;			/* 1=do polarization calculation                */
   double *evec;			/* (3) polarization array                       */
-  double elpty;			/* eccentricity of ellilptical light            */
+  double elpty;			/* eccentricity of elliptical light             */
   double *xivec;		/* (3) ellipticity array                        */
   /* SPIN */
-  int    ispin;			/* 1=do spin calculation                        */
+  int    ispin;			/* +/-2=do spin calculation                     */
   double *spvec;		/* (3) spin array                               */
   double angks;			/* angle between spin and incidient beam        */
   /* return */
@@ -82,7 +83,7 @@ typedef struct {
   int    ixc;	                /* exchange index                               */
   double vr0;                   /* Fermi level offset                           */
   double vi0;                   /* constant broadening                          */
-  int    ixc0;                  /*                                              */
+  int    ixc0;                  /* exchange index used for background function  */
   /* AFOLP and FOLP */
   int    iafolp;		/* 1=do automated overlapping                   */
   double *folp;			/* (0:nphx) overlapping fractions               */
@@ -105,15 +106,16 @@ int create_phases(FEFFPHASES*);
 void clear_phases(FEFFPHASES*);
 int make_phases(FEFFPHASES*);
 int read_libpotph_json(FEFFPHASES*);
+int polarization_tensor(FEFFPHASES*);
 
 void libpotph_(int *,		     /* ntitle */
-	       char (*)[nheadx][81], /* titles */
+	       char (*)[nheadx][80], /* titles */
 	       int *,		     /* nat    */
 	       double (*)[natx][3],  /* rat    */
 	       int (*)[natx],	     /* iphat  */
 	       int *,		     /* nph    */
 	       int (*)[nphx+1],      /* iz     */
-	       char (*)[nphx+1][7],  /* potlbl */
+	       char (*)[nphx+1][6],  /* potlbl */
 	       int (*)[nphx+1],      /* lmaxsc */
 	       int (*)[nphx+1],      /* lmaxph */
 	       double (*)[nphx+1],   /* xnatph */
@@ -150,5 +152,36 @@ void libpotph_(int *,		     /* ntitle */
 	       int *		     /* nohole */
 	       );
 	       
+
+void mkptz_(
+	    int *,		     /* ipol  */
+	    double *,		     /* elpty */
+	    double (*)[3],	     /* evec  */
+	    double (*)[3],	     /* xivec */
+	    int *,		     /* ispin */
+	    double (*)[3],	     /* spvec */
+	    int *,		     /* nat   */
+	    double (*)[natx][3],     /* rat   */
+	    double *,		     /* angks */
+	    int *,		     /* le2   */
+	    double complex (*)[3][3] /* ptz   */
+	   );
+
 /* json file reader error codes */
 #define JSN_NOFILE           1  /* json file does not exist */
+
+/* make_phases error codes */
+#define ERR_NPHX             1  /* too many unique potentials */
+#define ERR_NATX             2  /* too many atoms */
+#define ERR_IHOLE            4  /* invalid edge index */
+#define ERR_Z                8  /* invalid Z number  in potentials list */
+#define ERR_L               16  /* invalid ang. mom. in potentials list */
+#define ERR_STOI            32  /* invalid stoichiometry in potentials list */
+#define ERR_FOLP            64  /* invalid overlap in potentials list */
+#define ERR_ION            128  /* invalid ionization in potentials list NOT USED */
+#define ERR_RSCF           256  /* invalid radius for self-constancy */
+#define ERR_CA             512  /* invalid convergence accelerator */
+#define ERR_IXC           1024  /* invalid exchange index */
+#define ERR_RGRD          2048  /* invalid radial grid */
+#define ERR_IPOT          4096  /* invalid ipot used */
+
