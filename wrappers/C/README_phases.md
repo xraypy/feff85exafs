@@ -37,7 +37,10 @@ int main()
   if (ret > 0) {
     printf("%s (error code %d)\n", phases->errormessage, phases->errorcode);
   } else {
-    make_phases(phases);
+	ret = make_phases(phases);
+    if (ret > 0) {
+      printf("%s (error code %d)\n", phases->errormessage, phases->errorcode);
+    };
   }
 
   cleanup(phases);

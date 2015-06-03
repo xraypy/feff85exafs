@@ -181,7 +181,8 @@ void mkptz_(
 #define ERR_ION            128  /* invalid ionization in potentials list NOT USED */
 #define ERR_RSCF           256  /* invalid radius for self-constancy */
 #define ERR_CA             512  /* invalid convergence accelerator */
-#define ERR_IXC           1024  /* invalid exchange index */
-#define ERR_RGRD          2048  /* invalid radial grid */
-#define ERR_IPOT          4096  /* invalid ipot used */
+#define ERR_ECV           1024  /* invalid core/valence separation energy */
+#define ERR_IXC           2048  /* invalid exchange index */
+#define ERR_RGRD          4096  /* invalid radial grid */
+#define ERR_IPOT          8192  /* invalid ipot used */
 
