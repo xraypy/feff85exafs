@@ -432,7 +432,7 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
   /* Conversion to code units happens here!		      */
   /* Return an error code -- currently hardwired to return 0. */
   /************************************************************/
-  int i, j, absfound;
+  int i, j, nn, na, absfound;
 
   int ntitle, nat, nph, ihole, lscf, nscmt, nmix, icoul, ipol, ispin, ixc, ixc0, iafolp, iunf, inters, jumprm, nohole;
   double rscf, ca, ecv, elpty, angks, gamach, vr0, vi0, rgrd, totvol;
@@ -467,62 +467,80 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
     sprintf(message, "Edge index must be between 1 and 9, i.e. K to M5 (you said %d)\n", phases->ihole);
     strcat(phases->errormessage, message);
   }
-  for (i=0; i<phases->nph; i++) {
-    if ((phases->iz[i] < 1) || (phases->iz[i] > 95)) {
-      if (! phases->errorcode & ERR_Z) { phases->errorcode = phases->errorcode + ERR_Z;};
-      sprintf(message, "%d is not a valid Z number\n", phases->iz[i]);
-    }
-    if ((phases->lmaxsc[i] < 0) || (phases->lmaxsc[i] > 4)) {
-      if (! phases->errorcode & ERR_L) { phases->errorcode = phases->errorcode + ERR_L;};
-      sprintf(message, "%d is not a valid angular momentum at potential %d\n", phases->lmaxsc[i], i);
-    }
-    if ((phases->lmaxph[i] < 0) || (phases->lmaxph[i] > 4)) {
-      if (! phases->errorcode & ERR_L) { phases->errorcode = phases->errorcode + ERR_L;};
-      sprintf(message, "%d is not a valid angular momentum at potential %d\n", phases->lmaxph[i], i);
-    }
-    if (phases->xnatph[i] < 0) {
-      if (! phases->errorcode & ERR_STOI) { phases->errorcode = phases->errorcode + ERR_STOI;};
-      sprintf(message, "stoichiometry cannot be negative (%df) at potential %d\n", phases->lmaxph[i], i);
-    }
-    if ((phases->folp[i] < 0.7) || (phases->folp[i] > 1.5)) {
-      if (! phases->errorcode & ERR_FOLP) { phases->errorcode = phases->errorcode + ERR_FOLP;};
-      sprintf(message, "overlap fraction is not between 0.7 and 1.5 at potential %d\n", i);
+
+  if (! (phases->errorcode & ERR_NPHX)) {
+    for (i=0; i<phases->nph; i++) {
+      if ((phases->iz[i] < 1) || (phases->iz[i] > 95)) {
+	if (phases->errorcode & ERR_Z) {} else { phases->errorcode = phases->errorcode + ERR_Z;}
+	sprintf(message, "%d is not a valid Z number at potential %d\n", phases->iz[i], i);
+	strcat(phases->errormessage, message);
+      }
+      if ((phases->lmaxsc[i] < 0) || (phases->lmaxsc[i] > 4)) {
+	if (phases->errorcode & ERR_L) {} else { phases->errorcode = phases->errorcode + ERR_L;}
+	sprintf(message, "%d is not a valid angular momentum at potential %d\n", phases->lmaxsc[i], i);
+	strcat(phases->errormessage, message);
+      }
+      if ((phases->lmaxph[i] < 0) || (phases->lmaxph[i] > 4)) {
+	if (phases->errorcode & ERR_L) {} else { phases->errorcode = phases->errorcode + ERR_L;}
+	sprintf(message, "%d is not a valid angular momentum at potential %d\n", phases->lmaxph[i], i);
+	strcat(phases->errormessage, message);
+      }
+      if (phases->xnatph[i] < 0) {
+	if (phases->errorcode & ERR_STOI) {} else { phases->errorcode = phases->errorcode + ERR_STOI;}
+	sprintf(message, "Stoichiometry cannot be negative (%lf) at potential %d\n", phases->xnatph[i], i);
+	strcat(phases->errormessage, message);
+      }
+      if ((phases->folp[i] < 0.7) || (phases->folp[i] > 1.5)) {
+	if (phases->errorcode & ERR_FOLP) {} else { phases->errorcode = phases->errorcode + ERR_FOLP;}
+	sprintf(message, "Overlap fraction is not between 0.7 and 1.5 at potential %d\n", i);
+	strcat(phases->errormessage, message);
+      }
     }
   }
-  if ((phases->rscf < 0) && (abs(phases->rscf + 1.0) > 0.000001 )) { /* -1.0 is the fallback (noSCF) value */
-    phases->errorcode = phases->errorcode + ERR_RSCF;
-    sprintf(message, "rscf cannot be negative (you said %lf)\n", phases->rscf);
-    strcat(phases->errormessage, message);
-  }
+  /* if ((phases->rscf < 0) && (abs(phases->rscf + 1.0) > 0.000001 )) { /\* -1.0 is the fallback (noSCF) value *\/ */
+  /*   phases->errorcode = phases->errorcode + ERR_RSCF; */
+  /*   sprintf(message, "rscf cannot be negative (you said %lf)\n", phases->rscf); */
+  /*   strcat(phases->errormessage, message); */
+  /* } */
   if ((phases->ca < 0) || (phases->ca > 0.9)) { 
     phases->errorcode = phases->errorcode + ERR_CA;
-    sprintf(message, "convergence accelerator (ca) should be around 0.2, maybe a bit smaller (you said %lf)\n", phases->ca);
+    sprintf(message, "Convergence accelerator (ca) should be around 0.2, maybe a bit smaller (you said %lf)\n", phases->ca);
+    strcat(phases->errormessage, message);
+  }
+  if (phases->ecv >= 0) { 
+    phases->errorcode = phases->errorcode + ERR_ECV;
+    sprintf(message, "Core/valence separation energy (ecv) must be negative (you said %lf)\n", phases->ecv);
     strcat(phases->errormessage, message);
   }
   if ((phases->ixc < 0) || (phases->ixc == 4) || (phases->ixc > 5)) { 
     phases->errorcode = phases->errorcode + ERR_IXC;
-    sprintf(message, "exchange index (ixc) be 0, 1, 2, 3, or 5 (you said %d)\n", phases->ixc);
+    sprintf(message, "Exchange index (ixc) be 0, 1, 2, 3, or 5 (you said %d)\n", phases->ixc);
     strcat(phases->errormessage, message);
   }
   if ((phases->rgrd < 0) || (phases->rgrd > 0.1)) { 
     phases->errorcode = phases->errorcode + ERR_RGRD;
-    sprintf(message, "radial grid (rgrid) should be around 0.05, maybe a bit smaller, not negative (you said %lf)\n", phases->rgrd);
+    sprintf(message, "Radial grid (rgrid) should be around 0.05, maybe a bit smaller, not negative (you said %lf)\n", phases->rgrd);
     strcat(phases->errormessage, message);
   }
-  absfound = 0;
-  for (i = 0; i < phases->nat; i++) {
-    if ((phases->iphat[i] < 0) || (phases->iphat[i] > phases->nph)) {
-      if (! phases->errorcode & ERR_IPOT) { phases->errorcode = phases->errorcode + ERR_IPOT;}
-      sprintf(message, "%d is not a valid potential index at atom %d\n", phases->iphat[i], i);
+
+  if (! (phases->errorcode & ERR_NATX)) {
+    absfound = 0;
+    for (i = 0; i < phases->nat; i++) {
+      if ((phases->iphat[i] < 0) || (phases->iphat[i] > phases->nph)) {
+	if (phases->errorcode & ERR_IPOT) {} else { phases->errorcode = phases->errorcode + ERR_IPOT;}
+	sprintf(message, "%d is not a valid potential index at atom %d\n", phases->iphat[i], i+1);
+	strcat(phases->errormessage, message);
+      }
+      if ((absfound > 0) && (phases->iphat[i] == 0)) {
+	if (phases->errorcode & ERR_IPOT) {} else { phases->errorcode = phases->errorcode + ERR_IPOT;}
+	sprintf(message, "Additional absorber at atom %d\n", i+1);
+	strcat(phases->errormessage, message);
+      }
+      if (phases->iphat[i] == 0) {
+	absfound = absfound + 1;
+      }
     }
-    if ((absfound > 0) && (phases->iphat[i] == 0)) {
-      if (! phases->errorcode & ERR_IPOT) { phases->errorcode = phases->errorcode + ERR_IPOT;}
-      sprintf(message, "additional absorber at atom %d\n", i);
-    }
-    if (phases->iphat[i] == 0) {
-      absfound = absfound + 1;
-    }
-  }
+  }    
 
   if (phases->errorcode > 0) {
     return phases->errorcode;

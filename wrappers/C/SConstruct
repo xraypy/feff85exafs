@@ -35,3 +35,8 @@ env.Program('makephases', 'makephases.c',
             LINKFLAGS = [linkdir,],
             LIBS = ['feffphases'])
 
+env.Program('pherr', 'pherr.c',
+            CFLAGS = ['-g', incdir],
+            LINKFLAGS = [linkdir,],
+            LIBS = ['feffphases'])
+
