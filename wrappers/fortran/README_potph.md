@@ -117,10 +117,10 @@ to be consistent with the naming conventions in Feff.
 |  angks     | double precision     | I   | angle between spin vector and incident beam                  | SPIN         |
 |  ptz       | double precision     | O   | array(-1:1, -1:1) polarization tensor                        |              |
 |  gamach    | double precision     | O   | tabulated core-hole lifetime                                 |              |
-|  ixc       | integer              | I   | potential model index                                        | EXCHANGE     |
+|  ixc       | integer              | I   | echange index                                                | EXCHANGE     |
 |  vr0       | double precision     | I   | Fermi level shift                                            | EXCHANGE     |
 |  vi0       | double precision     | I   | "optical" loss term                                          | EXCHANGE     |
-|  ixc0      | integer              | I   | ?                                                            | EXCHANGE     |
+|  ixc0      | integer              | I   | exchange index used for background function                  | EXCHANGE     |
 |  iafolp    | integer              | I   | 1=do automated potential overlap                             | AFOLP        |
 |  folp      | double precision     | I   | array(0:nphx) overlap fractions                              | FOLP/AFOLP   |
 |  xion      | double precision     | I   | array(0:nphx) potential ionizations                          | ION          |

@@ -38,7 +38,8 @@ c     initialize everything
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
       ivrbse = 1
-      phpad  = 'phase_orig.pad'
+c      phpad  = 'phase_orig.pad'
+      phpad  = 'phase.pad'
 
 c+---------------------------------------------------------------------
 c  compute a single path, generating the F matrix then returning the 

@@ -32,13 +32,13 @@ _EXPORT(int) create_phases(FEFFPHASES *phases) {
 
   char message[500] = {'\0'};
   char jsonfl[257]  = {'\0'};
-  char titl[81]     = {'\0'};
-  char ptlb[7]      = {'\0'};
+  char titl[80]     = {'\0'};
+  char ptlb[6]      = {'\0'};
 
-  strcpy(message, " ");
-  strcpy(jsonfl,  " ");
-  strcpy(titl,    " ");
-  strcpy(ptlb,    " ");
+  strcpy(message, "");
+  strcpy(jsonfl,  "");
+  strcpy(titl,    "");
+  strcpy(ptlb,    "");
 
   /* ints and doubles */
   phases->errorcode	= 0;
@@ -196,8 +196,10 @@ _EXPORT(void) clear_phases(FEFFPHASES *phases) {
 _EXPORT(int) read_libpotph_json(FEFFPHASES *phases) {
   /* read the libpotph.json file written by rdinp */
 
-  int i;
-  char string[81] = {'\0'};
+  int i, natoms, ntit, nipot, nthreevec, error;
+  char string[80] = {'\0'};
+  char potstr[6]  = {'\0'};
+  char message[500];
 
   const nx_json* json;
   const nx_json* arr;
@@ -207,6 +209,10 @@ _EXPORT(int) read_libpotph_json(FEFFPHASES *phases) {
 
   char *buffer;
   FILE *fh = fopen(phases->jsonfile, "rb");
+
+  error = 0;
+  phases->errorcode = 0;
+  strcpy(phases->errormessage, "");
 
   if ( fh != NULL )  {
     fseek(fh, 0L, SEEK_END);
@@ -253,81 +259,106 @@ _EXPORT(int) read_libpotph_json(FEFFPHASES *phases) {
 	phases->rgrd   = nx_json_get(json, "rgrd"  )->dbl_value;
 	phases->totvol = nx_json_get(json, "totvol")->dbl_value;
 
+
+	/******************************************************/
+        /* always take care not to exceed lengths of arrays|| */
+        /******************************************************/
+
 	/* load matrix of cartesian coordinates */
 	arr = nx_json_get(json, "x");
-	for (i=0; i<arr->length; i++) {
+	natoms = MIN(arr->length, natx);
+	for (i=0; i<natoms; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->rat[i][0] = item->dbl_value;
 	}
 	arr = nx_json_get(json, "y");
-	for (i=0; i<arr->length; i++) {
+	natoms = MIN(arr->length, natx);
+	for (i=0; i<natoms; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->rat[i][1] = item->dbl_value;
 	}
 	arr = nx_json_get(json, "z");
-	for (i=0; i<arr->length; i++) {
+	natoms = MIN(arr->length, natx);
+	for (i=0; i<natoms; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->rat[i][2] = item->dbl_value;
 	}
 	/* and the corresponding potential indeces */
 	arr = nx_json_get(json, "iphatx");
-	for (i=0; i<arr->length; i++) {
+	natoms = MIN(arr->length, natx);
+	for (i=0; i<natoms; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->iphat[i] = item->int_value;
 	}
     
 
 	/* all the arrays that are of length nphx+1 */
-	arr = nx_json_get(json, "iz");
-	for (i=0; i<arr->length; i++) {
+	arr = nx_json_get(json, "iz"); /* Z numbers */
+	nipot = MIN(arr->length, nphx);
+	for (i=0; i<nipot; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->iz[i] = item->int_value;
 	}
-	arr = nx_json_get(json, "lmaxsc");
-	for (i=0; i<arr->length; i++) {
+	arr = nx_json_get(json, "potlbl"); /* potential labels */
+	nipot = MIN(arr->length, nphx);
+	for (i=0; i<nipot; i++) {
+	  item=nx_json_item(arr, i);
+	  sprintf(potstr, "%-6s", item->text_value);
+	  strcpy(phases->potlbl[i], potstr);
+	}
+	arr = nx_json_get(json, "lmaxsc"); /* maximum angular momentum, self consistency */
+	nipot = MIN(arr->length, nphx);
+	for (i=0; i<nipot; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->lmaxsc[i] = item->int_value;
 	}
-	arr = nx_json_get(json, "lmaxph");
-	for (i=0; i<arr->length; i++) {
+	arr = nx_json_get(json, "lmaxph"); /* maximum angular momentum, ... */
+	nipot = MIN(arr->length, nphx);
+	for (i=0; i<nipot; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->lmaxph[i] = item->int_value;
 	}
-	arr = nx_json_get(json, "xnatph");
-	for (i=0; i<arr->length; i++) {
+	arr = nx_json_get(json, "xnatph"); /* stoichiometry */
+	nipot = MIN(arr->length, nphx);
+	for (i=0; i<nipot; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->xnatph[i] = item->dbl_value;
 	}
-	arr = nx_json_get(json, "spinph");
-	for (i=0; i<arr->length; i++) {
+	arr = nx_json_get(json, "spinph"); /* spin */
+	nipot = MIN(arr->length, nphx);
+	for (i=0; i<nipot; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->spinph[i] = item->dbl_value;
 	}
-	arr = nx_json_get(json, "folp");
-	for (i=0; i<arr->length; i++) {
+	arr = nx_json_get(json, "folp"); /* overlap fraction */
+	nipot = MIN(arr->length, nphx);
+	for (i=0; i<nipot; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->folp[i] = item->dbl_value;
 	}
-	arr = nx_json_get(json, "xion");
-	for (i=0; i<arr->length; i++) {
+	arr = nx_json_get(json, "xion"); /* ionization */
+	nipot = MIN(arr->length, nphx);
+	for (i=0; i<nipot; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->xion[i] = item->dbl_value;
 	}
 
-
 	/* 3 vectors */
 	arr = nx_json_get(json, "evec");
-	for (i=0; i<arr->length; i++) {
+	nthreevec = MIN(arr->length, 3);
+	for (i=0; i<nthreevec; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->evec[i] = item->dbl_value;
 	}
 	arr = nx_json_get(json, "xivec");
-	for (i=0; i<arr->length; i++) {
+	nthreevec = MIN(arr->length, 3);
+	for (i=0; i<nthreevec; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->xivec[i] = item->dbl_value;
 	}
 	arr = nx_json_get(json, "spvec");
-	for (i=0; i<arr->length; i++) {
+	nthreevec = MIN(arr->length, 3);
+	for (i=0; i<nthreevec; i++) {
 	  item=nx_json_item(arr, i);
 	  phases->spvec[i] = item->dbl_value;
 	}
@@ -374,17 +405,11 @@ _EXPORT(int) read_libpotph_json(FEFFPHASES *phases) {
         /* depends on uninitialised value(s)" coming from istrln in COMMON/str.f	   */
         /***********************************************************************************/
 	arr = nx_json_get(json, "titles");
-	for (i=0; i<arr->length; i++) {
+	ntit = MIN(arr->length, nheadx);
+	for (i=0; i<ntit; i++) {
 	  item=nx_json_item(arr, i);
 	  sprintf(string, "%-80s", item->text_value);
 	  strcpy(phases->titles[i], string);
-	}
-
-	/* potential labels */
-	arr = nx_json_get(json, "potlbl");
-	for (i=0; i<arr->length; i++) {
-	  item=nx_json_item(arr, i);
-	  strcpy(phases->potlbl[i], item->text_value);
 	}
 
 	nx_json_free(json);
@@ -395,12 +420,9 @@ _EXPORT(int) read_libpotph_json(FEFFPHASES *phases) {
   } else {
     phases->errorcode = JSN_NOFILE;
     sprintf(phases->errormessage, "Error reading JSON file \"%s\"", phases->jsonfile);
-    return JSN_NOFILE;
+    error = error + JSN_NOFILE;
   }
-
-  phases->errorcode = 0;
-  strcpy(phases->errormessage, "");
-  return 0;
+  return error;
 };
 
 
@@ -410,7 +432,7 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
   /* Conversion to code units happens here!		      */
   /* Return an error code -- currently hardwired to return 0. */
   /************************************************************/
-  int i, j;
+  int i, j, absfound;
 
   int ntitle, nat, nph, ihole, lscf, nscmt, nmix, icoul, ipol, ispin, ixc, ixc0, iafolp, iunf, inters, jumprm, nohole;
   double rscf, ca, ecv, elpty, angks, gamach, vr0, vi0, rgrd, totvol;
@@ -419,31 +441,129 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
   double rat[natx][3];
   double complex ptz[3][3];
   double evec[3], xivec[3], spvec[3];
-  char potlbl[nphx+1][7];
-  char titles[nheadx][81];
+  char potlbl[nphx+1][6];
+  char titles[nheadx][80];
 
-  ntitle	= phases->ntitle;
+  char message[500];
+
+  phases->errorcode = 0;
+  strcpy(phases->errormessage, "");
+
+  /******************/
+  /* error checking */
+  /******************/
+  if (phases->nph > nphx) {
+    phases->errorcode = phases->errorcode + ERR_NPHX;
+    sprintf(message, "Too many unique potentials (you specified %d, max allowed %d)\n", phases->nph, nphx);
+    strcat(phases->errormessage, message);
+  }
+  if (phases->nat > natx) {
+    phases->errorcode = phases->errorcode + ERR_NATX;
+    sprintf(message, "Too many atoms (you specified %d, max allowed %d)\n", phases->nat, natx);
+    strcat(phases->errormessage, message);
+  }
+  if ((phases->ihole < 0) || (phases->ihole > 9)) { /* 9 is the M5 edge, I am asserting that EXAFS cannot be done on N+ (even M is a bit silly) */
+    phases->errorcode = phases->errorcode + ERR_IHOLE;
+    sprintf(message, "Edge index must be between 1 and 9, i.e. K to M5 (you said %d)\n", phases->ihole);
+    strcat(phases->errormessage, message);
+  }
+  for (i=0; i<phases->nph; i++) {
+    if ((phases->iz[i] < 1) || (phases->iz[i] > 95)) {
+      if (! phases->errorcode & ERR_Z) { phases->errorcode = phases->errorcode + ERR_Z;};
+      sprintf(message, "%d is not a valid Z number\n", phases->iz[i]);
+    }
+    if ((phases->lmaxsc[i] < 0) || (phases->lmaxsc[i] > 4)) {
+      if (! phases->errorcode & ERR_L) { phases->errorcode = phases->errorcode + ERR_L;};
+      sprintf(message, "%d is not a valid angular momentum at potential %d\n", phases->lmaxsc[i], i);
+    }
+    if ((phases->lmaxph[i] < 0) || (phases->lmaxph[i] > 4)) {
+      if (! phases->errorcode & ERR_L) { phases->errorcode = phases->errorcode + ERR_L;};
+      sprintf(message, "%d is not a valid angular momentum at potential %d\n", phases->lmaxph[i], i);
+    }
+    if (phases->xnatph[i] < 0) {
+      if (! phases->errorcode & ERR_STOI) { phases->errorcode = phases->errorcode + ERR_STOI;};
+      sprintf(message, "stoichiometry cannot be negative (%df) at potential %d\n", phases->lmaxph[i], i);
+    }
+    if ((phases->folp[i] < 0.7) || (phases->folp[i] > 1.5)) {
+      if (! phases->errorcode & ERR_FOLP) { phases->errorcode = phases->errorcode + ERR_FOLP;};
+      sprintf(message, "overlap fraction is not between 0.7 and 1.5 at potential %d\n", i);
+    }
+  }
+  if ((phases->rscf < 0) && (abs(phases->rscf + 1.0) > 0.000001 )) { /* -1.0 is the fallback (noSCF) value */
+    phases->errorcode = phases->errorcode + ERR_RSCF;
+    sprintf(message, "rscf cannot be negative (you said %lf)\n", phases->rscf);
+    strcat(phases->errormessage, message);
+  }
+  if ((phases->ca < 0) || (phases->ca > 0.9)) { 
+    phases->errorcode = phases->errorcode + ERR_CA;
+    sprintf(message, "convergence accelerator (ca) should be around 0.2, maybe a bit smaller (you said %lf)\n", phases->ca);
+    strcat(phases->errormessage, message);
+  }
+  if ((phases->ixc < 0) || (phases->ixc == 4) || (phases->ixc > 5)) { 
+    phases->errorcode = phases->errorcode + ERR_IXC;
+    sprintf(message, "exchange index (ixc) be 0, 1, 2, 3, or 5 (you said %d)\n", phases->ixc);
+    strcat(phases->errormessage, message);
+  }
+  if ((phases->rgrd < 0) || (phases->rgrd > 0.1)) { 
+    phases->errorcode = phases->errorcode + ERR_RGRD;
+    sprintf(message, "radial grid (rgrid) should be around 0.05, maybe a bit smaller, not negative (you said %lf)\n", phases->rgrd);
+    strcat(phases->errormessage, message);
+  }
+  absfound = 0;
+  for (i = 0; i < phases->nat; i++) {
+    if ((phases->iphat[i] < 0) || (phases->iphat[i] > phases->nph)) {
+      if (! phases->errorcode & ERR_IPOT) { phases->errorcode = phases->errorcode + ERR_IPOT;}
+      sprintf(message, "%d is not a valid potential index at atom %d\n", phases->iphat[i], i);
+    }
+    if ((absfound > 0) && (phases->iphat[i] == 0)) {
+      if (! phases->errorcode & ERR_IPOT) { phases->errorcode = phases->errorcode + ERR_IPOT;}
+      sprintf(message, "additional absorber at atom %d\n", i);
+    }
+    if (phases->iphat[i] == 0) {
+      absfound = absfound + 1;
+    }
+  }
+
+  if (phases->errorcode > 0) {
+    return phases->errorcode;
+  };
+
+
+  /*************************************************************************************/
+  /* some items don't need error checking -- it is sufficient to sanitize their values */
+  /*************************************************************************************/
+  ntitle	= MIN(phases->ntitle, nheadx);
   nat		= phases->nat;
   nph		= phases->nph;
   ihole		= phases->ihole;
   lscf		= phases->lscf;
+  if (lscf != 0)   { lscf = 1; };
   nscmt		= phases->nscmt;
+  if (nscmt < 0)   { nscmt = 1; };
   nmix		= phases->nmix;
   icoul		= phases->icoul;
   ipol		= phases->ipol;
+  if (ipol != 0)   { ipol = 1; };
   ispin		= phases->ispin;
+  if (ispin > 0)   { ispin =  2; }
+  if (ispin < 0)   { ispin = -2; }
   ixc		= phases->ixc;
   ixc0		= phases->ixc0;
   iafolp	= phases->iafolp;
   iunf		= phases->iunf;
+  if (iunf != 0)   { iunf = 1; };
   inters	= phases->inters;
   jumprm	= phases->jumprm;
+  if (jumprm != 0) { jumprm = 1; };
   nohole	= phases->nohole;
+  if (nohole > 0) { nohole = 1; };
   
   rscf		= (phases->rscf) / (bohr); /* code units! */
   ca		= phases->ca;
   ecv		= (phases->ecv) / (hart); /* code units! */
   elpty		= phases->elpty;
+  if (elpty < 0.0) { elpty = 0.0; }
+  if (elpty > 1.0) { elpty = 1.0; }
   angks		= phases->angks;
   gamach	= (phases->gamach) / (hart); /* code units! */
   vr0		= phases->vr0;
@@ -453,9 +573,15 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
   /************************************************************/
   /* i don't quite understand why the parens are necessary,   */
   /* but the divisions by hart were not evaluating correctly  */
-  /* without them....	 				      */
+  /* without them, by bohr were -- weird....	              */
   /************************************************************/
 
+
+
+
+  /***************************************************************************/
+  /* transfer attributes to local variables for calling the Fortran function */
+  /***************************************************************************/
   for (i = 0; i < ntitle; i++) {
     strcpy(titles[i], phases->titles[i]);
   };
@@ -468,7 +594,8 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
     spinph[i] = phases->spinph[i];
     folp[i]   = phases->folp[i];
     xion[i]   = phases->xion[i];
-    strcpy(potlbl[i], phases->potlbl[i]);
+    /* strcpy(potlbl[i], phases->potlbl[i]); */
+    sprintf(potlbl[i], "%-6s", phases->potlbl[i]);
   };
 
   for (i = 0; i < nat; i++) {
@@ -484,7 +611,6 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
     }
   }
 
-
   for (i = 0; i < 3; i++) {
     evec[i]  = phases->evec[i];
     xivec[i] = phases->xivec[i];
@@ -492,6 +618,9 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
   }
 
 
+  /*********************************/
+  /* compute potentials and phases */
+  /*********************************/
   libpotph_(&ntitle, &titles, &nat, &rat, &iphat,
 	    &nph, &iz, &potlbl, &lmaxsc, &lmaxph, &xnatph, &spinph,
 	    &ihole, &rscf, &lscf, &nscmt, &ca, &nmix, &ecv, &icoul,
@@ -502,6 +631,34 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
   return 0;
 }
 
+
+_EXPORT(int) polarization_tensor(FEFFPHASES *phases) {
+
+  int i, ipol, ispin, nat, le2;
+  double elpty, angks;
+  double rat[natx][3];
+  double complex ptz[3][3];
+  double evec[3], xivec[3], spvec[3];
+
+  ipol		= phases->ipol;
+  if (ipol != 0)   { ipol = 1; };
+  ispin		= phases->ispin;
+  if (ispin > 0)   { ispin =  2; }
+  if (ispin < 0)   { ispin = -2; }
+  elpty		= phases->elpty;
+  if (elpty < 0.0) { elpty = 0.0; }
+  if (elpty > 1.0) { elpty = 1.0; }
+
+  for (i = 0; i < 3; i++) {
+    evec[i]  = phases->evec[i];
+    xivec[i] = phases->xivec[i];
+    spvec[i] = phases->spvec[i];
+  }
+
+  mkptz_(&ipol, &elpty, &evec, &xivec, &ispin, &spvec, &nat, &rat,
+	&angks, &le2, &ptz);
+  return 0;
+}
 
 _EXPORT(void) cleanup(FEFFPHASES *phases) {
 

@@ -44,6 +44,11 @@ c     use temp to write ph, rkk, since ne < nex
       complex*16 temp(nex*(2*ltot+1))
       dimension dum(3)
 
+c     intialize temp to all 0+i0
+      do 5 i = 1, nex*(2*ltot+1)
+         temp(i) = dcmplx(0.0,0.0)
+ 5    continue
+
       open (unit=1, file='phase.pad', status='unknown', iostat=ios)
       call chopen (ios, 'phase.pad', 'wrxsph')
 
