@@ -13,10 +13,10 @@ c      if (par_type .eq. 2) return
 
       il = istrln (string)
       if (il .eq. 0)  then
-         print10
+         print 10
 c         if (par_type .ne. 3) write(11,10)
       else
-         print10, string(1:il)
+         print 10, string(1:il)
 c         if (par_type .ne. 3) write(11,10) string(1:il)
       endif
       return

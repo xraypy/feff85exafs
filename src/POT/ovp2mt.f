@@ -94,7 +94,7 @@ c           switch from average equation for vint to the local one
 c            stop
          endif
 
-         if (lrewr.eq.1) vint = dble(real(cvovp(ncp))) /100.0
+         if (lrewr.eq.1) vint = dble(real(cvovp(ncp))) /100.0d0
 
 c        rewrite vtot
          do 550 iph=0,nph
@@ -143,7 +143,7 @@ c            stop
                  crho(i) =  vtot(i,iph)*ri(i)**2
                elseif (i.le. imt(iph)) then
                  ix1 = novp*iph +i-imt(iph)+novp
-                 crho(i) = real(cvovp(ix1)) * ri(i)**2
+                 crho(i) = dble(real(cvovp(ix1))) * ri(i)**2
 c                crho(i) =  vtot(i,iph)*ri(i)**2
                else
                  call terp(ri,crho,imt(iph),2,ri(i), crho(i) )

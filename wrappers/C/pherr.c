@@ -161,7 +161,7 @@ int main()
   } else {
     printf("*** failed to recognize bad ipot  %d\n\n", phases->iphat[17]);
   }
-  phases->folp[17] = 1;
+  phases->iphat[17] = 1;
 
 
 

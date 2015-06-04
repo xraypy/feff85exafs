@@ -55,7 +55,7 @@ c      modified by a.l.ankudinov, march 2001 for new i/o structure
       complex*16 ptz(-1:1, -1:1)
 
 c     Local stuff
-      parameter (big = 1.0e5)
+      parameter (big = 1.0d5)
       character*512 slog
 
       external dist
@@ -111,7 +111,7 @@ c     make a smaller list of atoms from a big one
       do 309 iat = 1,natt
          if (iat.ne.iatabs) then
             tmp = dist (ratx(1,iat), ratx(1,iatabs))
-            if (tmp.gt.0.1 .and. tmp.le.rclabs) then
+            if (tmp.gt.0.1d0 .and. tmp.le.rclabs) then
                nat = nat + 1
                if (nat.gt.natx) then
                  write (slog, 307) nat, natx
@@ -192,12 +192,12 @@ c                 this is the closest so far
 c     if iatph > 0, a model atom has been found.
 
 c     Check if 2 atoms are closer together than 1.75 bohr (~.93 Ang)
-      ratmin = 1.0e20
+      ratmin = 1.0d20
       do 480  iat = 1, nat
          do 470  jat = iat+1, nat
             rtmp = dist(rat(1,iat),rat(1,jat))
             if (rtmp .lt. ratmin)  ratmin = rtmp
-            if (rtmp .lt. 1.75 * bohr)  then
+            if (rtmp .lt. 1.75d0 * bohr)  then
                call wlog(' WARNING:  TWO ATOMS VERY CLOSE TOGETHER.' //
      1                   '  CHECK INPUT.')
                iatx = index(iat)

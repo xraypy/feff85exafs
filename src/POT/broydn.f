@@ -38,7 +38,7 @@ c     make  radial grid with 0.05 step
       dx05=0.05d0
       if(iscmt.eq.1) then
         do 10 i=1,251
-           ri05(i) = exp(-8.8+dx05*(i-1))
+           ri05(i) = exp(-8.8d0+dx05*(i-1))
            wt(i) = ri05(i)**3
   10    continue
       endif

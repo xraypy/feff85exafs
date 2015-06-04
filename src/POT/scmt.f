@@ -65,7 +65,7 @@ c     save staff from rdinp, so no need to call it again
       ient = ient + 1
       if (ient.eq.1) then
          do 15 i= 1,251
-  15     ri05(i) = exp (-8.8+0.05*(i-1))
+  15     ri05(i) = exp (-8.8d0+0.05d0*(i-1))
       endif
 
       write (slog,10) iscmt, nscmt
@@ -231,7 +231,7 @@ c          reset iflr variables
       else
 c       check if the fermi level is found
         if (iflrp.eq.1 .and. iflr.eq.1 .and.
-     1                xndifp*xndif .le. 0.e0) then
+     1                xndifp*xndif .le. 0.d0) then
 c          Fermi level is found ; do not goto 25
            if (xndif.eq.0) then
               xmunew = dble(ee)
@@ -322,9 +322,9 @@ c     report configuration; repeat iteration if found bad counts.
 c        check that occupation numbers are consistent with those
 c        set in getorb.f
          diff = abs(xnmues(il,ip) - xnvmu(il,ip))
-         if (diff.gt.13.1 .or. (il.eq.2 .and. diff.gt. 9.1) .or.
-     1   (il.eq.1 .and. diff.gt.5.1) .or.
-     2   (il.eq.0 .and. diff.gt.1.95)) then
+         if (diff.gt.13.1d0 .or. (il.eq.2 .and. diff.gt. 9.1d0) .or.
+     1   (il.eq.1 .and. diff.gt.5.1d0) .or.
+     2   (il.eq.0 .and. diff.gt.1.95d0)) then
             call wlog (' Found bad counts.')
             write (slog,311) xnvmu(il,ip)
   311       format('  Occupation number in getorb is ', f9.3)
