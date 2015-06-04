@@ -3,7 +3,7 @@
      $       nat, nph, ihole, iafolp, ixc, iphat, rat, iatph, xnatph,
      $       novr, iphovr, nnovr, rovr, folp0, xion, iunf, iz, ipr1,
      $       ispec, jumprm, lmaxsc, icoul, ca1, rfms1, lfms1,
-c     return stuff for wrpot
+     $
      -       rnrmav, xmu, vint, rhoint,
      1       emu, s02, erelax, wp, rs, xf, qtotel,
      2       imt, rmt, inrm, rnrm, folpx,
@@ -11,7 +11,126 @@ c     return stuff for wrpot
      4       edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
      5       eorb, kappa, iorb, qnrm, xnmues, nhtmp
      6       )
+c                                                                   !     return stuff for use in wrpot & xsph
 c gamach
+
+c##****f* feff85exafs/pot
+c##  NAME
+c##     pot
+c##
+c##  SYNOPSIS
+c##     pot(rgrd, nohole,
+c##    $    inters, totvol, ecv0, nscmt, nmix, ntitle, title,
+c##    $    nat, nph, ihole, iafolp, ixc, iphat, rat, iatph, xnatph,
+c##    $    novr, iphovr, nnovr, rovr, folp0, xion, iunf, iz, ipr1,
+c##    $    ispec, jumprm, lmaxsc, icoul, ca1, rfms1, lfms1,
+c##    $    rnrmav, xmu, vint, rhoint,
+c##    $    emu, s02, erelax, wp, rs, xf, qtotel,
+c##    $    imt, rmt, inrm, rnrm, folpx,
+c##    $    dgc0, dpc0, dgc, dpc, adgc, adpc,
+c##    $    edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+c##    $    eorb, kappa, iorb, qnrm, xnmues, nhtmp)
+c##
+c##  FUNCTION
+c##     Compute potentials for an input atomic cluster, returning data needed to compute phase shifts
+c##
+c##
+c##  INPUTS
+c##     rgrd        radial grid spacing (RGRD)
+c##     nohole      flag to compute with no hole on absorber (NOHOLE)
+c##     inters      parameter of the interstitial calculation (INTERSTITIAL)
+c##     totvol      parameter of the interstitial calculation (INTERSTITIAL)
+c##     ecv0        core/valence separation (EXCHANGE)
+c##     nscmt       max number of self-conmsistentcy iterations (SCF)
+c##     nmix        number of iterations before switching to Broyden (SCF)
+c##     ntitle      number of title lines (TITLE)
+c##     title       title lines (TITLE)
+c##     nat         number of atoms in cluster (ATOMS)
+c##     nph         number of unique potentials in cluster (POTENTIALS)
+c##     ihole       edge index, 1=K, 4=L3, etc (EDGE/HOLE)
+c##     iafolp      flag indicating automatic overlapping (AFOLP)
+c##     ixc         exchange index (EXCHANGE)
+c##     iphat       unique potential indeces of atoms in cluster (ATOMS)
+c##     rat         cartesian coordinates of atoms in cluster (ATOMS)
+c##     iatph       example of each unique potential in cluster
+c##     xnatph      stoichiometries of each potential index (POTENTIALS)
+c##     novr        number of overlap shells for unique potential (obsolete in feff85exafs)
+c##     iphovr      unique potential for this overlap shell (obsolete in feff85exafs)
+c##     nnovr       number of atoms in overlap shell (obsolete in feff85exafs)
+c##     rovr        r for overlap shell (obsolete in feff85exafs)
+c##     folp0       overlap factor for rmt calculation (FOLP/AFOLP)
+c##     xion        ioniziation of each potential (ION)
+c##     iunf        flag to unfreeze f eectrons (UNFREEZEF)
+c##     iz          Z numbers of each potential (POTENTIALS)
+c##     ipr1        print flag (not used in library)
+c##     ispec       spectroscopy index, 1=EXAFS (always set to 1 in feff85exafs)
+c##     jumprm      flag to remove jumps at muffin tin radii (JUMPRM)
+c##     lmaxsc      l max for SCF for each potential (POTENTIALS)
+c##     icoul       obsolete param. for handling Coulomb potential (SCF)
+c##     ca1         self-consistency convergence accelerator (SCF)
+c##     rfms1       cluster radius for self-consistent calculation (SCF)
+c##     lfms1       0=solid, 1=molecule (SCF)
+c##     rnrmav      average Norman radius in cluster
+c##     xmu         Fermi level in hartrees
+c##     vint        interstitial energy
+c##     rhoint      interstitial density * 4 * pi
+c##
+c##
+c##  RESULT
+c##     emu         ionization energy in adiabatic approximation
+c##     s02         computed S02
+c##     erelax      ionization energy - emu
+c##     wp          plasmon frequency in hartrees
+c##     rs          interstitial density parameter (see istprm.f and fermi.f)
+c##     xf          interstital fermi momentum
+c##     qtotel      total number of e in a cluster
+c##     imt         r mesh index just inside rmt
+c##     rmt         muffin tin radii
+c##     inrm        r mesh index just inside rnorman
+c##     rnrm        Norman radii
+c##     folpx       overlap factor for rmt calculation
+c##     dgc0        additional data needed for relativistic version
+c##     dpc0        additional data needed for relativistic version
+c##     dgc         additional data needed for relativistic version
+c##     dpc         additional data needed for relativistic version
+c##     adgc        additional data needed for relativistic version
+c##     adpc        additional data needed for relativistic version
+c##     edens       core density
+c##     vclap       overlapped Coulomb potential
+c##     vtot        overlapped Coulomb potential
+c##     edenvl      additional data needed for relativistic version
+c##     vvalgs      additional data needed for relativistic version
+c##     dmag        data for single configuration Dirac-Fock atom code
+c##     xnval       data for single configuration Dirac-Fock atom code
+c##     eorb        data for single configuration Dirac-Fock atom code
+c##     kappa       data for single configuration Dirac-Fock atom code
+c##     iorb        data for single configuration Dirac-Fock atom code
+c##     qnrm        Norman radii after ovrlp.f
+c##     xnmues      
+c##     nhtmp       holds nohole value
+c##    
+c##
+c##  NOTES
+c##    Call wrpot to write the pot.pad file.  Call reapot to read the potph.json (potph.inp) file.
+c##    See ffmod1.f for the use of this subroutine in the conventional stand-alone program.
+c##
+c##  BUGS
+c##    Report bugs and other issues at https://github.com/xraypy/feff85exafs
+c##
+c##  LICENSE
+c##    See src/HEADERS/license.h for the terms of the parts of feff85exafs derived directly from Feff
+c##
+c##    nxjson.c and nxjson.h are Copyright (c) 2013 Yaroslav Stavnichiy <yarosla@gmail.com>.  See
+c##    https://bitbucket.org/yarosla/nxjson/src
+c##
+c##    The C wrapper around this subroutine is released to the public domain
+c##
+c##  SEE ALSO
+c##    The pot and xsph stand-alone programs, the libfeffphases.c wrapper
+c##
+c##****
+
+
 
 c     Cluster code -- multiple shell single scattering version of FEFF
 c     This program (or subroutine) calculates potentials and phase
@@ -112,10 +231,10 @@ c     additioal data needed for relativistic version
       dimension vvalgs (251,0:nphx)
 
 c     nrx = max number of r points for phase and xsect r grid
-      parameter (nrx = nrptx)
+c      parameter (nrx = nrptx)
       dimension ri(nrptx)
-      dimension  dmag(251,0:nphx+1), xnvmu(0:lx,0:nphx+1)
-      dimension  xnval(30,0:nphx+1), norb(0:nphx+1), eorb(30,0:nphx+1)
+      dimension dmag(251,0:nphx+1), xnvmu(0:lx,0:nphx+1)
+      dimension xnval(30,0:nphx+1), norb(0:nphx+1), eorb(30,0:nphx+1)
       dimension kappa(30,0:nphx+1), iorb(-4:3,0:nphx+1)
 c       criteria for self-consistency
       parameter (tolq = 1.D-3)
@@ -198,11 +317,6 @@ c        Include corehole if absorber (unless user says nohole)
      3         s02, efrozn, et, xnvmu(0,iph),
      4         xnval(1,iph), iorb(-4,iph), norb(iph),
      5         eorb(1,iph), kappa(1,iph) )
-c$$$           print *, ipr1, iph, nph, iz(iph), itmp, xionp, iunf,
-c$$$     1         vcoul(1,iph), rho(1,iph), dmag(1,iph), rhoval(1,iph),
-c$$$     3         s02, efrozn, et, xnvmu(0,iph),
-c$$$     4         xnval(1,iph), iorb(-4,iph), norb(iph),
-c$$$     5         eorb(1,iph), kappa(1,iph)
          endif
 c        etfin is absorbing atom final state total energy, see nohole
 c           case below
@@ -237,8 +351,8 @@ c     do not save potentials, except for nohole.
       endif
 
 c     testing new potential for the final state. ala
-      hx = 0.05
-      x0 = -8.8
+      hx = 0.05d0
+      x0 = -8.8d0
       if (nohole.gt.0) then
          idim = 251
          do 30 i = 1,idim
@@ -329,10 +443,6 @@ c     interstitial parameters
       endif
         
       idmag = 0
-c$$$      print *, "nph", nph
-c$$$      print *, "nat", nat
-c$$$      print *, "edenvl", edenvl(1,0), edenvl(2,0), edenvl(251,0)
-c$$$      print *, "edenvl", edenvl(1,1), edenvl(2,1), edenvl(251,1)
       call istprm (nph, nat, iphat, rat, iatph, xnatph,
      1            novr, iphovr, nnovr, rovr, folp, folpx, iafolp,
      1            edens, edenvl, idmag,
@@ -340,14 +450,6 @@ c$$$      print *, "edenvl", edenvl(1,1), edenvl(2,1), edenvl(251,1)
      3            ixc, rhoint,vint, rs, xf, xmu, xmunew,
      4            rnrmav, qtotel, inters, totvol)
       xmu = xmunew
-c$$$      print *, "rhoint", rhoint
-c$$$      print *, "vint", vint
-c$$$      print *, "rs", rs
-c$$$      print *, "xf", xf
-c$$$      print *, "xmu", xmu
-c$$$      print *, "xmunew", xmunew
-c$$$      print *, "in pot: rnrmav 1 =", rnrmav
-
 
 c     Automatic max reasonable overlap
       if (iafolp .ge. 0)  then
@@ -361,7 +463,7 @@ c     Automatic max reasonable overlap
       endif
 
 c     wp is plasmon frequency in hart
-      wp = sqrt(12.*rs/fa**4) * xf**2 / 2.d0
+      wp = sqrt(12.d0*rs/fa**4) * xf**2 / 2.d0
 
 c     Phase shift calculation
 c     Atom r grid
@@ -470,7 +572,7 @@ c           check self-consistency of charges
             sum = -qnrm(iph)
             do 160 il=0,lx
   160       sum = sum + xnmues(il,iph) - xnvmu(il,iph)
-            if (abs(sum).gt.0.05) lpass = .false.
+            if (abs(sum).gt.0.05d0) lpass = .false.
   170    continue
   180    format('     ',i3, 2f9.3)
 

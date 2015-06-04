@@ -12,7 +12,7 @@ c          =-1, rmt=rws, no calculation possible
       implicit double precision (a-h, o-z)
 
       include '../HEADERS/dim.h'
-      parameter (delta = 0.050 000 000 000 000)
+      parameter (delta = 0.050 000 000 000 000d0)
 
       dimension vtot (nrptx)
       dimension rholap (nrptx)

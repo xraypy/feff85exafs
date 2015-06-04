@@ -25,7 +25,8 @@
 #include "feffphases.h"
 #include "nxjson.c"
 
-_EXPORT(int) create_phases(FEFFPHASES *phases) {
+_EXPORT(int)
+create_phases(FEFFPHASES *phases) {
   /* Instantiate and initialize a FEFFPHASES struct */
   /* Return an error code -- currently hardwired to return 0. */
   int i;
@@ -120,7 +121,8 @@ _EXPORT(int) create_phases(FEFFPHASES *phases) {
 }
 
 
-_EXPORT(void) clear_phases(FEFFPHASES *phases) {
+_EXPORT(void)
+clear_phases(FEFFPHASES *phases) {
   /* Reinitialize a FEFFPHASES struct, returning everything to default */
   int i,j;
 
@@ -193,7 +195,8 @@ _EXPORT(void) clear_phases(FEFFPHASES *phases) {
 }
 
 
-_EXPORT(int) read_libpotph_json(FEFFPHASES *phases) {
+_EXPORT(int)
+read_libpotph_json(FEFFPHASES *phases) {
   /* read the libpotph.json file written by rdinp */
 
   int i, natoms, ntit, nipot, nthreevec, error;
@@ -426,7 +429,8 @@ _EXPORT(int) read_libpotph_json(FEFFPHASES *phases) {
 };
 
 
-_EXPORT(int) make_phases(FEFFPHASES *phases) {
+_EXPORT(int)
+make_phases(FEFFPHASES *phases) {
   /************************************************************/
   /* Instantiate and initialize a FEFFPHASES struct	      */
   /* Conversion to code units happens here!		      */
@@ -650,9 +654,10 @@ _EXPORT(int) make_phases(FEFFPHASES *phases) {
 }
 
 
-_EXPORT(int) polarization_tensor(FEFFPHASES *phases) {
+_EXPORT(int)
+polarization_tensor(FEFFPHASES *phases) {
 
-  int i, ipol, ispin, nat, le2;
+  int i, j, ipol, ispin, nat, le2;
   double elpty, angks;
   double rat[natx][3];
   double complex ptz[3][3];
@@ -675,10 +680,17 @@ _EXPORT(int) polarization_tensor(FEFFPHASES *phases) {
 
   mkptz_(&ipol, &elpty, &evec, &xivec, &ispin, &spvec, &nat, &rat,
 	&angks, &le2, &ptz);
+  phases->angks = angks;
+  for (i = 0; i < 3; i++) {
+    for (j = 0; j < 3; j++) {
+      phases->ptz[i][j] = ptz[i][j];
+    }
+  }
   return 0;
 }
 
-_EXPORT(void) cleanup(FEFFPHASES *phases) {
+_EXPORT(void)
+cleanup(FEFFPHASES *phases) {
 
   int i;
 

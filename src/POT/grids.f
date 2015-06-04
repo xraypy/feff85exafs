@@ -17,7 +17,7 @@ c     it may also depend on core-valence separation
 c     eimmin = the lowest im energy to search for fermi level
 c     may simulate Fermi distr for occ numbers, thus may want
 c     to lower eimmin for low temperatures.
-      eimmin = coni*0.05/hart
+      eimmin = coni*0.05d0/hart
       neg1 = (nflrx+1)/2
       neg3 = nflrx - 1
       neg2mx = negx-neg1-neg3

@@ -104,7 +104,7 @@ c       Josh use nhtmp to save nohole value
 
 c     Initialize clock
       call seconds(wall_start)
-      wall_comm = 0.0
+      wall_comm = 0.0d0
 
 c     open the log file, unit 11.  See subroutine wlog.
       if (master) then
@@ -142,7 +142,7 @@ c$$$     $          nat, nph, ihole, iafolp, ixc
      $          xnatph, novr, iphovr, nnovr, rovr,
      $          folp, xion, iunf, iz, ipr1, ispec, jumprm,
      $          lmaxsc, icoul, ca1, rfms1, lfms1,
-c        return stuff for wrpot
+     $
      -          rnrmav, xmu, vint, rhoint,
      1          emu, s02, erelax, wp, rs, xf, qtotel,
      2          imt, rmt, inrm, rnrm, folpx,
@@ -150,6 +150,7 @@ c        return stuff for wrpot
      4          edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
      5          eorb, kappa, iorb, qnrm, xnmues, nhtmp
      6    )
+c        return stuff for wrpot
 c                  gamach
 c        write stuff into pot.pad
          call wrpot (nph, ntitle, title, rnrmav, xmu, vint, rhoint,

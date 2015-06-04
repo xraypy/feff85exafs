@@ -11,7 +11,7 @@ c#mn
 
 c     Set imax (last non-zero rholap data)
       do 220  i = imt, npts
-         if (rholap(i) .le. 1.0e-5)  goto 230
+         if (rholap(i) .le. 1.0d-5)  goto 230
          imax = i
   220 continue
   230 continue

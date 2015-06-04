@@ -1,26 +1,15 @@
       subroutine inipotph(
-c     TITLE
-     1       ntitle, title,
-c     ATOMS
-     2       nat, rat, iphat,
-c     POTENTIALS
-     3       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
-c     HOLE/EDGE
-     4       ihole,
-c     SCF
-     5       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
-c     POLARIZATION, ELLIPTICITY
-     6       ipol, evec, elpty, xivec,
-c     SPIN
-     7       ispin, spvec, angks,
-c     computed
-     8       ptz, gamach,
-c     EXCHANGE
-     9       ixc, vr0, vi0, ixc0,
-c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
-     _       iafolp, folp, xion, rgrd, iunf,
-c     INTERSTITIAL, JUMPRM, NOHOLE
-     1       inters, totvol, jumprm, nohole)
+     1       ntitle, title,                                             ! TITLE
+     2       nat, rat, iphat,                                           ! ATOMS
+     3       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,           ! POTENTIALS
+     4       ihole,                                                     ! HOLE/EDGE
+     5       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,                ! SCF
+     6       ipol, evec, elpty, xivec,                                  ! POLARIZATION, ELLIPTICITY
+     7       ispin, spvec, angks,                                       ! SPIN
+     8       ptz, gamach,                                               ! computed
+     9       ixc, vr0, vi0, ixc0,                                       ! EXCHANGE
+     _       iafolp, folp, xion, rgrd, iunf,                            ! AFOLP, FOLP, ION, RGRID, UNFREEZEF
+     1       inters, totvol, jumprm, nohole)                            ! INTERSTITIAL, JUMPRM, NOHOLE
 
 c$$$(nat, rat, iphat,
 c$$$     1       le2, elpty, angks, evec, xivec, spvec, ptz,
@@ -74,7 +63,7 @@ c     dimension/type os mod2/xpsh things
       character*6  potlbl(0:nphx)
       integer izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis
 
-      parameter (big = 1.0e5)
+      parameter (big = 1.0d5)
 
 
 c*****************************************************************************
@@ -150,7 +139,7 @@ c     initialize everything
 
       do 35 i=-1,1
          do 30 j=-1,1
-            ptz(i,j) = cmplx(0.0d0,0.0d0)
+            ptz(i,j) = dcmplx(0.0d0,0.0d0)
  30      continue
  35   continue
 
@@ -167,7 +156,7 @@ c     initialize everything
  55   continue
 
       do 60 i=1,nheadx
-         title(i)  = ''
+         title(i)  = ' '
  60   continue
 
       return

@@ -62,7 +62,7 @@ c
 c xl_i = (rnrm_i**2 - rnrm_j**2 + rnn**2) / (2*rnn)
 
 c     find rmt from rnrm only on first call of istprm (rmt(0)=-1)
-      if (rmt(0).le.0.0) then
+      if (rmt(0).le.0.0d0) then
       do 10 iph=0,nph
   10  lnear(iph)=.false.
       do 140  iph = 0, nph
@@ -167,7 +167,7 @@ c             begin until loop
                 goto 133
 c             end of until loop
  134          continue
-              rmt(iph) = exp(xx(imax)) - 0.0001
+              rmt(iph) = exp(xx(imax)) - 0.0001d0
             endif
          endif
 
@@ -181,9 +181,9 @@ c     already done in pot.f
 
       do 145 iph = 0, nph
          if (iafolp. gt. 0 ) then
-            temp = 0.2 + 0.8 * rnrm(iph) / rmt(iph)
+            temp = 0.2d0 + 0.8d0 * rnrm(iph) / rmt(iph)
          else
-            temp = 0.3 + 0.7 * rnrm(iph) / rmt(iph)
+            temp = 0.3d0 + 0.7d0 * rnrm(iph) / rmt(iph)
          endif
          if (temp.lt.folpx(iph)) folpx(iph) = temp
          temp = rnnmin(iph)/rmt(iph)/1.06d0
@@ -219,14 +219,14 @@ c     Need potential with ground state xc, put it into vtot
                call wlog(slog)
              endif
              rs = 100
-             xmag=1.0
+             xmag=1.0d0
             else
               rs = (edens(i,iph)/3)**(-third)
 c     spin dependent xc potential for ground state from Von Barth, Hedin
 c     J.Phys.C:Solid State Phys., 5, 1629 (1972).
 c     xmag/2 -fraction of spin up or down, depending on sign in renorm.f
 c     put xmag = 1.0 to calculate cmd with external potential difference
-              xmag = 1.0 + idmag*dmag(i,iph)
+              xmag = 1.0d0 + idmag*dmag(i,iph)
             endif
 c           wrong for ferromagnets, need to overlap dmag(i)
 
@@ -235,17 +235,17 @@ c           vvbh from Von Barth Hedin paper, 1971
             vtot(i,iph) = vclap(i,iph) + vvbh
 
             if (mod(ixc,10).eq.5) then
-              rsval = 10.0
-              if (edenvl(i,iph) .gt. 0.00001) 
+              rsval = 10.0d0
+              if (edenvl(i,iph) .gt. 0.00001d0) 
      1           rsval = (edenvl(i,iph)/3)**(-third)
-              if (rsval.gt.10.0) rsval = 10.0
-              xmagvl = 1.0 + idmag * dmag(i,iph) 
+              if (rsval.gt.10.0d0) rsval = 10.0d0
+              xmagvl = 1.0d0 + idmag * dmag(i,iph) 
      1                      * edens(i,iph) / edenvl(i,iph)
               call vbh(rsval,xmagvl,vvbhvl)
               vvalgs(i,iph) = vclap(i,iph) + vvbhvl
             elseif (mod(ixc,10) .ge. 6) then
               if (edens(i,iph).le.edenvl(i,iph)) then
-                 rscore =101.0
+                 rscore =101.0d0
               else
                  rscore = ((edens(i,iph)-edenvl(i,iph)) / 3)**(-third)
               endif
