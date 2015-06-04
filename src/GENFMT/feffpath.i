@@ -48,7 +48,7 @@
     else return path->xivec[index];
   }
 
-  long get_iz(FEFFPATH *path, int index) {
+  int get_iz(FEFFPATH *path, int index) {
     if ((index < 0) || (index >= nphx)) return -1;
     else return path->iz[index];
   }
