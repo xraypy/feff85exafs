@@ -3,9 +3,9 @@
 
 #include "feffpath.h"
 
-long main()
+int main()
 {
-  long i, ret;
+  int i, ret;
   FEFFPATH *path;
 
   path = malloc(sizeof(FEFFPATH));
@@ -23,7 +23,7 @@ long main()
   ret = make_path(path);
 
   /* for (i=0; i<nphx; i++) { */
-  /*   printf(" %ld  %ld\n", i, path->iz[i]); */
+  /*   printf(" %d  %d\n", i, path->iz[i]); */
   /* }; */
 
   clear_path(path);
