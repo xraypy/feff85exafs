@@ -13,10 +13,10 @@
 
 #include "feffpath.h"
 
-_EXPORT(long) create_path(FEFFPATH *path) {
+_EXPORT(int) create_path(FEFFPATH *path) {
   /* Instantiate and initialize a FEFFPATH struct */
   /* Return an error code -- currently hardwired to return 0. */
-  long i;
+  int i;
   char message[500] = {'\0'};
   char phpad[257] = {'\0'};
   char exch[9] = {'\0'};
@@ -61,8 +61,8 @@ _EXPORT(long) create_path(FEFFPATH *path) {
   for (i = 0; i < legtot+2; i++) {
     path->rat[i] = calloc(3, sizeof(double));
   }
-  path->iz       = calloc(nphx+1,   sizeof(long));
-  path->ipot     = calloc(legtot+1, sizeof(long));
+  path->iz       = calloc(nphx+1,   sizeof(int));
+  path->ipot     = calloc(legtot+1, sizeof(int));
   path->ri       = calloc(legtot,   sizeof(double));
   path->beta     = calloc(legtot+1, sizeof(double));
   path->eta      = calloc(legtot+2, sizeof(double));
@@ -92,7 +92,7 @@ _EXPORT(long) create_path(FEFFPATH *path) {
 _EXPORT(void) clear_path(FEFFPATH *path) {
   /* Reinitialize a FEFFPATH struct, returning everything to default */
   /* except phpad, verbose, nnnn, and json. */
-  long i,j;
+  int i,j;
   /* char phpad[256] = {'\0'}; */
   /* sprintf(phpad, "%-256s", " "); */
 
@@ -157,33 +157,33 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
 }
 
 
-_EXPORT(long) make_path(FEFFPATH *path) {
+_EXPORT(int) make_path(FEFFPATH *path) {
   /* Compute the path using the content of the FEFFPATH struct.*/
   /* Fill the struct with geometry and F_eff information. */
   /* Return an error code. */
-  long i, j;
-  long error = 0;
+  int i, j;
+  int error = 0;
 
   /* scattering and path geometry */
-  long index, iorder, nleg;
+  int index, iorder, nleg;
   double degen;
-  long ipot[legtot+1], iz[nphx+1];
+  int ipot[legtot+1], iz[nphx+1];
   double rat[legtot+2][3];
   double ri[legtot], beta[legtot+1], eta[legtot+2];
 
   /* potentials parameters */
-  long ixc;
+  int ixc;
   double rs, vint, mu, edge, kf, rnrmav, gamach;
 
   /* onepath.f output */
-  long nnnn, json, verbose;
+  int nnnn, json, verbose;
 
   /* feffNNNN.dat columns */
-  long ne;
+  int ne;
   double k[nex], real_phc[nex], mag_feff[nex], pha_feff[nex], red_fact[nex], lam[nex], rep[nex];
 
   /* polarization and ellipticity */
-  long ipol;
+  int ipol;
   double elpty;
   double evec[3];
   double xivec[3];
@@ -244,7 +244,7 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   };
   path->errorcode = error;
   make_path_errorstring(path);
-  /* printf("%ld\n", path->errorcode); */
+  /* printf("%d\n", path->errorcode); */
   /* fflush(stdout); */
   if (error > 0) {
     return error;
@@ -316,12 +316,12 @@ _EXPORT(long) make_path(FEFFPATH *path) {
   return error;
 }
 
-_EXPORT(long) add_scatterer(FEFFPATH *path, double x, double y, double z, long ip) {
+_EXPORT(int) add_scatterer(FEFFPATH *path, double x, double y, double z, int ip) {
   /* Add a scattering atom to the path. Fill the nleg member. */
   /* Return an error code. */
-  long error;
+  int error;
   double length;
-  long nleg = path->nleg;
+  int nleg = path->nleg;
   if (nleg == 0) {nleg = 1;}
   nleg = nleg + 1;
 
@@ -353,7 +353,7 @@ _EXPORT(long) add_scatterer(FEFFPATH *path, double x, double y, double z, long i
 
 _EXPORT(void) cleanup(FEFFPATH *path) {
   /* one needs to explicitly free each part of the struct */
-  long i;
+  int i;
 
   for (i = 0; i < legtot+2; i++) {
     free(path->rat[i]);
@@ -386,7 +386,7 @@ _EXPORT(void) cleanup(FEFFPATH *path) {
 
 double leglength(FEFFPATH *path) {
   double x1, y1, z1, x2, y2, z2;
-  long nleg = path->nleg;
+  int nleg = path->nleg;
   x1 = path->rat[nleg-2][0];
   y1 = path->rat[nleg-2][1];
   z1 = path->rat[nleg-2][2];
@@ -400,18 +400,18 @@ double leglength(FEFFPATH *path) {
 /* error string interpretation */
 void make_scatterer_errorstring(FEFFPATH *path) {
   double x, y, z;
-  long ip;
+  int ip;
   char message[500];
   char error[100];
-  long errcode = path->errorcode;
-  long nleg = path->nleg;
+  int errcode = path->errorcode;
+  int nleg = path->nleg;
   x  = path->rat[nleg-1][0];
   y  = path->rat[nleg-1][1];
   z  = path->rat[nleg-1][2];
   ip = path->ipot[nleg-1];
 
   if (errcode == 0) { return; }
-  sprintf(message, "Error in add_scatterer at atom (%.5f, %.5f, %.5f, %ld):\n", x, y, z, ip);
+  sprintf(message, "Error in add_scatterer at atom (%.5f, %.5f, %.5f, %d):\n", x, y, z, ip);
   if (errcode & ERR_NEGIPOT) {
     strcpy(error, "\t(code 1) ipot argument to add_scatterer is less than 0\n");
     strcat(message, error);
@@ -433,11 +433,11 @@ void make_scatterer_errorstring(FEFFPATH *path) {
 
 void make_path_errorstring(FEFFPATH *path) {
   double degen, elpty;
-  long index, iorder;
+  int index, iorder;
   char message[500];
   char error[100];
-  long errcode = path->errorcode;
-  long nleg = path->nleg;
+  int errcode = path->errorcode;
+  int nleg = path->nleg;
   char phpad[256] = {'\0'};
   degen  = path->degen;
   index  = path->index;
@@ -460,7 +460,7 @@ void make_path_errorstring(FEFFPATH *path) {
     strcat(message, error);
   };
   if (errcode & ERR_BADINDEX) {
-    sprintf(error, "\t(code 8) path index (%ld) not between 0 and 9999\n", index);
+    sprintf(error, "\t(code 8) path index (%d) not between 0 and 9999\n", index);
     strcat(message, error);
   };
   if (errcode & ERR_BADELPTY) {
@@ -468,7 +468,7 @@ void make_path_errorstring(FEFFPATH *path) {
     strcat(message, error);
   };
   if (errcode & ERR_BADIORDER) {
-    sprintf(error, "\t(code 32) iorder (%ld) not between 0 and 10\n", iorder);
+    sprintf(error, "\t(code 32) iorder (%d) not between 0 and 10\n", iorder);
     strcat(message, error);
   };
   if (errcode & ERR_NOPHPAD) {

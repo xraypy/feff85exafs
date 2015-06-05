@@ -39,12 +39,12 @@ typedef struct {
   char *phpad;
 
   /* INPUT: structure of path                                                        */
-  long index;         /* path index                                default = 9999    */
-  long nleg;          /* number of legs in path                    use add_scatterer */
+  int index;         /* path index                                default = 9999    */
+  int nleg;          /* number of legs in path                    use add_scatterer */
   double degen;       /* path degeneracy                           must be supplied  */
   double **rat;       /* cartesian positions of atoms in path      use add_scatterer */
-  long *ipot;         /* unique potentials of atoms in path        use add_scatterer */
-  long iorder;        /* order of approximation in genfmt          default = 2       */
+  int *ipot;         /* unique potentials of atoms in path        use add_scatterer */
+  int iorder;        /* order of approximation in genfmt          default = 2       */
 
   /* INPUT: output flags for saving F_eff to a file                                  */
   bool nnnn;          /* flag to write feffNNNN.dat file           default = false   */
@@ -69,14 +69,14 @@ typedef struct {
   char *version;      /* Feff version                                                */
 
   /* OUTPUT: geometry information (leg length, beta, eta, Z)                         */
-  long *iz;           /* atomic numbers of atoms in path     obtained from phase.pad */
+  int *iz;           /* atomic numbers of atoms in path     obtained from phase.pad */
   double *ri;         /* leg lengths                                                 */
   double *beta;       /* beta angles                                                 */
   double *eta;        /* eta angles                                                  */
   double reff;        /* half path length                          computed from ri  */
 
   /* OUTPUT: columns of feffNNNN.dat                                                 */
-  long ne;            /* number of energy points actually used by Feff               */
+  int ne;            /* number of energy points actually used by Feff               */
   double *k;          /* k grid for feff path calculation   column 1 in feffNNNN.dat */
   double *real_phc;   /* central atom phase shifts          column 2 in feffNNNN.dat */
   double *mag_feff;   /* magnitude of F_eff                 column 3 in feffNNNN.dat */
@@ -86,7 +86,7 @@ typedef struct {
   double *rep;        /* real part of complex momentum      column 7 in feffNNNN.dat */
 
   /* OUTPUT: error handling                                                          */
-  long errorcode;     /* error code from add_scatterer or make_path                  */
+  int errorcode;     /* error code from add_scatterer or make_path                  */
   char *errormessage; /* error code from add_scatterer or make_path                  */
 } FEFFPATH;
 
@@ -106,20 +106,20 @@ typedef struct {
 /*    - vint          interstitial potential                                                                       */
 /* --------------------------------------------------------------------------------------------------------------- */
 
-long add_scatterer(FEFFPATH*, double, double, double, long);
-long create_path(FEFFPATH*);
+int add_scatterer(FEFFPATH*, double, double, double, int);
+int create_path(FEFFPATH*);
 void clear_path(FEFFPATH*);
-long make_path(FEFFPATH*);
+int make_path(FEFFPATH*);
 void cleanup(FEFFPATH*);
 void make_path_errorstring(FEFFPATH*);
 void make_scatterer_errorstring(FEFFPATH*);
 double leglength(FEFFPATH*);
 
 void onepath_(char *,                   /* path to phase.pad file */
-	      long *,                   /* path index */
-	      long *,                   /* nlegs */
+	      int *,                    /* path index */
+	      int *,                    /* nlegs */
 	      double *,                 /* degeneracy */
-	      long *,                   /* iorder */
+	      int *,                    /* iorder */
 	      char *,                   /* exch, potential model description */
 	      double *,                 /* rs, interstitial radius estimate */
 	      double *,                 /* vint, interstitial potential energy */
@@ -130,23 +130,23 @@ void onepath_(char *,                   /* path to phase.pad file */
 	      double *,                 /* gamach, chore hole lifetime in eV */
 	      char *,                   /* version, Feff's versioning string */
 	      /* scattering geometry */
-	      long (*)[legtot+1],       /* list of unique potentials */
+	      int (*)[legtot+1],        /* list of unique potentials */
 	      double (*)[legtot+2][3],  /* list of cartesian coordinates */
-	      long (*)[nphx+1],         /* list of atomic numbers */
+	      int (*)[nphx+1],          /* list of atomic numbers */
 	      /* polarization and ellipticity */
-	      long *,                   /* flag to compute polarization */
+	      int *,                    /* flag to compute polarization */
 	      double (*)[3],            /* polarization vector */
 	      double *,                 /* ellipticity */
 	      double (*)[3],            /* direction of travel */
 	      /* output flags */
-	      long *,                   /* integer flag for writing feffNNNN.dat */
-	      long *,                   /* integer flag for writing feffNNNN.json */
-	      long *,                   /* integer flag for writing screen messages */
+	      int *,                    /* integer flag for writing feffNNNN.dat */
+	      int *,                    /* integer flag for writing feffNNNN.json */
+	      int *,                    /* integer flag for writing screen messages */
 	      /* path geometry */
 	      double (*)[legtot],       /* Ri   */
 	      double (*)[legtot+1],     /* beta */
 	      double (*)[legtot+2],     /* eta  */
-	      long *,                   /* number of points in kgrid */
+	      int *,                    /* number of points in kgrid */
 	      /* seven columns of feffNNNN.dat file */
 	      double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex]);
 
