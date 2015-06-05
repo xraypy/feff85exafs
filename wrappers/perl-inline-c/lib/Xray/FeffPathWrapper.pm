@@ -118,8 +118,8 @@ double _bohr  (SV* obj) { return bohr;   }
 double _ryd   (SV* obj) { return ryd;    }
 double _hart  (SV* obj) { return hart;   }
 
-long _create_path(SV* obj) {
-  long ret;
+int _create_path(SV* obj) {
+  int ret;
   ret = create_path((INT2PTR(FEFFPATH*, SvIV(SvRV(obj)))));
   return ret;
 }
@@ -129,19 +129,19 @@ void _clear_path(SV* obj) {
 void _cleanup(SV* obj) {
   cleanup((INT2PTR(FEFFPATH*, SvIV(SvRV(obj)))));
 }
-long _add_scatterer(SV* obj, double xx, double yy, double zz, long ip) {
-  long ret;
+int _add_scatterer(SV* obj, double xx, double yy, double zz, int ip) {
+  int ret;
   ret = add_scatterer((INT2PTR(FEFFPATH*, SvIV(SvRV(obj)))), xx, yy, zz, ip);
   return ret;
 }
-long _make_path(SV* obj) {
-  long ret;
+int _make_path(SV* obj) {
+  int ret;
   ret = make_path((INT2PTR(FEFFPATH*, SvIV(SvRV(obj)))));
   return ret;
 }
 
 
-long _errorcode(SV* obj) {
+int _errorcode(SV* obj) {
        return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->errorcode;
 }
 char* _errormessage(SV* obj) {
@@ -160,15 +160,15 @@ void _set_phpad(SV* obj, char* c) {
 }
 
 /* ----- path index */
-long _index(SV* obj) {
+int _index(SV* obj) {
        return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->index;
 }
-void _set_index(SV* obj, long i) {
+void _set_index(SV* obj, int i) {
        (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->index = i;
 }
 
 /* ----- number of legs */
-long _nleg(SV* obj) {
+int _nleg(SV* obj) {
        return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->nleg;
 }
 
@@ -181,10 +181,10 @@ void _set_degen(SV* obj, double d) {
 }
 
 /* ----- iorder */
-long _iorder(SV* obj) {
+int _iorder(SV* obj) {
        return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->iorder;
 }
-void _set_iorder(SV* obj, long i) {
+void _set_iorder(SV* obj, int i) {
        (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->iorder = i;
 }
 
@@ -231,7 +231,7 @@ void _set_elpty(SV* obj, double d) {
 /* ----- 3-vector valued attributes */
 
 void _evec(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < 3; i++) {
@@ -246,7 +246,7 @@ void _set_evec(SV* obj, double xx, double yy, double zz) {
 }
 
 void _xivec(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < 3; i++) {
@@ -295,7 +295,7 @@ double _reff(SV* obj) {
        return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->reff;
 }
 void _ri_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->nleg; i++) {
@@ -304,7 +304,7 @@ void _ri_array(SV* obj) {
   Inline_Stack_Done;
 }
 void _beta_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->nleg; i++) {
@@ -313,7 +313,7 @@ void _beta_array(SV* obj) {
   Inline_Stack_Done;
 }
 void _eta_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->nleg; i++) {
@@ -322,7 +322,7 @@ void _eta_array(SV* obj) {
   Inline_Stack_Done;
 }
 void _iz_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < nphx; i++) {
@@ -333,12 +333,12 @@ void _iz_array(SV* obj) {
 
 
 /* ----- number of energy points, may need a setter in the future */
-long _ne(SV* obj) {
+int _ne(SV* obj) {
        return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->ne;
 }
 
 void _k_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->ne; i++) {
@@ -348,7 +348,7 @@ void _k_array(SV* obj) {
 }
 
 void _real_phc_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->ne; i++) {
@@ -358,7 +358,7 @@ void _real_phc_array(SV* obj) {
 }
 
 void _mag_feff_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->ne; i++) {
@@ -368,7 +368,7 @@ void _mag_feff_array(SV* obj) {
 }
 
 void _pha_feff_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->ne; i++) {
@@ -378,7 +378,7 @@ void _pha_feff_array(SV* obj) {
 }
 
 void _red_fact_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->ne; i++) {
@@ -388,7 +388,7 @@ void _red_fact_array(SV* obj) {
 }
 
 void _lam_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->ne; i++) {
@@ -398,7 +398,7 @@ void _lam_array(SV* obj) {
 }
 
 void _rep_array(SV* obj) {
-  long i;
+  int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
   for (i=0; i < (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->ne; i++) {

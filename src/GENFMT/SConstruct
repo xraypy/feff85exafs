@@ -97,16 +97,11 @@ python_wrapper_path = realpath(join('..', '..', 'wrappers', 'python'))
 env.Install(ienv['i_inc'], 'feffpath.h')
 
 
+env.Alias('install', [ ienv['i_lib'], ienv['i_bin'], ienv['i_inc'] ])
 
 
 ## ------------------------------------------------------------------------------------------------------
-## build the SWIG Perl wrapper
-
-## FIXME:  find_executable needs an argument that works on all the platforms
-##         perhaps 'import platform', then 'platform.system()'...
-
-## problem seems to be the call to Environment(), whihc overwrites the
-## PATH stuff from FeffBuild, perhaps move BUILDERS line to FeffBuild...?
+## build the SWIG Perl and Python wrapper -- OBSOLETE
 
 #if find_executable("swig"):
 if False:
@@ -157,5 +152,4 @@ else:
 #     ienv['i_lib'], ienv['i_bin'], ienv['i_inc']
 # ])
 
-env.Alias('install', [ ienv['i_lib'], ienv['i_bin'], ienv['i_inc'] ])
 

@@ -411,7 +411,7 @@ read_libpotph_json(FEFFPHASES *phases) {
 	ntit = MIN(arr->length, nheadx);
 	for (i=0; i<ntit; i++) {
 	  item=nx_json_item(arr, i);
-	  sprintf(string, "%-80s", item->text_value);
+	  sprintf(string, "%-79s", item->text_value);
 	  strcpy(phases->titles[i], string);
 	}
 

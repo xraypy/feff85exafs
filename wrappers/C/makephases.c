@@ -5,10 +5,8 @@
 
 int main()
 {
-  int i, ret;
-  FEFFPHASES *phases;
-
-  phases = malloc(sizeof(FEFFPHASES));
+  int ret = 0;
+  FEFFPHASES *phases = malloc(sizeof(FEFFPHASES));
   ret = create_phases(phases);
 
   strcpy(phases->jsonfile, "../fortran/libpotph.json");

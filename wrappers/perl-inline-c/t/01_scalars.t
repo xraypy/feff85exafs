@@ -54,9 +54,9 @@ ok($path->elpty == 0.5,                                                         
 ok($path->wrapper->_elpty == 0.5,                                                         "set elpty, wrapper");
 
 ok($path->phpad eq 'phase.pad',                                                           "default phpad ".$path->phpad);
-$path->phpad('../fortran/phase.pad');
-ok($path->phpad eq '../fortran/phase.pad' ,                                               "set phpad");
-ok($path->wrapper->_phpad eq '../fortran/phase.pad' ,                                     "set phpad, wrapper");
+$path->phpad('../fortran/phase_orig.pad');
+ok($path->phpad eq '../fortran/phase_orig.pad' ,                                           "set phpad");
+ok($path->wrapper->_phpad eq '../fortran/phase_orig.pad',                                  "set phpad, wrapper");
 
 
 

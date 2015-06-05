@@ -107,6 +107,7 @@ void clear_phases(FEFFPHASES*);
 int make_phases(FEFFPHASES*);
 int read_libpotph_json(FEFFPHASES*);
 int polarization_tensor(FEFFPHASES*);
+void cleanup(FEFFPHASES*);
 
 void libpotph_(int *,		     /* ntitle */
 	       char (*)[nheadx][80], /* titles */

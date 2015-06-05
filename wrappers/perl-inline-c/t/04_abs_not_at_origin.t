@@ -21,7 +21,7 @@ $ret = $path->atom(-0.705, 1.1, -0.705, 1);
 ok((not $ret),                                                                            "added second leg");
 ok($path->nleg == 3,                                                                      "nleg = 3");
 
-$path->phpad('../fortran/phase.pad');
+$path->phpad('../fortran/phase_orig.pad');
 $path->degen(48);
 $path->Index(4);
 $ret = $path->path;
