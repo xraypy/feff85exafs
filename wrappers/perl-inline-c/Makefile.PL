@@ -29,7 +29,7 @@ WriteMakefile(
 				     MooseX::Aliases  => 0.10,
 				    },
 	      ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-	       (ABSTRACT_FROM    => 'lib/Xray/Feff::Path.pm', # retrieve abstract from module
+	       (ABSTRACT_FROM    => 'lib/Xray/Feff/Path.pm', # retrieve abstract from module
 		AUTHOR           => 'Bruce Ravel <bravel@bnl.gov>') : ()),
 	      LICENSE            => 'unrestricted',
 	      CONFIGURE_REQUIRES =>  {

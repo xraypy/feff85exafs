@@ -1,4 +1,4 @@
-package Xray::FeffPhasesWrapper;
+package Xray::Feff::PhasesWrapper;
 
 use strict;
 use warnings;
@@ -13,7 +13,7 @@ our $VERSION = '1.00';
 use Inline C => 'DATA',
            LIBS => '-lfeffphases',
            VERSION => '1.00',
-           NAME => 'Xray::FeffPhasesWrapper';
+           NAME => 'Xray::Feff::PhasesWrapper';
 
 
 ## for Windows, will need
