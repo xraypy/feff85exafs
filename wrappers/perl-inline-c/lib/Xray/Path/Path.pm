@@ -1,9 +1,9 @@
-package Xray::FeffPath;
+package Xray::Feff::Path;
 
 use Moose;
 use MooseX::NonMoose;
 use MooseX::Aliases;
-extends 'Xray::FeffPathWrapper';
+extends 'Xray::Feff::PathWrapper';
 
 use List::MoreUtils qw(any);
 
@@ -12,9 +12,9 @@ our $VERSION = '1.00'; # Inline::MakeMake uses /^\d.\d\d$/ as the pattern for th
 has 'wrapper' => (
 		  is        => 'ro',
 		  #traits => [qw(NoClone)],
-		  isa       => 'Xray::FeffPathWrapper',
+		  isa       => 'Xray::Feff::PathWrapper',
 		  init_arg  => undef,
-		  default   => sub{ Xray::FeffPathWrapper->new() },
+		  default   => sub{ Xray::Feff::PathWrapper->new() },
 		  #lazy      => 1,
 		  #builder   => '_build_object',
 		 );
@@ -23,13 +23,13 @@ has 'errorcode'    => (is => 'rw', isa => 'Int',  default => 0,);
 has 'errormessage' => (is => 'rw', isa => 'Str',  default => q{},);
 
 ## constants from feffpath.h
-has 'nex'      => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_nex    });
-has 'nphx'     => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_nphx   });
-has 'npatx'    => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_npatx  });
-has 'legtot'   => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPathWrapper->_legtot });
-has 'bohr'     => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPathWrapper->_bohr   });
-has 'ryd'      => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPathWrapper->_ryd    });
-has 'hart'     => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPathWrapper->_hart   });
+has 'nex'      => (is => 'ro', isa => 'Int', default => sub{ Xray::Feff::PathWrapper->_nex    });
+has 'nphx'     => (is => 'ro', isa => 'Int', default => sub{ Xray::Feff::PathWrapper->_nphx   });
+has 'npatx'    => (is => 'ro', isa => 'Int', default => sub{ Xray::Feff::PathWrapper->_npatx  });
+has 'legtot'   => (is => 'ro', isa => 'Int', default => sub{ Xray::Feff::PathWrapper->_legtot });
+has 'bohr'     => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PathWrapper->_bohr   });
+has 'ryd'      => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PathWrapper->_ryd    });
+has 'hart'     => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PathWrapper->_hart   });
 
 ## location of phase.pad file
 has 'phpad'    => (is => 'rw', isa => 'Str',  default => 'phase.pad', trigger => sub{pushback(@_, 'phpad'  )},
@@ -153,7 +153,7 @@ sub clear {
   $self->wrapper->_clear_path;
   foreach my $att (map {$_->name} $self->meta->get_all_attributes) {              # iterate over all attribute names
     next if (not $self->meta->get_attribute($att)->get_write_method);             # skip ro attributes, see Class/MOP/Attribute.pm#Informational
-    next if ($self->meta->get_attribute($att)->type_constraint =~ m{FeffPath});   # skip wrapper
+    next if ($self->meta->get_attribute($att)->type_constraint =~ m{Feff::Path});   # skip wrapper
     my $method = '_'.lc($att);
 
     if ($att =~ m{(?:(?:e|xi)vec|absorber)}) {					  # 3-vec attributes
@@ -234,7 +234,7 @@ __PACKAGE__->meta->make_immutable;
 
 =head1 NAME
 
-Xray::FeffPath - Moose wrapper around an Inline::C interface to libfeffpath
+Xray::Feff::Path - Moose wrapper around an Inline::C interface to libfeffpath
 
 =head1 VERSION
 
@@ -261,9 +261,9 @@ copper metal:
   #!/usr/bin/perl
   use strict;
   use warnings;
-  use Xray::FeffPath;
+  use Xray::Feff::Path;
 
-  my $path = Xray::FeffPath->new();
+  my $path = Xray::Feff::Path->new();
   $path->degen(48);
   $path->Index(4);
   $path->phpad('../fortran/phase.pad');
@@ -298,9 +298,9 @@ the resulting libraries (and other files) be successfully installed.
 
 =item C<new>
 
-Create the FeffPath object
+Create the Feff::Path object
 
-   my $path = Xray::FeffPath->new();
+   my $path = Xray::Feff::Path->new();
 
 =item C<atom>
 
@@ -341,7 +341,7 @@ Reinitialize the scattering path
 
 =back
 
-To destroy a FeffPath object, simply
+To destroy a Feff::Path object, simply
 
    undef $path;
 
@@ -752,7 +752,7 @@ calculation.
 =item *
 
 C<ipol> and C<rat> not accessed via wrapper.  That said,
-Xray::FeffPath keeps those attributes current.
+Xray::Feff::Path keeps those attributes current.
 
 =back
 

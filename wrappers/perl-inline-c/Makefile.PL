@@ -4,7 +4,7 @@ BEGIN {
     require Inline::MakeMaker;
   };
   if ($@) {
-    print "You need to install the 'Inline' perl module before building the feffpath perl wrapper.
+    print "You need to install the 'Inline' perl module before building the Xray::Feff wrappers.
 See https://metacpan.org/release/Inline
 or install from a package for your system:
    debian/ubuntu:     libinline-perl
@@ -19,8 +19,8 @@ or install from a package for your system:
 import Inline::MakeMaker;
 
 WriteMakefile(
-	      NAME               => 'Xray::FeffPath',
-	      VERSION_FROM       => 'lib/Xray/FeffPath.pm', # finds $VERSION
+	      NAME               => 'Xray::Feff::Path',
+	      VERSION_FROM       => 'lib/Xray/Feff/Path.pm', # finds $VERSION
 	      PREREQ_PM          => {
 				     Inline           => 0.5,
 				     Inline::C        => 0.62,
@@ -29,7 +29,7 @@ WriteMakefile(
 				     MooseX::Aliases  => 0.10,
 				    },
 	      ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-	       (ABSTRACT_FROM    => 'lib/Xray/FeffPath.pm', # retrieve abstract from module
+	       (ABSTRACT_FROM    => 'lib/Xray/Feff::Path.pm', # retrieve abstract from module
 		AUTHOR           => 'Bruce Ravel <bravel@bnl.gov>') : ()),
 	      LICENSE            => 'unrestricted',
 	      CONFIGURE_REQUIRES =>  {

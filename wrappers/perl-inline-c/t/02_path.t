@@ -5,13 +5,13 @@ use warnings;
 use Test::More tests => 12;
 use Cwd;
 
-use Xray::FeffPath;
+use Xray::Feff::Path;
 
 
 my $epsilon = 1e-3;
 
-my $path = Xray::FeffPath->new();
-ok(ref($path) =~ m{FeffPath},                                                             "object created ".$path);
+my $path = Xray::Feff::Path->new();
+ok(ref($path) =~ m{Feff::Path},                                                           "object created ".$path);
 
 my $ret = $path->atom(0, 0, -3.61, 1);
 ok((not $ret),                                                                            "added first leg");

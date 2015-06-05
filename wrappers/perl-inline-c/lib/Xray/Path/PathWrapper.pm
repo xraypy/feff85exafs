@@ -1,4 +1,4 @@
-package Xray::FeffPathWrapper;
+package Xray::Feff::PathWrapper;
 
 use strict;
 use warnings;
@@ -13,7 +13,7 @@ our $VERSION = '1.00';
 use Inline C => 'DATA',
            LIBS => '-lfeffpath',
            VERSION => '1.00',
-           NAME => 'Xray::FeffPathWrapper';
+           NAME => 'Xray::Feff::PathWrapper';
 
 
 ## for Windows, will need
@@ -29,7 +29,7 @@ __DATA__
 
 =head1 NAME
 
-Xray::FeffPathWrapper - Inline::C interface to libfeffpath
+Xray::FeffPath::Wrapper - Inline::C interface to libfeffpath
 
 
 =head1 VERSION

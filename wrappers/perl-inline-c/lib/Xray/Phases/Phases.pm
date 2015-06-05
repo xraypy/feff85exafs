@@ -1,9 +1,9 @@
-package Xray::FeffPhases;
+package Xray::Feff::Phases;
 
 use Moose;
 use MooseX::NonMoose;
 use MooseX::Aliases;
-extends 'Xray::FeffPhasesWrapper';
+extends 'Xray::Feff::PhasesWrapper';
 
 use List::MoreUtils qw(any);
 
@@ -12,9 +12,9 @@ our $VERSION = '1.00'; # Inline::MakeMake uses /^\d.\d\d$/ as the pattern for th
 has 'wrapper' => (
 		  is        => 'ro',
 		  #traits => [qw(NoClone)],
-		  isa       => 'Xray::FeffPhasesWrapper',
+		  isa       => 'Xray::Feff::PhasesWrapper',
 		  init_arg  => undef,
-		  default   => sub{ Xray::FeffPhasesWrapper->new() },
+		  default   => sub{ Xray::Feff::PhasesWrapper->new() },
 		  #lazy      => 1,
 		  #builder   => '_build_object',
 		 );
@@ -23,12 +23,12 @@ has 'errorcode'    => (is => 'rw', isa => 'Int',  default => 0,);
 has 'errormessage' => (is => 'rw', isa => 'Str',  default => q{},);
 
 ## constants from feffpath.h
-has 'natx'     => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPhasesWrapper->_natx   });
-has 'nphx'     => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPhasesWrapper->_nphx   });
-has 'nheadx'   => (is => 'ro', isa => 'Int', default => sub{ Xray::FeffPhasesWrapper->_nheadx });
-has 'bohr'     => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPhasesWrapper->_bohr   });
-has 'ryd'      => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPhasesWrapper->_ryd    });
-has 'hart'     => (is => 'ro', isa => 'Num', default => sub{ Xray::FeffPhasesWrapper->_hart   });
+has 'natx'     => (is => 'ro', isa => 'Int', default => sub{ Xray::Feff::PhasesWrapper->_natx   });
+has 'nphx'     => (is => 'ro', isa => 'Int', default => sub{ Xray::Feff::PhasesWrapper->_nphx   });
+has 'nheadx'   => (is => 'ro', isa => 'Int', default => sub{ Xray::Feff::PhasesWrapper->_nheadx });
+has 'bohr'     => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PhasesWrapper->_bohr   });
+has 'ryd'      => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PhasesWrapper->_ryd    });
+has 'hart'     => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PhasesWrapper->_hart   });
 
 
 ## scalars
@@ -206,7 +206,7 @@ The following computes the phase shifts for copper metal:
   #!/usr/bin/perl
   use strict;
   use warnings;
-  use Xray::FeffPhases;
+  use Xray::Feff::Phases;
 
 =head1 INSTALLATION
 
@@ -229,7 +229,7 @@ the resulting libraries (and other files) be successfully installed.
 
 Create the FeffPath object
 
-   my $phases = Xray::FeffPhases->new();
+   my $phases = Xray::Feff::Phases->new();
 
 =item C<clear>
 

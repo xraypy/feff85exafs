@@ -5,13 +5,13 @@ use warnings;
 use Test::More tests => 28;
 use Cwd;
 
-use Xray::FeffPath;
+use Xray::Feff::Path;
 
 
 my $epsilon = 1e-4;
 
-my $path = Xray::FeffPath->new();
-ok(ref($path) =~ m{FeffPath},                                                             "object created ".$path);
+my $path = Xray::Feff::Path->new();
+ok(ref($path) =~ m{Feff::Path},                                                           "object created ".$path);
 
 ok($path->Index == 9999,                                                                  "default index ".$path->Index);
 $path->Index(1);

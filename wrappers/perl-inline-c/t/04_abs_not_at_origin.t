@@ -5,13 +5,13 @@ use warnings;
 use Test::More tests => 9;
 use Cwd;
 
-use Xray::FeffPath;
+use Xray::Feff::Path;
 
 
 my $epsilon = 1e-3;
 
-my $path = Xray::FeffPath->new();
-ok(ref($path) =~ m{FeffPath},                                                             "object created ".$path);
+my $path = Xray::Feff::Path->new();
+ok(ref($path) =~ m{Feff::Path},                                                           "object created ".$path);
 $path->absorber([1.1, 1.1, 1.1]);
 
 my $ret = $path->atom(1.1, 1.1, -2.51, 1);
