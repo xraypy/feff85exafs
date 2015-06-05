@@ -122,17 +122,30 @@ sub _json {
 sub phases {
   my ($self) = @_;
   my $ret = $self->wrapper->_make_phases;
+  ## fetch polarization tensor
+  $self->errormessage($self->wrapper->_errormessage);
+  $self->errorcode($self->wrapper->_errorcode);
+  if ($ret) {
+    printf("%s\n\t(error code %d)\n", $self->errormessage, $self->errorcode);
+  };
   return $ret;
 };
 
 sub _fetch {
   my ($self) = @_;
-  foreach my $att (qw(ntitle nat nph ihole rscf lscf nscmt ca nmix ecv icoul elpty ispin angks gamach
+  foreach my $att (qw(ntitle nat nph ihole rscf lscf nscmt ca nmix ecv icoul ipol elpty ispin angks gamach
 		      ixc vr0 vi0 ixc0 iafolp rgrd iunf inters totvol jumprm nohole)) {
     my $method = '_'.$att;
     $self->$att($self->wrapper->$method);
   };
-  print $self->wrapper->_iz_array, $/;
+  foreach my $att (qw(evec xivec spvec)) {
+    my $method = '_'.$att;
+    $self->$att([$self->wrapper->$method]);
+  };
+  foreach my $att (qw(iz lmaxsc lmaxph xnatph spinph folp xion)) { ## rat iphat potlbl titles
+    my $method = '_'.$att.'_array';
+    $self->$att([$self->wrapper->$method]);
+  };
   return $self;
 };
 
@@ -158,19 +171,19 @@ sub pushback {
 sub evec_set {
   my ($self, $vec) = @_;
   $self->wrapper->_set_evec(1.0*$vec->[0], 1.0*$vec->[1], 1.0*$vec->[2]);
-  $self->ipol(1);
+  $self->ipol(1) if ($vec->[0] or $vec->[1] or $vec->[2]);
   return $self;
 };
 sub xivec_set {
   my ($self, $vec) = @_;
   $self->wrapper->_set_xivec(1.0*$vec->[0], 1.0*$vec->[1], 1.0*$vec->[2]);
-  $self->ipol(1);
+  $self->ipol(1) if ($vec->[0] or $vec->[1] or $vec->[2]);
   return $self;
 };
 sub spvec_set {
   my ($self, $vec) = @_;
   $self->wrapper->_set_spvec(1.0*$vec->[0], 1.0*$vec->[1], 1.0*$vec->[2]);
-  $self->ispin(1);
+  $self->ispin(1) if ($vec->[0] or $vec->[1] or $vec->[2]);
   return $self;
 };
 

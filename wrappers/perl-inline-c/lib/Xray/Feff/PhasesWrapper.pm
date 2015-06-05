@@ -443,7 +443,7 @@ void _lmaxsc_array(SV* obj) {
   int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
-  for (i=0; i < (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
+  for (i=0; i <= (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->lmaxsc[i])));
   }
   Inline_Stack_Done;
@@ -454,7 +454,7 @@ void _lmaxph_array(SV* obj) {
   int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
-  for (i=0; i < (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
+  for (i=0; i <= (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->lmaxph[i])));
   }
   Inline_Stack_Done;
@@ -465,7 +465,7 @@ void _xnatph_array(SV* obj) {
   int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
-  for (i=0; i < (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
+  for (i=0; i <= (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->xnatph[i])));
   }
   Inline_Stack_Done;
@@ -476,7 +476,7 @@ void _spinph_array(SV* obj) {
   int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
-  for (i=0; i < (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
+  for (i=0; i <= (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->spinph[i])));
   }
   Inline_Stack_Done;
@@ -487,7 +487,7 @@ void _folp_array(SV* obj) {
   int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
-  for (i=0; i < (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
+  for (i=0; i <= (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->folp[i])));
   }
   Inline_Stack_Done;
@@ -498,7 +498,7 @@ void _xion_array(SV* obj) {
   int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
-  for (i=0; i < (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
+  for (i=0; i <= (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->xion[i])));
   }
   Inline_Stack_Done;
@@ -511,7 +511,7 @@ void _iphat_array(SV* obj) {
   int i;
   Inline_Stack_Vars;
   Inline_Stack_Reset;
-  for (i=0; i < (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
+  for (i=0; i < (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nat; i++) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->iphat[i])));
   }
   Inline_Stack_Done;
