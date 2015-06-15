@@ -19,7 +19,7 @@ or install from a package for your system:
 import Inline::MakeMaker;
 
 WriteMakefile(
-	      NAME               => 'Xray::Feff::Path',
+	      NAME               => 'Xray::Feff',
 	      VERSION_FROM       => 'lib/Xray/Feff/Path.pm', # finds $VERSION
 	      PREREQ_PM          => {
 				     Inline           => 0.5,
@@ -29,7 +29,8 @@ WriteMakefile(
 				     MooseX::Aliases  => 0.10,
 				    },
 	      ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-	       (ABSTRACT_FROM    => 'lib/Xray/Feff/Path.pm', # retrieve abstract from module
+	       (#ABSTRACT_FROM    => 'lib/Xray/Feff/Path.pm', # retrieve abstract from module
+		ABSTRACT         => 'Perl wrappers libfeffphases and libfeffpath',
 		AUTHOR           => 'Bruce Ravel <bravel@bnl.gov>') : ()),
 	      LICENSE            => 'unrestricted',
 	      CONFIGURE_REQUIRES =>  {

@@ -31,7 +31,6 @@ __DATA__
 
 Xray::FeffPhasesWrapper - Inline::C interface to libfeffphases
 
-
 =head1 VERSION
 
 
@@ -82,7 +81,7 @@ Note that the feffphases and libpotph libraries themselves are NOT public
 domain, nor is the Fortran source code for Feff that it relies upon.
 
 Author: Bruce Ravel (bravel AT bnl DOT gov).
-Last update: 13 February, 2015
+Created: 4 June, 2015
 
 =cut
 
@@ -428,6 +427,25 @@ void _set_spvec(SV* obj, double xx, double yy, double zz) {
 
 /* potentials arrays getters */
 
+void _potlbl_array(SV* obj) {
+  int i;
+  Inline_Stack_Vars;
+  Inline_Stack_Reset;
+  for (i=0; i <= (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nph; i++) {
+    Inline_Stack_Push(sv_2mortal(newSVpv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->potlbl[i], 6)));
+  }
+  Inline_Stack_Done;
+}
+void _set_potlbl_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    strcpy( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->potlbl[i], SvPV(Inline_Stack_Item(i), PL_na) );
+  }
+  Inline_Stack_Void;
+}
+
+
 void _iz_array(SV* obj) {
   int i;
   Inline_Stack_Vars;
@@ -436,6 +454,14 @@ void _iz_array(SV* obj) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->iz[i])));
   }
   Inline_Stack_Done;
+}
+void _set_iz_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->iz[i] = SvIV(Inline_Stack_Item(i));
+  }
+  Inline_Stack_Void;
 }
 
 
@@ -448,6 +474,14 @@ void _lmaxsc_array(SV* obj) {
   }
   Inline_Stack_Done;
 }
+void _set_lmaxsc_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->lmaxsc[i] = SvIV(Inline_Stack_Item(i));
+  }
+  Inline_Stack_Void;
+}
 
 
 void _lmaxph_array(SV* obj) {
@@ -458,6 +492,14 @@ void _lmaxph_array(SV* obj) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->lmaxph[i])));
   }
   Inline_Stack_Done;
+}
+void _set_lmaxph_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->lmaxph[i] = SvIV(Inline_Stack_Item(i));
+  }
+  Inline_Stack_Void;
 }
 
 
@@ -470,6 +512,14 @@ void _xnatph_array(SV* obj) {
   }
   Inline_Stack_Done;
 }
+void _set_xnatph_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->xnatph[i] = SvNV(Inline_Stack_Item(i));
+  }
+  Inline_Stack_Void;
+}
 
 
 void _spinph_array(SV* obj) {
@@ -480,6 +530,14 @@ void _spinph_array(SV* obj) {
     Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->spinph[i])));
   }
   Inline_Stack_Done;
+}
+void _set_spinph_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->spinph[i] = SvNV(Inline_Stack_Item(i));
+  }
+  Inline_Stack_Void;
 }
 
 
@@ -492,6 +550,14 @@ void _folp_array(SV* obj) {
   }
   Inline_Stack_Done;
 }
+void _set_folp_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->folp[i] = SvNV(Inline_Stack_Item(i));
+  }
+  Inline_Stack_Void;
+}
 
 
 void _xion_array(SV* obj) {
@@ -503,9 +569,17 @@ void _xion_array(SV* obj) {
   }
   Inline_Stack_Done;
 }
+void _set_xion_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->xion[i] = SvNV(Inline_Stack_Item(i));
+  }
+  Inline_Stack_Void;
+}
 
 
-/* atoms arrays getters */
+/* atoms arrays */
 
 void _iphat_array(SV* obj) {
   int i;
@@ -516,3 +590,62 @@ void _iphat_array(SV* obj) {
   }
   Inline_Stack_Done;
 }
+void _set_iphat_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->iphat[i] = SvIV(Inline_Stack_Item(i));
+  }
+  Inline_Stack_Void;
+}
+
+
+void _rat_array(SV* obj) {
+  int i,j;
+  Inline_Stack_Vars;
+  Inline_Stack_Reset;
+  for (i=0; i < (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->nat; i++) {
+    for (j=0; j < 3; j++) {
+      Inline_Stack_Push(sv_2mortal(newSVnv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->rat[i][j])));
+    }
+  }
+  Inline_Stack_Done;
+}
+void _set_rat_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i,j,n;
+  n=0;
+  j=0;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->rat[n][j] = SvNV(Inline_Stack_Item(i));
+    j = j+1;
+    if (j == 3) {
+      n = n+1;
+      j = 0;
+    }
+  }
+  Inline_Stack_Void;
+}
+
+
+
+/* headers */
+void _titles_array(SV* obj) {
+  int i;
+  Inline_Stack_Vars;
+  Inline_Stack_Reset;
+  for (i=0; i <= (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->ntitle; i++) {
+    Inline_Stack_Push(sv_2mortal(newSVpv( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->titles[i], 80)));
+  }
+  Inline_Stack_Done;
+}
+void _set_titles_array(SV* obj, ...) {
+  Inline_Stack_Vars;
+  int i;
+  for (i=0; i < Inline_Stack_Items; i++) {
+    strcpy( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->titles[i], SvPV(Inline_Stack_Item(i), PL_na) );
+  }
+  Inline_Stack_Void;
+}
+
+

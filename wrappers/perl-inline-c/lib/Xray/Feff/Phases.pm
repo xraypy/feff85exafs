@@ -7,7 +7,9 @@ extends 'Xray::Feff::PhasesWrapper';
 
 use List::MoreUtils qw(any);
 
-our $VERSION = '1.00'; # Inline::MakeMake uses /^\d.\d\d$/ as the pattern for the version number -- note the two digits to the right of the dot
+our $VERSION = '1.00'; # Inline::MakeMake uses /^\d.\d\d$/ as the
+                       # pattern for the version number -- note the
+                       # two digits to the right of the dot
 
 has 'wrapper' => (
 		  is        => 'ro',
@@ -79,22 +81,24 @@ has 'spvec'    => (traits  => ['Array'],
 		   trigger => \&spvec_set, );
 
 
-has 'iz'       => (is => 'rw', isa => 'ArrayRef', default => sub{[]}); # trigger => \&iz_set
-has 'lmaxsc'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
-has 'lmaxph'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
-has 'xnatph'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
-has 'spinph'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
-has 'folp'     => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
-has 'xion'     => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
+has 'iz'       => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "iz")});
+has 'potlbl'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "potlbl")});
+has 'lmaxsc'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "lmaxsc")});
+has 'lmaxph'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "lmaxph")});
+has 'xnatph'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "xnatph")});
+has 'spinph'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "spinph")});
+has 'folp'     => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "folp")});
+has 'xion'     => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "xion")});
 
 
 has 'iphat'    => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
+has 'rat'      => (is => 'rw', isa => 'ArrayRef[ArrayRef]', default => sub{[]});
 
 
-# has 'rat'      => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
-# has 'potlbl'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
-# has 'titles'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
+has 'titles'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]}, trigger => \&set_titles_array);
 
+
+#has 'ptz'      => (is => 'rw', isa => 'ArrayRef[ArrayRef]', default => sub{[]});
 
 
 sub BUILD {
@@ -142,10 +146,17 @@ sub _fetch {
     my $method = '_'.$att;
     $self->$att([$self->wrapper->$method]);
   };
-  foreach my $att (qw(iz lmaxsc lmaxph xnatph spinph folp xion)) { ## rat iphat potlbl titles
+  foreach my $att (qw(iz potlbl lmaxsc lmaxph xnatph spinph folp xion titles iphat)) { ## rat
     my $method = '_'.$att.'_array';
     $self->$att([$self->wrapper->$method]);
   };
+  my @biglist = $self->wrapper->_rat_array;
+  my @rat = ();
+  while (@biglist) {		# rat[nat][3] is returned as a flattened list (x1,y1,z1,x2,y2,z2,...xN,yN,zN)
+    my $this = [shift(@biglist), shift(@biglist), shift(@biglist)];
+    push @rat, $this;
+  };
+  $self->rat(\@rat);
   return $self;
 };
 
@@ -187,9 +198,42 @@ sub spvec_set {
   return $self;
 };
 
+sub set_pot_array {
+  my ($self, $new, $old, $which) = @_;
+  my @list;
+  if ($which =~ m{iz|iphat|lmaxsc|lmaxph}) {
+    @list = map {int($_)} @$new; # constrain to be integer
+  } elsif ($which =~ m{znatph|folp|xion|spinph}) {
+    @list = map {$_*1.0} @$new;	# constrain to be float
+  } elsif ($which =~ m{potlbl}) {
+    foreach my $s (@$new) { # constrain to be 6 characters or less
+      push @list, (length($s) > 6) ? substr($s,0,6) : sprintf("-%6s",$s);
+    };
+  };
+  my $method = '_set_' . lc($which) . '_array';
+  $self->wrapper->$method(\@list);
+  return $self;
+};
 
+sub set_titles_array {
+  my ($self, $new, $old) = @_;
+  my @list;
+  foreach my $s (@$new) { # constrain to be 6 characters or less
+    push @list, (length($s) > 6) ? substr($s,0,6) : $s;
+  };
+  $self->wrapper->_set_titles_array(\@list);
+  return $self;
+};
 
-
+sub set_rat_array {
+  my ($self, $new, $old) = @_;
+  my @list;
+  foreach my $site (@{$self->rat}) {
+    push @list, @$site;
+  };
+  $self->wrapper->_set_rat_array(\@list);
+  return $self;
+};
 
 
 
@@ -252,10 +296,11 @@ Reinitialize the scattering path
 
 =back
 
-To destroy a FeffPath object, simply
+To destroy a FeffPath object, simply do
 
    undef $path;
 
+Deallocation of memory in the C stuct will be handled by the wrapper.
 
 =head1 ATTRIBUTES
 
@@ -269,9 +314,6 @@ method of the same name.  Each of the following exists:
 =item C<jsonfile> (character, default = libpotph.json)
 
 The path to the F<libpth.json> file.
-
-
-
 
 =item C<errorcode> (integer)
 
@@ -289,8 +331,176 @@ A explanation of words of the problem found during C<phases>.
    ## ==prints==>
     Blah blah blah
 
-=back
 
+=item C<ntitle> (int)
+
+number of header lines (TITLE)
+
+=item C<titles> (\*\*char)
+
+(nheadx) array of header string (TITLE)
+
+=item C<nat> (int)
+
+number of atoms in cluster (ATOMS)
+
+=item C<rat> (\*\*double)
+
+(3,natx) cartesian coordinates of atoms in cluster (ATOMS)
+
+=item C<iphat> (\*int)
+
+(natx) unique potential indeces of atoms in cluster (ATOMS)
+
+=item C<nph> (int)
+
+number of unique potentials (POTENTIALS)
+
+=item C<iz> (\*int)
+
+(0:nphx) Z numbers of unique potentials (POTENTIALS)
+
+=item C<potlbl> (\*\*char)
+
+(0:nphx) labels of unique potentials (POTENTIALS)
+
+=item C<lmaxsc> (\*int)
+
+(0:nphx) l max for SCF for each potential (POTENTIALS)
+
+=item C<lmaxph> (\*int)
+
+(0:nphx) l max for FMS for each potential (POTENTIALS)
+
+=item C<xnatph> (\*double)
+
+(0:nphx) stoichiometry of each potential (POTENTIALS)
+
+=item C<spinph> (\*double)
+
+(0:nphx) spin on each unique potential (POTENTIALS)
+
+=item C<ihole> (int)
+
+edge index, 1=K, 4=L3, etc (HOLE/EDGE)
+
+=item C<rscf> (double)
+
+cluster radius for self-consistent calculation (SCF)
+
+=item C<lscf> (int)
+
+0=solid, 1=molecule (SCF)
+
+=item C<nscmt> (int)
+
+max number of self-consistency iterations (SCF)
+
+=item C<ca> (double)
+
+self-consistency convergence accelerator (SCF)
+
+=item C<nmix> (int)
+
+number of mixing iterations before Broyden (SCF)
+
+=item C<ecv> (double)
+
+core/valence separation energy (SCF)
+
+=item C<icoul> (int)
+
+obsolete param. for handling Coulomb potential (SCF)
+
+=item C<ipol> (int)
+
+1=do polarization calculation (POLARIZATION)
+
+=item C<evec> (\*double)
+
+(3) polarization array (POLARIZATION)
+
+=item C<elpty> (double)
+
+eccentricity of elliptical light (ELLIPTICITY)
+
+=item C<xivec> (\*double)
+
+(3) ellipticity array (ELLIPTICITY)
+
+=item C<ispin> (int)
+
++/-2 = do spin calculation (SPIN)
+
+=item C<spvec> (\*double)
+
+(3) spin array (SPIN)
+
+=item C<angks> (double)
+
+angle between spin and incidient beam (SPIN)
+
+=item C<ptz> (double complex)
+
+(-1:1,-1:1) polarization tensor (return)
+
+=item C<gamach> (double)
+
+tabulated core-hole lifetime (return)
+
+=item C<ixc> (int)
+
+exchange index (EXCHANGE)
+
+=item C<vr0> (double)
+
+Fermi level offset (EXCHANGE)
+
+=item C<vi0> (double)
+
+constant broadening (EXCHANGE)
+
+=item C<ixc0> (int)
+
+exchange index for background function (EXCHANGE)
+
+=item C<iafolp> (int)
+
+1=do automated overlapping (FOLP & AFOLP)
+
+=item C<folp> (\*double)
+
+(0:nphx) overlapping fractions (FOLP & AFOLP)
+
+=item C<xion> (\*double)
+
+(0:nphx) potential ionizations (ION)
+
+=item C<rgrd> (double)
+
+radial grid used for the potentials/phases (RGRID)
+
+=item C<iunf> (int)
+
+1=unfreeze f electrons (UNFREEZEF)
+
+=item C<inters> (int)
+
+(INTERSTITIAL)
+
+=item C<totvol> (double)
+
+(INTERSTITIAL)
+
+=item C<jumprm> (int)
+
+1=remove potential jumps at muffin tin radii (JUMPRM)
+
+=item C<nohole> (int)
+
+1=compute without core-hole (NOHOLE)
+
+=back
 
 =head2 Constants from feffpath.h
 
@@ -324,7 +534,7 @@ A Hartree, a unit of energy, in eV.
 
 =back
 
-=head2 Attributes with values of array-reference
+=head2 3-vector array-reference
 
 =over 4
 
@@ -367,11 +577,54 @@ is the getter's return value.
 
 Setting C<xivec> will also set C<ispin> to true.
 
+=back
+
+=head2 Array-references decribing the unique potentials
+
+=over 4
 
 =item C<iz>
 
 A reference to an array containing the Z numbers of each unique
 potential.
+
+=item C<potlbl>
+
+Label for each potential index (up to 6 characters)
+
+=item C<lmaxsc>
+
+Maximum angular momentum for use in self consistency calculation
+
+=item C<lmaxph>
+
+Maximum angular momentum for use in XANES calculation
+
+=item C<xnatph>
+
+Stoichiometry of each potential in the cluster
+
+=item C<spinph>
+
+Spin on each potential
+
+=item C<folp>
+
+Overlap fraction for each potential
+
+=item C<xion>
+
+Ionization on each potential.
+
+=back
+
+=head2 Array-references decribing the unique potentials
+
+=over 4
+
+=item C<iphat>
+
+=item C<rat>
 
 =back
 
