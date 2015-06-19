@@ -5,6 +5,7 @@ use MooseX::NonMoose;
 use MooseX::Aliases;
 extends 'Xray::Feff::PhasesWrapper';
 
+use JSON;
 use List::MoreUtils qw(any);
 
 our $VERSION = '1.00'; # Inline::MakeMake uses /^\d.\d\d$/ as the
@@ -50,7 +51,7 @@ has 'ipol'     => (is => 'rw', isa => 'Int',  default => 0,               trigge
 has 'elpty'    => (is => 'rw', isa => 'Num',  default => 0.0,             trigger => sub{pushback(@_, 'elpty'    )});
 has 'ispin'    => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'ispin'    )});
 has 'angks'    => (is => 'rw', isa => 'Num',  default => 0.0,             trigger => sub{pushback(@_, 'angks'    )});
-has 'gamach'   => (is => 'rw', isa => 'Num',  default => 0.0);
+has 'gamach'   => (is => 'rw', isa => 'Num',  default => 0.0,             trigger => sub{pushback(@_, 'gamach'   )});
 has 'ixc'      => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'ixc'      )});
 has 'vr0'      => (is => 'rw', isa => 'Num',  default => 0.0,             trigger => sub{pushback(@_, 'vr0'      )});
 has 'vi0'      => (is => 'rw', isa => 'Num',  default => 0.0,             trigger => sub{pushback(@_, 'vi0'      )});
@@ -116,12 +117,46 @@ sub DEMOLISH {
 };
 
 
-sub _json {
+sub _json_c {
   my ($self) = @_;
   my $ret = $self->wrapper->_read_libpotph_json;
   $self->_fetch;
   return $ret;
 };
+sub _json_pp {
+  my ($self) = @_;
+  my $json_text = $self->_slurp($self->jsonfile);
+  my $rhash = decode_json($json_text);
+  #use Data::Dump::Color;
+  #dd $rhash;
+  foreach my $meth (qw(ntitle nat nph ihole rscf lscf nscmt ca nmix ecv icoul ipol elpty ispin angks gamach
+		      ixc vr0 vi0 ixc0 iafolp rgrd iunf inters totvol jumprm nohole
+		      iz potlbl lmaxsc lmaxph xnatph spinph folp xion titles iphat)) {
+    my $att = ($meth eq 'nat')   ? 'natt'
+            : ($meth eq 'rscf')  ? 'rfms1'
+            : ($meth eq 'lscf')  ? 'lfms1'
+            : ($meth eq 'ca')    ? 'ca1'
+            : ($meth eq 'vr0')   ? 'vro'
+            : ($meth eq 'vi0')   ? 'vio'
+            : ($meth eq 'iphat') ? 'iphatx'
+            : $meth;
+    $self->$meth($rhash->{$att});
+  };
+
+#  $self->_set_iphat_array($self->iphat);
+
+  my @rat = ();
+  my $x = $rhash->{x};
+  my $y = $rhash->{y};
+  my $z = $rhash->{z};
+  foreach my $i (1 .. $rhash->{natt}) {
+    my $this = [$x->[$i-1], $y->[$i-1], $z->[$i-1]];
+    push @rat, $this;
+  };
+  $self->rat(\@rat);
+  $self->wrapper->_set_rat_array(@rat);
+};
+
 
 sub phases {
   my ($self) = @_;
@@ -166,7 +201,7 @@ sub _fetch {
 
 sub pushback {
   my ($self, $new, $old, $which) = @_;
-  return if (any {$_ eq $which} qw(gamach));
+  #return if (any {$_ eq $which} qw(gamach));
   my $method = '_set_' . lc($which);
   if ($self->meta->get_attribute($which)->type_constraint eq 'Num') {
     $self->wrapper->$method(1.0*$new);
@@ -235,6 +270,16 @@ sub set_rat_array {
   return $self;
 };
 
+sub _slurp {
+  my ($class, $file) = @_;
+  local $/;
+  return q{} if (not -e $file);
+  return q{} if (not -r $file);
+  open(my $FH, $file);
+  my $text = <$FH>;
+  close $FH;
+  return $text;
+};
 
 
 no Moose;

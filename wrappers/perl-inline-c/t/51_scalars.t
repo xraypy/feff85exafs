@@ -14,7 +14,7 @@ my $phases = Xray::Feff::Phases->new();
 ok(ref($phases) =~ m{Feff::Phases},                                                           "object created ".$phases);
 
 $phases -> jsonfile("../fortran/libpotph.json");
-$phases -> _json;
+$phases -> _json_pp;
 
 ok($phases->nat == 177,                                                                       "nat");
 ok($phases->wrapper->_nat == 177,                                                             "nat, wrapper");
@@ -36,12 +36,16 @@ ok(abs($phases->wrapper->_rgrd - 0.05) < $epsilon,                              
 
 ok((($phases->iz->[0] == 29) and ($phases->iz->[1] == 29)),                                   "iz array");
 
+# #print join(",", $phases->wrapper->_iz_array), $/;
+# #print join(",", @{$phases->iz}), $/;
 ok((($phases->lmaxsc->[0] == 2) and ($phases->lmaxsc->[1] == 2)),                             "lmaxsc array");
 
 ok((($phases->xnatph->[0] == 1) and ($phases->xnatph->[1] == 100)),                           "xnatph array");
 
 ok( ( (abs($phases->folp->[0] - 1.15) < $epsilon) and
       (abs($phases->folp->[1] - 1.15) < $epsilon)      ),                                     "folp array");
+
+undef $phases;
 
 #  print join(",", $self->wrapper->_iz_array), $/;
 #  print join(",", $self->wrapper->_xnatph_array), $/;

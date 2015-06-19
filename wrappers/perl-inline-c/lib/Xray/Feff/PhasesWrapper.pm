@@ -287,6 +287,9 @@ void _set_angks(SV* obj, double d) {
 double _gamach(SV* obj) {
   return (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->gamach;
 }
+void _set_gamach(SV* obj, double d) {
+  (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->gamach = d;
+}
 
 
 int _ixc(SV* obj) {
