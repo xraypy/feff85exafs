@@ -235,10 +235,12 @@ sub spvec_set {
 
 sub set_pot_array {
   my ($self, $new, $old, $which) = @_;
+  #print "setting $which\n";
   my @list;
   if ($which =~ m{iz|iphat|lmaxsc|lmaxph}) {
     @list = map {int($_)} @$new; # constrain to be integer
-  } elsif ($which =~ m{znatph|folp|xion|spinph}) {
+    #print join("|", @list), $/ if $which eq 'iz';
+  } elsif ($which =~ m{xnatph|folp|xion|spinph}) {
     @list = map {$_*1.0} @$new;	# constrain to be float
   } elsif ($which =~ m{potlbl}) {
     foreach my $s (@$new) { # constrain to be 6 characters or less
@@ -246,7 +248,7 @@ sub set_pot_array {
     };
   };
   my $method = '_set_' . lc($which) . '_array';
-  $self->wrapper->$method(\@list);
+  $self->wrapper->$method(@list);
   return $self;
 };
 

@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 17;
+use Test::More tests => 21;
 use Cwd;
 
 use Xray::Feff::Phases;
@@ -35,15 +35,24 @@ ok(abs($phases->rgrd - 0.05) < $epsilon,                                        
 ok(abs($phases->wrapper->_rgrd - 0.05) < $epsilon,                                            "rgrd, wrapper");
 
 ok((($phases->iz->[0] == 29) and ($phases->iz->[1] == 29)),                                   "iz array");
+#print '>>>> ', join("|", $phases->wrapper->_iz_array), $/;
+ok(((($phases->wrapper->_iz_array)[0] == 29) and (($phases->wrapper->_iz_array)[1] == 29)),   "iz array, wrapper");
 
 # #print join(",", $phases->wrapper->_iz_array), $/;
 # #print join(",", @{$phases->iz}), $/;
 ok((($phases->lmaxsc->[0] == 2) and ($phases->lmaxsc->[1] == 2)),                             "lmaxsc array");
+ok(((($phases->wrapper->_lmaxsc_array)[0] == 2) and (($phases->wrapper->_lmaxsc_array)[1] == 2)), "lmaxsc array, wrapper");
 
 ok((($phases->xnatph->[0] == 1) and ($phases->xnatph->[1] == 100)),                           "xnatph array");
+ok(((($phases->wrapper->_xnatph_array)[0] == 1) and (($phases->wrapper->_xnatph_array)[1] == 100)), "xnatph array, wrapper");
 
 ok( ( (abs($phases->folp->[0] - 1.15) < $epsilon) and
       (abs($phases->folp->[1] - 1.15) < $epsilon)      ),                                     "folp array");
+
+ok( ( (abs(($phases->wrapper->_folp_array)[0] - 1.15) < $epsilon) and
+      (abs(($phases->wrapper->_folp_array)[1] - 1.15) < $epsilon)     ),                      "folp array, wrapper");
+
+
 
 undef $phases;
 

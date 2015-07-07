@@ -32,8 +32,10 @@ fortran = ['src/PAR/SConstruct',
             'src/PATH/SConstruct',
             'src/GENFMT/SConstruct',
 	    'src/FF2X/SConstruct',]
-python   = ['wrappers/python/SConstruct',
-            'tests/SConstruct',]
+python   = [
+    #'wrappers/python/SConstruct',
+    'tests/SConstruct',
+]
 
 if os.name == 'nt':
     everything = fortran

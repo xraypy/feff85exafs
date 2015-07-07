@@ -441,8 +441,10 @@ void _potlbl_array(SV* obj) {
 }
 void _set_potlbl_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>nphx+1) {n = nphx+1;}
+  for (i=1; i < n; i++) {
     strcpy( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->potlbl[i], SvPV(Inline_Stack_Item(i), PL_na) );
   }
   Inline_Stack_Void;
@@ -460,9 +462,11 @@ void _iz_array(SV* obj) {
 }
 void _set_iz_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
-    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->iz[i] = SvIV(Inline_Stack_Item(i));
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>nphx+1) {n = nphx+1;}
+  for (i=1; i < n; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->iz[i-1] = SvIV(Inline_Stack_Item(i));
   }
   Inline_Stack_Void;
 }
@@ -479,9 +483,11 @@ void _lmaxsc_array(SV* obj) {
 }
 void _set_lmaxsc_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
-    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->lmaxsc[i] = SvIV(Inline_Stack_Item(i));
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>nphx+1) {n = nphx+1;}
+  for (i=1; i < n; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->lmaxsc[i-1] = SvIV(Inline_Stack_Item(i));
   }
   Inline_Stack_Void;
 }
@@ -498,9 +504,11 @@ void _lmaxph_array(SV* obj) {
 }
 void _set_lmaxph_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
-    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->lmaxph[i] = SvIV(Inline_Stack_Item(i));
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>nphx+1) {n = nphx+1;}
+  for (i=1; i < n; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->lmaxph[i-1] = SvIV(Inline_Stack_Item(i));
   }
   Inline_Stack_Void;
 }
@@ -517,9 +525,11 @@ void _xnatph_array(SV* obj) {
 }
 void _set_xnatph_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
-    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->xnatph[i] = SvNV(Inline_Stack_Item(i));
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>nphx+1) {n = nphx+1;}
+  for (i=1; i < n; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->xnatph[i-1] = SvNV(Inline_Stack_Item(i));
   }
   Inline_Stack_Void;
 }
@@ -536,9 +546,11 @@ void _spinph_array(SV* obj) {
 }
 void _set_spinph_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
-    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->spinph[i] = SvNV(Inline_Stack_Item(i));
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>nphx+1) {n = nphx+1;}
+  for (i=1; i < n; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->spinph[i-1] = SvNV(Inline_Stack_Item(i));
   }
   Inline_Stack_Void;
 }
@@ -555,9 +567,11 @@ void _folp_array(SV* obj) {
 }
 void _set_folp_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
-    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->folp[i] = SvNV(Inline_Stack_Item(i));
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>nphx+1) {n = nphx+1;}
+  for (i=1; i < n; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->folp[i-1] = SvNV(Inline_Stack_Item(i));
   }
   Inline_Stack_Void;
 }
@@ -574,9 +588,11 @@ void _xion_array(SV* obj) {
 }
 void _set_xion_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
-    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->xion[i] = SvNV(Inline_Stack_Item(i));
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>nphx+1) {n = nphx+1;}
+  for (i=1; i < n; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->xion[i-1] = SvNV(Inline_Stack_Item(i));
   }
   Inline_Stack_Void;
 }
@@ -595,9 +611,11 @@ void _iphat_array(SV* obj) {
 }
 void _set_iphat_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
-    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->iphat[i] = SvIV(Inline_Stack_Item(i));
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>natx+1) {n = natx+1;}
+  for (i=1; i < n; i++) {
+    (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->iphat[i-1] = SvIV(Inline_Stack_Item(i));
   }
   Inline_Stack_Void;
 }
@@ -619,7 +637,7 @@ void _set_rat_array(SV* obj, ...) {
   int i,j,n;
   n=0;
   j=0;
-  for (i=0; i < Inline_Stack_Items; i++) {
+  for (i=1; i < Inline_Stack_Items; i++) {
     (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->rat[n][j] = SvNV(Inline_Stack_Item(i));
     j = j+1;
     if (j == 3) {
@@ -644,9 +662,11 @@ void _titles_array(SV* obj) {
 }
 void _set_titles_array(SV* obj, ...) {
   Inline_Stack_Vars;
-  int i;
-  for (i=0; i < Inline_Stack_Items; i++) {
-    strcpy( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->titles[i], SvPV(Inline_Stack_Item(i), PL_na) );
+  int i,n;
+  n = Inline_Stack_Items;
+  if (n>nheadx+1) {n = nheadx+1;}
+  for (i=1; i < n; i++) {
+    strcpy( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->titles[i-1], SvPV(Inline_Stack_Item(i), PL_na) );
   }
   Inline_Stack_Void;
 }
