@@ -14,7 +14,7 @@ fort.*
 log*.dat
 global.dat
 *.pad
-!wrappers/fortran/phase.pad
+!wrappers/fortran/phase_orig.pad
 
 ## nonsense that Athena writes out
 .gnuplot*
@@ -53,12 +53,16 @@ README.html
 
 ## compiled programs
 src/POT/pot
+src/POT/libpotph
 src/GENFMT/genfmt
 src/GENFMT/onepath
 src/GENFMT/feffpath
 wrappers/C/makepath
 wrappers/C/errors
+wrappers/C/makephases
+wrappers/C/pherr
 wrappers/fortran/makepath
+wrappers/fortran/makepotph
 src/PATH/pathfinder
 src/XSPH/xsph
 src/FMS/fms

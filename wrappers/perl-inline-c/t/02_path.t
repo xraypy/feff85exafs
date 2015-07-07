@@ -5,13 +5,13 @@ use warnings;
 use Test::More tests => 12;
 use Cwd;
 
-use Xray::FeffPath;
+use Xray::Feff::Path;
 
 
 my $epsilon = 1e-3;
 
-my $path = Xray::FeffPath->new();
-ok(ref($path) =~ m{FeffPath},                                                             "object created ".$path);
+my $path = Xray::Feff::Path->new();
+ok(ref($path) =~ m{Feff::Path},                                                           "object created ".$path);
 
 my $ret = $path->atom(0, 0, -3.61, 1);
 ok((not $ret),                                                                            "added first leg");
@@ -20,7 +20,7 @@ $ret = $path->atom(-1.805, 0, -1.805, 1);
 ok((not $ret),                                                                            "added second leg");
 ok($path->nleg == 3,                                                                      "nleg = 3");
 
-$path->phpad('../fortran/phase.pad');
+$path->phpad('../fortran/phase_orig.pad');
 $path->degen(48);
 $path->Index(4);
 $ret = $path->path;

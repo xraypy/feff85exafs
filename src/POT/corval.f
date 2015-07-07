@@ -61,6 +61,13 @@ c     Following passed to pathfinder, which is single precision.
       character*512 slog
       logical ok
 
+      do 5 i=1,32
+         en(i)  = 0.0d0
+         ll(i)  = 0
+         ip(i)  = 0
+         icv(i) = 0
+ 5    continue
+
       write (slog,10) 
   10  format('              Core-valence separation ')
       call wlog(slog)
@@ -68,7 +75,7 @@ c     Following passed to pathfinder, which is single precision.
 c     initialize staff
       do 15 i= 1,251
         dmag0(i) = 0.d0
-  15  ri05(i) = exp (-8.8+0.05*(i-1))
+  15  ri05(i) = exp (-8.8d0+0.05d0*(i-1))
       do 20 iph = 0, nphx
       do 20 il = 0, lx
          eldos(il, iph) = 0
@@ -80,7 +87,7 @@ c     initialize staff
       if (vint - ecv.lt.tol) ecv = vint - tol
       elow = -70.0d0/hart
       ehigh = -20.0d0/hart
-      eimag = coni*1.5/hart
+      eimag = coni*1.5d0/hart
 c     make energy step about 0.5 eV
       ne = 1 + nint((ehigh-elow)*2*hart)
       de = (ehigh-elow)/(ne-1)
@@ -98,7 +105,7 @@ c        or as core according to UNFREEZEF
 
           eldos(lll,iph) = eorb(iorb,iph)
           ival(lll,iph) = 1
-          if (xnval(iorb,iph).lt. 0.1) ival(lll,iph)=-1
+          if (xnval(iorb,iph).lt. 0.1d0) ival(lll,iph)=-1
           iiorb(lll,iph) = iorb
         endif
   100 continue
@@ -289,7 +296,7 @@ c     need to do that for second call of 'corval' and for ixc=5,6
          iph = ip(ie)
          lll = ll(ie)
          iorb = iiorb(lll,iph)
-         if (xnval(iorb,iph).lt.0.1) then
+         if (xnval(iorb,iph).lt.0.1d0) then
             xnval(iorb,iph) = 2*lll+2
             if (lll.gt.0) xnval(iorb-1,iph) = 2*lll
          endif

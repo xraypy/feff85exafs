@@ -5,7 +5,7 @@
 
 * The feff85exafs to do list
 
-** feffpath library [10/11]
+** feffpath library [10/12]
 
  1. [X] write header into ~f3ffNNNN.dat~ files
  2. [X] deg --> degen to match larch's _feffdat group
@@ -22,14 +22,55 @@
  9. [X] nose testing for feffpath generated ~f3ffNNNN.dat~ files
  10. [X] SWIG-less perl library /(uses Inline::C)/
  11. [ ] SWIG-less python library /(Matt has started this)/
+ 12. [ ] _wrapper tests not currently working
+
+** libpotph library [0/6]
+
+ 1. [ ] get stand-along potph program to run all the way through
+ 2. [ ] test that stand-alone works all the way through
+ 3. [ ] turn it into a library with content of libpotph.json as it's input
+ 4. [ ] write a C wrapper with the content of libpotph.json as its struct
+ 5. [ ] write a stand-alone feff.inp --> libpotph.json converter
+ 6. [ ] write a larch plugin which is a feff.inp --> struct wrapper
+    converter, i.e. take a feff.inp as input and give a libpotph
+    object as its output
+
+*** libpotph issues and things to test
+
+ * does NOHOLE work?
+ * does SPIN work?  is it needed for exafs?
+ * how much of AFOLP, FOLP, ION, RGRID, UNFREEZEF, INTERSTITIAL,
+   JUMPRM do we want to support?
+   - AFOLP: yes
+   - FOLP: yes
+   - ION: reluctantly, yes
+   - RGRID: no idea...
+   - UNFREEZEF: no idea...
+   - INTERSTITIAL: no idea...
+   - JUMPRM: probably not
+ * does the iafolp parameter need to be carried around?  seems that it
+   serves to indicate that folp was filled with the value given with
+   AFOLP.
+ * what is the point of capturing polarization and ellipticity at
+   this stage?  is there any effect on the potantials?  or can they
+   be put off until libfeffpath?
+ * are we safe ignoring CFAVERAGE, MULTIPOLE, RPHASES
+ * the following seem outside the scope of feff85exafs and outside
+   what the FP wanted to share: PMBSE, TDLDA, PLASMON
+ * the following *are* outside the scope of feff85exafs: XANES, FMS
+ * Bruce wants OVERLAP to be retired -- the concept is better done in
+   the sense of a Demeter::SSPath using libfeffpath
+ * might want flags for triggering the various output files controled
+   by feff's PRINT card...
+
+
 
 ** big jobs [0/6]
 
  1. [ ] build on Mac
- 2. [ ] make scatteringpath a drop in replacement for feffdat
+ 2. [ ] make scatteringpath a drop in replacement for feffdat in larch
  3. [ ] nosetests on result of scatteringpath with nnnn=False
  4. [ ] fit with different feff versions -- comparison framework /(begun in Bruce's privat SCFtests git repo)/
- 5. [ ] library for encapsolating generation of ~phase.pad~
  6. [ ] capture information about muffin tin radii, norman radii,
     ionization, a lá Larch _feffdat's potentials attribute
 

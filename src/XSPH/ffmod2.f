@@ -47,6 +47,40 @@ c        angks - angle between x-ray propagation and spin (default=0)
 c        ptz - polarization tenzor (default=0 for ipol=0)
       integer iPl, iGrid
 
+c     parameters related to rdpot, to be passed to newly modified pot()
+      character*80 title(nheadx)
+      integer ntitle, nohole, ihole, inters, iafolp, iunf, jumprm
+      double precision rnrmav, xmu, vint, rhoint, emu, s02, erelax
+      double precision wp, ecv, rs, xf, qtotel, totvol
+      dimension adgc(10,30,0:nphx)
+      dimension adpc(10,30,0:nphx)
+      dimension dgc(251,30,0:nphx)
+      dimension dgc0(251)
+      dimension dmag(251,0:nphx)
+      dimension dpc(251,30,0:nphx)
+      dimension dpc0(251)
+      dimension edens(251,0:nphx)
+      dimension edenvl(251,0:nphx)
+      dimension eorb(30)
+      dimension folp(0:nphx)
+      dimension folpx(0:nphx)
+      dimension imt(0:nphx)
+      dimension inrm(0:nphx)
+      dimension iorb(-4:3,0:nphx)
+      dimension iz(0:nphx)
+      dimension kappa(30)
+      dimension qnrm(0:nphx)
+      dimension rmt(0:nphx)
+      dimension rnrm(0:nphx)
+      dimension vclap (251,0:nphx)
+      dimension vtot (251,0:nphx)
+      dimension vvalgs (251,0:nphx)
+      dimension xion(0:nphx)
+      dimension xnatph(0:nphx)
+      dimension xnmues(0:lx,0:nphx)
+      dimension xnval(30,0:nphx)
+
+
       call par_begin
       if (worker) go to 400
 
@@ -64,11 +98,28 @@ c     Josh - added flag iPl for PLASMON card
 
       if (mphase .eq. 1)  then
          call wlog(' Calculating cross-section and phases...')
-         call xsph (ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
-     1             nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
-     2             ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
-     3             ipol, ispin, le2, angks, ptz, iPl,
-     4             izstd, ifxc, ipmbse, itdlda, nonlocal)
+         call rdpot ( ntitle, title, rnrmav, xmu, vint, rhoint,
+     1          emu, s02, erelax, wp, ecv,rs,xf, qtotel,
+     2          imt, rmt, inrm, rnrm, folp, folpx, xnatph,
+     3          dgc0, dpc0, dgc, dpc, adgc, adpc,
+     3          edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+     4          eorb, kappa, iorb, qnrm, xnmues, nohole, ihole,
+     5          inters, totvol, iafolp, xion, iunf, iz, jumprm)
+
+         call xsph (.true.,
+     -          ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
+     1          nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
+     2          ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
+     3          ipol, ispin, le2, angks, ptz, iPl,
+     4          izstd, ifxc, ipmbse, itdlda, nonlocal,
+c        pass parameters from rdpot
+     1          ntitle, title, rnrmav, xmu, vint, rhoint,
+     2          emu, s02, erelax, wp, ecv, rs, xf, qtotel,
+     3          imt, rmt, inrm, rnrm, folp, folpx, xnatph,
+     4          dgc0, dpc0, dgc, dpc, adgc, adpc,
+     5          edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+     6          iorb, nohole, ihole,
+     7          inters, totvol, iafolp, xion, iunf, iz, jumprm)
 c squelch compiler warning about unused dummy variables, apparently
 c removed from f85e
 c     iGrid, (after iPl)

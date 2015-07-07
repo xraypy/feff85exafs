@@ -1,9 +1,18 @@
 c     Josh - added argument iPl to control many pole self energy.
-      subroutine xsph (ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
-     1             nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
-     2             ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
-     3             ipol, ispin, le2, angks, ptz, iPl,
-     4             izstd, ifxc, ipmbse, itdlda, nonlocal)
+      subroutine xsph (wrxsec,
+     -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
+     1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
+     2       ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
+     3       ipol, ispin, le2, angks, ptz, iPl,
+     4       izstd, ifxc, ipmbse, itdlda, nonlocal,
+c        pass parameters from rdpot
+     1       ntitle, title, rnrmav, xmu, vint, rhoint,
+     2       emu, s02, erelax, wp, ecv, rs, xf, qtotel,
+     3       imt, rmt, inrm, rnrm, folp, folpx, xnatph,
+     4       dgc0, dpc0, dgc, dpc, adgc, adpc,
+     5       edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+     6       iorb, nohole, ihole,
+     7       inters, totvol, iafolp, xion, iunf, iz, jumprm)
 c squelch compiler warning about unused dummy variables, apparently
 c removed from f85e
 c    iGrid, (after iPl)
@@ -22,6 +31,10 @@ c                   xxx.dat      various diagnostics
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
+
+c     control whether xsect.json gets written, .true. for conventional
+c     feff, .false. for libpotph
+      logical wrxsec
 
       double precision col1(nex), col2(nex), col3(nex)
       double precision col4(nex), col5(nex)
@@ -77,8 +90,9 @@ c     imt(0:nphx)  -  r mesh index just inside rmt
 c     rmt(0:nphx)  -  muffin tin radius
       dimension rmt(0:nphx)
 c     rnrm(0:nphx)  -  Norman radius
-      dimension rnrm(0:nphx), qnrm(0:nphx)
-      dimension xnmues(0:lx,0:nphx)
+      dimension rnrm(0:nphx)
+c     , qnrm(0:nphx)
+c      dimension xnmues(0:lx,0:nphx)
       real rfms2
       integer ipol, ispin, lfms2
       complex*16 ptz
@@ -104,7 +118,8 @@ c     additioal data needed for relativistic version
       dimension dgc(251,30,0:nphx), dpc(251,30,0:nphx)
       dimension adgc(10,30,0:nphx), adpc(10,30,0:nphx)
       dimension dgcn(nrptx,30), dpcn(nrptx,30)
-      dimension edenvl(251,0:nphx), eorb(30), kappa(30)
+      dimension edenvl(251,0:nphx)
+c     , eorb(30), kappa(30)
       dimension vvalgs (251,0:nphx), xnval(30,0:nphx), iorb(-4:3,0:nphx)
 
 c     nrx = max number of r points for phase and xsect r grid
@@ -131,13 +146,17 @@ c     Atom r grid
 c     Phase r grid
       dxnew = rgrd
 
-      call rdpot ( ntitle, title, rnrmav, xmu, vint, rhoint,
-     1                  emu, s02, erelax, wp, ecv,rs,xf, qtotel,
-     2                  imt, rmt, inrm, rnrm, folp, folpx, xnatph,
-     3                  dgc0, dpc0, dgc, dpc, adgc, adpc,
-     3                  edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
-     4                  eorb, kappa, iorb, qnrm, xnmues, nohole, ihole,
-     5                  inters, totvol, iafolp, xion, iunf, iz, jumprm)
+c*************************************************************************
+c     move the call to rdpot out to ffmod1.f so that this file can be
+c     reused between the conventional feff programs and libpotph
+c*************************************************************************
+c$$$      call rdpot ( ntitle, title, rnrmav, xmu, vint, rhoint,
+c$$$     1                  emu, s02, erelax, wp, ecv,rs,xf, qtotel,
+c$$$     2                  imt, rmt, inrm, rnrm, folp, folpx, xnatph,
+c$$$     3                  dgc0, dpc0, dgc, dpc, adgc, adpc,
+c$$$     3                  edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+c$$$     4                  eorb, kappa, iorb, qnrm, xnmues, nohole, ihole,
+c$$$     5                  inters, totvol, iafolp, xion, iunf, iz, jumprm)
 c      lopt=true for the Rivas code of optical constants
        lopt = .false.
        if (lopt) call getedg(ihole,iz(0), emu)
@@ -223,12 +242,14 @@ c     Need to add file check and emesh check.
          close(14)
       end if
 c     Josh END
-      
+
       if (itdlda.eq.0)  then 
 !     Josh - Replaced call to phmesh with phmesh2, which allows user
 !     defined grids read from grid.inp. Details can be found in phmesh2.f
 !         call phmesh2 (ipr2, ispec, edge, emu, vi0, gamach, xkmax,
 !     &        xkstep, vixan, ne, ne1, em, ik0, ne3,iGrid)
+c        print *, ipr2, ispec, edge, emu, vi0, gamach
+c        print *, xkmax, xkstep, vixan, ne, ne1, ik0, ne3
         call phmesh (ipr2, ispec, edge, emu, vi0, gamach,
      1                 xkmax, xkstep, vixan, ne, ne1, em, ik0, ne3)
       else
@@ -500,9 +521,10 @@ c          nsp=2
       endif
 c--json--      close (unit=1)
 
-      call json_xsect(ntitle, title, s02, erelax, wp, edge, emu,
-     1                gamach*hart, ne, ne1, ik0,
-     2                col1, col2, col3, col4, col5)
+      if (wrxsec) call json_xsect(ntitle, title, s02, erelax,
+     -       wp, edge, emu,
+     1       gamach*hart, ne, ne1, ik0,
+     2       col1, col2, col3, col4, col5)
 
 c     disable for now since dimensions are different
       if (ipr2 .ge. 2)  then

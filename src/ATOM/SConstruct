@@ -15,8 +15,8 @@ ienv = InstallEnvironment()
 
 lib_src = Split('akeato.f  cofcon.f  etotal.f  fpf0.f   lagdat.f  nucdev.f  potslw.f  soldir.f \
                  wfirdf.f  aprdev.f  dentfa.f  fdmocc.f inmuat.f  messer.f  ortdat.f  s02at.f  \
-                tabrat.f  yzkrdf.f  bkmrdf.f  dsordf.f fdrirk.f  intdir.f  muatco.f  potrdf.f \
-                scfdat.f  vlda.f    yzkteg.f')
+                 tabrat.f  yzkrdf.f  bkmrdf.f  dsordf.f fdrirk.f  intdir.f  muatco.f  potrdf.f \
+                 scfdat.f  vlda.f    yzkteg.f')
 
 
 deps = ('COMMON/wlog', 'COMMON/getorb', 'COMMON/str',
@@ -29,3 +29,7 @@ env.Depends('fpf0.f', join('..', 'json-fortran', 'json_module.mod'))
 
 #env.Install(ienv['i_lib'], lib)
 #env.Alias('install', ienv['i_lib'])
+
+env.SharedObject(lib_src)
+#env.SharedObject(['potslw.f', 'scfdat.f', 'vlda.f', 'inmuat.f', 'muatco.f', 'soldir.f', 'potrdf.f',
+#                  'ortdat.f', 'messer.f', 'etotal.f', 'lagdat.f', 'dsordf.f'])

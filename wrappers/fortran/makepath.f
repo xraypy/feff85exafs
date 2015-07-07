@@ -38,6 +38,7 @@ c     initialize everything
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
       ivrbse = 1
+c      phpad  = 'phase_orig.pad'
       phpad  = 'phase.pad'
 
 c+---------------------------------------------------------------------

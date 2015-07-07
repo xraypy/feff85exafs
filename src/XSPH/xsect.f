@@ -120,7 +120,7 @@ c     explicitly intialize some things
  5    continue
 
       call setkap(ihole, kinit, linit)
-      PRINT*, 'dx=',dx
+c      PRINT*, 'dx=',dx
 c     set imt and jri (use general Loucks grid)
 c     rmt is between imt and jri (see function ii(r) in file xx.f)
       imt = int((log(rmt) + x0) / dx)  +  1
@@ -197,17 +197,17 @@ c          - read pole information from epsinv.dat
          WpCorr(ipole) = -1.d30
          CLOSE(47)
       END IF
-      IF(ixc.eq.0) THEN
-c        Write wp as calculated from density to sigma.dat
-         open(file='mpse.dat', unit=45, status='replace',iostat=ios)
-         call chopen (ios, 'sigma.dat', 'ffmod2(xsect)')
-         write(45,*) '# ', 'rs      wp(Hartrees)'
-         write(45,*) '# ', (3 / (4*pi*edens(jri+1))) ** third,
-     &        SQRT(3.d0/((3 / (4*pi*edens(jri+1))) ** third)**3)*hart
-         write(45,'(a)')
-     &        '# E-EFermi (eV)   Re[Sigma(E)] (eV)   Im[Sigma(E)] (eV)'
-     &        // '   Re[Z]   Im[Z]   Mag[Z]   Phase[Z]   Lambda(E) (/A)'
-      END IF
+c$$$      IF(ixc.eq.0) THEN
+c$$$c        Write wp as calculated from density to sigma.dat
+c$$$         open(file='mpse.dat', unit=45, status='replace',iostat=ios)
+c$$$         call chopen (ios, 'sigma.dat', 'ffmod2(xsect)')
+c$$$         write(45,*) '# ', 'rs      wp(Hartrees)'
+c$$$         write(45,*) '# ', (3 / (4*pi*edens(jri+1))) ** third,
+c$$$     &        SQRT(3.d0/((3 / (4*pi*edens(jri+1))) ** third)**3)*hart
+c$$$         write(45,'(a)')
+c$$$     &        '# E-EFermi (eV)   Re[Sigma(E)] (eV)   Im[Sigma(E)] (eV)'
+c$$$     &        // '   Re[Z]   Im[Z]   Mag[Z]   Phase[Z]   Lambda(E) (/A)'
+c$$$      END IF
 c     Josh END
       
       do 400 ie = 1, ne

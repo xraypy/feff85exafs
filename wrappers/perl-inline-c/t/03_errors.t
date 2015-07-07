@@ -5,13 +5,13 @@ use warnings;
 use Test::More tests => 15;
 use Cwd;
 
-use Xray::FeffPath;
+use Xray::Feff::Path;
 
 
 my $epsilon = 1e-3;
 
-my $path = Xray::FeffPath->new();
-ok(ref($path) =~ m{FeffPath},                                                       "object created ".$path);
+my $path = Xray::Feff::Path->new();
+ok(ref($path) =~ m{Feff::Path},                                                     "object created ".$path);
 
 ### test make_scatterer errors
 
@@ -38,7 +38,7 @@ ok($path->nleg == 0,                                                            
 
 
 ### test make_path errors
-$path->phbin('../fortran/phase.pad');
+$path->phbin('../fortran/phase_orig.pad');
 $ret = $path->atom(0, 0, 0, 1);
 $ret = $path->atom(1.805, 0, 1.805, 1);
 $ret = $path->path;
@@ -46,14 +46,14 @@ ok($ret < 64,                                                                   
 ok($ret == 1,                                                                       "first atom is absorber");
 $path->clear;
 
-$path->phpad('../fortran/phase.pad');
+$path->phpad('../fortran/phase_orig.pad');
 $ret = $path->atom(1.805, 0, 1.805, 1);
 $ret = $path->atom(0, 0, 0, 1);
 $ret = $path->path;
 ok($ret == 2,                                                                       "last atom is absorber");
 $path->clear;
 
-$path->phpad('../fortran/phase.pad');
+$path->phpad('../fortran/phase_orig.pad');
 $ret = $path->atom(0, 0, 3.61, 1);
 $ret = $path->atom(1.805, 0, 1.805, 1);
 $path->degen(-12.0);
@@ -61,7 +61,7 @@ $ret = $path->path;
 ok($ret == 4,                                                                       "degeneracy negative");
 $path->clear;
 
-$path->phpad('../fortran/phase.pad');
+$path->phpad('../fortran/phase_orig.pad');
 $ret = $path->atom(0, 0, 3.61, 1);
 $ret = $path->atom(1.805, 0, 1.805, 1);
 $path->Index(40000);
@@ -69,7 +69,7 @@ $ret = $path->path;
 ok($ret == 8,                                                                       "Index too big");
 $path->clear;
 
-$path->phpad('../fortran/phase.pad');
+$path->phpad('../fortran/phase_orig.pad');
 $ret = $path->atom(0, 0, 3.61, 1);
 $ret = $path->atom(1.805, 0, 1.805, 1);
 $path->elpty(-0.5);
@@ -77,7 +77,7 @@ $ret = $path->path;
 ok($ret == 16,                                                                      "elpty negative");
 $path->clear;
 
-$path->phpad('../fortran/phase.pad');
+$path->phpad('../fortran/phase_orig.pad');
 $ret = $path->atom(0, 0, 3.61, 1);
 $ret = $path->atom(1.805, 0, 1.805, 1);
 $path->iorder(-1);
@@ -85,7 +85,7 @@ $ret = $path->path;
 ok($ret == 32,                                                                      "iorder negative");
 $path->clear;
 
-$path->phpad('../fortran/phase.padX');
+$path->phpad('../fortran/phase_orig.padX');
 $ret = $path->atom(0, 0, 3.61, 1);
 $ret = $path->atom(1.805, 0, 1.805, 1);
 $ret = $path->path;

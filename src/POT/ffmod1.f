@@ -64,11 +64,47 @@ c         rat: x,y,z coordinates of all atoms
 c         iphat: which potential type correspond to each atom
 c         iatph: index of representative atom for each potential type
 
+        
+        double precision rnrmav, xmu, vint, rhoint, emu, s02, erelax
+        double precision wp, rs, xf, qtotel
+c       r mesh index just inside rmt
+        dimension imt(0:nphx)
+c       r mesh index just inside rnorman
+        dimension inrm(0:nphx)
+c       muffin tin radius
+        dimension rmt(0:nphx)
+c       norman radius
+        dimension rnrm(0:nphx), qnrm(0:nphx)
+c       folp(0:nphx)  - overlap factor for rmt calculation
+        dimension folpx(0:nphx)
+c       need irregular solution for complex potential. fix later
+        dimension dgc0(251), dpc0(251)
+c       additioal data needed for relativistic version
+        dimension dgc(251,30,0:nphx+1), dpc(251,30,0:nphx+1)
+        dimension adgc(10,30,0:nphx+1), adpc(10,30,0:nphx+1)
+c       Overlap calculation results
+c       overlapped density*4*pi
+        dimension edens(251,0:nphx)
+c       overlapped coul pot
+        dimension vclap(251,0:nphx)
+c       overlapped total potential
+        dimension vtot (251,0:nphx)
+        dimension edenvl(251,0:nphx)
+        dimension vvalgs (251,0:nphx)
+        dimension dmag(251,0:nphx+1)
+        dimension xnval(30,0:nphx+1)
+        dimension eorb(30,0:nphx+1)
+        dimension kappa(30,0:nphx+1), iorb(-4:3,0:nphx+1)
+        dimension xnmues(0:lx,0:nphx)
+c       Josh use nhtmp to save nohole value
+        integer nhtmp
+
+
       call par_begin
 
 c     Initialize clock
       call seconds(wall_start)
-      wall_comm = 0.0
+      wall_comm = 0.0d0
 
 c     open the log file, unit 11.  See subroutine wlog.
       if (master) then
@@ -90,15 +126,50 @@ c     and transform it to atomic hartree units
 
       if (mpot .eq. 1)  then
          call wlog(' Calculating potentials ...')
+
+c$$$         print *, rgrd, nohole,
+c$$$     $          inters, totvol, ecv, nscmt, nmix, ntitle,
+c$$$     $          nat, nph, ihole, iafolp, ixc
+         print *, 1, rat(1,1), rat(2,1), rat(3,1), iphat(1)
+         print *, 2, rat(1,2), rat(2,2), rat(3,2), iphat(2)
+         print *, 3, rat(1,3), rat(2,3), rat(3,3), iphat(3)
+         print *, 13, rat(1,13), rat(2,13), rat(3,13), iphat(13)
+         print *, 23, rat(1,23), rat(2,23), rat(3,23), iphat(23)
+
          call pot (rgrd, nohole,
-     $             inters, totvol, ecv, nscmt, nmix, ntitle, title,
-     $             nat, nph, ihole, iafolp,
-     $             ixc, iphat, rat, iatph,
-     $             xnatph, novr,
-     $             iphovr, nnovr, rovr, folp, xion, iunf, iz, ipr1,
-     $             ispec, jumprm,
-     $             lmaxsc, icoul, ca1, rfms1, lfms1)
+     $          inters, totvol, ecv, nscmt, nmix, ntitle, title,
+     $          nat, nph, ihole, iafolp, ixc, iphat, rat, iatph,
+     $          xnatph, novr, iphovr, nnovr, rovr,
+     $          folp, xion, iunf, iz, ipr1, ispec, jumprm,
+     $          lmaxsc, icoul, ca1, rfms1, lfms1,
+     $
+     -          rnrmav, xmu, vint, rhoint,
+     1          emu, s02, erelax, wp, rs, xf, qtotel,
+     2          imt, rmt, inrm, rnrm, folpx,
+     3          dgc0, dpc0, dgc, dpc, adgc, adpc,
+     4          edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+     5          eorb, kappa, iorb, qnrm, xnmues, nhtmp
+     6    )
+c        return stuff for wrpot
 c                  gamach
+c        write stuff into pot.pad
+         call wrpot (nph, ntitle, title, rnrmav, xmu, vint, rhoint,
+     1          emu, s02, erelax, wp, ecv, rs, xf, qtotel,
+     2          imt, rmt, inrm, rnrm, folp, folpx, xnatph,
+     3          dgc0, dpc0, dgc, dpc, adgc, adpc,
+     3          edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
+     4          eorb(1,0), kappa(1,0), iorb, qnrm, xnmues, nhtmp,
+     5          ihole, inters, totvol, iafolp, xion, iunf, iz, jumprm)
+         
+c        write misc.dat
+         if (ipr1 .ge. 1)  then
+            open (unit=1, file='misc.dat', status='unknown', iostat=ios)
+            call chopen (ios, 'misc.dat', 'potph')
+            call wthead(1, ntitle, title)
+            close (unit=1)
+         endif
+
+         call wlog(' Done with module 1: potentials. ')
       endif
 
 c     OUTPUT: subroutine pot writes main output file pot.pad

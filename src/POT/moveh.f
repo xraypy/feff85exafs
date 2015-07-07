@@ -38,7 +38,7 @@ c        find shortest AB bond (neither A or B are H)
                  ib = i
               endif
           enddo
-          if (rab.lt.ratmax) ratmax = 0.95*rab + 0.05*rah
+          if (rab.lt.ratmax) ratmax = 0.95d0*rab + 0.05d0*rah
           if (rah .gt. ratmax) goto 970
 
 c         increase rah to ratmax and check that A is still closest to H
@@ -60,7 +60,7 @@ c         increase rah to ratmax and check that A is still closest to H
              rab = dist(rath(1,ia),rath(1,ib))
              rattmp = ratmax*rab**2/(ratmax**2+rab**2-rbh**2)
              ratmin = ratmax
-             ratmax = 0.95*rattmp +0.05*rah
+             ratmax = 0.95d0*rattmp +0.05d0*rah
              goto 960
           endif
         endif

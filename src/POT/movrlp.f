@@ -55,7 +55,7 @@ c     initiallly cmovp is a unit matrix up to ncp
   30  continue
       do 40 i2=1,ncp-1
       do 40 i1=1,nph+1
-        bmat (i1,i2) = 0.d0
+        bmat (i1,i2) = 0.e0
   40  continue
       xn = 0.d0
 
@@ -212,7 +212,7 @@ c          see rdinp.f
            aa = xnatph(iph)/xn
            do 250 ix1 = 1, ncp-1
   250      cmovp(ncp,ix1) = cmovp(ncp, ix1) +
-     &             cmplx(real(aa*bmat(iph+1,ix1)))
+     &             cmplx(real(aa)*bmat(iph+1,ix1))
   260    continue
       else  
          iph=0

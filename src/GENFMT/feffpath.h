@@ -18,6 +18,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #define _EXPORT(a) __declspec(dllexport) a _stdcall
 #else

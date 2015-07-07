@@ -38,6 +38,7 @@ libs = ['libfeffgenfmt.a',
         join('..', 'JSON',   'libfeffjson.a'),
     ]
 
+
 env.Program('genfmt', ['regenf.f']+bin_src+libs)
 env.Install(ienv['i_bin'], 'genfmt'+env['PROGSUFFIX'])
 
@@ -86,24 +87,24 @@ perl_wrapper_path = realpath(join('..', '..', 'wrappers', 'perl'))
 python_wrapper_path = realpath(join('..', '..', 'wrappers', 'python'))
 ## ------------------------------------------------------------------------------------------------------
 ## the C wrapper example needs the header file
-if 'SUDO_UID' in os.environ.keys():
-    env.InstallOwner(join(perl_wrapper_path, 'src'), 'feffpath.h', int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
-    env.Install(ienv['i_inc'], 'feffpath.h')
-else:
-    env.Install([join(perl_wrapper_path, 'src'), python_wrapper_path, ienv['i_inc']], 'feffpath.h')
+# if 'SUDO_UID' in os.environ.keys():
+#     env.InstallOwner(join(perl_wrapper_path, 'src'), 'feffpath.h', int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
+#     env.InstallOwner(join(python_wrapper_path),      'feffpath.h', int(os.getenv('SUDO_UID')), int(os.getenv('SUDO_GID')))
+#     env.Install(ienv['i_inc'], 'feffpath.h')
+# else:
+#     env.Install([join(perl_wrapper_path, 'src'), python_wrapper_path, ienv['i_inc']], 'feffpath.h')
+    
+env.Install(ienv['i_inc'], 'feffpath.h')
 
+
+env.Alias('install', [ ienv['i_lib'], ienv['i_bin'], ienv['i_inc'] ])
 
 
 ## ------------------------------------------------------------------------------------------------------
-## build the SWIG Perl wrapper
+## build the SWIG Perl and Python wrapper -- OBSOLETE
 
-## FIXME:  find_executable needs an argument that works on all the platforms
-##         perhaps 'import platform', then 'platform.system()'...
-
-## problem seems to be the call to Environment(), whihc overwrites the
-## PATH stuff from FeffBuild, perhaps move BUILDERS line to FeffBuild...?
-
-if find_executable("swig"):
+#if find_executable("swig"):
+if False:
 
     here=os.getcwd()
 
@@ -142,8 +143,13 @@ if find_executable("swig"):
         env.Install(python_wrapper_path, join(here, 'python', 'feffpathwrapper.py'))
 
 else:
-    print "\nSWIG not installed, skipping perl&python wrappers for libfeffpath in GENFMT\n"
+    pass
+    #print "\nSWIG not installed, skipping perl&python wrappers for libfeffpath in GENFMT\n"
 
-env.Alias('install', [join(perl_wrapper_path, 'src'), join(perl_wrapper_path, 'lib', 'Xray/'),
-                      python_wrapper_path,
-                      ienv['i_lib'], ienv['i_bin'], ienv['i_inc'] ])
+# env.Alias('install', [
+#     #join(perl_wrapper_path, 'src'), join(perl_wrapper_path, 'lib', 'Xray/'),
+#     #python_wrapper_path,
+#     ienv['i_lib'], ienv['i_bin'], ienv['i_inc']
+# ])
+
+

@@ -5,13 +5,13 @@ use warnings;
 use Test::More tests => 28;
 use Cwd;
 
-use Xray::FeffPath;
+use Xray::Feff::Path;
 
 
 my $epsilon = 1e-4;
 
-my $path = Xray::FeffPath->new();
-ok(ref($path) =~ m{FeffPath},                                                             "object created ".$path);
+my $path = Xray::Feff::Path->new();
+ok(ref($path) =~ m{Feff::Path},                                                           "object created ".$path);
 
 ok($path->Index == 9999,                                                                  "default index ".$path->Index);
 $path->Index(1);
@@ -54,9 +54,9 @@ ok($path->elpty == 0.5,                                                         
 ok($path->wrapper->_elpty == 0.5,                                                         "set elpty, wrapper");
 
 ok($path->phpad eq 'phase.pad',                                                           "default phpad ".$path->phpad);
-$path->phpad('../fortran/phase.pad');
-ok($path->phpad eq '../fortran/phase.pad' ,                                               "set phpad");
-ok($path->wrapper->_phpad eq '../fortran/phase.pad' ,                                     "set phpad, wrapper");
+$path->phpad('../fortran/phase_orig.pad');
+ok($path->phpad eq '../fortran/phase_orig.pad' ,                                           "set phpad");
+ok($path->wrapper->_phpad eq '../fortran/phase_orig.pad',                                  "set phpad, wrapper");
 
 
 

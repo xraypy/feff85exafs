@@ -31,6 +31,7 @@ env.Program('ff2x', bin_src + libs)
 if os.name != 'nt':
     env.SharedObject('fdtarr'+env['SHOBJSUFFIX'], source='fdtarr.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
     env.SharedObject('fdthea'+env['SHOBJSUFFIX'], source='fdthea.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
+    env.SharedObject('xscorr'+env['SHOBJSUFFIX'], source='xscorr.f', FORTRANFLAGS = env['FORTRANFLAGS']+' -fPIC')
 
 env.Install(ienv['i_bin'], 'ff2x'+env['PROGSUFFIX'])
 env.Alias('install', ienv['i_bin'])
