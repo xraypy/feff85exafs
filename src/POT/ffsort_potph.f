@@ -174,7 +174,7 @@ c     Use atom closest to absorber for model
  316  iatph(iph) = 0
 c     By construction absorbing atom is first in the list
       iatph(0) = 1
-      nph = 0
+c      nph = 0
       do 330  iph = 1, nphx
          rabs = big
          do 320  iat = 2, nat
@@ -187,7 +187,7 @@ c                 this is the closest so far
                endif
             endif
   320    continue
-         if (iatph(iph).gt.0) nph = iph
+c         if (iatph(iph).gt.0) nph = iph
   330 continue
 c     if iatph > 0, a model atom has been found.
 

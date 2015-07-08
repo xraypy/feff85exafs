@@ -94,10 +94,10 @@ class Feff85exafsUnitTestGroup(Group):
         if not self.repotop.endswith('feff85exafs'):  self.repotop = realpath(join('..'))
         # the f85e shell script emulates the behavior of the monolithic Feff application
         self.epsilon    = 0.00001
-        self.epsfit     = 0.001
         self.eps5       = 0.00001
         self.eps4       = 0.0001
         self.eps3       = 0.001
+        self.epsfit     = self.eps3
         self.firstshell = False
         self.fittest    = None
         self.wrapper_available = wrapper_available

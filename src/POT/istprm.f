@@ -33,7 +33,7 @@ c     Finds interstitial parameters, rmt, vint, etc.
       logical lnear
       dimension lnear(0:nphx), inn(0:nphx), rnnmin(0:nphx)
 c#mn
-       external dist
+      external dist
 
 c     work space for linear algebra
       dimension ri(251)
