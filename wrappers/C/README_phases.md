@@ -1,4 +1,4 @@
-# Using the feffpath C wrapper
+# Using the feffphases C wrapper
 
 The program `makephases.c` will read from `libpotph.json` (this
 example is made from a `feff.inp` file for copper metal) and write the
