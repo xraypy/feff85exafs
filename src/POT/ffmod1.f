@@ -130,11 +130,11 @@ c     and transform it to atomic hartree units
 c$$$         print *, rgrd, nohole,
 c$$$     $          inters, totvol, ecv, nscmt, nmix, ntitle,
 c$$$     $          nat, nph, ihole, iafolp, ixc
-         print *, 1, rat(1,1), rat(2,1), rat(3,1), iphat(1)
-         print *, 2, rat(1,2), rat(2,2), rat(3,2), iphat(2)
-         print *, 3, rat(1,3), rat(2,3), rat(3,3), iphat(3)
-         print *, 13, rat(1,13), rat(2,13), rat(3,13), iphat(13)
-         print *, 23, rat(1,23), rat(2,23), rat(3,23), iphat(23)
+c$$$         print *, 1, rat(1,1), rat(2,1), rat(3,1), iphat(1)
+c$$$         print *, 2, rat(1,2), rat(2,2), rat(3,2), iphat(2)
+c$$$         print *, 3, rat(1,3), rat(2,3), rat(3,3), iphat(3)
+c$$$         print *, 13, rat(1,13), rat(2,13), rat(3,13), iphat(13)
+c$$$         print *, 23, rat(1,23), rat(2,23), rat(3,23), iphat(23)
 
          call pot (rgrd, nohole,
      $          inters, totvol, ecv, nscmt, nmix, ntitle, title,

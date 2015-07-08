@@ -39,6 +39,8 @@ Here is the simplest program using the Fortran entry point:
       double precision rfms1, elpty, angks, gamach, ca1, ecv
       double precision vr0, vi0, rgrd, totvol
 
+	  character*256 phpad
+
 	  call inipotph(ntitle, title, nat, rat, iphat,
      1       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
      2       ihole, rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
@@ -55,13 +57,15 @@ Here is the simplest program using the Fortran entry point:
      5       iafolp, folp, xion, rgrd, iunf,
      6       inters, totvol, jumprm, nohole)
 
-	  call libpotph(ntitle, title, nat, rat, iphat,
-     1       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
-     2       ihole, rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
-     3       ipol, evec, elpty, xivec, ispin, spvec, angks,
-     4       ptz, gamach, ixc, vr0, vi0, ixc0,
-     5       iafolp, folp, xion, rgrd, iunf,
-     6       inters, totvol, jumprm, nohole)
+	  phpad = 'phase.pad'
+	  call libpotph(phpad,
+	 1       ntitle, title, nat, rat, iphat,
+     2       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
+     3       ihole, rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
+     4       ipol, evec, elpty, xivec, ispin, spvec, angks,
+     5       ptz, gamach, ixc, vr0, vi0, ixc0,
+     6       iafolp, folp, xion, rgrd, iunf,
+     7       inters, totvol, jumprm, nohole)
 
 	  stop
 	  end
@@ -72,11 +76,13 @@ Here is the simplest program using the Fortran entry point:
  2. Everything gets initialized
 
  3. Read the values of parameters from `feff.inp`, which were written
-    to a file called `libpotph.json` by RDINP.
+    to a file called `libpotph.json` by RDINP.  (See note below.)
 
- 4. Call the libpotph library, which sorts the input cluster, computes
+ 4. Specify the path and name of the output `phase.pad` file.
+
+ 5. Call the libpotph library, which sorts the input cluster, computes
     the muffin tin potentials, and writes phase shifts to a file
-    called `phase.pad`.
+    as specified by the phpad argument..
 
 ## Arguments of the libpotph subroutine
 
@@ -88,6 +94,7 @@ to be consistent with the naming conventions in Feff.
 
 | element    | type                 | I/O | description                                                  | Feff card    |
 | ---------- | -------------------- | --- |------------------------------------------------------------- | ------------ |
+|  phpad     | character*256        | O   | path and name of output phase.pad file                       |              |
 |  ntitle    | integer              | I   | number of title lines                                        | TITLE        |
 |  title     | character\*80        | I   | array(nheadx) of title lines                                 | TITLE        |
 |  nat       | integer              | I   | number of atoms in cluster                                   | ATOMS        |
@@ -131,3 +138,40 @@ to be consistent with the naming conventions in Feff.
 |  jumprm    | integer              | I   | 1=remove potential jumps at muffin tin radii                 | JUMPRM       |
 |  nohole    | integer              | I   | 1=compute without core-hole                                  | NOHOLE       |
 
+
+
+## A note about the libpotph.json file
+
+At this time (the date at the time of writing this note is 8 July
+2015) the revamping of feff85exafs is a work in progress.  The
+purpose is to facilitate the tight integration of feff into EXAFS data
+analysis software.  Step one was to combine the roles of GENFMT and
+FF2X into a stand-alone library, allowing user software to easily
+generate the data table contained in a `feffNNNN.dat` file.  Step two
+is to combine the roles of POT and XSPH into this stand-alone library,
+alowing user software to easily generate the phase shifts needed for
+path generation.
+
+The full flowchart for an interaction with feff starts with gathering
+data about the cluster and the details of the calculation.
+Historically, this was done by reading a file called `feff.inp` using
+the RDINP part of feff.  Amed with this information, the phases would
+be calculated then the pathfinder would be  used to enumerate the full
+list of paths represented in the input cluster.  Finally,
+`feffNNNN.dat` would be generated.
+
+The stand-alone libraries for phases and path are part of a plan to
+disrupt this work flow.  Rather than relying on the quirky `feff.inp`
+file, better user experiences could be created using modern UI and GUI
+tools.  Until those new, better user experiences exist, we need a way
+to get information into the phases library.
+
+As a stop-gap measure, `rdinp` has been modified to write out a file
+called `libpotph.json` which contains the content from a `feff.inp`
+file required by the phases library in JSON format.  The
+`read_libpotph_json` method used in the example above reads this JSON
+file.
+
+The eventual goal is that the UI somehow organizes the data needed by
+the phases library, eliminating the need for either `feff.inp` or
+`libpotph.json`.

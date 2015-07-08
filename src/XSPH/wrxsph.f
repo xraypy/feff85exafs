@@ -1,6 +1,7 @@
-      subroutine wrxsph (nsp, ne, ne1, ne3, nph, ihole, rnrmav,xmu,edge,
-     1     ik0, ixc, rs, vint,
-     2     em, eref, lmax, iz, potlbl, ph, rkk)
+      subroutine wrxsph (phpad,
+     1       nsp, ne, ne1, ne3, nph, ihole, rnrmav,xmu,edge,
+     2       ik0, ixc, rs, vint,
+     3       em, eref, lmax, iz, potlbl, ph, rkk)
       implicit double precision (a-h, o-z)
 c     writes down file 'phase.pad' to be read by rphpad
 c  Energy grid information
@@ -29,6 +30,8 @@ c     rkk - complex multipole matrix elements
 
       include '../HEADERS/dim.h'
 
+      character*256 phpad
+
       character*6  potlbl
       dimension  potlbl(0:nphx)
 
@@ -44,12 +47,14 @@ c     use temp to write ph, rkk, since ne < nex
       complex*16 temp(nex*(2*ltot+1))
       dimension dum(3)
 
+      
 c     intialize temp to all 0+i0
       do 5 i = 1, nex*(2*ltot+1)
          temp(i) = dcmplx(0.0,0.0)
  5    continue
 
-      open (unit=1, file='phase.pad', status='unknown', iostat=ios)
+c      print *, '>', phpad(1:istrln(phpad)), '<'
+      open (unit=1, file=phpad, status='unknown', iostat=ios)
       call chopen (ios, 'phase.pad', 'wrxsph')
 
       write(1,10) nsp, ne, ne1, ne3, nph, ihole, ik0, npadx, ixc,

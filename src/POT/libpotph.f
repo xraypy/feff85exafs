@@ -1,4 +1,4 @@
-      subroutine libpotph(
+      subroutine libpotph(phpad,
      1       ntitle, title,                                             ! TITLE
      2       nat, rat, iphat,                                           ! ATOMS
      3       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,           ! POTENTIALS
@@ -101,6 +101,9 @@ c     dimension/types of atoms & global.json things
       complex*16 ptz(-1:1, -1:1)
       double precision rat(3,natx)
 
+c     name of output phase.pad file
+      character*256 phpad
+
 
 c     dimension/type os mod1/pot things
       integer  iatph(0:nphx)
@@ -170,7 +173,7 @@ c     Josh use nhtmp to save nohole value
       integer nhtmp
 
 
-
+c      print *, "libpotph: >", phpad(1:istrln(phpad)), "<"
 c*****************************************************************************
 c     the following parameters are for features not present or not used
 c     in feff85exafs
@@ -252,7 +255,7 @@ c     return stuff for passing to xsph and skipping pot.pad
 
 c     could make a conditional call to wrpot here
 
-      call xsph(.false.,
+      call xsph(.false., phpad,
      -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2       ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,

@@ -83,7 +83,7 @@ c     INTERSTITIAL, JUMPRM, NOHOLE
      1       inters, totvol, jumprm, nohole)
 
 
-      call libpotph(
+      call libpotph('phase.pad',
 c     TITLE
      1       ntitle, title,
 c     ATOMS

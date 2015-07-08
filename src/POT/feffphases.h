@@ -42,6 +42,8 @@ typedef struct {
   char   *errormessage;         /* error message                                */
   /* json file name from rdinp */
   char   *jsonfile;
+  /* output name of phase.pad file, 256 character max */
+  char   *phpad;
   /* TITLE */
   int    ntitle;		/* number of header lines                       */
   char   **titles;		/* (nheadx) array of header string              */
@@ -109,7 +111,8 @@ int read_libpotph_json(FEFFPHASES*);
 int polarization_tensor(FEFFPHASES*);
 void cleanup(FEFFPHASES*);
 
-void libpotph_(int *,		     /* ntitle */
+void libpotph_(char *,               /* path to output phase.pad file */
+	       int *,		     /* ntitle */
 	       char (*)[nheadx][80], /* titles */
 	       int *,		     /* nat    */
 	       double (*)[natx][3],  /* rat    */

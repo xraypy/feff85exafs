@@ -1,5 +1,5 @@
 c     Josh - added argument iPl to control many pole self energy.
-      subroutine xsph (wrxsec,
+      subroutine xsph (wrxsec, phpad,
      -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2       ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
@@ -136,6 +136,8 @@ c     Josh - Added iPl for PLASMON card, and iexist for mpse.dat
       integer iPl
 c      integer iexist
       
+      character*256 phpad
+
 
    10 format (4x, a, i5)
 
@@ -532,9 +534,10 @@ c     disable for now since dimensions are different
       endif
 
 c     Write out phases for paths and genfmt
-      call wrxsph (nsp, ne, ne1, ne3, nph, ihole, rnrmav, xmuvr,
-     &     edge, ik0, ixc, rs, vint,
-     &     em, eref, lmax, iz, potlbl, ph, rkk)
+      call wrxsph (phpad,
+     &       nsp, ne, ne1, ne3, nph, ihole, rnrmav, xmuvr,
+     &       edge, ik0, ixc, rs, vint,
+     &       em, eref, lmax, iz, potlbl, ph, rkk)
 
       if (ipr2 .ge. 1) then
 c       calculate axafs

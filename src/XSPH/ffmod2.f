@@ -106,7 +106,7 @@ c     Josh - added flag iPl for PLASMON card
      4          eorb, kappa, iorb, qnrm, xnmues, nohole, ihole,
      5          inters, totvol, iafolp, xion, iunf, iz, jumprm)
 
-         call xsph (.true.,
+         call xsph (.true., 'phase.pad',
      -          ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1          nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2          ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,

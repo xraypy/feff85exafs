@@ -35,11 +35,13 @@ create_phases(FEFFPHASES *phases) {
   char jsonfl[257]  = {'\0'};
   char titl[80]     = {'\0'};
   char ptlb[6]      = {'\0'};
+  char phpad[256]   = {'\0'};
 
   strcpy(message, "");
   strcpy(jsonfl,  "");
   strcpy(titl,    "");
   strcpy(ptlb,    "");
+  strcpy(phpad,   "phase.pad");
 
   /* ints and doubles */
   phases->errorcode	= 0;
@@ -116,6 +118,9 @@ create_phases(FEFFPHASES *phases) {
   phases->errormessage = calloc(257, sizeof(char));
   strcpy(phases->errormessage, message);
 
+  phases->phpad = calloc(257, sizeof(char));
+  strcpy(phases->phpad, phpad);
+
 
   return 0;
 }
@@ -189,6 +194,7 @@ clear_phases(FEFFPHASES *phases) {
   }
 
   phases->errorcode = 0;
+  strcpy(phases->phpad, "phase.pad");
   strcpy(phases->errormessage, " ");
   strcpy(phases->jsonfile, " ");
 
@@ -449,9 +455,14 @@ make_phases(FEFFPHASES *phases) {
   char titles[nheadx][80];
 
   char message[500];
+  char phpad[256];
 
   phases->errorcode = 0;
   strcpy(phases->errormessage, "");
+
+  /* specify path/name of output file */
+  sprintf(phpad, "%256s", " ");
+  strcpy(phpad, phases->phpad);
 
   /******************/
   /* error checking */
@@ -643,7 +654,7 @@ make_phases(FEFFPHASES *phases) {
   /*********************************/
   /* compute potentials and phases */
   /*********************************/
-  libpotph_(&ntitle, &titles, &nat, &rat, &iphat,
+  libpotph_(phpad, &ntitle, &titles, &nat, &rat, &iphat,
 	    &nph, &iz, &potlbl, &lmaxsc, &lmaxph, &xnatph, &spinph,
 	    &ihole, &rscf, &lscf, &nscmt, &ca, &nmix, &ecv, &icoul,
 	    &ipol, &evec, &elpty, &xivec, &ispin, &spvec, &angks,
@@ -732,5 +743,6 @@ cleanup(FEFFPHASES *phases) {
   free(phases->potlbl);
   free(phases->jsonfile);
   free(phases->errormessage);
+  free(phases->phpad);
 
 };

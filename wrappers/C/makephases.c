@@ -10,6 +10,7 @@ int main()
   ret = create_phases(phases);
 
   strcpy(phases->jsonfile, "../fortran/libpotph.json");
+  strcpy(phases->phpad, "foo.pad");
   ret = read_libpotph_json(phases);
   if (ret > 0) {
     printf("%s (error code %d)\n", phases->errormessage, phases->errorcode);
