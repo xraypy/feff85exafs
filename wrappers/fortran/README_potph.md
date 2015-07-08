@@ -78,9 +78,16 @@ Here is the simplest program using the Fortran entry point:
  3. Read the values of parameters from `feff.inp`, which were written
     to a file called `libpotph.json` by RDINP.  (See note below.)
 
- 4. Specify the path and name of the output `phase.pad` file.
+ 4. `json_read_libpotph` converts to code units (bohr and hartree).
+    `libpotph` expects code units, **not** natural units.  If you use
+    some other mechanism to get data into `libpotph`, you **must**
+    remember to convert `rfms1`, `gamach`, `ecv`, `totvol`, and all of
+    `rat` to code units.  See, for example, lines 342 - 350 in
+    `src/JSON/json_read_libpotph`.
 
- 5. Call the libpotph library, which sorts the input cluster, computes
+ 5. Specify the path and name of the output `phase.pad` file.
+
+ 6. Call the libpotph library, which sorts the input cluster, computes
     the muffin tin potentials, and writes phase shifts to a file
     as specified by the phpad argument..
 
@@ -155,10 +162,10 @@ path generation.
 The full flowchart for an interaction with feff starts with gathering
 data about the cluster and the details of the calculation.
 Historically, this was done by reading a file called `feff.inp` using
-the RDINP part of feff.  Amed with this information, the phases would
-be calculated then the pathfinder would be  used to enumerate the full
+the RDINP part of feff.  Armed with this information, the phases would
+be calculated then the pathfinder would be used to enumerate the full
 list of paths represented in the input cluster.  Finally,
-`feffNNNN.dat` would be generated.
+`feffNNNN.dat` files would be generated.
 
 The stand-alone libraries for phases and path are part of a plan to
 disrupt this work flow.  Rather than relying on the quirky `feff.inp`

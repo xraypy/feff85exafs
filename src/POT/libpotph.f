@@ -228,6 +228,13 @@ c         ibounc(i) = 1
 c 30   continue
 c*****************************************************************************
 
+c$$$         print *, 1, rat(1,1), rat(2,1), rat(3,1), iphat(1)
+c$$$         print *, 2, rat(1,2), rat(2,2), rat(3,2), iphat(2)
+c$$$         print *, 3, rat(1,3), rat(2,3), rat(3,3), iphat(3)
+c$$$         print *, 13, rat(1,13), rat(2,13), rat(3,13), iphat(13)
+c$$$         print *, 23, rat(1,23), rat(2,23), rat(3,23), iphat(23)
+c$$$         print *, 177, rat(1,177), rat(2,177), rat(3,177), iphat(177)
+c$$$
 
 
 c     iabs != 0 has something to do with CFAVERAGE, outside scope of feff85exafs

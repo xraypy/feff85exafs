@@ -120,9 +120,9 @@ int main()
 | jumprm       | int                | I   | 1=remove potential jumps at muffin tin radii        | JUMPRM        |
 | nohole       | int                | I   | 1=compute without core-hole                         | NOHOLE        |
 
-Note, where appropriate, these parameters are in natural units
-(Angstrom and eV).  They will be converted to code units (Bohr and
-Hartree) by the library.
+Note, where appropriate (`rfms`, `gamach`, `ecv`, `totvol`, `rat`),
+these parameters are in *natural units* (Angstrom and eV).  They will
+be converted to *code units* (Bohr and Hartree) by the library.
 
 The error code and message will be 0 and an empty string when no
 errors are found.
@@ -150,10 +150,10 @@ path generation.
 The full flowchart for an interaction with feff starts with gathering
 data about the cluster and the details of the calculation.
 Historically, this was done by reading a file called `feff.inp` using
-the RDINP part of feff.  Amed with this information, the phases would
-be calculated then the pathfinder would be  used to enumerate the full
+the RDINP part of feff.  Armed with this information, the phases would
+be calculated then the pathfinder would be used to enumerate the full
 list of paths represented in the input cluster.  Finally,
-`feffNNNN.dat` would be generated.
+`feffNNNN.dat` files would be generated.
 
 The stand-alone libraries for phases and path are part of a plan to
 disrupt this work flow.  Rather than relying on the quirky `feff.inp`

@@ -165,6 +165,13 @@ void _set_jsonfile(SV* obj, char* c) {
   strcpy((INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->jsonfile, c);
 }
 
+char* _phpad(SV* obj) {
+  return (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->phpad;
+}
+void _set_phpad(SV* obj, char* c) {
+  strcpy((INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->phpad, c);
+}
+
 
 int _ntitle(SV* obj) {
   return (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->ntitle;
@@ -445,7 +452,7 @@ void _set_potlbl_array(SV* obj, ...) {
   n = Inline_Stack_Items;
   if (n>nphx+1) {n = nphx+1;}
   for (i=1; i < n; i++) {
-    strcpy( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->potlbl[i], SvPV(Inline_Stack_Item(i), PL_na) );
+    strcpy( (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->potlbl[i-1], SvPV(Inline_Stack_Item(i), PL_na) );
   }
   Inline_Stack_Void;
 }
@@ -642,6 +649,7 @@ void _set_rat_array(SV* obj, ...) {
     j = j+1;
     if (j == 3) {
       n = n+1;
+      if (n > natx) { break; }
       j = 0;
     }
   }

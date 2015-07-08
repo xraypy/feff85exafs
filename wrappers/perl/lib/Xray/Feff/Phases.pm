@@ -35,6 +35,7 @@ has 'hart'     => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PhasesW
 
 
 ## scalars
+has 'phpad'    => (is => 'rw', isa => 'Str',  default => 'phase.pad',     trigger => sub{pushback(@_, 'phpad'    )});
 has 'jsonfile' => (is => 'rw', isa => 'Str',  default => 'libpotph.json', trigger => sub{pushback(@_, 'jsonfile' )});
 has 'ntitle'   => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'ntitle'   )});
 has 'nat'      => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'nat'      )});
@@ -131,7 +132,7 @@ sub _json_pp {
   #dd $rhash;
   foreach my $meth (qw(ntitle nat nph ihole rscf lscf nscmt ca nmix ecv icoul ipol elpty ispin angks gamach
 		      ixc vr0 vi0 ixc0 iafolp rgrd iunf inters totvol jumprm nohole
-		      iz potlbl lmaxsc lmaxph xnatph spinph folp xion titles iphat)) {
+		      iz potlbl lmaxsc lmaxph xnatph spinph folp xion titles)) {
     my $att = ($meth eq 'nat')   ? 'natt'
             : ($meth eq 'rscf')  ? 'rfms1'
             : ($meth eq 'lscf')  ? 'lfms1'
@@ -143,18 +144,26 @@ sub _json_pp {
     $self->$meth($rhash->{$att});
   };
 
-#  $self->_set_iphat_array($self->iphat);
-
   my @rat = ();
-  my $x = $rhash->{x};
-  my $y = $rhash->{y};
-  my $z = $rhash->{z};
+  my $x   = $rhash->{x};
+  my $y   = $rhash->{y};
+  my $z   = $rhash->{z};
   foreach my $i (1 .. $rhash->{natt}) {
     my $this = [$x->[$i-1], $y->[$i-1], $z->[$i-1]];
     push @rat, $this;
   };
   $self->rat(\@rat);
-  $self->wrapper->_set_rat_array(@rat);
+  @rat = map {@$_} @rat; # flatten rat, which is a list of lists
+  # my $i = 0;
+  # foreach my $x (@rat) {
+  #   print join("|", $i, $x), $/;
+  #   ++$i;
+  # };
+  $self->wrapper->_set_rat_array(@rat); # this unflattens rat appropriately for the C struct
+
+  my $ip = $rhash->{iphatx};
+  $self->iphat($ip);
+  $self->wrapper->_set_iphat_array(@$ip);
 };
 
 
@@ -244,7 +253,7 @@ sub set_pot_array {
     @list = map {$_*1.0} @$new;	# constrain to be float
   } elsif ($which =~ m{potlbl}) {
     foreach my $s (@$new) { # constrain to be 6 characters or less
-      push @list, (length($s) > 6) ? substr($s,0,6) : sprintf("-%6s",$s);
+      push @list, (length($s) > 6) ? substr($s,0,6) : $s;
     };
   };
   my $method = '_set_' . lc($which) . '_array';

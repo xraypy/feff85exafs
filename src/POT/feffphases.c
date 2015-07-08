@@ -373,7 +373,7 @@ read_libpotph_json(FEFFPHASES *phases) {
 	}
 
 	/* load polarization tensor */
-	arr = nx_json_get(json, "ptz1");
+	arr = nx_json_get(json, "ptz0");
 	rr=nx_json_item(arr, 0);
 	ii=nx_json_item(arr, 1);
 	phases->ptz[0][0] = rr->dbl_value + ii->dbl_value * I;
@@ -384,7 +384,7 @@ read_libpotph_json(FEFFPHASES *phases) {
 	ii=nx_json_item(arr, 5);
 	phases->ptz[0][2] = rr->dbl_value + ii->dbl_value * I;
 
-	arr = nx_json_get(json, "ptz2");
+	arr = nx_json_get(json, "ptz1");
 	rr=nx_json_item(arr, 0);
 	ii=nx_json_item(arr, 1);
 	phases->ptz[1][0] = rr->dbl_value + ii->dbl_value * I;
@@ -395,7 +395,7 @@ read_libpotph_json(FEFFPHASES *phases) {
 	ii=nx_json_item(arr, 5);
 	phases->ptz[1][2] = rr->dbl_value + ii->dbl_value * I;
 
-	arr = nx_json_get(json, "ptz3");
+	arr = nx_json_get(json, "ptz2");
 	rr=nx_json_item(arr, 0);
 	ii=nx_json_item(arr, 1);
 	phases->ptz[2][0] = rr->dbl_value + ii->dbl_value * I;
