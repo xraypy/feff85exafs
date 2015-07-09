@@ -171,6 +171,11 @@ void mkptz_(
 	    double complex (*)[3][3] /* ptz   */
 	   );
 
+
+/* I needed a quick-n-dirty way to track down a problem with the perl wrapper, hence... */
+void dump_phases(FEFFPHASES*);
+
+
 /* json file reader error codes */
 #define JSN_NOFILE           1  /* json file does not exist */
 

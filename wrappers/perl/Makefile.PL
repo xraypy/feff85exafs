@@ -20,7 +20,7 @@ import Inline::MakeMaker;
 
 WriteMakefile(
 	      NAME               => 'Xray::Feff',
-	      VERSION_FROM       => 'lib/Xray/Feff/Path.pm', # finds $VERSION
+	      VERSION_FROM       => 'lib/Xray/Feff.pm', # finds $VERSION
 	      PREREQ_PM          => {
 				     Inline           => 0.5,
 				     Inline::C        => 0.62,

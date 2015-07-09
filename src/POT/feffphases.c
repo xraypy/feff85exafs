@@ -201,9 +201,88 @@ clear_phases(FEFFPHASES *phases) {
 }
 
 
+/******************************************************************/
+/* dump a text summary of the content of the struct to the screen */
+/******************************************************************/
+_EXPORT(void)
+dump_phases(FEFFPHASES *phases) {
+  int i,j;
+
+  for (i = 0; i <= phases->ntitle; i++) {
+    printf("title: >%-79s<\n", phases->titles[i]);
+  }
+
+  printf("\nangks  : %.5f\n", phases->angks);
+  printf("ca     : %.5f\n", phases->ca);
+  printf("ecv    : %.5f\n", phases->ecv);
+  printf("elpty  : %.5f\n", phases->elpty);
+  printf("gamach : %.5f\n", phases->gamach);
+  printf("iafolp : %d\n",   phases->iafolp);
+  printf("icoul  : %d\n",   phases->icoul);
+  printf("ihole  : %d\n",   phases->ihole);
+  printf("inters : %d\n",   phases->inters);
+  printf("ipol   : %d\n",   phases->ipol);
+  printf("ispin  : %d\n",   phases->ispin);
+  printf("iunf   : %d\n",   phases->iunf);
+  printf("ixc    : %d\n",   phases->ixc);
+  printf("ixc0   : %d\n",   phases->ixc0);
+  printf("jumprm : %d\n",   phases->jumprm);
+  printf("lscf   : %d\n",   phases->lscf);
+  printf("nat    : %d\n",   phases->nat);
+  printf("nmix   : %d\n",   phases->nmix);
+  printf("nohole : %d\n",   phases->nohole);
+  printf("nph    : %d\n",   phases->nph);
+  printf("nscmt  : %d\n",   phases->nscmt);
+  printf("ntitle : %d\n",   phases->ntitle);
+  printf("rgrd   : %.5f\n", phases->rgrd);
+  printf("rscf   : %.5f\n", phases->rscf);
+  printf("totvol : %.5f\n", phases->totvol);
+  printf("vi0    : %.5f\n", phases->vi0);
+  printf("vr0    : %.5f\n\n", phases->vr0);
+
+  printf("  %s  %s  %s  %1s  %s  %s  %s  %s\n",
+	 "iz", "lmaxsc", "lmaxph", "xnatph", "spinph", "folp", "xion", "potlbl");
+  for (i = 0; i <= phases->nph; i++) {
+    printf("  %2d  %2d  %2d  %10.5f  %10.5f  %10.5f  %10.5f  >%-6s<\n",
+	   phases->iz[i],
+	   phases->lmaxsc[i],
+	   phases->lmaxph[i],
+	   phases->xnatph[i],
+	   phases->spinph[i],
+	   phases->folp[i],
+	   phases->xion[i],
+	   phases->potlbl[i]);
+  }
+
+  printf("\nevec  : %8.3f %8.3f %8.3f\n",   phases->evec[0],  phases->evec[1],  phases->evec[2] );
+  printf(  "xivec : %8.3f %8.3f %8.3f\n",   phases->xivec[0], phases->xivec[1], phases->xivec[2]);
+  printf(  "spvec : %8.3f %8.3f %8.3f\n\n", phases->spvec[0], phases->spvec[1], phases->spvec[2]);
+
+  /*********************************************************/
+  /* this is not right ... ptz contains complex numbers... */
+  /*********************************************************/
+  /* printf("\npolarization tensor:\n %8.3f %8.3f %8.3f\n %8.3f %8.3f %8.3f\n %8.3f %8.3f %8.3f\n", */
+  /* 	 phases->ptz[0][0], */
+  /* 	 phases->ptz[0][1], */
+  /* 	 phases->ptz[0][2], */
+  /* 	 phases->ptz[1][0], */
+  /* 	 phases->ptz[1][1], */
+  /* 	 phases->ptz[1][2], */
+  /* 	 phases->ptz[2][0], */
+  /* 	 phases->ptz[2][1], */
+  /* 	 phases->ptz[2][2]); */
+
+  for (i = 0; i < phases->nat; i++) {
+    printf("  %10.5f  %10.5f  %10.5f  %2d\n", phases->rat[i][0], phases->rat[i][1], phases->rat[i][2], phases->iphat[i]);
+  }
+}
+
+
 _EXPORT(int)
 read_libpotph_json(FEFFPHASES *phases) {
+  /************************************************/
   /* read the libpotph.json file written by rdinp */
+  /************************************************/
 
   int i, natoms, ntit, nipot, nthreevec, error;
   char string[80] = {'\0'};

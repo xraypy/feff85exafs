@@ -5,7 +5,7 @@ use warnings;
 use Test::More tests => 32;
 use Cwd;
 
-use Xray::Feff::Phases;
+use Xray::Feff;
 
 
 my $epsilon = 1e-4;
@@ -41,16 +41,19 @@ ok((($phases->iz->[0] == 29) and ($phases->iz->[1] == 29)),                     
 #print '>>>> ', join("|", $phases->wrapper->_iz_array), $/;
 ok(((($phases->wrapper->_iz_array)[0] == 29) and (($phases->wrapper->_iz_array)[1] == 29)),   "iz array, wrapper");
 
-ok((($phases->potlbl->[0] eq 'Cu') and ($phases->potlbl->[1] eq 'Cu')),                       "potlbl array");
-ok(((($phases->wrapper->_potlbl_array)[0] =~ m{\ACu\0}) and (($phases->wrapper->_potlbl_array)[1] =~ m{\ACu\0})),   "potlbl array, wrapper");
+ok((($phases->potlbl->[0] =~ m{\ACu\s*\z}) and ($phases->potlbl->[1] =~ m{\ACu\s*\z})),       "potlbl array");
+ok(((($phases->wrapper->_potlbl_array)[0] =~ m{\ACu\s*\z}) and (($phases->wrapper->_potlbl_array)[1] =~ m{\ACu\s*\z})),
+                                                                                              "potlbl array, wrapper");
 
 # #print join(",", $phases->wrapper->_iz_array), $/;
 # #print join(",", @{$phases->iz}), $/;
 ok((($phases->lmaxsc->[0] == 2) and ($phases->lmaxsc->[1] == 2)),                             "lmaxsc array");
-ok(((($phases->wrapper->_lmaxsc_array)[0] == 2) and (($phases->wrapper->_lmaxsc_array)[1] == 2)), "lmaxsc array, wrapper");
+ok(((($phases->wrapper->_lmaxsc_array)[0] == 2) and (($phases->wrapper->_lmaxsc_array)[1] == 2)),
+                                                                                              "lmaxsc array, wrapper");
 
 ok((($phases->xnatph->[0] == 1) and ($phases->xnatph->[1] == 100)),                           "xnatph array");
-ok(((($phases->wrapper->_xnatph_array)[0] == 1) and (($phases->wrapper->_xnatph_array)[1] == 100)), "xnatph array, wrapper");
+ok(((($phases->wrapper->_xnatph_array)[0] == 1) and (($phases->wrapper->_xnatph_array)[1] == 100)),
+                                                                                              "xnatph array, wrapper");
 
 ok( ( (abs($phases->folp->[0] - 1.15) < $epsilon) and
       (abs($phases->folp->[1] - 1.15) < $epsilon)      ),                                     "folp array");
@@ -115,7 +118,7 @@ ok( (($phases->wrapper->_iphat_array)[0] == 0 and
 
 
 #$phases->phases;
-
+unlink("foo.pad");
 undef $phases;
 
 #  print join(",", $self->wrapper->_iz_array), $/;

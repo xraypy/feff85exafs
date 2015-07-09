@@ -1,9 +1,12 @@
 package Xray::Feff::Phases;
 
 use Moose;
+use MooseX::Storage;
+with Storage('format' => 'JSON', 'io' => 'File');
 use MooseX::NonMoose;
 use MooseX::Aliases;
 extends 'Xray::Feff::PhasesWrapper';
+
 
 use JSON;
 use List::MoreUtils qw(any);
@@ -14,7 +17,7 @@ our $VERSION = '1.00'; # Inline::MakeMake uses /^\d.\d\d$/ as the
 
 has 'wrapper' => (
 		  is        => 'ro',
-		  #traits => [qw(NoClone)],
+		  traits => [qw(DoNotSerialize)],
 		  isa       => 'Xray::Feff::PhasesWrapper',
 		  init_arg  => undef,
 		  default   => sub{ Xray::Feff::PhasesWrapper->new() },
@@ -117,6 +120,11 @@ sub DEMOLISH {
   return $self;
 };
 
+sub _dump {
+  my ($self) = @_;
+  $self->wrapper->_dump;
+  return $self;
+};
 
 sub _json_c {
   my ($self) = @_;
@@ -128,8 +136,7 @@ sub _json_pp {
   my ($self) = @_;
   my $json_text = $self->_slurp($self->jsonfile);
   my $rhash = decode_json($json_text);
-  #use Data::Dump::Color;
-  #dd $rhash;
+
   foreach my $meth (qw(ntitle nat nph ihole rscf lscf nscmt ca nmix ecv icoul ipol elpty ispin angks gamach
 		      ixc vr0 vi0 ixc0 iafolp rgrd iunf inters totvol jumprm nohole
 		      iz potlbl lmaxsc lmaxph xnatph spinph folp xion titles)) {
@@ -143,23 +150,32 @@ sub _json_pp {
             : $meth;
     $self->$meth($rhash->{$att});
   };
+  ## truncate lists to correct size
+  foreach my $meth (qw(iz potlbl lmaxsc lmaxph xnatph spinph folp xion)) {
+    $#{$self->$meth} = $self->nph;
+  };
+  $#{$self->titles} = $self->ntitle;
+  my @lables = ();
+  foreach my $pl (@{$self->potlbl}) {
+    push @lables, sprintf("%-6s", $pl);
+  };
+  $self->potlbl(\@lables);
+  my @titles = ();
+  foreach my $ti (@{$self->titles}) {
+    push @titles, sprintf("%-79s\0", $ti);
+  };
+  $self->titles(\@titles);
 
   my @rat = ();
   my $x   = $rhash->{x};
   my $y   = $rhash->{y};
   my $z   = $rhash->{z};
-  foreach my $i (1 .. $rhash->{natt}) {
-    my $this = [$x->[$i-1], $y->[$i-1], $z->[$i-1]];
+  foreach my $i (0 .. $rhash->{natt}-1) {
+    my $this = [$x->[$i], $y->[$i], $z->[$i]];
     push @rat, $this;
   };
   $self->rat(\@rat);
-  @rat = map {@$_} @rat; # flatten rat, which is a list of lists
-  # my $i = 0;
-  # foreach my $x (@rat) {
-  #   print join("|", $i, $x), $/;
-  #   ++$i;
-  # };
-  $self->wrapper->_set_rat_array(@rat); # this unflattens rat appropriately for the C struct
+  $self->wrapper->_set_rat_array(map {@$_} @rat); # flatten argument, then unflatten for the C struct
 
   my $ip = $rhash->{iphatx};
   $self->iphat($ip);
@@ -210,6 +226,7 @@ sub _fetch {
 
 sub pushback {
   my ($self, $new, $old, $which) = @_;
+  #print "setting $which\n";
   #return if (any {$_ eq $which} qw(gamach));
   my $method = '_set_' . lc($which);
   if ($self->meta->get_attribute($which)->type_constraint eq 'Num') {
@@ -267,17 +284,14 @@ sub set_titles_array {
   foreach my $s (@$new) { # constrain to be 6 characters or less
     push @list, (length($s) > 6) ? substr($s,0,6) : $s;
   };
-  $self->wrapper->_set_titles_array(\@list);
+  $self->wrapper->_set_titles_array(@list);
   return $self;
 };
 
 sub set_rat_array {
   my ($self, $new, $old) = @_;
-  my @list;
-  foreach my $site (@{$self->rat}) {
-    push @list, @$site;
-  };
-  $self->wrapper->_set_rat_array(\@list);
+  my @list = map {@$_} @{$new}; # flatten rat, which is a list of lists
+  $self->wrapper->_set_rat_array(@list);
   return $self;
 };
 
@@ -290,6 +304,11 @@ sub _slurp {
   my $text = <$FH>;
   close $FH;
   return $text;
+};
+
+sub serialize {
+  my ($self, $fname) = @_;
+  $self->store($fname);
 };
 
 

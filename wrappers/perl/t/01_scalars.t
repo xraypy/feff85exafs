@@ -5,7 +5,7 @@ use warnings;
 use Test::More tests => 28;
 use Cwd;
 
-use Xray::Feff::Path;
+use Xray::Feff;
 
 
 my $epsilon = 1e-4;

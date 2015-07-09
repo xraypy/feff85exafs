@@ -125,6 +125,9 @@ int _create_phases(SV* obj) {
 void _clear_phases(SV* obj) {
   clear_phases((INT2PTR(FEFFPHASES*, SvIV(SvRV(obj)))));
 }
+void _dump(SV* obj) {
+  dump_phases((INT2PTR(FEFFPHASES*, SvIV(SvRV(obj)))));
+}
 void _cleanup(SV* obj) {
   cleanup((INT2PTR(FEFFPHASES*, SvIV(SvRV(obj)))));
 }
