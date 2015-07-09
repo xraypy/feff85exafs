@@ -1,8 +1,8 @@
 package Xray::Feff::Phases;
 
 use Moose;
-use MooseX::Storage;
-with Storage('format' => 'JSON', 'io' => 'File');
+#use MooseX::Storage;
+#with Storage('format' => 'JSON', 'io' => 'File');
 use MooseX::NonMoose;
 use MooseX::Aliases;
 extends 'Xray::Feff::PhasesWrapper';
@@ -17,7 +17,7 @@ our $VERSION = '1.00'; # Inline::MakeMake uses /^\d.\d\d$/ as the
 
 has 'wrapper' => (
 		  is        => 'ro',
-		  traits => [qw(DoNotSerialize)],
+		  #traits => [qw(DoNotSerialize)],
 		  isa       => 'Xray::Feff::PhasesWrapper',
 		  init_arg  => undef,
 		  default   => sub{ Xray::Feff::PhasesWrapper->new() },
@@ -36,10 +36,12 @@ has 'bohr'     => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PhasesW
 has 'ryd'      => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PhasesWrapper->_ryd    });
 has 'hart'     => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PhasesWrapper->_hart   });
 
-
-## scalars
+## i/o files
 has 'phpad'    => (is => 'rw', isa => 'Str',  default => 'phase.pad',     trigger => sub{pushback(@_, 'phpad'    )});
 has 'jsonfile' => (is => 'rw', isa => 'Str',  default => 'libpotph.json', trigger => sub{pushback(@_, 'jsonfile' )});
+has 'useperljson' => (is => 'rw', isa => 'Bool',  default => 1);
+
+## scalars
 has 'ntitle'   => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'ntitle'   )});
 has 'nat'      => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'nat'      )});
 has 'nph'      => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'nph'      )});
@@ -68,7 +70,7 @@ has 'totvol'   => (is => 'rw', isa => 'Num',  default => 0.0,             trigge
 has 'jumprm'   => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'jumprm'   )});
 has 'nohole'   => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'nohole'   )});
 
-
+## three vectors
 has 'evec'     => (traits  => ['Array'],
 		   is      => 'rw',
 		   isa     => 'ArrayRef[Num]',
@@ -84,8 +86,10 @@ has 'spvec'    => (traits  => ['Array'],
 		   isa     => 'ArrayRef[Num]',
 		   default => sub { [0,0,0] },
 		   trigger => \&spvec_set, );
+#has 'ptz'      => (is => 'rw', isa => 'ArrayRef[ArrayRef]', default => sub{[]});
 
 
+## potentials information
 has 'iz'       => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "iz")});
 has 'potlbl'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "potlbl")});
 has 'lmaxsc'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "lmaxsc")});
@@ -95,15 +99,12 @@ has 'spinph'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger =
 has 'folp'     => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "folp")});
 has 'xion'     => (is => 'rw', isa => 'ArrayRef', default => sub{[]},  trigger => sub{set_pot_array(@_, "xion")});
 
-
+## atoms list
 has 'iphat'    => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
 has 'rat'      => (is => 'rw', isa => 'ArrayRef[ArrayRef]', default => sub{[]});
 
-
 has 'titles'   => (is => 'rw', isa => 'ArrayRef', default => sub{[]}, trigger => \&set_titles_array);
 
-
-#has 'ptz'      => (is => 'rw', isa => 'ArrayRef[ArrayRef]', default => sub{[]});
 
 
 sub BUILD {
@@ -238,6 +239,9 @@ sub pushback {
     $self->wrapper->$method($new);
   };
   $self->ipol(1) if (($which eq 'elpty') and $self->wrapper->_elpty);
+  if ($which eq 'jsonfile') {
+    ($self->useperljson) ? $self->_json_pp : $self->_json_c;
+  };
 };
 
 sub evec_set {
@@ -359,15 +363,22 @@ the resulting libraries (and other files) be successfully installed.
 
 =item C<new>
 
-Create the FeffPath object
+Create the FeffPhases object
 
    my $phases = Xray::Feff::Phases->new();
 
 =item C<clear>
 
-Reinitialize the scattering path
+Reinitialize the phases object
 
    $path->clear;
+
+=item C<phases>
+
+Compute the phases and write the output file, F<phase.pad> or as
+specified by the C<phpad> attribute.
+
+   $path->phases;
 
 =back
 
@@ -385,6 +396,10 @@ method of the same name.  Each of the following exists:
 =head2 Scalar valued attributes
 
 =over 4
+
+=item C<phpad> (character, default = phase.pad)
+
+The path for writing the F<phase.pad> file.
 
 =item C<jsonfile> (character, default = libpotph.json)
 
@@ -713,13 +728,62 @@ are meant to be interpreted bitwise.
 
 =item I<1>
 
+Too many unique potentials
+
 =item I<2>
+
+Too many atoms
 
 =item I<4>
 
+Edge index ust be between 1 and 9, i.e. K to M5
+
 =item I<8>
 
+A potential is defined with an invalid Z number
+
+=item I<16>
+
+A potential is defined with an invalid angular momentum
+
+=item I<32>
+
+A potential is defined with a negative stoichiometry
+
+=item I<64>
+
+Overlap fraction must be between 0.7 and 1.5
+
+=item I<128>
+
+invalid ionization in potentials list (NOT USED)
+
+=item I<256>
+
+bad rscf (NOT USED)
+
+=item I<512>
+
+Convergence accelerator (ca) should be around 0.2, maybe a bit smaller
+
+=item I<1024>
+
+Core/valence separation energy (ecv) must be negative
+
+=item I<2048>
+
+Exchange index (ixc) be 0, 1, 2, 3, or 5
+
+=item I<4096>
+
+Radial grid (rgrid) should be around 0.05, maybe a bit smaller, not negative
+
+=item I<8192>
+
+Invalid potential index used or additional absorber in cluster
+
 =back
+
 
 
 =head1 EXTERNAL DEPENDENCIES
@@ -746,7 +810,17 @@ L<MooseX::NonMoose> and L<MooseX::Aliases>
 
 =item *
 
-Blah blah
+Need better methods for moving C<rat> and C<iphat> into and out of the
+C struct.  I think I need to know a bit more about the eventual UI
+intended to replace the F<feff.inp> file....
+
+=item *
+
+Polarization tensor is not handled at all.
+
+=item *
+
+Need a method to clear the object
 
 =back
 

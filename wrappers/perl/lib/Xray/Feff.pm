@@ -2,7 +2,9 @@ package Xray::Feff;
 use strict;
 use warnings;
 
-our $VERSION = '1.00'; # Inline::MakeMake uses /^\d.\d\d$/ as the pattern for the version number -- note the two digits to the right of the dot
+our $VERSION = '1.00'; # Inline::MakeMake uses /^\d.\d\d$/ as the
+                       # pattern for the version number -- note the
+                       # two digits to the right of the dot
 
 sub import {
   strict->import;
