@@ -17,7 +17,7 @@ That's it!
 
 ## Sample program
 
-Here is the simplest program using the C wrapper:
+Here is the simplest program using the C wrapper in `libfeffphases`:
 
 ```C
 #include <stdio.h>
@@ -53,7 +53,7 @@ int main()
 
 1. The `feffphases.h` header file is included.
 
-2. A FEFFPHASES struct is created and called `phases`.  Memory is
+2. A FEFFPHASES struct is created and is named `phases`.  Memory is
    allocated for it.
 
 3. The call to `create_phases` allocates memory for all elements of the
@@ -133,11 +133,12 @@ errors are found.
 
 ### A note about Feff screen messages
 
-The default is to suppress Feff's many screen messages.  No effort is
-made to capture the path to convergence when computing self-consistent
-potentials.  In order to preserve that information, you must set
-`verbose` to true then somehow capture and parse the screen output.
-This is left as a chore for the user interface.
+The default is to suppress Feff's many screen messages, ie. `verbose`
+is false by default.  No effort is made to capture the path to
+convergence when computing self-consistent potentials.  In order to
+preserve that information, you must set `verbose` to true then somehow
+capture and parse the screen output.  This is left as a chore for the
+user interface.
 
 ### Attributes to consider trimming
 

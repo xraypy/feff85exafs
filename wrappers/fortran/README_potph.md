@@ -17,7 +17,8 @@ That's it!
 
 ## Sample program
 
-Here is the simplest program using the Fortran entry point:
+Here is the simplest program using the Fortran entry point in
+`libpotph`:
 
 ```fortran
   	  program makepotph
@@ -76,7 +77,7 @@ Here is the simplest program using the Fortran entry point:
 
  1. All the necessary variables are typed, dimensioned, and initialized.
 
- 2. Everything gets initialized.  Note that rfms1 is single precision,
+ 2. Everything gets initialized.  Note that `rfms1` is single precision,
     not double.
 
  3. Read the values of parameters from `feff.inp`, which were written
@@ -93,7 +94,7 @@ Here is the simplest program using the Fortran entry point:
 
  6. Call the libpotph library, which sorts the input cluster, computes
     the muffin tin potentials, and writes phase shifts to a file
-    as specified by the phpad argument..
+    as specified by the phpad argument.
 
 ## Arguments of the libpotph subroutine
 
