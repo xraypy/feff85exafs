@@ -36,7 +36,8 @@ Here is the simplest program using the Fortran entry point:
       double precision rat(3,natx)
       double precision xnatph(0:nphx), folp(0:nphx), xion(0:nphx)
       character*6 potlbl(0:nphx)
-      double precision rfms1, elpty, angks, gamach, ca1, ecv
+      real rfms1
+      double precision elpty, angks, gamach, ca1, ecv
       double precision vr0, vi0, rgrd, totvol
 
 	  character*256 phpad
@@ -75,7 +76,8 @@ Here is the simplest program using the Fortran entry point:
 
  1. All the necessary variables are typed, dimensioned, and initialized.
 
- 2. Everything gets initialized
+ 2. Everything gets initialized.  Note that rfms1 is single precision,
+    not double.
 
  3. Read the values of parameters from `feff.inp`, which were written
     to a file called `libpotph.json` by RDINP.  (See note below.)

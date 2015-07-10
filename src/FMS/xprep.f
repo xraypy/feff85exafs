@@ -200,8 +200,6 @@ c     rmax to central atom
  60   continue
       if (inclus.eq.0) inclus=nat
 
-      print *, "inclus=", inclus
-
 c --- sanity check size of cluster
       if (inclus.gt.nclusx) then
         if (iwarn.eq.0) then
