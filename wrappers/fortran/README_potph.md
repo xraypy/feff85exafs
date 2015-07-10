@@ -40,6 +40,7 @@ Here is the simplest program using the Fortran entry point:
       double precision vr0, vi0, rgrd, totvol
 
 	  character*256 phpad
+	  logical verbse
 
 	  call inipotph(ntitle, title, nat, rat, iphat,
      1       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
@@ -58,7 +59,8 @@ Here is the simplest program using the Fortran entry point:
      6       inters, totvol, jumprm, nohole)
 
 	  phpad = 'phase.pad'
-	  call libpotph(phpad,
+	  verbse = .true.
+	  call libpotph(phpad, verbse,
 	 1       ntitle, title, nat, rat, iphat,
      2       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
      3       ihole, rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
@@ -101,7 +103,8 @@ to be consistent with the naming conventions in Feff.
 
 | element    | type                 | I/O | description                                                  | Feff card    |
 | ---------- | -------------------- | --- |------------------------------------------------------------- | ------------ |
-|  phpad     | character*256        | O   | path and name of output phase.pad file                       |              |
+|  phpad     | character\*256       | O   | path and name of output phase.pad file                       |              |
+|  verbse    | logical              | I   | flag to write screen messages, .false.=suppress              |              |
 |  ntitle    | integer              | I   | number of title lines                                        | TITLE        |
 |  title     | character\*80        | I   | array(nheadx) of title lines                                 | TITLE        |
 |  nat       | integer              | I   | number of atoms in cluster                                   | ATOMS        |
@@ -145,6 +148,15 @@ to be consistent with the naming conventions in Feff.
 |  jumprm    | integer              | I   | 1=remove potential jumps at muffin tin radii                 | JUMPRM       |
 |  nohole    | integer              | I   | 1=compute without core-hole                                  | NOHOLE       |
 
+
+### A note about Feff's screen messages
+
+Feff traditionally spits a lot of text to the screen, particularly
+when computing self-consistent potentials.  This screen output can be
+suppressed by setting `verbse` to `.false.`, making the potentials and
+phases calculation run completely silently (except for terminal
+errors).  Setting `verbse` to `.true.` makes the library behave much
+like the stand-alone `pot` and `xsph` programs.
 
 
 ## A note about the libpotph.json file

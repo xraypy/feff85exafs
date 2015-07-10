@@ -44,6 +44,8 @@ typedef struct {
   char   *jsonfile;
   /* output name of phase.pad file, 256 character max */
   char   *phpad;
+  /* flag to write screen messages, default = false   */
+  bool   verbose;       
   /* TITLE */
   int    ntitle;		/* number of header lines                       */
   char   **titles;		/* (nheadx) array of header string              */
@@ -62,7 +64,7 @@ typedef struct {
   /* HOLE/EDGE */
   int    ihole;			/* edge index, 1=K, 4=L3, etc                   */
   /* SCF */
-  double rscf;			/* cluster radius for self-consistent calc.     */
+  float  rscf;			/* cluster radius for self-consistent calc.     */
   int    lscf;			/* 0=solid, 1=molecule                          */
   int    nscmt;			/* max number of self-consistency iterations    */
   double ca;			/* self-consistency convergence accelerator     */
@@ -111,7 +113,8 @@ int read_libpotph_json(FEFFPHASES*);
 int polarization_tensor(FEFFPHASES*);
 void cleanup(FEFFPHASES*);
 
-void libpotph_(char *,               /* path to output phase.pad file */
+void libpotph_(char *,               /* phpad: path to output phase.pad file */
+	       int *,                /* verbse: flag to write screen messages */
 	       int *,		     /* ntitle */
 	       char (*)[nheadx][80], /* titles */
 	       int *,		     /* nat    */
@@ -125,7 +128,7 @@ void libpotph_(char *,               /* path to output phase.pad file */
 	       double (*)[nphx+1],   /* xnatph */
 	       double (*)[nphx+1],   /* spinph */
 	       int *,		     /* ihole  */
-	       double *,	     /* rscf   */
+	       float *,	             /* rscf   NOTE: THIS IS SINGLE PRECISION!! */
 	       int *,		     /* lscf   */
 	       int *,		     /* nscmt  */
 	       double *,	     /* ca     */

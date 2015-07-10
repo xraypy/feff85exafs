@@ -39,9 +39,23 @@ program.  It also imports L<strict> and L<warnings> into your program.
 
 =head1 DESCRIPTION
 
-One module to import to gain access to all Feff-related functionality.
-Once loaded, L<Xray::Feff::Path> and L<Xray::Feff::Phases> are
-available to your program.
+One module to import providing access to all Feff-related
+functionality.  Once loaded, L<Xray::Feff::Path> and
+L<Xray::Feff::Phases> are available to your program.
+
+=head1 INSTALLATION
+
+After you have built and installed I<feff85exafs>, do the following:
+
+  perl Makefile.PL
+  make
+  make test
+  sudo make install
+
+That's it!  Note, though, that building this wrapper B<requires> that
+the fortran and C code for I<feff85exafs> be completely compiled and
+that the resulting libraries (and other files) be successfully
+installed.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
@@ -94,13 +108,17 @@ http://bruceravel.github.io/demeter/
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2015 Bruce Ravel (L<http://bruceravel.github.io/home>). All rights reserved.
+To the extent possible, the authors have waived all rights granted by
+copyright law and related laws for the code and documentation that
+make up the Perl Interface to the feffphases and feffpath libraries.
+While information about Authorship may be retained in some files for
+historical reasons, this work is hereby placed in the Public Domain.
+This work is published from: United States.
 
-This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself. See L<perlgpl>.
+Note that the C libraries themselves are NOT public domain, nor is the
+Fortran source code for Feff that they rely upon.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Author: Bruce Ravel (bravel AT bnl DOT gov).
+Created: 8 July, 2015
 
 =cut

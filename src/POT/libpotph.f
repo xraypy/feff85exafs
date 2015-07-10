@@ -1,4 +1,4 @@
-      subroutine libpotph(phpad,
+      subroutine libpotph(phpad, verbse,
      1       ntitle, title,                                             ! TITLE
      2       nat, rat, iphat,                                           ! ATOMS
      3       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,           ! POTENTIALS
@@ -26,6 +26,8 @@ c##  FUNCTION
 c##     compute potentials and phases from an input atoms list
 c##
 c##  INPUTS
+c##    phpad         path/name of output phases.pad file
+c##    verbse        boolean flag, true=write screen messages
 c##    ntitle        number of header lines                               TITLE
 c##    titles        (nheadx) array of header string                      TITLE
 c##    nat           number of atoms in cluster                           ATOMS
@@ -103,7 +105,7 @@ c     dimension/types of atoms & global.json things
 
 c     name of output phase.pad file
       character*256 phpad
-
+      logical verbse
 
 c     dimension/type os mod1/pot things
       integer  iatph(0:nphx)
@@ -245,7 +247,7 @@ c     iabs != 0 has something to do with CFAVERAGE, outside scope of feff85exafs
      2       elpty, angks, evec, xivec, spvec, ptz,
      3       iatph)
 
-      call pot(rgrd, nohole,
+      call pot(verbse, rgrd, nohole,
      $       inters, totvol, ecv, nscmt, nmix, ntitle, title,
      $       nat, nph, ihole, iafolp, ixc, iphat, rat, iatph, xnatph,
      $       novr, iphovr, nnovr, rovr, folp, xion, iunf, iz, ipr1,
@@ -262,7 +264,7 @@ c     return stuff for passing to xsph and skipping pot.pad
 
 c     could make a conditional call to wrpot here
 
-      call xsph(.false., phpad,
+      call xsph(.false., verbse, phpad,
      -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2       ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,

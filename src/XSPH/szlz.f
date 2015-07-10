@@ -1,8 +1,9 @@
-      subroutine szlz (ispin, ecv, nph, nat, rgrd, nohole, rfms2, lfms2,
-     2           lmaxph, edens, edenvl, dmag, vtot, vvalgs, rmt, rnrm,
-     2           ixc, rhoint, vint, xmu, jumprm,
-     3           xnval, iorb, x0, dx, xion, iunf, iz,
-     5           adgc, adpc, dgc, dpc, ihole, rat, iphat, corr)
+      subroutine szlz (verbse,
+     1       ispin, ecv, nph, nat, rgrd, nohole, rfms2, lfms2,
+     2       lmaxph, edens, edenvl, dmag, vtot, vvalgs, rmt, rnrm,
+     3       ixc, rhoint, vint, xmu, jumprm,
+     4       xnval, iorb, x0, dx, xion, iunf, iz,
+     5       adgc, adpc, dgc, dpc, ihole, rat, iphat, corr)
 
 
 c     Finds new Fermi level (xmu), electron counts 
@@ -11,6 +12,7 @@ c     Finds new Fermi level (xmu), electron counts
       include '../HEADERS/dim.h'
       include '../HEADERS/const.h'
       integer ispin
+      logical verbse
 
 c     input
       dimension dmagx(nrptx), dmag(251,0:nphx+1)
@@ -161,11 +163,11 @@ ctemp if (ispin.ne.0)  rfms = rfms2
 
       if (lfms2 .ne. 0) then
         iph0 = 0
-        call fmssz( iph0, ie,  em, eref, ph, nph,
+        call fmssz(verbse, iph0, ie,  em, eref, ph, nph,
      1        rfms, lfms2, nat, iphat, rat, amat, lmaxph, gctr, gtr)
       else
         do 190 iph0 = 0, nph 
-  190   call fmssz( iph0,  ie, em, eref, ph, nph,
+  190   call fmssz(verbse, iph0,  ie, em, eref, ph, nph,
      1        rfms, lfms2, nat, iphat, rat, amat, lmaxph, gctr, gtr)
       endif
 

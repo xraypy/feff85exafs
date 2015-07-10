@@ -176,6 +176,14 @@ void _set_phpad(SV* obj, char* c) {
 }
 
 
+int _verbose(SV* obj) {
+  return (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->verbose;
+}
+void _set_verbose(SV* obj, int i) {
+  (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->verbose = i;
+}
+
+
 int _ntitle(SV* obj) {
   return (INT2PTR(FEFFPHASES*, SvIV(SvRV(obj))))->ntitle;
 }

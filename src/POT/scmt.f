@@ -1,5 +1,5 @@
-      subroutine scmt ( iscmt, ecv, nph, nat, vclap,
-     2                edens, edenvl, vtot, vvalgs, rmt, rnrm,qnrm,
+      subroutine scmt (verbse, iscmt, ecv, nph, nat, vclap,
+     1                edens, edenvl, vtot, vvalgs, rmt, rnrm,qnrm,
      2                ixc, rhoint, vint, xmu, jumprm,
      3                xnferm, xnvmu, xnval,
      4                x0, ri, dx, xnatph, xion, iunf, iz,
@@ -14,6 +14,7 @@ c     and new valence densities (rhoval).
       include '../HEADERS/dim.h'
       include '../HEADERS/const.h'
 
+      logical verbse
 c     input
       dimension dmagx(nrptx), dmag0(251)
       dimension vclap(251,0:nphx)
@@ -68,12 +69,14 @@ c     save staff from rdinp, so no need to call it again
   15     ri05(i) = exp (-8.8d0+0.05d0*(i-1))
       endif
 
-      write (slog,10) iscmt, nscmt
-  10  format('              SCF ITERATION NUMBER',i3,'  OUT OF',i3)
-      call wlog(slog)
+      if (verbse) then
+         write (slog,10) iscmt, nscmt
+ 10      format('              SCF ITERATION NUMBER',i3,'  OUT OF',i3)
+         call wlog(slog)
 
-      call wlog (' Calculating energy and space dependent l-DOS.')
-      call wlog (' It takes time ...')
+         call wlog (' Calculating energy and space dependent l-DOS.')
+         call wlog (' It takes time ...')
+      endif
 
 c     initialize new valence density
       do 16 iph=0,nphx
@@ -113,9 +116,11 @@ c     Start the cycle over energy points (ie)
   29  continue
 
       if (ie.eq.1 .or. mod(ie,20).eq.0) then
-         write(slog,30) ie, dble(ee)*hart
-   30    format('     point # ', i3, '  energy = ', f7.3)
-         call wlog(slog)
+         if (verbse) then
+            write(slog,30) ie, dble(ee)*hart
+ 30         format('     point # ', i3, '  energy = ', f7.3)
+            call wlog(slog)
+         endif
       endif
 
       do 100  iph = 0, nph
@@ -172,11 +177,11 @@ cc    call fms for a cluster around central atom
       if (rfms1 .gt. 0) then
         if (lfms1 .ne. 0) then
           iph0 = 0
-          call fmsie( iph0, nph, lmaxsc, ie,  em, eref, ph,
+          call fmsie(verbse, iph0, nph, lmaxsc, ie,  em, eref, ph,
      1                rfms1, lfms1, nat, iphat, rat, gtr)
         else
           do 190 iph0 = 0, nph 
-  190     call fmsie( iph0, nph, lmaxsc, ie, em, eref, ph,
+  190     call fmsie(verbse, iph0, nph, lmaxsc, ie, em, eref, ph,
      1                rfms1, lfms1, nat, iphat, rat, gtr)
         endif
       endif
@@ -312,13 +317,17 @@ c     new fermi level and densities are calculated.
 
 c     report configuration; repeat iteration if found bad counts.
       ok = .true.
-      call wlog('  Electronic configuration')
-      call wlog('   iph    il      N_el')
+      if (verbse) then
+         call wlog('  Electronic configuration')
+         call wlog('   iph    il      N_el')
+      endif
  310  format (2i6, f9.3)
       do 320 ip= 0,nph
       do 320 il = 0,lx
-         write (slog,310) ip,il,xnmues(il,ip)
-         call wlog(slog)
+         if (verbse) then
+            write (slog,310) ip,il,xnmues(il,ip)
+            call wlog(slog)
+         endif
 c        check that occupation numbers are consistent with those
 c        set in getorb.f
          diff = abs(xnmues(il,ip) - xnvmu(il,ip))

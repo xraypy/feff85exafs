@@ -1,4 +1,4 @@
-      subroutine fmssz( iph0, ie, em, eref, ph, nph,
+      subroutine fmssz(verbse, iph0, ie, em, eref, ph, nph,
      1           rfms, lfms, nat, iphat, rath, amat, lipotx, gctr, gtr)
 c     uses Bruce Ravel subroutine to do FMS in self-consistency loop
 c     written by alexei ankudinov 06.1997
@@ -26,7 +26,7 @@ c     fms staff
       complex xphase(nspx, -lx:lx, 0:nphx), ck(nspx)
       complex*16 dck
       real  rdirec, toler1, toler2
-      logical lcalc
+      logical lcalc, verbse
       dimension lcalc(0:lx)
       save
 
@@ -49,7 +49,7 @@ c       fix later, and now call it every time
 
         if (inclus.gt.1) then
 cc        call fms for a cluster around central atom
-          if (ie.eq.1) then
+          if (ie.eq.1 .and. verbse) then
              write (slog,35) inclus, iph0
   35         format ('        Doing FMS for a cluster of ',i3,
      1       ' atoms around iph = ',i2)

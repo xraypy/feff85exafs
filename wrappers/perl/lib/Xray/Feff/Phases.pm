@@ -40,6 +40,7 @@ has 'hart'     => (is => 'ro', isa => 'Num', default => sub{ Xray::Feff::PhasesW
 has 'phpad'    => (is => 'rw', isa => 'Str',  default => 'phase.pad',     trigger => sub{pushback(@_, 'phpad'    )});
 has 'jsonfile' => (is => 'rw', isa => 'Str',  default => 'libpotph.json', trigger => sub{pushback(@_, 'jsonfile' )});
 has 'useperljson' => (is => 'rw', isa => 'Bool',  default => 1);
+has 'verbose'  => (is => 'rw', isa => 'Bool',  default => 0,              trigger => sub{pushback(@_, 'verbose'  )});
 
 ## scalars
 has 'ntitle'   => (is => 'rw', isa => 'Int',  default => 0,               trigger => sub{pushback(@_, 'ntitle'   )});
@@ -118,6 +119,12 @@ sub DEMOLISH {
   #print "in my DEMOLISH\n";
   #print $self->wrapper, $/;
   $self->wrapper->_cleanup;
+  return $self;
+};
+
+sub clear {
+  my ($self) = @_;
+  $self->wrapper->_clear_phases;
   return $self;
 };
 
@@ -343,19 +350,17 @@ The following computes the phase shifts for copper metal:
   use strict;
   use warnings;
   use Xray::Feff::Phases;
+  my $cu = Xray::Feff::Phases->new;
+     ##--- gather information about the calculation and cluster
+  $cu->jsonfile('../fortran/libpotph.json');
+     ##--- set the output file
+  $cu->phpad('cu_phases.pad');
+     ##--- run feff's potentials and phases calculator
+  $cu->phases;
 
 =head1 INSTALLATION
 
-After you have built and installed I<feff85exafs>, do the following:
-
-  perl Makefile.PL
-  make
-  make test
-  sudo make install
-
-That's it!  Note, though, that building this wrapper B<requires> that
-the fortran and C code I<feff85exafs> be completely compiled and that
-the resulting libraries (and other files) be successfully installed.
+See L<Xray::Feff>.
 
 =head1 METHODS
 
@@ -403,7 +408,8 @@ The path for writing the F<phase.pad> file.
 
 =item C<jsonfile> (character, default = libpotph.json)
 
-The path to the F<libpth.json> file.
+The path to the F<libpth.json> file.  The JSON file is read
+immediately upon setting this attribute.
 
 =item C<errorcode> (integer)
 
@@ -421,6 +427,10 @@ A explanation of words of the problem found during C<phases>.
    ## ==prints==>
     Blah blah blah
 
+=iten C<verbose> (boolean)
+
+Controls whether Feff writes its screen messages.  False means to run
+Feff silently.
 
 =item C<ntitle> (int)
 
@@ -785,7 +795,6 @@ Invalid potential index used or additional absorber in cluster
 =back
 
 
-
 =head1 EXTERNAL DEPENDENCIES
 
 =over 4
@@ -817,10 +826,6 @@ intended to replace the F<feff.inp> file....
 =item *
 
 Polarization tensor is not handled at all.
-
-=item *
-
-Need a method to clear the object
 
 =back
 

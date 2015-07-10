@@ -1,4 +1,4 @@
-      subroutine pot (rgrd, nohole,
+      subroutine pot (verbse, rgrd, nohole,
      $       inters, totvol, ecv0, nscmt, nmix, ntitle, title,
      $       nat, nph, ihole, iafolp, ixc, iphat, rat, iatph, xnatph,
      $       novr, iphovr, nnovr, rovr, folp0, xion, iunf, iz, ipr1,
@@ -36,6 +36,7 @@ c##     Compute potentials for an input atomic cluster, returning data needed to
 c##
 c##
 c##  INPUTS
+c##     verbse      boolean flag, true=write screen messages
 c##     rgrd        radial grid spacing (RGRD)
 c##     nohole      flag to compute with no hole on absorber (NOHOLE)
 c##     inters      parameter of the interstitial calculation (INTERSTITIAL)
@@ -146,6 +147,8 @@ c                   xxx.dat      various diagnostics
       include '../HEADERS/parallel.h'
       include '../HEADERS/dim.h'
       Parameter (Maxprocs = 1)
+
+      logical verbse
 
 c     Notes:
 c        nat    number of atoms in problem
@@ -290,9 +293,11 @@ c     rnrm)
       ispinr = 0
       etfin  = 0
       do 20  iph = 0, nph
-         write(slog,10) 
-     1     'free atom potential and density for atom type', iph
-         call wlog(slog)
+         if (verbse) then
+            write(slog,10) 
+     1             'free atom potential and density for atom type', iph
+            call wlog(slog)
+         endif
 c        Include corehole if absorber (unless user says nohole)
          if (iph .eq. 0)  then
             itmp = ihole
@@ -323,8 +328,10 @@ c           case below
          if (iph .eq. 0) etfin = et
    20 continue
 
-      write(slog,10) 'initial state energy'
-      call wlog(slog)
+      if (verbse) then
+         write(slog,10) 'initial state energy'
+         call wlog(slog)
+      endif
 c     Save initial state energy and spinors for core hole orbital,
 c     do not save potentials, except for nohole.
       ispinr = ihole
@@ -388,9 +395,11 @@ c     etfin-etinit is ionization energy in adiabatic approximation
 
 c     Overlap potentials and densitites
       do 90  iph = 0, nph
-         write(slog,10)
-     1    'overlapped potential and density for unique potential', iph
-         call wlog(slog)
+         if (verbse) then
+            write(slog,10)
+     1      'overlapped potential and density for unique potential', iph
+            call wlog(slog)
+         endif
          call ovrlp (iph, iphat, rat, iatph, novr, iphovr,
      1               nnovr, rovr, iz, nat, rho, dmag,
      2               rhoval, vcoul, edens, edenvl, vclap, qnrm)
@@ -430,8 +439,10 @@ c     do not remove now since we are putting screening electron back
 
 c     Find muffin tin radii, add gsxc to potentials, and find
 c     interstitial parameters
-      write(slog,10) 'muffin tin radii and interstitial parameters'
-      call wlog(slog)
+      if (verbse) then
+         write(slog,10) 'muffin tin radii and interstitial parameters'
+         call wlog(slog)
+      endif
 
       rmt(0) = -1
       xmu = 100.d0
@@ -453,7 +464,7 @@ c     interstitial parameters
 
 c     Automatic max reasonable overlap
       if (iafolp .ge. 0)  then
-         call afolp (nph, nat, iphat, rat, iatph, xnatph,
+         call afolp (verbse, nph, nat, iphat, rat, iatph, xnatph,
      1               novr, iphovr, nnovr, rovr, folp, folpx, iafolp,
      1               edens, edenvl,
      2               dmag, vclap, vtot, vvalgs, imt, inrm, rmt, rnrm,
@@ -478,7 +489,7 @@ c     Find self-consistent muffin-tin potential.
 
   100 continue
       if (nscmt.gt.0 .or. (ispec.ne.0 .and. ispec.lt.4)) call corval
-     1                 ( ecv, xnvmu, eorb, norb, xnval,
+     1                 (verbse, ecv, xnvmu, eorb, norb, xnval,
      1                  kappa, rgrd, nohole,
      2                  nph, edens, edenvl, vtot, vvalgs,
      3                  rmt, rnrm, ixc, rhoint, vint, jumprm,
@@ -511,9 +522,11 @@ c     made in subroutine corval. Need vxcval only for nonlocal exchange.
          xmunew = xmu
       endif
 
-      write(slog,130) xmu*hart
-  130 format('    : mu_old= ',f9.3)
-      call wlog(slog)
+      if (verbse) then
+         write(slog,130) xmu*hart
+ 130     format('    : mu_old= ',f9.3)
+         call wlog(slog)
+      endif
 
 c     do first nmix iterations with mixing scheme. Need for f-elements.
   140 nmix=nmix-1
@@ -527,7 +540,7 @@ c        need to store coulomb potential
   145    vclapp(ir,ip) = vclap(ir,ip)
 
          if (npr.le.1) then
-           call scmt (  iscmt, ecv, nph, nat, vclap, edens,
+           call scmt (verbse, iscmt, ecv, nph, nat, vclap, edens,
      1                edenvl, vtot, vvalgs, rmt, rnrm, qnrm,
      2                ixc, rhoint, vint, xmunew, jumprm,
      3                xntot, xnvmu, xnval,
@@ -536,7 +549,7 @@ c        need to store coulomb potential
      7                rat, iatph, iphat, lmaxsc, rhoval, xnmues, ok,
      8                rgrd, nohole, nscmt, icoul, ca1, rfms1, lfms1)
          else
-           call scmtmp (npr,  iscmt, ecv, nph, nat, vclap, edens,
+           call scmtmp(verbse, npr, iscmt, ecv, nph, nat, vclap, edens,
      1                edenvl, vtot, vvalgs, rmt, rnrm, qnrm,
      2                ixc, rhoint, vint, xmunew, jumprm,
      3                xntot, xnvmu, xnval,
@@ -555,16 +568,20 @@ c        write out Fermi level and charge transfers
 c        and do tests of self-consistency
          lpass = .true.
          if (iscmt.lt.nscmt .and. iscmt.le.3) lpass =.false.
-         write (slog,150)   xmunew*hart
-  150    format (' mu_new= ', f9.3)
-         call wlog(slog)
+         if (verbse) then
+            write (slog,150)   xmunew*hart
+ 150        format (' mu_new= ', f9.3)
+            call wlog(slog)
+         endif
          if (abs (xmunew - xmu) .gt. tolmu) lpass = .false.
          xmu = xmunew
 c        print out charge 
-         call wlog(' Charge transfer:  iph  charge(iph) ')
+         if (verbse) call wlog(' Charge transfer:  iph  charge(iph) ')
          do 170 iph=0,nph
-            write (slog,180) iph, -qnrm(iph) + xion(iph)
-            call wlog(slog)
+            if (verbse) then
+               write (slog,180) iph, -qnrm(iph) + xion(iph)
+               call wlog(slog)
+            endif
             if (abs(qnrm(iph)-qold(iph)).gt.tolq) lpass = .false.
             qold(iph) = qnrm(iph)
 

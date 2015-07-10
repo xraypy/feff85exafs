@@ -1,5 +1,5 @@
 c     Josh - added argument iPl to control many pole self energy.
-      subroutine xsph (wrxsec, phpad,
+      subroutine xsph (wrxsec, verbse, phpad,
      -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2       ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
@@ -34,7 +34,7 @@ c                   xxx.dat      various diagnostics
 
 c     control whether xsect.json gets written, .true. for conventional
 c     feff, .false. for libpotph
-      logical wrxsec
+      logical wrxsec, verbse
 
       double precision col1(nex), col2(nex), col3(nex)
       double precision col4(nex), col5(nex)
@@ -163,7 +163,7 @@ c      lopt=true for the Rivas code of optical constants
        lopt = .false.
        if (lopt) call getedg(ihole,iz(0), emu)
        if (lopt) ik0 = 1
-       if (lopt) then
+       if (lopt .and. verbse) then
          call wlog('   Fixing edge energy from Elam table...')
          write(slog,fmt="('   emu = ',f10.3,' eV')") emu*hart
          call wlog(slog)
@@ -201,23 +201,27 @@ c     check that logic is set up correctly
       if (nohole.lt.0) then
 c       core-hole potential is used already
         if (ifxc.ne.0) then
-          call wlog(' Reset ifxc=0 since NOHOLE card is absent')
+           if (verbse)
+     1            call wlog(' Reset ifxc=0 since NOHOLE card is absent')
           ifxc = 0
           if (ipmbse.gt.0) nonlocal = 0
         endif
         if (ipmbse.eq.3 .and. izstd.eq.0) then
-          call wlog(' Reset ipmbse=1 since NOHOLE card is absent')
+           if (verbse)
+     1          call wlog(' Reset ipmbse=1 since NOHOLE card is absent')
           ipmbse = 1
         endif
       endif
       if (izstd.gt.0 .and. itdlda.gt.0) then
 c       no need run PMBSE in this case
-        call wlog(' Ignored PMBSE cards since TDLDA is present')
+         if (verbse)
+     1          call wlog(' Ignored PMBSE cards since TDLDA is present')
         itdlda = 0
       endif
       if (ipmbse.eq.2 .and. nonlocal.gt.0 .and. ifxc.gt.0) then
 c       accounting for core-hole twice. reset ifxc=0
-        call wlog(' Reset ifxc=0 since core-hole potential is used.')
+         if (verbse)
+     1     call wlog(' Reset ifxc=0 since core-hole potential is used.')
         ifxc = 0
       endif
       if (ipmbse.eq.1 .and. nonlocal.gt.0) then
@@ -350,17 +354,20 @@ c         spin-independent case
 
 c       calculate operators of interest (s_z, l_z, t_z)
         xmuvr = xmu - vr0
-        if (ipr2.ge.3) call szlz(ispinp,ecv,nph,nat,rgrd,nohole,rfms2,
-     2     lfms2, lmaxph, edens, edenvl, dmag, vtot, vvalgs, rmt, rnrm,
-     2     ixc, rhoint, vint, xmuvr, jumprm,
-     3     xnval, iorb, x0, dx, xion, iunf, iz,
-     5     adgc, adpc, dgc, dpc, ihole, rat, iphat, corr)
+        if (ipr2.ge.3) call szlz(verbse,
+     1      ispinp,ecv,nph,nat,rgrd,nohole,rfms2,
+     2      lfms2, lmaxph, edens, edenvl, dmag, vtot, vvalgs, rmt, rnrm,
+     3      ixc, rhoint, vint, xmuvr, jumprm,
+     4      xnval, iorb, x0, dx, xion, iunf, iz,
+     5      adgc, adpc, dgc, dpc, ihole, rat, iphat, corr)
 c    1                   em, ne1, ne, ik0 )
 
 c       Cross section calculation, use phase mesh for now
 c       Absorbing atom is iph=0
-        write(slog,10) 'absorption cross section'
-        call wlog(slog)
+        if (verbse) then
+           write(slog,10) 'absorption cross section'
+           call wlog(slog)
+        endif
         iph = 0
         call fixvar (rmt(0), edens(1,0), vtot(1,0), dmag(1,0),
      1             vint, rhoint, dx, dxnew, jumprm,
@@ -448,26 +455,28 @@ c     7       iorb(-4,iph), l2lp, ipol, ispinp, le2, angks,ptz, itdlda)
         endif
 
 
-        do 60  iph = 0, nph
-          write(slog,10) 'phase shifts for unique potential', iph
-          call wlog(slog)
-c         fix up variable for phase
-          call fixvar (rmt(iph), edens(1,iph), vtot(1,iph), dmag(1,iph),
-     1                vint, rhoint, dx, dxnew, jumprm,
-     2                vjump, ri, vtotph, rhoph, dmagx)
-          if (mod(ixc,10) .ge.5) then
-            if (jumprm .gt. 0) jumprm = 2
-            call fixvar (rmt(iph), edenvl(1,iph), vvalgs(1,iph),
-     1                dmag(1,iph), vint, rhoint, dx, dxnew, jumprm,
-     2                vjump, ri, vvalph, rhphvl, dmagx)
-            if (jumprm .gt. 0) jumprm = 1
-            call fixdsx (iph, dx, dxnew, dgc, dpc, dgcn, dpcn)
-          endif
-          if (iph .eq. 0)  then
-            itmp = ihole
-          else
-            itmp = 0
-          endif
+        do 60 iph = 0, nph
+           if (verbse) then
+              write(slog,10) 'phase shifts for unique potential', iph
+              call wlog(slog)
+           endif
+c          fix up variable for phase
+           call fixvar (rmt(iph), edens(1,iph), vtot(1,iph),
+     1            dmag(1,iph), vint, rhoint, dx, dxnew, jumprm,
+     2            vjump, ri, vtotph, rhoph, dmagx)
+           if (mod(ixc,10) .ge.5) then
+              if (jumprm .gt. 0) jumprm = 2
+              call fixvar (rmt(iph), edenvl(1,iph), vvalgs(1,iph),
+     1               dmag(1,iph), vint, rhoint, dx, dxnew, jumprm,
+     2               vjump, ri, vvalph, rhphvl, dmagx)
+              if (jumprm .gt. 0) jumprm = 1
+              call fixdsx (iph, dx, dxnew, dgc, dpc, dgcn, dpcn)
+           endif
+           if (iph .eq. 0)  then
+              itmp = ihole
+           else
+              itmp = 0
+           endif
 
           call phase (iph, dxnew, x0, ri, ne, ne1, ne3, em, ixc, nsp,
      1            lreal, rmt(iph),rnrm(iph), xmuvr, iPl,

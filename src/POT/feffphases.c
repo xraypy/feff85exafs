@@ -43,6 +43,9 @@ create_phases(FEFFPHASES *phases) {
   strcpy(ptlb,    "");
   strcpy(phpad,   "phase.pad");
 
+  /* flag for writing feff's screen messages */
+  phases->verbose       = false;
+
   /* ints and doubles */
   phases->errorcode	= 0;
   phases->ntitle	= 0;
@@ -130,6 +133,8 @@ _EXPORT(void)
 clear_phases(FEFFPHASES *phases) {
   /* Reinitialize a FEFFPHASES struct, returning everything to default */
   int i,j;
+
+  phases->verbose = false;
 
   phases->ntitle = 0;
   phases->nat    = 0;
@@ -335,8 +340,9 @@ read_libpotph_json(FEFFPHASES *phases) {
 	phases->jumprm = nx_json_get(json, "jumprm")->int_value;
 	phases->nohole = nx_json_get(json, "nohole")->int_value;
 
-	/* doubles */
+	/* single precision float */
 	phases->rscf   = nx_json_get(json, "rfms1" )->dbl_value;
+	/* doubles */
 	phases->ca     = nx_json_get(json, "ca1"   )->dbl_value;
 	phases->ecv    = nx_json_get(json, "ecv"   )->dbl_value;
 	phases->elpty  = nx_json_get(json, "elpty" )->dbl_value;
@@ -523,8 +529,11 @@ make_phases(FEFFPHASES *phases) {
   /************************************************************/
   int i, j, nn, na, absfound;
 
+  int verbose;
+
   int ntitle, nat, nph, ihole, lscf, nscmt, nmix, icoul, ipol, ispin, ixc, ixc0, iafolp, iunf, inters, jumprm, nohole;
-  double rscf, ca, ecv, elpty, angks, gamach, vr0, vi0, rgrd, totvol;
+  float rscf;
+  double ca, ecv, elpty, angks, gamach, vr0, vi0, rgrd, totvol;
   int iz[nphx+1], lmaxsc[nphx+1], lmaxph[nphx+1], iphat[natx];
   double xnatph[nphx+1], spinph[nphx+1], folp[nphx+1], xion[nphx+1];
   double rat[natx][3];
@@ -641,6 +650,8 @@ make_phases(FEFFPHASES *phases) {
   };
 
 
+  verbose       = phases->verbose;
+
   /*************************************************************************************/
   /* some items don't need error checking -- it is sufficient to sanitize their values */
   /*************************************************************************************/
@@ -670,7 +681,7 @@ make_phases(FEFFPHASES *phases) {
   nohole	= phases->nohole;
   if (nohole > 0) { nohole = 1; };
   
-  rscf		= (phases->rscf) / (bohr); /* code units! */
+  rscf		= (phases->rscf) / ((float) bohr); /* code units! */
   ca		= phases->ca;
   ecv		= (phases->ecv) / (hart); /* code units! */
   elpty		= phases->elpty;
@@ -733,7 +744,7 @@ make_phases(FEFFPHASES *phases) {
   /*********************************/
   /* compute potentials and phases */
   /*********************************/
-  libpotph_(phpad, &ntitle, &titles, &nat, &rat, &iphat,
+  libpotph_(phpad, &verbose, &ntitle, &titles, &nat, &rat, &iphat,
 	    &nph, &iz, &potlbl, &lmaxsc, &lmaxph, &xnatph, &spinph,
 	    &ihole, &rscf, &lscf, &nscmt, &ca, &nmix, &ecv, &icoul,
 	    &ipol, &evec, &elpty, &xivec, &ispin, &spvec, &angks,

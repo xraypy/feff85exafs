@@ -75,6 +75,7 @@ int main()
 | ------------ | ------------------ | --- |---------------------------------------------------- | ------------- |
 | phpad        | \*char             | I   | path to output `phase.pad` file                     |               |
 | jsonfile     | \*char             | I   | path to `libpotph.json`                             |               |
+| verbose      | bool               | I   | flag to wrrite Feff screen messages, F=suppress     |               |
 | errorcode    | int                | O   | integer error code                                  |               |
 | errormessage | \*char             | O   | message associated with error code                  |               |
 | ntitle       | int                | I   | number of header lines                              | TITLE         |
@@ -90,7 +91,7 @@ int main()
 | xnatph       | \*double           | I   | (0:nphx) stoichiometry of each potential            | POTENTIALS    |
 | spinph       | \*double           | I   | (0:nphx) spin on each unique potential              | POTENTIALS    |
 | ihole        | int                | I   | edge index, 1=K, 4=L3, etc                          | HOLE/EDGE     |
-| rscf         | double             | I   | cluster radius for self-consistent calculation      | SCF           |
+| rscf         | float              | I   | cluster radius for self-consistent calculation      | SCF           |
 | lscf         | int                | I   | 0=solid, 1=molecule                                 | SCF           |
 | nscmt        | int                | I   | max number of self-consistency iterations           | SCF           |
 | ca           | double             | I   | self-consistency convergence accelerator            | SCF           |
@@ -120,12 +121,23 @@ int main()
 | jumprm       | int                | I   | 1=remove potential jumps at muffin tin radii        | JUMPRM        |
 | nohole       | int                | I   | 1=compute without core-hole                         | NOHOLE        |
 
-Note, where appropriate (`rfms`, `gamach`, `ecv`, `totvol`, `rat`),
+
+Note that `rscf` is a _single precision float_!
+
+Note, where appropriate (`rscf`, `gamach`, `ecv`, `totvol`, `rat`),
 these parameters are in *natural units* (Angstrom and eV).  They will
 be converted to *code units* (Bohr and Hartree) by the library.
 
 The error code and message will be 0 and an empty string when no
 errors are found.
+
+### A note about Feff screen messages
+
+The default is to suppress Feff's many screen messages.  No effort is
+made to capture the path to convergence when computing self-consistent
+potentials.  In order to preserve that information, you must set
+`verbose` to true then somehow capture and parse the screen output.
+This is left as a chore for the user interface.
 
 ### Attributes to consider trimming
 

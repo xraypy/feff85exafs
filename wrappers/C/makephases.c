@@ -9,9 +9,11 @@ int main()
   FEFFPHASES *phases = malloc(sizeof(FEFFPHASES));
   ret = create_phases(phases);
 
-  strcpy(phases->jsonfile, "../fortran/libpotph.json");
-  strcpy(phases->phpad, "foo.pad");
+  /* strcpy(phases->jsonfile, "../fortran/libpotph.json"); */
+  strcpy(phases->jsonfile, "libpotph.json");
+  /* strcpy(phases->phpad, "foo.pad"); */
   ret = read_libpotph_json(phases);
+  phases->verbose = false;
   if (ret > 0) {
     printf("%s (error code %d)\n", phases->errormessage, phases->errorcode);
   } else {

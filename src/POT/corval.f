@@ -1,8 +1,9 @@
-      subroutine corval ( ecv, xnvmu, eorb, norb, xnval, kappa, rgrd,
-     1             nohole, nph, edens, edenvl, vtot, vvalgs,
-     1             rmt, rnrm, ixc, rhoint, vint, jumprm,
-     2             x0, ri, dx, xion, iunf, iz,
-     3             adgc, adpc, dgc, dpc, ihole, lmaxsc)
+      subroutine corval (verbse,
+     1       ecv, xnvmu, eorb, norb, xnval, kappa, rgrd,
+     2       nohole, nph, edens, edenvl, vtot, vvalgs,
+     3       rmt, rnrm, ixc, rhoint, vint, jumprm,
+     4       x0, ri, dx, xion, iunf, iz,
+     5       adgc, adpc, dgc, dpc, ihole, lmaxsc)
 
 c     Finds the core-valence separation for the cluster of atoms.
 c     written by ala 10 1998
@@ -59,7 +60,7 @@ c     dimension 32 = (0:lx)*(0:nphx)
 c     stuff from feff.f for rdinp, pathfinder and genfmt
 c     Following passed to pathfinder, which is single precision.
       character*512 slog
-      logical ok
+      logical ok, verbse
 
       do 5 i=1,32
          en(i)  = 0.0d0
@@ -68,9 +69,11 @@ c     Following passed to pathfinder, which is single precision.
          icv(i) = 0
  5    continue
 
-      write (slog,10) 
-  10  format('              Core-valence separation ')
-      call wlog(slog)
+      if (verbse) then
+         write (slog,10) 
+ 10      format('              Core-valence separation ')
+         call wlog(slog)
+      endif
 
 c     initialize staff
       do 15 i= 1,251

@@ -1,4 +1,4 @@
-      subroutine afolp ( nph, nat, iphat, rat, iatph, xnatph,
+      subroutine afolp (verbse, nph, nat, iphat, rat, iatph, xnatph,
      1                novr, iphovr, nnovr, rovr, folp, folpx, iafolp,
      1                edens, edenvl,
      2                dmag, vclap, vtot, vvalgs, imt, inrm, rmt, rnrm, 
@@ -12,6 +12,8 @@ c     written by ala 11.97
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
+
+      logical verbse
 
       dimension iphat(natx)
       dimension rat(3,natx)
@@ -36,7 +38,8 @@ c     written by ala 11.97
          rmtx(iph) = rmt(iph) / folp(iph)
    5  continue
 
-      call wlog('    : ipot, Norman radius, Muffin tin radius, Overlap')
+      if (verbse)
+     1call wlog('    : ipot, Norman radius, Muffin tin radius, Overlap')
       if (iafolp.ge.0) then
          do 400  iph = 0, nph
 c          old algorithm for automatic overlap
@@ -44,9 +47,12 @@ c          folp(iph) = 1 + 0.7*(rnrm(iph)/rmt(iph) - 1)
            folp(iph) = folpx(iph)
            rmt(iph) = folp(iph) * rmtx(iph)
 
-  398      format(i10, 1p, 3e13.5)
-           write(slog,398) iph, rnrm(iph)*bohr, rmt(iph)*bohr, folp(iph)
-           call wlog(slog)
+           if (verbse) then
+ 398          format(i10, 1p, 3e13.5)
+              write(slog,398) iph, rnrm(iph)*bohr, rmt(iph)*bohr,
+     1               folp(iph)
+              call wlog(slog)
+           endif
   400    continue
 
          idmag = 0

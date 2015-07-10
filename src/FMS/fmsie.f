@@ -1,4 +1,4 @@
-      subroutine fmsie( iph0, nph, lipotx, ie, em, eref, ph,
+      subroutine fmsie(verbse, iph0, nph, lipotx, ie, em, eref, ph,
      1                 rfms, lfms, nat, iphat, rath, gtr)
 
 c     full multiple scattering code for single energy point
@@ -25,7 +25,7 @@ c     work space
       integer iph0
       complex*16 em, eref
       character*512 slog
-      logical lcalc
+      logical lcalc, verbse
       dimension lcalc(0:lx)
 c     fms staff
       integer lipotx(0:nphx)
@@ -63,7 +63,7 @@ c      fix later, and now call it every time
       if (inclus.gt.1) then
 
 cc     call fms for a cluster around central atom
-       if (ie.eq.1) then
+       if (ie.eq.1 .and. verbse) then
           write (slog,35) inclus, iph0
   35      format ('        Doing FMS for a cluster of ',i3,
      1    ' atoms around iph = ',i2)
@@ -83,6 +83,7 @@ cc     call fms for a cluster around central atom
  1020  continue
        iverb=0
        if (ie.eq.1) iverb = 1
+       if (.not. verbse) iverb = 0
        nsp = 1
        ispin = 0
        do 1011 ill = 0,lx

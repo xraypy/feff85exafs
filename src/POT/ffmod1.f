@@ -136,7 +136,7 @@ c$$$         print *, 3, rat(1,3), rat(2,3), rat(3,3), iphat(3)
 c$$$         print *, 13, rat(1,13), rat(2,13), rat(3,13), iphat(13)
 c$$$         print *, 23, rat(1,23), rat(2,23), rat(3,23), iphat(23)
 
-         call pot (rgrd, nohole,
+         call pot (.true., rgrd, nohole,
      $          inters, totvol, ecv, nscmt, nmix, ntitle, title,
      $          nat, nph, ihole, iafolp, ixc, iphat, rat, iatph,
      $          xnatph, novr, iphovr, nnovr, rovr,

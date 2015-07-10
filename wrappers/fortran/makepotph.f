@@ -24,7 +24,8 @@ c      max number of header lines
       double precision rat(3,natx)
       double precision xnatph(0:nphx), folp(0:nphx), xion(0:nphx)
       character*6 potlbl(0:nphx)
-      double precision rfms1, elpty, angks, gamach, ca1, ecv
+      real rfms1
+      double precision elpty, angks, gamach, ca1, ecv
       double precision vr0, vi0, rgrd, totvol
 
 
@@ -83,7 +84,7 @@ c     INTERSTITIAL, JUMPRM, NOHOLE
      1       inters, totvol, jumprm, nohole)
 
 
-      call libpotph('phase.pad',
+      call libpotph('phase.pad', .true.,
 c     TITLE
      1       ntitle, title,
 c     ATOMS
