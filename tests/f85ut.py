@@ -30,17 +30,18 @@ class Feff85exafsUnitTestGroup(Group):
     """
     A group for performing unit tests on feff85exafs.
 
-    Methods:
-       run        : run the test feff calculation, no return value
-       testpaths  : fill the paths attribute, no return value
-       available  : returns True is a path index has a corresponding feffNNNN.dat file
-       compare    : make a comparison of columns in feffNNNN.dat, returns True if no difference
-       geometry   : write a description of scattering path to the screen
-       radii      : fetch a list of muffin tin or norman radii for the unique potentials
-       s02        : fetch the calculated value of s02 from the testrun or the baseline
-       feffterms  : perform a test on values in the header of feffNNNN.dat, ret. True if no difference
-       clean      : remove the testrun folder
-    
+    Activity methods:
+       run            : run the test feff calculation, no return value
+       fit            : run fits using the baselline and new Feff caclautions
+       clean          : remove the testrun folder
+
+    Testing methods:
+       available      : returns True is a path index has a corresponding feffNNNN.dat file
+       compare        : make a comparison of columns in feffNNNN.dat, returns True if no difference
+       feffterms      : perform a test on values in the header of feffNNNN.dat, ret. True if no difference
+       radii          : fetch a list of muffin tin or norman radii for the unique potentials
+       s02            : fetch the calculated value of s02 from the testrun or the baseline
+       print_geometry : write a description of scattering path to the screen
 
     Attributes:
        doplot    :  boolean, True = make plots in compare method
@@ -52,15 +53,15 @@ class Feff85exafsUnitTestGroup(Group):
        fefflog   :  string,  name of log file from feff run
        baseline  :  string,  name of folder containing the baseline feff calculation
        paths     :  list,    list of feffNNNN.dat files in testrun folder
-       bpaths    :  string,  list of feffNNNN.dat files from baseline calculation
+       bpaths    :  list,    list of feffNNNN.dat files from baseline calculation
        path      :  string,  fully resolved path to folder
        repotop   :  string,  fully resolved path to top of feff85exafs repository
        json      :  json string, used to configure the test feff run
-       rfactor   :  float,   R-factor computed from feffNNNN.dat columns in testrun compared to baseline
-       rfactor_2 :  float,   second R-factor, used when compare called with part='feff'
+       rfactor   :  float,   R-factor computed from feffNNNN.dat column comparison, set by compare()
+       rfactor_2 :  float,   second R-factor, used when compare called with part='feff', set by compare()
        epsilon   :  float,   value for comparing columns from feffNNNN.dat with the baseline and other things
        count     \\
-       datacount  > integers, count number of tests
+       datacount  > integers, used to count number of tests run
        feffcount / 
     """
 
@@ -71,7 +72,7 @@ class Feff85exafsUnitTestGroup(Group):
         self._larch     = Interpreter()
         self.doplot     = True  
         self.doscf      = False # True = use self-consistency
-        self.verbose    = True  # True = print Feff's screen messages and other screenmessages
+        self.verbose    = True  # True = print Feff's screen messages and other screen messages
         self.feffran    = False # True = Feff calculation has been run
         self.count      = 0
         self.feffcount  = 0
@@ -89,14 +90,14 @@ class Feff85exafsUnitTestGroup(Group):
         self.path       = realpath(folder)
         self.testrun    = realpath(join(self.path, 'testrun'))
         self.fefflog    = realpath(join(self.path, 'testrun', 'f85e.log'))
-        self.testpaths()
+        self.__testpaths()
         self.repotop    = getcwd()
         if not self.repotop.endswith('feff85exafs'):  self.repotop = realpath(join('..'))
         # the f85e shell script emulates the behavior of the monolithic Feff application
-        self.epsilon    = 0.00001
         self.eps5       = 0.00001
         self.eps4       = 0.0001
         self.eps3       = 0.001
+        self.epsilon    = self.eps4
         self.epsfit     = self.eps3
         self.firstshell = False
         self.fittest    = None
@@ -115,25 +116,26 @@ class Feff85exafsUnitTestGroup(Group):
         
     @property
     def baseline(self):
-        scf = 'noSCF'
-        if self.doscf: scf = 'withSCF'
+        scf = 'withSCF' if self.doscf else 'noSCF'
         return realpath(join(self.path, 'baseline', scf))
         
     @property
     def bpaths(self):
         """
         Gather a list of feffNNNN.dat files from the baseline calculation
-
+        
         """
-        here = getcwd()
-        p = list()
-        chdir(self.baseline)
-        feffoutput = glob.glob("*")
-        for f in sorted(feffoutput):
-            tosave = re.compile("feff\d+\.dat")
-            if tosave.match(f):
-                p.append(f)
-        chdir(here)
+        p   = list()
+        owd = getcwd()
+        try:
+            chdir(self.baseline)
+            feffoutput = glob.glob("*")
+            for f in sorted(feffoutput):
+                tosave = re.compile("feff\d+\.dat")
+                if tosave.match(f):
+                    p.append(f)
+        finally:
+            chdir(owd)
         return p
         
     def run(self):
@@ -145,55 +147,60 @@ class Feff85exafsUnitTestGroup(Group):
         if not isdir(self.path):
             print colored(self.folder + " is not one of the available tests", 'magenta', attrs=['bold'])
             return False
-            
+
+        ## clean up an earlier run
         if isdir(self.testrun): rmtree(self.testrun)
         makedirs(self.testrun)
-        
+
+        ## mustache to feff.inp
         scf = 'without SCF'
         self.json = json.load(open(join(self.path, self.folder + '.json')))
         self.json['doscf']='* '
         if self.doscf:
             scf = 'with SCF'
             self.json['doscf']=''
-    
         renderer = pystache.Renderer()
         with open(join(self.testrun,'feff.inp'), 'w') as inp:
             inp.write(renderer.render_path( join(self.path, self.folder + '.mustache'), # material/material.mustache
                                             self.json ))                                # material/material.json
-            
-        here     = getcwd()
-        chdir(self.testrun)
-        if isfile(self.fefflog):
-            unlink(self.fefflog)
 
-        self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop, _larch=self._larch)
-        self.feffrunner.run()
-        for f in glob.glob("*"):
-            if f.startswith('log'): unlink(f)
+        ## run feff with feffrunner
+        owd = getcwd()
+        try:
+            chdir(self.testrun)
+            if isfile(self.fefflog):
+                unlink(self.fefflog)
+
+            self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop, _larch=self._larch)
+            self.feffrunner.run()
+            for f in glob.glob("*"):
+                if f.startswith('log'): unlink(f)
             
-        if self.verbose: print colored("\nRan Feff85EXAFS on %s (%s)" % (self.folder, scf), 'yellow', attrs=['bold'])
-        self.testpaths()
-        
-        chdir(here)
+            if self.verbose: print colored("\nRan Feff85EXAFS on %s (%s)" % (self.folder, scf), 'yellow', attrs=['bold'])
+            self.__testpaths()
+        finally:
+            chdir(owd)
         self.feffran = True
 
 
-    def testpaths(self):
+    def __testpaths(self):
         """
         Gather a list of feffNNNN.dat files from the testrun
 
         """
         self.paths = list()
         if isdir(self.testrun):
-            here = getcwd()
-            chdir(self.testrun)
-            feffoutput = glob.glob("*")
-            for f in sorted(feffoutput):
-                tosave = re.compile("feff\d+\.dat")
-                if tosave.match(f):
-                    self.paths.append(f)
-            chdir(here)
-            self.feffran = True
+            owd = getcwd()
+            try:
+                chdir(self.testrun)
+                feffoutput = glob.glob("*")
+                for f in sorted(feffoutput):
+                    tosave = re.compile("feff\d+\.dat")
+                    if tosave.match(f):
+                        self.paths.append(f)
+                self.feffran = True
+            finally:
+                chdir(owd)
             
             
     def available(self, which=0):
@@ -222,7 +229,7 @@ class Feff85exafsUnitTestGroup(Group):
             return None
             
 
-    def snarf_geometry(self, index=1):
+    def __snarf_geometry(self, index=1):
         pathsdat = self.testrun+'/paths.dat'
         try:
             lines = open(pathsdat, 'r').readlines()
@@ -275,8 +282,11 @@ class Feff85exafsUnitTestGroup(Group):
             redfact :      test the reduction factor
             rep     :      test the real part of the complex wavenumber
 
-        and use_wrapper is True if the test is to use the python interface to the feffpath library
-        or False if the test is to use the monolithic feff.
+        and use_wrapper is True if the test is to use the python interface to
+        the feffpath library or False if the test is to use the feffrunner and
+        the Feff executables.  (Currently, only feffrunner is working...)
+
+        Sets self.rfactor (and self.rfactor_2).
 
         """
         if self._larch is None:
@@ -290,8 +300,7 @@ class Feff85exafsUnitTestGroup(Group):
             print colored("Path %d was not saved from the test Feff calculation" % nnnn, 'magenta', attrs=['bold'])
             return
             
-        how='monolithic'
-        if use_wrapper: how = 'wrapper'
+        how     = 'wrapper' if use_wrapper else 'executables'
         nnnndat = "feff%4.4d.dat" % nnnn
         
         blpath = feffpath(join(self.baseline, nnnndat))
@@ -300,11 +309,13 @@ class Feff85exafsUnitTestGroup(Group):
             self.sp.nnnn=True
             self.sp.index=nnnn
             self.sp.verbose=self.verbose
-            self.snarf_geometry(nnnn)
-            here = getcwd()
-            chdir(self.testrun)
-            self.sp.make()
-            chdir(here)
+            self.__snarf_geometry(nnnn)
+            owd = getcwd()
+            try:
+                chdir(self.testrun)
+                self.sp.make()
+            finally:
+                chdir(owd)
             n3nndat = "f3ff%4.4d.dat" % nnnn
             trpath = feffpath(join(self.testrun,  n3nndat))
         else:                   # the feffNNNN.dat file was made by the monolithic feff run
@@ -359,18 +370,15 @@ class Feff85exafsUnitTestGroup(Group):
             label      = 'magnitude' 
             
             
-        scf="without SCF"
-        if self.doscf: scf="with SCF"
-        
         self.rfactor_2 = 0
         self.rfactor = sum((baseline_1 - testrun_1)**2) / sum(baseline_1**2)
         if self.verbose: 
-            print colored("\nComparing %s of %s (%s) (%s)" % (label, nnnndat, scf, how), 'yellow', attrs=['bold'])
-            self.geometry(blpath)
+            print colored("\nComparing %s of %s (%s) (using %s)" % (label, nnnndat, "with SCF" if self.doscf else "without SCF", how),
+                          'yellow', attrs=['bold'])
+            self.print_geometry(blpath)
             
         if self.verbose: 
-            color = 'green'  if self.rfactor < self.epsilon else 'magenta'
-            print label + " R-factor = " + colored("%.3f" % self.rfactor, color, attrs=['bold'])
+            print label + " R-factor = " + colored("%.3f" % self.rfactor, 'green' if self.rfactor < self.epsilon else 'magenta', attrs=['bold'])
         if part=='feff':
             self.rfactor_2 = sum((testrun_2 - testrun_2)**2) / sum(baseline_2**2)
             if self.verbose: 
@@ -396,7 +404,7 @@ class Feff85exafsUnitTestGroup(Group):
             return self.rfactor < self.epsilon
             
             
-    def geometry(self, path):
+    def print_geometry(self, path):
         """
         Print out a table showing the scattering geometry of a path
 
@@ -411,7 +419,7 @@ class Feff85exafsUnitTestGroup(Group):
         
     def s02(self, folder='testrun'):
         """
-        Fetch the value of S02 calculated by the testrun or the baseline.
+        Return the value of S02 calculated by the testrun or the baseline.
            testrun:    larch> group.s02()
            baseline:   larch> group.s02('baseline')
         """
@@ -454,11 +462,14 @@ class Feff85exafsUnitTestGroup(Group):
         
     def feffterms(self, nnnn=1):
         """
-        Fetch the various numbers in the feffNNNN.dat header for both the
-        baseline and testrun.  A table of these values is printed.
-        Return True is all are equal.
+        Fetch the various numbers in the feffNNNN.dat header for both
+        the baseline and testrun.  A table of these values is printed
+        if the verbose flag is True.  Return True if all are equal.
 
         """
+        if (not self.feffran):
+            #if self.verbose: print colored("You have not yet made the test run of Feff", 'magenta', attrs=['bold'])
+            raise Exception("You have not yet made the test run of Feff")
         nnnndat = "feff%4.4d.dat" % nnnn
         bl      = feffpath(join(self.baseline, nnnndat))
         tr      = feffpath(join(self.testrun,  nnnndat))
@@ -470,11 +481,11 @@ class Feff85exafsUnitTestGroup(Group):
                     'rs_int': 'interstitial radius',
                     'vint':   'interstitial potential'}
         if self.verbose:
-            print "%-8s %-42s   %10s  %10s  %s" % ('key', 'component', 'baseline', 'testrun', 'same?')
+            print "%-8s %-42s   %10s  %10s  %s" % ('key', 'description', 'baseline', 'testrun', 'same?')
             print "-----------------------------------------------------------------------------------"
         ok = True
         for key in termdict:
-            same = abs(getattr(bl._feffdat, key) - getattr(tr._feffdat, key)) < self.epsilon
+            same = abs(getattr(bl._feffdat, key) - getattr(tr._feffdat, key))/getattr(bl._feffdat, key) < self.epsilon
             if self.verbose: print "%-6s   %-42s : %10s  %10s  %s" % (key, termdict[key], getattr(bl._feffdat, key),
                                                                       getattr(tr._feffdat, key), same)
             ok = ok and same
@@ -485,7 +496,11 @@ class Feff85exafsUnitTestGroup(Group):
     def fit(self):
         """
         Perform a canned fit using the baseline and testrun Feff
-        calculations
+        calculations.
+
+        Sets self.blfit and self.trfit, containing the feffit groups
+        for the fits suing the baseline and test run Feff
+        calculations, respectively.
 
         """
         sys.path.append(self.path)
@@ -501,13 +516,25 @@ class Feff85exafsUnitTestGroup(Group):
         """
         Perform a canned fit using a sequence of Feff calculations
 
-        This is not used for unit testing feff85exafs.  It is intended
-        for use with a generic testing framework.
+        This is not used for unit testing feff85exafs.  It is a
+        generalization of the fit() method intended for use with a
+        generic testing framework, e.g. https://github.com/bruceravel/SCFtests
 
+        Uses self.fittest, the name of a folder containing a sequence of
+        Feff calculations.
+
+        Sets self.models, a list of subfolders containing the identifying
+        strings of the sequence of calculations.
+
+        Returns a bunch of self.<id>, where <id> are feffit groups
+        containing the fits in the sequence.
         """
         sys.path.append(self.folder)
         module = importlib.import_module(self.folder, package=None)
         save = self.doscf
+
+        if self.fittest is None:
+            raise Exception("You must select a test folder.")
 
         self.models = []
         for d in sorted(listdir(join(self.folder, self.fittest))):
