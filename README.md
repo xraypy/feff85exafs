@@ -1,6 +1,9 @@
 feff85exafs
 ===========
 
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.20629.svg)](http://dx.doi.org/10.5281/zenodo.20629)
+
+
 Feff 8.50 for EXAFS: Open Source theoretical EXAFS calculations
 
 Based on or developed using Distribution: FEFF8.5L
