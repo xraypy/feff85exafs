@@ -196,12 +196,12 @@ void _set_nnnn(SV* obj, bool i) {
   (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->nnnn = i;
 }
 
-/* ----- flag to write feffNNNN.json */
-bool _json(SV* obj) {
-       return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->json;
+/* ----- flag to write feffNNNN.xdi */
+bool _xdi(SV* obj) {
+       return (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->xdi;
 }
-void _set_json(SV* obj, bool b) {
-       (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->json = b;
+void _set_xdi(SV* obj, bool i) {
+  (INT2PTR(FEFFPATH*, SvIV(SvRV(obj))))->xdi = i;
 }
 
 /* ----- flag to be verbose */

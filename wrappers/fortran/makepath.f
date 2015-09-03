@@ -18,7 +18,7 @@ c     block of parameter declarations for onepath
       character*256 phpad
       character*8 cxc
       character*30 versn
-      integer index, iorder, innnn, ijson, ivrbse, ixc
+      integer index, iorder, innnn, ixdi, ivrbse, ixc
       double precision evec(3), xivec(3)
       double precision elpty, rs, vint, xmu, edge, xkf, rnrmav, gamach
 
@@ -34,9 +34,10 @@ c     initialize everything
       call inipath(index, nleg, deg, iorder,
      &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &       versn, ipot, rat, iz, ipol, evec, elpty, xivec,
-     &       innnn, ijson, ivrbse, ri, beta, eta,
+     &       innnn, ixdi, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
+      ixdi   = 1
       ivrbse = 1
 c      phpad  = 'phase_orig.pad'
       phpad  = 'phase.pad'
@@ -57,7 +58,7 @@ c    evec:     polarization vector                   double(3)
 c    elpty:    ellipticity                           double
 c    xivec:    direction of travel                   double(3)
 c    innnn:    flag to write feffNNNN.dat file       integer
-c    ijson:    flag to write feffNNNN.json file      integer
+c    ixdi:     flag to write feffNNNN.xdi file       integer
 c    ivrbse:   flag to write screen messages         integer
 c
 c    also requires a phase.pad file from an earlier run of xsph
@@ -86,7 +87,7 @@ c     compute first shell of Copper (SS, deg=12)
       call onepath(phpad, index, nleg, deg, iorder,
      &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &     versn, ipot, rat, iz, ipol, evec, elpty, xivec,
-     &     innnn, ijson, ivrbse, ri, beta, eta,
+     &     innnn, ixdi, ivrbse, ri, beta, eta,
      &     ne,col1,col2,col3,col4,col5,col6,col7)
 
 c     this bit writes the data table from feff0001.dat to the screen
@@ -102,9 +103,10 @@ c     compute fourth shell of Copper (DS, deg=48)
       call inipath(index, nleg, deg, iorder,
      &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &       versn, ipot, rat, iz, ipol, evec, elpty, xivec,
-     &       innnn, ijson, ivrbse, ri, beta, eta,
+     &       innnn, ixdi, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       innnn  = 1
+      ixdi   = 1
       ivrbse = 1
 
       index = 4
@@ -116,7 +118,7 @@ c     compute fourth shell of Copper (DS, deg=48)
       call onepath(phpad, index, nleg, deg, iorder,
      &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &       versn, ipot, rat, iz, ipol, evec, elpty, xivec,
-     &       innnn, ijson, ivrbse, ri, beta, eta,
+     &       innnn, ixdi, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
 
       end
@@ -145,7 +147,7 @@ c     compute fourth shell of Copper (DS, deg=48)
       subroutine inipath(index, nleg, deg, iorder,
      &       cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &       versn, ipot, rat, iz, ipol, evec, elpty, xivec,
-     &       innnn, ijson, ivrbse, ri, beta, eta,
+     &       innnn, ixdi, ivrbse, ri, beta, eta,
      &       ne,col1,col2,col3,col4,col5,col6,col7)
       implicit double precision (a-h, o-z)
 
@@ -153,7 +155,7 @@ c     taken from feff's HEADERS/dim.h
       integer nex, npatx, legtot, ixc
       parameter (nex = 150, npatx = 8, legtot=npatx+1, nphx=11)
 
-      integer index, iorder, innnn, ijson, ivrbse
+      integer index, iorder, innnn, ivrbse
       double precision evec(3), xivec(3)
       double precision elpty,rs, vint, xmu, edge, xkf, rnrmav, gamach
 
@@ -172,7 +174,7 @@ c     taken from feff's HEADERS/dim.h
       deg    = 1.
       iorder = 2
       innnn  = 0
-      ijson  = 0 
+      ixdi   = 0 
       ivrbse = 0
       ipol   = 0 
       elpty  = 0.

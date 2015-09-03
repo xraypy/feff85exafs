@@ -37,6 +37,7 @@ long main()
 
   strcpy(path->phpad, "../fortran/phase.pad");
   path->nnnn    = 1;
+  path->xdi     = 0;
   path->verbose = 1;
 
   /* first path in copper */
@@ -79,7 +80,9 @@ long main()
 
 5. Setting `nnnn` and `verbose` to a true value tells the program to
    write `feffNNNN.dat` files and to write a short message to the
-   screen when it is written.
+   screen when it is written.  Setting `xdi` to a true value will
+   cause `feffNNNN.xdi` to be written.  This is equivalent to
+   `feffNNNN.dat`, but in XDI format.
 
 6. The path index is set to 1.  This means the output file will be
    called `feff0001.dat`.
@@ -105,8 +108,8 @@ long main()
 10. The call to `clear_path` reinitializes the struct.  This is not
 	strictly necessary in this case, but would be were the program to
 	go on to compute another path.  Note that clear_path does not
-	reset `phpad`, `nnnn`, or `json`, which are assumed to be constant
-	from time to time calling `make_path`.
+	reset `phpad`, `nnnn`, or `xdi`, which are assumed to be
+	constant from time to time calling `make_path`.
 
 11. Finally, the memory for `path` is deallocated and the program
     terminates.
@@ -132,7 +135,7 @@ naming conventions in Feff.  The output arrays for the columns of
 |  ipot      | \*long     | I   | unique potentials of atoms in path      |  use add\_scatterer  |
 |  iorder    | long       | I   | order of approximation in genfmt        |  2                   |
 |  nnnn      | bool       | I   | flag to write `feffNNNN.dat` file       |  false               |
-|  json      | bool       | I   | flag to write `feffNNNN.json` file      |  false               |
+|  xdi       | bool       | I   | flag to write `feffNNNN.xdi` file       |  false               |
 |  verbose   | bool       | I   | flag to write screen messages           |  false               |
 |  ipol      | bool       | I   | flag to do polarization calculation     |  false               |
 |  evec      | \*double   | I   | polarization vector                     |  (0,0,0)             |

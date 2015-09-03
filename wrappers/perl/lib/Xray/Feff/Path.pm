@@ -46,7 +46,7 @@ has 'iorder'   => (is => 'rw', isa => 'Int',  default => 2,    trigger => sub{pu
 
 ## output and verbosity control
 has 'nnnn'     => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'nnnn'   )},);
-has 'json'     => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'json'   )},);
+has 'xdi'      => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'xdi'    )},);
 has 'verbose'  => (is => 'rw', isa => 'Bool', default => 0,    trigger => sub{pushback(@_, 'verbose')},);
 
 ## header information from feffNNNN.dat
@@ -395,9 +395,9 @@ Order of approximation for multiple scattering paths.
 
 Flag for writing F<feffNNNN.dat> file.
 
-=item C<json> (boolean, default = 0)
+=item C<xdi> (boolean, default = 0)
 
-Flag for writing F<feffNNNN.json> file.
+Flag for writing F<feffNNNN.xdi> file.
 
 =item C<verbose> (integer, default = 0)
 

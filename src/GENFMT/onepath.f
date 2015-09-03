@@ -2,7 +2,7 @@
      &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &     versn, ipot, rat, iz,
      &     ipol, evec, elpty, xivec,
-     &     innnn, ijson, ivrbse, ri, beta, eta,
+     &     innnn, ixdi, ivrbse, ri, beta, eta,
      &     ne1,col1,col2,col3,col4,col5,col6,col7)
 
       implicit double precision (a-h, o-z)
@@ -29,7 +29,7 @@ c    evec:     polarization vector                   double(3)
 c    elpty:    ellipticity                           double
 c    xivec:    direction of travel                   double(3)
 c    innnn:    flag to write feffNNNN.dat file       integer
-c    ijson:    flag to write feffNNNN.json file      integer
+c    ixdi:     flag to write feffNNNN.xdi file       integer
 c    ivrbse:   flag to write screen messages         integer
 c
 c    also requires a phase.pad file from an earlier run of xsph
@@ -45,7 +45,7 @@ c    col3:     magnitude of F_eff                    double(nex)
 c    col4:     phase of F_eff                        double(nex)
 c    col5:     reduction factor                      double(nex)
 c    col6:     mean free path                        double(nex)
-c    col7:     real partof complex momentum          double(nex)
+c    col7:     real part of complex momentum         double(nex)
 c
 c  Potential information:
 c    cxc:      description of the potential model    character*8
@@ -78,8 +78,8 @@ c     integer  mfeff, ipr5
       logical  wnstar
       double precision angks, elpty
 c     double precision critcw
-      logical nnnn, json, verbse
-      integer innnn, ijson, ivrbse
+      logical nnnn, xdi, verbse
+      integer innnn, ixdi, ivrbse
 
 c+----------------------------------------------------------------------
 c     removing local common blocks, replacing them with explicit passing
@@ -172,7 +172,6 @@ c+----------------------------------------------------------------------
 c     parameters related to using fdtarr.f and fdthea.f
 c+----------------------------------------------------------------------
       character*12 fname
-      character*13 fjson
       dimension col1(nex), col2(nex), col3(nex), col4(nex), col5(nex)
       dimension col6(nex), col7(nex)
       real sxk(nex)
@@ -264,8 +263,8 @@ c    &       nleg, deg, rat, ipot, elpty, evec, xivec, nnnn, json)
 
       nnnn = .false.
       if (innnn .gt. 0) nnnn=.true.
-      json = .false.
-      if (ijson .gt. 0) json=.true.
+      xdi = .false.
+      if (ixdi .gt. 0) xdi=.true.
       verbse = .false.
       if (ivrbse .gt. 0) verbse=.true.
 
@@ -533,24 +532,7 @@ c+----------------------------------------------------------------------
       call fdtarr(ne1, real(reff), ilinit, amff, phff, caps, sxk, sck,
      &       col1, col2, col3, col4, col5, col6, col7)
 
-
-      if (nnnn) then
-c        Prepare output file feffnnnn.dat
-         write(fname,20)  index
- 20      format ('f3ff', i4.4, '.dat')
-         write(slog,30)  index, fname
- 30      format (i8, 5x, a)
-         if (verbse) print *, slog(1:40)
-c         call wlog(slog)
-
-c        Write feff.dat's
-         open (unit=3, file=fname, status='unknown', iostat=ios)
-         call chopen (ios, fname, 'onepath')
-
-
-c+----------------------------------------------------------------------
-c        write out the feffNNNN.dat header
-c+----------------------------------------------------------------------
+      if (nnnn .or. xdi) then
          do 36 il=1,legtot
             ipthea(il) = ipot(il)
             do 33 ix=1,3
@@ -573,6 +555,25 @@ c+----------------------------------------------------------------------
      2          vr0, vi0, gamach, xmu, xkf, vint, rs,
      2          lreal, rgrd)
          gamach = gamach*hart
+      endif
+
+      if (nnnn) then
+c        Prepare output file feffnnnn.dat
+         write(fname,20)  index
+ 20      format ('f3ff', i4.4, '.dat')
+         write(slog,30)  index, fname
+ 30      format (i8, 5x, a)
+         if (verbse) print *, slog(1:40)
+c         call wlog(slog)
+
+c        Write feff.dat's
+         open (unit=3, file=fname, status='unknown', iostat=ios)
+         call chopen (ios, fname, 'onepath')
+
+
+c+----------------------------------------------------------------------
+c        write out the feffNNNN.dat header
+c+----------------------------------------------------------------------
 
          call fdthea(ntit, titles, index, iorder, nleg, real(deg),
      &          real(reff), real(rnrmav), real(edge), rathea, ipthea,
@@ -580,6 +581,7 @@ c+----------------------------------------------------------------------
          do 40 i=1, nlines
             write(3, 50)lines(i)
  40      continue
+            
  50      format(a)
 
 c+----------------------------------------------------------------------
@@ -599,24 +601,48 @@ c        Done with feff.dat
 c     end of conditional for writing feffNNNN.dat
 
 
+
+      if (xdi) then
+c        Prepare output file feffnnnn.xdi
+         write(fname,120)  index
+ 120     format ('feff', i4.4, '.xdi')
+         write(slog,130)  index, fname
+ 130     format (i8, 5x, a)
+         if (verbse) print *, slog(1:40)
+c         call wlog(slog)
+
+c        Write feff.xdi's
+         open (unit=3, file=fname, status='unknown', iostat=ios)
+         call chopen (ios, fname, 'onepath')
+
+
 c+----------------------------------------------------------------------
-c     write out a JSON file with the same information as feffNNNN.dat
+c        write out the feffNNNN.xdi header
 c+----------------------------------------------------------------------
-      fjson = ''
-c$$$      if (json) then
-c$$$         write(fjson,80)  index
-c$$$ 80      format ('feff', i4.4, '.json')
-c$$$         write(slog,90)  index, fjson
-c$$$ 90      format (i8, 5x, a)
-c$$$         if (verbse) print *, slog(1:40)
-c$$$c         call wlog(slog)
-c$$$
-c$$$         call json_nnnn(fjson, ntit, titles, rat, ipot, ri, beta, eta,
-c$$$     &          index, iorder, nleg, deg, reff, rnrmav, edge,
-c$$$     &          ne1, col1, col2, col3, col4, col5, col6, col7)
-c$$$
-c$$$      end if
-c     end of conditional for writing feffNNNN.json
+
+         call fdtxdi(ntit, titles, index, iorder, nleg, real(deg),
+     &          real(reff), real(rnrmav), real(edge), rathea, ipthea,
+     &          iz, potlbl, nlines, lines)
+         do 140 i=1, nlines
+            write(3, 150)lines(i)
+ 140     continue
+ 150     format(a)
+
+c+----------------------------------------------------------------------
+c        write out the feffNNNN.xdi columns
+c+----------------------------------------------------------------------
+         do 160 ie = 1, ne1
+            write(3,170) col1(ie), col2(ie), col3(ie), col4(ie),
+     &             col5(ie), col6(ie), col7(ie)
+
+ 160     continue
+ 170     format (1x, f6.3, 1x, 3(1pe11.4,1x),1pe10.3,1x,
+     1          2(1pe11.4,1x))
+
+c        Done with feff.dat
+         close (unit=3)
+      end if
+c     end of conditional for writing feffNNNN.xdi
 
       end
 

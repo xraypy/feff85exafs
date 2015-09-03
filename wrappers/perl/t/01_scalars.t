@@ -33,10 +33,10 @@ $path->nnnn(1);
 ok($path->nnnn,                                                                           "set nnnn");
 ok($path->wrapper->_nnnn,                                                                 "set nnnn, wrapper");
 
-ok((not $path->json),                                                                     "default json ".truefalse($path->json));
-$path->json(1);
-ok($path->json,                                                                           "set json");
-ok($path->wrapper->_json,                                                                 "set json, wrapper");
+ok((not $path->xdi),                                                                      "default xdi ".truefalse($path->xdi));
+$path->xdi(1);
+ok($path->xdi,                                                                            "set xdi");
+ok($path->wrapper->_xdi,                                                                  "set xdi, wrapper");
 
 ok((not $path->verbose),                                                                  "default verbose ".truefalse($path->verbose));
 $path->verbose(1);

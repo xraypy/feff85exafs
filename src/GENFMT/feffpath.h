@@ -49,7 +49,7 @@ typedef struct {
 
   /* INPUT: output flags for saving F_eff to a file                                  */
   bool nnnn;          /* flag to write feffNNNN.dat file           default = false   */
-  bool json;          /* flag to write feffNNNN.json file          default = false   */
+  bool xdi;           /* flag to write feffNNNN.xdi file           default = false   */
   bool verbose;       /* flag to write screen messages             default = false   */
 
   /* INPUT: parameters controlling polarization                                      */
@@ -141,7 +141,7 @@ void onepath_(char *,                   /* path to phase.pad file */
 	      double (*)[3],            /* direction of travel */
 	      /* output flags */
 	      int *,                    /* integer flag for writing feffNNNN.dat */
-	      int *,                    /* integer flag for writing feffNNNN.json */
+	      int *,                    /* integer flag for writing feffNNNN.xdi */
 	      int *,                    /* integer flag for writing screen messages */
 	      /* path geometry */
 	      double (*)[legtot],       /* Ri   */

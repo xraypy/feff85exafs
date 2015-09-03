@@ -32,7 +32,7 @@ _EXPORT(int) create_path(FEFFPATH *path) {
   path->nleg      = 0;
   path->degen     = 1.0;
   path->nnnn      = false;
-  path->json      = false;
+  path->xdi       = false;
   path->verbose   = false;
   path->ipol      = false;
   path->elpty     = 0.0;
@@ -91,7 +91,7 @@ _EXPORT(int) create_path(FEFFPATH *path) {
 
 _EXPORT(void) clear_path(FEFFPATH *path) {
   /* Reinitialize a FEFFPATH struct, returning everything to default */
-  /* except phpad, verbose, nnnn, and json. */
+  /* except phpad, verbose, nnnn, xdi. */
   int i,j;
   /* char phpad[256] = {'\0'}; */
   /* sprintf(phpad, "%-256s", " "); */
@@ -101,7 +101,7 @@ _EXPORT(void) clear_path(FEFFPATH *path) {
   path->nleg      = 0;
   path->degen     = 1.0;
   /* path->nnnn       = 0; */
-  /* path->json       = 0; */
+  /* path->xdi        = 0; */
   /* path->verbose    = 0; */
   path->ipol      = 0;
   path->elpty     = 0.0;
@@ -176,7 +176,7 @@ _EXPORT(int) make_path(FEFFPATH *path) {
   double rs, vint, mu, edge, kf, rnrmav, gamach;
 
   /* onepath.f output */
-  int nnnn, json, verbose;
+  int nnnn, xdi, verbose;
 
   /* feffNNNN.dat columns */
   int ne;
@@ -215,7 +215,7 @@ _EXPORT(int) make_path(FEFFPATH *path) {
     xivec[i] = path->xivec[i];
   }
   nnnn    = path->nnnn;
-  json    = path->json;
+  xdi     = path->xdi;
   verbose = path->verbose;
 
   if ( (rat[1][0] == 0) && (rat[1][1] == 0) && (rat[1][2] == 0) ) {
@@ -255,7 +255,7 @@ _EXPORT(int) make_path(FEFFPATH *path) {
   onepath_(phpad, &index, &nleg, &degen, &iorder,
 	   exch, &rs, &vint, &mu, &edge, &kf, &rnrmav, &gamach,
 	   version, &ipot, &rat, &iz, &ipol, &evec, &elpty, &xivec,
-	   &nnnn, &json, &verbose, &ri, &beta, &eta,
+	   &nnnn, &xdi, &verbose, &ri, &beta, &eta,
 	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
   /* printf("after onepath_\n"); */
   /* fflush(stdout); */

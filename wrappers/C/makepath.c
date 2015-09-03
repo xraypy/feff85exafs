@@ -14,7 +14,7 @@ int main()
   /* strcpy(path->phpad, "../fortran/phase_orig.pad"); */
   strcpy(path->phpad, "phase.pad");
   path->nnnn    = 1;
-  path->json    = 0;
+  path->xdi     = 1;
   path->verbose = 1;
 
   /* first path in copper */

@@ -29,7 +29,7 @@ c     taken from the feff HEADERS/dim.h
       parameter (nex = 150, legtot = 9)
       double precision evec(3), xivec(3)
 
-	  integer iorder, innnn, ijson, ivrbse
+	  integer iorder, innnn, ixdi, ivrbse
 	  integer ipot(0:legtot), iz(0:nphx)
       double precision elpty, rat(3,0:legtot+1)
 
@@ -47,7 +47,7 @@ c     initialize everything
       deg     = 1.0
       iorder  = 2
       innnn   = 1 
-      ijson   = 0
+      ixdi    = 10
       ivrbse  = 1
       ipol    = 0 
       elpty   = 0.0
@@ -107,7 +107,7 @@ c                  leg   x	  y      z   ip  ipot and rat arrays
       call onepath(phpad, index, nleg, deg, iorder,
      &     cxc, rs, vint, xmu, edge, xkf, rnrmav, gamach,
      &     versn, ipot, rat, iz, ipol, evec, elpty, xivec,
-     &     innnn, ijson, ivrbse, ri, beta, eta,
+     &     innnn, ixdi, ivrbse, ri, beta, eta,
      &     ne,col1,col2,col3,col4,col5,col6,col7)
 
 c
@@ -126,7 +126,8 @@ c
 
 3. Setting `nnnn` and `verbose` to a true value tells the program to
    write `feffNNNN.dat` files and to write a short message to the
-   screen when it is written.
+   screen when it is written.  (Set `xdi` to true to get this file in
+   XDI format.
 
 4. The path index is set to 1.  This means the output file will be
    called `feff0001.dat`.
@@ -164,7 +165,7 @@ naming conventions in Feff.
 |  ipot      | integer(legtot)      | I   | unique potentials of atoms in path   |  use addatom     |
 |  iorder    | integer       | I   | order of approximation in genfmt        |  2                   |
 |  innnn     | integer       | I   | flag to write `feffNNNN.dat` file       |  0                   |
-|  ijson     | integer       | I   | flag to write `feffNNNN.json` file      |  0                   |
+|  ixdi      | integer       | I   | flag to write `feffNNNN.xdi` file       |  0                   |
 |  iverbose  | integer       | I   | flag to write screen messages           |  0                   |
 |  ipol      | integer       | I   | flag to do polarization calculation     |  0                   |
 |  evec      | double(3)     | I   | polarization vector                     |  (0,0,0)             |
