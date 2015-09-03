@@ -24,12 +24,12 @@
  11. [ ] SWIG-less python library /(Matt has started this)/
  12. [ ] _wrapper tests not currently working
 
-** libpotph library [0/6]
+** libpotph library [4/6]
 
- 1. [ ] get stand-along potph program to run all the way through
- 2. [ ] test that stand-alone works all the way through
- 3. [ ] turn it into a library with content of libpotph.json as it's input
- 4. [ ] write a C wrapper with the content of libpotph.json as its struct
+ 1. [X] get stand-along potph program to run all the way through
+ 2. [X] test that stand-alone works all the way through
+ 3. [X] turn it into a library with content of libpotph.json as it's input
+ 4. [X] write a C wrapper with the content of libpotph.json as its struct
  5. [ ] write a stand-alone feff.inp --> libpotph.json converter
  6. [ ] write a larch plugin which is a feff.inp --> struct wrapper
     converter, i.e. take a feff.inp as input and give a libpotph

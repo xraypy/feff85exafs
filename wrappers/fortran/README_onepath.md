@@ -47,7 +47,7 @@ c     initialize everything
       deg     = 1.0
       iorder  = 2
       innnn   = 1 
-      ixdi    = 10
+      ixdi    = 1
       ivrbse  = 1
       ipol    = 0 
       elpty   = 0.0
