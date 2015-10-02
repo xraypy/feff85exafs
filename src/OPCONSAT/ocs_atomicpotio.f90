@@ -261,13 +261,13 @@ CONTAINS
 
     character*80 title(nheadx)
 
-    CALL rdpot ( ntitle, title, rnrmav, xmu, vint, rhoint,             &
-         &                 emu, s02, erelax, wp, ecv,rs,xf, qtotel,          &
-         &                  imt, rmt, inrm, rnrm, folp, folpx, xnatph,       &
-         &                  dgc0, dpc0, dgc, dpc, adgc, adpc,                &
-         &                  edens, vclap, vtot, edenvl, vvalgs, dmag, xnval, &
-         &                  eorb, kappa, iorb, qnrm, xnmues, nohole, ihole,  &
-         &                  inters, totvol, iafolp, xion, iunf, iz, jumprm)
+    CALL rdpot ( ntitle, title, rnrmav, xmu, vint, rhoint, &
+         emu, s02, erelax, wp, ecv,rs,xf, qtotel,          &
+         imt, rmt, inrm, rnrm, folp, folpx, xnatph,        &
+         dgc0, dpc0, dgc, dpc, adgc, adpc,                 &
+         edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,  &
+         eorb, kappa, iorb, qnrm, xnmues, nohole, ihole,   &
+         inters, totvol, iafolp, xion, iunf, iz, jumprm)
   END SUBROUTINE ReadAtomicPots
 
   ! Hack for Fer's mt potentials
