@@ -6,6 +6,13 @@ SUBROUTINE AddEps(Files,NFiles,Weights,print_eps)
   USE IOMod
   USE IOFiles
   IMPLICIT NONE
+
+  integer ::  ihuge
+  double precision :: ten, huge, tiny, one
+  parameter(ihuge = 10)
+  parameter(one=1.d0, ten = 10.d0)
+  parameter(huge = ten**ihuge, tiny = one/huge)
+
   CHARACTER*(*) Files(NFiles)
   LOGICAL print_eps
   INTEGER NFiles, iFile, iData, NDataTot, iTot, iSort, iNew
@@ -61,7 +68,7 @@ SUBROUTINE AddEps(Files,NFiles,Weights,print_eps)
            IF( xTmp.LT.ETot(iSort) ) THEN
               ! Change iNew.
               iNew = iSort
-           ELSEIF (xTmp.EQ.ETot(iSort)) THEN
+           ELSEIF (abs(xTmp - ETot(iSort)) .lt. tiny) THEN ! was (xTmp .EQ. ETot(iSort))
               ! Don't keep this point.
               iTot = iTot -1
            ELSE
@@ -16387,7 +16394,8 @@ SUBROUTINE epsdb(iz,n)
      ELSE
         ! Find the number of points in this data set.
         DO i2 = 1, 1000
-           IF((epsData(i2,2,iz(i1)).EQ.0.d0).AND.(i2.GT.1)) EXIT
+           !IF((epsData(i2,2,iz(i1)).EQ.0.d0).AND.(i2.GT.1)) EXIT
+           IF ((abs(epsData(i2,2,iz(i1))).LT.tiny).AND.(i2.GT.1)) EXIT
         END DO
         CALL WriteArrayData(files(iz(i1)), Double1 = epsData(1:i2-1,1,iz(i1)), &
           & Double2 = epsData(1:i2-1,2,iz(i1)),  Double3 = epsData(1:i2-1,3,iz(i1)))

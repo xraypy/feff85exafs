@@ -5,7 +5,7 @@ MODULE opcons_inp
   USE dimsmod
   LOGICAL run_opcons, print_eps
   REAL(8) NumDens(0:nphx)
-  character(*),parameter,private :: filename='opcons.inp'		
+  character(*),parameter,private :: filename='opcons.inp'
 
 CONTAINS
   SUBROUTINE opcons_init
@@ -15,7 +15,7 @@ CONTAINS
   END SUBROUTINE opcons_init
 
   SUBROUTINE opcons_write
-    INTEGER iph
+    ! INTEGER iph
 
     OPEN(FILE=filename,UNIT=8,STATUS='REPLACE')
 
@@ -30,7 +30,7 @@ CONTAINS
   END SUBROUTINE opcons_write
 
   SUBROUTINE opcons_read
-    INTEGER iph
+    ! INTEGER iph
 
     OPEN(FILE=filename,UNIT=8,STATUS='OLD')
 

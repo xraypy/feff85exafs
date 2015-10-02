@@ -27,8 +27,8 @@ contains
     enddo
     close(3)
 10  format(a)
-20  format (20i4)
-30  format (9f13.5)
+    ! 20  format (20i4)
+    ! 30  format (9f13.5)
   end subroutine geometry_write_atoms
 
   subroutine geometry_init

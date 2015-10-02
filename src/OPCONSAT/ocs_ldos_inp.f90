@@ -58,8 +58,8 @@ contains
     neldos = 101
     rfms2 = -1 * 1.e0
     rdirec = -1 * 1.e0
-    toler1 = 1.d-3
-    toler2 = 1.d-3
+    toler1 = 1.e-3
+    toler2 = 1.e-3
     lmaxph(:) = 0
     save_g0 = .false.
     save_compton_info = .false.

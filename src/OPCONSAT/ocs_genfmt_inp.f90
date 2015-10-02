@@ -23,8 +23,8 @@ contains
     close(3)
     ! standard formats for string, integers and real numbers
 10  format(a)
-20  format (20i4)
-30  format (9f13.5)
+    ! 20  format (20i4)
+    ! 30  format (9f13.5)
   end subroutine genfmt_write
 
   subroutine genfmt_read

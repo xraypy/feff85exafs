@@ -13,10 +13,10 @@ module struct
   !    The space group
   integer sgroup  ! goes from 1 to 230
   !    The H-M name of the space group
-  character*8 sgroup_hm	  
+  character*8 sgroup_hm
   !    The Bravais lattice
   character*3 latticename ! can be P,F,H,R,B,CXZ,CYZ
-  !    Similar to the above; here we only want to know whether we're in the "primitive" lattice or a "conventional" lattice	  
+  !    Similar to the above; here we only want to know whether we're in the "primitive" lattice or a "conventional" lattice
   character*1 lattice  ! allowed values :  P,F,I,B,C
   !    The lattice constants
   real*8 alat(3),alfalat(3)
@@ -31,7 +31,7 @@ module struct
   !    Number of atoms per potential type
   integer,allocatable :: natom(:)
   !    Index of representative atom for a potential type in the list of the atom positions of the unit cell
-  integer,allocatable :: firstpos(:)	  
+  integer,allocatable :: firstpos(:)
   !    Positions of all atoms
   real*8, allocatable :: ppos(:,:)
   !    Potential type of each position
@@ -43,7 +43,7 @@ module struct
   !    Atom type for each potential
   character*2,allocatable :: label(:)
   !    Atomic number z for each potential
-  integer,allocatable :: izatom(:)	  
+  integer,allocatable :: izatom(:)
   !    Number of spin states
   integer nsp
   !    Volume of the unit cell :
@@ -82,11 +82,13 @@ contains
     natom=0
     ppot=-1
     lpot=-1
-    label(:)='     '
+    label(:)='  '
     if(absorber.lt.1.or.absorber.gt.n) absorber=1
-    if( (latticename.ne.'P  '.and.latticename.ne.'F  '.and.latticename.ne.'I  '.and.latticename.ne.'CXZ'.and.latticename.ne.'CYZ'.and.latticename.ne.'H  ' &
+    if( (latticename.ne.'P  '.and.latticename.ne.'F  '.and.latticename.ne.'I  '.and.latticename.ne.'CXZ' &
+         .and.latticename.ne.'CYZ'.and.latticename.ne.'H  ' &
          .and.latticename.ne.'R'.and.latticename.ne.'B  '.and.latticename.ne.'CXY')  .or.  &
-         (lattice.ne.'P'.and.lattice.ne.'F'.and.lattice.ne.'I'.and.lattice.ne.'C'.and.lattice.ne.'H'.and.lattice.ne.'R'.and.lattice.ne.'B')  ) then
+         (lattice.ne.'P'.and.lattice.ne.'F'.and.lattice.ne.'I'.and.lattice.ne.'C'.and.lattice.ne.'H' &
+         .and.lattice.ne.'R'.and.lattice.ne.'B')  ) then
        call wlog('Setting unknown lattice type '//latticename//' '//lattice//'  to P.')
        lattice='P'
        latticename='P  '

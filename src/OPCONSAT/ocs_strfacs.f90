@@ -31,7 +31,7 @@ contains
     !	   read(98,*,err=1010,end=1010) eimag
     !	   close(98)
     return
-1010 eimag=dble(0);return
+    eimag=dble(0);return
   end subroutine init_strfacs
 
   subroutine init_gk(n,j)

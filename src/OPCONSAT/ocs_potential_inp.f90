@@ -49,7 +49,7 @@ module potential_inp
 contains
 
   subroutine potential_write
-    integer ititle,ip,iph,iovr			
+    integer ititle,ip,iph,iovr
     open (file=filename, unit=3, status='unknown')
     write(3,10) 'mpot, nph, ntitle, ihole, ipr1, iafolp, ixc,ispec'
     write(3,20) mpot, nph, ntitle, ihole, ipr1, iafolp, ixc, ispec
@@ -82,7 +82,7 @@ contains
     write(3,10) 'ChSh_Type:'
     write(3,20) ChSh_Type
     write(3,10) 'ConfigType:'
-    write(3,20) configtype 
+    write(3,20) configtype
     close(3)
     ! standard formats for string, integers and real numbers
 10  format(a)
@@ -91,7 +91,7 @@ contains
   end subroutine potential_write
 
   subroutine potential_read
-    integer ititle,ip,iph,iovr	
+    integer ititle,ip,iph,iovr
     open (file=filename, unit=3, status='old')
     read(3,*) ; read(3,*) mpot, nph, ntitle, ihole, ipr1, iafolp, ixc, ispec
     read(3,*) ; read(3,*)  nmix, nohole, jumprm, inters, nscmt, icoul, lfms1, iunf
@@ -113,7 +113,7 @@ contains
     enddo
     !read(3,*) ; read(3,*) ChSh_Type
     !read(3,*,end=55) ; read(3,*,end=55) configtype
-55  continue
+    ! 55  continue
     close(3)
   end subroutine potential_read
 
@@ -138,7 +138,7 @@ contains
     lmaxsc(:) = 0
     rfms1 = -1 * 1.e0
     ca1 = 0.d0
-    ecv = -40*1.d0 
+    ecv = -40*1.d0
     rgrd = 0.05 * 1.d0
     totvol = 0.d0
     gamach = 0.d0 !initialized later by setgam

@@ -17,7 +17,7 @@ here = os.getcwd()
 ienv = InstallEnvironment()
 
 if env['FORTRAN'] == 'gfortran':
-    env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -J'+here,)
+    env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -fdiagnostics-color=auto -J'+here,)
     # -pedantic chokes on declaration of double complex in the horrific padio and elsewhere
 elif env['FORTRAN'] == 'ifort':
     env = Environment(F90FLAGS = '-O2 -warn -stand f08 -diag-disable 7601 -traceback -module '+here,)
@@ -46,9 +46,9 @@ bin_src = ['opconsat.f90']
 libs = ['libfeffopconsat.a',
 #        join('..', 'json-fortran', 'libjsonfortran.a'),
 #        join('..', 'DEBYE',  'libfeffdw.a'),
-#        join('..', 'COMMON', 'libfeffcom.a'),
-#        join('..', 'PAR',    'libfeffpar.a'),
-#        join('..', 'MATH',   'libfeffmath.a'),
+        join('..', 'COMMON', 'libfeffcom.a'),
+        join('..', 'PAR',    'libfeffpar.a'),
+        join('..', 'MATH',   'libfeffmath.a'),
 #        join('..', 'JSON',   'libfeffjson.a'),
     ]
 

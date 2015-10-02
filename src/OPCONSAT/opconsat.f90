@@ -5,28 +5,28 @@ PROGRAM opconsAt
   USE constants
   USE AtomicPotIO
   USE opcons_inp
-  use par 
+  use par
   use errorfile
   IMPLICIT NONE
-  INTEGER iph, iph2, NComps, iAt, iAt2, iX, iY, iZ2, nnn
+  INTEGER iph, NComps ! , nnn, iph2, iX, iY, iZ2, iAt, iAt2
   INTEGER, ALLOCATABLE :: izComp(:), nAtComp(:)
   CHARACTER(2), ALLOCATABLE :: Components(:)
   CHARACTER(12), ALLOCATABLE :: EpsFiles(:)
   CHARACTER(2),EXTERNAL :: GetElement
   REAL(8),ALLOCATABLE :: rnrm(:)
-  REAL(8) VTot, rNN, r, rCnt(3), point(3), x2, y2, z2, dX
-  REAL(8),PARAMETER :: RTol  = (3.d0)**2
-  INTEGER,PARAMETER :: NGrid = 200
+  REAL(8) VTot ! , rNN, r, rCnt(3), point(3), x2, y2, z2, dX
+  ! REAL(8),PARAMETER :: RTol  = (3.d0)**2
+  ! INTEGER,PARAMETER :: NGrid = 200
 
   !KJ 1-2012:
   call par_begin
   if (worker) go to 400
-  call OpenErrorfileAtLaunch('opconsat')	
+  call OpenErrorfileAtLaunch('opconsat')
 
   !CALL opcons_read
-  !IF(.NOT.run_opcons) STOP 
+  !IF(.NOT.run_opcons) STOP
   !if (.not. run_opcons) goto 400
-  CALL opcons_init  
+  CALL opcons_init
 
   CALL atoms_read
   CALL potential_read
@@ -75,3 +75,83 @@ PROGRAM opconsAt
 
 
 END PROGRAM opconsAt
+
+
+      SUBROUTINE BWORDS_NC (S, NWORDS, WORDS)
+!
+!     Breaks string into words.  Words are seperated by one or more
+!     blanks or tabs.
+!
+!     ARGS        I/O      DESCRIPTION
+!     ----        ---      -----------
+!     S            I       CHAR*(*)  String to be broken up
+!     NWORDS      I/O      Input:  Maximum number of words to get
+!                          Output: Number of words found
+!     WORDS(NWORDS) O      CHAR*(*) WORDS(NWORDS)
+!                          Contains words found.  WORDS(J), where J is
+!                          greater than NWORDS found, are undefined on
+!                          output.
+!
+!      Written by:  Steven Zabinsky, September 1984
+!      Tab char added July 1994.
+!
+!**************************  Deo Soli Gloria  **************************
+
+!  -- No floating point numbers in this routine.
+      IMPLICIT INTEGER (A-Z)
+
+      CHARACTER*(*) S, WORDS(NWORDS)
+
+      CHARACTER BLANK, TAB
+      PARAMETER (BLANK = ' ', TAB = '	')
+!     there is a tab character here               ^.
+
+!  -- BETW    .TRUE. if between words
+!     COMFND  .TRUE. if between words and a comma has already been found
+      LOGICAL BETW, COMFND
+
+!  -- Maximum number of words allowed
+      WORDSX = NWORDS
+
+!  -- SLEN is last non-blank character in string
+      SLEN = ISTRLN (S)
+
+!  -- All blank string is special case
+      IF (SLEN .EQ. 0)  THEN
+         NWORDS = 0
+         RETURN
+      ENDIF
+
+!  -- BEGC is beginning character of a word
+      BEGC = 1
+      NWORDS = 0
+
+      BETW   = .TRUE.
+      COMFND = .TRUE.
+
+      DO 10  I = 1, SLEN
+         IF (S(I:I) .EQ. BLANK .OR. S(I:I) .EQ. TAB)  THEN
+            IF (.NOT. BETW)  THEN
+               NWORDS = NWORDS + 1
+               WORDS (NWORDS) = S (BEGC : I-1)
+               BETW = .TRUE.
+               COMFND = .FALSE.
+            ENDIF
+         ELSE
+            IF (BETW)  THEN
+               BETW = .FALSE.
+               BEGC = I
+            ENDIF
+         ENDIF
+
+         IF (NWORDS .GE. WORDSX)  RETURN
+
+   10 CONTINUE
+
+      IF (.NOT. BETW  .AND.  NWORDS .LT. WORDSX)  THEN
+         NWORDS = NWORDS + 1
+         WORDS (NWORDS) = S (BEGC :SLEN)
+      ENDIF
+ 
+      RETURN
+      END

@@ -22,7 +22,7 @@ contains
     implicit none
     character*512 slog
     character*80 head(nheadx)
-    integer lhead(nheadx),j,j1,nhead
+    integer lhead(nheadx),j1,nhead ! ,j
     real*8 rdum1(3)
     integer idum1,idum2
     open (file=filename, unit=3, status='old')

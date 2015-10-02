@@ -57,7 +57,7 @@ contains
 2341 continue
     fullpot=(sprkkrpot.eq.1)
     gglu_save_slice = .false. ! BAM - save slice of g with n=0 in gglu
-    return	          	
+    return
   end subroutine init_controls
 
 end module controls

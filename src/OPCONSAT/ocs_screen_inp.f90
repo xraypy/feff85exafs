@@ -3,7 +3,7 @@
 !=======================================================================
 
 module screen_inp
-  use atoms_inp,only: nph		
+  use atoms_inp,only: nph
   implicit none
 
   TYPE ScreenInputVars
@@ -39,17 +39,17 @@ contains
     character*3,intent(in) :: str
     real*8,intent(in) ::  vars
     if (str .eq. 'ner') then
-       ScreenI%ner   = vars
+       ScreenI%ner   = int(vars)
     elseif (str .eq. 'nei') then
-       ScreenI%nei   = vars
+       ScreenI%nei   = int(vars)
     elseif (str .eq. 'max') then
-       ScreenI%maxl  = vars
+       ScreenI%maxl  = int(vars)
     elseif (str .eq. 'irr') then
-       ScreenI%irrh  = vars
+       ScreenI%irrh  = int(vars)
     elseif (str .eq. 'ien') then
-       ScreenI%iend  = vars
+       ScreenI%iend  = int(vars)
     elseif (str .eq. 'lfx') then
-       ScreenI%lfxc  = vars
+       ScreenI%lfxc  = int(vars)
     elseif (str .eq. 'emi') then
        ScreenI%emin  = vars
     elseif (str .eq. 'ema') then
@@ -61,8 +61,8 @@ contains
     elseif (str .eq. 'rfm') then
        ScreenI%rfms  = vars
     elseif (str .eq. 'nrp')then
-       ScreenI%nrptx0  = vars
-    else 
+       ScreenI%nrptx0  = int(vars)
+    else
        call wlog("Unrecognized keyword submitted to screen.inp in SCREEN_INP_PARSE ; aborting.")
        stop
     endif
@@ -76,22 +76,22 @@ contains
     real*8,intent(in) ::  vars
     open(unit=3,file=filename,status='unknown',access='append')
     if (str .eq. 'ner') then
-       ScreenI%ner   = vars
+       ScreenI%ner   = int(vars)
        write(3,*) 'ner',ScreenI%ner
     elseif (str .eq. 'nei') then
-       ScreenI%nei   = vars
+       ScreenI%nei   = int(vars)
        write(3,*) 'nei',ScreenI%nei
     elseif (str .eq. 'max') then
-       ScreenI%maxl  = vars
+       ScreenI%maxl  = int(vars)
        write(3,*) 'maxl',ScreenI%maxl
     elseif (str .eq. 'irr') then
-       ScreenI%irrh  = vars
+       ScreenI%irrh  = int(vars)
        write(3,*) 'irrh',ScreenI%irrh
     elseif (str .eq. 'ien') then
-       ScreenI%iend  = vars
+       ScreenI%iend  = int(vars)
        write(3,*) 'iend',ScreenI%iend
     elseif (str .eq. 'lfx') then
-       ScreenI%lfxc  = vars
+       ScreenI%lfxc  = int(vars)
        write(3,*) 'lfxc',ScreenI%lfxc
     elseif (str .eq. 'emi') then
        ScreenI%emin  = vars
@@ -109,9 +109,9 @@ contains
        ScreenI%rfms  = vars
        write(3,*) 'rfms',ScreenI%rfms
     elseif (str .eq. 'nrp')then
-       ScreenI%nrptx0  = vars
+       ScreenI%nrptx0  = int(vars)
        write(3,*) 'nrptx0',ScreenI%nrptx0
-    else 
+    else
        call wlog("Unrecognized keyword submitted to screen.inp ; aborting.")
        stop
     endif

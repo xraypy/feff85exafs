@@ -140,7 +140,7 @@ CONTAINS
     CALL Write2D('apot.bin', vcoul, Headers = Headers, FileType = FileType)
 
     ! Write xnvmu.
-    Headers(1) = 'xnvmu(0:lx,0:nphx+1) - number of valence electron within norman sphere for each channel (?)'
+    Headers(1) = 'xnvmu(0:lx,0:nphx+1) - number of val. el, w/in norman sphere for each channel'
     CALL Write2D('apot.bin', xnvmu, Headers = Headers, FileType = FileType)
 
     ! Write xnval.
@@ -177,7 +177,7 @@ CONTAINS
     CALL Write2D('apot.bin', kappa, Headers = Headers, FileType = FileType)
 
     ! Write iorb.
-    Headers(1) = 'iorb(-4:3,0:nphx+1) - last occupied orbital of a particular kappa or zero if none.'
+    Headers(1) = 'iorb(-4:3,0:nphx+1) - last occupied orbital of a particular kappa or 0 if none.'
     CALL Write2D('apot.bin', iorb, Headers = Headers, FileType = FileType)
 
     ! Write dgc.
@@ -217,7 +217,7 @@ CONTAINS
     ! Write adgc.
     DO iph = 1, SIZE(adgc,3)
        IF(iph.eq.1) THEN
-          Headers(1) = 'adgc(r,30,nph) - upper development coeficients for each obital and unique potential.'            
+          Headers(1) = 'adgc(r,30,nph) - upper devel. coeficients for each obital and unique potential.'
           WRITE(Headers(2),'(A,I10,A)') 'adgc(r,norb,', iph, ')'
        ELSE
           WRITE(Headers(1),'(A,I10,A)') 'adgc(r,norb,', iph, ')'
@@ -226,11 +226,11 @@ CONTAINS
     END DO
 
     ! Write adpc.
-    Headers(1) = 'adpc(r,30,nph) - lower development coeficients for each obital and unique potential.'
+    Headers(1) = 'adpc(r,30,nph) - lower devel. coeficients for each obital and unique potential.'
     CALL WriteData('apot.bin',Headers = Headers)
     DO iph = 1, SIZE(adpc,3)
        IF(iph.eq.1) THEN
-          Headers(1) = 'adpc(r,30,nph) - lower development coeficients for each obital and unique potential.'
+          Headers(1) = 'adpc(r,30,nph) - lower devel. coeficients for each obital and unique potential.'
           WRITE(Headers(2),'(A,I10,A)') 'adpc(r,norb,', iph, ')'
        ELSE
           WRITE(Headers(1),'(A,I10,A)') 'adpc(r,norb,', iph, ')'
@@ -332,10 +332,10 @@ CONTAINS
     USE Mtdp
     USE IOFiles
 
-    DOUBLE PRECISION vtot(:,:), vint, edens(:,:), rhoint, rat(:,:), xmu, rmt(:), RadialGrid(251), vTmp, xNElOut
+    DOUBLE PRECISION vtot(:,:), vint, edens(:,:), rhoint, rat(:,:), xmu, rmt(:) ! , RadialGrid(251), vTmp , xNElOut
     DOUBLE PRECISION :: rmt2(SIZE(rmt)), vtot2(SIZE(vtot,1),SIZE(vtot,2)), edens2(SIZE(edens,1),SIZE(edens,2)) 
-    INTEGER nat, NRPts, i1, i2, imt(:), ncoord, iError, iSort(200), iunit
-    INTEGER :: iz(SIZE(imt)), imt2(SIZE(imt))
+    INTEGER nat, NRPts, i1, i2, imt(:), ncoord, iSort(200), iunit ! , iError
+    INTEGER :: imt2(SIZE(imt)) ! , iz(SIZE(imt))
     CHARACTER(30) PotFile, SortFile, mtdpFile
     TYPE(Mtdp_Data_Type) :: Mtdp_Data
     ncoord = 3

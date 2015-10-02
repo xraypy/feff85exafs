@@ -94,7 +94,8 @@ CONTAINS
     ! notes:
     !   real number converted to packed-ascii-data string using pad
 
-    integer    iout, npack, npts, mxl, js, i
+    !integer    iout, npts, i
+    integer npack, mxl, js
     character*(*) :: strval
     character  str*128
     double precision val, xr
@@ -118,7 +119,7 @@ CONTAINS
     js = 0
     
     return
-100 format(a1,a)
+    ! 100 format(a1,a)
   end subroutine wrpaddsc
 
 !   subroutine wrpadd(iout,npack,array,npts)
@@ -155,7 +156,8 @@ CONTAINS
   subroutine wrpadxsc(strval,npack,val)
     ! write complex*16 scalar as pad string
     character*(*) strval
-    integer    iout, npack, mxl, js, i
+    !integer    iout, i
+    integer    npack, mxl, js
     complex*16 val
     character  str1*128, str2*128
     double precision xr, xi
@@ -186,7 +188,7 @@ CONTAINS
     
     
     return
-100 format(a1,a)
+    ! 100 format(a1,a)
   end subroutine wrpadxsc
 
 !   subroutine wrpadx(iout,npack,array,npts)
@@ -227,7 +229,8 @@ CONTAINS
     ! notes:
     !   real number converted to packed-ascii-data string using pad
     character*(*) strval
-    integer    iout, npack, mxl, js, i
+    !integer    iout, i
+    integer    npack, mxl, js
     character  str*128
     real    val
     double precision xr
@@ -248,7 +251,7 @@ CONTAINS
     js = 0
 
     return
-100 format(a1,a)
+    ! 100 format(a1,a)
   end subroutine wrpadrsc
 
 !   subroutine wrpadr(iout,npack,array,npts)
@@ -287,7 +290,8 @@ CONTAINS
   subroutine wrpadcsc(strval,npack,val)
     ! write complex (*8) scalar as pad string
     character*(*) strval
-    integer    iout, npack, mxl, js, i
+    ! integer    iout, i
+    integer    npack, mxl, js
     complex    val
     character  str1*128, str2*128
     double precision xr, xi
@@ -315,7 +319,7 @@ CONTAINS
     js = 0
     
     return
-100 format(a1,a)
+    ! 100 format(a1,a)
   end subroutine wrpadcsc
   ! --padlib--
 !   subroutine wrpadc(iout,npack,array,npts)
@@ -344,7 +348,8 @@ CONTAINS
   ! --padlib--
   subroutine wrpadisc(strval,val)
     character*(*) strval
-    integer iou, iabs, val, imin, n, irem, iend
+    ! integer iou, imin
+    integer iabs, val, n, irem, iend
     character sign
     
     strval = ' '
@@ -384,7 +389,7 @@ CONTAINS
 !  end subroutine wrpadi    
 
   subroutine wrpadssc(strval,val)    
-    integer iou
+    ! integer iou
     character*(*) val, strval
 
     ! This is a string. Just write it.
@@ -410,9 +415,11 @@ CONTAINS
     ! notes:
     !   packed-ascii-data string converted to real array using  unpad
 
-    integer iou, npack, ndline, i, istrln, ipts, np
+    ! integer iou
+    integer npack, ndline, i, istrln, ipts, np
     double precision    val, tmp
-    character  ctest, ccomp
+    ! character ctest
+    character ccomp
     character*(*)  str
     external  istrln
     ccomp = cpadr
@@ -487,10 +494,12 @@ CONTAINS
     ! notes:
     !   packed-ascii-data string converted to real array using  unpad
 
-    integer iou, npack, ndline, i, istrln, ipts, np
+    !integer iou
+    integer npack, ndline, i, istrln, ipts, np
     real    val
     double precision tmp
-    character  ctest, ccomp
+    ! character ctest
+    character ccomp
     character*(*)  str
     external  istrln
     ccomp = cpadr
@@ -568,10 +577,12 @@ CONTAINS
     ! notes:
     !   packed-ascii-data string converted to real array using  unpad
 
-    integer iou, npack,npts, ndline, i, istrln, ipts, np
+    ! integer iou, npts
+    integer npack, ndline, i, istrln, ipts, np
     double precision  tmpr, tmpi
     complex  val
-    character  ctest, ccomp
+    ! character ctest
+    character ccomp
     character*(*)  str
     external  istrln
     ccomp = cpadc
@@ -588,7 +599,7 @@ CONTAINS
     
     tmpr = unpadx(str(1:npack),npack)
     tmpi = unpadx(str(npack+1:2*npack),npack)
-    val = cmplx(tmpr, tmpi)
+    val = cmplx(real(tmpr), real(tmpi))
     
 50  continue 
     return
@@ -652,10 +663,12 @@ CONTAINS
     ! notes:
     !   packed-ascii-data string converted to real array using  unpad
 
-    integer iou, npack,npts, ndline, i, istrln, ipts, np
+    ! integer iou, npts
+    integer npack, ndline, i, istrln, ipts, np
     double precision  tmpr, tmpi
     complex*16  val
-    character  ctest, ccomp
+    ! character ctest
+    character  ccomp
     character*(*)  str
     external  istrln
     ccomp = cpadc
@@ -672,7 +685,7 @@ CONTAINS
 
     tmpr = unpadx(str(1:npack),npack)
     tmpi = unpadx(str(npack+1:2*npack),npack)
-    val = cmplx(tmpr, tmpi)
+    val = dcmplx(tmpr, tmpi)
 
 50  continue 
     return
@@ -727,7 +740,8 @@ CONTAINS
 !   end subroutine rdpadx
 
   subroutine rdpadisc(strval,val)
-    integer iou, iabs, val, imin, n, irem, iend, ic, sign
+    ! integer iou, imin, irem
+    integer iabs, val, n, iend, ic, sign
     character*(*) strval
     character str*128
     character c
@@ -765,8 +779,9 @@ CONTAINS
     !  convert dp number *xreal* to packed-ascii-data string *str*
 
     integer  iexp, itmp, isgn, i, npack, j
-    double precision xreal, xwork, xsave,onem, tenth
-    parameter (onem  =  0.99999999997d0)
+    ! double precision onem
+    double precision xreal, xwork, xsave, tenth
+    !parameter (onem  =  0.99999999997d0)
     parameter (tenth =  0.099999999994d0)
     character str*(*)
     !

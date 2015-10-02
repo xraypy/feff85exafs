@@ -14,9 +14,10 @@ MODULE IOMod
 
   INTEGER,PRIVATE :: npadxDefault, npadrDefault, MaxStrLen, iFileTypeDefault
   PARAMETER(npadxDefault = 8, npadrDefault = 8, MaxStrLen = 80, iFileTypeDefault = 1)
-  LOGICAL,PRIVATE,SAVE :: WriteDataDescription(100)
+  ! LOGICAL,PRIVATE,SAVE :: WriteDataDescription(100)
   CHARACTER(30),PRIVATE :: DefaultFileStatus, DefaultFilePosition, &
-       & DefaultFileAction, DefaultCommentCharacters
+       & DefaultFileAction
+  CHARACTER(10),PRIVATE :: DefaultCommentCharacters
   PARAMETER(DefaultFileStatus = 'UNKNOWN', DefaultFilePosition = 'REWIND')
   PARAMETER(DefaultFileAction = 'READWRITE', DefaultCommentCharacters = '#!cC')
 
@@ -109,7 +110,7 @@ CONTAINS
   ! and deleted from the filestack.
   SUBROUTINE CloseFl(FileName)
     CHARACTER*(*),INTENT(IN) :: FileName
-    CHARACTER(10) FileAction, TmpStr
+    CHARACTER(10) TmpStr ! , FileAction
     INTEGER iUnit, iUnits(100), NFiles, i1
 
     TmpStr = TRIM(ADJUSTL(FileName))
@@ -696,7 +697,7 @@ CONTAINS
       INTEGER,INTENT(IN) :: iArg
       CHARACTER*(*) DTL
       CHARACTER(2) ArgNum
-      INTEGER iAllocateError
+      ! INTEGER iAllocateError
       ArgNum=''
       WRITE(ArgNum,'(I2)') iArg
 
@@ -823,7 +824,7 @@ CONTAINS
     ! NumArgs - Number of data arguments passed
     ! iArg    - The current argument.
     ! iUnit   - unit number associated with FileName
-    INTEGER NumArgs, iArg, iUnit
+    INTEGER NumArgs, iUnit ! , iArg
     ! IsPresent  - If IsPresent(i) is true then the ith argument has already been defined.
     ! HeaderData - If true, interpret lines beginning with #HD# as data.
     ! txt, pad  - These are here in anticipation of enabling various formats,
@@ -833,7 +834,7 @@ CONTAINS
     LOGICAL IsPresent(10), HeaderData, txt, pad, ExpNewSect
     ! DataArray - Array of strings to hold the data. Data line is split into words contained 
     !             in DataArray, then the arguments are read from DataArray(iArg)
-    CHARACTER(MaxStrLen) DataArray(10)
+    ! CHARACTER(MaxStrLen) DataArray(10)
     ! DataTypeLine - The data type line lists the types of data that have been specified
     !                in the file on a line beginning with #DT#. The arguments specified by
     !                the user will be checked against the types defined in the file.
@@ -851,7 +852,7 @@ CONTAINS
     ! NDataTypes - number of data types specified on the data type line in the file.
     ! NFields - number of columns in the current line.
     ! iField - current column.
-    INTEGER i1, NSections, NDataTypes, NFields, iField
+    INTEGER NSections, NDataTypes, NFields, iField ! , i1
 
     ! Initialization
     HeaderData   = .FALSE.
@@ -946,7 +947,7 @@ CONTAINS
     ! break the rest of the line.
     IF(Line(1:4).eq.'#HD#') Line = Line(5:LEN(Line))
     NFields = 20
-    CALL bwords2(Line,NFields, Args)
+    CALL bwords_nc(Line,NFields, Args)
 
 
     ! Find the 1st argument.
@@ -1198,7 +1199,7 @@ CONTAINS
       INTEGER,INTENT(IN) :: iArg
       CHARACTER*(*) DTL
       CHARACTER(2) ArgNum
-      INTEGER iAllocateError
+      ! INTEGER iAllocateError
       ArgNum=''
       WRITE(ArgNum,'(I2)') iArg
 
@@ -1291,13 +1292,12 @@ CONTAINS
     INTEGER,INTENT(IN),OPTIONAL :: SectionNumber
     INTEGER,INTENT(OUT),OPTIONAL :: NumElements
 
-    INTEGER NumArgs, iArg, iUnit, NumData, NColumnLabels
+    INTEGER NumArgs, iUnit, NumData, NColumnLabels ! , iArg
     LOGICAL IsPresent(10), HeaderData, txt, pad, ExactLen
     CHARACTER(MaxStrLen),ALLOCATABLE :: DataArray(:,:)
     CHARACTER(120) DataTypeLine
     CHARACTER(20) DataTypes(10)
-    CHARACTER(20) IntFormat, RealFormat, DoubleFormat, ComplexFormat, &
-         & DComplexFormat, StringFormat, FileAction
+    CHARACTER(20) FileAction ! , ComplexFormat, DComplexFormat, DoubleFormat, IntFormat, RealFormat, StringFormat
     CHARACTER(80) Args(20)
     CHARACTER(10) CLFormats(30), CmtChars
     CHARACTER(1000) Line
@@ -1398,7 +1398,7 @@ CONTAINS
        ! If this is header data, remove the #HD# marker.
        IF(Line(1:4).eq.'#HD#') Line = Line(5:LEN(Line))
        ! Split line into words and copy to DataArray.
-       CALL bwords2(Line,NFields,Args)
+       CALL bwords_nc(Line,NFields,Args)
        DO iField = 1, NFields
           DataArray(i1,iField) = Args(iField)
        END DO
@@ -1513,7 +1513,7 @@ CONTAINS
     SUBROUTINE GetArrayArgInt(Arg, iArg)
       INTEGER,INTENT(OUT) :: Arg(:)
       INTEGER,INTENT(IN) :: iArg
-      INTEGER iData
+      ! INTEGER iData
 
       ! Check for errors, increment number of args,
       ! set numdata if this is the first argument, and write data to string
@@ -1682,7 +1682,7 @@ CONTAINS
       INTEGER,INTENT(IN) :: iArg
       CHARACTER*(*) DTL
       CHARACTER(2) ArgNum
-      INTEGER iAllocateError
+      ! INTEGER iAllocateError
       ArgNum=''
       WRITE(ArgNum,'(I2)') iArg
 
@@ -2302,7 +2302,7 @@ CONTAINS
     LOGICAL,INTENT(IN),OPTIONAL :: WriteDataInHeader
 
     INTEGER iUnit, N1, N2, i1, i2, iError, NSections, iFlType
-    CHARACTER(100) RealFormat, IntFormat, DataStr
+    CHARACTER(100) RealFormat, DataStr ! , IntFormat
     CHARACTER(4) FlType
     LOGICAL HeaderData
 
@@ -2381,7 +2381,7 @@ CONTAINS
     LOGICAL,INTENT(IN),OPTIONAL :: WriteDataInHeader
 
     INTEGER iUnit, N1, N2, i1, i2, iError, NSections, iFlType
-    CHARACTER(100) DoubleFormat, IntFormat, DataStr
+    CHARACTER(100) DoubleFormat, DataStr ! , IntFormat
     CHARACTER(4) FlType
     LOGICAL HeaderData
 
@@ -2461,7 +2461,7 @@ CONTAINS
     LOGICAL,INTENT(IN),OPTIONAL :: WriteDataInHeader
 
     INTEGER iUnit, N1, N2, i1, i2, iError, NSections, iFlType
-    CHARACTER(100) ComplexFormat, IntFormat, DataStr
+    CHARACTER(100) ComplexFormat, DataStr ! , IntFormat
     CHARACTER(4) FlType
     LOGICAL HeaderData
 
@@ -2623,13 +2623,13 @@ CONTAINS
 
     INTEGER iUnit, N1, N2, i1, i2, iError, NSections
     CHARACTER(100) StringFormat
-    CHARACTER(4) FlType
+    ! CHARACTER(4) FlType
     INTEGER iFlType
     LOGICAL HeaderData
 
     ! Define file types.
-    INTEGER itxt, ipad
-    PARAMETER(itxt = 1, ipad = 2)
+    INTEGER itxt ! , ipad
+    PARAMETER(itxt = 1) ! , ipad = 2)
 
     iFlType = 1
     HeaderData = .FALSE.
@@ -2719,7 +2719,7 @@ CONTAINS
     ! EOF/EOR      - True if end of file/record has been reached
     ! IsHead       - True if a comment character has been found at beginning of line.
     INTEGER iUnit, iError, NSections, iFlType, NE1, NE2, Length
-    CHARACTER(100) IntFormat, CmtChars, DataTypeLine
+    CHARACTER(100) IntFormat, CmtChars ! , DataTypeLine
     CHARACTER(40) DataStr
     CHARACTER(4) FlType
     LOGICAL EOF, EOR, IsHeader, HeaderData
@@ -2882,7 +2882,7 @@ CONTAINS
     ! EOF/EOR      - True if end of file/record has been reached
     ! IsHead       - True if a comment character has been found at beginning of line.
     INTEGER iUnit, iError, NSections, iFlType, NE1, NE2, Length
-    CHARACTER(100) RealFormat, CmtChars, DataTypeLine
+    CHARACTER(100) RealFormat, CmtChars ! , DataTypeLine
     CHARACTER(40) DataStr
     CHARACTER(4) FlType
     LOGICAL EOF, EOR, IsHeader, HeaderData
@@ -3045,7 +3045,7 @@ CONTAINS
     ! EOF/EOR      - True if end of file/record has been reached
     ! IsHead       - True if a comment character has been found at beginning of line.
     INTEGER iUnit, iError, NSections, iFlType, NE1, NE2, Length
-    CHARACTER(100) DoubleFormat, CmtChars, DataTypeLine
+    CHARACTER(100) DoubleFormat, CmtChars ! , DataTypeLine
     CHARACTER(40) DataStr
     CHARACTER(200) line
     CHARACTER(4) FlType
@@ -3218,7 +3218,7 @@ CONTAINS
     ! IsHead       - True if a comment character has been found at beginning of line.
     REAL ReData, ImData
     INTEGER iUnit, iError, NSections, iFlType, NE1, NE2, ReLength, ImLength
-    CHARACTER(100) ComplexFormat, CmtChars, DataTypeLine
+    CHARACTER(100) ComplexFormat, CmtChars ! , DataTypeLine
     CHARACTER(40) ReDataStr, ImDataStr
     CHARACTER(4) FlType
     LOGICAL EOF, EOR, IsHeader, HeaderData
@@ -3364,10 +3364,10 @@ CONTAINS
     INTEGER,INTENT(IN),OPTIONAL :: SectionNumber
     LOGICAL,INTENT(IN),OPTIONAL :: ReadDataFromHeader
 
-    INTEGER iUnit, i1, i2, iError, NSections, iFlType, NWords, NE1, NE2, Length
-    CHARACTER(100) DComplexFormat, CmtChars, DataTypeLine
+    INTEGER iUnit, i1, i2, iError, NSections, iFlType, NE1, NE2, Length ! , NWords
+    CHARACTER(100) DComplexFormat, CmtChars ! , DataTypeLine
     CHARACTER(100) ReDataStr, ImDataStr
-    CHARACTER(20) Words(20)
+    ! CHARACTER(20) Words(20)
     CHARACTER(4) FlType
     LOGICAL EOF, EOR, IsHeader, HeaderData
     DOUBLE PRECISION ReArg, ImArg
@@ -3451,7 +3451,7 @@ CONTAINS
        NE2 = NE2 + 1
     END DO
     EOF = .FALSE.
-5   CONTINUE
+    ! 5   CONTINUE
 
     ! Increment the section number
     CALL SetIOFileInfo(FileName, NSections = NSections + 1)
@@ -3468,10 +3468,10 @@ CONTAINS
     INTEGER,INTENT(IN),OPTIONAL :: SectionNumber
     LOGICAL,INTENT(IN),OPTIONAL :: ReadDataFromHeader
 
-    INTEGER iUnit, i1, i2, iError, NSections, iFlType, NWords, NE1, NE2, Length
-    CHARACTER(100) StringFormat, CmtChars, DataTypeLine
+    INTEGER iUnit, i1, i2, NSections, iFlType, NE1, NE2, Length ! , iError, NWords
+    CHARACTER(100) StringFormat, CmtChars ! , DataTypeLine
     CHARACTER(MaxStrLen) DataStr
-    CHARACTER(20) Words(20)
+    ! CHARACTER(20) Words(20)
     CHARACTER(4) FlType
     LOGICAL EOF, EOR, IsHeader, HeaderData
 
@@ -3543,7 +3543,7 @@ CONTAINS
        IF(EOF) EXIT
        NE2 = NE2 + 1
     END DO
-10  CONTINUE
+    ! 10  CONTINUE
 
     ! Increment the section number
     CALL SetIOFileInfo(FileName, NSections = NSections + 1)
@@ -3783,7 +3783,7 @@ CONTAINS
     CHARACTER*(*),INTENT(OUT) :: Word
     LOGICAL,INTENT(OUT) :: EOR, EOF, IsHeader
     CHARACTER c
-    CHARACTER(200) line
+    ! CHARACTER(200) line
     INTEGER i1, clen
 
     EOR = .FALSE.
@@ -3902,7 +3902,7 @@ CONTAINS
 
   INTEGER Function NumberOfLines(FileName)
     CHARACTER*(*) FileName
-    INTEGER iUnit, i1
+    INTEGER iUnit ! , i1
     CHARACTER c
     CHARACTER(200) Line
     ! Find the number of lines that contain data
