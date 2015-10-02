@@ -70,7 +70,8 @@ src/RDINP/rdinp
 src/FF2X/ff2x
 src/GENFMT/FeffPathWrapper.pm
 src/GENFMT/feffpath_wrap.c
-
+src/OPCONSAT/opconsat
+src/OPCONSAT/eps2exc
 
 doc/feff8.aux
 doc/feff8.log
