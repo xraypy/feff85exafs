@@ -1,20 +1,20 @@
-PROGRAM opconsAt
-  USE atoms_inp
-  USE potential_inp
-  USE geometry_inp
-  USE constants
-  USE AtomicPotIO
-  USE opcons_inp
+program opconsAt
+  use atoms_inp
+  use potential_inp
+  use geometry_inp
+  use constants
+  use AtomicPotIO
+  use opcons_inp
   use par
   use errorfile
-  IMPLICIT NONE
-  INTEGER iph, NComps ! , nnn, iph2, iX, iY, iZ2, iAt, iAt2
-  INTEGER, ALLOCATABLE :: izComp(:), nAtComp(:)
-  CHARACTER(2), ALLOCATABLE :: Components(:)
-  CHARACTER(12), ALLOCATABLE :: EpsFiles(:)
-  CHARACTER(2),EXTERNAL :: GetElement
-  REAL(8),ALLOCATABLE :: rnrm(:)
-  REAL(8) VTot ! , rNN, r, rCnt(3), point(3), x2, y2, z2, dX
+  implicit none
+  integer iph, NComps ! , nnn, iph2, iX, iY, iZ2, iAt, iAt2
+  integer, allocatable :: izComp(:), nAtComp(:)
+  character(2), allocatable :: Components(:)
+  character(12), allocatable :: EpsFiles(:)
+  character(2),external :: GetElement
+  real(8),allocatable :: rnrm(:)
+  real(8) VTot ! , rNN, r, rCnt(3), point(3), x2, y2, z2, dX
   ! REAL(8),PARAMETER :: RTol  = (3.d0)**2
   ! INTEGER,PARAMETER :: NGrid = 200
 
@@ -26,46 +26,46 @@ PROGRAM opconsAt
   !CALL opcons_read
   !IF(.NOT.run_opcons) STOP
   !if (.not. run_opcons) goto 400
-  CALL opcons_init
+  call opcons_init
 
-  CALL atoms_read
-  CALL potential_read
+  call atoms_read
+  call potential_read
 
-  ALLOCATE(izComp(0:nph), Components(0:nph), nAtComp(0:nph), EpsFiles(0:nph), rnrm(0:nph))
+  allocate(izComp(0:nph), Components(0:nph), nAtComp(0:nph), EpsFiles(0:nph), rnrm(0:nph))
 
-  CALL ReadAtomicPots(nph, rnrm)
-  PRINT*, 'nph, rnrm', nph, rnrm
+  call ReadAtomicPots(nph, rnrm)
+  print*, 'nph, rnrm', nph, rnrm
 
   ! Find the number density of each component.
   VTot = 0.d0
-  DO iph = 0, nph
+  do iph = 0, nph
      VTot = VTot + xnatph(iph)*4.d0/3.d0*pi*(rnrm(iph)*bohr)**3
-  END DO
+  end do
 
-  DO iph = 0, nph
-     IF(NumDens(iph).lt.0.d0) NumDens(iph) = xnatph(iph)/VTot
+  do iph = 0, nph
+     if(NumDens(iph).lt.0.d0) NumDens(iph) = xnatph(iph)/VTot
      ! test with numDens = 1. Should give same loss as input file for a single file.
-     IF(.FALSE.) THEN
-        IF(iph.ne.0) THEN
+     if(.false.) then
+        if(iph.ne.0) then
            NumDens(iph) = 1.d0
-        ELSE
+        else
            NumDens(iph) = 0.d0
-        END IF
-     END IF
+        end if
+     end if
      Components(iph) = GetElement(iz(iph))
-  END DO
+  end do
 
   ! Get opcons{Element}.dat from database.
   !PRINT*, iz, nph
-  CALL epsdb(iz,nph+1)
+  call epsdb(iz,nph+1)
 
   ! Get the file names.
-  DO iph = 0, nph
-     EpsFiles(iph) = 'opcons' // TRIM(ADJUSTL(Components(iph))) // '.dat'
-     PRINT*, Components(iph), NumDens(iph), EpsFiles(iph)
-  END DO
+  do iph = 0, nph
+     EpsFiles(iph) = 'opcons' // trim(adjustl(Components(iph))) // '.dat'
+     print*, Components(iph), NumDens(iph), EpsFiles(iph)
+  end do
   NComps = nph + 1
-  CALL AddEps(EpsFiles,NComps,NumDens,print_eps)
+  call AddEps(EpsFiles,NComps,NumDens,print_eps)
 
   !KJ 1-2012:
 400 call par_barrier
@@ -74,13 +74,13 @@ PROGRAM opconsAt
   stop
 
 
-END PROGRAM opconsAt
+end program opconsAt
 
 
-      SUBROUTINE BWORDS_NC (S, NWORDS, WORDS)
+      subroutine bwords_nc (s, nwords, words)
 !
 !     Breaks string into words.  Words are seperated by one or more
-!     blanks or tabs.
+!     blanks or tabs, but not a comma.
 !
 !     ARGS        I/O      DESCRIPTION
 !     ----        ---      -----------
@@ -98,60 +98,60 @@ END PROGRAM opconsAt
 !**************************  Deo Soli Gloria  **************************
 
 !  -- No floating point numbers in this routine.
-      IMPLICIT INTEGER (A-Z)
+      implicit integer (a-z)
 
-      CHARACTER*(*) S, WORDS(NWORDS)
+      character*(*) s, words(nwords)
 
-      CHARACTER BLANK, TAB
-      PARAMETER (BLANK = ' ', TAB = '	')
+      character blank, tab
+      parameter (blank = ' ', tab = '	')
 !     there is a tab character here               ^.
 
 !  -- BETW    .TRUE. if between words
 !     COMFND  .TRUE. if between words and a comma has already been found
-      LOGICAL BETW, COMFND
+      logical betw, comfnd
 
 !  -- Maximum number of words allowed
-      WORDSX = NWORDS
+      wordsx = nwords
 
 !  -- SLEN is last non-blank character in string
-      SLEN = ISTRLN (S)
+      slen = istrln (s)
 
 !  -- All blank string is special case
-      IF (SLEN .EQ. 0)  THEN
-         NWORDS = 0
-         RETURN
-      ENDIF
+      if (slen .eq. 0)  then
+         nwords = 0
+         return
+      endif
 
 !  -- BEGC is beginning character of a word
-      BEGC = 1
-      NWORDS = 0
+      begc = 1
+      nwords = 0
 
-      BETW   = .TRUE.
-      COMFND = .TRUE.
+      betw   = .true.
+      comfnd = .true.
 
-      DO 10  I = 1, SLEN
-         IF (S(I:I) .EQ. BLANK .OR. S(I:I) .EQ. TAB)  THEN
-            IF (.NOT. BETW)  THEN
-               NWORDS = NWORDS + 1
-               WORDS (NWORDS) = S (BEGC : I-1)
-               BETW = .TRUE.
-               COMFND = .FALSE.
-            ENDIF
-         ELSE
-            IF (BETW)  THEN
-               BETW = .FALSE.
-               BEGC = I
-            ENDIF
-         ENDIF
+      do 10  i = 1, slen
+         if (s(i:i) .eq. blank .or. s(i:i) .eq. tab)  then
+            if (.not. betw)  then
+               nwords = nwords + 1
+               words (nwords) = s (begc : i-1)
+               betw = .true.
+               comfnd = .false.
+            endif
+         else
+            if (betw)  then
+               betw = .false.
+               begc = i
+            endif
+         endif
 
-         IF (NWORDS .GE. WORDSX)  RETURN
+         if (nwords .ge. wordsx)  return
 
-   10 CONTINUE
+   10 continue
 
-      IF (.NOT. BETW  .AND.  NWORDS .LT. WORDSX)  THEN
-         NWORDS = NWORDS + 1
-         WORDS (NWORDS) = S (BEGC :SLEN)
-      ENDIF
+      if (.not. betw  .and.  nwords .lt. wordsx)  then
+         nwords = nwords + 1
+         words (nwords) = s (begc :slen)
+      endif
  
-      RETURN
-      END
+      return
+      end

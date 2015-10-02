@@ -19,20 +19,45 @@ ienv = InstallEnvironment()
 if env['FORTRAN'] == 'gfortran':
     env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -fdiagnostics-color=auto -J'+here,)
     # -pedantic chokes on declaration of double complex in the horrific padio and elsewhere
+    # several "Unused dummy argument" warnings remain: padio, iomod, and atomicpotio
 elif env['FORTRAN'] == 'ifort':
     env = Environment(F90FLAGS = '-O2 -warn -stand f08 -diag-disable 7601 -traceback -module '+here,)
 
-lib_src = [ 'eps.f90', 'ocs_controls.f90', 'ocs_fms_inp.f90',
-            'ocs_kinds.f90', 'ocs_par.f90', 'ocs_strfacs.f90',
-            'getelement.f90', 'ocs_dimsmod.f90', 'ocs_genfmt_inp.f90',
-            'ocs_kklist.f90', 'ocs_paths_inp.f90', 'ocs_struct.f90',
-            'ocs_atomicpotio.f90', 'ocs_eels_inp.f90', 'ocs_geometry_inp.f90',
-            'ocs_ldos_inp.f90', 'ocs_potential_inp.f90', 'ocs_xsph_inp.f90',
-            'ocs_atoms_inp.f90', 'ocs_errorfile.f90', 'ocs_global_inp.f90',
-            'ocs_mtdp.f90', 'ocs_reciprocal_inp.f90', 'ocs_compton_inp.f90',
-            'ocs_errormod.f90', 'ocs_iofiles.f90', 'ocs_opcons_inp.f90',
-            'ocs_screen_inp.f90', 'ocs_constants.f90', 'ocs_ff2x_inp.f90',
-            'ocs_iomod.f90', 'ocs_padio.f90', 'ocs_sfconv_inp.f90' ]
+lib_src = [
+    'eps.f90',
+    'getelement.f90',
+    'oca_atomicpotio.f90',
+    'oca_atoms_inp.f90',
+    'oca_compton_inp.f90',
+    'oca_constants.f90',
+    'oca_controls.f90',
+    'oca_dimsmod.f90',
+    'oca_eels_inp.f90',
+    'oca_errorfile.f90',
+    'oca_errormod.f90',
+    'oca_ff2x_inp.f90',
+    'oca_fms_inp.f90',
+    'oca_genfmt_inp.f90',
+    'oca_geometry_inp.f90',
+    'oca_global_inp.f90',
+    'oca_iofiles.f90',
+    'oca_iomod.f90',
+    'oca_kinds.f90',
+    'oca_kklist.f90',
+    'oca_ldos_inp.f90',
+    'oca_mtdp.f90',
+    'oca_opcons_inp.f90',
+    'oca_padio.f90',
+    'oca_par.f90',
+    'oca_paths_inp.f90',
+    'oca_potential_inp.f90',
+    'oca_screen_inp.f90',
+    'oca_sfconv_inp.f90',
+    'oca_strfacs.f90',
+    'oca_struct.f90',
+    'oca_xsph_inp.f90',
+    'oca_reciprocal_inp.f90',
+]
 
 
 #deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/pertab', 'COMMON/getxk', 'COMMON/rdxsph',
@@ -40,12 +65,12 @@ lib_src = [ 'eps.f90', 'ocs_controls.f90', 'ocs_fms_inp.f90',
 #        'PAR/sequential', 'MATH/trap', 'MATH/bcoef', 'MATH/cwig3j', 'MATH/rotwig')
 
 env.Library('libfeffopconsat', lib_src) # + FindOtherObjects(deps, env))
+#env.SharedLibrary('libfeffopconsat', lib_src) # + FindOtherObjects(deps, env))
 
 
 bin_src = ['opconsat.f90']
-libs = ['libfeffopconsat.a',
+libs = ['libfeffopconsat' + env['LIBSUFFIX'],
 #        join('..', 'json-fortran', 'libjsonfortran.a'),
-#        join('..', 'DEBYE',  'libfeffdw.a'),
         join('..', 'COMMON', 'libfeffcom.a'),
         join('..', 'PAR',    'libfeffpar.a'),
         join('..', 'MATH',   'libfeffmath.a'),
