@@ -1,0 +1,57 @@
+## -*- python -*-
+## feff85exafs build system based on scons
+## see HEADERS/license.h for license information
+
+import sys
+sys.path.append('..')
+from FeffBuild import CompilationEnvironment, InstallEnvironment, FindOtherObjects
+from distutils.spawn import find_executable
+import os, re
+from   os.path   import realpath, join, isdir
+
+try:
+    Import('env')
+except:
+    env  = CompilationEnvironment()
+here = os.getcwd()
+ienv = InstallEnvironment()
+
+if env['FORTRAN'] == 'gfortran':
+    env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -J'+here,)
+    # -pedantic chokes on declaration of double complex in the horrific padio and elsewhere
+elif env['FORTRAN'] == 'ifort':
+    env = Environment(F90FLAGS = '-O2 -warn -stand f08 -diag-disable 7601 -traceback -module '+here,)
+
+lib_src = [ 'eps.f90', 'ocs_controls.f90', 'ocs_fms_inp.f90',
+            'ocs_kinds.f90', 'ocs_par.f90', 'ocs_strfacs.f90',
+            'getelement.f90', 'ocs_dimsmod.f90', 'ocs_genfmt_inp.f90',
+            'ocs_kklist.f90', 'ocs_paths_inp.f90', 'ocs_struct.f90',
+            'ocs_atomicpotio.f90', 'ocs_eels_inp.f90', 'ocs_geometry_inp.f90',
+            'ocs_ldos_inp.f90', 'ocs_potential_inp.f90', 'ocs_xsph_inp.f90',
+            'ocs_atoms_inp.f90', 'ocs_errorfile.f90', 'ocs_global_inp.f90',
+            'ocs_mtdp.f90', 'ocs_reciprocal_inp.f90', 'ocs_compton_inp.f90',
+            'ocs_errormod.f90', 'ocs_iofiles.f90', 'ocs_opcons_inp.f90',
+            'ocs_screen_inp.f90', 'ocs_constants.f90', 'ocs_ff2x_inp.f90',
+            'ocs_iomod.f90', 'ocs_padio.f90', 'ocs_sfconv_inp.f90' ]
+
+
+#deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/pertab', 'COMMON/getxk', 'COMMON/rdxsph',
+#        'COMMON/setkap', 'COMMON/chopen', 'COMMON/padlib',
+#        'PAR/sequential', 'MATH/trap', 'MATH/bcoef', 'MATH/cwig3j', 'MATH/rotwig')
+
+env.Library('libfeffopconsat', lib_src) # + FindOtherObjects(deps, env))
+
+
+bin_src = ['opconsat.f90']
+libs = ['libfeffopconsat.a',
+#        join('..', 'json-fortran', 'libjsonfortran.a'),
+#        join('..', 'DEBYE',  'libfeffdw.a'),
+#        join('..', 'COMMON', 'libfeffcom.a'),
+#        join('..', 'PAR',    'libfeffpar.a'),
+#        join('..', 'MATH',   'libfeffmath.a'),
+#        join('..', 'JSON',   'libfeffjson.a'),
+    ]
+
+
+env.Program('opconsat', bin_src+libs)
+env.Install(ienv['i_bin'], 'opconsat'+env['PROGSUFFIX'])

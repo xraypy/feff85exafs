@@ -1,5 +1,6 @@
       subroutine rdcmt(iunt, cmt)
       integer iunt, i1
+c      character(300) line
       character(4) cmt
       character tmpcmt(4), ch
       logical cmtlin
@@ -14,9 +15,8 @@
          if(ch.eq.tmpcmt(i1)) goto 5
       end do
       
-      backspace(iunt)
-      
  10   continue
+      backspace(iunt)
       
       return
       end
