@@ -9,7 +9,7 @@
      8       ptz, gamach,                                               ! computed
      9       ixc, vr0, vi0, ixc0,                                       ! EXCHANGE
      _       iafolp, folp, xion, rgrd, iunf,                            ! AFOLP, FOLP, ION, RGRID, UNFREEZEF
-     1       inters, totvol, jumprm, nohole)                            ! INTERSTITIAL, JUMPRM, NOHOLE
+     1       inters, totvol, jumprm, nohole, iplsmn)                    ! INTERSTITIAL, JUMPRM, NOHOLE, PLASMON
 
 c$$$(nat, rat, iphat,
 c$$$     1       le2, elpty, angks, evec, xivec, spvec, ptz,
@@ -42,7 +42,7 @@ c      integer  iatph(0:nphx), ibounc(natx)
       character*80 title(nheadx)
 c     character*80 head(nheadx)
 c     integer lhead(nheadx)
-      integer mpot, nph, ntitle, ihole, ipr1, iafolp, ixc, 
+      integer mpot, nph, ntitle, ihole, ipr1, iafolp, ixc, iplsmn,
      1       iunf, nmix, nohole, jumprm, inters, nscmt, icoul, lfms1
       integer iz(0:nphx), lmaxsc(0:nphx)
       real rfms1
@@ -54,7 +54,7 @@ c      double precision  rovr(novrx,0:nphx)
 
 
 c     dimension/type os mod2/xpsh things
-      integer mphase, ipr2, ixc0, ispec, lreal, lfms2, l2lp, iPl, 
+      integer mphase, ipr2, ixc0, ispec, lreal, lfms2, l2lp, 
      1       iGrid
       double precision xkstep, xkmax, vixan
       double precision vr0, vi0, spinph(0:nphx)
@@ -97,7 +97,7 @@ c     initialize everything
       lreal    = 0
       lfms2    = 0
       l2lp     = 0
-      iPl      = 0
+      iplsmn   = 0
       iGrid    = 0
       izstd    = 0
       ifxc     = 0

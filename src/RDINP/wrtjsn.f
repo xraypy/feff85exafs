@@ -725,9 +725,9 @@ c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
 c     INTERSTITIAL, JUMPRM, NOHOLE
       call json_value_add(lpotph, 'inters', inters)
       call json_value_add(lpotph, 'totvol', totvol)
-      call json_value_add(lpotph, 'jumprm',   jumprm)
-      call json_value_add(lpotph, 'nohole',   nohole)
-
+      call json_value_add(lpotph, 'jumprm', jumprm)
+      call json_value_add(lpotph, 'nohole', nohole)
+      call json_value_add(lpotph, 'iplsmn', iPlsmn)
 
 
 c     CFAVERAGE

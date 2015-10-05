@@ -115,16 +115,16 @@ subroutine AddEps(Files,NFiles,Weights,print_eps)
   return
 end subroutine AddEps
 
-subroutine epsdb(iz,n)
-  use IOMod
-  integer,intent(IN) :: n, iz(n)
-  real(8) epsData(1000,3,100)
+!subroutine epsdb(iz,n)
+subroutine epsdb(nz, thiseps)
+  !  integer,intent(IN) :: n, iz(n)
+  integer, parameter :: epsmax = 700
+  integer,intent(IN) :: nz
+  real(8) epsData(epsmax,3,100), thiseps(epsmax,3)
   character(12) files(100)
-  character(2),external :: getelement
-  integer i1, i2
 
   files(:) = 'NULL'
-
+  
   data (epsData(1,i,1), i=1,3) / 0.2506580000E-02, -0.9726400000E+02, 0.1960790000E+03 /
   data (epsData(2,i,1), i=1,3) / 0.4693440000E-02, -0.7332500000E+02, 0.6094470000E+02 /
   data (epsData(3,i,1), i=1,3) / 0.7560590000E-02, -0.3322180000E+02, 0.2602180000E+02 /
@@ -16377,26 +16377,43 @@ subroutine epsdb(iz,n)
   files(88) = 'opconsRa.dat'
   files(92) = 'opconsU.dat'
 
-  do i1 = 1, n
-     if(files(iz(i1)).eq.'NULL') then
-        print '(A)', '#################################################################'
-        print '(A)', '#                            WARNING                            #'
-        print '(A)', '#################################################################'
-        print '(A)', '#                                                               #'
-        print '(A)', '#          Data not available for ' // getelement(iz(i1)) // '!                           #'
-        print '(A)', '#                                                               #'
-        print '(A)', '#################################################################'
-     else
-        ! Find the number of points in this data set.
-        do i2 = 1, 1000
-           !IF((epsData(i2,2,iz(i1)).EQ.0.d0).AND.(i2.GT.1)) EXIT
-           if ((abs(epsData(i2,2,iz(i1))).lt.1d-10).and.(i2.gt.1)) exit
-        end do
-        call WriteArrayData(files(iz(i1)), Double1 = epsData(1:i2-1,1,iz(i1)), &
-          & Double2 = epsData(1:i2-1,2,iz(i1)),  Double3 = epsData(1:i2-1,3,iz(i1)))
-        call CloseFl(files(iz(i1)))
-     end if
+
+  do i = 1,3
+     do j = 1, 1000
+        thiseps(j,i) = epsData(j,i,nz)
+     end do
   end do
+end subroutine epsdb
+
+subroutine write_eps(nz, thiseps, file)
+  use IOMod
+
+  integer, parameter :: epsmax = 700
+  real(8) thiseps(epsmax,3)
+  character(12) file
+  character(2),external :: getelement
+  integer i2
+  
+  ! do i1 = 1, n
+  if(file.eq.'NULL') then
+     print '(A)', '#################################################################'
+     print '(A)', '#                            WARNING                            #'
+     print '(A)', '#################################################################'
+     print '(A)', '#                                                               #'
+     print '(A)', '#          Data not available for ' // getelement(nz) // '!                           #'
+     print '(A)', '#                                                               #'
+     print '(A)', '#################################################################'
+  else
+     ! Find the number of points in this data set.
+     do i2 = 1, 1000
+        !IF((epsData(i2,2,iz(i1)).EQ.0.d0).AND.(i2.GT.1)) EXIT
+        if ((abs(thiseps(i2,2)).lt.1d-10).and.(i2.gt.1)) exit
+     end do
+     call WriteArrayData(file, Double1 = thiseps(1:i2-1,1), &
+          Double2 = thiseps(1:i2-1,2),  Double3 = thiseps(1:i2-1,3))
+     call CloseFl(file)
+  end if
+  ! end do
   
   return
-end subroutine epsdb
+end subroutine write_eps

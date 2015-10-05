@@ -20,7 +20,7 @@ c     EXCHANGE
 c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
      _       iafolp, folp, xion, rgrd, iunf,
 c     INTERSTITIAL, JUMPRM, NOHOLE
-     1       inters, totvol, jumprm, nohole)
+     1       inters, totvol, jumprm, nohole, iplsmn)
 
 
 
@@ -63,7 +63,7 @@ c     dimension/types of global.json things
 
 c     dimension/type os mod1/pot things
       character*80 title(nheadx)
-      integer nph, ntitle, ihole, iafolp, ixc, 
+      integer nph, ntitle, ihole, iafolp, ixc, iplsmn,
      1       iunf, nmix, nohole, jumprm, inters, nscmt, icoul, lfms1
       integer iz(0:nphx), lmaxsc(0:nphx)
       real rfms1
@@ -254,7 +254,7 @@ c        AFOLP, FOLP, ION, RGRID, UNFREEZEF
                 if (.not. found) call bailout('iunf',   'libpotph.json')
          
 
-c        INTERSTITIAL, JUMPRM, NOHOLE
+c        INTERSTITIAL, JUMPRM, NOHOLE, PLASMON
          call json%get('inters', inters, found)
                 if (.not. found) call bailout('inters', 'libpotph.json')
          call json%get('totvol', totvol, found)
@@ -263,10 +263,12 @@ c        INTERSTITIAL, JUMPRM, NOHOLE
                 if (.not. found) call bailout('nohole', 'libpotph.json')
          call json%get('jumprm', jumprm, found)
                 if (.not. found) call bailout('jumprm', 'libpotph.json')
+         call json%get('iplsmn', iplsmn, found)
+                if (.not. found) call bailout('iplsmn', 'libpotph.json')
 
 
 c The rest are parameters associated with:
-c    CFAVERAGE, MULTIPOLE, XANES, FMS, PLASMON, PMBSE, TDLDA, RPHASES
+c    CFAVERAGE, MULTIPOLE, XANES, FMS, PMBSE, TDLDA, RPHASES
 c    CONTROL, PRINT 
 
 c        content of global.json
@@ -303,8 +305,6 @@ c         call json%get('lfms2',   lfms2, found)
 c                if (.not. found) call bailout('lfms2',  'libpotph.json')
 c         call json%get('l2lp',   l2lp, found)
 c                if (.not. found) call bailout('l2lp',   'libpotph.json')
-c         call json%get('iPlsmn', iPl, found)
-c                if (.not. found) call bailout('iPlsmn', 'libpotph.json')
 c         call json%get('iGrid',   iGrid, found)
 c                if (.not. found) call bailout('iGrid',  'libpotph.json')
 

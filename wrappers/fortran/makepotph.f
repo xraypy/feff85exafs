@@ -17,7 +17,7 @@ c      max number of header lines
       character*80 title(nheadx)
       integer ntitle, nat, nph, iphat(natx), ipol, ispin, ihole
       integer lfms1, nmix, icoul, ixc, ixc0, iafolp, iunf, inters
-      integer jumprm, nohole
+      integer jumprm, nohole, iplsmn
       integer iz(0:nphx), lmaxsc(0:nphx), lmaxph(0:nphx)
       double precision evec(3), xivec(3), spvec(3), spinph(0:nphx)
       complex*16 ptz(-1:1, -1:1)
@@ -51,7 +51,7 @@ c     EXCHANGE
 c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
      _       iafolp, folp, xion, rgrd, iunf,
 c     INTERSTITIAL, JUMPRM, NOHOLE
-     1       inters, totvol, jumprm, nohole)
+     1       inters, totvol, jumprm, nohole, iplsmn)
 
 
 c*****************************************************************************
@@ -81,7 +81,7 @@ c     EXCHANGE
 c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
      _       iafolp, folp, xion, rgrd, iunf,
 c     INTERSTITIAL, JUMPRM, NOHOLE
-     1       inters, totvol, jumprm, nohole)
+     1       inters, totvol, jumprm, nohole, iplsmn)
 
 
       call libpotph('phase.pad', .true.,
@@ -106,7 +106,7 @@ c     EXCHANGE
 c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
      _       iafolp, folp, xion, rgrd, iunf,
 c     INTERSTITIAL, JUMPRM, NOHOLE
-     1       inters, totvol, jumprm, nohole)
+     1       inters, totvol, jumprm, nohole, iplsmn)
       
 
       stop

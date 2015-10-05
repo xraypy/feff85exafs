@@ -9,7 +9,7 @@
      8       ptz, gamach,                                               ! computed
      9       ixc, vr0, vi0, ixc0,                                       ! EXCHANGE
      _       iafolp, folp, xion, rgrd, iunf,                            ! AFOLP, FOLP, ION, RGRID, UNFREEZEF
-     1       inters, totvol, jumprm, nohole)                            ! INTERSTITIAL, JUMPRM, NOHOLE
+     1       inters, totvol, jumprm, nohole, iplsmn)                    ! INTERSTITIAL, JUMPRM, NOHOLE, PLASMON
       
 c##****f* feff85exafs/libpotph
 c##  NAME
@@ -68,6 +68,7 @@ c##    inters                                                             INTERS
 c##    totvol                                                             INTERSTITIAL
 c##    jumprm        1=remove potential jumps at muffin tin radii         JUMPRM
 c##    nohole        1=compute without core-hole                          NOHOLE
+c##    iplsmn        1=compute multi-pole self-energy                     PLASMON
 c##
 c##  RESULT
 c##    ptz           (-1:1,-1:1) polarization tensor
@@ -122,7 +123,7 @@ c      integer mpot, mphase
       dimension xnatph(0:nphx), folp(0:nphx), xion(0:nphx)
 
 c     dimension/type os mod2/xpsh things
-      integer ipr2, ixc0, ispec, lreal, lfms2, l2lp, iPl
+      integer ipr2, ixc0, ispec, lreal, lfms2, l2lp, iplsmn
 c      integer iGrid
       double precision xkstep, xkmax, vixan
       double precision vr0, vi0, spinph(0:nphx)
@@ -213,7 +214,6 @@ c     TDLDA
       izstd    = 0
       itdlda   = 0
 c     PLASMON
-      iPl      = 0
 c      iGrid    = 0
 
 c     OVERLAP
@@ -264,11 +264,14 @@ c     return stuff for passing to xsph and skipping pot.pad
 
 c     could make a conditional call to wrpot here
 
+c     make a conditional call to opconsat, need nph, rnrm, iz, xnatph
+c     return data from eps.dat for use in XSPH/phase.f and XSPH/xsect.f
+
       call xsph(.false., verbse, phpad,
      -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
      2       ixc, vr0, vi0, ixc0, lreal, rfms2, lfms2, l2lp,
-     3       ipol, ispin, le2, angks, ptz, iPl,
+     3       ipol, ispin, le2, angks, ptz, iplsmn,
      4       izstd, ifxc, ipmbse, itdlda, nonlocal,
      _
      1       ntitle, title, rnrmav, xmu, vint, rhoint,

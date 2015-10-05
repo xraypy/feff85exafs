@@ -46,6 +46,8 @@ lib_src = [
     'oca_mtdp.f90',
     'oca_padio.f90',
     'oca_par.f90',
+
+    'bwords_nc.f',
 ]
 
 ## The following were extracted from opconsat_tot.f90 and not used by opconsat or eps2exc
