@@ -63,7 +63,7 @@ lib_src = [
     #'oca_sfconv_inp.f90',
     #'oca_xsph_inp.f90',
 
-## also not used here (extracted from opconsat_tot.f90
+## also not used here (extracted from opconsat_tot.f90)
     #'oca_controls.f90',
     #'oca_kklist.f90',
     #'oca_strfacs.f90',
@@ -92,6 +92,5 @@ libs = ['libfeffopconsat' + env['LIBSUFFIX'],
 env.Program('opconsat', bin_src+libs)
 env.Install(ienv['i_bin'], 'opconsat'+env['PROGSUFFIX'])
 
-
-#env.Object('eps2exc'+env['OBJSUFFIX'], source='eps2exc.f', FORTRANFLAGS = env['FORTRANFLAGS'])
-env.Program('eps2exc', ['eps2exc.f', join('..', 'MATH',   'libfeffmath.a'),])
+e2e_src = ['e2emisc.f', 'rdloss.f', '../COMMON/rdcmt.f']
+env.Program('eps2exc', ['eps2exc.f', e2e_src, join('..', 'MATH',   'libfeffmath.a'),])
