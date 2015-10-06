@@ -1,7 +1,7 @@
 
 # Content of the OPCONSAT folder
 
-This directory contains routines for themany-pole self-energy model
+This directory contains routines for the many-pole self-energy model
 using the optical constants: atomic approximation model.  See
 [the 2007 Kas, et al. paper](http://dx.doi.org/10.1103/PhysRevB.76.195116).
 
@@ -36,7 +36,9 @@ be installed.
 Assuming that a
 [`libpotph.json`](../../wrappers/fortran/libpotph.json) file is
 present in the current directory, this program will read the
-`libpotph.json` information and compute the `loss.dat` file.
+`libpotph.json` information and compute the `loss.dat` file.  This is
+a bit of a dodge, in that the `rnrm` values for copper metal are
+hardwired in.
 
 ```fortran
       program loss
@@ -48,7 +50,6 @@ present in the current directory, this program will read the
       integer epsmax
       parameter(epsmax = 700)
       
-c      integer iz(0:nphx)
       integer npoles
       double precision rnrm(0:nphx), eps0, gamma
       logical write_loss, write_opcons, write_exc, verbose
@@ -69,16 +70,12 @@ c      integer iz(0:nphx)
       double precision elpty, angks, gamach, ca1, ecv
       double precision vr0, vi0, rgrd, totvol
 
-
-      
       write_loss   = .true.
       write_opcons = .false.
       write_exc    = .false.
       verbose      = .true.
       npoles       = 100
       eps0         = -1.d0
-
-
 
       call inipotph(
 c     TITLE
@@ -145,12 +142,10 @@ c  hard wire the values for a Copper calculation
       
 
       end
-
 ```
 
 
 ## Arguments to the feffloss subroutine
-
 
 
 | element        | type                 | I/O | description                                                  | Feff card    |

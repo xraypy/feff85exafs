@@ -244,7 +244,13 @@ c     multi-pole stuff
       verbose      = .false.
       npoles       = 100
       eps0         = -1.d0
-
+      do 40 i=1,MxPole
+         wpcorr(i) = 0.d0
+c        gamma ?
+         delta(i)  = 0.d0
+         ampfac(i) = 0.d0
+ 40   continue
+      
       
 c*****************************************************************************
 
@@ -287,7 +293,10 @@ c     could make a conditional call to wrpot here
      1          write_opcons, write_loss, write_exc, verbose,
      2          wpcorr, gamma, ampfac, delta)
       end if
-      
+c     need to send <<wpcorr, gamma, ampfac, delta>> into xsph, then into
+c     phase and xsect for use when iplsmn is > 0
+
+c               wrxsec      
       call xsph(.false., verbse, phpad,
      -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
@@ -302,7 +311,7 @@ c     could make a conditional call to wrpot here
      5       edens, vclap, vtot, edenvl, vvalgs, dmag, xnval,
      6       iorb, nohole, ihole,
      7       inters, totvol, iafolp, xion, iunf, iz, jumprm)
-c     second block is the parameters from rdpot
+c     second block is the parameters from rdpot, skipping pot.pad
 
       return
       end
