@@ -33,15 +33,11 @@ To build, type `scons`.  This will build:
  * `genfmt`: the stand-alone program
  * `libonepath.so`: the Fortran entry point for generating a single path
  * `libfeffpath.so`: the C wrapper around onepath
- * `perl/feffpath_wrap.c` and `perl/FeffPath.pm`: the SWIG wrapper for perl around feffpath
- * `pythin/feffpath_wrap.c` and `python/feffpathwrapper.py`: the SWIG wrapper for python around feffpath
 
 Once built, type `scons install` to install everything:
 
  * `libgenfmt.f`, `libonepath.so`, `libfeffpath.so`: installed to `/usr/local/lib`
  * `genfmt`: installed to `/usr/local/bin`
- * `perl/feffpath_wrap.c` and `perl/FeffPath.pm`: installed to `../../wrappers/perl`
- * `python/feffpath_wrap.c` and `python/feffpathwrapper.py`: installed to `../../wrappers/python`
 
 You **must** install before building the Perl or Python wrappers.
 Other wrappers almost certainly require at least that `libfeffpath.so`

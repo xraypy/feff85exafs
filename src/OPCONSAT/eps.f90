@@ -34,7 +34,7 @@ subroutine AddEps(NFiles,Weights,thiseps, NDataTot, energy, loss)
   !READ*, NFiles
 
   integer, parameter :: epsmax = 700
-  integer i1, iph, iUnit
+  integer i1, iph !, iUnit
   real(8) thiseps(epsmax,3,0:nphx)
   real(8) energy(epsmax), loss(epsmax)
 
