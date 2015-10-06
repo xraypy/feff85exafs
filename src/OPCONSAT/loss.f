@@ -1,18 +1,18 @@
-      program makepotph
+      program loss
 
-      implicit double precision (a-h, o-z)
+      include '../HEADERS/const.h'
+      include '../HEADERS/dim.h'
+      include '../HEADERS/parallel.h'
 
-c      include '../HEADERS/dim.h'
-c      max number of unique potentials (potph) (nphx must be ODD to
-c      avoid compilation warnings about alignment in COMMON blocks)
-      integer nphx
-      parameter (nphx = 11)
-c      max number of atoms in problem for the pathfinder
-      integer natx
-      parameter (natx =1000)
-c      max number of header lines
-      integer nheadx
-      parameter (nheadx=30)
+      integer epsmax
+      parameter(epsmax = 700)
+      
+c      integer iz(0:nphx)
+      integer npoles
+      double precision rnrm(0:nphx), eps0, gamma
+      logical write_loss, write_opcons, write_exc, verbose
+
+      double precision wpcorr(MxPole), delta(MxPole), ampfac(MxPole)
 
       character*80 title(nheadx)
       integer ntitle, nat, nph, iphat(natx), ipol, ispin, ihole
@@ -27,6 +27,16 @@ c      max number of header lines
       real rfms1
       double precision elpty, angks, gamach, ca1, ecv
       double precision vr0, vi0, rgrd, totvol
+
+
+      
+      write_loss   = .true.
+      write_opcons = .false.
+      write_exc    = .false.
+      verbose      = .true.
+      npoles       = 100
+      eps0         = -1.d0
+
 
 
       call inipotph(
@@ -83,33 +93,12 @@ c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
 c     INTERSTITIAL, JUMPRM, NOHOLE
      1       inters, totvol, jumprm, nohole, iplsmn)
 
+      rnrm(0) = 2.8384890981392523
+      rnrm(1) = 2.6294479894989911
 
-      call libpotph('phase.pad', .true.,
-c     TITLE
-     1       ntitle, title,
-c     ATOMS
-     2       nat, rat, iphat,
-c     POTENTIALS
-     3       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
-c     HOLE/EDGE
-     4       ihole,
-c     SCF
-     5       rfms1, lfms1, nscmt, ca1, nmix, ecv, icoul,
-c     POLARIZATION, ELLIPTICITY
-     6       ipol, evec, elpty, xivec,
-c     SPIN
-     7       ispin, spvec, angks,
-c     computed
-     8       ptz, gamach,
-c     EXCHANGE
-     9       ixc, vr0, vi0, ixc0,
-c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
-     _       iafolp, folp, xion, rgrd, iunf,
-c     INTERSTITIAL, JUMPRM, NOHOLE
-     1       inters, totvol, jumprm, nohole,
-c     PLASMON
-     2       iplsmn)
+      call feffloss(nph, iz, xnatph, rnrm, npoles, eps0,
+     1       write_opcons, write_loss, write_exc, verbose,
+     2       wpcorr, gamma, ampfac, delta)
       
 
-      stop
       end

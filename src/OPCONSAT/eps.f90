@@ -1,23 +1,45 @@
 ! This program takes a list of xy data files and interpolates the data from each onto an x grid which is the 
 ! union of all of the x grids, then adds all of y data.
+
 ! Written by J. J. Kas - 1/25/2010
-!PROGRAM AddXY
-subroutine AddEps(Files,NFiles,Weights,print_eps)
-  use IOMod
-  use IOFiles
+! modified by Bruce Ravel 6 October 2015 for inclusion in feff85exafs
+!   BR stripped out the file-base IO, added thiseps input array and
+!   the NdataTot, energy, and loss output parameters
+!   This subroutine now takes an array of epsilon data for the unique
+!   potentials and returns the loss data.  No file IO.
+
+subroutine AddEps(NFiles,Weights,thiseps, NDataTot, energy, loss)
+  !!! prior interface
+  ! Files:      character array of file names as written by write_eps (original) (deprecated)
+  ! NFiles:     number of ipots, i.e. nph+1
+  ! Weights:    array of number densities (original)
+  ! print_eps:  boolean signaling printing of epsilon.dat diagnostic file (original) (deprecated)
+  !!! feff85exafs interface
+  ! thiseps:    (epsmax,3,nphx) array of epsilon data for each unique ipot
+  ! energy:     return energy array
+  ! loss:       return loss array
+  !use IOMod
+  !use IOFiles
+  use dimsmod
   implicit none
 
-  character*(*) Files(NFiles)
-  logical print_eps
+  !character*(*) Files(NFiles)
+  !logical print_eps
   integer NFiles, iFile, iData, NDataTot, iTot, iSort, iNew
   real(8), allocatable :: E(:,:), Eps1(:,:), Eps2(:,:), ETot(:), Eps1Tot(:),Eps2Tot(:)
   real(8) xTmp, yTmp, Weights(NFiles)
-  integer,allocatable :: NData(:), iUnit(:)
+  integer,allocatable :: NData(:) !, iUnit(:)
   ! Get the filenames.
   !PRINT*, "# Enter the number of files."
   !READ*, NFiles
-  allocate(iUnit(NFiles))
 
+  integer, parameter :: epsmax = 700
+  integer i1, iph, iUnit
+  real(8) thiseps(epsmax,3,0:nphx)
+  real(8) energy(epsmax), loss(epsmax)
+
+  !allocate(iUnit(NFiles))
+  
   !DO iFile = 1, NFiles
   !   PRINT*, '# Enter file #', iFile 
   !   READ '(a)', Files(iFile)
@@ -26,20 +48,32 @@ subroutine AddEps(Files,NFiles,Weights,print_eps)
   ! Get the number of data points for each file.
   allocate(NData(NFiles))
   NDataTot = 0
-  do iFile = 1, NFiles
-     NData(iFile) = 0
-     call OpenFl(Files(iFile))
-     call GetIOFileInfo(Files(iFile), UnitNumber = iUnit(iFile))
-     ! Read comments from header. Assumes that comments are ONLY in header and starts with #.
-     call RdCmt(iUnit(iFile),'#cC!')
-     do
-        read(iUnit(iFile),*,end = 5)
-        NData(iFile) = NData(iFile) + 1
+!   do iFile = 1, NFiles
+!      NData(iFile) = 0
+!      call OpenFl(Files(iFile))
+!      call GetIOFileInfo(Files(iFile), UnitNumber = iUnit(iFile))
+!      ! Read comments from header. Assumes that comments are ONLY in header and starts with #.
+!      call RdCmt(iUnit(iFile),'#cC!')
+!      do
+!         read(iUnit(iFile),*,end = 5)
+!         NData(iFile) = NData(iFile) + 1
+!      end do
+! 5    continue
+!      NDataTot = NDataTot + NData(iFile)
+!      call CloseFl(Files(iFile))
+!   end do
+
+  ! Get the number of data points for each unique potential
+  do iph = 0,NFiles-1
+     do i1 = 1,epsmax
+        if (abs(thiseps(i1,1,iph)) .lt. 10d-20) then
+           NDataTot = NDataTot + i1 - 1
+           NData(iph+1) = i1 - 1
+           exit
+        end if
      end do
-5    continue
-     NDataTot = NDataTot + NData(iFile)
-     call CloseFl(Files(iFile))
   end do
+  
   ! Make space for x data.
   allocate(E(maxval(NData),NFiles),Eps1(maxval(NData),NFiles),Eps2(maxval(NData),NFiles))
   allocate(ETot(NDataTot),Eps1Tot(NDataTot),Eps2Tot(NDataTot))
@@ -47,12 +81,16 @@ subroutine AddEps(Files,NFiles,Weights,print_eps)
   ! Read in x and y data.
   iTot = 0
   do iFile = 1, NFiles
-     call OpenFl(Files(iFile))
-     call GetIOFileInfo(Files(iFile), UnitNumber = iUnit(iFile))
+     ! call OpenFl(Files(iFile))
+     ! call GetIOFileInfo(Files(iFile), UnitNumber = iUnit(iFile))
      
-     call RdCmt(iUnit(iFile),'#   ')
+     ! call RdCmt(iUnit(iFile),'#   ')
      do iData = 1, NData(iFile)
-        read(iUnit(iFile),*) E(iData,iFile), Eps1(iData,iFile), Eps2(iData,iFile)
+        ! read(iUnit(iFile),*) E(iData,iFile), Eps1(iData,iFile), Eps2(iData,iFile)
+        E(iData,iFile) = thiseps(iData,1,iFile-1)
+        Eps1(iData,iFile) = thiseps(iData,2,iFile-1)
+        Eps2(iData,iFile) = thiseps(iData,3,iFile-1)
+        
         iTot = iTot + 1
         ! Keep xTot sorted and unique.
         xTmp = E(iData,iFile)
@@ -79,7 +117,7 @@ subroutine AddEps(Files,NFiles,Weights,print_eps)
            end if
         end do
      end do
-     close(iUnit(iFile))
+     ! close(iUnit(iFile))
   end do
   NDataTot = iTot
   Eps1Tot(:) = 0.d0
@@ -93,25 +131,22 @@ subroutine AddEps(Files,NFiles,Weights,print_eps)
         Eps2Tot(iTot) = Eps2Tot(iTot) + yTmp*Weights(iFile)
      end do
   end do
-  
-  ! Open output file and write data.
-  call OpenFl('loss.dat')
-  call GetIOFileInfo('loss.dat', UnitNumber = iUnit(1))
-  write(iUnit(1),'(A)') '# E(eV)    Loss'
+
   do iTot = 1, NDataTot
-     write(iUnit(1),*), ETot(iTot), Eps2Tot(iTot)/((Eps1Tot(iTot)+1)**2 + Eps2Tot(iTot)**2)
+     energy(iTot) = ETot(iTot)
+     loss(iTot) = Eps2Tot(iTot)/((Eps1Tot(iTot)+1)**2 + Eps2Tot(iTot)**2)
   end do
-  call CloseFl('loss.dat')
-  if(print_eps) then
-     call OpenFl('epsilon.dat')
-     call GetIOFileInfo('epsilon.dat', UnitNumber = iUnit(1))
-     write(iUnit(1),'(A)') '# E(eV)    eps1    eps2'
-     do iTot = 1, NDataTot
-        write(iUnit(1),*), ETot(iTot), Eps1Tot(iTot)+1.d0, Eps2Tot(iTot)
-     end do
-     call CloseFl('epsilon.dat')
-  end if
-  deallocate(iUnit,NData,E,Eps1,Eps2,Eps1Tot,Eps2Tot)
+  ! if (print_eps) then
+  !    call OpenFl('epsilon.dat')
+  !    call GetIOFileInfo('epsilon.dat', UnitNumber = iUnit)
+  !    write(iUnit,'(A)') '# E(eV)    eps1    eps2'
+  !    do iTot = 1, NDataTot
+  !       write(iUnit,*), energy(iTot), Eps1Tot(iTot)+1.d0, Eps2Tot(iTot)
+  !    end do
+  !    call CloseFl('epsilon.dat')
+  ! end if
+
+  deallocate(NData,E,Eps1,Eps2,Eps1Tot,Eps2Tot)
   return
 end subroutine AddEps
 
@@ -16395,7 +16430,7 @@ subroutine write_eps(nz, thiseps, file)
   integer i2
   
   ! do i1 = 1, n
-  if(file.eq.'NULL') then
+  if (file.eq.'NULL') then
      print '(A)', '#################################################################'
      print '(A)', '#                            WARNING                            #'
      print '(A)', '#################################################################'

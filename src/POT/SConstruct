@@ -64,8 +64,12 @@ from_xsph = [join('..', 'XSPH',   'acoef'              + env['SHOBJSUFFIX']),
              join('..', 'XSPH',   'xmult'              + env['SHOBJSUFFIX']),
              join('..', 'XSPH',   'xsect'              + env['SHOBJSUFFIX']),
              join('..', 'XSPH',   'xsph'               + env['SHOBJSUFFIX']),
-
          ]
+from_opconsat = [
+             join('..', 'OPCONSAT', 'libfeffloss'      + env['SHOBJSUFFIX']),
+             join('..', 'OPCONSAT', 'e2emisc'          + env['SHOBJSUFFIX']),
+             join('..', 'OPCONSAT', 'eps'              + env['SHOBJSUFFIX']),
+]
 misc_feff = [join('..', 'RDINP',  'mkptz'              + env['SHOBJSUFFIX']),
 
              join('..', 'COMMON', 'chopen'             + env['SHOBJSUFFIX']),
@@ -182,7 +186,7 @@ libs = [join('..', 'json-fortran', 'libjsonfortran.a'),]
 
 ## ------------------------------------------------------------------------------------------------------
 ## build the libpotph Fortran library
-env.SharedLibrary('libpotph', libpotph_src + misc_feff + from_xsph + reuse + lib_src + json)
+env.SharedLibrary('libpotph', libpotph_src + misc_feff + from_xsph + from_opconsat + reuse + lib_src + json)
 
 
 ## ------------------------------------------------------------------------------------------------------

@@ -81,6 +81,7 @@ env.Library('libfeffopconsat', lib_src) # + FindOtherObjects(deps, env))
 #env.SharedLibrary('libfeffopconsat', lib_src) # + FindOtherObjects(deps, env))
 
 
+
 bin_src = ['opconsat.f90']
 libs = ['libfeffopconsat' + env['LIBSUFFIX'],
 #        join('..', 'json-fortran', 'libjsonfortran.a'),
@@ -90,9 +91,17 @@ libs = ['libfeffopconsat' + env['LIBSUFFIX'],
 #        join('..', 'JSON',   'libfeffjson.a'),
     ]
 
+env.SharedLibrary('libfeffloss', ['libfeffloss.f','e2emisc.f','eps.f90'])
 
-env.Program('opconsat', bin_src+libs)
+json = [ join('..', 'JSON',   'json_read_libpotph' + env['SHOBJSUFFIX']),
+         join('..', 'JSON',   'bailout'            + env['SHOBJSUFFIX'])]
+env.Program('loss', ['loss.f', 'libfeffloss.a'] +
+            json +
+            [join('..', 'POT', 'inipotph.f'), join('..', 'json-fortran', 'libjsonfortran.a')] +
+            libs)
+
+env.Program('opconsat', ['e2emisc.f']+bin_src+libs)
 env.Install(ienv['i_bin'], 'opconsat'+env['PROGSUFFIX'])
 
-e2e_src = ['e2emisc.f', 'rdloss.f', '../COMMON/rdcmt.f']
-env.Program('eps2exc', ['eps2exc.f', e2e_src, join('..', 'MATH',   'libfeffmath.a'),])
+#e2e_src = ['e2emisc.f', 'rdloss.f', '../COMMON/rdcmt.f']
+#env.Program('eps2exc', ['eps2exc.f', e2e_src, join('..', 'MATH',   'libfeffmath.a'),])

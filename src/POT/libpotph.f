@@ -9,7 +9,8 @@
      8       ptz, gamach,                                               ! computed
      9       ixc, vr0, vi0, ixc0,                                       ! EXCHANGE
      _       iafolp, folp, xion, rgrd, iunf,                            ! AFOLP, FOLP, ION, RGRID, UNFREEZEF
-     1       inters, totvol, jumprm, nohole, iplsmn)                    ! INTERSTITIAL, JUMPRM, NOHOLE, PLASMON
+     1       inters, totvol, jumprm, nohole,                            ! INTERSTITIAL, JUMPRM, NOHOLE
+     2       iplsmn)                                                    ! PLASMON
       
 c##****f* feff85exafs/libpotph
 c##  NAME
@@ -176,6 +177,13 @@ c     Josh use nhtmp to save nohole value
       integer nhtmp
 
 
+      logical write_loss, write_opcons, write_exc, verbose
+      integer npoles
+      double precision eps0
+      double precision wpcorr(MxPole), delta(MxPole), ampfac(MxPole)
+
+
+      
 c      print *, "libpotph: >", phpad(1:istrln(phpad)), "<"
 c*****************************************************************************
 c     the following parameters are for features not present or not used
@@ -227,7 +235,17 @@ c     OVERLAP
  20   continue
 c      do 30 i=1,natx
 c         ibounc(i) = 1
-c 30   continue
+c     30   continue
+
+c     multi-pole stuff      
+      write_loss   = .false.
+      write_opcons = .false.
+      write_exc    = .false.
+      verbose      = .false.
+      npoles       = 100
+      eps0         = -1.d0
+
+      
 c*****************************************************************************
 
 c$$$         print *, 1, rat(1,1), rat(2,1), rat(3,1), iphat(1)
@@ -264,9 +282,12 @@ c     return stuff for passing to xsph and skipping pot.pad
 
 c     could make a conditional call to wrpot here
 
-c     make a conditional call to opconsat, need nph, rnrm, iz, xnatph
-c     return data from eps.dat for use in XSPH/phase.f and XSPH/xsect.f
-
+      if (iplsmn .gt. 0) then
+         call feffloss(nph, iz, xnatph, rnrm, npoles, eps0,
+     1          write_opcons, write_loss, write_exc, verbose,
+     2          wpcorr, gamma, ampfac, delta)
+      end if
+      
       call xsph(.false., verbse, phpad,
      -       ipr2, ispec, vixan, xkstep, xkmax, gamach, rgrd,
      1       nph, lmaxph, potlbl, spinph, iatph, nat, rat, iphat,
