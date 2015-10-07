@@ -44,6 +44,8 @@ wrappers/perl/feffpath.h
 wrappers/python/feffpath.h
 wrappers/python/feffpath_wrap.c
 wrappers/python/feffpathwrapper.py
+wrappers/C/*.xdi
+wrappers/fortran/*.xdi
 
 src/GENFMT/perl/*
 src/GENFMT/python/*
