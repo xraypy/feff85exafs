@@ -13,22 +13,11 @@ except:
     env  = CompilationEnvironment()
 ienv = InstallEnvironment()
 
-lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f', 'read_fpf0.f',
+lib_src = ['bailout.f', 'read_geom.f', 'read_atoms.f', 'read_global.f', 'read_pot.f', 'read_fpf0.f',
            'json_xsect.f', 'read_xsect.f', 'json_nnnn.f']
 
-env.SharedLibrary('libfeffjson', lib_src)
+env.Library('libfeffjson', lib_src)
 
 env.SharedObject('json_read_libpotph' + env['SHOBJSUFFIX'], 'json_read_libpotph.f')
-
-# env.Depends(['read_geom'   + env['OBJSUFFIX'],
-#              'read_atoms'  + env['OBJSUFFIX'],
-#              'read_global' + env['OBJSUFFIX'],
-#              'read_fpf0'   + env['OBJSUFFIX'],
-#              'read_xsect'  + env['OBJSUFFIX'],
-#              'read_xsect'  + env['OBJSUFFIX'],
-#              'read_nnnn'   + env['OBJSUFFIX'], ], join('..', 'json-fortran', 'libjsonfortran.a'))
-
-#            LIBS = ['jsonfortran'],
-
-#env.Install(ienv['i_lib'], 'libfeffjson' + env['LIBSUFFIX'])
-#env.Alias('install', ienv['i_lib'])
+env.SharedObject('json_xsect'         + env['SHOBJSUFFIX'], 'json_xsect.f')
+env.SharedObject('bailout'            + env['SHOBJSUFFIX'], 'bailout.f')

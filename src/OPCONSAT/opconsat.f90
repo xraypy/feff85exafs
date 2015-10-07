@@ -24,9 +24,9 @@ program opconsAt
   real(8) thiseps(epsmax,3,0:nphx)
   real(8) energy(epsmax), loss(epsmax)
   real(8) g(10000), gamma, omi(10000), Delta(10000), eps0, sumrl, xNElec, csumrl
-  ! character ch
+  character ch
 
-  
+  logical excinp
   logical write_loss, write_opcons, write_exc, verbose
   write_loss   = .true.
   write_opcons = .true.
@@ -107,27 +107,46 @@ program opconsAt
   !! sumrl, xNElec, gamma, and csumrl -- a bit cryptic
   sumrl = 1.d0
   xNElec = 1.d0
-  ! print*, '# Enter number of poles:'
-  ! read*, NPoles
-  ! print*, 'Is this a metal? (y/n)'
-  ! read*, ch
-  ! if(ch.eq.'y'.or.ch.eq.'Y') then
-  !    eps0 = -1.d0
-  ! else
-  !    print*, 'Would you like to set the dielectric constant? (y/n)'
-  !    read*, ch
-  !    if(ch.eq.'n'.or.ch.eq.'N') then
-  !       eps0 = -2.d0
-  !    else
+  inquire( file='exc.inp', exist=excinp ) 
+  if (excinp) then
+     open(unit=61, file='exc.inp', status='old')
+     read(61,*) NPoles
+     read(61,*) ch
+     if (ch.eq.'y'.or.ch.eq.'Y') then
+        eps0 = -1.d0
+     else
+        read(61,*) ch
+        if(ch.eq.'n'.or.ch.eq.'N') then
+           eps0 = -2.d0
+        else
+           read(61,*) eps0
+        end if
+     end if
+     close(61)
+  else
+     print*, '# Enter number of poles:'
+     read*, NPoles
+     print*, 'Is this a metal? (y/n)'
+     read*, ch
+     if(ch.eq.'y'.or.ch.eq.'Y') then
+        eps0 = -1.d0
+     else
+        print*, 'Would you like to set the dielectric constant? (y/n)'
+        read*, ch
+        if(ch.eq.'n'.or.ch.eq.'N') then
+           eps0 = -2.d0
+        else
        
-  !       ! This input can be used to correct the dielectric constant,
-  !       ! which is related to the inverse moment.
-  !       ! Use eps0 = -2 to ignore this correction.
-  !       print*, '# Enter dielectric constant: '
-  !       read*, eps0
-  !    end if
-  ! end if
-  ! print*, eps0
+           ! This input can be used to correct the dielectric constant,
+           ! which is related to the inverse moment.
+           ! Use eps0 = -2 to ignore this correction.
+           print*, '# Enter dielectric constant: '
+           read*, eps0
+        end if
+     end if
+     if (verbose) print*, eps0
+  end if
+  
   gamma = 0.01
   csumrl= xNElec/sumrl
   do i1 = 1, NDataTot

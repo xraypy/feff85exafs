@@ -17,8 +17,9 @@ here = os.getcwd()
 ienv = InstallEnvironment()
 
 if env['FORTRAN'] == 'gfortran':
-    env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -fdiagnostics-color=auto -J'+here,
-                      FORTRANFLAGS = env['FORTRANFLAGS'] )
+    env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -J'+here,
+                      FORTRANFLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -J'+here )
+                      #FORTRANFLAGS = env['FORTRANFLAGS'] )
     # -pedantic chokes on declaration of double complex in the horrific padio and elsewhere
     # several "Unused dummy argument" warnings remain: padio, iomod, and atomicpotio
 elif env['FORTRAN'] == 'ifort':
@@ -84,11 +85,11 @@ env.Library('libfeffopconsat', lib_src) # + FindOtherObjects(deps, env))
 
 bin_src = ['opconsat.f90']
 libs = ['libfeffopconsat' + env['LIBSUFFIX'],
-#        join('..', 'json-fortran', 'libjsonfortran.a'),
-        join('..', 'COMMON', 'libfeffcom.a'),
-        join('..', 'PAR',    'libfeffpar.a'),
-        join('..', 'MATH',   'libfeffmath.a'),
-#        join('..', 'JSON',   'libfeffjson.a'),
+        join('..', 'JSON',         'libfeffjson'    + env['LIBSUFFIX']),
+        join('..', 'json-fortran', 'libjsonfortran' + env['LIBSUFFIX']),
+        join('..', 'COMMON',       'libfeffcom'     + env['LIBSUFFIX']),
+        join('..', 'PAR',          'libfeffpar'     + env['LIBSUFFIX']),
+        join('..', 'MATH',         'libfeffmath'    + env['LIBSUFFIX']),
     ]
 
 env.SharedLibrary('libfeffloss', ['libfeffloss.f','e2emisc.f','eps.f90'])
@@ -100,7 +101,7 @@ env.SharedLibrary('libfeffloss', ['libfeffloss.f','e2emisc.f','eps.f90'])
 #             [join('..', 'POT', 'inipotph.f'), join('..', 'json-fortran', 'libjsonfortran.a')] +
 #             libs)
 
-env.Program('opconsat', ['e2emisc.f']+bin_src+libs)
+env.Program('opconsat', bin_src+['e2emisc.f']+libs)
 
 e2e_src = ['e2emisc.f', 'rdloss.f']
 env.Program('eps2exc', ['eps2exc.f', e2e_src, join('..', 'MATH',   'libfeffmath.a'), join('..', 'COMMON',   'libfeffcom.a'),])

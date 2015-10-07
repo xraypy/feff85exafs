@@ -91,30 +91,37 @@ contains
   end subroutine potential_write
 
   subroutine potential_read
-    integer ititle,ip,iph,iovr
-    open (file=filename, unit=3, status='old')
-    read(3,*) ; read(3,*) mpot, nph, ntitle, ihole, ipr1, iafolp, ixc, ispec
-    read(3,*) ; read(3,*)  nmix, nohole, jumprm, inters, nscmt, icoul, lfms1, iunf
-    do ititle = 1, ntitle
-       read(3,*) title(ititle)
-    enddo
-    read(3,*) ; read(3,*)  gamach, rgrd, ca1, ecv, totvol, rfms1 !, corval_emin
-    read(3,*)
-    do ip = 0, nph
-       read(3,*) iz(ip), lmaxsc(ip), xnatph(ip), xion(ip), folp(ip)
-    enddo
-    !read(3,*) ; read(3,*) ExternalPot, StartFromFile
-    read(3,*) ; read(3,*) (novr(iph), iph=0,nph)
-    read(3,*)
-    do iph = 0, nph
-       do iovr = 1, novr(iph)
-          read(3,*) iphovr(iovr, iph), nnovr(iovr,iph), rovr(iovr,iph)
-       enddo
-    enddo
-    !read(3,*) ; read(3,*) ChSh_Type
-    !read(3,*,end=55) ; read(3,*,end=55) configtype
-    ! 55  continue
-    close(3)
+    ! integer ititle,ip,iph,iovr
+
+    call json_read_pot(mpot, nph, ntitle, ihole, ipr1, iafolp, &
+         ixc, ispec, nmix, nohole, jumprm, inters, nscmt, icoul, &
+         lfms1, iunf, gamach, rgrd, ca1, ecv, totvol, rfms1, &
+         title, iz, lmaxsc, xnatph, xion, folp, novr, &
+         iphovr, nnovr, rovr )
+    
+    ! open (file=filename, unit=3, status='old')
+    ! read(3,*) ; read(3,*) mpot, nph, ntitle, ihole, ipr1, iafolp, ixc, ispec
+    ! read(3,*) ; read(3,*)  nmix, nohole, jumprm, inters, nscmt, icoul, lfms1, iunf
+    ! do ititle = 1, ntitle
+    !    read(3,*) title(ititle)
+    ! enddo
+    ! read(3,*) ; read(3,*)  gamach, rgrd, ca1, ecv, totvol, rfms1 !, corval_emin
+    ! read(3,*)
+    ! do ip = 0, nph
+    !    read(3,*) iz(ip), lmaxsc(ip), xnatph(ip), xion(ip), folp(ip)
+    ! enddo
+    ! !read(3,*) ; read(3,*) ExternalPot, StartFromFile
+    ! read(3,*) ; read(3,*) (novr(iph), iph=0,nph)
+    ! read(3,*)
+    ! do iph = 0, nph
+    !    do iovr = 1, novr(iph)
+    !       read(3,*) iphovr(iovr, iph), nnovr(iovr,iph), rovr(iovr,iph)
+    !    enddo
+    ! enddo
+    ! !read(3,*) ; read(3,*) ChSh_Type
+    ! !read(3,*,end=55) ; read(3,*,end=55) configtype
+    ! ! 55  continue
+    ! close(3)
   end subroutine potential_read
 
   subroutine potential_init

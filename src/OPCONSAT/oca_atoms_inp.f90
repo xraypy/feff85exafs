@@ -25,33 +25,36 @@ contains
     integer lhead(nheadx),j1,nhead ! ,j
     real*8 rdum1(3)
     integer idum1,idum2
-    open (file=filename, unit=3, status='old')
-    !			read header
-    nhead = nheadx
-    call rdhead (3, nhead, head, lhead)
-    nat = 0
-    nph = 0
-    iatph(:)=0
-50  continue
-    !KJ I switched up statements below so that code doesn't falsely abort when nat=natx.
-    !KJ			nat = nat+1
-    if (nat .gt. natx)  then
-       write(slog,'(a, 2i10)') ' nat, natx ', nat, natx
-       call wlog(slog)
-       stop 'Bad input'
-    endif
-    read(3,*,end=60) j1,rdum1(1:3),idum1,idum2
-    nat = nat+1
-    rat(1:3,nat)=rdum1(1:3)
-    iphat(nat)=idum1
-    ibounc(nat)=idum2
-    !KJ			read(3,*,end=60)  j1, (rat(j,nat),j=1,3), iphat(nat), ibounc(nat) !KJ j2  !KJ put ibounc back in for program PATH
-    if (iphat(nat).gt.nph) nph = iphat(nat)
-    if ( iatph(iphat(nat)).eq.0) iatph(iphat(nat)) = nat
-    goto 50
-60  continue
-    !KJ			nat = nat-1
-    close(3)
+
+    call json_read_geom(nat, nph, iatph, rat, iphat, ibounc)
+    
+!     open (file=filename, unit=3, status='old')
+!     !			read header
+!     nhead = nheadx
+!     call rdhead (3, nhead, head, lhead)
+!     nat = 0
+!     nph = 0
+!     iatph(:)=0
+! 50  continue
+!     !KJ I switched up statements below so that code doesn't falsely abort when nat=natx.
+!     !KJ			nat = nat+1
+!     if (nat .gt. natx)  then
+!        write(slog,'(a, 2i10)') ' nat, natx ', nat, natx
+!        call wlog(slog)
+!        stop 'Bad input'
+!     endif
+!     read(3,*,end=60) j1,rdum1(1:3),idum1,idum2
+!     nat = nat+1
+!     rat(1:3,nat)=rdum1(1:3)
+!     iphat(nat)=idum1
+!     ibounc(nat)=idum2
+!     !KJ			read(3,*,end=60)  j1, (rat(j,nat),j=1,3), iphat(nat), ibounc(nat) !KJ j2  !KJ put ibounc back in for program PATH
+!     if (iphat(nat).gt.nph) nph = iphat(nat)
+!     if ( iatph(iphat(nat)).eq.0) iatph(iphat(nat)) = nat
+!     goto 50
+! 60  continue
+!     !KJ			nat = nat-1
+!     close(3)
   end subroutine atoms_read
 
 end module atoms_inp

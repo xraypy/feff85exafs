@@ -26,7 +26,6 @@ deps = ('COMMON/wlog', 'COMMON/str', 'COMMON/chopen', 'COMMON/padlib', 'COMMON/x
 env.Library('libfeffint', lib_src) # + FindOtherObjects(deps, env))
 
 libs = ['libfeffint.a',
-        join('..', 'json-fortran', 'libjsonfortran.a'),
         join('..', 'ATOM',   'libfeffatom.a'),
         join('..', 'FOVRG',  'libfeffpha.a'),
         join('..', 'COMMON', 'libfeffcom.a'),
@@ -35,6 +34,7 @@ libs = ['libfeffint.a',
         join('..', 'JSON',   'libfeffjson.a'),
         join('..', 'EXCH',   'libfeffexch.a'),
         join('..', 'FMS',    'libfefffms.a'),
+        join('..', 'json-fortran', 'libjsonfortran.a'),
        ]
 
 env.Program('pot', bin_src + libs)

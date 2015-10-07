@@ -21,26 +21,27 @@ module DimsMod
 
   integer,parameter :: nclxtd = 100     ! Maximum number of atoms for tdlda module.
   integer,parameter :: nspx   = 1       ! Max number of spins: 1 for spin average; 2 for spin-dep
-  integer,parameter :: natx   = 2500    ! Max number of atoms in problem for the pathfinder and ffsort
-  integer,parameter :: nattx  = 2500   ! Max number of atoms in problem for the rdinp
-  integer,parameter :: nphx   = 14      ! Max number of unique potentials (potph)
+  integer,parameter :: natx   = 1000    ! Max number of atoms in problem for the pathfinder and ffsort
+  integer,parameter :: nattx  = 1000   ! Max number of atoms in problem for the rdinp
+  integer,parameter :: nphx   = 11      ! Max number of unique potentials (potph)
   integer,parameter :: ltot   = 24      ! Max number of ang mom (arrays 1:ltot+1)
   integer,parameter :: nrptx  = 1251    ! Loucks r grid used through overlap and in phase work arrays
-  integer,parameter :: nex    = 500     ! Number of energy points genfmt, etc.
+  integer,parameter :: nex    = 150     ! Number of energy points genfmt, etc.
   integer,parameter :: lamtot = 15      ! Max number of distinct lambda's for genfmt 15 handles iord 2 and exact ss
   integer,parameter :: mtot   = 4       ! Vary mmax and nmax independently
   integer,parameter :: ntot   = 2 
   integer,parameter :: npatx  = 8       ! Max number of path atoms, used  in path finder, NOT in genfmt
   integer,parameter :: legtot = npatx+1 ! Matches path finder, used in GENFMT
   integer,parameter :: novrx  = 8       ! Max number of overlap shells (OVERLAP card)
-  integer,parameter :: nheadx = 20+nphxhardlimit      ! Max number of header lines !KJ 7-09 added term to accomodate large systems in xsect.bin header
+  integer,parameter :: nheadx = 30      ! Max number of header lines
+  !integer,parameter :: nheadx = 20+nphxhardlimit      ! Max number of header lines !KJ 7-09 added term to accomodate large systems in xsect.bin header
   integer,parameter :: MxPole = 1000    ! Max number of poles that can be used to model epsilon^-1 for HL multipole self energy
   integer,parameter :: nwordx = max(100,2+2*nphxhardlimit)     ! An infuriatingly stupid parameter that shows up in a few places. KJ added 7-09.  used to be 20 - must be at least 2*(1+nphx) for feff.bin header.
   integer,parameter :: novp = 40 ! For istprm, movrlp, ovp2mt - an atom list cutoff that should be high enough to include one atom of each potential type.  Added 2-2011 !KJ
 
   ! NON PARAMETER STATEMENTS
   integer :: nclusx    ! Maximum number of atoms for FMS.
-  integer :: lx        ! Max orbital momentum for FMS module.
+  integer :: lx = 4       ! Max orbital momentum for FMS module.
 
   ! OLD XPARAM.H MODULE
   integer,parameter :: natxx = natx
