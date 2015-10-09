@@ -532,6 +532,14 @@ c          nsp=2
       endif
 c--json--      close (unit=1)
 
+c     using opconsat resulted in NaNs in these array in one case
+c     a.ne.a is an idiom for testing NaN-ness     
+      do 390  ie = 1, ne
+         if (col3(ie) .ne. col3(ie)) col3(ie) = 0.d0
+         if (col4(ie) .ne. col4(ie)) col4(ie) = 0.d0
+         if (col5(ie) .ne. col5(ie)) col5(ie) = 0.d0
+ 390  continue
+      
       if (wrxsec) call json_xsect(ntitle, title, s02, erelax,
      -       wp, edge, emu,
      1       gamach*hart, ne, ne1, ik0,

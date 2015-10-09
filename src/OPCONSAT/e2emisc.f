@@ -201,7 +201,7 @@ c      DOUBLE PRECISION aEnd, bEnd,
          !IF(sumg1.gt.MM1) dom1 = dom1*2.d0
          !IF(sumg2.lt.MM1) dom2 = dom2/2.d0
          PRINT*, 'Error in getdom.f.'
-         PRINT*, 'sumg1, sumg2', sumg1, sumg2, MM1, dom1, dom2
+         PRINT*, 'sumg1, sumg2', i1, sumg1, sumg2, MM1, dom1, dom2
          STOP
       END DO
  5    CONTINUE                  ! dom bracketed
