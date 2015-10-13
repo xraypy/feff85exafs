@@ -8,17 +8,21 @@ import nose
 from os.path import isfile, isdir, join
 import sys
 sys.path.append(join('wrappers','python'))
+from math import isnan
 
 import larch
 from f85ut import ut
 larch.use_plugin_path('xafs')
 from feffdat import feffpath
+larch.use_plugin_path('io')
+from columnfile import read_ascii
 
 import re
 
 
 
 #folders = ('Copper',)
+#folders = ('ferrocene',)
 #folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane')
 folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane', 'LCO-para', 'LCO-perp')
 tests   = dict()
@@ -36,6 +40,10 @@ def test_feffrun():
     for f in folders:
         yield check_feffrun, f
 
+def test_feffrun_opconsat():
+    for f in folders:
+        yield check_feffrun_opconsat, f
+        
 ## check the feffNNNN.dat columns that are the same for all paths
 def test_columns():
     for f in folders:
@@ -94,6 +102,10 @@ def test_s02():
     for f in folders:
         yield check_s02, f
 
+def test_opconsat():
+    for f in folders:
+        yield check_opconsat, f
+
 ## check various fitting and statistical parameters from a canned fit
 def test_fit():
     for f in folders:
@@ -133,6 +145,10 @@ def check_feffrun(folder):
         m = re.search('Done with module 6:', lines[-1])
     assert m and tests[folder].available(1), "feff run on %s (%s) not successful" % (folder, scf)
 
+def check_feffrun_opconsat(folder):
+    oca_ok = tests[folder].run_opconsat()
+    assert oca_ok, "opconsat run on %s not successful" % folder
+    
 def check_columns(folder, part):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
     this = tests[folder].compare(1, part=part)
@@ -187,5 +203,49 @@ def check_stat(folder, param):
     tr=getattr(tests[folder].trfit.params, param)
     assert abs((bl-tr)/bl) < tests[folder].epsfit, "statistic %s evaluated inconsistently for %s (%.5f %.5f)" % (param, folder, bl, tr)
 
+def check_opconsat(folder):
+    orig = read_ascii(join(tests[folder].testrun, "..", "opconsat", "baseline", "exc.dat"), labels='a b c d', _larch=tests[folder]._larch)
+    if not isfile(join(tests[folder].testrun, "exc.dat")):
+        assert False, 'Failed to run opconsat'
+    new  = read_ascii(join(tests[folder].testrun, "exc.dat"), labels='a b c d', _larch=tests[folder]._larch)
+    #show(orig, _larch=self._larch)
+    #show(new, _larch=self._larch)
+    rf1  = sum((orig.a - new.a)**2) / sum(orig.a**2)
+    rf2  = sum((orig.b - new.b)**2) / sum(orig.b**2)
+    rf3  = sum((orig.c - new.c)**2) / sum(orig.c**2)
+    rf4  = sum((orig.d - new.d)**2) / sum(orig.d**2)
+    which = []
+    failed = False
+    if isnan(rf1):
+        which.append('1')
+        failed = True
+    if isnan(rf2):
+        which.append('2')
+        failed = True
+    if isnan(rf3):
+        which.append('3')
+        failed = True
+    if isnan(rf4):
+        which.append('4')
+        failed = True
+    if failed:
+        assert False, "columns of exc.dat are not a number: %s" % ', '.join(which)
+
+    which = []
+    failed = False
+    if rf1 < tests[folder].epsfit:
+        which.append('1')
+        failed = True
+    if rf2 < tests[folder].epsfit:
+        which.append('2')
+        failed = True
+    if rf3 < tests[folder].epsfit:
+        which.append('3')
+        failed = True
+    if rf4 < tests[folder].epsfit:
+        which.append('4')
+        failed = True
+    assert failed, "columns of exc.dat are not equal to baseline: %s" % ', '.join(which)
+    
 def check_clean(folder):
     assert not isdir(tests[folder].testrun), "clean up %s calculation not successful" % folder

@@ -4,7 +4,7 @@
 
 from   os        import makedirs, chdir, getcwd, unlink, listdir
 from   os.path   import realpath, isdir, isfile, join
-from   shutil    import rmtree
+from   shutil    import rmtree, copy
 import sys, subprocess, glob, pystache, json, re
 from   termcolor import colored
 import numpy     as np
@@ -182,7 +182,24 @@ class Feff85exafsUnitTestGroup(Group):
             chdir(owd)
         self.feffran = True
 
-
+    def run_opconsat(self):
+        if not self.feffran:
+            print colored("You need to run the rest of the feff calculation first.", 'magenta', attrs=['bold'])
+            return False
+        ## run feff with feffrunner
+        owd = getcwd()
+        try:
+            chdir(self.testrun)
+            self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop, _larch=self._larch)
+            copy(join(self.testrun, "..", "opconsat", "baseline", "exc.inp"), self.testrun)
+            self.feffrunner.run('opconsat')
+        finally:
+            chdir(owd)
+        if not isfile(join(self.testrun, "exc.dat")):
+            print colored("Failed to run opconsat.", 'magenta', attrs=['bold'])
+            return False
+        return True
+            
     def __testpaths(self):
         """
         Gather a list of feffNNNN.dat files from the testrun
