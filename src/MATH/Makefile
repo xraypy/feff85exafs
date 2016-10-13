@@ -6,6 +6,7 @@ FJSON   = -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff8
 AR      = ar
 ARFLAGS = rc
 RANLIB  = ranlib
+RM      = rm
 
 objects = bcoef.o besjn.o conv.o csomm.o cwig3j.o determ.o exjlnl.o	\
 phamp.o quartc.o sdist.o somm2.o terp.o trap.o besjh.o bjnser.o		\
@@ -29,6 +30,6 @@ phamp.o:	phamp.f ../HEADERS/dim.h ../HEADERS/const.h
 all:	libfeffmath.a
 
 clean:
-	rm *.a *.o
+	$(RM) *.a *.o
 
 .PHONEY:	clean all

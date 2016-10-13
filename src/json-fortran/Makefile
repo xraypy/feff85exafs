@@ -7,6 +7,7 @@ FJSON    = -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff
 AR       = ar
 ARFLAGS  = rc
 RANLIB   = ranlib
+RM       = rm
 
 all:	json_module.mod json_module.o libjsonfortran.a
 
@@ -18,6 +19,6 @@ libjsonfortran.a:
 	$(RANLIB) libjsonfortran.a
 
 clean:
-	rm *.a *.o *.mod
+	$(RM) *.a *.o *.mod
 
 .PHONEY:	clean all

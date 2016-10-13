@@ -5,6 +5,7 @@ FJSON   = -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff8
 AR      = ar
 ARFLAGS = rc
 RANLIB  = ranlib
+RM      = rm
 
 objects = sequential.o
 #objects = parallel.o
@@ -27,6 +28,6 @@ sequential.o:	sequential.f ../HEADERS/parallel.h
 all:	libfeffpar.a
 
 clean:
-	rm *.a *.o
+	$(RM) *.a *.o
 
 .PHONEY:	clean all
