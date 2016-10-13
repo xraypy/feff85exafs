@@ -11,7 +11,7 @@ RM      = rm
 objects = ffsort.o iniall.o mkptz.o rdinp_l.o rdline.o setedg.o	wrtall.o wrtjsn.o
 archives = ../json-fortran/libjsonfortran.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a ../MATH/libfeffmath.a ../JSON/libfeffjson.a
 
-rdinp:	$(objects)
+rdinp:	$(objects) $(archives)
 	$(FORTRAN) $(objects) $(archives) -o $@
 
 ffsort.o:	ffsort.f  allinp.h ../HEADERS/const.h ../HEADERS/dim.h ../HEADERS/vers.h ../HEADERS/parallel.h

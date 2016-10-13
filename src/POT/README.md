@@ -9,8 +9,8 @@ of POT and XSPH, that is to take input data and write out the phase
 information needed for EXAFS to a `phase.pad` file.  The Fortran entry
 point to this is contained in `libpotpht.f` and gets compiled along
 with *all* of it dependencies to `libpotph.so`.  The C wrapper around
-`libpotph.so` is `libphases.c`, with header file `libphases.h`.  This
-gets compiled to `libphases.so`.
+`libpotph.so` is `feffbphases.c`, with header file `libphases.h`.  This
+gets compiled to `libfeffphases.so`.
 
 Most routines in this directory are covered by the [LICENSE](../HEADERS/license.h)
 
@@ -29,7 +29,7 @@ To build, type `scons`.  This will build:
    used to build the stand-alone executables
  * `pot`: the stand-alone potentials calculation program
  * `libpotph.so`: the Fortran entry point for generating the phases file
- * `libphases.so`: the C wrapper around libpotph
+ * `libfeffphases.so`: the C wrapper around libpotph
 
 Once built, type `scons install` to install everything:
 
