@@ -1,17 +1,18 @@
 
 
-FORTRAN = gfortran
-SHARED  = -shared
-CFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   = -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
-AR      = ar
-ARFLAGS = rc
-RANLIB  = ranlib
-RM      = rm
+FORTRAN ?= gfortran
+SHARED  ?= -shared
+CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+AR      ?= ar
+ARFLAGS ?= rvc
+RANLIB  ?= ranlib
+RM      ?= rm
 
-CC      = gcc
-CCFLAGS = -c -g -fPIC
+CC      ?= gcc
+CCFLAGS ?= -c -g -fPIC
 
+COPY    ?= cp -v
 
 RDINPobj = ../RDINP/mkptz.o
 
@@ -36,6 +37,7 @@ MATHobj = ../MATH/bcoef.o ../MATH/besjh.o ../MATH/besjn.o		\
 ../MATH/lu.o ../MATH/phamp.o ../MATH/polint.o ../MATH/rotwig.o		\
 ../MATH/somm.o ../MATH/somm2.o ../MATH/terp.o ../MATH/terpc.o
 
+
 FMSobj = ../FMS/fmspack.o ../FMS/fmsie.o ../FMS/gglu.o ../FMS/ggbi.o	\
 ../FMS/ggrm.o ../FMS/gggm.o ../FMS/ggtf.o ../FMS/yprep.o		\
 ../FMS/xstaff.o
@@ -59,6 +61,7 @@ XSPHobj = ../XSPH/acoef.o ../XSPH/axafs.o ../XSPH/fmssz.o		\
 ../XSPH/phase.o ../XSPH/phmesh.o ../XSPH/radint.o			\
 ../XSPH/rholsz.o ../XSPH/szlz.o ../XSPH/wphase.o ../XSPH/wrxsph.o	\
 ../XSPH/xmult.o ../XSPH/xsect.o ../XSPH/xsph.o
+
 
 objects = libpotph.o inipotph.o ffsort_potph.o		\
 wlog_potph.o pot.o afolp.o inipot.o moveh.o wpot.o ovrlp.o broydn.o	\
@@ -98,6 +101,74 @@ pot:	$(binobj) $(archives)
 	$(FORTRAN) $(binobj) $(archives) -o $@
 
 
+../COMMON/fixdsp.o:	../COMMON/fixdsp.f  ../HEADERS/const.h ../HEADERS/dim.h
+../COMMON/fixdsx.o:	../COMMON/fixdsx.f  ../HEADERS/const.h ../HEADERS/dim.h
+../COMMON/fixvar.o:	../COMMON/fixvar.f  ../HEADERS/const.h ../HEADERS/dim.h
+../COMMON/padlib.o:	../COMMON/padlib.f                                      ../COMMON/padlib.h
+../COMMON/pijump.o:	../COMMON/pijump.f  ../HEADERS/const.h
+../COMMON/rdxsph.o:	../COMMON/rdxsph.f                     ../HEADERS/dim.h
+
+../ATOM/scfdat.o:	../ATOM/scfdat.f ../HEADERS/dim.h                    ../HEADERS/parallel.h
+../ATOM/vlda.o:		../ATOM/vlda.f                    ../HEADERS/const.h
+
+../MATH/bcoef.o:	../MATH/bcoef.f ../HEADERS/dim.h
+../MATH/besjh.o:	../MATH/besjh.f ../HEADERS/dim.h
+../MATH/phamp.o:	../MATH/phamp.f ../HEADERS/dim.h ../HEADERS/const.h
+
+../FMS/fmsie.o:		../FMS/fmsie.f   ../HEADERS/dim.h
+../FMS/fmspack.o:	../FMS/fmspack.f ../HEADERS/dim.h ../HEADERS/parallel.h ../FMS/xparam.h
+../FMS/ggbi.o:		../FMS/ggbi.f    ../HEADERS/dim.h                       ../FMS/xparam.h
+../FMS/gggm.o:		../FMS/gggm.f    ../HEADERS/dim.h                       ../FMS/xparam.h
+../FMS/gglu.o:		../FMS/gglu.f    ../HEADERS/dim.h                       ../FMS/xparam.h
+../FMS/ggrm.o:		../FMS/ggrm.f    ../HEADERS/dim.h                       ../FMS/xparam.h
+../FMS/ggtf.o:		../FMS/ggtf.f    ../HEADERS/dim.h                       ../FMS/xparam.h
+../FMS/xstaff.o:	../FMS/xstaff.f  ../HEADERS/dim.h                       ../FMS/xparam.h
+../FMS/yprep.o:		../FMS/yprep.f   ../HEADERS/dim.h                       ../FMS/xparam.h
+
+../FF2X/xscorr.o:	../FF2X/xscorr.f ../HEADERS/const.h ../HEADERS/dim.h
+
+../EXCH/csigma.o:	../EXCH/csigma.f ../HEADERS/const.h
+../EXCH/csigz.o:	../EXCH/csigz.f  ../HEADERS/const.h
+../EXCH/edp.o:		../EXCH/edp.f    ../HEADERS/const.h
+../EXCH/imhl.o:		../EXCH/imhl.f   ../HEADERS/const.h
+../EXCH/quinn.o:	../EXCH/quinn.f  ../HEADERS/const.h
+../EXCH/rhl.o:		../EXCH/rhl.f    ../HEADERS/const.h
+../EXCH/rhlbp.o:	../EXCH/rhlbp.f  ../HEADERS/const.h
+../EXCH/xcpot.o:	../EXCH/xcpot.o  ../HEADERS/const.h ../HEADERS/dim.h
+
+../FOVRG/dfovrg.o:	../FOVRG/dfovrg.f ../HEADERS/dim.h ../HEADERS/const.h
+../FOVRG/diff.o:	../FOVRG/diff.f   ../HEADERS/dim.h
+../FOVRG/inmuac.o:	../FOVRG/inmuac.f ../HEADERS/dim.h
+../FOVRG/intout.o:	../FOVRG/intout.f ../HEADERS/dim.h ../HEADERS/const.h
+../FOVRG/muatcc.o:	../FOVRG/muatcc.f ../HEADERS/dim.h
+../FOVRG/nucdec.o:	../FOVRG/nucdec.f ../HEADERS/dim.h
+../FOVRG/potdvp.o:	../FOVRG/potdvp.f ../HEADERS/dim.h
+../FOVRG/potex.o:	../FOVRG/potex.f  ../HEADERS/dim.h
+../FOVRG/solin.o:	../FOVRG/solin.f  ../HEADERS/dim.h ../HEADERS/const.h
+../FOVRG/solout.o:	../FOVRG/solout.f ../HEADERS/dim.h ../HEADERS/const.h
+../FOVRG/wfirdc.o:	../FOVRG/wfirdc.f ../HEADERS/dim.h
+../FOVRG/yzkrdc.o:	../FOVRG/yzkrdc.f ../HEADERS/dim.h
+../FOVRG/yzktec.o:	../FOVRG/yzktec.f ../HEADERS/dim.h
+
+../PAR/sequential.o:	../PAR/sequential.f ../HEADERS/parallel.h
+#../PAR/parallel.o:	../PAR/parallel.f   ../HEADERS/parallel.h mpif.h
+
+../XSPH/acoef.o:	../XSPH/acoef.f   ../HEADERS/dim.h
+../XSPH/axafs.o:	../XSPH/axafs.f   ../HEADERS/dim.h ../HEADERS/const.h
+../XSPH/fmssz.o:	../XSPH/fmssz.f   ../HEADERS/dim.h
+../XSPH/phase.o:	../XSPH/phase.f   ../HEADERS/dim.h ../HEADERS/const.h
+../XSPH/phmesh.o:	../XSPH/phmesh.f  ../HEADERS/dim.h ../HEADERS/const.h
+../XSPH/radint.o:	../XSPH/radint.f  ../HEADERS/dim.h
+../XSPH/rholsz.o:	../XSPH/rholsz.f  ../HEADERS/dim.h ../HEADERS/const.h
+../XSPH/szlz.o:		../XSPH/szlz.f    ../HEADERS/dim.h ../HEADERS/const.h
+../XSPH/wphase.o:	../XSPH/wphase.f  ../HEADERS/dim.h
+../XSPH/wrxsph.o:	../XSPH/wrxsph.f  ../HEADERS/dim.h
+../XSPH/xmult.o:	../XSPH/xmult.f                    ../HEADERS/const.h
+../XSPH/xsect.o:	../XSPH/xsect.f   ../HEADERS/dim.h ../HEADERS/const.h
+../XSPH/xsph.o:		../XSPH/xsph.f    ../HEADERS/dim.h ../HEADERS/const.h
+
+
+
 %.o:	%.f
 	$(FORTRAN) $(CFLAGS) $(FJSON) -o $@ $<
 
@@ -106,6 +177,12 @@ pot:	$(binobj) $(archives)
 
 
 clean:
-	$(RM) *.o *.a *.so pot
+	$(RM) *.so *.o *.a *.so pot
 
-.PHONEY:	clean all
+install:
+	$(COPY) pot             $(PREFIX)/bin
+	$(COPY) libpotph.o      $(PREFIX)/lib
+	$(COPY) libfeffphases.o $(PREFIX)/lib
+	$(COPY) feffphases.h    $(PREFIX)/include
+
+.PHONEY:	clean install all

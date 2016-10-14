@@ -1,12 +1,14 @@
 
 
-FORTRAN = gfortran
-CFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   = -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
-AR      = ar
-ARFLAGS = rc
-RANLIB  = ranlib
-RM      = rm
+FORTRAN ?= gfortran
+CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+AR      ?= ar
+ARFLAGS ?= rvc
+RANLIB  ?= ranlib
+RM      ?= rm
+
+COPY    ?= cp -v
 
 objects = ffsort.o iniall.o mkptz.o rdinp_l.o rdline.o setedg.o	wrtall.o wrtjsn.o
 archives = ../json-fortran/libjsonfortran.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a ../MATH/libfeffmath.a ../JSON/libfeffjson.a
@@ -30,4 +32,7 @@ all:	rdinp
 clean:
 	$(RM) *.o rdinp
 
-.PHONEY:	clean all
+install:
+	$(COPY) rdinp $(PREFIX)/bin
+
+.PHONEY:	clean install all

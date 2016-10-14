@@ -1,12 +1,14 @@
 
 
-FORTRAN = gfortran
-CFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   = -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
-AR      = ar
-ARFLAGS = rc
-RANLIB  = ranlib
-RM      = rm
+FORTRAN ?= gfortran
+CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+AR      ?= ar
+ARFLAGS ?= rvc
+RANLIB  ?= ranlib
+RM      ?= rm
+
+COPY    ?= cp -v
 
 objects = ccrit.o heap.o mcrith.o mpprmd.o mrb.o paths.o phash.o	\
 repath.o timrep.o ffmod4.o ipack.o mcritk.o mpprmp.o outcrt.o		\
@@ -42,4 +44,7 @@ all:	pathfinder
 clean:
 	$(RM) *.o pathfinder
 
-.PHONEY:	clean all
+install:
+	$(COPY) pathfinder $(PREFIX)/bin
+
+.PHONEY:	clean install all

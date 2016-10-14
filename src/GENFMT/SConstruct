@@ -48,7 +48,7 @@ other_obj = [join('..','FF2X', 'fdtarr'      + env['SHOBJSUFFIX']), # called dir
              join('..','FF2X', 'fdthea'      + env['SHOBJSUFFIX']),
              join('..','FF2X', 'fdtxdi'      + env['SHOBJSUFFIX']),
              join('..','RDINP','mkptz'       + env['SHOBJSUFFIX'])]
-misc_feff = [join('..','COMMON','wlog'       + env['SHOBJSUFFIX']), # called indeirectly
+misc_feff = [join('..','COMMON','wlog'       + env['SHOBJSUFFIX']), # called indirectly
              join('..','COMMON','chopen'     + env['SHOBJSUFFIX']),
              join('..','COMMON','getxk'      + env['SHOBJSUFFIX']),
              join('..','COMMON','head'       + env['SHOBJSUFFIX']),

@@ -1,12 +1,12 @@
 
 
-FORTRAN = gfortran
-CFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   = -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
-AR      = ar
-ARFLAGS = rc
-RANLIB  = ranlib
-RM      = rm
+FORTRAN ?= gfortran
+CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+AR      ?= ar
+ARFLAGS ?= rvc
+RANLIB  ?= ranlib
+RM      ?= rm
 
 objects = akeato.o cofcon.o etotal.o fpf0.o lagdat.o nucdev.o	\
 potslw.o soldir.o wfirdf.o aprdev.o dentfa.o fdmocc.o inmuat.o	\
@@ -18,6 +18,8 @@ deps = ../COMMON/wlog.o ../COMMON/getorb.o ../COMMON/str.o		\
 ../PAR/sequential.o ../MATH/determ.o ../MATH/somm.o ../MATH/somm2.o	\
 ../MATH/cwig3j.o ../EXCH/vbh.o ../EXCH/edp.o
 
+
+all:	libfeffatom.a
 
 libfeffatom.a:	$(objects) $(deps)
 	$(AR) $(ARFLAGS) libfeffatom.a $(objects) $(deps)
@@ -42,8 +44,6 @@ vlda.o:		vlda.f                    ../HEADERS/const.h
 %.o:	%.f
 	$(FORTRAN) $(CFLAGS) $(FJSON) -o $@ $<
 
-
-all:	libfeffatom.a
 
 clean:
 	$(RM) *.a *.o

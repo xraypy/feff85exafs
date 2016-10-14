@@ -1,18 +1,20 @@
 
 
-FORTRAN = gfortran
-CFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   = -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
-AR      = ar
-ARFLAGS = rc
-RANLIB  = ranlib
-RM      = rm
+FORTRAN ?= gfortran
+CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+AR      ?= ar
+ARFLAGS ?= rvc
+RANLIB  ?= ranlib
+RM      ?= rm
 
 objects = chopen.o fixvar.o head.o itoken.o pertab.o rdcmt.o rdxsph.o	\
 str.o xx.o fixdsp.o getorb.o iniptz.o nxtunt.o pijump.o rdhead.o	\
 setgam.o str2dp.o fixdsx.o getxk.o isnum.o padlib.o qsorti.o rdpot.o	\
 setkap.o wlog.o
 
+
+all:	libfeffcom.a
 
 libfeffcom.a:	$(objects) padlib.h
 	$(AR) $(ARFLAGS) libfeffcom.a $(objects)
@@ -31,8 +33,6 @@ wlog.o:		wlog.f   ../HEADERS/parallel.h
 %.o:	%.f
 	$(FORTRAN) $(CFLAGS) $(FJSON) -o $@ $<
 
-
-all:	libfeffcom.a
 
 clean:
 	$(RM) *.a *.o

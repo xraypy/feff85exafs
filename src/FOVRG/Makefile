@@ -1,17 +1,19 @@
 
 
-FORTRAN = gfortran
-CFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   = -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
-AR      = ar
-ARFLAGS = rc
-RANLIB  = ranlib
-RM      = rm
+FORTRAN ?= gfortran
+CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+AR      ?= ar
+ARFLAGS ?= rvc
+RANLIB  ?= ranlib
+RM      ?= rm
 
 objects = aprdec.o dfovrg.o dsordc.o intout.o nucdec.o potdvp.o		\
 solin.o wfirdc.o yzktec.o aprdep.o diff.o inmuac.o muatcc.o ortdac.o	\
 potex.o solout.o yzkrdc.o
 
+
+all:	libfeffpha.a
 
 libfeffpha.a:	$(objects)
 	$(AR) $(ARFLAGS) libfeffpha.a $(objects)
@@ -38,8 +40,6 @@ yzktec.o:	yzktec.f ../HEADERS/dim.h
 %.o:	%.f
 	$(FORTRAN) $(CFLAGS) $(FJSON) -o $@ $<
 
-
-all:	libfeffpha.a
 
 clean:
 	$(RM) *.a *.o
