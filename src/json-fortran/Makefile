@@ -24,6 +24,6 @@ clean:
 
 install:
 	$(COPY) libjsonfortran.a $(PREFIX)/lib
-
+	$(COPY) json_module.mod  $(PREFIX)/lib
 
 .PHONEY:	clean install all

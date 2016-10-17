@@ -1,5 +1,7 @@
 
 
+PREFIX  ?= /usr/local
+
 FORTRAN ?= gfortran
 CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
 FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
@@ -7,6 +9,7 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
+COPY    ?= cp -v
 
 objects = aprdec.o dfovrg.o dsordc.o intout.o nucdec.o potdvp.o		\
 solin.o wfirdc.o yzktec.o aprdep.o diff.o inmuac.o muatcc.o ortdac.o	\
@@ -44,4 +47,12 @@ yzktec.o:	yzktec.f ../HEADERS/dim.h
 clean:
 	$(RM) *.a *.o
 
-.PHONEY:	clean all
+INSTARCH = @echo "Nothing to install in FOVRG"
+ifdef INSTALL_ARCHIVES
+INSTARCH = $(COPY) libfeffpha.a $(PREFIX)/lib
+endif
+
+install:
+	$(INSTARCH)
+
+.PHONEY:	clean all install

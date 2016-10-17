@@ -1,5 +1,7 @@
 
 
+PREFIX  ?= /usr/local
+
 FORTRAN ?= gfortran
 CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
 FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
@@ -7,6 +9,7 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
+COPY    ?= cp -v
 
 objects = bcoef.o besjn.o conv.o csomm.o cwig3j.o determ.o exjlnl.o	\
 phamp.o quartc.o sdist.o somm2.o terp.o trap.o besjh.o bjnser.o		\
@@ -32,4 +35,12 @@ phamp.o:	phamp.f ../HEADERS/dim.h ../HEADERS/const.h
 clean:
 	$(RM) *.a *.o
 
-.PHONEY:	clean all
+INSTARCH = @echo "Nothing to install in MATH"
+ifdef INSTALL_ARCHIVES
+INSTARCH = $(COPY) libfeffmath.a $(PREFIX)/lib
+endif
+
+install:
+	$(INSTARCH)
+
+.PHONEY:	clean all install

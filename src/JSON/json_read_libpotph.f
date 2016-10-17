@@ -263,8 +263,8 @@ c        INTERSTITIAL, JUMPRM, NOHOLE, PLASMON
                 if (.not. found) call bailout('nohole', 'libpotph.json')
          call json%get('jumprm', jumprm, found)
                 if (.not. found) call bailout('jumprm', 'libpotph.json')
-         call json%get('iplsmn', iplsmn, found)
-                if (.not. found) call bailout('iplsmn', 'libpotph.json')
+c         call json%get('iplsmn', iplsmn, found)
+c                if (.not. found) call bailout('iplsmn', 'libpotph.json')
 
 
 c The rest are parameters associated with:

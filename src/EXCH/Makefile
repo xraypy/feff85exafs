@@ -1,5 +1,7 @@
 
 
+PREFIX  ?= /usr/local
+
 FORTRAN ?= gfortran
 CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
 FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
@@ -7,6 +9,7 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
+COPY    ?= cp -v
 
 objects = csigma.o csigz.o cubic.o edp.o ffq.o fndsng.o imhl.o mpse.o	\
 qsorti.o quinn.o rhl.o rhlbp.o vbh.o xcpot.o
@@ -35,4 +38,12 @@ xcpot.o:	xcpot.o  ../HEADERS/const.h   ../HEADERS/dim.h
 clean:
 	$(RM) *.a *.o
 
-.PHONEY:	clean all
+INSTARCH = @echo "Nothing to install in EXCH"
+ifdef INSTALL_ARCHIVES
+INSTARCH = $(COPY) libfeffexch.a $(PREFIX)/lib
+endif
+
+install:
+	$(INSTARCH)
+
+.PHONEY:	clean all install

@@ -1,4 +1,6 @@
 
+PREFIX  ?= /usr/local
+
 FORTRAN ?= gfortran
 CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
 FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
@@ -6,11 +8,12 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
+COPY    ?= cp -v
 
 objects = bailout.o read_geom.o read_atoms.o read_global.o read_pot.o	\
 read_fpf0.o json_xsect.o read_xsect.o json_nnnn.o
 
-all:	libfeffcom.a
+all:	libfeffjson.a
 
 libfeffjson.a:	$(objects)
 	$(AR) $(ARFLAGS) libfeffjson.a $(objects)
@@ -35,4 +38,12 @@ read_xsect.o:	read_xsect.f  ../HEADERS/dim.h ../HEADERS/const.h
 clean:
 	$(RM) *.a *.o
 
-.PHONEY:	clean all
+INSTARCH = @echo "Nothing to install in JSON"
+ifdef INSTALL_ARCHIVES
+INSTARCH = $(COPY) libfeffjson.a $(PREFIX)/lib
+endif
+
+install:
+	$(INSTARCH)
+
+.PHONEY:	clean all install

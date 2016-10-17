@@ -1,4 +1,6 @@
 
+PREFIX  ?= /usr/local
+
 FORTRAN ?= gfortran
 CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
 FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
@@ -30,4 +32,12 @@ sequential.o:	sequential.f ../HEADERS/parallel.h
 clean:
 	$(RM) *.a *.o
 
-.PHONEY:	clean all
+INSTARCH = @echo "Nothing to install in PAR"
+ifdef INSTALL_ARCHIVES
+INSTARCH = $(COPY) libfeffpar.a $(PREFIX)/lib
+endif
+
+install:
+	$(INSTARCH)
+
+.PHONEY:	clean all install

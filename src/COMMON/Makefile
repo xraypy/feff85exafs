@@ -1,5 +1,7 @@
 
 
+PREFIX  ?= /usr/local
+
 FORTRAN ?= gfortran
 CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
 FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
@@ -7,6 +9,7 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
+COPY    ?= cp -v
 
 objects = chopen.o fixvar.o head.o itoken.o pertab.o rdcmt.o rdxsph.o	\
 str.o xx.o fixdsp.o getorb.o iniptz.o nxtunt.o pijump.o rdhead.o	\
@@ -37,4 +40,12 @@ wlog.o:		wlog.f   ../HEADERS/parallel.h
 clean:
 	$(RM) *.a *.o
 
-.PHONEY:	clean all
+INSTARCH = @echo "Nothing to install in COMMON"
+ifdef INSTALL_ARCHIVES
+INSTARCH = $(COPY) libfeffcom.a $(PREFIX)/lib
+endif
+
+install:
+	$(INSTARCH)
+
+.PHONEY:	clean all install

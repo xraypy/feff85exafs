@@ -14,6 +14,17 @@ single, callable library.  This library is, in turn, called by the
 [`libfeffphases` library](../POT/README.md) whenever the MPSE
 calculation is turned on.
 
+# NOTE: Currently disabled!
+
+To turn opconsat back on:
+
+ * Edit `../json-fortran/json_read_libpotpht.f` and uncomment the
+   reading of the `iplsmn` parameter at lines 266-267
+ * Edit `../POT/libpotph.f` and uncomment call to `feffloss` at lines
+   292-294
+ * Write a `Makefile` for this part of Feff!!
+
+
 # Build and install
 
 To build, type `scons`.  This will build:

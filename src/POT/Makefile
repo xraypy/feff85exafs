@@ -1,5 +1,7 @@
 
 
+PREFIX  ?= /usr/local
+
 FORTRAN ?= gfortran
 SHARED  ?= -shared
 CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
@@ -73,6 +75,8 @@ archives = ../POT/libfeffint.a ../ATOM/libfeffatom.a			\
 ../FOVRG/libfeffpha.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a	\
 ../MATH/libfeffmath.a ../JSON/libfeffjson.a ../EXCH/libfeffexch.a	\
 ../FMS/libfefffms.a ../json-fortran/libjsonfortran.a
+# ../OPCONSAT/libfeffloss.a
+
 
 binobj = ffmod1.o pot.o scmtmp.o afolp.o broydn.o corval.o coulom.o	\
 ff2g.o frnrm.o grids.o inipot.o istval.o moveh.o ovrlp.o reapot.o	\
@@ -80,7 +84,7 @@ rholie.o scmt.o sumax.o wpot.o wrpot.o
 
 shobjects = $(objects) $(RDINPobj) $(COMMONobj) $(ATOMobj) $(MATHobj) $(FMSobj) $(FF2Xobj) $(EXCHobj) $(FOVRGobj) $(PARobj) $(XSPHobj)
 
-JSONobj = ../JSON/json_read_libpotph.o ../JSON/json_xsect.o ../JSON/bailout.o
+JSONobj = ../JSON/json_read_libpotph.o ../JSON/json_xsect.o ../JSON/bailout.o ../json-fortran/libjsonfortran.a
 
 
 
@@ -134,7 +138,7 @@ pot:	$(binobj) $(archives)
 ../EXCH/quinn.o:	../EXCH/quinn.f  ../HEADERS/const.h
 ../EXCH/rhl.o:		../EXCH/rhl.f    ../HEADERS/const.h
 ../EXCH/rhlbp.o:	../EXCH/rhlbp.f  ../HEADERS/const.h
-../EXCH/xcpot.o:	../EXCH/xcpot.o  ../HEADERS/const.h ../HEADERS/dim.h
+../EXCH/xcpot.o:	../EXCH/xcpot.f  ../HEADERS/const.h ../HEADERS/dim.h
 
 ../FOVRG/dfovrg.o:	../FOVRG/dfovrg.f ../HEADERS/dim.h ../HEADERS/const.h
 ../FOVRG/diff.o:	../FOVRG/diff.f   ../HEADERS/dim.h
@@ -179,10 +183,16 @@ pot:	$(binobj) $(archives)
 clean:
 	$(RM) *.so *.o *.a *.so pot
 
+INSTARCH = @echo "Not installing .a files"
+ifdef INSTALL_ARCHIVES
+INSTARCH = $(COPY) libfeffint.a $(PREFIX)/lib
+endif
+
 install:
-	$(COPY) pot             $(PREFIX)/bin
-	$(COPY) libpotph.o      $(PREFIX)/lib
-	$(COPY) libfeffphases.o $(PREFIX)/lib
-	$(COPY) feffphases.h    $(PREFIX)/include
+	$(COPY) pot              $(PREFIX)/bin
+	$(COPY) libpotph.so      $(PREFIX)/lib
+	$(COPY) libfeffphases.so $(PREFIX)/lib
+	$(COPY) feffphases.h     $(PREFIX)/include
+	$(INSTARCH)
 
 .PHONEY:	clean install all

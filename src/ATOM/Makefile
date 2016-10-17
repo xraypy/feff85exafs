@@ -1,4 +1,5 @@
 
+PREFIX  ?= /usr/local
 
 FORTRAN ?= gfortran
 CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
@@ -7,6 +8,8 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
+
+COPY    ?= cp -v
 
 objects = akeato.o cofcon.o etotal.o fpf0.o lagdat.o nucdev.o	\
 potslw.o soldir.o wfirdf.o aprdev.o dentfa.o fdmocc.o inmuat.o	\
@@ -48,4 +51,12 @@ vlda.o:		vlda.f                    ../HEADERS/const.h
 clean:
 	$(RM) *.a *.o
 
-.PHONEY:	clean all
+INSTARCH = @echo "Nothing to install in ATOM"
+ifdef INSTALL_ARCHIVES
+INSTARCH = $(COPY) libfeffatom.a $(PREFIX)/lib
+endif
+
+install:
+	$(INSTARCH)
+
+.PHONEY:	clean all install

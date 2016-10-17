@@ -531,7 +531,7 @@ make_phases(FEFFPHASES *phases) {
 
   int verbose;
 
-  int ntitle, nat, nph, ihole, lscf, nscmt, nmix, icoul, ipol, ispin, ixc, ixc0, iafolp, iunf, inters, jumprm, nohole;
+  int ntitle, nat, nph, ihole, lscf, nscmt, nmix, icoul, ipol, ispin, ixc, ixc0, iafolp, iunf, inters, jumprm, nohole, iplsmn;
   float rscf;
   double ca, ecv, elpty, angks, gamach, vr0, vi0, rgrd, totvol;
   int iz[nphx+1], lmaxsc[nphx+1], lmaxph[nphx+1], iphat[natx];
@@ -680,6 +680,11 @@ make_phases(FEFFPHASES *phases) {
   if (jumprm != 0) { jumprm = 1; };
   nohole	= phases->nohole;
   if (nohole > 0) { nohole = 1; };
+
+  /****************************************************************/
+  /* this will need to be fixed when opconsat is reliably working */
+  /****************************************************************/
+  iplsmn        = 0;
   
   rscf		= (phases->rscf) / ((float) bohr); /* code units! */
   ca		= phases->ca;
@@ -749,7 +754,7 @@ make_phases(FEFFPHASES *phases) {
 	    &ihole, &rscf, &lscf, &nscmt, &ca, &nmix, &ecv, &icoul,
 	    &ipol, &evec, &elpty, &xivec, &ispin, &spvec, &angks,
 	    &ptz, &gamach, &ixc, &vr0, &vi0, &ixc0,
-	    &iafolp, &folp, &xion, &rgrd, &iunf, &inters, &totvol, &jumprm, &nohole );
+	    &iafolp, &folp, &xion, &rgrd, &iunf, &inters, &totvol, &jumprm, &nohole, &iplsmn );
 
   return 0;
 }

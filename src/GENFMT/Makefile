@@ -1,4 +1,6 @@
 
+PREFIX  ?= /usr/local
+
 FORTRAN ?= gfortran
 SHARED  ?= -shared
 CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
@@ -43,7 +45,7 @@ shobjects = ../FF2X/fdtarr.o ../FF2X/fdthea.o ../FF2X/fdtxdi.o		\
 ../PAR/sequential.o:	../PAR/sequential.f                                     ../HEADERS/parallel.h
 
 libonepath.so:	onepath.o pathgeom.o $(libobj) $(shobjects)
-	$(FORTRAN) $(SHARED) $(libobj) $(shobjects) -o $@
+	$(FORTRAN) $(SHARED) onepath.o pathgeom.o $(libobj) $(shobjects) -o $@
 
 libfeffpath.so:	feffpath.o libonepath.so
 	$(FORTRAN) $(SHARED) feffpath.o libonepath.so -o $@
@@ -91,10 +93,16 @@ xstar.o:	xstar.f        ../HEADERS/const.h ../HEADERS/dim.h
 clean:
 	$(RM) *.so *.o *.a *.so genfmt
 
+INSTARCH = @echo "Not installing .a files"
+ifdef INSTALL_ARCHIVES
+INSTARCH = $(COPY) libfeffgenfmt.a $(PREFIX)/lib
+endif
+
 install:
-	$(COPY) genfmt        $(PREFIX)/bin
-	$(COPY) libonepath.o  $(PREFIX)/lib
-	$(COPY) libfeffpath.o $(PREFIX)/lib
-	$(COPY) feffpath.h    $(PREFIX)/include
+	$(COPY) genfmt         $(PREFIX)/bin
+	$(COPY) libonepath.so  $(PREFIX)/lib
+	$(COPY) libfeffpath.so $(PREFIX)/lib
+	$(COPY) feffpath.h     $(PREFIX)/include
+	$(INSTARCH)
 
 .PHONEY:	clean install all
