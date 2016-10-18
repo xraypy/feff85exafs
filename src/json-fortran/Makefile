@@ -2,7 +2,7 @@
 
 FORTRAN  ?= gfortran
 F90      ?= -std=f2008
-F90FLAGS ?= -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic
+F90FLAGS ?= -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -fPIC
 FJSON    ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
 AR       ?= ar
 ARFLAGS  ?= rvc

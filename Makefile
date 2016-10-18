@@ -22,6 +22,10 @@ export RM      = rm -f
 export CC      = gcc
 export CCFLAGS = -c -g -fPIC
 
+export F90      = -std=f2008
+export F90FLAGS = -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -fPIC
+
+
 export COPY    = cp -v
 
 all:
