@@ -20,8 +20,8 @@ To turn opconsat back on:
 
  * Edit `../json-fortran/json_read_libpotpht.f` and uncomment the
    reading of the `iplsmn` parameter at lines 266-267
- * Edit `../POT/libpotph.f` and uncomment call to `feffloss` at lines
-   292-294
+ * Edit `../POT/libpotph.f` and uncomment the call to `feffloss` at
+   lines 292-294
  * Write a `Makefile` for this part of Feff!!
 
 

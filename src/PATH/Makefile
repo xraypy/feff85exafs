@@ -1,8 +1,8 @@
 
 
 FORTRAN ?= gfortran
-CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I../json-fortran -J../json-fortran
 AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
@@ -14,6 +14,8 @@ objects = ccrit.o heap.o mcrith.o mpprmd.o mrb.o paths.o phash.o	\
 repath.o timrep.o ffmod4.o ipack.o mcritk.o mpprmp.o outcrt.o		\
 pathsd.o prcrit.o sortix.o
 archives = ../json-fortran/libjsonfortran.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a ../MATH/libfeffmath.a ../JSON/libfeffjson.a
+
+all:	otherdirs pathfinder
 
 pathfinder:	$(objects)
 	$(FORTRAN) $(objects) $(archives) -o $@
@@ -36,10 +38,8 @@ timrep.o:	timrep.f ../HEADERS/dim.h
 
 
 %.o:	%.f
-	$(FORTRAN) $(CFLAGS) $(FJSON) -o $@ $<
+	$(FORTRAN) $(FCFLAGS) $(FJSON) -o $@ $<
 
-
-all:	pathfinder
 
 clean:
 	$(RM) *.o pathfinder
@@ -47,4 +47,11 @@ clean:
 install:
 	$(COPY) pathfinder $(PREFIX)/bin
 
-.PHONEY:	clean install all
+otherdirs:
+	$(MAKE) -C ../json-fortran libjsonfortran.a
+	$(MAKE) -C ../COMMON       libfeffcom.a
+	$(MAKE) -C ../PAR          libfeffpar.a
+	$(MAKE) -C ../MATH         libfeffmath.a
+	$(MAKE) -C ../JSON         libfeffjson.a
+
+.PHONEY:	clean install all otherdirs

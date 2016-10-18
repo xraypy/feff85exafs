@@ -3,8 +3,8 @@
 PREFIX  ?= /usr/local
 
 FORTRAN ?= gfortran
-CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I../json-fortran -J../json-fortran
 AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
@@ -20,13 +20,13 @@ archives = ../json-fortran/libjsonfortran.a ../DEBYE/libfeffdw.a	\
 ../JSON/libfeffjson.a
 
 
-all:	ff2x
+all:	otherdirs ff2x
 
 ff2x:	$(objects) $(archives)
 	$(FORTRAN) $(objects) $(archives) -o $@
 
 %.o:	%.f
-	$(FORTRAN) $(CFLAGS) $(FJSON) -o $@ $<
+	$(FORTRAN) $(FCFLAGS) $(FJSON) -o $@ $<
 
 fdtarr.o:	fdtarr.f ../HEADERS/const.h ../HEADERS/dim.h
 fdthea.o:	fdthea.f ../HEADERS/const.h ../HEADERS/dim.h
@@ -48,4 +48,12 @@ clean:
 install:
 	$(COPY) ff2x $(PREFIX)/bin
 
-.PHONEY:	clean install all
+otherdirs:
+	$(MAKE) -C ../json-fortran libjsonfortran.a
+	$(MAKE) -C ../DEBYE        libfeffdw.a
+	$(MAKE) -C ../COMMON       libfeffcom.a
+	$(MAKE) -C ../PAR          libfeffpar.a
+	$(MAKE) -C ../MATH         libfeffmath.a
+	$(MAKE) -C ../JSON         libfeffjson.a
+
+.PHONEY:	clean install all otherdirs

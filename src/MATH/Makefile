@@ -3,8 +3,7 @@
 PREFIX  ?= /usr/local
 
 FORTRAN ?= gfortran
-CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
 AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
@@ -29,7 +28,7 @@ phamp.o:	phamp.f ../HEADERS/dim.h ../HEADERS/const.h
 
 
 %.o:	%.f
-	$(FORTRAN) $(CFLAGS) -o $@ $<
+	$(FORTRAN) $(FCFLAGS) -o $@ $<
 
 
 clean:

@@ -4,8 +4,8 @@ PREFIX  ?= /usr/local
 
 FORTRAN ?= gfortran
 SHARED  ?= -shared
-CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I../json-fortran -J../json-fortran
 AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
@@ -88,7 +88,7 @@ JSONobj = ../JSON/json_read_libpotph.o ../JSON/json_xsect.o ../JSON/bailout.o ..
 
 
 
-all:	libfeffint.a libpotph.so libfeffphases.so pot
+all:	otherdirs libfeffint.a libpotph.so libfeffphases.so pot
 
 libfeffint.a:	istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
 	$(AR) $(ARFLAGS) libfeffint.a istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
@@ -172,9 +172,37 @@ pot:	$(binobj) $(archives)
 ../XSPH/xsph.o:		../XSPH/xsph.f    ../HEADERS/dim.h ../HEADERS/const.h
 
 
+afolp.o:	afolp.f    ../HEADERS/const.h ../HEADERS/dim.h
+broydn.o:	broydn.f   ../HEADERS/const.h ../HEADERS/dim.h
+corval.o:	corval.f   ../HEADERS/const.h ../HEADERS/dim.h
+coulom.o:	coulom.f   ../HEADERS/const.h ../HEADERS/dim.h
+fermi.o:	fermi.f    ../HEADERS/const.h
+ff2g.o:		ff2g.f     ../HEADERS/const.h ../HEADERS/dim.h
+ffmod1.o:	ffmod1.f                      ../HEADERS/dim.h ../HEADERS/parallel.h
+ffsort_potph.o:	ffsort_potph.f ../HEADERS/const.h ../HEADERS/dim.h ../HEADERS/vers.h ../HEADERS/parallel.h
+frnrm.o:	frnrm.f                       ../HEADERS/dim.h
+grids.o:	grids.f    ../HEADERS/const.h
+inipot.o:	inipot.f                      ../HEADERS/dim.h
+inipotph.o:	inipotph.f ../HEADERS/const.h ../HEADERS/dim.h
+istprm.o:	istprm.f   ../HEADERS/const.h ../HEADERS/dim.h
+istval.o:	istval.f                      ../HEADERS/dim.h
+libpotph.o:	libpotph.f ../HEADERS/const.h ../HEADERS/dim.h ../HEADERS/parallel.h
+libpotph_xsect.o:	libpotph_xsect.f      ../HEADERS/dim.h
+moveh.o:	moveh.f    ../HEADERS/dim.h
+movrlp.o:	movrlp.f   ../HEADERS/const.h ../HEADERS/dim.h
+ovp2mt.o:	ovp2mt.f   ../HEADERS/const.h ../HEADERS/dim.h
+ovrlp.o:	ovrlp.f    ../HEADERS/const.h ../HEADERS/dim.h
+pot.o:		pot.f      ../HEADERS/const.h ../HEADERS/dim.h ../HEADERS/parallel.h
+reapot.o:	reapot.f   ../HEADERS/const.h ../HEADERS/dim.h
+rholie.o:	rholie.f   ../HEADERS/const.h ../HEADERS/dim.h
+scmt.o:		scmt.f     ../HEADERS/const.h ../HEADERS/dim.h
+scmtmp.o:	scmtmp.f   ../HEADERS/const.h ../HEADERS/dim.h ../HEADERS/parallel.h
+wpot.o:		wpot.f     ../HEADERS/const.h ../HEADERS/dim.h
+wrpot.o:	wrpot.f                       ../HEADERS/dim.h
+
 
 %.o:	%.f
-	$(FORTRAN) $(CFLAGS) $(FJSON) -o $@ $<
+	$(FORTRAN) $(FCFLAGS) $(FJSON) -o $@ $<
 
 %.o:	%.c
 	$(CC) $(CCFLAGS) $(FJSON) -o $@ $<
@@ -195,4 +223,23 @@ install:
 	$(COPY) feffphases.h     $(PREFIX)/include
 	$(INSTARCH)
 
-.PHONEY:	clean install all
+archives = ../POT/libfeffint.a ../ATOM/libfeffatom.a			\
+../FOVRG/libfeffpha.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a	\
+../MATH/libfeffmath.a ../JSON/libfeffjson.a ../EXCH/libfeffexch.a	\
+../FMS/libfefffms.a ../json-fortran/libjsonfortran.a
+# ../OPCONSAT/libfeffloss.a
+
+otherdirs:
+	$(MAKE) -C ../POT          libfeffint.a
+	$(MAKE) -C ../ATOM         libfeffatom.a
+	$(MAKE) -C ../FOVRG        libfeffpha.a
+	$(MAKE) -C ../COMMON       libfeffcom.a
+	$(MAKE) -C ../PAR          libfeffpar.a
+	$(MAKE) -C ../MATH         libfeffmath.a
+	$(MAKE) -C ../JSON         libfeffjson.a
+	$(MAKE) -C ../EXCH         libfeffexch.a
+	$(MAKE) -C ../FMS          libfefffms.a
+	$(MAKE) -C ../json-fortran libjsonfortran.a
+#	$(MAKE) -C ../OPCONSAT     libfeffloss.a
+
+.PHONEY:	clean install all otherdirs

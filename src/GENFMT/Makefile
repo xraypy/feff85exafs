@@ -3,8 +3,8 @@ PREFIX  ?= /usr/local
 
 FORTRAN ?= gfortran
 SHARED  ?= -shared
-CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I../json-fortran -J../json-fortran
 AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
@@ -15,7 +15,7 @@ CCFLAGS ?= -c -g -fPIC
 
 COPY    ?= cp -v
 
-all:	libfeffgenfmt.a libonepath.so libfeffpath.so genfmt
+all:	otherdirs libfeffgenfmt.a libonepath.so libfeffpath.so genfmt
 
 libobj = genfmt_prep.o fmtrxi.o mmtr.o mmtrxi.o import.o rot3i.o sclmz.o setlam.o snlm.o xstar.o trig.o
 
@@ -84,10 +84,10 @@ xstar.o:	xstar.f        ../HEADERS/const.h ../HEADERS/dim.h
 
 
 %.o:	%.f
-	$(FORTRAN) $(CFLAGS) $(FJSON) -o $@ $<
+	$(FORTRAN) $(FCFLAGS) $(FJSON) -o $@ $<
 
 %.o:	%.c
-	$(CC) $(CCFLAGS) $(FJSON) -o $@ $<
+	$(CC) $(CCFLAGS) -o $@ $<
 
 
 clean:
@@ -105,4 +105,12 @@ install:
 	$(COPY) feffpath.h     $(PREFIX)/include
 	$(INSTARCH)
 
-.PHONEY:	clean install all
+otherdirs:
+	$(MAKE) -C ../json-fortran libjsonfortran.a
+	$(MAKE) -C ../DEBYE        libfeffdw.a
+	$(MAKE) -C ../COMMON       libfeffcom.a
+	$(MAKE) -C ../PAR          libfeffpar.a
+	$(MAKE) -C ../MATH         libfeffmath.a
+	$(MAKE) -C ../JSON         libfeffjson.a
+
+.PHONEY:	clean install all otherdirs

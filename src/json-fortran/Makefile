@@ -1,9 +1,7 @@
 
 
-FORTRAN  ?= gfortran
-F90      ?= -std=f2008
-F90FLAGS ?= -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -fPIC
-FJSON    ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+F90      ?= gfortran
+F90FLAGS ?= -std=f2008 -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -fPIC
 AR       ?= ar
 ARFLAGS  ?= rvc
 RANLIB   ?= ranlib
@@ -13,7 +11,7 @@ COPY     ?= cp -v
 all:	json_module.mod json_module.o libjsonfortran.a
 
 json_module.mod json_module.o:	json_module.f90
-	$(FORTRAN) $(F90) $(F90FLAGS) -o $@ $<
+	$(F90) $(F90FLAGS) -o $@ $<
 
 libjsonfortran.a:
 	$(AR) $(ARFLAGS) libjsonfortran.a json_module.o

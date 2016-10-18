@@ -2,9 +2,10 @@
 
 PREFIX  ?= /usr/local
 
+
 FORTRAN ?= gfortran
-CFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   ?= -I/home/bruce/git/feff85exafs/src/json-fortran -J/home/bruce/git/feff85exafs/src/json-fortran
+FCFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FJSON   ?= -I../json-fortran -J../json-fortran
 AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
@@ -22,6 +23,8 @@ archives = ../json-fortran/libjsonfortran.a ../ATOM/libfeffatom.a	\
 ../MATH/libfeffmath.a ../JSON/libfeffjson.a
 
 otherobj = ../FF2X/xscorr.o ../POT/grids.o ../MATH/terpc.o
+
+all:	otherdirs xsph
 
 xsph:	$(objects) $(archives) $(otherobj)
 	$(FORTRAN) $(objects) $(archives) $(otherobj) -o $@
@@ -53,10 +56,8 @@ xsph.o:		xsph.f    ../HEADERS/dim.h ../HEADERS/const.h
 
 
 %.o:	%.f
-	$(FORTRAN) $(CFLAGS) $(FJSON) -o $@ $<
+	$(FORTRAN) $(FCFLAGS) $(FJSON) -o $@ $<
 
-
-all:	xsph
 
 clean:
 	$(RM) *.o xsph
@@ -64,4 +65,16 @@ clean:
 install:
 	$(COPY) xsph $(PREFIX)/bin
 
-.PHONEY:	clean install all
+otherdirs:
+	$(MAKE) -C ../json-fortran libjsonfortran.a
+	$(MAKE) -C ../ATOM         libfeffatom.a
+	$(MAKE) -C ../FOVRG        libfeffpha.a
+	$(MAKE) -C ../FMS          libfefffms.a
+	$(MAKE) -C ../POT          libfeffint.a
+	$(MAKE) -C ../EXCH         libfeffexch.a
+	$(MAKE) -C ../COMMON       libfeffcom.a
+	$(MAKE) -C ../PAR          libfeffpar.a
+	$(MAKE) -C ../MATH         libfeffmath.a
+	$(MAKE) -C ../JSON         libfeffjson.a
+
+.PHONEY:	clean install all otherdirs
