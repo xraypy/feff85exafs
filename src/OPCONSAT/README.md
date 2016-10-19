@@ -22,7 +22,6 @@ To turn opconsat back on:
    reading of the `iplsmn` parameter at lines 266-267
  * Edit `../POT/libpotph.f` and uncomment the call to `feffloss` at
    lines 292-294
- * Write a `Makefile` for this part of Feff!!
 
 
 # Build and install

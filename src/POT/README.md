@@ -14,16 +14,15 @@ gets compiled to `libfeffphases.so`.
 
 Most routines in this directory are covered by the [LICENSE](../HEADERS/license.h)
 
-The [JSON parser](https://bitbucket.org/yarosla/nxjson) contained in
-`nxjson.c` and `nxjson.h` is Copyright (c) 2013 Yaroslav Stavnichiy
-and released under
-[LGPL v3](http://opensource.org/licenses/lgpl-3.0.html).
+The [JSON parser](https://github.com/jacobwilliams/json-fortran) is
+the work of Jacob Williams and is available under
+[a BSD-like license](https://raw.githubusercontent.com/jacobwilliams/json-fortran/master/LICENSE)
 
 The C wrapper around POT and XSPH is released to the public domain.
 
 # Build and install
 
-To build, type `scons`.  This will build:
+To build, type `make`.  This will build:
 
  * `libfeffint.a`: most of the functionality of POT, a static library
    used to build the stand-alone executables
@@ -31,7 +30,7 @@ To build, type `scons`.  This will build:
  * `libpotph.so`: the Fortran entry point for generating the phases file
  * `libfeffphases.so`: the C wrapper around libpotph
 
-Once built, type `scons install` to install everything:
+Once built, type `sudo make install` to install everything:
 
  * `libpotph.so`, `libphases.so`: installed to `/usr/local/lib`
  * `pot`: installed to `/usr/local/bin`

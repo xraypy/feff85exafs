@@ -42,40 +42,44 @@ The following libraries contain the various parts of Feff.
 * `GENFMT/libfeffgenfmt.a`
 * `JSON/libfeffjson.a`
 * `MATH/libfeffmath.a`
+* `OPCONSAT/libfeffopconsat.a`
 * `PAR/libfeffpar.a`
 * `POT/libfeffint.a`
 
 These will be used to compile against the stand-alone executables, but
-will not be installed on the system.
+will normally not be installed on the system.
 
 ## Stand-alone programs
 
 * `RDINP/rdinp`: input file reader 
 * `POT/pot`: module 1, potentials calculation
+* `OPCONSAT/opconsat` and `OPCONSAT/eps2exc`: multipole loss approximation
 * `XSPH/xsph`: module 2, phase shifts calculation
 * `PATH/pathfinder`: module 4, path finder
 * `GENFMT/genfmt`: module 5, F-matrix calculation
 * `FF2X/ff2x`: module 6, output files
 
 Note that module 3, `fms`, the full multiple scattering XANES
-calculator, is not a part of feff85exafs.
+calculator, is not a part of feff85exafs, although the matrix algebra
+components can be used to compute self-consistent potentials.
 
 Default installation locations:
 
 * Linux: `/usr/local/bin`
-* Windows: `C:\Program Files\larch\bin`
-* Mac: `/some/where/bin`     :FIXME:
+* Windows: `C:\Program Files\???`     :FIXME:
+* Mac: `/some/where/bin`              :FIXME:
 
-See below for hints of setting the prefix from the command line.
+See below for hints of setting the installation location prefix from
+the command line.
 
 Note that the ultimate goal of the feff85exafs project is to do away
 with the stand-alone programs.
  * `rdinp` is a chore better handled by a GUI or other user interface.
+ * `pot` and `xsph` (as well as `opconsat` and `eps2exc`) are replaced
+   by the `feffphases` library
  * `genfmt` and `ff2x` are replaced by the `feffpath` library, which
    can be called directly by a program written in fortran, C, or some
    other language
- * eventually `pot` and `xsph` will be replaced by a similarly callable
-   library
  * finally the pathfinder is missing critical features (most
    prominently: caching geometry of degenerate paths and fuzzy
    degeneracy).  The pathfinder has already been rewritten in Perl for
@@ -94,25 +98,21 @@ This presumes that `pot` and `xsph` have already been run and that the
 * `GENFMT/libonepath.so`: This is the Fortran entry point.
 * `GENFMT/libfeffpath.so`: This is the C wrapper around the Fortran onepath
 * `GENFMT/feffpath.h`: This is the header file, almost certainly required by any language wrapper
-* `GENFMT/perl/feffpath_wrap.c`: The SWIG generated wrapper file for use with the Python wrapper
-* `GENFMT/perl/FeffPathWrapper.pm`: This is the SWIG generated Perl wrapper
-* `GENFMT/python/feffpath_wrap.c`: The SWIG generated wrapper file for use with the Perl wrapper
-* `GENFMT/python/feffpathwrapper.py`: This is the SWIG generated Perl wrapper
 
 `libonepath.so` and `libfeffpath.so` will be installed to:
 
 * Linux: `/usr/local/lib`
-* Windows: `C:\Program Files\larch\dlls\<platform>`
-* Mac: `/some/where/lib`     :FIXME:
-
-For Windows `<platform>` will be either `win32` or `win64`.
+* Windows: `C:\Program Files\???`   :FIXME:
+* Mac: `/some/where/lib`            :FIXME:
 
 This can be set from the command line:
 
-	~> scons prefix="/other/location"
+	~> make PREFIX="/other/location"
 
-where the default value for "prefix" is `/usr/local` on Linux, etc.
-(This may not work on Windows -- you may have to edit `FeffBuild.py`.)
+where the default value for "PREFIX" is `/usr/local` on Linux, etc.
+
+Alternately, you could edit the top-level make file with the PREFIX
+location and any other compilation changes for your machine.
 
 This location **must** be in the linker/loader path.  With bash, for
 example, you may need to do
@@ -141,13 +141,13 @@ on) with JSON file.  Reading and writing the JSON files is currently
 done using
 [json-fortran](https://github.com/jacobwilliams/json-fortran).
 
-According to the json-fortran web page, it can be compiled with
-Visual Studio 2010, Intel Fortran, and gfortran 4.9.  My only
-experience is with gfortran 4.9.  I know that gfortran 4.8 will not
-do.
+According to the json-fortran web page, it can be compiled with Visual
+Studio 2010, Intel Fortran, and gfortran 4.9.  My only experience is
+with gfortran 4.9 and greater.  I know that gfortran 4.8 will not
+work.
 
-Once I installed gfortran 4.9
-([this helped on my Ubuntu machine](http://askubuntu.com/questions/428198/getting-installing-gcc-g-4-9-on-ubuntu)),
+With gfortran 4.9 or higher
+([this helped on an older Ubuntu machine](http://askubuntu.com/questions/428198/getting-installing-gcc-g-4-9-on-ubuntu)),
 I was able to use the `build.sh` script that comes with json-fortran
 to build the static library and the test program.  The static library
 and corresponding module end up in the `lib/` folder.
@@ -156,11 +156,9 @@ The files in `lib/` need to end up someplace where the compiler and
 linker can find them.  The simple build script doesn't do an install.
 I put the `libjsonfortran.a` and `json_module.mod` files in
 `/usr/local/lib`.  This way, the linker was able to find the library
-and the `FeffBuild.py` file, which configures compilation flags for
-the scons build system, sets the `-I` and `-J` flags appropriately.
+and the Makefiles set the `-I` and `-J` flags appropriately.
 
 ## Matt's comment on json-fortran
-
 
 Matt has these reasonable things to say about compiling against json-fortran:
 
@@ -185,15 +183,6 @@ addressed and well tested.
 
 **NOTE (2015-02-11):** This seems not to be a problem.  Everything is
 working for me (Bruce) on both linux and Windows with gfortran 4.9.
-
-
----
-
-# To be fixed
-
-1. C wrapper's SConstruct has /usr/local/lib hardwired
-
-2. use of `-fPIC` is hardwired throughout
 
 
 ---

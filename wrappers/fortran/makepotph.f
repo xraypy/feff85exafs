@@ -50,7 +50,7 @@ c     EXCHANGE
      9       ixc, vr0, vi0, ixc0,
 c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
      _       iafolp, folp, xion, rgrd, iunf,
-c     INTERSTITIAL, JUMPRM, NOHOLE
+c     INTERSTITIAL, JUMPRM, NOHOLE, PLASMON
      1       inters, totvol, jumprm, nohole, iplsmn)
 
 
@@ -80,7 +80,7 @@ c     EXCHANGE
      9       ixc, vr0, vi0, ixc0,
 c     AFOLP, FOLP, ION, RGRID, UNFREEZEF
      _       iafolp, folp, xion, rgrd, iunf,
-c     INTERSTITIAL, JUMPRM, NOHOLE
+c     INTERSTITIAL, JUMPRM, NOHOLE, PLASMON
      1       inters, totvol, jumprm, nohole, iplsmn)
 
 

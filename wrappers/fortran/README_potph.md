@@ -11,7 +11,7 @@ library.
 
 To compile the `makepotph` sample program:
 
-	~> scons
+	~> make
 
 That's it!
 
@@ -30,7 +30,7 @@ Here is the simplest program using the Fortran entry point in
       character*80 title(nheadx)
       integer ntitle, nat, nph, iphat(natx), ipol, ispin, ihole
       integer lfms1, nmix, icoul, ixc, ixc0, iafolp, iunf, inters
-      integer jumprm, nohole
+      integer jumprm, nohole, iplsmn
       integer iz(0:nphx), lmaxsc(0:nphx), lmaxph(0:nphx)
       double precision evec(3), xivec(3), spvec(3), spinph(0:nphx)
       complex*16 ptz(-1:1, -1:1)
@@ -50,7 +50,7 @@ Here is the simplest program using the Fortran entry point in
      3       ipol, evec, elpty, xivec, ispin, spvec, angks,
      4       ptz, gamach, ixc, vr0, vi0, ixc0,
      5       iafolp, folp, xion, rgrd, iunf,
-     6       inters, totvol, jumprm, nohole)
+     6       inters, totvol, jumprm, nohole, iplsmn)
 
 	  call json_read_libpotph(ntitle, title, nat, rat, iphat,
      1       nph, iz, potlbl, lmaxsc, lmaxph, xnatph, spinph,
@@ -58,7 +58,7 @@ Here is the simplest program using the Fortran entry point in
      3       ipol, evec, elpty, xivec, ispin, spvec, angks,
      4       ptz, gamach, ixc, vr0, vi0, ixc0,
      5       iafolp, folp, xion, rgrd, iunf,
-     6       inters, totvol, jumprm, nohole)
+     6       inters, totvol, jumprm, nohole, iplsmn)
 
 	  phpad = 'phase.pad'
 	  verbse = .true.
@@ -69,7 +69,7 @@ Here is the simplest program using the Fortran entry point in
      4       ipol, evec, elpty, xivec, ispin, spvec, angks,
      5       ptz, gamach, ixc, vr0, vi0, ixc0,
      6       iafolp, folp, xion, rgrd, iunf,
-     7       inters, totvol, jumprm, nohole)
+     7       inters, totvol, jumprm, nohole, iplsmn)
 
 	  stop
 	  end
@@ -150,6 +150,7 @@ to be consistent with the naming conventions in Feff.
 |  totvol    | double precision     | I   | interstitial potential and density param                     | INTERSTITIAL |
 |  jumprm    | integer              | I   | 1=remove potential jumps at muffin tin radii                 | JUMPRM       |
 |  nohole    | integer              | I   | 1=compute without core-hole                                  | NOHOLE       |
+|  iplsmn    | integer              | I   | 1=compute with the MPSE approximation                        | PLASMON      |
 
 
 ### A note about Feff's screen messages

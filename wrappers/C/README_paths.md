@@ -14,7 +14,7 @@ resulting from improper input to `add\_scatterer` or `make_path`.
 
 To compile the `makepath` and `errors` sample programs:
 
-	~> scons
+	~> make
 
 That's it!
 
