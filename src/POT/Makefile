@@ -1,6 +1,9 @@
 
 
 PREFIX  ?= /usr/local
+BINDIR  ?= $(PREFIX)/bin
+LIBDIR  ?= $(PREFIX)/lib
+INCDIR  ?= $(PREFIX)/include
 
 FORTRAN ?= gfortran
 SHARED  ?= -shared
@@ -217,10 +220,10 @@ INSTARCH = $(COPY) libfeffint.a $(PREFIX)/lib
 endif
 
 install:
-	$(COPY) pot              $(PREFIX)/bin
-	$(COPY) libpotph.so      $(PREFIX)/lib
-	$(COPY) libfeffphases.so $(PREFIX)/lib
-	$(COPY) feffphases.h     $(PREFIX)/include
+	$(COPY) pot              $(BINDIR)
+	$(COPY) libpotph.so      $(LIBDIR)
+	$(COPY) libfeffphases.so $(LIBDIR)
+	$(COPY) feffphases.h     $(INCDIR)
 	$(INSTARCH)
 
 archives = ../POT/libfeffint.a ../ATOM/libfeffatom.a			\

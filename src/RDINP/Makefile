@@ -1,6 +1,7 @@
 
 
 PREFIX  ?= /usr/local
+BINDIR  ?= $(PREFIX)/bin
 
 FORTRAN ?= gfortran
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
@@ -35,7 +36,7 @@ clean:
 	$(RM) *.o rdinp
 
 install:
-	$(COPY) rdinp $(PREFIX)/bin
+	$(COPY) rdinp $(BINDIR)
 
 otherdirs:
 	$(MAKE) -C ../json-fortran libjsonfortran.a

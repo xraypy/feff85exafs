@@ -22,6 +22,8 @@ To turn opconsat back on:
    reading of the `iplsmn` parameter at lines 266-267
  * Edit `../POT/libpotph.f` and uncomment the call to `feffloss` at
    lines 292-294
+ * uncomment all the lines related to OPCONSAT in the main Makefile
+ * uncomment all the lines related to OPCONSAT in `src/POT/Makefile`
 
 
 # Build and install

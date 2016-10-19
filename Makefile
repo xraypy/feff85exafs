@@ -1,36 +1,33 @@
 
-# package = @PACKAGE_NAME@
-# version = @PACKAGE_VERSION@
-# tarname = @PACKAGE_TARNAME@
-# distdir = $(tarname)-$(version)
-
-# prefix = @prefix@
-# exec_prefix = @exec_prefix@
-# bindir = @bindir@
-
 export PREFIX  = /usr/local
 export BASEDIR = ${CURDIR}
+export BINDIR  = $(PREFIX)/bin		# installation location for programs
+export LIBDIR  = $(PREFIX)/lib		# installation location for libraries
+export INCDIR  = $(PREFIX)/include	# installation location for include files
 
-## compile Feff's Fortran
-export FORTRAN = gfortran
-export SHARED  = -shared
-export FCFLAGS = -c -O3 -ffree-line-length-none -g -Wall -fPIC
-export FJSON   = -I$(BASEDIR)/src/json-fortran -J$(BASEDIR)/src/json-fortran
+###########################################################################################
+# gcc (tested on Ubuntu linux with gcc 5.4.0)                                             #
+###########################################################################################
+export FORTRAN  = gfortran	## compile Feff's Fortran
+export SHARED   = -shared
+export FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
+export FJSON    = -I$(BASEDIR)/src/json-fortran -J$(BASEDIR)/src/json-fortran
 
-## compile the C wrappers for phases and paths
-export CC      = gcc
-export CCFLAGS = -c -g -fPIC
+export CC       = gcc	 	## compile the C wrappers for phases and paths
+export CCFLAGS  = -c -g -fPIC
 
-## compile json-fortran, which is F2008
-export F90      = gfortran
+export F90      = gfortran	## compile json-fortran, which is F2008
 export F90FLAGS = -std=f2008 -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -fPIC
+###########################################################################################
 
+###########################################################################################
+## gnu tools on linux
 export AR      = ar
 export ARFLAGS = rvc
 export RANLIB  = ranlib
-
 export RM      = rm -f
 export COPY    = cp -v
+###########################################################################################
 
 
 

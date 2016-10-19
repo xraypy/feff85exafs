@@ -1,5 +1,8 @@
 
 PREFIX  ?= /usr/local
+BINDIR  ?= $(PREFIX)/bin
+LIBDIR  ?= $(PREFIX)/lib
+INCDIR  ?= $(PREFIX)/include
 
 F90      ?= gfortran
 F90FLAGS ?= -std=f2008 -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -fPIC
@@ -69,9 +72,9 @@ INSTARCH = $(COPY) libfeffopconsat.a $(PREFIX)/lib
 endif
 
 install:
-	$(COPY) opconsat         $(PREFIX)/bin
-	$(COPY) eps2exc          $(PREFIX)/bin
-	$(COPY) libfeffloss.so   $(PREFIX)/lib
+	$(COPY) opconsat         $(BINDIR)
+	$(COPY) eps2exc          $(BINDIR)
+	$(COPY) libfeffloss.so   $(LIBDIR)
 	$(INSTARCH)
 
 .PHONEY:	clean install all otherdirs

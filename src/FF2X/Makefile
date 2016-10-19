@@ -1,6 +1,7 @@
 
 
 PREFIX  ?= /usr/local
+BINDIR  ?= $(PREFIX)/bin
 
 FORTRAN ?= gfortran
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
@@ -46,7 +47,7 @@ clean:
 	$(RM) *.o ff2x
 
 install:
-	$(COPY) ff2x $(PREFIX)/bin
+	$(COPY) ff2x $(BINDIR)
 
 otherdirs:
 	$(MAKE) -C ../json-fortran libjsonfortran.a

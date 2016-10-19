@@ -1,6 +1,7 @@
 
 
 PREFIX  ?= /usr/local
+LIBDIR  ?= $(PREFIX)/lib
 
 FORTRAN ?= gfortran
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
@@ -40,7 +41,7 @@ clean:
 
 INSTARCH = @echo "Nothing to install in EXCH"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffexch.a $(PREFIX)/lib
+INSTARCH = $(COPY) libfeffexch.a $(LIBDIR)
 endif
 
 install:

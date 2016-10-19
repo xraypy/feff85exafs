@@ -1,5 +1,6 @@
 
 PREFIX  ?= /usr/local
+LIBDIR  ?= $(PREFIX)/lib
 
 FORTRAN ?= gfortran
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
@@ -53,7 +54,7 @@ clean:
 
 INSTARCH = @echo "Nothing to install in ATOM"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffatom.a $(PREFIX)/lib
+INSTARCH = $(COPY) libfeffatom.a $(LIBDIR)
 endif
 
 install:

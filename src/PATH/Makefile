@@ -1,5 +1,8 @@
 
 
+PREFIX  ?= /usr/local
+BINDIR  ?= $(PREFIX)/bin
+
 FORTRAN ?= gfortran
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
 FJSON   ?= -I../json-fortran -J../json-fortran
@@ -45,7 +48,7 @@ clean:
 	$(RM) *.o pathfinder
 
 install:
-	$(COPY) pathfinder $(PREFIX)/bin
+	$(COPY) pathfinder $(BINDIR)
 
 otherdirs:
 	$(MAKE) -C ../json-fortran libjsonfortran.a

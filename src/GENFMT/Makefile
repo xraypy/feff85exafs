@@ -1,5 +1,8 @@
 
 PREFIX  ?= /usr/local
+BINDIR  ?= $(PREFIX)/bin
+LIBDIR  ?= $(PREFIX)/lib
+INCDIR  ?= $(PREFIX)/include
 
 FORTRAN ?= gfortran
 SHARED  ?= -shared
@@ -99,10 +102,10 @@ INSTARCH = $(COPY) libfeffgenfmt.a $(PREFIX)/lib
 endif
 
 install:
-	$(COPY) genfmt         $(PREFIX)/bin
-	$(COPY) libonepath.so  $(PREFIX)/lib
-	$(COPY) libfeffpath.so $(PREFIX)/lib
-	$(COPY) feffpath.h     $(PREFIX)/include
+	$(COPY) genfmt         $(BINDIR)
+	$(COPY) libonepath.so  $(LIBDIR)
+	$(COPY) libfeffpath.so $(LIBDIR)
+	$(COPY) feffpath.h     $(INCDIR)
 	$(INSTARCH)
 
 otherdirs:

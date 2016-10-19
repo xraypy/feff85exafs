@@ -1,4 +1,6 @@
 
+PREFIX  ?= /usr/local
+LIBDIR  ?= $(PREFIX)/lib
 
 F90      ?= gfortran
 F90FLAGS ?= -std=f2008 -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -fPIC
@@ -21,7 +23,7 @@ clean:
 	$(RM) *.a *.o *.mod
 
 install:
-	$(COPY) libjsonfortran.a $(PREFIX)/lib
-	$(COPY) json_module.mod  $(PREFIX)/lib
+	$(COPY) libjsonfortran.a $(LIBDIR)
+	$(COPY) json_module.mod  $(LIBDIR)
 
 .PHONEY:	clean install all

@@ -1,6 +1,7 @@
 
 
 PREFIX  ?= /usr/local
+LIBDIR  ?= $(PREFIX)/lib
 
 FORTRAN ?= gfortran
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
@@ -36,7 +37,7 @@ clean:
 
 INSTARCH = @echo "Nothing to install in MATH"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffmath.a $(PREFIX)/lib
+INSTARCH = $(COPY) libfeffmath.a $(LIBDIR)
 endif
 
 install:

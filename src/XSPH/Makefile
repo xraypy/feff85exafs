@@ -1,10 +1,9 @@
 
-
 PREFIX  ?= /usr/local
-
+BINDIR  ?= $(PREFIX)/bin
 
 FORTRAN ?= gfortran
-FCFLAGS  ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
 FJSON   ?= -I../json-fortran -J../json-fortran
 AR      ?= ar
 ARFLAGS ?= rvc
@@ -63,7 +62,7 @@ clean:
 	$(RM) *.o xsph
 
 install:
-	$(COPY) xsph $(PREFIX)/bin
+	$(COPY) xsph $(BINDIR)
 
 otherdirs:
 	$(MAKE) -C ../json-fortran libjsonfortran.a

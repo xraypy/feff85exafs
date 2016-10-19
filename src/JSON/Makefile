@@ -1,5 +1,6 @@
 
 PREFIX  ?= /usr/local
+LIBDIR  ?= $(PREFIX)/lib
 
 FORTRAN ?= gfortran
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
@@ -40,7 +41,7 @@ clean:
 
 INSTARCH = @echo "Nothing to install in JSON"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffjson.a $(PREFIX)/lib
+INSTARCH = $(COPY) libfeffjson.a $(LIBDIR)
 endif
 
 install:
