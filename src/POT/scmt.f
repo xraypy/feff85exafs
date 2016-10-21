@@ -7,7 +7,7 @@
      7                rat,iatph,iphat, lmaxsc, rhoval, xnmues, ok,
      8                rgrd, nohole, nscmt, icoul, ca1, rfms1, lfms1)
 
-c     Finds new Fermi level (xmu), electron counts (qnrm) 
+c     Finds new Fermi level (xmu), electron counts (qnrm)
 c     and new valence densities (rhoval).
 
       implicit double precision (a-h, o-z)
@@ -47,7 +47,7 @@ c     complex energy grid emg is decomposed into em and eref
       parameter (negx = 80)
       complex*16 emg(negx), em, eref, ee, ep, fl, fr, fxa
 c     nflrx should be odd and defines the max of Im energy for
-c     the countour 
+c     the countour
       parameter (nflrx = 17)
       dimension step(nflrx)
 c     stuff from feff.f for rdinp, pathfinder and genfmt
@@ -180,7 +180,7 @@ cc    call fms for a cluster around central atom
           call fmsie(verbse, iph0, nph, lmaxsc, ie,  em, eref, ph,
      1                rfms1, lfms1, nat, iphat, rat, gtr)
         else
-          do 190 iph0 = 0, nph 
+          do 190 iph0 = 0, nph
   190     call fmsie(verbse, iph0, nph, lmaxsc, ie, em, eref, ph,
      1                rfms1, lfms1, nat, iphat, rat, gtr)
         endif
@@ -191,9 +191,9 @@ cc    call fms for a cluster around central atom
       fr = 0
       do 300 iph = 0,nph
 c       calculate density and integrated number of electrons in each
-c       channel for each type of atoms density, etc., find xntot. 
-        call ff2g (gtr(0,iph), iph, ie, nr05(iph), xrhoce, 
-     1     xrhole(0,iph), xrhocp, ee, ep, 
+c       channel for each type of atoms density, etc., find xntot.
+        call ff2g (gtr(0,iph), iph, ie, nr05(iph), xrhoce,
+     1     xrhole(0,iph), xrhocp, ee, ep,
      2     yrhole(1,0,iph), yrhoce(1,iph), yrhocp(1,iph), rhoval(1,iph),
      3     xnmues(0,iph), xnatph(iph), xntot, iflr, iflrp, fl, fr, iunf)
   300 continue
@@ -207,7 +207,7 @@ c     horizontal step to search for Fermi level associated with it.
 c     The driver below will decide whether to go left or right on
 c     the current floor, go one floor up or down.
 
-      if ((ie.lt.neg .and. ient.gt.1) .or. 
+      if ((ie.lt.neg .and. ient.gt.1) .or.
      1    (ient.eq.1.and.ie.lt.nflrx)) then
          ep = ee
          ee = emg(ie+1)
@@ -245,7 +245,8 @@ c          Fermi level is found ; do not goto 25
               a = xndif/(xndif-xndifp)
               do 220 i = 1,4
                 fxa = a*fl + (1-a)*fr
-                bb = dimag((ep-ee)*(fr+fxa)/2 + coni*dimag(ee)*(fr-fl))
+                bb = dimag(dcmplx((ep-ee)*(fr+fxa)/2 +
+     $               coni*imag(ee)*(fr-fl)))
                 xndif1 = xndif + a * bb
                 a = a - xndif1 / bb
   220         continue
@@ -260,7 +261,8 @@ c          factor 2 for spin degeneracy
                 fl = xrhocp(il,iph) * 2
                 fr = xrhoce(il,iph) * 2
                 fxa = a*fl + (1-a)*fr
-                bb = dimag((ep-ee)*(fr+fxa)/2 + coni*dimag(ee)*(fr-fl))
+                bb = dimag(dcmplx((ep-ee)*(fr+fxa)/2 +
+     1               coni*dimag(dcmplx(ee))*(fr-fl)))
                 xnmues(il,iph) = xnmues(il,iph) + a * bb
                endif
   230         continue
@@ -268,7 +270,8 @@ c          factor 2 for spin degeneracy
                 fl = yrhocp(ir,iph) * 2
                 fr = yrhoce(ir,iph) * 2
                 fxa = a*fl + (1-a)*fr
-                bb = dimag((ep-ee)*(fr+fxa)/2 + coni*dimag(ee)*(fr-fl))
+                bb = dimag(dcmplx((ep-ee)*(fr+fxa)/2 +
+     1               coni*dimag(dcmplx(ee))*(fr-fl)))
                 rhoval(ir,iph) = rhoval(ir,iph) + a * bb
   240         continue
   250      continue
@@ -343,7 +346,7 @@ c            if (ient.gt.1) ok = .false.
          endif
  320  continue
 
-c     if (.not. ok) then will restart SCF loop 
+c     if (.not. ok) then will restart SCF loop
       if (ok) then
          xmu = xmunew
 c        find rhoval via Broyden algorithm
