@@ -17,14 +17,17 @@ CC      ?= gcc
 CCFLAGS ?= -c -g -fPIC
 
 COPY    ?= cp -v
+SHOBJ   ?= .so
+ARCHV   ?= .a
+EXEXT   ?=
 
-all:	otherdirs libfeffgenfmt.a libonepath.so libfeffpath.so genfmt
+all:	otherdirs libfeffgenfmt$(ARCHV) libonepath$(SHOBJ) libfeffpath$(SHOBJ) genfmt$(EXEXT)
 
 libobj = genfmt_prep.o fmtrxi.o mmtr.o mmtrxi.o import.o rot3i.o sclmz.o setlam.o snlm.o xstar.o trig.o
 
-libfeffgenfmt.a:	$(libobj)
-	$(AR) $(ARFLAGS) libfeffgenfmt.a $(libobj)
-	$(RANLIB) libfeffgenfmt.a
+libfeffgenfmt$(ARCHV):	$(libobj)
+	$(AR) $(ARFLAGS) libfeffgenfmt$(ARCHV) $(libobj)
+	$(RANLIB) libfeffgenfmt$(ARCHV)
 
 shobjects = ../FF2X/fdtarr.o ../FF2X/fdthea.o ../FF2X/fdtxdi.o		\
 ../RDINP/mkptz.o ../COMMON/wlog.o ../COMMON/chopen.o			\
@@ -47,22 +50,23 @@ shobjects = ../FF2X/fdtarr.o ../FF2X/fdthea.o ../FF2X/fdtxdi.o		\
 ../MATH/bcoef.o:	../MATH/bcoef.f                        ../HEADERS/dim.h
 ../PAR/sequential.o:	../PAR/sequential.f                                     ../HEADERS/parallel.h
 
-libonepath.so:	onepath.o pathgeom.o $(libobj) $(shobjects)
+libonepath$(SHOBJ):	onepath.o pathgeom.o $(libobj) $(shobjects)
 	$(FORTRAN) $(SHARED) onepath.o pathgeom.o $(libobj) $(shobjects) -o $@
 
-libfeffpath.so:	feffpath.o libonepath.so
-	$(FORTRAN) $(SHARED) feffpath.o libonepath.so -o $@
+libfeffpath$(SHOBJ):	feffpath.o libonepath$(SHOBJ)
+	$(FORTRAN) $(SHARED) feffpath.o libonepath$(SHOBJ) -o $@
 
 
 binobj = ffmod5.o genfmt.o rdpath.o regenf.o
-archives = ../json-fortran/libjsonfortran.a ../DEBYE/libfeffdw.a	\
-../COMMON/libfeffcom.a ../PAR/libfeffpar.a ../MATH/libfeffmath.a	\
-../JSON/libfeffjson.a
+archives = ../json-fortran/libjsonfortran$(ARCHV)	\
+../DEBYE/libfeffdw$(ARCHV) ../COMMON/libfeffcom$(ARCHV)	\
+../PAR/libfeffpar$(ARCHV) ../MATH/libfeffmath$(ARCHV)	\
+../JSON/libfeffjson$(ARCHV)
 
 
 
-genfmt:	$(binobj) libfeffgenfmt.a $(archives)
-	$(FORTRAN) $(binobj) libfeffgenfmt.a $(archives) -o $@
+genfmt$(EXEXT):	$(binobj) libfeffgenfmt$(ARCHV) $(archives)
+	$(FORTRAN) $(binobj) libfeffgenfmt$(ARCHV) $(archives) -o $@
 
 
 feffpath.o:	feffpath.c feffpath.h
@@ -94,26 +98,26 @@ xstar.o:	xstar.f        ../HEADERS/const.h ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *.so *.o *.a *.so genfmt
+	$(RM) *$(SHOBJ) *.o *$(ARCHV) genfmt$(EXEXT)
 
-INSTARCH = @echo "Not installing .a files"
+INSTARCH = @echo "Not installing $(ARCHV) files"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffgenfmt.a $(PREFIX)/lib
+INSTARCH = $(COPY) libfeffgenfmt$(ARCHV) $(PREFIX)/lib
 endif
 
 install:
-	$(COPY) genfmt         $(BINDIR)
-	$(COPY) libonepath.so  $(LIBDIR)
-	$(COPY) libfeffpath.so $(LIBDIR)
-	$(COPY) feffpath.h     $(INCDIR)
+	$(COPY) genfmt$(EXEXT)      $(BINDIR)
+	$(COPY) libonepath$(SHOBJ)  $(LIBDIR)
+	$(COPY) libfeffpath$(SHOBJ) $(LIBDIR)
+	$(COPY) feffpath.h          $(INCDIR)
 	$(INSTARCH)
 
 otherdirs:
-	$(MAKE) -C ../json-fortran libjsonfortran.a
-	$(MAKE) -C ../DEBYE        libfeffdw.a
-	$(MAKE) -C ../COMMON       libfeffcom.a
-	$(MAKE) -C ../PAR          libfeffpar.a
-	$(MAKE) -C ../MATH         libfeffmath.a
-	$(MAKE) -C ../JSON         libfeffjson.a
+	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)
+	$(MAKE) -C ../DEBYE        libfeffdw$(ARCHV)
+	$(MAKE) -C ../COMMON       libfeffcom$(ARCHV)
+	$(MAKE) -C ../PAR          libfeffpar$(ARCHV)
+	$(MAKE) -C ../MATH         libfeffmath$(ARCHV)
+	$(MAKE) -C ../JSON         libfeffjson$(ARCHV)
 
 .PHONEY:	clean install all otherdirs

@@ -12,6 +12,8 @@ RM      ?= rm
 
 COPY    ?= cp -v
 
+ARCHV   ?= .a
+
 objects = akeato.o cofcon.o etotal.o fpf0.o lagdat.o nucdev.o	\
 potslw.o soldir.o wfirdf.o aprdev.o dentfa.o fdmocc.o inmuat.o	\
 messer.o ortdat.o s02at.o tabrat.o yzkrdf.o bkmrdf.o dsordf.o	\
@@ -23,11 +25,11 @@ deps = ../COMMON/wlog.o ../COMMON/getorb.o ../COMMON/str.o		\
 ../MATH/cwig3j.o ../EXCH/vbh.o ../EXCH/edp.o
 
 
-all:	libfeffatom.a
+all:	libfeffatom$(ARCHV)
 
-libfeffatom.a:	$(objects) $(deps)
-	$(AR) $(ARFLAGS) libfeffatom.a $(objects) $(deps)
-	$(RANLIB) libfeffatom.a
+libfeffatom$(ARCHV):	$(objects) $(deps)
+	$(AR) $(ARFLAGS) libfeffatom$(ARCHV) $(objects) $(deps)
+	$(RANLIB) libfeffatom$(ARCHV)
 
 
 ../COMMON/wlog.o:	../COMMON/wlog.f
@@ -50,11 +52,11 @@ vlda.o:		vlda.f                    ../HEADERS/const.h
 
 
 clean:
-	$(RM) *.a *.o
+	$(RM) *$(ARCHV) *.o
 
 INSTARCH = @echo "Nothing to install in ATOM"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffatom.a $(LIBDIR)
+INSTARCH = $(COPY) libfeffatom$(ARCHV) $(LIBDIR)
 endif
 
 install:

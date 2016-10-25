@@ -10,6 +10,7 @@ ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
 COPY    ?= cp -v
+ARCHV   ?= .a
 
 objects = sigcl.o  sigm3.o  sigms.o  sigrem.o  sigte3.o
 
@@ -19,11 +20,11 @@ deps = ../COMMON/wlog.o ../COMMON/str.o ../COMMON/itoken.o	\
 ../PAR/sequential.o
 
 
-all:	libfeffdw.a
+all:	libfeffdw$(ARCHV)
 
-libfeffdw.a:	$(objects) $(deps)
-	$(AR) $(ARFLAGS) libfeffdw.a $(objects) $(deps)
-	$(RANLIB) libfeffdw.a
+libfeffdw$(ARCHV):	$(objects) $(deps)
+	$(AR) $(ARFLAGS) libfeffdw$(ARCHV) $(objects) $(deps)
+	$(RANLIB) libfeffdw$(ARCHV)
 
 
 ../COMMON/wlog.o:	../COMMON/wlog.f
@@ -43,11 +44,11 @@ sigrem.o:	sigrem.f ../HEADERS/parallel.h
 
 
 clean:
-	$(RM) *.a *.o
+	$(RM) *$(ARCHV) *.o
 
 INSTARCH = @echo "Nothing to install in DEBYE"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffdw.a $(LIBDIR)
+INSTARCH = $(COPY) libfeffdw$(ARCHV) $(LIBDIR)
 endif
 
 install:

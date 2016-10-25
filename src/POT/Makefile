@@ -13,6 +13,9 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
+ARCHV   ?= .a
+SHOBJ   ?= .so
+EXEXT   ?=
 
 CC      ?= gcc
 CCFLAGS ?= -c -g -fPIC
@@ -74,11 +77,11 @@ ff2g.o grids.o corval.o wrpot.o scmt.o scmtmp.o sumax.o rholie.o	\
 frnrm.o coulom.o istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
 # libpotph_xsect.o 
 
-archives = ../POT/libfeffint.a ../ATOM/libfeffatom.a			\
-../FOVRG/libfeffpha.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a	\
-../MATH/libfeffmath.a ../JSON/libfeffjson.a ../EXCH/libfeffexch.a	\
-../FMS/libfefffms.a ../json-fortran/libjsonfortran.a
-# ../OPCONSAT/libfeffloss.a
+archives = ../POT/libfeffint$(ARCHV) ../ATOM/libfeffatom$(ARCHV)			\
+../FOVRG/libfeffpha$(ARCHV) ../COMMON/libfeffcom$(ARCHV) ../PAR/libfeffpar$(ARCHV)	\
+../MATH/libfeffmath$(ARCHV) ../JSON/libfeffjson$(ARCHV) ../EXCH/libfeffexch$(ARCHV)	\
+../FMS/libfefffms$(ARCHV) ../json-fortran/libjsonfortran$(ARCHV)
+# ../OPCONSAT/libfeffloss$(ARCHV)
 
 
 binobj = ffmod1.o pot.o scmtmp.o afolp.o broydn.o corval.o coulom.o	\
@@ -87,24 +90,24 @@ rholie.o scmt.o sumax.o wpot.o wrpot.o
 
 shobjects = $(objects) $(RDINPobj) $(COMMONobj) $(ATOMobj) $(MATHobj) $(FMSobj) $(FF2Xobj) $(EXCHobj) $(FOVRGobj) $(PARobj) $(XSPHobj)
 
-JSONobj = ../JSON/json_read_libpotph.o ../JSON/json_xsect.o ../JSON/bailout.o ../json-fortran/libjsonfortran.a
+JSONobj = ../JSON/json_read_libpotph.o ../JSON/json_xsect.o ../JSON/bailout.o ../json-fortran/libjsonfortran$(ARCHV)
 
 
 
-all:	otherdirs libfeffint.a libpotph.so libfeffphases.so pot
+all:	otherdirs libfeffint$(ARCHV) libpotph$(SHOBJ) libfeffphases$(SHOBJ) pot$(EXEXT)
 
-libfeffint.a:	istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
-	$(AR) $(ARFLAGS) libfeffint.a istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
-	$(RANLIB) libfeffint.a
+libfeffint$(ARCHV):	istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
+	$(AR) $(ARFLAGS) libfeffint$(ARCHV) istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
+	$(RANLIB) libfeffint$(ARCHV)
 
-libpotph.so:	$(shobjects) $(JSONobj)
+libpotph$(SHOBJ):	$(shobjects) $(JSONobj)
 	$(FORTRAN) $(SHARED) $(shobjects) $(JSONobj) -o $@
 
-libfeffphases.so:	feffphases.o libpotph.so
-	$(FORTRAN) $(SHARED) feffphases.o libpotph.so -o $@
+libfeffphases$(SHOBJ):	feffphases.o libpotph$(SHOBJ)
+	$(FORTRAN) $(SHARED) feffphases.o libpotph$(SHOBJ) -o $@
 
 
-pot:	$(binobj) $(archives)
+pot$(EXEXT):	$(binobj) $(archives)
 	$(FORTRAN) $(binobj) $(archives) -o $@
 
 
@@ -212,37 +215,38 @@ wrpot.o:	wrpot.f                       ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *.so *.o *.a *.so pot
+	$(RM) *$(SHOBJ) *.o *$(ARCHV) *$(SHOBJ) pot$(EXEXT)
 
-INSTARCH = @echo "Not installing .a files"
+INSTARCH = @echo "Not installing $(ARCHV) files"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffint.a $(PREFIX)/lib
+INSTARCH = $(COPY) libfeffint$(ARCHV) $(PREFIX)/lib
 endif
 
 install:
-	$(COPY) pot              $(BINDIR)
-	$(COPY) libpotph.so      $(LIBDIR)
-	$(COPY) libfeffphases.so $(LIBDIR)
-	$(COPY) feffphases.h     $(INCDIR)
+	$(COPY) pot$(EXEXT)           $(BINDIR)
+	$(COPY) libpotph$(SHOBJ)      $(LIBDIR)
+	$(COPY) libfeffphases$(SHOBJ) $(LIBDIR)
+	$(COPY) feffphases.h          $(INCDIR)
 	$(INSTARCH)
 
-archives = ../POT/libfeffint.a ../ATOM/libfeffatom.a			\
-../FOVRG/libfeffpha.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a	\
-../MATH/libfeffmath.a ../JSON/libfeffjson.a ../EXCH/libfeffexch.a	\
-../FMS/libfefffms.a ../json-fortran/libjsonfortran.a
-# ../OPCONSAT/libfeffloss.a
+archives = ../POT/libfeffint$(ARCHV) ../ATOM/libfeffatom$(ARCHV)	\
+../FOVRG/libfeffpha$(ARCHV) ../COMMON/libfeffcom$(ARCHV)		\
+../PAR/libfeffpar$(ARCHV) ../MATH/libfeffmath$(ARCHV)			\
+../JSON/libfeffjson$(ARCHV) ../EXCH/libfeffexch$(ARCHV)			\
+../FMS/libfefffms$(ARCHV) ../json-fortran/libjsonfortran$(ARCHV)
+# ../OPCONSAT/libfeffloss$(ARCHV)
 
 otherdirs:
-	$(MAKE) -C ../POT          libfeffint.a
-	$(MAKE) -C ../ATOM         libfeffatom.a
-	$(MAKE) -C ../FOVRG        libfeffpha.a
-	$(MAKE) -C ../COMMON       libfeffcom.a
-	$(MAKE) -C ../PAR          libfeffpar.a
-	$(MAKE) -C ../MATH         libfeffmath.a
-	$(MAKE) -C ../JSON         libfeffjson.a
-	$(MAKE) -C ../EXCH         libfeffexch.a
-	$(MAKE) -C ../FMS          libfefffms.a
-	$(MAKE) -C ../json-fortran libjsonfortran.a
-#	$(MAKE) -C ../OPCONSAT     libfeffloss.a
+	$(MAKE) -C ../POT          libfeffint$(ARCHV)
+	$(MAKE) -C ../ATOM         libfeffatom$(ARCHV)
+	$(MAKE) -C ../FOVRG        libfeffpha$(ARCHV)
+	$(MAKE) -C ../COMMON       libfeffcom$(ARCHV)
+	$(MAKE) -C ../PAR          libfeffpar$(ARCHV)
+	$(MAKE) -C ../MATH         libfeffmath$(ARCHV)
+	$(MAKE) -C ../JSON         libfeffjson$(ARCHV)
+	$(MAKE) -C ../EXCH         libfeffexch$(ARCHV)
+	$(MAKE) -C ../FMS          libfefffms$(ARCHV)
+	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)
+#	$(MAKE) -C ../OPCONSAT     libfeffloss$(ARCHV)
 
 .PHONEY:	clean install all otherdirs

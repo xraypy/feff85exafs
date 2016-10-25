@@ -10,13 +10,14 @@ ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
 COPY    ?= cp -v
+ARCHV   ?= .a
 
 objects = fmsie.o fmspack.o ggbi.o gggm.o gglu.o ggrm.o ggtf.o xstaff.o yprep.o
 
 
-libfefffms.a:	$(objects)
-	$(AR) $(ARFLAGS) libfefffms.a $(objects)
-	$(RANLIB) libfefffms.a
+libfefffms$(ARCHV):	$(objects)
+	$(AR) $(ARFLAGS) libfefffms$(ARCHV) $(objects)
+	$(RANLIB) libfefffms$(ARCHV)
 
 ffmod3.o:	ffmod3.f  ../HEADERS/dim.h ../HEADERS/parallel.h
 fmsie.o:	fmsie.f   ../HEADERS/dim.h
@@ -37,14 +38,14 @@ yprep.o:	yprep.f   ../HEADERS/dim.h xparam.h
 	$(FORTRAN) $(FCFLAGS) -o $@ $<
 
 
-all:	libfefffms.a
+all:	libfefffms$(ARCHV)
 
 clean:
-	$(RM) *.a *.o
+	$(RM) *$(ARCHV) *.o
 
 INSTARCH = @echo "Nothing to install in FMS"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfefffms.a $(LIBDIR)
+INSTARCH = $(COPY) libfefffms$(ARCHV) $(LIBDIR)
 endif
 
 install:

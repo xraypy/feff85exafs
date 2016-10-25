@@ -11,15 +11,16 @@ ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
 COPY    ?= cp -v
+ARCHV   ?= .a
 
 objects = csigma.o csigz.o cubic.o edp.o ffq.o fndsng.o imhl.o mpse.o	\
 qsorti.o quinn.o rhl.o rhlbp.o vbh.o xcpot.o
 
-all:	libfeffexch.a
+all:	libfeffexch$(ARCHV)
 
-libfeffexch.a:	$(objects)
-	$(AR) $(ARFLAGS) libfeffexch.a $(objects)
-	$(RANLIB) libfeffexch.a
+libfeffexch$(ARCHV):	$(objects)
+	$(AR) $(ARFLAGS) libfeffexch$(ARCHV) $(objects)
+	$(RANLIB) libfeffexch$(ARCHV)
 
 csigma.o:	csigma.f ../HEADERS/const.h
 csigz.o:	csigz.f  ../HEADERS/const.h
@@ -37,11 +38,11 @@ xcpot.o:	xcpot.o  ../HEADERS/const.h   ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *.a *.o
+	$(RM) *$(ARCHV) *.o
 
 INSTARCH = @echo "Nothing to install in EXCH"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffexch.a $(LIBDIR)
+INSTARCH = $(COPY) libfeffexch$(ARCHV) $(LIBDIR)
 endif
 
 install:

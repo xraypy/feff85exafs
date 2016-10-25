@@ -12,13 +12,15 @@ RANLIB  ?= ranlib
 RM	?= rm
 
 COPY    ?= cp -v
+ARCHV   ?= .a
 
 objects = exconv.o feffdt.o fdtarr.o fdthea.o ff2afs.o ff2chi.o ff2xmu.o	\
 ffmod6.o fprime.o ff2gen.o rdfbin.o reff2x.o xscorr.o
 
-archives = ../json-fortran/libjsonfortran.a ../DEBYE/libfeffdw.a	\
-../COMMON/libfeffcom.a ../PAR/libfeffpar.a ../MATH/libfeffmath.a	\
-../JSON/libfeffjson.a
+archives = ../json-fortran/libjsonfortran$(ARCHV)	\
+../DEBYE/libfeffdw$(ARCHV) ../COMMON/libfeffcom$(ARCHV)	\
+../PAR/libfeffpar$(ARCHV) ../MATH/libfeffmath$(ARCHV)	\
+../JSON/libfeffjson$(ARCHV)
 
 
 all:	otherdirs ff2x
@@ -50,11 +52,11 @@ install:
 	$(COPY) ff2x $(BINDIR)
 
 otherdirs:
-	$(MAKE) -C ../json-fortran libjsonfortran.a
-	$(MAKE) -C ../DEBYE        libfeffdw.a
-	$(MAKE) -C ../COMMON       libfeffcom.a
-	$(MAKE) -C ../PAR          libfeffpar.a
-	$(MAKE) -C ../MATH         libfeffmath.a
-	$(MAKE) -C ../JSON         libfeffjson.a
+	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)
+	$(MAKE) -C ../DEBYE        libfeffdw$(ARCHV)
+	$(MAKE) -C ../COMMON       libfeffcom$(ARCHV)
+	$(MAKE) -C ../PAR          libfeffpar$(ARCHV)
+	$(MAKE) -C ../MATH         libfeffmath$(ARCHV)
+	$(MAKE) -C ../JSON         libfeffjson$(ARCHV)
 
 .PHONEY:	clean install all otherdirs

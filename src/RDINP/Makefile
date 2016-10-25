@@ -10,15 +10,19 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
+ARCHV   ?= .a
+EXEXT   ?=
 
 COPY    ?= cp -v
 
 objects = ffsort.o iniall.o mkptz.o rdinp_l.o rdline.o setedg.o	wrtall.o wrtjsn.o
-archives = ../json-fortran/libjsonfortran.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a ../MATH/libfeffmath.a ../JSON/libfeffjson.a
+archives = ../json-fortran/libjsonfortran$(ARCHV)	\
+../COMMON/libfeffcom$(ARCHV) ../PAR/libfeffpar$(ARCHV)	\
+../MATH/libfeffmath$(ARCHV) ../JSON/libfeffjson$(ARCHV)
 
-all:	otherdirs rdinp
+all:	otherdirs rdinp$(EXEXT)
 
-rdinp:	$(objects) $(archives)
+rdinp$(EXEXT):	$(objects) $(archives)
 	$(FORTRAN) $(objects) $(archives) -o $@
 
 ffsort.o:	ffsort.f  allinp.h ../HEADERS/const.h ../HEADERS/dim.h ../HEADERS/vers.h ../HEADERS/parallel.h
@@ -33,16 +37,16 @@ wrtjsn.o:	wrtjsn.f  allinp.h                    ../HEADERS/dim.h ../HEADERS/vers
 
 
 clean:
-	$(RM) *.o rdinp
+	$(RM) *.o rdinp$(EXEXT)
 
 install:
-	$(COPY) rdinp $(BINDIR)
+	$(COPY) rdinp$(EXEXT) $(BINDIR)
 
 otherdirs:
-	$(MAKE) -C ../json-fortran libjsonfortran.a
-	$(MAKE) -C ../COMMON       libfeffcom.a
-	$(MAKE) -C ../PAR          libfeffpar.a
-	$(MAKE) -C ../MATH         libfeffmath.a
-	$(MAKE) -C ../JSON         libfeffjson.a
+	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)
+	$(MAKE) -C ../COMMON       libfeffcom$(ARCHV)
+	$(MAKE) -C ../PAR          libfeffpar$(ARCHV)
+	$(MAKE) -C ../MATH         libfeffmath$(ARCHV)
+	$(MAKE) -C ../JSON         libfeffjson$(ARCHV)
 
 .PHONEY:	clean install all otherdirs

@@ -12,17 +12,19 @@ RANLIB  ?= ranlib
 RM      ?= rm
 COPY    ?= cp -v
 
+ARCHV   ?= .a
+
 objects = chopen.o fixvar.o head.o itoken.o pertab.o rdcmt.o rdxsph.o	\
 str.o xx.o fixdsp.o getorb.o iniptz.o nxtunt.o pijump.o rdhead.o	\
 setgam.o str2dp.o fixdsx.o getxk.o isnum.o padlib.o qsorti.o rdpot.o	\
 setkap.o wlog.o
 
 
-all:	libfeffcom.a
+all:	libfeffcom$(ARCHV)
 
-libfeffcom.a:	$(objects) padlib.h
-	$(AR) $(ARFLAGS) libfeffcom.a $(objects)
-	$(RANLIB) libfeffcom.a
+libfeffcom$(ARCHV):	$(objects) padlib.h
+	$(AR) $(ARFLAGS) libfeffcom$(ARCHV) $(objects)
+	$(RANLIB) libfeffcom$(ARCHV)
 
 fixdsp.o:	fixdsp.f ../HEADERS/dim.h ../HEADERS/const.h
 fixdsx.o:	fixdsx.f ../HEADERS/dim.h ../HEADERS/const.h
@@ -43,7 +45,7 @@ clean:
 
 INSTARCH = @echo "Nothing to install in COMMON"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffcom.a $(LIBDIR)
+INSTARCH = $(COPY) libfeffcom$(ARCHV) $(LIBDIR)
 endif
 
 install:

@@ -8,15 +8,16 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
+ARCHV   ?= .a
 
 objects = sequential.o
 #objects = parallel.o
 
-all:	libfeffpar.a
+all:	libfeffpar$(ARCHV)
 
-libfeffpar.a:	$(objects)
-	$(AR) $(ARFLAGS) libfeffpar.a $(objects)
-	$(RANLIB) libfeffpar.a
+libfeffpar$(ARCHV):	$(objects)
+	$(AR) $(ARFLAGS) libfeffpar$(ARCHV) $(objects)
+	$(RANLIB) libfeffpar$(ARCHV)
 
 sequential.o:	sequential.f ../HEADERS/parallel.h
 #parallel.o:	parallel.f   ../HEADERS/parallel.h mpif.h
@@ -26,11 +27,11 @@ sequential.o:	sequential.f ../HEADERS/parallel.h
 
 
 clean:
-	$(RM) *.a *.o
+	$(RM) *$(ARCHV) *.o
 
 INSTARCH = @echo "Nothing to install in PAR"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffpar.a $(LIBDIR)
+INSTARCH = $(COPY) libfeffpar$(ARCHV) $(LIBDIR)
 endif
 
 install:

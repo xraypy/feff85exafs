@@ -12,15 +12,19 @@ RANLIB  ?= ranlib
 RM      ?= rm
 
 COPY    ?= cp -v
+ARCHV   ?= .a
+EXEXT   ?=
 
 objects = ccrit.o heap.o mcrith.o mpprmd.o mrb.o paths.o phash.o	\
 repath.o timrep.o ffmod4.o ipack.o mcritk.o mpprmp.o outcrt.o		\
 pathsd.o prcrit.o sortix.o
-archives = ../json-fortran/libjsonfortran.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a ../MATH/libfeffmath.a ../JSON/libfeffjson.a
+archives = ../json-fortran/libjsonfortran$(ARCHV)	\
+../COMMON/libfeffcom$(ARCHV) ../PAR/libfeffpar$(ARCHV)	\
+../MATH/libfeffmath$(ARCHV) ../JSON/libfeffjson$(ARCHV)
 
-all:	otherdirs pathfinder
+all:	otherdirs pathfinder$(EXEXT)
 
-pathfinder:	$(objects)
+pathfinder$(EXEXT):	$(objects)
 	$(FORTRAN) $(objects) $(archives) -o $@
 
 
@@ -45,16 +49,16 @@ timrep.o:	timrep.f ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *.o pathfinder
+	$(RM) *.o pathfinder$(EXEXT)
 
 install:
-	$(COPY) pathfinder $(BINDIR)
+	$(COPY) pathfinder$(EXEXT) $(BINDIR)
 
 otherdirs:
-	$(MAKE) -C ../json-fortran libjsonfortran.a
-	$(MAKE) -C ../COMMON       libfeffcom.a
-	$(MAKE) -C ../PAR          libfeffpar.a
-	$(MAKE) -C ../MATH         libfeffmath.a
-	$(MAKE) -C ../JSON         libfeffjson.a
+	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)
+	$(MAKE) -C ../COMMON       libfeffcom$(ARCHV)
+	$(MAKE) -C ../PAR          libfeffpar$(ARCHV)
+	$(MAKE) -C ../MATH         libfeffmath$(ARCHV)
+	$(MAKE) -C ../JSON         libfeffjson$(ARCHV)
 
 .PHONEY:	clean install all otherdirs

@@ -8,7 +8,7 @@ export INCDIR  = $(PREFIX)/include	# installation location for include files
 ###########################################################################################
 # gcc (tested on Ubuntu linux with gcc 5.4.0)                                             #
 ###########################################################################################
-export FORTRAN  = gfortran	## compile Feff's Fortran
+export FORTRAN  = gfortran	## compile Feff's Fortran, including the F90 bits
 export SHARED   = -shared
 export FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
 export FJSON    = -I$(BASEDIR)/src/json-fortran -J$(BASEDIR)/src/json-fortran
@@ -29,6 +29,12 @@ export RM      = rm -f
 export COPY    = cp -v
 ###########################################################################################
 
+###########################################################################################
+## file extensions, shared object libraries, object archives, and executables
+export SHOBJ = .so
+export ARCHV = .a
+export EXEXT =
+###########################################################################################
 
 
 all:

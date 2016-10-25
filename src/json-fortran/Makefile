@@ -9,21 +9,22 @@ ARFLAGS  ?= rvc
 RANLIB   ?= ranlib
 RM       ?= rm
 COPY     ?= cp -v
+ARCHV    ?= .a
 
-all:	json_module.mod json_module.o libjsonfortran.a
+all:	json_module.mod json_module.o libjsonfortran$(ARCHV)
 
 json_module.mod json_module.o:	json_module.f90
 	$(F90) $(F90FLAGS) -o $@ $<
 
-libjsonfortran.a:
-	$(AR) $(ARFLAGS) libjsonfortran.a json_module.o
-	$(RANLIB) libjsonfortran.a
+libjsonfortran$(ARCHV):
+	$(AR) $(ARFLAGS) libjsonfortran$(ARCHV) json_module.o
+	$(RANLIB) libjsonfortran$(ARCHV)
 
 clean:
-	$(RM) *.a *.o *.mod
+	$(RM) *$(ARCHV) *.o *.mod
 
 install:
-	$(COPY) libjsonfortran.a $(LIBDIR)
-	$(COPY) json_module.mod  $(LIBDIR)
+	$(COPY) libjsonfortran$(ARCHV) $(LIBDIR)
+	$(COPY) json_module.mod        $(LIBDIR)
 
 .PHONEY:	clean install all

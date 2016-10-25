@@ -10,17 +10,18 @@ ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM      ?= rm
 COPY    ?= cp -v
+ARCHV   ?= .a
 
 objects = aprdec.o dfovrg.o dsordc.o intout.o nucdec.o potdvp.o		\
 solin.o wfirdc.o yzktec.o aprdep.o diff.o inmuac.o muatcc.o ortdac.o	\
 potex.o solout.o yzkrdc.o
 
 
-all:	libfeffpha.a
+all:	libfeffpha$(ARCHV)
 
-libfeffpha.a:	$(objects)
-	$(AR) $(ARFLAGS) libfeffpha.a $(objects)
-	$(RANLIB) libfeffpha.a
+libfeffpha$(ARCHV):	$(objects)
+	$(AR) $(ARFLAGS) libfeffpha$(ARCHV) $(objects)
+	$(RANLIB) libfeffpha$(ARCHV)
 
 dfovrg.o:	dfovrg.f ../HEADERS/dim.h ../HEADERS/const.h
 diff.o:		diff.f   ../HEADERS/dim.h
@@ -45,11 +46,11 @@ yzktec.o:	yzktec.f ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *.a *.o
+	$(RM) *$(ARCHV) *.o
 
 INSTARCH = @echo "Nothing to install in FOVRG"
 ifdef INSTALL_ARCHIVES
-INSTARCH = $(COPY) libfeffpha.a $(LIBDIR)
+INSTARCH = $(COPY) libfeffpha$(ARCHV) $(LIBDIR)
 endif
 
 install:

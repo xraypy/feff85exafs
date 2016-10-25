@@ -9,6 +9,8 @@ AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
 RM	?= rm
+ARCHV   ?= .a
+EXEXT   ?=
 
 COPY    ?= cp -v
 
@@ -16,16 +18,18 @@ objects = acoef.o ffmod2.o getedg.o phmesh.o rdgrid.o rholat.o szlz.o	\
 wrxsph.o xsect.o axafs.o fmssz.o phase.o radint.o rexsph.o rholsz.o	\
 wphase.o xmult.o xsph.o
 
-archives = ../json-fortran/libjsonfortran.a ../ATOM/libfeffatom.a	\
-../FOVRG/libfeffpha.a ../FMS/libfefffms.a ../POT/libfeffint.a		\
-../EXCH/libfeffexch.a ../COMMON/libfeffcom.a ../PAR/libfeffpar.a	\
-../MATH/libfeffmath.a ../JSON/libfeffjson.a
+archives = ../json-fortran/libjsonfortran$(ARCHV)		\
+../ATOM/libfeffatom$(ARCHV) ../FOVRG/libfeffpha$(ARCHV)		\
+../FMS/libfefffms$(ARCHV) ../POT/libfeffint$(ARCHV)		\
+../EXCH/libfeffexch$(ARCHV) ../COMMON/libfeffcom$(ARCHV)	\
+../PAR/libfeffpar$(ARCHV) ../MATH/libfeffmath$(ARCHV)		\
+../JSON/libfeffjson$(ARCHV)
 
 otherobj = ../FF2X/xscorr.o ../POT/grids.o ../MATH/terpc.o
 
-all:	otherdirs xsph
+all:	otherdirs xsph$(EXEXT)
 
-xsph:	$(objects) $(archives) $(otherobj)
+xsph$(EXEXT):	$(objects) $(archives) $(otherobj)
 	$(FORTRAN) $(objects) $(archives) $(otherobj) -o $@
 
 ../FF2X/xscorr.o:	../FF2X/xscorr.f ../HEADERS/dim.h ../HEADERS/const.h
@@ -59,21 +63,21 @@ xsph.o:		xsph.f    ../HEADERS/dim.h ../HEADERS/const.h
 
 
 clean:
-	$(RM) *.o xsph
+	$(RM) *.o xsph$(EXEXT)
 
 install:
-	$(COPY) xsph $(BINDIR)
+	$(COPY) xsph$(EXEXT) $(BINDIR)
 
 otherdirs:
-	$(MAKE) -C ../json-fortran libjsonfortran.a
-	$(MAKE) -C ../ATOM         libfeffatom.a
-	$(MAKE) -C ../FOVRG        libfeffpha.a
-	$(MAKE) -C ../FMS          libfefffms.a
-	$(MAKE) -C ../POT          libfeffint.a
-	$(MAKE) -C ../EXCH         libfeffexch.a
-	$(MAKE) -C ../COMMON       libfeffcom.a
-	$(MAKE) -C ../PAR          libfeffpar.a
-	$(MAKE) -C ../MATH         libfeffmath.a
-	$(MAKE) -C ../JSON         libfeffjson.a
+	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)
+	$(MAKE) -C ../ATOM         libfeffatom$(ARCHV)
+	$(MAKE) -C ../FOVRG        libfeffpha$(ARCHV)
+	$(MAKE) -C ../FMS          libfefffms$(ARCHV)
+	$(MAKE) -C ../POT          libfeffint$(ARCHV)
+	$(MAKE) -C ../EXCH         libfeffexch$(ARCHV)
+	$(MAKE) -C ../COMMON       libfeffcom$(ARCHV)
+	$(MAKE) -C ../PAR          libfeffpar$(ARCHV)
+	$(MAKE) -C ../MATH         libfeffmath$(ARCHV)
+	$(MAKE) -C ../JSON         libfeffjson$(ARCHV)
 
 .PHONEY:	clean install all otherdirs
