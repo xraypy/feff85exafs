@@ -8,7 +8,7 @@
      8                rgrd, nohole, nscmt, icoul, ca1, rfms1, lfms1,
      9                gtr, xrhole, xrhoce, yrhole, yrhoce )
 
-c     Finds new Fermi level (xmu), electron counts (qnrm) 
+c     Finds new Fermi level (xmu), electron counts (qnrm)
 c     and new valence densities (rhoval).
 
       implicit double precision (a-h, o-z)
@@ -58,7 +58,7 @@ c     complex energy grid emg is decomposed into em and eref
       parameter (negx = 80)
       complex*16 emg(negx), em, eref, ee, ep, fl, fr, fxa
 c     nflrx should be odd and defines the max of Im energy for
-c     the countour 
+c     the countour
       parameter (nflrx = 17)
       dimension step(nflrx)
 c     stuff from feff.f for rdinp, pathfinder and genfmt
@@ -200,7 +200,7 @@ c           set logic to call yprep on every processor
             call fmsie(verbse, iph0, nph, lmaxsc, ietot, em, eref, ph,
      1           rfms1, lfms, nat, iphat, rat, gtr(0,0,ipr))
           else
-            do 190 iph0 = 0, nph 
+            do 190 iph0 = 0, nph
   190       call fmsie(verbse, iph0, nph, lmaxsc, ietot, em, eref, ph,
      1           rfms1, lfms1, nat, iphat, rat, gtr(0,0,ipr))
           endif
@@ -227,9 +227,9 @@ c-- Send buffer
             call par_send_dc(xrhoce(0,0,ipr),ixl, 0, this_process)
             call par_send_dc(xrhole(0,0,ipr),ixl, 0, this_process)
           endif
-          if (ixly .ne. 0)  
+          if (ixly .ne. 0)
      .      call par_send_dc(yrhole(1,0,0,ipr),ixly, 0, this_process)
-          if (ixlc .ne. 0)  
+          if (ixlc .ne. 0)
      .      call par_send_dc(yrhoce(1,0,ipr),ixlc, 0, this_process)
         else if (master) then
           do i = 1,n2-n1
@@ -262,7 +262,7 @@ c-- Needed here since we aren't done yet
         call seconds(wall_commend)
         wall_comm = wall_comm + wall_commend - wall_commst
       endif
-       
+
 c     fast loop (does not need parallel execution)
 c     uses results of the above loop to find Fermi level
 c     and to decide on next set of energy points
@@ -286,7 +286,7 @@ c         the absolutely first point on energy grid
         fr = 0
         do 210 iph = 0,nph
 c         calculate density and integrated number of electrons in each
-c         channel for each type of atoms density, etc., find xntot. 
+c         channel for each type of atoms density, etc., find xntot.
           call ff2g (gtr(0,iph,ipr), iph,ie, nr05(iph), xrhoce(0,0,ipr), 
      1      xrhole(0,iph,ipr), xrhocp, ee, ep, yrhole(1,0,iph,ipr),
      2      yrhoce(1,iph,ipr),yrhocp(1,iph),rhoval(1,iph),
@@ -310,7 +310,8 @@ c         Fermi level is found ; exit from energy loop
                a = xndif/(xndif-xndifp)
                do 220 i = 1,4
                  fxa = a*fl + (1-a)*fr
-                 bb = dimag((ep-ee)*(fr+fxa)/2 + coni*dimag(ee)*(fr-fl))
+                 bb = dimag(dcmplx((ep-ee)*(fr+fxa)/2 +
+     1                coni*dimag(ee)*(fr-fl)))
                  xndif1 = xndif + a * bb
                  a = a - xndif1 / bb
   220          continue
@@ -325,7 +326,8 @@ c            factor 2 for spin degeneracy
                  fl = xrhocp(il,iph) * 2
                  fr = xrhoce(il,iph,ipr) * 2
                  fxa = a*fl + (1-a)*fr
-                 bb = dimag((ep-ee)*(fr+fxa)/2 + coni*dimag(ee)*(fr-fl))
+                 bb = dimag(dcmplx((ep-ee)*(fr+fxa)/2 +
+     $                coni*dimag(ee)*(fr-fl)))
                  xnmues(il,iph) = xnmues(il,iph) + a * bb
                 endif
   230          continue
@@ -333,7 +335,8 @@ c            factor 2 for spin degeneracy
                  fl = yrhocp(ir,iph) * 2
                  fr = yrhoce(ir,iph,ipr) * 2
                  fxa = a*fl + (1-a)*fr
-                 bb = dimag((ep-ee)*(fr+fxa)/2 + coni*dimag(ee)*(fr-fl))
+                 bb = dimag(dcmplx((ep-ee)*(fr+fxa)/2 +
+     $                coni*dimag(ee)*(fr-fl)))
                  rhoval(ir,iph) = rhoval(ir,iph) + a * bb
   240          continue
   250        continue
@@ -400,7 +403,7 @@ c        set in getorb.f
          endif
  320  continue
 
-c     if (.not. ok) then will restart SCF loop 
+c     if (.not. ok) then will restart SCF loop
       if (ok) then
          xmu = xmunew
 c        find rhoval via Broyden algorithm
