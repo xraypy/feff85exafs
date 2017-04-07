@@ -15,4 +15,4 @@ Execute(Copy(join(home, larch.larchlib.larchdir, 'plugins'), join('f85ut.py')))
 ## that live within the project, thus ~/.larch/plugins/f85ut.py cannot
 ## be a target.  Supposedly, SCons' Repository method addresses this
 ## issue, but I was unable to get it to work.  In the end, I have
-## settled on simply copying this fiole every time scons is run. -- B
+## settled on simply copying this file every time scons is run. -- B

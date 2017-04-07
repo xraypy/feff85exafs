@@ -19,7 +19,7 @@ For each example material, several files are provided:
     this: `{{scf}}`.  These tokens will be replaced by values
     appropriate to the test being performed.  Those values are usually
     taken from a `.json` file with the same name as the folder itself.
-    The musctache files here were edited by hand or made using
+    The mustache files here were edited by hand or made using
     [the `feff85exafs` template in Demeter](https://github.com/bruceravel/demeter/blob/master/lib/Demeter/templates/atoms/feff85test.tmpl).
 
  4. For tests which have data associated with them and will include

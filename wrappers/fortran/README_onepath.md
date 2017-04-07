@@ -12,7 +12,7 @@ library.
 
 To compile the `makepath` sample program:
 
-	~> scons
+	~> make
 
 That's it!
 

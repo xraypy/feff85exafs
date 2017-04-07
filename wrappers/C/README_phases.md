@@ -11,7 +11,7 @@ locations
 
 To compile the `makephases` sample programs:
 
-	~> scons
+	~> make
 
 That's it!
 
@@ -120,6 +120,7 @@ int main()
 | totvol       | double             | I   |                                                     | INTERSTITIAL  |
 | jumprm       | int                | I   | 1=remove potential jumps at muffin tin radii        | JUMPRM        |
 | nohole       | int                | I   | 1=compute without core-hole                         | NOHOLE        |
+| iplsmn       | int                | I   | 1=compute with the MPSE approximation               | PLASMON       |
 
 
 Note that `rscf` is a _single precision float_!

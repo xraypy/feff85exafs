@@ -4,6 +4,9 @@
 This directory contains various routines to calculate 
 various x-ray spectra.
 
+For feff85exafs, this functionality is rolled into `libfeffpath`, see
+[../GENFMT](../GENFMT).
+
 All routines in this directory are covered by the [LICENSE](../HEADERS/license.h)
 
 # Simple static analysis

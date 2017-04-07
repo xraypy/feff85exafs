@@ -13,7 +13,7 @@ long main()
 
   strcpy(path->phpad, "../fortran/phase.pad");
   path->nnnn    = 1;
-  path->json    = 0;
+  /* path->json    = 0; */
   path->verbose = 1;
 
 

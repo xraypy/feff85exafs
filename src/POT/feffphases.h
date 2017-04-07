@@ -104,6 +104,8 @@ typedef struct {
   int    jumprm;		/* 1=remove potential jumps at muffin tin radii */
   /* NOHOLE */
   int    nohole;		/* 1=compute without core-hole                  */
+  /* IPLSMN */
+  int    iplsmn;		/* 1=compute opconsat                           */
 } FEFFPHASES;
 
 int create_phases(FEFFPHASES*);
@@ -156,7 +158,8 @@ void libpotph_(char *,               /* phpad: path to output phase.pad file */
 	       int *,		     /* inters */
 	       double *,	     /* totvol */
 	       int *,		     /* jumprm */
-	       int *		     /* nohole */
+	       int *,		     /* nohole */
+	       int *		     /* iplsmn */
 	       );
 	       
 

@@ -289,9 +289,9 @@ c     return stuff for passing to xsph and skipping pot.pad
 c     could make a conditional call to wrpot here
 
       if (iplsmn .gt. 0) then
-         call feffloss(nph, iz, xnatph, rnrm, npoles, eps0,
-     1          write_opcons, write_loss, write_exc, verbose,
-     2          wpcorr, gamma, ampfac, delta)
+c         call feffloss(nph, iz, xnatph, rnrm, npoles, eps0,
+c     1          write_opcons, write_loss, write_exc, verbose,
+c     2          wpcorr, gamma, ampfac, delta)
       end if
 c     need to send <<wpcorr, gamma, ampfac, delta>> into xsph, then into
 c     phase and xsect for use when iplsmn is > 0

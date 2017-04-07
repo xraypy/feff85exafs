@@ -27,21 +27,22 @@ The C library can be wrapped for use in other languages.
 
 # Build and install
 
-To build, type `scons`.  This will build:
+To build, type `make`.  This will build:
 
- * `libgenfmt.f`: most of the functionality of genfmt
+ * `libfeffgenfmt.a`: most of the functionality of genfmt
  * `genfmt`: the stand-alone program
  * `libonepath.so`: the Fortran entry point for generating a single path
  * `libfeffpath.so`: the C wrapper around onepath
 
-Once built, type `scons install` to install everything:
+Once built, type `sudo make install` to install everything:
 
- * `libgenfmt.f`, `libonepath.so`, `libfeffpath.so`: installed to `/usr/local/lib`
+ * `libonepath.so` and `libfeffpath.so`: installed to `/usr/local/lib`
  * `genfmt`: installed to `/usr/local/bin`
+ * `feffpath.h`: installed to `/usr/local/include`
 
-You **must** install before building the Perl or Python wrappers.
-Other wrappers almost certainly require at least that `libfeffpath.so`
-be installed.
+You **must** install this before building the Perl or Python wrappers.
+All other wrappers will require that `libonepath.so` and
+`libfeffpath.so` are installed.
 
 # Simple static analysis
 
@@ -95,13 +96,13 @@ from the header:
 * The user supplied title lines
 
 * The title line which explains how the potentials are overlapped
-   (see `POT/reapot.f` lines 233-280)
+  (see `POT/reapot.f` lines 233-280)
 
 * The values for muffin tin and norman radii of the unique potentials
-   (also the ionizations, if those are used).  This is actually a
-   troublesome shortcoming that will have to be corrected via
-   interaction with the forthcoming wrapper around the calcuation of
-   the `phase.pad` file.
+  (also the ionizations, if those are used).  This is actually a
+  troublesome shortcoming that will have to be corrected via
+  interaction with the forthcoming wrapper around the calcuation of
+  the `phase.pad` file.
 
 * The `vi0` and `vr0` parameters of the EXCHANGE card are not
   captured.  These are reported after `exch` in the header if either
@@ -114,5 +115,5 @@ from the header:
 * Feff has an odd habit of specifying a 0 coordinate as `-0.0000`.
   `onepath`/`feffpath` will never write "negative zero".
 
-Finally, there may be small differences in the data table at the level
-of the fifth decimal place in floating point value.
+Finally, there likely will be small differences in the data table at
+the level of the fifth decimal place in floating point value.

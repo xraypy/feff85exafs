@@ -20,7 +20,6 @@ if env['FORTRAN'] == 'gfortran':
     env = Environment(F90FLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -J'+here,
                       FORTRANFLAGS = '-O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -J'+here )
                       #FORTRANFLAGS = env['FORTRANFLAGS'] )
-    # -pedantic chokes on declaration of double complex in the horrific padio and elsewhere
     # several "Unused dummy argument" warnings remain: padio, iomod, and atomicpotio
 elif env['FORTRAN'] == 'ifort':
     env = Environment(F90FLAGS = '-O2 -warn -stand f08 -diag-disable 7601 -traceback -module '+here,

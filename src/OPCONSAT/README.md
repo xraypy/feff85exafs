@@ -14,22 +14,46 @@ single, callable library.  This library is, in turn, called by the
 [`libfeffphases` library](../POT/README.md) whenever the MPSE
 calculation is turned on.
 
+# NOTE: Currently disabled!
+
+To turn opconsat back on:
+
+ * Edit `../json-fortran/json_read_libpotpht.f` and uncomment the
+   reading of the `iplsmn` parameter at lines 266-267
+ * Edit `../POT/libpotph.f` and uncomment the call to `feffloss` at
+   lines 292-294
+ * uncomment all the lines related to OPCONSAT in the main Makefile
+ * uncomment all the lines related to OPCONSAT in `src/POT/Makefile`
+
+After that, the output of `feffloss` needs to actually be used.
+Several arrays need to be put into the argument list for `xsph`, then
+used as needed (`phase`, `xsect`, elsewhere?).
+
+
 # Build and install
 
-To build, type `scons`.  This will build:
+To build, type `make`.  This will build:
 
  * `opconsat`: the first stand-alone program
  * `eps2exc`: the second stand-alone program
  * `libfeffloss.so`: the Fortran entry point for computing the MPSE
 
-Once built, type `scons install` to install everything:
+Type `make loss` to compile the sample program.  Try doing 
+
+```
+	ln -s ../../wrappers/fortran/libpotph.json
+```
+
+to get it to run to completion for copper metal.  (Or run Feff on
+something else to get a `libpotph.json` file.
+
+Once built, type `make install` to install everything:
 
  * `libfeffloss.so`: installed to `/usr/local/lib`
  * `opconsat`, `eps2exc`: installed to `/usr/local/bin`
 
-You **must** install before building the Perl or Python wrappers.
-Other wrappers almost certainly require at least that `libfeffloss.so`
-be installed.
+This will need to be installed before building the Python, Perl, or
+other wrappers.
 
 # Sample program
 
