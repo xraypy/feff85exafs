@@ -2,7 +2,7 @@
 ! union of all of the x grids, then adds all of y data.
 
 ! Written by J. J. Kas - 1/25/2010
-! modified by Bruce Ravel 6 October 2015 for inclusion in feff85exafs
+! modified by Bruce Ravel 6 October 2015 for inclusion in feff8l
 !   BR stripped out the file-base IO, added thiseps input array and
 !   the NdataTot, energy, and loss output parameters
 !   This subroutine now takes an array of epsilon data for the unique
@@ -14,7 +14,7 @@ subroutine AddEps(NFiles,Weights,thiseps, NDataTot, energy, loss)
   ! NFiles:     number of ipots, i.e. nph+1
   ! Weights:    array of number densities (original)
   ! print_eps:  boolean signaling printing of epsilon.dat diagnostic file (original) (deprecated)
-  !!! feff85exafs interface
+  !!! feff8l interface
   ! thiseps:    (epsmax,3,nphx) array of epsilon data for each unique ipot
   ! energy:     return energy array
   ! loss:       return loss array

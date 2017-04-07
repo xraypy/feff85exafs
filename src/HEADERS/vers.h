@@ -1,7 +1,7 @@
 c -*-fortran-*-
       character*20 vfeff
 c                       12345678901234567890  
-      parameter (vfeff='Feff 8.50 for exafs')
+      parameter (vfeff='Feff8L (EXAFS)')
 
       character*10 vf85e
 c                       1234567890

@@ -1,7 +1,7 @@
 {
     "mod":    "module number, GENFMT is 5 (this is only here to help the human reader)",
     "vfeff":  "feff version number",
-    "vf85e":  "feff85exafs release number",
+    "vf85e":  "feff8l release number",
 
     "mfeff":  "control flag for running GENFMT",
     "ipr5":   "print flag for GENFMT module",
@@ -13,7 +13,7 @@
     "_comments:": [
 	"iorder is the only parameter needed -- it will be nice to use the testing framework to evaluate the iorder=2 assertion",
 	"critcw is nominally useful, but a new, callable genfmt will presumably be used with a different pathfinder",
-	"wnstar does not seem to be properly available in feff85exafs"
+	"wnstar does not seem to be properly available in feff8l"
     ]
 }
 

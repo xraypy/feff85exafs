@@ -2,7 +2,7 @@
 
 Feff uses a slew of files to exchange data between the different parts of the program.
 
-An early modification of feff85exafs changed the legacy structured
+An early modification of feff8l changed the legacy structured
 text files into JSON files.
 
 old        | new         | purpose
@@ -28,7 +28,7 @@ interchange files.
 
 Some of these are throw-away diagnostic files
 
-1. nstar.dat, see `GENFMT/genfmt.f`, but nstar.dat seems to be written but not read in feff85exafs
+1. nstar.dat, see `GENFMT/genfmt.f`, but nstar.dat seems to be written but not read in feff8l
 2. wscrn.dat, see `XSPH/xsph.f`
 3. exc.dat + sigma.dat + ratio.dat + ratiop.dat + mpse.dat, see `XSPH/xsect.f` + `XSPH/phase.f`
 4. various in `XSPH/rholat.f`

@@ -1,6 +1,6 @@
 {
     "vfeff": "feff version number",
-    "vf85e": "feff85exafs release number",
+    "vf85e": "feff8l release number",
 
     "ntitle": "number of title lines for output headers (user titles + generated titles with MT radii, gamma, Vint, etc)",
     "titles": "list of titles for output headers",

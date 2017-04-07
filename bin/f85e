@@ -16,7 +16,7 @@ module() {
     $FeffRoot/$folder/$mod  2>&1 | tee -a $logfile
 }
 
-echo "Beginning feff85exafs calculation"  | tee $logfile
+echo "Beginning feff8l calculation"  | tee $logfile
 module "rdinp"
 module "pot"
 module "xsph"

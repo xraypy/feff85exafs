@@ -32,7 +32,7 @@ contains
     ! Open the errorfile and set a default message.  Call at the start of a module.
     character*(*),intent(in) :: ModuleName
     character*500 :: ErrorMessage
-    ErrorMessage='Starting feff85exafs module ' // ModuleName // &
+    ErrorMessage='Starting feff8l module ' // ModuleName // &
          '.  If this message is still here after the module finishes running,' // &
          ' it must have crashed.  The content of this file is wiped on successful termination.'
     call SetErrorfileMessage(ErrorMessage)

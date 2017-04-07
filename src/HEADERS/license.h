@@ -40,7 +40,7 @@ c+------------------------------------------------------------------------------
 c License is applicable for routines below, unless otherwise specified.
 c
 c+------------------------------------------------------------------------------
-c Main contributors to feff85exafs, 2013-2014
+c Main contributors to feff8l, 2013-2017
 c M. Newville,     newville AT cars DOT uchicago DOT edu
 c B. Ravel,        bravel AT bnl DOT gov
 c K. Jorissen,     kevinjorissen DOT pdx AT gmail DOT com

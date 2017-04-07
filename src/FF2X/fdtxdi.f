@@ -4,7 +4,7 @@
 c+---------------------------------------------------------------------
 c     write a feffNNNN.dat equivalent in the XDI format
 c     all header information is treated as XDI metadata in the
-c     "feff85exafs" namespace, save for the absorber element and edge,
+c     "feff8l" namespace, save for the absorber element and edge,
 c     extracted from the header line for potential 0 and presented
 c     as Element.edge and Element.symbol
 c+---------------------------------------------------------------------
@@ -35,7 +35,7 @@ c+---------------------------------------------------------------------
       external istrln, triml, atsym
 
       nlines = 1
- 10   format('# XDI/1.0 feff85exafs/', a10)
+ 10   format('# XDI/1.0 feff8l/', a10)
       v = vf85e
       call triml(v)
       write(thisln,10) v
@@ -72,33 +72,33 @@ c     absorber line, eg: Abs   Z=29 Rmt= 0.000 Rnm= 0.000 K  shell
       lines(nlines) = '# Column.7:        real_p'
       nlines = nlines+1
       
- 40   format('# feff85exafs.path_index: ', i4)
+ 40   format('# feff8l.path_index: ', i4)
       write(thisln,40) ip
       lines(nlines) = thisln
       nlines = nlines+1
 
- 200  format('# feff85exafs.nleg:        ', i1)
+ 200  format('# feff8l.nleg:        ', i1)
       write(thisln,200) nleg
       lines(nlines) = thisln
       nlines = nlines+1
 
- 210  format('# feff85exafs.degen:       ', f6.3)
+ 210  format('# feff8l.degen:       ', f6.3)
       write(thisln,210) deg
       lines(nlines) = thisln
       nlines = nlines+1
       
- 220  format('# feff85exafs.reff:        ', f7.4, ' Angstrom')
+ 220  format('# feff8l.reff:        ', f7.4, ' Angstrom')
       write(thisln,220) reff*bohr
       lines(nlines) = thisln
       nlines = nlines+1
       
- 50   format('# feff85exafs.iorder:     ', i2)
+ 50   format('# feff8l.iorder:     ', i2)
       write(thisln,50) iorder
       lines(nlines) = thisln
       nlines = nlines+1
 
 c     still on Abs line
- 60   format('# feff85exafs.abs_radii:   ', a5, '/', a5)
+ 60   format('# feff8l.abs_radii:   ', a5, '/', a5)
       write(thisln,60) words(5), words(7)
       lines(nlines) = thisln
       nlines = nlines+1
@@ -109,35 +109,35 @@ c     still on Abs line
          call bword2(buff, nwords, words)
          if (words(1) .eq. 'Gam_ch') then
 
- 100        format('# feff85exafs.gamma_ch:    ', a10, ' eV')
+ 100        format('# feff8l.gamma_ch:    ', a10, ' eV')
             write(thisln, 100) words(2)
             lines(nlines) = thisln
             nlines = nlines+1
             
- 110        format('# feff85exafs.exchange:    ', a10)
+ 110        format('# feff8l.exchange:    ', a10)
             write(thisln, 110) words(3)
             lines(nlines) = thisln
             nlines = nlines+1
             
          elseif (words(1) .eq. 'Mu') then
 
- 120        format('# feff85exafs.mu:          ', a10, ' eV')
+ 120        format('# feff8l.mu:          ', a10, ' eV')
             write(thisln, 120) words(2)
             lines(nlines) = thisln
             nlines = nlines+1
             
- 130        format('# feff85exafs.kf:          ', a10,
+ 130        format('# feff8l.kf:          ', a10,
      1             ' inverse Angstrom')
             write(thisln, 130) words(4)
             lines(nlines) = thisln
             nlines = nlines+1
             
- 140        format('# feff85exafs.vint:        ', a10, ' eV')
+ 140        format('# feff8l.vint:        ', a10, ' eV')
             write(thisln, 140) words(6)
             lines(nlines) = thisln
             nlines = nlines+1
             
- 150        format('# feff85exafs.rs_int:      ', a10, ' Angstrom')
+ 150        format('# feff8l.rs_int:      ', a10, ' Angstrom')
             write(thisln, 150) words(8)
             lines(nlines) = thisln
             nlines = nlines+1
@@ -145,13 +145,13 @@ c     still on Abs line
 c        this is a POT line
          elseif (words(1) .eq. 'Pot')  then
 
- 160        format('# feff85exafs.pot', a1, ':        ', a2)
+ 160        format('# feff8l.pot', a1, ':        ', a2)
             read(words(4), *) j
             write(thisln, 160) words(2), atsym(j)
             lines(nlines) = thisln
             nlines = nlines+1
 
- 170        format('# feff85exafs.pot', a1, '_radii:  ', a5, '/', a5)
+ 170        format('# feff8l.pot', a1, '_radii:  ', a5, '/', a5)
             write(thisln,170) words(2), words(6), words(8)
             lines(nlines) = thisln
             nlines = nlines+1
@@ -160,25 +160,25 @@ c        this is a POT line
  199  continue
 
 
- 230  format('# feff85exafs.rnrmav:      ', f7.4, ' Angstrom')
+ 230  format('# feff8l.rnrmav:      ', f7.4, ' Angstrom')
       write(thisln,230) rnrmav
       lines(nlines) = thisln
       nlines = nlines+1
       
- 240  format('# feff85exafs.edge:        ', f9.5, ' eV')
+ 240  format('# feff8l.edge:        ', f9.5, ' eV')
       write(thisln,240) edge*hart
       lines(nlines) = thisln
       nlines = nlines+1
 
 
- 300  format('# feff85exafs.atom0:       ', 3f10.4, i3, i4, 1x, a6)
+ 300  format('# feff8l.atom0:       ', 3f10.4, i3, i4, 1x, a6)
       write(thisln,300)  (rat(j,nleg)*bohr,j=1,3), ipot(nleg),
      1       iz(ipot(nleg)), potlbl(ipot(nleg))
       lines(nlines) = thisln
       nlines = nlines+1
       
       do 399  ileg = 1, nleg-1
- 310     format('# feff85exafs.atom', i1,
+ 310     format('# feff8l.atom', i1,
      1          ':       ', 3f10.4, i3, i4, 1x, a6)
          write(thisln,310)  ileg, (rat(j,ileg)*bohr,j=1,3), ipot(ileg),
      1          iz(ipot(ileg)), potlbl(ipot(ileg))

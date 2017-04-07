@@ -1,4 +1,4 @@
-# Executable scripts for feff85exafs
+# Executable scripts for feff8l
 
 ## f85e
 
@@ -14,7 +14,7 @@ folder of the repository and that the executables will be found in
 subfolders of the `src` folder, where `bin/` and `src/` are at the
 same level of the repository folder structure.
 
-	~/feff85exafs/> ls -R
+	~/feff8l/> ls -R
 	./bin:
 	f85e*
 
@@ -30,7 +30,7 @@ successor to this script will need to know (or determine) the
 installation locations of the various executables.
 
 For now, I am assuming that primary purpose of the `f85e` script is to
-aid unit testing during the development of feff85exafs.
+aid unit testing during the development of Feff8L.
 
 # feff85_light
 
@@ -38,5 +38,5 @@ This is a script written by Josh.  It makes calls to executables
 called `opconsat`, `atomic`, and `aps2exc`, none of which I know how
 to build from the source code provided.  The text of the script
 suggests that Josh intended this to be an example of using
-feff85exafs, but its use is unclear.
+Feff8L, but its use is unclear.
 

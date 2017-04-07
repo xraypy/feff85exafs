@@ -1,6 +1,6 @@
 {
     "vfeff":  "feff version number",
-    "vf85e":  "feff85exafs release number",
+    "vf85e":  "feff8l release number",
 
     "nabs":   "2nd term of CFAVERAGE in feff.inp; number of absorbers to include in the configuration average",
     "iphabs": "1st term of CFAVERAGE in feff.inp; potential index of absorber for configuration average",
@@ -20,7 +20,7 @@
     "ptz2":   "third  (1) row of polarization tensor, 6 values that map onto three complex numbers"
 
     "_comments": [
-	"can be ignored in feff85exafs: nabs, iphabs, rclabs, ispin, le2m angks, spvec",
-	"used in feff85exafs: ipol, elpty, evec, xivec, ptz0, ptz1, ptz2"
+	"can be ignored in feff8l: nabs, iphabs, rclabs, ispin, le2m angks, spvec",
+	"used in feff8l: ipol, elpty, evec, xivec, ptz0, ptz1, ptz2"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "vfeff": "feff version number",
-    "vf85e": "feff85exafs release number",
+    "vf85e": "feff8l release number",
     "natt": "number of atoms in the ATOMS list in feff.inp, lists x, y, z, iph, and ibo are natt long",
     "nph": "number of unique potentials in the POTENTIALS list in feff.inp, nph+1 items in iatph are set",
     "iatph": "zero-based list of something something...",

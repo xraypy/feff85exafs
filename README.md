@@ -1,10 +1,10 @@
-feff85exafs
-===========
+Feff8L
+======
 
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.20629.svg)](http://dx.doi.org/10.5281/zenodo.20629)
 
 
-Feff 8.50 for EXAFS: Open Source theoretical EXAFS calculations
+Feff8L: Open Source theoretical EXAFS calculations
 
 Based on or developed using Distribution: FEFF8.5L
 Copyright (c) [2013] University of Washington
@@ -22,9 +22,9 @@ To set compilation flags, edit the file `src/FeffBuild.py`.
 To compile, test, and build, do the following in the top directory
 
 ```
-	  feff85exafs> make
-	  feff85exafs> LD_LIBRARY_PATH='wrappers/python:src/GENFMT' && nosetests --verbosity=3
-	  feff85exafs> sudo make install
+	  feff8l> make
+	  feff8l> LD_LIBRARY_PATH='wrappers/python:src/GENFMT' && nosetests --verbosity=3
+	  feff8l> sudo make install
 ```
 
 See [`src/README.md`](src/README.md) for details on compiling this

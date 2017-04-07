@@ -1,6 +1,6 @@
 {
     "vfeff": "feff version number",
-    "vf85e": "feff85exafs release number",
+    "vf85e": "feff8l release number",
     "natt": "number of atoms in the ATOMS list in feff.inp, lists x, y, z, iph, and ibo are natt long",
     "x": "list of Cartesian x coordinates from the ATOMS list in feff.inp",
     "y": "list of Cartesian y coordinates from the ATOMS list in feff.inp",
