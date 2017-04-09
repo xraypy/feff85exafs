@@ -17,7 +17,7 @@ Copyright (c) [2013] University of Washington
 Compilation uses fairly generic Makefiles.  Testing requires
 [python's nose tool](https://nose.readthedocs.org/en/latest/).
 
-To set compilation flags, edit the file `src/FeffBuild.py`.
+To set compilation flags, edit the `Makefile`.
 
 To compile, test, and build, do the following in the top directory
 
