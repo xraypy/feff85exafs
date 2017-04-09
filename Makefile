@@ -1,12 +1,14 @@
 
 export PREFIX  = /usr/local
+## export PREFIX  = ${HOME}/.local
+
 export BASEDIR = ${CURDIR}
 export BINDIR  = $(PREFIX)/bin		# installation location for programs
 export LIBDIR  = $(PREFIX)/lib		# installation location for libraries
 export INCDIR  = $(PREFIX)/include	# installation location for include files
 
 ###########################################################################################
-# gcc (tested on Ubuntu linux with gcc 5.4.0)                                             #
+# gcc (tested on Ubuntu linux with gcc 5.4.0, darwin with gcc 6.3)                        #
 ###########################################################################################
 export FORTRAN  = gfortran	## compile Feff's Fortran, including the F90 bits
 export SHARED   = -shared
@@ -27,13 +29,25 @@ export ARFLAGS = rvc
 export RANLIB  = ranlib
 export RM      = rm -f
 export COPY    = cp -v
+export MAKEDIR = mkdir -p
 ###########################################################################################
 
 ###########################################################################################
-## file extensions, shared object libraries, object archives, and executables
-export SHOBJ = .so
+## file extensions for static object archives, shared object libraries, and executables
 export ARCHV = .a
+export SHOBJ = .so
 export EXEXT =
+
+ifeq ($(OS),Windows_NT)
+    UNAME = Windows_NT
+    SHOBJ = .dll
+    EXEXT = .exe
+else
+    UNAME := $(shell uname -s)
+    ifeq ($(UNAME),Darwin)
+        SHOBJ = .dylib
+    endif
+endif
 ###########################################################################################
 
 
@@ -57,6 +71,7 @@ all:
 	$(MAKE) -C src/GENFMT
 
 install:
+	$(MAKEDIR) $(BINDIR) $(LIBDIR) $(INCDIR)
 	$(MAKE) -C src/ATOM   install
 	$(MAKE) -C src/COMMON install
 	$(MAKE) -C src/DEBYE  install
