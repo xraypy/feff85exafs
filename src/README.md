@@ -51,7 +51,7 @@ will normally not be installed on the system.
 
 ## Stand-alone programs
 
-* `RDINP/rdinp`: input file reader 
+* `RDINP/rdinp`: input file reader
 * `POT/pot`: module 1, potentials calculation
 * `OPCONSAT/opconsat` and `OPCONSAT/eps2exc`: multipole loss approximation
 * `XSPH/xsph`: module 2, phase shifts calculation
@@ -171,7 +171,7 @@ Matt has these reasonable things to say about compiling against json-fortran:
     easy to pass between C and Fortran, and even some F90 structures
     are apparently challenging, though I don't know the details and
     have never delved into this.
- 
+
 	That's not to say I don't completely agree that json is better
     than FEFF.inp, and it might be that the json-fortran library is no
     problem.  And we might be able to simply not need to wrap this
@@ -202,3 +202,32 @@ file.
 This combined with the call graphs in the `tree/` folder under each
 source code folder provide a fairly thorough mapping of information
 through the many parts of Feff.
+
+
+## Hints for building on Mac OS X
+
+Some notes on building Feff8L on Mac OS X:
+
+1. You will need XCode installed and the Xcode command-line tools (run
+   `xcode-select --install` from a Terminal).
+
+2. You will need the gfortran compiler. Download the official Gfortran installer from
+    https://gcc.gnu.org/wiki/GFortranBinaries#MacOS
+
+and install this package.
+
+3. `make -jN` seems to not work for building the `json-fortran` module, at
+   least on Mac OS X.
+
+4. If `make` fails almost immediately with messages like:
+    gfortran -c -O3 -ffree-line-length-none -g -Wall -fPIC .. -o head.o head.f
+    /var/folders/c8/ycgqywlj3wbdjp3mlknv8n980000gn/T//cchhLRiB.s:545:suffix or operands invalid for `movq'
+    /var/folders/c8/ycgqywlj3wbdjp3mlknv8n980000gn/T//cchhLRiB.s:560:suffix or operands invalid for `movq'
+    .....
+
+then you *probably* have MacPorts installed (perhaps because you've
+installed Demeter) and are seeing conflicts from the MacPorts assembler and
+Apple's LLVM.  Remove the MacPorts paths (typically, '/opt/...') from your
+PATH environmental variable and redo `make`.  This appears to be only a
+build-time problem, not a run-time problem (so you're safe to then put the
+MacPorts back in your path.
