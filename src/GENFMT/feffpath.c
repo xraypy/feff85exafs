@@ -384,7 +384,7 @@ _EXPORT(void) cleanup(FEFFPATH *path) {
   free(path);
 }
 
-double leglength(FEFFPATH *path) {
+_EXPORT(double) leglength(FEFFPATH *path) {
   double x1, y1, z1, x2, y2, z2;
   int nleg = path->nleg;
   x1 = path->rat[nleg-2][0];
@@ -398,7 +398,7 @@ double leglength(FEFFPATH *path) {
 
 
 /* error string interpretation */
-void make_scatterer_errorstring(FEFFPATH *path) {
+_EXPORT(void) make_scatterer_errorstring(FEFFPATH *path) {
   double x, y, z;
   int ip;
   char message[500];
@@ -431,7 +431,7 @@ void make_scatterer_errorstring(FEFFPATH *path) {
   strcpy(path->errormessage, message);
 }
 
-void make_path_errorstring(FEFFPATH *path) {
+_EXPORT(void) make_path_errorstring(FEFFPATH *path) {
   double degen, elpty;
   int index, iorder;
   char message[500];

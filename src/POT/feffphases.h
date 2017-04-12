@@ -45,7 +45,7 @@ typedef struct {
   /* output name of phase.pad file, 256 character max */
   char   *phpad;
   /* flag to write screen messages, default = false   */
-  bool   verbose;       
+  bool   verbose;
   /* TITLE */
   int    ntitle;		/* number of header lines                       */
   char   **titles;		/* (nheadx) array of header string              */
@@ -108,12 +108,12 @@ typedef struct {
   int    iplsmn;		/* 1=compute opconsat                           */
 } FEFFPHASES;
 
-int create_phases(FEFFPHASES*);
-void clear_phases(FEFFPHASES*);
-int make_phases(FEFFPHASES*);
-int read_libpotph_json(FEFFPHASES*);
-int polarization_tensor(FEFFPHASES*);
-void cleanup(FEFFPHASES*);
+_EXPORT(int) create_phases(FEFFPHASES*);
+_EXPORT(void) clear_phases(FEFFPHASES*);
+_EXPORT(int) make_phases(FEFFPHASES*);
+_EXPORT(int) read_libpotph_json(FEFFPHASES*);
+_EXPORT(int) polarization_tensor(FEFFPHASES*);
+_EXPORT(void) cleanup(FEFFPHASES*);
 
 void libpotph_(char *,               /* phpad: path to output phase.pad file */
 	       int *,                /* verbse: flag to write screen messages */
@@ -161,7 +161,7 @@ void libpotph_(char *,               /* phpad: path to output phase.pad file */
 	       int *,		     /* nohole */
 	       int *		     /* iplsmn */
 	       );
-	       
+
 
 void mkptz_(
 	    int *,		     /* ipol  */
@@ -179,7 +179,7 @@ void mkptz_(
 
 
 /* I needed a quick-n-dirty way to track down a problem with the perl wrapper, hence... */
-void dump_phases(FEFFPHASES*);
+_EXPORT(void) dump_phases(FEFFPHASES*);
 
 
 /* json file reader error codes */
@@ -200,4 +200,3 @@ void dump_phases(FEFFPHASES*);
 #define ERR_IXC           2048  /* invalid exchange index */
 #define ERR_RGRD          4096  /* invalid radial grid */
 #define ERR_IPOT          8192  /* invalid ipot used */
-

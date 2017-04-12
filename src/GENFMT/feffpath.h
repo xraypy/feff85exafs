@@ -107,14 +107,14 @@ typedef struct {
 /*    - vint          interstitial potential                                                                       */
 /* --------------------------------------------------------------------------------------------------------------- */
 
-int add_scatterer(FEFFPATH*, double, double, double, int);
-int create_path(FEFFPATH*);
-void clear_path(FEFFPATH*);
-int make_path(FEFFPATH*);
-void cleanup(FEFFPATH*);
-void make_path_errorstring(FEFFPATH*);
-void make_scatterer_errorstring(FEFFPATH*);
-double leglength(FEFFPATH*);
+_EXPORT(int) add_scatterer(FEFFPATH*, double, double, double, int);
+_EXPORT(int) create_path(FEFFPATH*);
+_EXPORT(void) clear_path(FEFFPATH*);
+_EXPORT(int) make_path(FEFFPATH*);
+_EXPORT(void) cleanup(FEFFPATH*);
+_EXPORT(void) make_path_errorstring(FEFFPATH*);
+_EXPORT(void) make_scatterer_errorstring(FEFFPATH*);
+_EXPORT(double) leglength(FEFFPATH*);
 
 void onepath_(char *,                   /* path to phase.pad file */
 	      int *,                    /* path index */
