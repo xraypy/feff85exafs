@@ -1,9 +1,11 @@
 *.o
+*.obj
 *.os
 *.a
 *.mod
 *.so
 *.dylib
+*.dll
 *.sconsign.dblite
 *~
 *.pyc
