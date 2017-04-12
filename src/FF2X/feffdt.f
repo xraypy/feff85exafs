@@ -5,7 +5,7 @@
 c
 c     removed ihole, neptsm, npot, xmu from arg list
 c
-c     writes feffnnnn.dat files and files.dat 
+c     writes feffnnnn.dat files and files.dat
 c     for compatibility with the old feff
 c
       implicit double precision (a-h, o-z)
@@ -128,13 +128,13 @@ c$$$
 c$$$         write(3,310) ip, iorder
 c$$$  310    format (' Path', i5, '      icalc ', i7)
 c$$$         write(3,170)
-c$$$         write(3,320)  nleg(ip), deg(ip), reff(ip)*bohr, rnrmav, 
+c$$$         write(3,320)  nleg(ip), deg(ip), reff(ip)*bohr, rnrmav,
 c$$$     1                 edge*hart
-c$$$  320    format (1x, i3, f8.3, f9.4, f10.4, f11.5, 
+c$$$  320    format (1x, i3, f8.3, f9.4, f10.4, f11.5,
 c$$$     1           ' nleg, deg, reff, rnrmav(bohr), edge')
 c$$$         write(3,330)
 c$$$  330    format ('        x         y         z   pot at#')
-c$$$         write(3,340)  (rat(j,nleg(ip),ip)*bohr,j=1,3), 
+c$$$         write(3,340)  (rat(j,nleg(ip),ip)*bohr,j=1,3),
 c$$$     1                 ipot(nleg(ip),ip),
 c$$$     1                 iz(ipot(nleg(ip),ip)), potlbl(ipot(nleg(ip),ip))
 c$$$  340    format (1x, 3f10.4, i3, i4, 1x, a6, '   absorbing atom')
@@ -158,7 +158,8 @@ c$$$     1              ' red factor   lambda     real[p]@#')
      &          reff(ip), rnrmav, edge, thsrat, ipoths, iz, potlbl,
      &          nlines, lines)
          do 920 i=1, nlines
-            write(3, 930)lines(i)
+            ltxt = istrln(line(i))
+            write(3, 930) lines(i)(1:ltxt)
  920     continue
  930     format(a)
 
@@ -217,7 +218,7 @@ c$$$     6         xlam * bohr,
 c$$$     7         dble(ck(ie))/bohr
 c$$$
 c$$$  450    continue
-         
+
  400     format (1x, f6.3, 1x, 3(1pe11.4,1x),1pe10.3,1x,
      1          2(1pe11.4,1x))
 
