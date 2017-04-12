@@ -1,4 +1,3 @@
-
 export PREFIX  = /usr/local
 ## export PREFIX  = ${HOME}/.local
 
@@ -42,6 +41,7 @@ ifeq ($(OS),Windows_NT)
     UNAME = Windows_NT
     SHOBJ = .dll
     EXEXT = .exe
+    FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall
 else
     UNAME := $(shell uname -s)
     ifeq ($(UNAME),Darwin)
