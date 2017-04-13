@@ -1,5 +1,5 @@
 export PREFIX  = /usr/local
-## export PREFIX  = ${HOME}/.local
+export PREFIX  = ${HOME}/local
 
 export BASEDIR = ${CURDIR}
 export BINDIR  = $(PREFIX)/bin		# installation location for programs
@@ -54,7 +54,7 @@ endif
 all:
 	$(MAKE) -C src/PAR
 	$(MAKE) -C src/COMMON
-	$(MAKE) -C src/json-fortran
+	$(MAKE) -C src/json-fortran -j1
 	$(MAKE) -C src/JSON
 	$(MAKE) -C src/MATH
 	$(MAKE) -C src/ATOM
@@ -89,7 +89,7 @@ install:
 	$(MAKE) -C src/POT    install
 	$(MAKE) -C src/RDINP  install
 	$(MAKE) -C src/XSPH   install
-	$(MAKE) -C src/json-fortran install
+	$(MAKE) -C src/json-fortran -j1 install
 	$(MAKE) -C src/feff6l install
 
 clean:
