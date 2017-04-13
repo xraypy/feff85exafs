@@ -83,13 +83,13 @@ c     Rs1(NRPts) - Array of Rs points for interpolation
       character*512 slog
       logical csig, rdmpse
       integer NRPts, lastPl
-      parameter (tol=0.0004)
+      parameter (tol=0.0004d0)
       parameter (NRPts=10)
       double precision WpCorr(MxPole), AmpFac(MxPole)
 c      double precision  Gamma(MxPole), rsTmp, WpTmp
       double precision RsInt, DRs, delrHL(NRPts), deliHL(NRPts),
      &     Rs1(NRPts), dx, x0, volume, totvol, rnrm, ri, riInt, omp,
-     &     ompmax 
+     &     ompmax
       complex*16 delavg
 c    Josh END
 
@@ -105,7 +105,7 @@ c     Atom r grid
       dx = 0.05d0
       x0 = 8.8d0
       totvol = 4.d0/3.d0*pi*rnrm**3
-      delavg = 0.d0 
+      delavg = 0.d0
 c      totvol = 0.d0
       ZRnrm = 0.d0
       csig=.false.
@@ -127,7 +127,7 @@ c      rsTmp = RsCorr
             GOTO 5
          END IF
       END DO
-   5  CONTINUE        
+   5  CONTINUE
       if((ixc.eq.0).and.(iPl.gt.0)) then
          csig=.true.
       end if
@@ -162,15 +162,15 @@ c     Now calculate delta sigma as a function of Rs and energy
             delrHL(i) = 0.d0
             deliHL(i) = 0.d0
             Rs1(i)=rscore+DBLE(i-1)*DRs
-            
+
 c           If iPl > 1, use renormalization, else not
 c           If iPl = 2, use Sigma(r) = Sigma[Wp(r)*Wp/Wp(RsInt)]
 c           If iPl = 3, use Sigma(r) = 0 outside of intersitial region
-c                       actually linearly interpolates to zero at the 
+c                       actually linearly interpolates to zero at the
 c                       first RPt.
 c           If iPl > 3, use Sigma(r) = Sigma(RsInt) (Sigma as a bulk property)
             if(iPl.gt.1) then
-               if((iPl.eq.2).or.(i.eq.NRPts)) then                  
+               if((iPl.eq.2).or.(i.eq.NRPts)) then
 c                  call CSigZ(em,xmu,Rs1(i),delrHL(i),deliHL(i),ZTemp,
 c     &                 WpCorr,Gamma,AmpFac)
                   call CSigZ(em,xmu,Rs1(i),delrHL(i),deliHL(i),ZTemp,
@@ -199,7 +199,7 @@ c     &           dble(ZRnrm), dimag(ZRnrm)
 c        write(44,*)
       end if
 c     END Josh
-      
+
 c     Add the self energy correction
       do 20  i =  jri1,1,-1
          ri = exp((i-1)*dx - x0)
@@ -212,11 +212,11 @@ c     Add the self energy correction
          else
             rs = (3 / (4*pi*densty(i))) ** third
          endif
-c         write(22,*) 1.d0*exp(dble(i)*0.01), densty(i)         
+c         write(22,*) 1.d0*exp(dble(i)*0.01), densty(i)
 c        Josh - If csigma is turned on, interpolate onto rs.
 c        Then skip to 15 (skip other calculations and self
 c        consistency)
-         if(csig) then          
+         if(csig) then
             omp = SQRT(3.d0/rs**3)*hart
             if(iPl.ge.4) then
                delr = delrHL(NRPts)
@@ -230,7 +230,7 @@ c        consistency)
             end if
          end if
 c        END Josh
-         
+
 c        xf = 1.9191.../rs
          xf = fa / rs
          rsm = rs / (1+dmag(i))**third
@@ -271,14 +271,14 @@ c                if (v0 .ne. 0) gsrel(i) = v1/v0
             endif
             if (ixc.eq.5 ) then
                xkpp = xfval * 1.00001
-               call sigma 
+               call sigma
      1         (ixc, ibp, rsval, rscore, xkpp, vvxcrm(i),vvxcim(i))
                if (ixc.eq.5 .and. i.eq.jri1) then
                   vvxcrm(jri1) =  vxcrmu(jri1)
                   vvxcim(jri1) =  vxcimu(jri1)
                endif
             elseif (ixc .ge. 6) then
-               call sigma 
+               call sigma
      1         (ixc, ibp, rs, rscore, xk, vvxcrm(i), vvxcim(i))
                if (ixc.eq.6 .and. i.eq.jri1) then
                   vvxcrm(jri1) =  vxcrmu(jri1)
@@ -360,14 +360,14 @@ c        delta corrected calculated with new local momentum
 
 c        Josh - Skip SC loop if CSigma is called. CSigma calculates self consistently.
  15      continue
-         
+
          delta = dcmplx(delr,deli)
 
 c	 Josh - write out delta sigma at interstitial level to sigma.dat.
 c         if(i.eq.jri1) then
-c            write(45,'(X,20e14.6)') (DBLE(em) - xmu)*hart, delr*hart, 
-c     &                        deli*hart, DBLE(ZRnrm), DIMAG(ZRnrm), 
-c     &                        SQRT(DBLE(ZRnrm)**2+DIMAG(ZRnrm)**2), 
+c            write(45,'(X,20e14.6)') (DBLE(em) - xmu)*hart, delr*hart,
+c     &                        deli*hart, DBLE(ZRnrm), DIMAG(ZRnrm),
+c     &                        SQRT(DBLE(ZRnrm)**2+DIMAG(ZRnrm)**2),
 c     &                        ATAN2(DIMAG(ZRnrm),DBLE(ZRnrm)),
 c     &                        SQRT(DBLE(em-xmu)/2.d0)/ABS(deli)*bohr
 c         end if
@@ -397,10 +397,10 @@ c         ompm1 = omp
 c         delavg = delavg + volume*delta
  20   continue
 c      write(39,*)
-      
+
       ifirst = 1
       delavg = delavg/totvol
-c      write(38,'(X,20e14.6)') (DBLE(em) - xmu)*hart, dble(delavg)*hart, 
+c      write(38,'(X,20e14.6)') (DBLE(em) - xmu)*hart, dble(delavg)*hart,
 c     &     dimag(delavg)*hart,
 c     &     SQRT(DBLE(em-xmu)/2.d0)/ABS(dimag(delavg))*bohr,
 c     &     totvol
@@ -457,4 +457,3 @@ c     Real self energy, zero imag part
 
       return
       end
-

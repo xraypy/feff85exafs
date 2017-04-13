@@ -44,7 +44,7 @@ c     makes linear interpolation for function between x1,x2 and
 c     takes advantage that the integral can be taken analytically.
       implicit double precision (a-h, o-z)
       complex*16  y1, y2, t, coni,dum, a, b
-      parameter (coni = (0.0,1.0))
+      parameter (coni = (0.d0,1.d0))
 
       d = (x2-x1) / 2.0
       a = dble(y2-y1) / 2.0

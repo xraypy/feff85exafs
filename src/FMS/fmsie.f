@@ -34,7 +34,7 @@ c     fms staff
       complex xphase(nspx, -lx:lx, 0:nphx), ck(nspx)
       complex*16 dck
       complex conis
-      parameter (conis = (0,1))
+      parameter (conis = (0.0, 1.0))
       real  temper, thetax, sig2
       save
 
@@ -57,7 +57,7 @@ c     transform to single precision
 
 c      it will be nice to call yprep once for all energy points,
 c      fix later, and now call it every time
-      if (ie.eq.1 .or. lfms.eq.0 .or. lfms.eq.2) 
+      if (ie.eq.1 .or. lfms.eq.0 .or. lfms.eq.2)
      1  call yprep(iph0, nat, inclus, iphat, rfms, rat)
 
       if (inclus.gt.1) then

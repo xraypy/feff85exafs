@@ -4,7 +4,7 @@ c     written by alexei ankudinov; march 2000
 c     calculate bmat: the energy independent sum over polarization and
 c     angular momenta indices
 c     bmat = \sum_{p,p', all m_j} <LS|J><J|R|J1><J1|\alpha_p exp(i kz)|I>
-c                    ptz(p,p') 
+c                    ptz(p,p')
 c            <I|\alpha_p'^* exp(-i kz) J2><J2|R'|J'><J'|L'S'>
 c     where R is rotation from spin vector to x-ray k-vector
 c     and R' is rotation back
@@ -17,7 +17,7 @@ c     more precisely it is
 c     bmat(l1 l1' j l ml ms; l2 l2' j' l' ml' ms') =
 c        (-)**(j-j'+l2'+1) i**(l'-l) \sum_{p,p',mi,m1,mj,m2,mj'}
 c        <LS|J>   r^j_{m1,mj}(angks)   3j( j l1 i ; -m1 p mi)
-c        (-p)**(l1+l1'+1) ptz(p,p') (-p')**(l2+l2'+1) 
+c        (-p)**(l1+l1'+1) ptz(p,p') (-p')**(l2+l2'+1)
 c        3j( j' l2 i ; -m2  p' mi)   r^j'_{m2,mj'}(angks)   <J'|L'S'>
 c     where l1 l1' are set by the multipole moment(E1-l1=1,l1'=0;
 c     E2-l1=2,l1'=1; M1-l1=1,l1'=1; etc.;
@@ -41,9 +41,9 @@ c     Notice that for spin-dependent systems the scattering F matrices
 c     in RA paper also should have additional spin indices. In genfmt
 c     we currently neglect spin-flip processes which simplifies
 c     calculations with MS expansion. (T and F are diagonal in ms,ms')
-       
+
 c     This subroutine is written for general spin-dependent asymmetric
-c     system and arbitrary polarization tenzor. The symmetry of the 
+c     system and arbitrary polarization tenzor. The symmetry of the
 c     system and polarization tenzor can be used
 c     to speed up FMS or MS calculations in appropriate subroutines.
 c     (see comments in subroutines mpprmp, fmstot)
@@ -54,23 +54,23 @@ c       ipol - polarization type measurement
 c       ptz  - polarization tensor (needed only for ipol=1 case)
 c       le2  - sets which multipole moments to include (see mkptz)
 c       ltrace- .true. for xsect.f, where need to perform trace over ml
-c       angks - angle between k-vector and spin-vector 
+c       angks - angle between k-vector and spin-vector
 
 c     output
 c       lind  - orb.mom.(kappa)  needed in fmstot only (for indexing)
-c       bmat  - energy independent matrix to calculate absorption 
+c       bmat  - energy independent matrix to calculate absorption
 c       in many cases bmat is diagonal due to the choice of xyz frame,
 c       but for general case full 16*(2*lx+1)*16*(2*lx+1) matrix is kept
 
       implicit double precision (a-h,o-z)
       include '../HEADERS/dim.h'
       complex*16 coni
-      parameter (coni = (0,1))
+      parameter (coni = (0.d0,1.d0))
 
 c     need only parameter lx to set max orb momentum
       complex*16 ptz, bmat, pmat, tmat
       dimension ptz(-1:1,-1:1),  bmat(-lx:lx,0:1,8, -lx:lx,0:1,8)
-c       to include all possible dipole and quadrupole transitions 
+c       to include all possible dipole and quadrupole transitions
 c       final kp, and kpp have 8 possibilities
       logical ltrace
 
@@ -107,7 +107,7 @@ c        check that orbital momentum does not exceed max allowed
          if (lkap .gt. lx) then
 c          set final j and l to unphysical values
            jkap = 0
-           lkap = -1 
+           lkap = -1
            kap = 0
          endif
          jind(k+2) = jkap
@@ -170,7 +170,7 @@ c       sqrt(2*j'+1) for  further convinience.
             m1 = 2*(mp-ms)
             m2 = 2*ms - 1
             t3j(k1,ms,mp)=sqrt(j3+1.0d0) * cwig3j(j1,j2,j3,m1,m2,2)
-            if (mod( (j2-j1-m1-m2)/2 , 2) .ne.0) 
+            if (mod( (j2-j1-m1-m2)/2 , 2) .ne.0)
      1          t3j(k1,ms,mp) = - t3j(k1,ms,mp)
 c           t3j(m0,i)    are Clebsch-Gordon coefficients
   50      continue
@@ -239,7 +239,7 @@ c       calculate tmat = pmat*qmat
      1           pmat(mj,i2,mp,i1) * qmat(mp,ml,ms,i1)
  260      continue
  270    continue
-         
+
 c       calculate bmat = qmat^T * tmat
         do 300 i1=1,8
         do 300 ms1=0,1
@@ -250,11 +250,11 @@ c       calculate bmat = qmat^T * tmat
           bmat(ml2,ms2,i2, ml1,ms1,i1) = 0
           do 280 mj=-jind(i2)+1, jind(i2)
             bmat(ml2,ms2,i2, ml1,ms1,i1) = bmat(ml2,ms2,i2, ml1,ms1,i1)+
-     1      qmat(mj,ml2,ms2,i2) * tmat(mj,i2,ml1,ms1,i1) 
+     1      qmat(mj,ml2,ms2,i2) * tmat(mj,i2,ml1,ms1,i1)
  280      continue
  300    continue
 c       end of ipol=1,2 cases
-      endif 
+      endif
 
       if (ltrace) then
 c       need to trace bmat over ml for xsect.f

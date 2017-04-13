@@ -13,7 +13,7 @@ c      Copyright (c) [2013] University of Washington"
 c
 C  See ../HEADERS/license.h for full llicense information
 c+---------------------------------------------------------------------
-c  compute a single path, generating the F matrix then returning the 
+c  compute a single path, generating the F matrix then returning the
 c  information contained in a feffNNNN.dat file
 c
 c  INPUT:
@@ -159,7 +159,7 @@ c     dimension   ffmag(nex)
       character*512 slog
       integer ntit
       character*80 titles(nheadx), lines(2*nheadx)
-      
+
 c+----------------------------------------------------------------------
 c     parameters related to using padlib
 c+----------------------------------------------------------------------
@@ -180,7 +180,7 @@ c+----------------------------------------------------------------------
       double precision gamach
 
 c     used for divide-by-zero and trig tests
-      parameter (eps = 1.0e-16)
+      parameter (eps = 1.0d-16)
       external xstar
 
       dimension atarr(3,natx)
@@ -303,7 +303,7 @@ c     Need reff in code units
       reff = 0
       do 1200  i = 1, nleg
          reff = reff + ri(i)
- 1200 continue 
+ 1200 continue
       reff = reff/2
 
 c     Set lambda for low k
@@ -318,7 +318,7 @@ c     Calculate and store rotation matrix elements
 c        one more rotation in polarization case
 c        NEED MORE rot3j FOR CENTRAL ATOM ( l \pm 1 )
          call rot3i (ilinit+1, ilinit+1, nleg+1, beta, dri)
-      endif 
+      endif
 
 c     Start cycle over spin
       do ie = 1, ne
@@ -370,7 +370,7 @@ c           to end of calc part of loop.
 c           Calculate and store spherical wave factors c_l^(m)z^m/m!
 c           in a matrix clmi(il,im,ileg), ileg=1...nleg.
 c           Result is that common /clmz/ is updated for use by fmtrxi.
-c           
+c
 c           zero clmi arrays
             do 2100  ileg = 1, legtot
                do 2102 im = 1, mtot+ntot+1
@@ -507,7 +507,7 @@ c+----------------------------------------------------------------------
          if (abs(cchi(ie)) .ge. eps) then
             phff(ie) = real(atan2 (dimag(cchi(ie)), dble(cchi(ie))))
          end if
-         
+
 c        remove 2 pi jumps in phase
          if (ie.gt.1) call pijump (dble(phff(ie)), phffo)
          phffo    = dble(phff(ie))
@@ -581,7 +581,7 @@ c+----------------------------------------------------------------------
          do 40 i=1, nlines
             write(3, 50)lines(i)
  40      continue
-            
+
  50      format(a)
 
 c+----------------------------------------------------------------------
@@ -645,4 +645,3 @@ c        Done with feff.dat
 c     end of conditional for writing feffNNNN.xdi
 
       end
-

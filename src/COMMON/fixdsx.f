@@ -13,7 +13,7 @@ c     for the xsect and phase codes.
 
       dimension xorg(nrptx), xnew(nrptx)
 
-      parameter (xx00 = 8.8)
+      parameter (xx00 = 8.8d0)
 
 c     statement functions to do indexing.  delta is 'dx' for current
 c     grid.  jjj is index of grid point immediately before 'r'
@@ -46,7 +46,7 @@ c     inside the muffin tin radius.  Find this distance.
       do 200 iorb = 1, 30
          imax = 0
          do 100  i = 251, 1, -1
-            if ( abs(dgc(i,iorb,iph)) .ge. 1.0d-11 .or. 
+            if ( abs(dgc(i,iorb,iph)) .ge. 1.0d-11 .or.
      1           abs(dpc(i,iorb,iph)) .ge. 1.0d-11 )  then
                imax = i
                goto 16

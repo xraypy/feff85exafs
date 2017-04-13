@@ -1,4 +1,4 @@
-      subroutine xprep(iph0, idwopt, nat, inclus, npot, 
+      subroutine xprep(iph0, idwopt, nat, inclus, npot,
      $            iphat, rmax, rat,
      $            izx, rnrmav, temper, thetad, sig2,
      $            minv, rdirec )
@@ -47,7 +47,7 @@ c   It does this by filling a matrix with the pairwise mean square
 c   displacement between atoms.  Other forms of this calculation may
 c   be included in the future.  Note that it is strictly impossible
 c   to correctly model disorder in the MS scattering contribution to
-c   the spectrum when using the FMS technique. 
+c   the spectrum when using the FMS technique.
 c--------------------------------------------------------------------
 c  input:
 c     iph0:   potential index for DOS calculations (added by ala to
@@ -81,6 +81,7 @@ c     xnlm:  matrix of legendre polynomial normalization factors
 c--------------------------------------------------------------------
 
       include '../HEADERS/dim.h'
+      include '../HEADERS/const.h'
       include '../HEADERS/parallel.h'
       include 'xparam.h'
 c====================================================================
@@ -126,8 +127,6 @@ c**** save Clebsch-Gordon coefficients: <LS|J>
       common /t3j/ t3jp, t3jm
       save   /t3j/
 c********************************************************************
-      parameter(zero=0.e0)
-      parameter (bohr = 0.529 177 249e0)
       integer   iphat(natxx), iphat2(natxx), izx(0:nphasx), izpair(0:2)
       dimension rat(3,natxx), rat2(3,natxx)
       double precision ra(natxx)
@@ -281,7 +280,7 @@ c     open files for sigrm and sigem
       if (idwopt.ge.1) then
          if(master) then
            irm1 =113
-           open(unit=irm1,file='s2_rm2.dat',status='unknown', 
+           open(unit=irm1,file='s2_rm2.dat',status='unknown',
      .          iostat=ios)
            call chopen (ios, 's2_rm2.dat', 'sigrm')
            irm2 = 112
@@ -326,10 +325,10 @@ c         if (rr.gt. rdirec**2) goto 240
              dthet = dble(thetad)
              drs   = dble(rnrmav)
              ipath0=0
-             if (idwopt.eq.0) then 
+             if (idwopt.eq.0) then
 c               use CD model
                 call sigms(dtemp,dthet,drs,2,2,pair,izpair,dsigsq)
-             elseif (idwopt.eq.1) then 
+             elseif (idwopt.eq.1) then
                 xr12 = (xrat(1,iat1) - xrat(1,iat2))**2
                 yr12 = (xrat(2,iat1) - xrat(2,iat2))**2
                 zr12 = (xrat(3,iat1) - xrat(3,iat2))**2
@@ -350,14 +349,14 @@ c                  use RM method
                    call sigrm
      1             (sig2mx,sig2x,irm1,irm2,dtemp,ipath0,2,pair,dsigsq)
                 endif
-             else 
+             else
 c               use RM
                 call sigrm
      1          (sig2mx,sig2x,irm1,irm2,dtemp,ipath0,2,pair,dsigsq)
              endif
              sigsqr(iat1,iat2) = real(dsigsq)
 c            Josh - Temporary. write to sigsqr.dat
-c             write(48,*) iat1, iat2, sigsqr(iat1,iat2)             
+c             write(48,*) iat1, iat2, sigsqr(iat1,iat2)
           endif
           sigsqr(iat1,iat2) = sigsqr(iat1,iat2) + sig2
           sigsqr(iat2,iat1) = sigsqr(iat1,iat2)

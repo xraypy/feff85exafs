@@ -9,6 +9,7 @@ c    simlifies calls in SCF and LDOS where DW factors should not enter
       implicit integer (i-n)
 
       include '../HEADERS/dim.h'
+      include '../HEADERS/const.h'
       include 'xparam.h'
 c====================================================================
 c  This header file contains the structural information about the
@@ -51,8 +52,6 @@ c
 
 c  end of xstruc.h
 c********************************************************************
-      parameter(zero=0.e0)
-      parameter (bohr = 0.529 177 249e0)
       integer   iphat(natxx), iphat2(natxx)
 c      integer izpair(0:2), izx(0:nphasx)
       dimension rat(3,natxx), rat2(3,natxx)
