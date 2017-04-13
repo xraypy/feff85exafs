@@ -13,8 +13,8 @@ c
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/vers.h'
-      parameter (eps4 = 1.0e-4)
-      parameter (eps = 1.0e-16)
+      parameter (eps4 = 1.0d-4)
+      parameter (eps = 1.0d-16)
 
       parameter (npx=15000)
       character*12 fname(npx)

@@ -11,7 +11,7 @@ c+---------------------------------------------------------------------
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
 
-      parameter (eps = 1.0e-16)
+      parameter (eps = 1.0d-16)
       real xk(nex), reff
       complex caps(nex), ck(nex)
       real achi(nex), phchi(nex)

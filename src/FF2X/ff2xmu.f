@@ -1,16 +1,16 @@
       subroutine ff2xmu (ispec, ipr4, idwopt, critcw, s02, sig2g,
      1                   tk, thetad, mbconv, absolu,  !KJ added absolu 3-06
      1                   vrcorr, vicorr, alphat, thetae, iabs, nabs,
-     4            ipmin,ipmax,ipstep)   !KJ added this line 1-06     
+     4            ipmin,ipmax,ipstep)   !KJ added this line 1-06
 c     adds the contributions from each path and absorber, including
 c     Debye-Waller factors. Writes down main output: chi.dat and xmu.dat
       implicit double precision (a-h, o-z)
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      parameter (eps4 = 1.0e-4)
-      integer ipmin,ipmax,ipstep !KJ my variables 1-06 
-      integer absolu !KJ 3-06     
+      parameter (eps4 = 1.0d-4)
+      integer ipmin,ipmax,ipstep !KJ my variables 1-06
+      integer absolu !KJ 3-06
 
 c     header from list.dat
       dimension lhead(nheadx)
@@ -55,14 +55,14 @@ c     central atom phase shift at l0
 c     stuff from xsect.bin
       complex*16 emxs(nex), xsec(nex)
       dimension omega(nex), xkxs(nex), xsnorm(nex)
-      
+
 c !KJ locals  1-06
       integer iip,nip
-      logical cross 
+      logical cross
       character*9 f1,f2
       character*10 f0,f3
       complex*16 gtrtemp(nex*(1+ipmax-ipmin))
-      complex*16 kxsec(nex)     
+      complex*16 kxsec(nex)
 c !KJ end my variables
 
 
@@ -73,7 +73,7 @@ c     get gtr - result of FMS
   112 gtrful(iip,ie) = 0
       ntfms = 0
       nip=ipmax-ipmin+1 !KJ 1-06
-      
+
       open (unit=1, file='fms.bin', status='old', iostat=ios)
       if (ios.le.0) then
          ntfms = 1
@@ -103,10 +103,10 @@ c     read xsect.bin file
 
 c !KJ loop over iip added to process several spectra at once  1-06
 c !KJ reading of feff.pad moved inside the loop (used to be before reading
-c !KJ xsect.bin      
+c !KJ xsect.bin
       do iip=ipmin,ipmax,ipstep
         cross=(.not.(iip.eq.1.or.iip.eq.10.or.iip.eq.5.or.iip.eq.9))
-      
+
 c !KJ choose different filename for each spectrum.
         if(iip.eq.1) then
            f1(1:9)='chi.dat  '
@@ -158,7 +158,7 @@ c       ip is index of path, sig2u is debye-waller from user
 
 
        call rdfbin (f0, nphx, nex, npx, legtot, !KJ changed 'feff.pad' to f0  1-06
-     $     nptot, ne, npot, ihole, iorder, ilinit, 
+     $     nptot, ne, npot, ihole, iorder, ilinit,
      $     rnrmav, xmu, edge, potlbl, iz, phc, ck, xk,
      $     index, nleg, deg, reff,
      $     crit, ipot, rat, beta, eta, ri, achi, phchi)
@@ -188,7 +188,7 @@ c     ckp is ck' = ck prime.
             ckp = sqrt (ck(ie)**2 + coni*2*vicorr)
             xlam0 = aimag(ck(ie)) - dimag(ckp)
             do 170  ipath = 1, nptot
-               achi(ie,ipath) = achi(ie,ipath) * 
+               achi(ie,ipath) = achi(ie,ipath) *
      1               real(exp (2 * reff(ipath) * xlam0))
   170       continue
   180    continue
@@ -213,7 +213,7 @@ c     ik0 is index at fermi level
            xkp(i) = - sqrt(-temp)
          endif
   250 continue
-     
+
 
       dwcorr = .false.
       if (tk .gt. 1.0e-3)  dwcorr = .true.
@@ -228,7 +228,7 @@ c     Open chi.dat and xmu.dat (output) and start headers
 c        write miscellaneous staff into headers  !KJ corrected typo
          call wrhead (8, ntitle, title, dwcorr, s02,
      1     tk, thetad, sig2g, alphat, vrcorr, vicorr, critcw)
-     
+
 c        also write information on the screen
          if (alphat .gt. zero)  then
             write(slog,322) alphat
@@ -293,12 +293,12 @@ c        compare grids in xsect.bin and feff.pad
            del = xk(i)**2 - xkxs(i)**2
            if (abs(del) .gt.  10*eps4)  then
              call wlog(' Emesh in feff.pad and xsect.bin different.')
-             call par_stop('FF2XMU-1') 
+             call par_stop('FF2XMU-1')
            endif
   680    continue
       endif
 
-c     add contribution from an absorber iabs 
+c     add contribution from an absorber iabs
 c     present scheme assumes that xsec is the same for all iabs.
       do 701 ik = 1, ne
          chia(ik)   = chia(ik)   + cchi(ik)/ nabs
@@ -338,10 +338,10 @@ c        and prepare the output energy grid omega
          edg50 = efermi + 50 / hart
          if (ispec.eq.2) edg50 = efermi
          call terp (omega, xsnorm,  ne1, 1, edg50, xsedge)
-         if (absolu.eq.1) xsedge=dble(1)  !KJ 3-06 don't normalize 
-         write(8,660)  coment, xsedge 
+         if (absolu.eq.1) xsedge=dble(1)  !KJ 3-06 don't normalize
+         write(8,660)  coment, xsedge
   660    format (a2, ' xsedge+ 50, used to normalize mu ', 1pe20.4)
-         write(8,610) coment 
+         write(8,610) coment
          write(8,670) coment
   670    format (a2,' omega    e    k    mu    mu0     chi     @#')
 
@@ -361,8 +361,8 @@ c        do correction using brouder method
          do 850 ie=1,ne1
            rchtot(ie)=dimag( kxsec(ie)+xsnorm(ie)*chia(ie)+cchi(ie)) !KJ id.
   850    continue
-  
-  
+
+
          do 855 ie=1,ne
            chia(ie) = 0
   855    continue
@@ -399,7 +399,7 @@ c   with        prefac = alpinv / 4 / pi /bohr**2
 c     for if (iabs=abs); or the last absorber
 
       enddo !KJ of my iip=ipmin,ipmax,ipstep loop  1-06
-      
-      
+
+
       return
       end

@@ -1,16 +1,16 @@
       subroutine ff2chi (ispec, ipr4, idwopt, critcw, s02, sig2g,
      1     tk, thetad, mbconv, absolu, !KJ added absolu 3-06
      1     vrcorr, vicorr, alphat, thetae, iabs, nabs,
-     4     ipmin,ipmax,ipstep) !KJ added this line  1-06     
+     4     ipmin,ipmax,ipstep) !KJ added this line  1-06
 c     adds the contributions from each path and absorber, including
 c     Debye-Waller factors. Writes down main output: chi.dat and xmu.dat
       implicit double precision (a-h, o-z)
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      parameter (eps4 = 1.0e-4)
-      integer ipmin,ipmax,ipstep  !KJ my variables  1-06    
-      integer absolu !KJ 3-06  
+      parameter (eps4 = 1.0d-4)
+      integer ipmin,ipmax,ipstep  !KJ my variables  1-06
+      integer absolu !KJ 3-06
 
 c     header from list.dat
       dimension lhead(nheadx)
@@ -62,12 +62,12 @@ c#mn
 
 c !KJ locals  1-06
       integer iip
-      logical cross 
+      logical cross
       character*9 f1,f2
       character*10 f0,f3
-      complex*16 kxsec(nex)     
-!KJ end my variables      
-      
+      complex*16 kxsec(nex)
+!KJ end my variables
+
 
 c     lines below allow to skip FMS module for DANES
 c     after XANES calculations
@@ -80,10 +80,10 @@ c     after XANES calculations
 
 c !KJ loop over iip added to process several spectra at once  1-06
 c !KJ reading of feff.pad and list.dat moved inside the loop (used to be before reading
-c !KJ xsect.bin      
+c !KJ xsect.bin
       do iip=ipmin,ipmax,ipstep
         cross=(.not.(iip.eq.1.or.iip.eq.10.or.iip.eq.5.or.iip.eq.9))
-      
+
 c !KJ choose different filename for each spectrum.
         if(iip.eq.1) then
            f1(1:9)='chi.dat  '
@@ -127,8 +127,8 @@ c     ip is index of path, sig2u is debye-waller from user
   100 continue
   110 continue
       close (unit=1)
-      
-      
+
+
 c     read 'xsect.bin'
       call  rdxbin (s02p, erelax, wp, edgep, s02, gamach, ne1, ik0,
      2  emxs, omega, xkxs, xsnorm, xsec, nxsec, mbconv, title, ntitle)
@@ -138,11 +138,11 @@ c !KJ Simply reading the file again and again is the lazy solution,
 c !KJ but it avoids confusing changes to the code (eg., new variables).
 
        call rdfbin (f0, nphx, nex, npx, legtot,  !KJ changed 'feff.pad' to f0  1-06
-     $      nptot, ne, npot, ihole, iorder, ilinit, 
-     $      rnrmav, xmu, edge, potlbl, iz, phc, ck, xk, index, 
-     $      nleg, deg, reff, crit, ipot, 
+     $      nptot, ne, npot, ihole, iorder, ilinit,
+     $      rnrmav, xmu, edge, potlbl, iz, phc, ck, xk, index,
+     $      nleg, deg, reff, crit, ipot,
      $      rat, beta, eta, ri, achi, phchi)
-     
+
 c     make combined title
       do 120 ihead = 1, nhead
   120 title(ntitle+ihead) = head(ihead)
@@ -169,7 +169,7 @@ c        compare grids in xsect.bin and feff.pad
              write(slog,670)  i, xk(i)/bohr, xkxs(i)/bohr, del
              call wlog(slog)
   670        format(i7, 1p, 3e13.5)
-             call par_stop('FF2CHI-1') 
+             call par_stop('FF2CHI-1')
            endif
   680    continue
       endif
@@ -182,15 +182,15 @@ c     ckp is ck' = ck prime.
             do 180  ie = 1, ne
                ckp = sqrt (ck(ie)**2 + coni*2*vicorr)
                xlam0 = aimag(ck(ie)) - dimag(ckp)
-               achi(ie,ipath) = achi(ie,ipath) * 
+               achi(ie,ipath) = achi(ie,ipath) *
      1              real(exp (2 * reff(ipath) * xlam0))
  180        continue
  170     continue
       endif
 
-c     Decide on fine grid.  We need two, k' evenly spaced by 
-c     delk (0.05 invA) and k0 being the place in the original k 
-c     grid corresponding to each k'.  k0 will not in general be on 
+c     Decide on fine grid.  We need two, k' evenly spaced by
+c     delk (0.05 invA) and k0 being the place in the original k
+c     grid corresponding to each k'.  k0 will not in general be on
 c     an original grid point.  Define k' by k'**2 = k**2 + vr.
 c     If there is no real correction (vrcorr = 0), these two grids
 c     will be the same.
@@ -298,7 +298,7 @@ c     read or initialize chia - result of configuration average
          close (unit=1, status='delete')
       endif
 
-c     add contribution from an absorber iabs 
+c     add contribution from an absorber iabs
 c     present scheme assumes that xsec is the same for all iabs.
       do 701 ik = 1, nkx
          chia(ik)   = chia(ik)   + cchi(ik)/ nabs
@@ -378,14 +378,14 @@ c             complex*16 should be used in terpc
             endif
   660    continue
          close (unit=3)
-   
+
 c        write to 'xmu.dat'
 c        normalize to xsec at 50 eV above edge
 c        and prepare the output energy grid omegax
          edg50 = efermi + 50 / hart
          call terp (omega, xsnorm,  ne1, 1, edg50, xsedge)
          if (absolu.eq.1) xsedge=dble(1) !KJ 1-06 don't normalize
-         write(8,690)  coment, xsedge 
+         write(8,690)  coment, xsedge
   690    format (a2, ' xsedge+50, used to normalize mu ', 1pe20.4)
          write(8,610) coment
          write(8,695) coment
