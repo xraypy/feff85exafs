@@ -11,9 +11,9 @@ c
 c     coded by  A. Poiarkova
 c
 c---------------------------------------------------------------------
-c  References:  
+c  References:
 c             for the EM method: Phys. Rev. B , 59, p.948, 1999
-c     also see dissertation 
+c     also see dissertation
 c        "X-ray Absorption Fine Structure Debye-Waller Factors"
 c         by Anna V. Poiarkova
 c
@@ -22,7 +22,7 @@ c         tk temperature in degrees K
 c         nleg  nlegs in path
 c         rat   positions of each atom in path
 c         NB Units of distance in this routine
-c            are angstroms, including sig2. 
+c            are angstroms, including sig2.
 c         sig2 is output DW factor
 c
 c---------------------------------------------------------------------
@@ -33,14 +33,14 @@ c---------------------------------------------------------------------
       include '../HEADERS/parallel.h'
 
 c feff parameters (from dim.h):
-c     parameter (legtot=9) 
+c     parameter (legtot=9)
 c     parameter (nphx = 7)
 
       parameter (nphx = nphx1)
       parameter (natx = natxdw)
 
 c local parameters:
-      parameter (amu0  = 1.660 54d0)
+      parameter (amu0 = 1.660539040d0)
       parameter (pi = 3.14159 26535 89793 23846 26433d0)
       parameter (nwx = 700)
 
@@ -58,7 +58,7 @@ c local variables:
       dimension nconv(0:nlegx1)
       dimension q0(3,natx)
       dimension gr(nwx), w(nwx)
-      dimension nq0(0:nlegx1) 
+      dimension nq0(0:nlegx1)
       dimension uu(3,natx), up(3,natx), ff(3,natx)
 
       character*30  fname
@@ -70,7 +70,7 @@ c     character*80  titlep(ntitx1)
       character*512 slog
       logical iem_open
 
-      save 
+      save
       data nsigc /0/
 c-------------------------------------------------------------
 
@@ -88,8 +88,8 @@ c Read coordinates and potentials from feff.inp
   5   continue
 
 c Read spring.inp and build dynamical matrix
-      call rdspr(rat1, iz, natom, i0, 
-     1           dm, rnn, 
+      call rdspr(rat1, iz, natom, i0,
+     1           dm, rnn,
      1           acut, res, wmax, dosfit, zshell, w0,
      1           rintr, iprdos, nnl)
 
@@ -121,13 +121,13 @@ c Integration parameters:
       wmaxx=sqrt(zshell)
       dt=2.*pi/wmaxx/15.
 c top limit in t integration:
-      cutoff=2.*sqrt(2.*acut)/res/wmaxx 
+      cutoff=2.*sqrt(2.*acut)/res/wmaxx
       nstep=int(cutoff/dt)
       xlam=acut/(cutoff)**2
       wl=0.0000001
 c top limit in w integration:
-      wm=wmax*wmaxx 
-      dw=0.01 
+      wm=wmax*wmaxx
+      dw=0.01
       nw=int((wm-wl)/dw) + 1
       if (nw .gt. nwx) then
           nw = nwx
@@ -250,7 +250,7 @@ c make sure it's normalized <Q_j(0)|Q_j(0)>=1
       endif
 
 c     to get THz units:
-      wnorm=100.*w0/sqrt(amu0*10.) 
+      wnorm=100.*w0/sqrt(amu0*10.)
 c*** moments
       a0=0.
       do 132 il=1,nq0x
@@ -268,7 +268,7 @@ c*** moments
   125 w(kw) = (wl+(kw-1)*dw)
 
 c  make file prdennnnn.dat
-      if (master.and.ipath.ne.0.and.ipath.le.iprdos) then 
+      if (master.and.ipath.ne.0.and.ipath.le.iprdos) then
          write(fname,130)  ipath
   130    format('prden', i4.4, '.dat')
          open (unit=25, file=fname, status='unknown',iostat=ios)
@@ -296,7 +296,7 @@ c Solve 3*natom equations of motion and find projected VDOS (gr)
       t=dt/2.
       do 200 kstep = 1, nstep
 c        damping factor:
-         e1=exp(-xlam*t*t) 
+         e1=exp(-xlam*t*t)
          xat=0.
          do 167 i=1, natom
          do 167 n=1,3
@@ -344,9 +344,9 @@ c fit vibr.density to A*w^4, for low w
          gr(kw)=afit*w(kw)**4
   225 continue
 
-c Normalization of the pr.density of modes 
+c Normalization of the pr.density of modes
 c (it's the 2/pi factor which was left out till now with,
-c perhaps, a small diffrence due to the fit) 
+c perhaps, a small diffrence due to the fit)
       gr(nw)=0.
       if (gr(1).lt.0.) gr(1)=0.
       xx=(gr(1)+gr(nw))*dw/2.
@@ -357,7 +357,7 @@ c perhaps, a small diffrence due to the fit)
 
       if (master.and.ipath.ne.0.and.ipath.le.iprdos) then
 c to get THz units:
-         wnorm=100.*w0/sqrt(amu0*10.) 
+         wnorm=100.*w0/sqrt(amu0*10.)
          write(25,349) ipath, nleg
   349    format('#',2x,'ipath =',i3,2x,'nleg =',i2)
          write(25,350)
@@ -456,7 +456,7 @@ c     Local stuff
       logical iscomm
       parameter (nssx = 16)
 
-      parameter (big = 1.0e5)
+      parameter (big = 1.0d5)
       character*512 slog
 
       iat0 = 0
@@ -594,7 +594,7 @@ cc             Change mode and process current card.
             endif
             read(words(1),20,err=900)  iph
             if (iph .lt. 0  .or.  iph .gt. nphx)  then
-               write(slog,'(a,i8)') 
+               write(slog,'(a,i8)')
      1             'Unique potentials must be between 0 and ',
      1             nphx
                call wlog(slog)
@@ -609,7 +609,7 @@ cc          No potential label if user didn't give us one
 cc          Default set above is potlbl=' '
             if (nwords .ge. 3)  potlbl(iph) = words(3)(:6)
          else
-            write(slog,'(a,i8)') 
+            write(slog,'(a,i8)')
      .        'DWRDIN-4: Mode unrecognized, mode ', mode
 c           call wlog(slog)
             call par_stop(slog)
@@ -700,9 +700,9 @@ c      return
       end
 
 c----------------------------------------------------------
-      subroutine rdspr(rat1, iz, natom, i0, 
-     1           dm, rnn, 
-     1           acut, res, wmax, dosfit, zshell, w0, 
+      subroutine rdspr(rat1, iz, natom, i0,
+     1           dm, rnn,
+     1           acut, res, wmax, dosfit, zshell, w0,
      1           rintr, iprdos, nnl)
 
 c     Read spring.inp for multiple scattering feff and
@@ -788,12 +788,12 @@ c     tokens  0 if not a token
 c             1 if STRE (STRETCHES)
 c             2 if ANGL (ANGLES)
 c             3 if VDOS
-c             4 if PRDOS 
+c             4 if PRDOS
 c            -1 if END  (end)
 c     mode flag  0 ready to read a keyword card
 c                1 reading stretches
 c                2 reading angle-bends
- 
+
       mode = 0
   200 read(1,10,iostat=ios)  line
          if (ios .lt. 0)  line='END'
@@ -832,7 +832,7 @@ c              PRINT  iprdos
 c              to print or not to print prdennnnn.dat files;
 c              if the card is present, these files will be
 c              printed for paths 1 through iprdos
-               iprdos = 1 
+               iprdos = 1
                read(words(2),20,err=900)  iprdos
                mode = 0
             elseif (itok .eq. -1)  then
@@ -912,12 +912,12 @@ c     We're done reading the input file, close it.
       close (unit=1)
       nax=na-1
 
-c     write statistics on found bonds and angles into spring.dat 
+c     write statistics on found bonds and angles into spring.dat
       if (master) then
         open (unit=2, file='spring.dat', status='unknown',iostat=ios)
         call chopen (ios, 'spring.dat', 'spring')
         write(2,*) ' Statistics on spring constants in spring.inp.'
-        write(2,*) '   STRETCHES  i  j  aa   found_number'  
+        write(2,*) '   STRETCHES  i  j  aa   found_number'
       endif
 
 c find all stretching bonds
@@ -950,7 +950,7 @@ calex        print*, k,l,aa
          str(j,i) = aa
          if (master) write (2,*) i-1, j-1, aa, icnt
   321 continue
-      if (master) write(2,*) '   BENDS   i  j  k   aa   found_number'  
+      if (master) write(2,*) '   BENDS   i  j  k   aa   found_number'
 
 c find all bending angles
       naxx=nax
@@ -1037,7 +1037,7 @@ c find shells
             b = real(rshell(i,ish))
             dif=1.
             if (b.ne.0.) dif = abs(rij -b)/b
-            if (dif.le.ddrij) ncount=ncount+1 
+            if (dif.le.ddrij) ncount=ncount+1
  331     continue
          if (ncount.eq.0) then
             nshell = nshell + 1
@@ -1053,7 +1053,7 @@ c find shells
  335  continue
 c sort rshell into ascending numerical order
 c and find maximum order of interacting neighbor nintr
-      do 342 jsh=2,nshell 
+      do 342 jsh=2,nshell
          aa = rshell(i,jsh)
          do 341 ish=jsh-1,1,-1
             if(rshell(i,ish).le.aa) go to 340
@@ -1089,7 +1089,7 @@ c           if (i.eq.1.and.rrij.le.drij(i,j)) zshell=zshell+1
             endif
   350 continue
 
-c Build dynm. matrix for angle bends 
+c Build dynm. matrix for angle bends
       nan=0
       do 355 na=1,naxx
 c        print*,na, naxx, nangx
@@ -1119,7 +1119,7 @@ c        print*,na, naxx, nangx
   357    continue
   355 continue
 
-c Build dynm. matrix for stretches 
+c Build dynm. matrix for stretches
       do 375 l=1,natom
       do 375 m=l,natom
          do 373 n1=1,3
@@ -1174,7 +1174,7 @@ c Add two dynm. matrices D_str+D_ang
      1             dm(n1,n2,l,m)*rnn(n2,i0,i1)
   450 continue
 c     effective freq. for the 1st shell:
-      w0=sqrt(a0) 
+      w0=sqrt(a0)
       if (w0.eq.0.) then
          atmux = 1./(1./atwtd(iz(ix)) + 1./atwtd(iz(jx)))
          w0=sqrt(strx/atmux)
@@ -1342,7 +1342,7 @@ c---------------------------------------------------------------------
       parameter (natxdw = 200, nlegx1 = 9, nphx1=7)
 
 c feff parameters (from dim.h):
-c     parameter (legtot=9) 
+c     parameter (legtot=9)
 c     parameter (nphx = 7)
 
       parameter (nphx = nphx1)
@@ -1364,11 +1364,11 @@ c local variables:
       dimension nconv(0:nlegx1)
       dimension q0(3,natx)
 c   list of atoms |0>=|Q>:
-      dimension nq0(0:nlegx1)  
+      dimension nq0(0:nlegx1)
 c   state |1>=D|Q>:
-      dimension q1(3,natx)  
+      dimension q1(3,natx)
 c   list of atoms in |1>:
-      dimension nq1(natx)   
+      dimension nq1(natx)
 
 c     character*30  fname
       parameter (ntitx1 = 10)
@@ -1380,7 +1380,7 @@ c     character*80  titlep(ntitx1)
 
       logical ir1_open, ir2_open
 
-      save 
+      save
       data nsigc /0/
 c-------------------------------------------------------------
 
@@ -1406,8 +1406,8 @@ c        Read coordinates and potentials from feff.inp
          call wlog(slog)
 
 c        Read spring.inp and build dynamical matrix
-         call rdspr(rat1, iz, natom, i0, 
-     1           dm, rnn, 
+         call rdspr(rat1, iz, natom, i0,
+     1           dm, rnn,
      1           acut, res, wmax, dosfit, zshell, w0,
      1           rintr, iprdos, nnl)
 
@@ -1559,7 +1559,7 @@ c make sure it's normalized <Q_j(0)|Q_j(0)>=1
       endif
 
 c     to get THz units:
-      wnorm=100.*w0/sqrt(amu0*10.) 
+      wnorm=100.*w0/sqrt(amu0*10.)
 c*** moments
       a0=0.
       do 132 il=1,nq0x
