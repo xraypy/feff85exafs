@@ -30,9 +30,9 @@
 #define natx   1000           /* from feff, see src/HEADERS/dim.h */
 #define nphx   11             /* from feff */
 #define nheadx 30             /* from feff */
-#define bohr   0.529177249    /* bohr, a unit of length, in Ångström */
+#define bohr   0.52917721067  /* bohr, a unit of length, in Ångström */
 #define pi     3.1415926535897932384626433  /* π */
-#define ryd    13.605698      /* rydberg, a unit of energy, in eV */
+#define ryd    13.60569301    /* rydberg, a unit of energy, in eV */
 #define hart   2.0 * ryd      /* hartree, a unit of energy, in eV */
 
 

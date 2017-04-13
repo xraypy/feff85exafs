@@ -1,11 +1,7 @@
       subroutine getedg (ihole, iz, emu)
       implicit double precision (a-h, o-z)
       include '../HEADERS/dim.h'
-
-c Insert corrected edges from G.P. Williams' and W.T. Elam's tables.
-c 17/10/2002 G. Rivas
-      parameter (bohr = 0.529 177 249d0, ryd  = 13.605 698d0)
-      parameter (hart = 2 * ryd)
+      include '../HEADERS/const.h'
                                                                                 
       dimension exmu(1:100,1:29)
                                                                                 
