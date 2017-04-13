@@ -69,6 +69,7 @@ all:
 	$(MAKE) -C src/PATH
 	$(MAKE) -C src/FF2X
 	$(MAKE) -C src/GENFMT
+	$(MAKE) -C src/feff6l
 
 install:
 	$(MAKEDIR) $(BINDIR) $(LIBDIR) $(INCDIR)
@@ -89,6 +90,7 @@ install:
 	$(MAKE) -C src/RDINP  install
 	$(MAKE) -C src/XSPH   install
 	$(MAKE) -C src/json-fortran install
+	$(MAKE) -C src/feff6l install
 
 clean:
 	$(MAKE) -C src/ATOM   clean
@@ -108,6 +110,6 @@ clean:
 	$(MAKE) -C src/RDINP  clean
 	$(MAKE) -C src/XSPH   clean
 	$(MAKE) -C src/json-fortran clean
-
+	$(MAKE) -C src/feff6l clean
 
 .PHONEY: 	all install clean
