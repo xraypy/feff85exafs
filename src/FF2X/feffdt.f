@@ -158,7 +158,7 @@ c$$$     1              ' red factor   lambda     real[p]@#')
      &          reff(ip), rnrmav, edge, thsrat, ipoths, iz, potlbl,
      &          nlines, lines)
          do 920 i=1, nlines
-            ltxt = istrln(line(i))
+            ltxt = istrln(lines(i))
             write(3, 930) lines(i)(1:ltxt)
  920     continue
  930     format(a)
