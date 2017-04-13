@@ -51,11 +51,14 @@ class Feff8Tests:
 
     def test_feff(self):
         """check F_eff for each path"""
-        for f in self.tests:
-            for path in tests[f].paths:
+        for name, test in self.tests.items():
+            if not test.feffran:
+                assert False, "failed to find results of feff calculation for %s" % name
+            for path in test.paths:
                 index = int(path[4:8])
                 for part in ('feff', 'amp', 'phase'):
-                    check_feff(f, index, part)
+                    result = test.compare(index, part=part)
+                    assert result, "comparison of %s for path %d in %s" % (part, index, name)
 
     def test_columns(self):
         """check the feffNNNN.dat columns that are the same for all paths"""
@@ -178,6 +181,7 @@ def check_feff(folder, index, part):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
     this = tests[folder].compare(index, part=part)
     assert this, "comparison of %s for path %d in %s" % (part, index, folder)
+
 def check_feff_wrapper(folder, index, part):
     if not tests[folder].feffran: assert False, "failed to find results of feff calculation for %s" % folder
     this = tests[folder].compare(index, part=part, use_wrapper=True)
@@ -268,4 +272,5 @@ def check_clean(folder):
 
 if __name__ == '__main__':
     t =  Feff8Tests()
-    t.test_feffrun()
+    # t.test_feffrun()
+    t.test_feff()
