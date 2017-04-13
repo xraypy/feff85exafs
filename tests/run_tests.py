@@ -1,17 +1,16 @@
 ## feff85exafs unit testing system using larch
 ## see HEADERS/license.h for feff's license information
 
-
 import os
-
-import nose
-
+import sys
+from os.path import isfile, isdir, join
 import re
 
-from os.path import isfile, isdir, join
-import sys
-sys.path.append(join('wrappers','python'))
 from math import isnan
+
+import nose
+import pytest
+
 
 import larch
 from larch_plugins.xafs.feffdat import feffpath
@@ -19,116 +18,138 @@ from larch_plugins.io import read_ascii
 
 from f85ut import ut
 
+ALL_FOLDERS = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane', 'LCO-para', 'LCO-perp')
+
+class Feff8Tests:
+    def __init__(self, folders=None, verbose=True, doplot=False, doscf=None):
+        self.tests = {}
+        if folders is None:
+            folders = ALL_FOLDERS
+
+        if doscf is None:
+            doscf  =  (os.getenv('FEFF_TEST_SCF', 'False').lower() in ("yes", "true", "on", "y", "t", "1"))
+        for f in folders:
+            this = ut(f)
+            this.verbose = verbose
+            this.doplot = doplot
+            this.doscf = doscf
+            self.tests[f] = this
+
+    def test_feffrun(self):
+        "run feff"
+        for name, test in self.tests.items():
+            test.run()
+            scf = 'without SCF'
+            if test.doscf:
+                scf = 'with SCF'
+            with open(join(test.testrun, 'f85e.log'), 'r') as log:
+                # f85e.log shouldn't be more than a couple thousand lines long (ferrocene w/SCF is 1096)
+                lines = log.readlines()
+                m = re.search('Done with module 6:', lines[-1])
+            assert m and test.available(1), "feff run on %s (%s) not successful" % (name, scf)
 
 
+    def test_feff(self):
+        """check F_eff for each path"""
+        for f in self.tests:
+            for path in tests[f].paths:
+                index = int(path[4:8])
+                for part in ('feff', 'amp', 'phase'):
+                    check_feff(f, index, part)
 
-#folders = ('Copper',)
-folders = ('UO2',)
-folders = ('Copper', 'NiO', 'UO2')
-#, 'Zircon', 'ferrocene', 'bromoadamantane')
-#folders = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene', 'bromoadamantane', 'LCO-para', 'LCO-perp')
-tests   = dict()
+    def test_columns(self):
+        """check the feffNNNN.dat columns that are the same for all paths"""
+        for f in self.tests:
+            for part in ('lambda', 'caps', 'redfact', 'rep'):
+                check_columns(f, part)
 
-doscf   = os.getenv('FEFF_TEST_SCF', 'False')
 
-## run feff
-def test_feffrun():
-    for f in folders:
-        check_feffrun(f)
+    def test_radii(self):
+        for f in self.tests:
+            check_radii(f, 'muffintin')
+            check_radii(f, 'norman')
 
-def test_feffrun_opconsat():
-    for f in folders:
-        check_feffrun_opconsat(f)
 
-## check the feffNNNN.dat columns that are the same for all paths
-def test_columns():
-    for f in folders:
-        for part in ('lambda', 'caps', 'redfact', 'rep'):
-            check_columns(f, part)
+    def test_terms(self):
+        "check various quantities computed by feff"
+        for f in self.tests:
+            for term in ('edge', 'gam_ch', 'kf', 'mu', 'rs_int', 'vint'):
+                check_feffterms(f, term)
 
-def test_columns_wrapper():
-    check_skip("not checking wrapper")
-    # if not tests[folders[0]].wrapper_available:
-    #     yield check_skip, "wrapper unavailable"
-    # else:
-    #     for f in folders:
-    #         for part in ('lambda', 'caps', 'redfact', 'rep'):
-    #             yield check_columns_wrapper, f, part
+    def test_s02(self):
+        "check that S02 was computed correctly"
+        for f in self.tests:
+            check_s02(f)
 
-## check F_eff for each path
-def test_feff():
-    for f in folders:
-        for path in tests[f].paths:
-            index = int(path[4:8])
-            for part in ('feff', 'amp', 'phase'):
-                check_feff(f, index, part)
 
-def test_feff_wrapper():
-    check_skip("not checking wrapper")
-    # if not tests[folders[0]].wrapper_available:
-    #     yield check_skip, "wrapper unavailable"
-    # else:
-    #     for f in folders:
-    #         for path in tests[f].paths:
-    #             index = int(path[4:8])
-    #             for part in ('feff', 'amp', 'phase'):
-    #                 if f == ('LCO-perp'):
-    #                     tests[f].sp.evec  = (1,1,0)
-    #                     tests[f].sp.xivec = (0,0,1)
-    #                     tests[f].sp.elpty = 1
-    #                 elif f == ('LCO-para'):
-    #                     tests[f].sp.evec  = (0,0,1)
-    #                 yield check_feff_wrapper, f, index, part
+    @pytest.mark.skip(reason="not testing wrapper")
+    def test_columns_wrapper(self):
+        check_skip("not checking wrapper")
+        # if not tests[folders[0]].wrapper_available:
+        #     yield check_skip, "wrapper unavailable"
+        # else:
+        #     for f in folders:
+        #         for part in ('lambda', 'caps', 'redfact', 'rep'):
+        #             yield check_columns_wrapper, f, part
 
-## check norman and muffin tin radii of the ipots from feff
-def test_radii():
-    for f in folders:
-        check_radii(f, 'muffintin')
-        check_radii(f, 'norman')
+    @pytest.mark.skip(reason="not testing wrapper")
+    def test_feff_wrapper(self):
+        pass
+        # if not tests[folders[0]].wrapper_available:
+        #     yield check_skip, "wrapper unavailable"
+        # else:
+        #     for f in folders:
+        #         for path in tests[f].paths:
+        #             index = int(path[4:8])
+        #             for part in ('feff', 'amp', 'phase'):
+        #                 if f == ('LCO-perp'):
+        #                     tests[f].sp.evec  = (1,1,0)
+        #                     tests[f].sp.xivec = (0,0,1)
+        #                     tests[f].sp.elpty = 1
+        #                 elif f == ('LCO-para'):
+        #                     tests[f].sp.evec  = (0,0,1)
+        #                 yield check_feff_wrapper, f, index, part
 
-## check various quantities computed by feff
-def test_terms():
-    for f in folders:
-        for term in ('edge', 'gam_ch', 'kf', 'mu', 'rs_int', 'vint'):
-            check_feffterms(f, term)
 
-## check that S02 was computed correctly
-def test_s02():
-    for f in folders:
-        check_s02(f)
+    @pytest.mark.skip(reason="not testing opconsat")
+    def test_feffrun_opconsat(self):
+        check_skip("not checking opconsat")
+        # for f in self.tests:
+        #    check_feffrun_opconsat(f)
 
-def test_opconsat():
-    for f in folders:
-        pass # check_opconsat(f)
+    @pytest.mark.skip(reason="not testing opconsat")
+    def test_opconsat(self):
+        check_skip("not checking opconstat")
+        for f in self.tests:
+            pass # check_opconsat(f)
 
-## check various fitting and statistical parameters from a canned fit
-def test_fit():
-    for f in folders:
-        #if not tests[f].feffran: tests[f].run()
-        if isfile(join(tests[f].path, tests[f].folder+'.skip')):
-            check_skip("skipping data test for %s" % f)
-        elif isfile(join(tests[f].path, tests[f].folder+'.py')):
-            tests[f].fit()
-            for p in ('chi_reduced', 'chi_square', 'rfactor'):
-                check_stat(f, p)
-            if (hasattr(tests[f].blfit.params, 'covar_vars')):
-                for p in tests[f].blfit.params.covar_vars:
-                    check_param(f, p, 'value')
-                    check_param(f, p, 'stderr')
+    def test_fit(self):
+        """check various fitting and statistical parameters from a canned fit"""
+        for f in self.tests:
+            #if not tests[f].feffran: tests[f].run()
+            if isfile(join(tests[f].path, tests[f].folder+'.skip')):
+                check_skip("skipping data test for %s" % f)
+            elif isfile(join(tests[f].path, tests[f].folder+'.py')):
+                tests[f].fit()
+                for p in ('chi_reduced', 'chi_square', 'rfactor'):
+                    check_stat(f, p)
+                if (hasattr(tests[f].blfit.params, 'covar_vars')):
+                    for p in tests[f].blfit.params.covar_vars:
+                        check_param(f, p, 'value')
+                        check_param(f, p, 'stderr')
+                else:
+                    check_false("fit could not evaluate uncertainties for %s" % f)
             else:
-                check_false("fit could not evaluate uncertainties for %s" % f)
-        else:
-            check_skip("no data tests for %s" % f)
+                check_skip("no data tests for %s" % f)
 
-## remove the test run
-def test_clean():
-    for f in folders:
-        tests[f].clean()
-        check_clean( f)
+    def test_clean(self):
+        """remove the test run"""
+        for f in self.tests:
+            tests[f].clean()
+            check_clean(f)
 
 
 ################################################################################
-
 
 def check_feffrun(folder):
     tests[folder].run()
@@ -185,7 +206,7 @@ def check_false(msg):
     assert False, msg
 
 def check_skip(msg):
-    raise nose.SkipTest(msg)
+    pass
 
 def check_param(folder, param, part):
     bl=getattr(getattr(tests[folder].blfit.params, param), part)
@@ -246,10 +267,5 @@ def check_clean(folder):
     assert not isdir(tests[folder].testrun), "clean up %s calculation not successful" % folder
 
 if __name__ == '__main__':
-    for f in folders:
-        print(" Folder ", f)
-        tests[f]         = ut(f)
-        tests[f].verbose = True
-        tests[f].doplot  = True
-        tests[f].doscf   = doscf.lower() in ("yes", "true", "on", "y", "t", "1")
-        tests[f].run()
+    t =  Feff8Tests()
+    t.test_feffrun()
