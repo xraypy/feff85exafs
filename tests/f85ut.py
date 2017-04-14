@@ -358,8 +358,8 @@ class Feff85exafsUnitTestGroup(Group):
         if part=='feff':
             baseline_1 = getattr(blpath._feffdat, 'mag_feff') # + np.random.uniform(0,1,size=1)
             testrun_1  = getattr(trpath._feffdat, 'mag_feff')
-            baseline_2 = getattr(blpath._feffdat, 'pha_feff') # + np.random.uniform(0,1,size=1)
-            testrun_2  = getattr(trpath._feffdat, 'pha_feff')
+            baseline_2 = np.sin(getattr(blpath._feffdat, 'pha_feff')) # + np.random.uniform(0,1,size=1)
+            testrun_2  = np.sin(getattr(trpath._feffdat, 'pha_feff'))
             ylabel     = 'magnitude and phase'
             label      = 'magnitude'
         elif part=='amp':
@@ -368,8 +368,8 @@ class Feff85exafsUnitTestGroup(Group):
             ylabel     = 'total amplitude'
             label      = 'amplitude'
         elif part=='phase':
-            baseline_1 = getattr(blpath._feffdat, 'pha')
-            testrun_1  = getattr(trpath._feffdat, 'pha')
+            baseline_1 = np.sin(getattr(blpath._feffdat, 'pha'))
+            testrun_1  = np.sin(getattr(trpath._feffdat, 'pha'))
             ylabel     = 'total phase shift'
             label      = 'phase'
         elif part=='lam':
@@ -398,8 +398,8 @@ class Feff85exafsUnitTestGroup(Group):
             part       = 'feff'
             baseline_1 = getattr(blpath._feffdat, 'mag_feff')
             testrun_1  = getattr(trpath._feffdat, 'mag_feff')
-            baseline_2 = getattr(blpath._feffdat, 'pha_feff')
-            testrun_2  = getattr(trpath._feffdat, 'pha_feff')
+            baseline_2 = np.sin(getattr(blpath._feffdat, 'pha_feff'))
+            testrun_2  = np.sin(getattr(trpath._feffdat, 'pha_feff'))
             ylabel     = 'magnitude and phase'
             label      = 'magnitude'
 
@@ -416,6 +416,7 @@ class Feff85exafsUnitTestGroup(Group):
         if part=='feff':
             self.rfactor_2 = sum((baseline_2 - testrun_2)**2) / sum(baseline_2**2)
             if self.verbose:
+                print(" -- ",self.epsilon, sum((baseline_2 - testrun_2)**2),  sum(baseline_2**2))
                 print "phase R-factor = " + test_text("%.9g" % self.rfactor_2, self.rfactor_2 < self.epsilon)
 
         if self.verbose: print ""
