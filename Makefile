@@ -1,5 +1,5 @@
 export PREFIX  = /usr/local
-## export PREFIX  = ${HOME}/.local
+# export PREFIX  = ${HOME}/local
 
 export BASEDIR = ${CURDIR}
 export BINDIR  = $(PREFIX)/bin		# installation location for programs
