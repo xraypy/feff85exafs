@@ -15,8 +15,14 @@ from larch import (Group, Parameter, isParameter, param_value,
                    isNamedClass, Interpreter)
 from larch_plugins.xafs.feffdat import feffpath
 from larch_plugins.xafs.feffrunner import feffrunner
-from larch_plugins.xafs.feff8lpath import Feff8L_XAFSPath
 from larch_plugins.wx import (_newplot, _plot)
+
+WRAPPER_AVAILABLE = False
+try:
+    from larch_plugins.xafs.feff8lpath import Feff8L_XAFSPath
+    WRAPPER_AVAILABLE = True
+except:
+    pass
 
 
 WARN_COLOR = 'yellow'
@@ -110,8 +116,8 @@ class Feff85exafsUnitTestGroup(Group):
         self.epsfit     = self.eps3
         self.firstshell = False
         self.fittest    = None
-        self.sp = Feff8L_XAFSPath(_larch=self._larch)
-
+        if WRAPPER_AVAILABLE:
+            self.sp = Feff8L_XAFSPath(_larch=self._larch)
 
     def __repr__(self):
         if not isdir(self.folder):
@@ -183,7 +189,6 @@ class Feff85exafsUnitTestGroup(Group):
             for f in glob.glob("*"):
                 if f.startswith('log'):
                     unlink(f)
-
             if self.verbose:
                 print_warn("\nRan Feff85EXAFS on %s (%s)" % (self.folder, scf))
             self.__testpaths()
@@ -400,7 +405,7 @@ class Feff85exafsUnitTestGroup(Group):
 
 
         self.rfactor_2 = 0
-        self.rfactor = 1000* sum((baseline_1 - testrun_1)**2) / sum(baseline_1**2)
+        self.rfactor = sum((baseline_1 - testrun_1)**2) / sum(baseline_1**2)
         if self.verbose:
             print_warn("\nComparing %s of %s (%s) (using %s)" % (label, nnnndat, "with SCF" if self.doscf else "without SCF", how))
             self.print_geometry(blpath)
@@ -412,6 +417,7 @@ class Feff85exafsUnitTestGroup(Group):
             self.rfactor_2 = sum((baseline_2 - testrun_2)**2) / sum(baseline_2**2)
             if self.verbose:
                 print "phase R-factor = " + test_text("%.9g" % self.rfactor_2, self.rfactor_2 < self.epsilon)
+
         if self.verbose: print ""
 
         if self.doplot:
@@ -422,7 +428,7 @@ class Feff85exafsUnitTestGroup(Group):
                 _plot(blpath._feffdat.k, np.gradient(baseline_2), _larch=self._larch, label='grad(phase of baseline)')
                 _plot(trpath._feffdat.k, np.gradient(testrun_2),  _larch=self._larch, label='grad(phase of test run)')
 
-        if use_wrapper:
+        if use_wrapper and WRAPPER_AVAILABLE:
             self.sp.reset()
 
         if part=='feff':
