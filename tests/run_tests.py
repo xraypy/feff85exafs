@@ -69,8 +69,10 @@ class Feff8Test:
             bl = feffpath(join(self.test.baseline, 'feff%4.4i.dat' % npath))
             tr = feffpath(join(self.test.testrun,  'feff%4.4i.dat' % npath))
             for term in ('edge', 'gam_ch', 'kf', 'mu', 'rs_int', 'vint'):
-                tdiff = getattr(bl._feffdat, term) - getattr(tr._feffdat, term)
-                assert abs(tdiff) < 1.e-4, "feff term %s not close enough for %s" % (term, self.folder)
+                blval = getattr(bl._feffdat, term)
+                trval = getattr(tr._feffdat, term)
+                tdiff = blval - trval
+                assert abs(tdiff) < 2.0e-4, "feff term %s not close enough for %s" % (term, self.folder)
 
         for radius in ('muffintin', 'norman'):
             bl = self.test.radii('baseline', radius)
