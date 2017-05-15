@@ -66,8 +66,8 @@ class Feff8Test:
             basefile = join(self.test.baseline, 'feff%4.4i.dat' % npath)
             if not exists(basefile):
                 continue
-            bl = feffpath(join(self.test.baseline, 'feff%4.4i.dat' % npath))
-            tr = feffpath(join(self.test.testrun,  'feff%4.4i.dat' % npath))
+            bl = feffpath(join(self.test.baseline, 'feff%4.4i.dat' % npath), _larch=self.test._larch)
+            tr = feffpath(join(self.test.testrun,  'feff%4.4i.dat' % npath), _larch=self.test._larch)
             for term in ('edge', 'gam_ch', 'kf', 'mu', 'rs_int', 'vint'):
                 blval = getattr(bl._feffdat, term)
                 trval = getattr(tr._feffdat, term)
@@ -183,7 +183,7 @@ def check_opconsat(folder):
 
 if __name__ == '__main__':
     TEST_FOLDERS = ('Copper', 'NiO', 'Zircon', 'ferrocene', 'LCO-para', 'LCO-perp')
-    # TEST_FOLDERS = ('Copper', 'NiO')
+    TEST_FOLDERS = ('Copper', 'NiO')
     # TEST_FOLDERS = ALL_FOLDERS
     for folder in TEST_FOLDERS:
         t =  Feff8Test(folder)

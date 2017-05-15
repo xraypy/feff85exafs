@@ -337,7 +337,7 @@ class Feff85exafsUnitTestGroup(Group):
         how     = 'wrapper' if use_wrapper else 'executables'
         nnnndat = "feff%4.4d.dat" % nnnn
 
-        blpath = feffpath(join(self.baseline, nnnndat))
+        blpath = feffpath(join(self.baseline, nnnndat), _larch=self._larch)
         if use_wrapper: # make the feffNNNN.dat file on the fly
             self.sp.phase_file = join(self.testrun, 'phase.pad')
             self.sp.nnnn=True
@@ -351,9 +351,9 @@ class Feff85exafsUnitTestGroup(Group):
             finally:
                 chdir(owd)
             n3nndat = "feff%4.4d.dat" % nnnn
-            trpath = feffpath(join(self.testrun,  n3nndat))
+            trpath = feffpath(join(self.testrun,  n3nndat), _larch=self._larch)
         else:                   # the feffNNNN.dat file was made by the monolithic feff run
-            trpath = feffpath(join(self.testrun,  nnnndat))
+            trpath = feffpath(join(self.testrun,  nnnndat), _larch=self._larch)
 
         if part=='feff':
             baseline_1 = getattr(blpath._feffdat, 'mag_feff') # + np.random.uniform(0,1,size=1)
@@ -505,8 +505,8 @@ class Feff85exafsUnitTestGroup(Group):
             #if self.verbose: print colored("You have not yet made the test run of Feff", 'magenta', attrs=['bold'])
             raise Exception("You have not yet made the test run of Feff")
         nnnndat = "feff%4.4d.dat" % nnnn
-        bl      = feffpath(join(self.baseline, nnnndat))
-        tr      = feffpath(join(self.testrun,  nnnndat))
+        bl      = feffpath(join(self.baseline, nnnndat), _larch=self._larch)
+        tr      = feffpath(join(self.testrun,  nnnndat), _larch=self._larch)
 
         termdict = {'edge':   'energy threshold relative to atomic value',
                     'gam_ch': 'core level energy width',
