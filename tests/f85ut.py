@@ -114,6 +114,7 @@ class Feff85exafsUnitTestGroup(Group):
         self.eps3       = 0.001
         self.epsilon    = self.eps4
         self.epsfit     = self.eps3
+        self.epserr     = 5.0 * self.epsfit
         self.firstshell = False
         self.fittest    = None
         if WRAPPER_AVAILABLE:
