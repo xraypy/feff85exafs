@@ -108,15 +108,16 @@ class Feff8Test:
             self.test.fit()
             eps = self.test.epsfit
             for stat in ('chi_reduced', 'chi_square', 'rfactor'):
-                bl = getattr(self.test.blfit.params, stat)
-                tr = getattr(self.test.trfit.params, stat)
+                bl = getattr(self.test.blfit, stat)
+                tr = getattr(self.test.trfit, stat)
                 close = abs((bl-tr)/bl) < eps
                 assert close, stat_msg % (stat, self.folder, bl, tr)
 
-            for par in self.test.blfit.params.covar_vars:
-                for part in ('value', 'stderr'):
-                    bl = getattr(getattr(self.test.blfit.params, par), part)
-                    tr = getattr(getattr(self.test.trfit.params, par), part)
+            for par in self.test.blfit.var_names:
+                for part, eps in (('value',  self.test.epsfit),
+                                  ('stderr', self.test.epserr)):
+                    bl = getattr(self.test.blfit.params[par], part)
+                    tr = getattr(self.test.trfit.params[par], part)
                     close = abs((bl-tr)/bl) < eps
                     assert close, param_msg % (part, par, self.folder, bl, tr)
 
@@ -183,7 +184,6 @@ def check_opconsat(folder):
 
 if __name__ == '__main__':
     TEST_FOLDERS = ('Copper', 'NiO', 'Zircon', 'ferrocene', 'LCO-para', 'LCO-perp')
-    TEST_FOLDERS = ('Copper', 'NiO')
     # TEST_FOLDERS = ALL_FOLDERS
     for folder in TEST_FOLDERS:
         t =  Feff8Test(folder)
