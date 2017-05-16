@@ -3,7 +3,7 @@
 
 from os.path import realpath, exists, join
 
-from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass)
+from larch import (Group, param_group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass)
 use_plugin_path('io')
 from xdi import read_xdi
 use_plugin_path('xafs')
@@ -24,19 +24,19 @@ def do_fit(self, which):
     if hasattr(data, 'wavenumber'):
         data.k = data.wavenumber
 
-    gds = Group(amp    = Parameter(1,      vary=True, _larch=self._larch),
-                enot   = Parameter(0.01,   vary=True, _larch=self._larch),
-                alpha  = Parameter(0.0001, vary=True, _larch=self._larch),
-                sso    = Parameter(0.003,  vary=True, _larch=self._larch),
-                ssni   = Parameter(0.003,  vary=True, _larch=self._larch),
-                sso2   = Parameter(0.003,  vary=True, _larch=self._larch),
-                #sso3   = Parameter(0.003,  vary=True, _larch=self._larch),
-                ssni2  = Parameter(0.003,  vary=True, _larch=self._larch),
-                #ssni3  = Parameter(0.003,  vary=True, _larch=self._larch),
-                #ssni4  = Parameter(0.003,  vary=True, _larch=self._larch),
-                _larch=self._larch  )
+    gds = param_group(amp    = Parameter(1,      vary=True),
+                      enot   = Parameter(0.01,   vary=True),
+                      alpha  = Parameter(0.0001, vary=True),
+                      sso    = Parameter(0.003,  vary=True),
+                      ssni   = Parameter(0.003,  vary=True),
+                      sso2   = Parameter(0.003,  vary=True),
+                      #sso3   = Parameter(0.003,  vary=True),
+                      ssni2  = Parameter(0.003,  vary=True),
+                      #ssni3  = Parameter(0.003,  vary=True),
+                      #ssni4  = Parameter(0.003,  vary=True),
+                      _larch=self._larch  )
 
-    paths = list() 
+    paths = list()
     paths.append(feffpath(realpath(join(folder, "feff0001.dat")), # 1st shell O SS
                           s02    = 'amp',
                           e0     = 'enot',
@@ -103,7 +103,7 @@ def do_fit(self, which):
         _plot(dset.data.r,  dset.data.chir_re, label='data', win=2, _larch=self._larch)
         _plot(dset.model.r, dset.model.chir_re, label='fit', win=2, _larch=self._larch)
     #end if
-    
+
     if self.verbose:
         print feffit_report(fit, _larch=self._larch)
     #end if
