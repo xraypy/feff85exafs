@@ -94,7 +94,7 @@ JSONobj = ../JSON/json_read_libpotph.o ../JSON/json_xsect.o ../JSON/bailout.o ..
 
 
 
-all:	otherdirs libfeffint$(ARCHV) libpotph$(SHOBJ) libfeff8lphases$(SHOBJ) pot$(EXEXT)
+all:	otherdirs libfeffint$(ARCHV) libpotph$(SHOBJ) libfeff8lpotph$(SHOBJ) pot$(EXEXT)
 
 libfeffint$(ARCHV):	istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
 	$(AR) $(ARFLAGS) libfeffint$(ARCHV) istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
@@ -103,7 +103,7 @@ libfeffint$(ARCHV):	istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
 libpotph$(SHOBJ):	$(shobjects) $(JSONobj)
 	$(FORTRAN) $(SHARED) $(shobjects) $(JSONobj) -o $@
 
-libfeff8lphases$(SHOBJ):	feffphases.o $(shobjects) $(JSONobj)
+libfeff8lpotph$(SHOBJ):	feffphases.o $(shobjects) $(JSONobj)
 	$(FORTRAN) $(SHARED) feffphases.o $(shobjects) $(JSONobj) -o $@
 
 
@@ -225,7 +225,7 @@ endif
 install:
 	$(COPY) pot$(EXEXT)           $(BINDIR)
 	$(COPY) libpotph$(SHOBJ)      $(LIBDIR)
-	$(COPY) libfeff8lphases$(SHOBJ) $(LIBDIR)
+	$(COPY) libfeff8lpotph$(SHOBJ) $(LIBDIR)
 	$(COPY) feffphases.h          $(INCDIR)
 	$(INSTARCH)
 
