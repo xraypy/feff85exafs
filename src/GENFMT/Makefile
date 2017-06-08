@@ -21,7 +21,7 @@ SHOBJ   ?= .so
 ARCHV   ?= .a
 EXEXT   ?=
 
-all:	otherdirs libfeffgenfmt$(ARCHV) libonepath$(SHOBJ) libfeffpath$(SHOBJ) genfmt$(EXEXT)
+all:	otherdirs libfeffgenfmt$(ARCHV) libonepath$(SHOBJ) libfeff8lpath$(SHOBJ) genfmt$(EXEXT)
 
 libobj = genfmt_prep.o fmtrxi.o mmtr.o mmtrxi.o import.o rot3i.o sclmz.o setlam.o snlm.o xstar.o trig.o
 
@@ -53,8 +53,8 @@ shobjects = ../FF2X/fdtarr.o ../FF2X/fdthea.o ../FF2X/fdtxdi.o		\
 libonepath$(SHOBJ):	onepath.o pathgeom.o $(libobj) $(shobjects)
 	$(FORTRAN) $(SHARED) onepath.o pathgeom.o $(libobj) $(shobjects) -o $@
 
-libfeffpath$(SHOBJ):	feffpath.o libonepath$(SHOBJ)
-	$(FORTRAN) $(SHARED) feffpath.o libonepath$(SHOBJ) -o $@
+libfeff8lpath$(SHOBJ):	feffpath.o onepath.o pathgeom.o $(libobj) $(shobjects)
+	$(FORTRAN) $(SHARED) feffpath.o onepath.o pathgeom.o $(libobj) $(shobjects) -o $@
 
 
 binobj = ffmod5.o genfmt.o rdpath.o regenf.o
@@ -62,7 +62,6 @@ archives = ../json-fortran/libjsonfortran$(ARCHV)	\
 ../DEBYE/libfeffdw$(ARCHV) ../COMMON/libfeffcom$(ARCHV)	\
 ../PAR/libfeffpar$(ARCHV) ../MATH/libfeffmath$(ARCHV)	\
 ../JSON/libfeffjson$(ARCHV)
-
 
 
 genfmt$(EXEXT):	$(binobj) libfeffgenfmt$(ARCHV) $(archives)
@@ -108,7 +107,7 @@ endif
 install:
 	$(COPY) genfmt$(EXEXT)      $(BINDIR)
 	$(COPY) libonepath$(SHOBJ)  $(LIBDIR)
-	$(COPY) libfeffpath$(SHOBJ) $(LIBDIR)
+	$(COPY) libfeff8lpath$(SHOBJ) $(LIBDIR)
 	$(COPY) feffpath.h          $(INCDIR)
 	$(INSTARCH)
 
