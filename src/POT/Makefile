@@ -75,7 +75,7 @@ objects = libpotph.o inipotph.o ffsort_potph.o		\
 wlog_potph.o pot.o afolp.o inipot.o moveh.o wpot.o ovrlp.o broydn.o	\
 ff2g.o grids.o corval.o wrpot.o scmt.o scmtmp.o sumax.o rholie.o	\
 frnrm.o coulom.o istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
-# libpotph_xsect.o 
+# libpotph_xsect.o
 
 archives = ../POT/libfeffint$(ARCHV) ../ATOM/libfeffatom$(ARCHV)			\
 ../FOVRG/libfeffpha$(ARCHV) ../COMMON/libfeffcom$(ARCHV) ../PAR/libfeffpar$(ARCHV)	\
@@ -94,7 +94,7 @@ JSONobj = ../JSON/json_read_libpotph.o ../JSON/json_xsect.o ../JSON/bailout.o ..
 
 
 
-all:	otherdirs libfeffint$(ARCHV) libpotph$(SHOBJ) libfeffphases$(SHOBJ) pot$(EXEXT)
+all:	otherdirs libfeffint$(ARCHV) libpotph$(SHOBJ) libfeff8lpotph$(SHOBJ) pot$(EXEXT)
 
 libfeffint$(ARCHV):	istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
 	$(AR) $(ARFLAGS) libfeffint$(ARCHV) istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
@@ -103,8 +103,8 @@ libfeffint$(ARCHV):	istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
 libpotph$(SHOBJ):	$(shobjects) $(JSONobj)
 	$(FORTRAN) $(SHARED) $(shobjects) $(JSONobj) -o $@
 
-libfeffphases$(SHOBJ):	feffphases.o libpotph$(SHOBJ)
-	$(FORTRAN) $(SHARED) feffphases.o libpotph$(SHOBJ) -o $@
+libfeff8lpotph$(SHOBJ):	feffphases.o $(shobjects) $(JSONobj)
+	$(FORTRAN) $(SHARED) feffphases.o $(shobjects) $(JSONobj) -o $@
 
 
 pot$(EXEXT):	$(binobj) $(archives)
@@ -225,7 +225,7 @@ endif
 install:
 	$(COPY) pot$(EXEXT)           $(BINDIR)
 	$(COPY) libpotph$(SHOBJ)      $(LIBDIR)
-	$(COPY) libfeffphases$(SHOBJ) $(LIBDIR)
+	$(COPY) libfeff8lpotph$(SHOBJ) $(LIBDIR)
 	$(COPY) feffphases.h          $(INCDIR)
 	$(INSTARCH)
 

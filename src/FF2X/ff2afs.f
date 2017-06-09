@@ -8,9 +8,9 @@ c     Writes down main output: chi.dat and xmu.dat
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      parameter (eps4 = 1.0e-4)
-      integer ipmin,ipmax,ipstep !KJ my variables  4-06    
-      integer absolu !KJ 4-06  
+      parameter (eps4 = 1.0d-4)
+      integer ipmin,ipmax,ipstep !KJ my variables  4-06
+      integer absolu !KJ 4-06
 
 
 c     header from list.dat
@@ -56,14 +56,14 @@ c     central atom phase shift at l0
 c     stuff from xsect.bin
       complex*16 emxs(nex), xsec(nex)
       dimension omega(nex), xkxs(nex), xsnorm(nex), fpp(nex)
-      
+
 c !KJ locals  1-06
       integer iip,nip
-      logical cross 
+      logical cross
       character*9 f1,f2
       character*10 f0,f3
       complex*16 gtrtemp(nex*(1+ipmax-ipmin))
-      complex*16 kxsec(nex)     
+      complex*16 kxsec(nex)
 c !KJ end my variables
 
 
@@ -76,7 +76,7 @@ c     get gtr - result of FMS
   112 gtrful(iip,ie) = 0
       ntfms = 0
       nip=ipmax-ipmin+1 !KJ 1-06
-      
+
       open (unit=1, file='fms.bin', status='old', iostat=ios)
       if (ios.le.0) then
          ntfms = 1
@@ -101,10 +101,10 @@ c     get gtr - result of FMS
 
 c !KJ loop over iip added to process several spectra at once  4-06
 c !KJ reading of feff.pad and list.dat moved inside the loop (used to be before reading
-c !KJ xsect.bin      
+c !KJ xsect.bin
       do iip=ipmin,ipmax,ipstep
         cross=(.not.(iip.eq.1.or.iip.eq.10.or.iip.eq.5.or.iip.eq.9))
-      
+
 c !KJ choose different filename for each spectrum.
         if(iip.eq.1) then
            f1(1:9)='chi.dat  '
@@ -157,7 +157,7 @@ c       ip is index of path, sig2u is debye-waller from user
       close (unit=1)
 
 
-c     lines below allow to skip FMS module for DANES 
+c     lines below allow to skip FMS module for DANES
 c     after XANES calculations
       open (unit=1, file='phase.pad', status='old', iostat=ios)
       if (ios.le.0) then
@@ -166,7 +166,7 @@ c     after XANES calculations
       close (unit=1)
 
        call rdfbin (f0, nphx, nex, npx, legtot,   !KJ changed 'feff.pad' to f0  4-06
-     $     nptot, ne, npot, ihole, iorder, ilinit, 
+     $     nptot, ne, npot, ihole, iorder, ilinit,
      $     rnrmav, xmu, edge, potlbl, iz, phc, ck, xk,
      $     index, nleg, deg, reff,
      $     crit, ipot, rat, beta, eta, ri, achi, phchi)
@@ -207,7 +207,7 @@ c     ckp is ck' = ck prime.
             ckp = sqrt (ck(ie)**2 + 2*coni*vicorr)
             xlam0 = aimag(ck(ie)) - dimag(ckp)
             do 170  ipath = 1, nptot
-               achi(ie,ipath) = achi(ie,ipath) * 
+               achi(ie,ipath) = achi(ie,ipath) *
      1               real(exp (2 * reff(ipath) * xlam0))
   170       continue
   180    continue
@@ -232,7 +232,7 @@ c     ik0 is index at fermi level
            xkp(i) = - sqrt(-temp)
          endif
   250 continue
-     
+
 
       dwcorr = .false.
       if (tk .gt. 1.0e-3)  dwcorr = .true.
@@ -317,12 +317,12 @@ c        compare grids in xsect.bin and feff.pad
            del = xk(i)**2 - xkxs(i)**2
            if (abs(del) .gt.  10*eps4)  then
              call wlog(' Emesh in feff.pad and xsect.bin different.')
-c            stop 
+c            stop
            endif
   680    continue
       endif
 
-c     add contribution from an absorber iabs 
+c     add contribution from an absorber iabs
 c     present scheme assumes that xsec is the same for all iabs.
       do 701 ik = 1, ne
          chia(ik)   = chia(ik)   + cchi(ik)/ nabs
@@ -362,7 +362,7 @@ c        and prepare the output energy grid omega
          edg50 = efermi + 50 / hart
          call terp (omega, xsnorm,  ne1, 1, edg50, xsedge)
          if (absolu.eq.1) xsedge=dble(1)  !KJ 4-06 don't normalize
-         write(8,660)  coment, xsedge 
+         write(8,660)  coment, xsedge
   660    format (a2,' xsedge+ 50, used to normalize mu ', 1pe20.4)
          write(8,610) coment
          write(8,665) coment
@@ -370,7 +370,7 @@ c        and prepare the output energy grid omega
 
 c        transform from cross section in Angstrom**2 to f"/m*c**2
          do 670 ie = 1,ne
-            energy = dble(emxs(ie)) + efermi 
+            energy = dble(emxs(ie)) + efermi
             prefac = 4 * pi * alpinv / energy * bohr**2
 c           add alpha**2 to convert to units for f'
             xsec(ie) = xsec(ie) / prefac * alpinv**2
@@ -411,7 +411,7 @@ c             - signs to comply with Cromer-Liberman notation for f', f"
   700         format (1x, 2f11.3, f8.3, 1p, 3e13.5)
             else
 c             FPRIME
-              write(8,710)  omega(ie)*hart, em0*hart, 
+              write(8,710)  omega(ie)*hart, em0*hart,
      1              -rchtot(ie), -xsec0, fpp(ie), xsnorm(ie)
   710         format (1x, 2f11.3, 4e13.5)
             endif

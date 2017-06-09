@@ -6,12 +6,10 @@ c     Atomic Data and Nuclear Data Tables, Vol 14, Number 2, 1974.
 c     output gamach is in eV
 
       implicit double precision (a-h, o-z)
+      include '../HEADERS/const.h'
 
       dimension zh(8,16), gamh(8,16)
-
       dimension zk(8), gamkp(8)
-      parameter (ryd  = 13.605 698d0)
-      parameter (hart = 2*ryd)
       character*512 slog
 
 
@@ -59,7 +57,7 @@ c     Since feff8 can be called any number of times . ALA
 
       if (ihole .le. 0)  then
          gamach = 0
-         write(slog,'(a,1pe13.5)') ' No hole in SETGAM, gamach = ', 
+         write(slog,'(a,1pe13.5)') ' No hole in SETGAM, gamach = ',
      1                             gamach
          call wlog(slog)
          return

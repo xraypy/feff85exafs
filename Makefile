@@ -52,43 +52,45 @@ endif
 
 
 all:
-	$(MAKE) -C src/PAR
-	$(MAKE) -C src/COMMON
-	$(MAKE) -C src/json-fortran
-	$(MAKE) -C src/JSON
-	$(MAKE) -C src/MATH
-	$(MAKE) -C src/ATOM
-	$(MAKE) -C src/DEBYE
-	$(MAKE) -C src/EXCH
-	$(MAKE) -C src/FOVRG
-	$(MAKE) -C src/FMS
-	$(MAKE) -C src/RDINP
-#	$(MAKE) -C src/OPCONSAT
-	$(MAKE) -C src/POT
-	$(MAKE) -C src/XSPH
-	$(MAKE) -C src/PATH
-	$(MAKE) -C src/FF2X
-	$(MAKE) -C src/GENFMT
+	$(MAKE) -C src/PAR -j4
+	$(MAKE) -C src/COMMON -j4
+	$(MAKE) -C src/json-fortran -j1
+	$(MAKE) -C src/JSON -j4
+	$(MAKE) -C src/MATH -j4
+	$(MAKE) -C src/ATOM -j4
+	$(MAKE) -C src/DEBYE -j4
+	$(MAKE) -C src/EXCH -j4
+	$(MAKE) -C src/FOVRG -j4
+	$(MAKE) -C src/FMS -j4
+	$(MAKE) -C src/RDINP -j4
+#	$(MAKE) -C src/OPCONSAT -j4
+	$(MAKE) -C src/POT -j4
+	$(MAKE) -C src/XSPH -j4
+	$(MAKE) -C src/PATH -j4
+	$(MAKE) -C src/FF2X -j4
+	$(MAKE) -C src/GENFMT -j4
+	$(MAKE) -C src/feff6l -j4
 
 install:
 	$(MAKEDIR) $(BINDIR) $(LIBDIR) $(INCDIR)
-	$(MAKE) -C src/ATOM   install
-	$(MAKE) -C src/COMMON install
-	$(MAKE) -C src/DEBYE  install
-	$(MAKE) -C src/EXCH   install
-	$(MAKE) -C src/FF2X   install
-	$(MAKE) -C src/FMS    install
-	$(MAKE) -C src/FOVRG  install
-	$(MAKE) -C src/GENFMT install
-	$(MAKE) -C src/JSON   install
-	$(MAKE) -C src/MATH   install
-#	$(MAKE) -C src/OPCONSAT install
-	$(MAKE) -C src/PAR    install
-	$(MAKE) -C src/PATH   install
-	$(MAKE) -C src/POT    install
-	$(MAKE) -C src/RDINP  install
-	$(MAKE) -C src/XSPH   install
-	$(MAKE) -C src/json-fortran install
+	$(MAKE) -C src/ATOM   -j4 install
+	$(MAKE) -C src/COMMON -j4 install
+	$(MAKE) -C src/DEBYE  -j4 install
+	$(MAKE) -C src/EXCH   -j4 install
+	$(MAKE) -C src/FF2X   -j4 install
+	$(MAKE) -C src/FMS    -j4 install
+	$(MAKE) -C src/FOVRG  -j4 install
+	$(MAKE) -C src/GENFMT -j4 install
+	$(MAKE) -C src/JSON   -j4 install
+	$(MAKE) -C src/MATH   -j4 install
+#	$(MAKE) -C src/OPCONSAT -j4 install
+	$(MAKE) -C src/PAR    -j4 install
+	$(MAKE) -C src/PATH   -j4 install
+	$(MAKE) -C src/POT    -j4 install
+	$(MAKE) -C src/RDINP  -j4 install
+	$(MAKE) -C src/XSPH   -j4 install
+	$(MAKE) -C src/json-fortran -j1 install
+	$(MAKE) -C src/feff6l -j4 install
 
 clean:
 	$(MAKE) -C src/ATOM   clean
@@ -108,6 +110,6 @@ clean:
 	$(MAKE) -C src/RDINP  clean
 	$(MAKE) -C src/XSPH   clean
 	$(MAKE) -C src/json-fortran clean
-
+	$(MAKE) -C src/feff6l clean
 
 .PHONEY: 	all install clean

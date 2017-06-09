@@ -5,9 +5,7 @@ c nmax number of tabulation points for wave function
 c      this programm uses dsordf
 
       implicit double precision (a-h,o-z)
-      parameter (zero = 0)
-      parameter (ryd  = 13.605 698d0)
-      parameter (hart = 2*ryd)
+      include '../HEADERS/const.h'
       common/itescf/testy,rap(2),teste,nz,norb,norbsc
       common/ratom1/xnel(30),en(30),scc(30),scw(30),sce(30),
      1nq(30),kap(30),nmax(30)
@@ -18,7 +16,7 @@ c      this programm uses dsordf
 
       external dsordf
       data ttire /'s ', 'p*', 'p ', 'd*', 'd ', 'f*', 'f ','g*', 'g '/
- 
+
       do 110 i=1,norb
          if (kap(i) .gt. 0) then
            j=2*kap(i)
@@ -45,7 +43,7 @@ c                   r**n (n=6,4,2,1,-1,-2,-3)
          if (llq.le.0) j=7
          do 241 k=2,j
  241        at(k)=dsordf(i,i,mbi(k),1, zero)
- 251     if (open_16) 
+ 251     if (open_16)
      .     write(16,2071) nq(i),titre(i),xnel(i),-en(i)*hart,
      1                  (at(k),k=2,j)
  2071 format(i1,a2,f6.3,8(1pe10.3))
@@ -58,7 +56,7 @@ c      overlap integrals
          do 331 j=i+1,norb
             if (kap(j).ne.kap(i)) go to 331
             at(1)=dsordf(i,j,0,1, zero)
-            if(open_16) 
+            if(open_16)
      .        write(16,2091)  nq(i),titre(i),nq(j),titre(j),at(1)
  331     continue
  351  continue

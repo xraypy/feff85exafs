@@ -5,8 +5,8 @@ c     output: rad, qplus, qminus
 
       implicit double precision (a-h, o-z)
       complex*16 s1,s13
-      parameter (three = 3)
-      parameter (third = 1/three)
+      parameter (three = 3.d0)
+      parameter (third = 1.d0/three)
 
 c     this subroutine finds the roots of the equation
 c     4xk0 * q^3  +  (alph-4xk0^2) * q^2  +  wp^2 = 0

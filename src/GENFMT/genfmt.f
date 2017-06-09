@@ -2,7 +2,7 @@
      1       ipol, ispin, le2, angks, elpty, evec, xivec, ptz)
       implicit double precision (a-h, o-z)
 
-c     altered by matt newville (jan 1999): 
+c     altered by matt newville (jan 1999):
 c     format of feff.pad changed to packed-ascii, and all writes changed.
 c     altered by alex ankudinov(feb 2000); disabled use of paths in LDOS.
 
@@ -38,7 +38,7 @@ c     include 'pdata.h'
       double precision deg, rnrmav, xmu, edge
       integer lmax(nex,0:nphx), ipot(0:legtot), iz(0:nphx), ltext(5)
       integer nsc, nleg, npot, ne, ik0, ipath, ihole
-      integer kinit, linit, ilinit, lmaxp1, ntext 
+      integer kinit, linit, ilinit, lmaxp1, ntext
 c     common /pdata/ ph(nex,-ltot:ltot,0:nphx), !complex phase shifts ipot=0
 c     .  eref(nex),                             !complex energy reference
 c     .  rat(3,0:legtot+1),                     !position of each atom, code units(bohr)
@@ -80,7 +80,7 @@ c     .  ntext                                  !number of text  lines
       character*256 phpad
       character*512 slog
       logical done, wnstar
-      
+
 c      padlib staff
       double precision phff(nex), amff(nex),  xkr(nex)
       integer  mpadx
@@ -93,9 +93,9 @@ c     iorder, order of approx in f-matrix expansion (see setlam)
 c             (normal use, 2.  Do ss exactly regardless of iorder)
 
 c     used for divide-by-zero and trig tests
-      parameter (eps = 1.0e-16)
+      parameter (eps = 1.0d-16)
       external getxk, xstar
-       
+
 c+---------------------------------------------------------------------
 c begin intialization
 
@@ -115,7 +115,7 @@ c     things set in genfmt_prep
 
 c end of intialization
 c+---------------------------------------------------------------------
-      
+
 c     Open path input file (unit in) and read text .  Use unit 1.
       ntext  = 5
       open (unit=1, file='paths.dat', status='old', iostat=ios)
@@ -124,7 +124,7 @@ c     Open path input file (unit in) and read text .  Use unit 1.
       if (ntext  .le. 0)  then
          text (1) = ' '
       endif
-c     
+c
 c     Save indices of paths for use by ff2chi
       open (unit=2, file='list.dat', status='unknown', iostat=ios)
       call chopen (ios, 'list.dat', 'genfmt')
@@ -135,7 +135,7 @@ c     Put phase header on top of list.dat
       write(2, 135)
  135  format('  pathindex     sig2   amp ratio    ',
      1       'deg    nlegs  r effective')
-      
+
 c     Open nstar.dat if necessary
       if (wnstar)  then
          open(unit=4,file='nstar.dat', status='unknown', iostat=ios)
@@ -143,7 +143,7 @@ c     Open nstar.dat if necessary
          write(4,'(1x,a,f8.4)' ) ' polarization', evec
          write(4,'(1x,a)' ) ' npath     n*'
       endif
-      
+
 c     Set crit0 for keeping feff.dat's
       if (ipr5 .le. 0)  crit0 = 2*critcw/3
 c     Make a header for the running messages.
@@ -191,7 +191,7 @@ c     Central atom phase shifts
       call wrpadx(3,mpadx, ph(1,ll, 0),ne)
       call wrpadx(3,mpadx, ck,ne)
       call wrpadd(3,mpadx, xkr,ne)
-      
+
 c     While not done, read path, find feff.
  1000 continue
 
@@ -225,7 +225,7 @@ c        Need reff
          reff = 0
          do 1200  i = 1, nleg
             reff = reff + ri(i)
- 1200    continue 
+ 1200    continue
          reff = reff/2
 
 c        Set lambda for low k
@@ -240,7 +240,7 @@ c        Calculate and store rotation matrix elements
 c           one more rotation in polarization case
 c           NEED MORE rot3j FOR CENTRAL ATOM ( l \pm 1 )
             call rot3i (ilinit+1, ilinit+1, nleg+1, beta, dri)
-         endif 
+         endif
 
 c        Start cycle over spin
          do ie = 1, ne
@@ -292,7 +292,7 @@ c              to end of calc part of loop.
 c              Calculate and store spherical wave factors c_l^(m)z^m/m!
 c              in a matrix clmi(il,im,ileg), ileg=1...nleg.
 c              Result is that common /clmz/ is updated for use by fmtrxi.
-c              
+c
 c              zero clmi arrays
                do 2100  ileg = 1, legtot
                   do 2102 im = 1, mtot+ntot+1
@@ -452,7 +452,7 @@ c           zero is debye-waller factor column
             write(2,8215) ipath, zero, crit, deg, nleg, reff*bohr
  8215       format(1x, i8, f12.5, 2f10.3, i6, f9.4) !KJ original code
 c           8215         format(1x, i8, f12.5, e15.4, f10.3, i6, f9.4) !KJ  1-06
-            
+
 c           Tell user about the path we just did
             write(slog, 8225) ipath, crit, deg, nleg, reff*bohr
  8225       format (3x, i4, 2f10.3, i6, f9.4) !KJ original code
@@ -477,6 +477,6 @@ c     close paths.dat, list.dat, feff.pad, nstar.dat
       write(slog,'(1x,i4,a,i4,a)') nused,' paths kept, ',
      $       ntotal,' examined.'
       call wlog(slog)
-      
+
       return
       end

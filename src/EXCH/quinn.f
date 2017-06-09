@@ -27,7 +27,7 @@ c***********************************************************************
 
       include '../HEADERS/const.h'
 
-      parameter (alphaq = 1/ fa)
+      parameter (alphaq = 1.d0/ fa)
 
 c     calculate quinn prefactor in atomin Hartree units
       pisqrt = sqrt(pi)

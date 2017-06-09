@@ -69,7 +69,7 @@ c$$$      close(unit=8)
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
       include '../HEADERS/vers.h'
-      parameter (eps4 = 1.0e-4)
+      parameter (eps4 = 1.0d-4)
       character*80  head(nheadx)
       logical dwcorr
       character*2 coment
@@ -132,7 +132,7 @@ c     stop writing misc. staff to files
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
-      parameter (eps4 = 1.0e-4)
+      parameter (eps4 = 1.0d-4)
       character*80  head(nheadx)
       parameter (npx=15000)
 c     indices of paths to do, read from list.dat
@@ -167,7 +167,7 @@ c     central atom phase shift at l0
 
 c     Keep stats on paths used to make chi
       nused = 0
-      xkref = dble(ck(1)**2) - xk(1)*abs(xk(1)) 
+      xkref = dble(ck(1)**2) - xk(1)*abs(xk(1))
 
 c     open the files for sigrm and sigem
       if (idwopt.eq.1) then
@@ -201,7 +201,7 @@ c        initialize statistics for max DW for sigrm
          do 400 iph2=0,nphx
   400    sig2x(iph1, iph2) = 0
       endif
-     
+
 
 c     cycle over all paths in the list
       do 560  ilist = 1, ntotal
@@ -223,7 +223,7 @@ c        ip(ilist) and index(ipath).
 c        Use this path if it passes critcw filter
          if (crit(ipath) .lt. critcw)  goto 550
 
-c        do debye-waller factors, get sig2d from correlated debye 
+c        do debye-waller factors, get sig2d from correlated debye
 c        model if required
 c        A note about units:  sig2g, sig2u() and sig2d are all in
 c        Angs**2.  Convert to code units after we've summed them.
@@ -232,7 +232,7 @@ c        Angs**2.  Convert to code units after we've summed them.
 c           note that stuff from feff.pad is single precision and
 c           mostly in multidim. arrays.  sigms is double precision
 c           and its arrays are dimensioned for a single path, so
-c           use tmp variables to call it.  tk, thetad and sig2d are 
+c           use tmp variables to call it.  tk, thetad and sig2d are
 c           all dp, and therefore OK.  Also note that sigms takes
 c           inputs in angstroms, except for rs which is in bohr.
             rs = rnrmav
@@ -246,19 +246,19 @@ c           inputs in angstroms, except for rs which is in bohr.
             do 470  j = 1,3
                rattmp(j,0) = rattmp(j,nleg(ipath))
   470       continue
-            if (idwopt.eq.0) then 
+            if (idwopt.eq.0) then
 c             use CD model
-              call sigms (tk, thetad, rs, legtot, nleg(ipath), 
+              call sigms (tk, thetad, rs, legtot, nleg(ipath),
      1                  rattmp, iztmp, sig2d)
-            elseif (idwopt.eq.1) then 
+            elseif (idwopt.eq.1) then
 c             use EM method
               call sigem
      1        (sig2mx,sig2x,iem,tk,ipath,nleg(ipath),rattmp,sig2d)
             elseif (idwopt.eq.3) then  !KJ 7/06 added this section
 c             use CL model
-              call sigcl (tk, thetad, rs, legtot, nleg(ipath), 
-     1                  rattmp, iztmp, sig2d)   
-            else 
+              call sigcl (tk, thetad, rs, legtot, nleg(ipath),
+     1                  rattmp, iztmp, sig2d)
+            else
 c             use RM
               call sigrm
      1        (sig2mx,sig2x,irm1,irm2,tk,ipath,nleg(ipath),rattmp,sig2d)
@@ -288,7 +288,7 @@ c            using Morse potential
   475      format( i10,f9.5,f9.5,' ',f9.7)
          endif
 
-c        put the debye-waller factor and other cumulants into 
+c        put the debye-waller factor and other cumulants into
 c        achi and phchi
          if (mbconv .gt. 0) s02 = 1.0
          do 480  i = 1, ne1
@@ -298,7 +298,7 @@ c        achi and phchi
             dw = dw * dw1 * dw3
             phdw = 0.0
             if (abs(dw).gt.0) phdw = atan2 (dimag(dw), dble(dw))
-            achi(i,ipath) = achi(i,ipath) * 
+            achi(i,ipath) = achi(i,ipath) *
      1           real(abs(dw) * s02 * deg(ipath))
             phchi(i,ipath) = phchi(i,ipath) + real(phdw)
   480    continue
@@ -314,7 +314,7 @@ c           phchi is single precision, so use tmp variables
          do 500  ik = 1, nkx
             call terp1 (xk, achi(1,ipath),  ne1, xk0(ik), achi0)
             call terp1 (xk, phchi(1,ipath), ne1, xk0(ik), phchi0)
-            ccpath(ik) = 
+            ccpath(ik) =
      1        achi0 * exp (coni * (2 * xk0(ik) * reff(ipath) + phchi0))
 c           note that this already includes s02, deg, sig2, etc.
 c           sum total complex chi
@@ -326,10 +326,10 @@ c           sum total complex chi
 c           Put path into chi.dat, xmu.dat as required
             if (abs(sig2u(ilist)) .gt. 0.000001)  then
               write(3,515)  coment, index(ipath), sig2*(bohr**2),
-     1          crit(ipath), deg(ipath), nleg(ipath), reff(ipath)*bohr, 
+     1          crit(ipath), deg(ipath), nleg(ipath), reff(ipath)*bohr,
      2          sig2u(ilist)
               write(8,515)  coment, index(ipath), sig2*(bohr**2),
-     1          crit(ipath), deg(ipath), nleg(ipath), reff(ipath)*bohr, 
+     1          crit(ipath), deg(ipath), nleg(ipath), reff(ipath)*bohr,
      2            sig2u(ilist)
             else
               write(3,515) coment, index(ipath), sig2*(bohr**2),

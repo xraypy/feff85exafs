@@ -10,13 +10,12 @@ c     output: sig1 sig3
       implicit double precision (a-h, o-z)
       real reff
 
-c     con=hbar**2/kB*amu)*10**20   in ang**2 units
-c     hbar = 1.054 572 666 e-34, amu = 1.660 540 e-27, 
-c     kB = 1.380 6581 d-23
-      parameter (con = 48.508 459 393 094)
-      parameter (hbar = 1.054 572 666 e-34)
-      parameter (amu = 1.660 540 e-27)
-      parameter (xkb = 1.380 6581 e-23)
+c     con=hbar**2/(kB*amu)*10**20   in ang**2 units
+c     hbar, amu, kb updated 2017
+      parameter (hbar = 1.054571800d-34)
+      parameter (amu = 1.660539040d-27)
+      parameter (xkb = 1.38064852d-23)
+      parameter (con = 48.50875019927435d0)
 
       ami=atwtd(iz1)*amu
       amj=atwtd(iz2)*amu

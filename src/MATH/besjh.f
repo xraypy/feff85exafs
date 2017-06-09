@@ -11,8 +11,8 @@ c       lbmax
 c       jl = jl bessel function (abramowitz conventions)
 c       hl = hl^+ bessel function (messiah conventions) for Im x >=0
 c       hl = hl^- bessel function (messiah conventions) for Im x < 0
-c       jl and hl must be dimensioned 
-c            complex*16 jl(0:lbmax), hl(0:lbmax), 
+c       jl and hl must be dimensioned
+c            complex*16 jl(0:lbmax), hl(0:lbmax),
 c
 c     notes:  jl and hl should be calculated at least to 10 place
 c             accuracy for the range 0<x<100 according to spot
@@ -44,7 +44,7 @@ c-----------------------------------------------------------------------
 
       parameter (xcut = 1.d0, xcut1 = 7.51d0, xcut2 = 5.01d0)
       complex*16 coni
-      parameter (coni=(0,1))
+      parameter (coni=(0.d0, 1.d0))
 
       if (dble(x) .lt. 0)  stop 'Re(x) is .lt. zero in besjh'
 
@@ -131,11 +131,11 @@ c        coded into the terms below.
          sjl(6) = 945*xi6 - 420*xi4 + 15*xi2
          sjl(7) = 10395*xi7 - 4725*xi5 + 210*xi3 - xi
          sjl(8) = 135135*xi8 - 62370*xi6 + 3150*xi4 - 28*xi2
-         sjl(9) = 2027025*xi9 - 945945*xi7 + 51975*xi5 
+         sjl(9) = 2027025*xi9 - 945945*xi7 + 51975*xi5
      1            - 630*xi3 + xi
-         sjl(10) = 34459425*xi10 - 16216200*xi8 + 945945*xi6 
+         sjl(10) = 34459425*xi10 - 16216200*xi8 + 945945*xi6
      1            - 13860*xi4 + 45*xi2
-         sjl(11) = 654729075*xi11 - 310134825*xi9 + 18918900*xi7 
+         sjl(11) = 654729075*xi11 - 310134825*xi9 + 18918900*xi7
      1            - 315315*xi5 + 1485*xi3 - xi
          cjl(1) = 0
          cjl(2) = -xi
@@ -146,9 +146,9 @@ c        coded into the terms below.
          cjl(7) = -10395*xi6 + 1260*xi4 - 21*xi2
          cjl(8) = -135135*xi7 + 17325*xi5 - 378*xi3 + xi
          cjl(9) = -2027025*xi8 + 270270*xi6 - 6930*xi4 + 36*xi2
-         cjl(10) = -34459425*xi9 + 4729725*xi7 - 135135*xi5 
+         cjl(10) = -34459425*xi9 + 4729725*xi7 - 135135*xi5
      1             + 990*xi3 - xi
-         cjl(11) = -654729075*xi10 + 91891800*xi8 - 2837835*xi6 
+         cjl(11) = -654729075*xi10 + 91891800*xi8 - 2837835*xi6
      1             + 25740*xi4 - 55*xi2
          do 90 lp1 = 12,lmaxp1
             l = lp1-2
@@ -160,7 +160,7 @@ c        coded into the terms below.
          acx = cos(x)
          if (dimag(x).ge. 0.d0) then
            epx = exp(coni*x)
-         else 
+         else
            epx = exp(-coni*x)
          endif
          do 110 ll = 0,lmax

@@ -27,12 +27,12 @@ c     include 'lambda.h'
 c     include 'pdata.h'
       double precision beta(legtot+1)
       integer nsc, nleg
-      integer ilinit 
+      integer ilinit
 
       dimension mlam0(lamtot), nlam0(lamtot)
 
 c     one degree in radians
-      parameter (onedeg = .01745329252)
+      parameter (onedeg = .01745329252d0)
       character*512 slog
 
 c     explciit initialization to quiet compiler warnings
@@ -114,7 +114,7 @@ c     laml0x is biggest lam for non-zero fmatrix, also set mmax and nmax
 c     Sort mlam0 and nlam0 to use min possible laml0x
       lam = 0
       do 30  lam0 = 1, lamx
-         if ((nlam0(lam0).le.ilinit) .and. 
+         if ((nlam0(lam0).le.ilinit) .and.
      1       (iabs(mlam0(lam0)).le.ilinit)) then
             lam = lam+1
             nlam(lam) = nlam0(lam0)

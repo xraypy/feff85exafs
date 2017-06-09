@@ -3,7 +3,8 @@ import ctypes
 from ctypes import POINTER, pointer, c_int, c_long, c_char, c_char_p, c_double
 
 from matplotlib import pylab
-FLIB = ctypes.cdll.LoadLibrary('../../src/GENFMT/libonepath.so')
+FLIB = ctypes.cdll.LoadLibrary('../../src/GENFMT/libfeff8lpath.dylib')
+print("FLIB: ", FLIB)
 
 FEFF_maxpts = 150  # nex
 FEFF_maxpot = 11   # nphx
@@ -227,6 +228,6 @@ if __name__ == '__main__':
     path.degen = 12
     path.calculate_xafs()
 
-    
+
     pylab.plot(path.kfeff[:path.nepts], path.mag_feff[:path.nepts])
     pylab.show()

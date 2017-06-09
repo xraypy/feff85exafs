@@ -1,7 +1,7 @@
       subroutine etotal (io, kap, xnel, xnval, en, eatom)
 c combined from original subroutines tabfgk,tabbre,tabrat.
 c io  label for output file atomNN.dat
-c kap quantum number "kappa" 
+c kap quantum number "kappa"
 c xnel occupation of  orbitals
 c en one-electron energies
 c fdrirk function calculating radial integrals rk
@@ -19,8 +19,8 @@ c        this program uses akeato,bkeato
 c        fdrocc fdrirk bkmrdf
 
       implicit double precision (a-h,o-z)
-      parameter (ryd  = 13.605 698d0)
-      parameter (hart = 2*ryd)
+      include '../HEADERS/const.h'
+
       dimension kap(30),xnel(30),en(30), xnval(30)
       common/itescf/testy,rap(2),teste,nz,norb,norbsc
       dimension mk(12),ener(4)
@@ -33,7 +33,7 @@ c        fdrocc fdrirk bkmrdf
 
       external akeato, bkeato, fdrirk, fdmocc
       data iner/'coul','ech.','mag.','ret.'/
- 
+
       do 10 i = 1,4
  10   ener(i)=0.0d 00
       iv=0
@@ -73,10 +73,10 @@ c       gk  integrales
             cer(iv)=fdrirk(i,j,i,j,k)
             ener(2) = ener(2) - cer(iv) * bkeato(i,j,k) * a
             mk(iv)=k
-            if (iv.lt.3) go to 60 
+            if (iv.lt.3) go to 60
             iv=0
  60         k=k+2
-            if (k.le.kmi) go to 50 
+            if (k.le.kmi) go to 50
  70   continue
       endif
 c
@@ -145,16 +145,16 @@ c       echange  integrals
             if (k.le.kma) go to 141
  201  continue
       endif
- 
+
 c     total   energy
       eatom = - (ener(1) + ener(2)) + ener(3) + ener(4)
       do 212 j = 1, norb
  212     eatom = eatom + en(j) * xnel(j)
       inquire(unit=io,opened=io_open)
-      if (iprint .ge. 5 .and. io_open)  
+      if (iprint .ge. 5 .and. io_open)
      .  write (io, '(a,1pd18.7)') 'etot', eatom*hart
       do 215 i = 1, 4
-        if (iprint.ge.5 .and. io_open) 
+        if (iprint.ge.5 .and. io_open)
      .    write(io, '(a4,1pd18.7)') iner(i), ener(i)*hart
  215  continue
       return

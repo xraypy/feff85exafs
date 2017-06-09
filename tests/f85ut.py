@@ -114,6 +114,7 @@ class Feff85exafsUnitTestGroup(Group):
         self.eps3       = 0.001
         self.epsilon    = self.eps4
         self.epsfit     = self.eps3
+        self.epserr     = 5.0 * self.epsfit
         self.firstshell = False
         self.fittest    = None
         if WRAPPER_AVAILABLE:
@@ -337,7 +338,7 @@ class Feff85exafsUnitTestGroup(Group):
         how     = 'wrapper' if use_wrapper else 'executables'
         nnnndat = "feff%4.4d.dat" % nnnn
 
-        blpath = feffpath(join(self.baseline, nnnndat))
+        blpath = feffpath(join(self.baseline, nnnndat), _larch=self._larch)
         if use_wrapper: # make the feffNNNN.dat file on the fly
             self.sp.phase_file = join(self.testrun, 'phase.pad')
             self.sp.nnnn=True
@@ -351,15 +352,15 @@ class Feff85exafsUnitTestGroup(Group):
             finally:
                 chdir(owd)
             n3nndat = "feff%4.4d.dat" % nnnn
-            trpath = feffpath(join(self.testrun,  n3nndat))
+            trpath = feffpath(join(self.testrun,  n3nndat), _larch=self._larch)
         else:                   # the feffNNNN.dat file was made by the monolithic feff run
-            trpath = feffpath(join(self.testrun,  nnnndat))
+            trpath = feffpath(join(self.testrun,  nnnndat), _larch=self._larch)
 
         if part=='feff':
             baseline_1 = getattr(blpath._feffdat, 'mag_feff') # + np.random.uniform(0,1,size=1)
             testrun_1  = getattr(trpath._feffdat, 'mag_feff')
-            baseline_2 = getattr(blpath._feffdat, 'pha_feff') # + np.random.uniform(0,1,size=1)
-            testrun_2  = getattr(trpath._feffdat, 'pha_feff')
+            baseline_2 = np.sin(getattr(blpath._feffdat, 'pha_feff')) # + np.random.uniform(0,1,size=1)
+            testrun_2  = np.sin(getattr(trpath._feffdat, 'pha_feff'))
             ylabel     = 'magnitude and phase'
             label      = 'magnitude'
         elif part=='amp':
@@ -368,8 +369,8 @@ class Feff85exafsUnitTestGroup(Group):
             ylabel     = 'total amplitude'
             label      = 'amplitude'
         elif part=='phase':
-            baseline_1 = getattr(blpath._feffdat, 'pha')
-            testrun_1  = getattr(trpath._feffdat, 'pha')
+            baseline_1 = np.sin(getattr(blpath._feffdat, 'pha'))
+            testrun_1  = np.sin(getattr(trpath._feffdat, 'pha'))
             ylabel     = 'total phase shift'
             label      = 'phase'
         elif part=='lam':
@@ -398,8 +399,8 @@ class Feff85exafsUnitTestGroup(Group):
             part       = 'feff'
             baseline_1 = getattr(blpath._feffdat, 'mag_feff')
             testrun_1  = getattr(trpath._feffdat, 'mag_feff')
-            baseline_2 = getattr(blpath._feffdat, 'pha_feff')
-            testrun_2  = getattr(trpath._feffdat, 'pha_feff')
+            baseline_2 = np.sin(getattr(blpath._feffdat, 'pha_feff'))
+            testrun_2  = np.sin(getattr(trpath._feffdat, 'pha_feff'))
             ylabel     = 'magnitude and phase'
             label      = 'magnitude'
 
@@ -416,6 +417,7 @@ class Feff85exafsUnitTestGroup(Group):
         if part=='feff':
             self.rfactor_2 = sum((baseline_2 - testrun_2)**2) / sum(baseline_2**2)
             if self.verbose:
+                print(" -- ",self.epsilon, sum((baseline_2 - testrun_2)**2),  sum(baseline_2**2))
                 print "phase R-factor = " + test_text("%.9g" % self.rfactor_2, self.rfactor_2 < self.epsilon)
 
         if self.verbose: print ""
@@ -504,8 +506,8 @@ class Feff85exafsUnitTestGroup(Group):
             #if self.verbose: print colored("You have not yet made the test run of Feff", 'magenta', attrs=['bold'])
             raise Exception("You have not yet made the test run of Feff")
         nnnndat = "feff%4.4d.dat" % nnnn
-        bl      = feffpath(join(self.baseline, nnnndat))
-        tr      = feffpath(join(self.testrun,  nnnndat))
+        bl      = feffpath(join(self.baseline, nnnndat), _larch=self._larch)
+        tr      = feffpath(join(self.testrun,  nnnndat), _larch=self._larch)
 
         termdict = {'edge':   'energy threshold relative to atomic value',
                     'gam_ch': 'core level energy width',

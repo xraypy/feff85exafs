@@ -14,7 +14,7 @@ c j.j. quinn's approximations for details.
 
       include '../HEADERS/const.h'
 c     alph is Hedin-Lundquist parameter
-      parameter (alph = 4.0 / 3.0)
+      parameter (alph = 4.0d0 / 3.0d0)
       external ffq
 
       icusp=0
@@ -46,12 +46,12 @@ c     wp is given in units of the fermi energy in the formula below.
       if (rad .le. 0) then
          d2 = qplus - (xk0 + 1)
          if (d2 .gt. 0)  then
-            eim = eim + ffq (qplus,ef,xk,wp,alph) - 
+            eim = eim + ffq (qplus,ef,xk,wp,alph) -
      1                  ffq (xk0+1,ef,xk,wp,alph)
          endif
          d3 = (xk0-1) - qminus
          if (d3 .gt. 0)  then
-            eim = eim + ffq (xk0-1,ef,xk,wp,alph) - 
+            eim = eim + ffq (xk0-1,ef,xk,wp,alph) -
      1                  ffq (qminus,ef,xk,wp,alph)
 c           beginning of the imaginary part and position of the cusp x0
             icusp = 1

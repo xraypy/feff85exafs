@@ -131,9 +131,8 @@ c
       include '../HEADERS/const.h'
 
 c     con=hbar**2/kB*amu)*10**20   in ang**2 units
-c     hbar = 1.054 572 666 e-34, amu = 1.660 540 e-27, 
-c     kB = 1.380 6581 d-23
-      parameter (con = 48.508 459 393 094)
+c     hbar, amu, kb updated 2017
+      parameter (con = 48.50875019927435d0)
 c#mn
        external atwtd
 
@@ -193,8 +192,8 @@ c     starting values
 c     external fn
 c     error is approximately 2**(-2n) ~ 10**(-.6n)
 c     so nmax=10 implies an error of 1.e-6
-      parameter(nmax = 10, tol = 1.e-5)
-      parameter(zero=0, one=1)
+      parameter(nmax = 10, tol = 1.d-5)
+      parameter(zero=0.d0, one=1.d0)
       n=0
       itn=1
       del=1.

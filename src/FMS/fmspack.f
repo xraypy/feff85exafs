@@ -5,7 +5,7 @@
       implicit integer (i-n)
 c--------------------------------------------------------------------
 c  compute full multiple scattering within some cluster at some
-c  energy 
+c  energy
 c  This uses the LU decomposition package from LAPACK.  Driver
 c  routines: cgetrf (decomposition), cgetrs (backsubstitution)
 c  coded by b.ravel
@@ -24,7 +24,7 @@ c  compute chi for each type of atom in the cluster.
 c
 c  See subroutine fmstot.f for an example of decoding the output of this
 c  subroutine. The third index of gg refers to the unique potential with
-c  element 0 being the absorbing atom.  
+c  element 0 being the absorbing atom.
 c  The first two indeces are related to the |lms> state by the
 c  formula:
 c       nsp=1, no spin indeces
@@ -93,6 +93,7 @@ c    gg:  (nsp*lx**2, nsp*lx**2, 0:nphasx) submatrix spanning the entire
 c          angular momentum basis for each unique potential
 
       include '../HEADERS/dim.h'
+      include '../HEADERS/const.h'
       include '../HEADERS/parallel.h'
       include 'xparam.h'
 c====================================================================
@@ -139,11 +140,6 @@ c**** save Clebsch-Gordon coefficients: <LS|J>
       save   /t3j/
 
 c********************************************************************
-      parameter (pi = 3.14159 26535 89793 23846 26433e0)
-      parameter (bohr = 0.529 177 249e0)
-      parameter (one = 1, zero = 0)
-      complex coni
-      parameter (coni = (0,1))
       complex   prefac, gllmz, ck(nspx)
 c      complex term
       complex   clm(lx+2, 2*lx+3), xclm(0:lx, 0:lx, nclusx, nclusx,nspx)
@@ -277,7 +273,7 @@ c                               equation 9 in Rehr, Albers
 c                               <LR| G |L'R'>
 
           if (iat1.eq.iat2) then
-c             same atom: G=0, calculate T-matrix 
+c             same atom: G=0, calculate T-matrix
               g0(ist1,ist2)     = cmplx(zero,zero)
 c             notice that T is tri-diagonal, due to conservation of
 c             total momentum.(will be broken by nonspherical potential)
@@ -286,7 +282,7 @@ c             --- potential index for this atom
             if (nsp.eq.1.and.ispin.eq.0) then
               if (ist1.eq.ist2) tmatrx(1, ist1) =
      $                    ( exp(2*coni*xphase(isp1,l1,iph)) - one )
-     $                    / (2*coni) 
+     $                    / (2*coni)
             else
               if (ist1.eq.ist2) then
 c                set spin index for t3jm and t3jp
@@ -300,9 +296,9 @@ c                  special case
 c                diagonal matrix element
                  tmatrx(1, ist1) =
      $                    ( exp(2*coni*xphase(isp1,l1,iph)) - one )
-     $                    / (2*coni) * t3jm (l1, m1, is)**2  + 
+     $                    / (2*coni) * t3jm (l1, m1, is)**2  +
      $                    ( exp(2*coni*xphase(isp1,-l1,iph)) - one )
-     $                    / (2*coni) * t3jp (l1, m1, is)**2 
+     $                    / (2*coni) * t3jp (l1, m1, is)**2
               elseif (nsp.eq.2.and.l1.eq.l2.and.m1+isp1.eq.m2+isp2) then
 c                same orb. mom. and total momentum projections conserved
 c                calculate off-diagonal T-matrix element
@@ -310,7 +306,7 @@ c                tmatrx(2, ist1) = here only if nspx equal to 2
                  tmatrx(nsp, ist1) =
      $             ( exp(2*coni*xphase(isp1, l1,iph)) - one +
      $               exp(2*coni*xphase(isp2, l1,iph)) - one ) / (4*coni) 
-     1             * t3jm (l1, m1, isp1) * t3jm (l1, m2, isp2)  + 
+     1             * t3jm (l1, m1, isp1) * t3jm (l1, m2, isp2)  +
      $             ( exp(2*coni*xphase(isp1,-l1,iph)) - one +
      $               exp(2*coni*xphase(isp2,-l1,iph)) - one ) / (4*coni) 
      1             * t3jp (l1, m1, isp1) * t3jp (l1, m2, isp2)

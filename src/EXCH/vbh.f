@@ -11,20 +11,20 @@ c   effect of tau was also found to be small. thus tau is not used
 c     parameter (asm = 2.0**(-1.0/3.0) )
 c     parameter (gamma = 4.0/3.0*asm/(1-asm) )
 c APS parameter (gamma = 5.129762496709890 ) changed
-      parameter (gamma = 5.129762802484097 )
+      parameter (gamma = 5.129762802484098d0 )
 
-      vxc = 0.0
+      vxc = 0.0d0
       if (rs.gt.1000) goto 999
-      epc = -0.0504 * flarge(rs/30)
-      efc = -0.0254 * flarge(rs/75)
-      xmup = -0.0504*log(1.0+30.0/rs)
-c     xmuf = -0.0254*log(1.0+75.0/rs)
-      vu = gamma*(efc - epc)
+      epc  = -0.0504d0 * flarge(rs/30)
+      efc  = -0.0254d0 * flarge(rs/75)
+      xmup = -0.0504d0 * log(1.0d0 + 30.d0/rs)
+c     xmuf = -0.0254d0 * log(1.0d0 + 75.d0/rs)
+      vu   =  gamma*(efc - epc)
 c     tau = xmuf-xmup-(efc-epc)*4.0/3.0
-     
-      alg = -1.22177412/rs + vu
+
+      alg = -1.22177412d0/rs + vu
       blg = xmup - vu
-      vxc = alg*xmag**(1.0/3.0) + blg
+      vxc = alg*xmag**(1.0d0/3.0d0) + blg
 c     vxc = alg*xmag**(1.0/3.0) + blg +tau*fsmall(xmag/2.0)
 
  999  continue
@@ -36,7 +36,7 @@ c     transform to code units (Hartrees) from Rydbergs
 
       double precision function flarge(x)
       implicit double precision (a-h, o-z)
-        flarge = (1+x**3)*log(1+1/x) + x/2 - x**2 - 1.0/3.0
+      flarge = (1+x*x*x)*log(1+1/x) + x/2 - x*x - 1.d0/3.d0
       return
       end
 

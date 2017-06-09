@@ -66,11 +66,13 @@ class Feff8Test:
             basefile = join(self.test.baseline, 'feff%4.4i.dat' % npath)
             if not exists(basefile):
                 continue
-            bl = feffpath(join(self.test.baseline, 'feff%4.4i.dat' % npath))
-            tr = feffpath(join(self.test.testrun,  'feff%4.4i.dat' % npath))
+            bl = feffpath(join(self.test.baseline, 'feff%4.4i.dat' % npath), _larch=self.test._larch)
+            tr = feffpath(join(self.test.testrun,  'feff%4.4i.dat' % npath), _larch=self.test._larch)
             for term in ('edge', 'gam_ch', 'kf', 'mu', 'rs_int', 'vint'):
-                tdiff = getattr(bl._feffdat, term) - getattr(tr._feffdat, term)
-                assert abs(tdiff) < 1.e-4, "feff term %s not close enough for %s" % (term, self.folder)
+                blval = getattr(bl._feffdat, term)
+                trval = getattr(tr._feffdat, term)
+                tdiff = blval - trval
+                assert abs(tdiff) < 2.0e-4, "feff term %s not close enough for %s" % (term, self.folder)
 
         for radius in ('muffintin', 'norman'):
             bl = self.test.radii('baseline', radius)
@@ -106,15 +108,16 @@ class Feff8Test:
             self.test.fit()
             eps = self.test.epsfit
             for stat in ('chi_reduced', 'chi_square', 'rfactor'):
-                bl = getattr(self.test.blfit.params, stat)
-                tr = getattr(self.test.trfit.params, stat)
+                bl = getattr(self.test.blfit, stat)
+                tr = getattr(self.test.trfit, stat)
                 close = abs((bl-tr)/bl) < eps
                 assert close, stat_msg % (stat, self.folder, bl, tr)
 
-            for par in self.test.blfit.params.covar_vars:
-                for part in ('value', 'stderr'):
-                    bl = getattr(getattr(self.test.blfit.params, par), part)
-                    tr = getattr(getattr(self.test.trfit.params, par), part)
+            for par in self.test.blfit.var_names:
+                for part, eps in (('value',  self.test.epsfit),
+                                  ('stderr', self.test.epserr)):
+                    bl = getattr(self.test.blfit.params[par], part)
+                    tr = getattr(self.test.trfit.params[par], part)
                     close = abs((bl-tr)/bl) < eps
                     assert close, param_msg % (part, par, self.folder, bl, tr)
 
@@ -181,7 +184,6 @@ def check_opconsat(folder):
 
 if __name__ == '__main__':
     TEST_FOLDERS = ('Copper', 'NiO', 'Zircon', 'ferrocene', 'LCO-para', 'LCO-perp')
-    # TEST_FOLDERS = ('Copper', 'NiO')
     # TEST_FOLDERS = ALL_FOLDERS
     for folder in TEST_FOLDERS:
         t =  Feff8Test(folder)

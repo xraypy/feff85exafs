@@ -13,7 +13,7 @@
       dimension ri(nrptx)
       dimension xorg(nrptx), xnew(nrptx)
 
-      parameter (xx00 = 8.8)
+      parameter (xx00 = 8.8d0)
 
 c     statement functions to do indexing.  delta is 'dx' for current
 c     grid.  jjj is index of grid point immediately before 'r'
@@ -38,7 +38,7 @@ c     new grid is same as old, it shouldn't make any difference.
 
 c     relation between x, r, and j.  xx00 = 8.8 for all grids
 c     in this version, change it if more flexibility is necessary.
-      
+
 c     xx = -xx00 + (j-1)*delta
 c     rr = exp (xx)
 c     jj = (log(r) + xx00) / delta + 1; this is j immediately BELOW r

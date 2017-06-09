@@ -1,7 +1,7 @@
-       subroutine rdfbin(fbfile, nphx, nex, npathx, nlegx, 
-     $      npaths, ne, npot, ihole, iorder, ilinit, 
-     $      rnrmav, xmu, edge,  potlbl, iz, phc, ck, xk, index, 
-     $      nleg, deg, reff, crit, ipot, 
+       subroutine rdfbin(fbfile, nphx, nex, npathx, nlegx,
+     $      npaths, ne, npot, ihole, iorder, ilinit,
+     $      rnrmav, xmu, edge,  potlbl, iz, phc, ck, xk, index,
+     $      nleg, deg, reff, crit, ipot,
      $      rat, beta, eta, ri, achi, phchi)
 c
 c read path information from PAD-format feff.pad
@@ -61,6 +61,7 @@ c
 c copyright (c) 1999  matt newville:  jan 1999
 c modified by alex ankudinov: feb 2000; few fixes for feff8.2
 c------------------------------------------------------------------
+       include '../HEADERS/const.h'
        integer nphx, nex, npathx, nlegx, npaths
        integer i, j, ivers, nexmax
        character*(*) fbfile
@@ -71,9 +72,8 @@ c       character*(*) msg*256
        integer istrln, ier1, ier2, ier3, nwords, npadx, nwordx
        real    deg(npathx), reff(npathx), crit(npathx)
        real    rnrmav, edge, xk(nex)
-       double precision bohr, tmpdp
-       parameter (bohr = 0.529 177 249d0, nwordx = 20)
-       parameter(nexmax = 256)
+       double precision tmpdp
+       parameter(nwordx = 20, nexmax = 256)
        character*20 words(nwordx)
        real     rat(3,nlegx,npathx), beta(nlegx,npathx)
        real     eta(nlegx,npathx),  ri(nlegx,npathx)
@@ -208,4 +208,3 @@ cc       print*, ' RDFBIN done!'
  990   call wlog (str)
        call par_stop(' -- fatal error reading feff.pad -- ')
        end
-
