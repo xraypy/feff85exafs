@@ -40,10 +40,10 @@ feff6l:	$(objects)
 	$(FORTRAN) $(FCFLAGS) -o $@ $<
 
 clean:
-	$(RM) *.o feff6l
+	$(RM) *.o feff6l$(EXEXT)
 
 install:
-	$(COPY) feff6l $(BINDIR)
+	$(COPY) feff6l$(EXEXT) $(BINDIR)
 
 otherdirs:
 

@@ -46,10 +46,10 @@ xscorr.o:	xscorr.f ../HEADERS/const.h ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *.o ff2x
+	$(RM) *.o ff2x$(EXEXT)
 
 install:
-	$(COPY) ff2x $(BINDIR)
+	$(COPY) ff2x$(EXEXT) $(BINDIR)
 
 otherdirs:
 	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)
