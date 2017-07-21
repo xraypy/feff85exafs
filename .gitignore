@@ -27,6 +27,7 @@ global.dat
 gds.txt
 *.skip
 **/f3ff*
+tests/**/*.json
 
 ## perl wrapper chaff
 **/_Inline
