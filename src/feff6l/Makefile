@@ -31,19 +31,19 @@ objects= feff.o rdinp.o chopen.o mkptz.o setgam.o terp.o potph.o rpotph.o \
 
 archives =
 
-all:	feff6l
+all:	feff6l$(EXEXT)
 
-feff6l:	$(objects)
+feff6l$(EXEXT):	$(objects)
 	$(FORTRAN) $(FLINKARGS) $(objects) -o $@
 
 %.o:	%.f
 	$(FORTRAN) $(FCFLAGS) -o $@ $<
 
 clean:
-	$(RM) *.o feff6l
+	$(RM) *.o feff6l$(EXEXT)
 
 install:
-	$(COPY) feff6l $(BINDIR)
+	$(COPY) feff6l$(EXEXT) $(BINDIR)
 
 otherdirs:
 
