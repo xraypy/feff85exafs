@@ -56,9 +56,9 @@ src/GENFMT/python/*
 README.html
 
 ## compiled programs
-src/POT/pot
+src/POT/feff8l_pot
 src/POT/libpotph
-src/GENFMT/genfmt
+src/GENFMT/feff8l_genfmt
 src/GENFMT/onepath
 src/GENFMT/feffpath
 wrappers/C/makepath
@@ -67,15 +67,16 @@ wrappers/C/makephases
 wrappers/C/pherr
 wrappers/fortran/makepath
 wrappers/fortran/makepotph
-src/PATH/pathfinder
-src/XSPH/xsph
+src/PATH/feff8l_pathfinder
+src/XSPH/feff8l_xsph
 src/FMS/fms
-src/RDINP/rdinp
-src/FF2X/ff2x
+src/RDINP/feff8l_rdinp
+src/FF2X/feff8l_ff2x
 src/GENFMT/FeffPathWrapper.pm
 src/GENFMT/feffpath_wrap.c
 src/OPCONSAT/opconsat
 src/OPCONSAT/eps2exc
+src/feff6l/feff6l
 
 doc/feff8.aux
 doc/feff8.log
