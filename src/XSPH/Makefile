@@ -30,7 +30,7 @@ otherobj = ../FF2X/xscorr.o ../POT/grids.o ../MATH/terpc.o
 all:	otherdirs xsph$(EXEXT)
 
 xsph$(EXEXT):	$(objects) $(archives) $(otherobj)
-	$(FORTRAN) $(objects) $(archives) $(otherobj) -o $@
+	$(FORTRAN) $(FLINKARGS) $(objects) $(archives) $(otherobj) -o $@
 
 ../FF2X/xscorr.o:	../FF2X/xscorr.f ../HEADERS/dim.h ../HEADERS/const.h
 ../POT/grids.o:		../POT/grids.f                    ../HEADERS/const.h

@@ -65,8 +65,7 @@ archives = ../json-fortran/libjsonfortran$(ARCHV)	\
 
 
 genfmt$(EXEXT):	$(binobj) libfeffgenfmt$(ARCHV) $(archives)
-	$(FORTRAN) $(binobj) libfeffgenfmt$(ARCHV) $(archives) -o $@
-
+	$(FORTRAN) $(FLINKARGS) $(binobj) libfeffgenfmt$(ARCHV) $(archives) -o $@
 
 feffpath.o:	feffpath.c feffpath.h
 ffmod5.o:	ffmod5.f       ../HEADERS/dim.h                    ../HEADERS/parallel.h

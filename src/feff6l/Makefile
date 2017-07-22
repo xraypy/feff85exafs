@@ -34,7 +34,7 @@ archives =
 all:	feff6l
 
 feff6l:	$(objects)
-	$(FORTRAN) $(objects) -o $@
+	$(FORTRAN) $(FLINKARGS) $(objects) -o $@
 
 %.o:	%.f
 	$(FORTRAN) $(FCFLAGS) -o $@ $<

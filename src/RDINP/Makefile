@@ -23,7 +23,7 @@ archives = ../json-fortran/libjsonfortran$(ARCHV)	\
 all:	otherdirs rdinp$(EXEXT)
 
 rdinp$(EXEXT):	$(objects) $(archives)
-	$(FORTRAN) $(objects) $(archives) -o $@
+	$(FORTRAN) $(FLINKARGS) $(objects) $(archives) -o $@
 
 ffsort.o:	ffsort.f  allinp.h ../HEADERS/const.h ../HEADERS/dim.h ../HEADERS/vers.h ../HEADERS/parallel.h
 iniall.o:	iniall.f  allinp.h                    ../HEADERS/dim.h

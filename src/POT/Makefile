@@ -108,7 +108,7 @@ libfeff8lpotph$(SHOBJ):	feffphases.o $(shobjects) $(JSONobj)
 
 
 pot$(EXEXT):	$(binobj) $(archives)
-	$(FORTRAN) $(binobj) $(archives) -o $@
+	$(FORTRAN) $(FLINKARGS) $(binobj) $(archives) -o $@
 
 
 ../COMMON/fixdsp.o:	../COMMON/fixdsp.f  ../HEADERS/const.h ../HEADERS/dim.h

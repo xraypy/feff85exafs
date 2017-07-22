@@ -25,7 +25,7 @@ archives = ../json-fortran/libjsonfortran$(ARCHV)	\
 all:	otherdirs pathfinder$(EXEXT)
 
 pathfinder$(EXEXT):	$(objects)
-	$(FORTRAN) $(objects) $(archives) -o $@
+	$(FORTRAN) $(FLINKARGS) $(objects) $(archives) -o $@
 
 
 ccrit.o:	ccrit.f  ../HEADERS/const.h ../HEADERS/dim.h
