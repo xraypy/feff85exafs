@@ -94,7 +94,7 @@ JSONobj = ../JSON/json_read_libpotph.o ../JSON/json_xsect.o ../JSON/bailout.o ..
 
 
 
-all:	otherdirs libfeffint$(ARCHV) libpotph$(SHOBJ) libfeff8lpotph$(SHOBJ) pot$(EXEXT)
+all:	otherdirs libfeffint$(ARCHV) libpotph$(SHOBJ) libfeff8lpotph$(SHOBJ) feff8l_pot$(EXEXT)
 
 libfeffint$(ARCHV):	istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
 	$(AR) $(ARFLAGS) libfeffint$(ARCHV) istprm.o movrlp.o ovp2mt.o fermi.o sidx.o
@@ -107,7 +107,7 @@ libfeff8lpotph$(SHOBJ):	feffphases.o $(shobjects) $(JSONobj)
 	$(FORTRAN) $(SHARED) feffphases.o $(shobjects) $(JSONobj) -o $@
 
 
-pot$(EXEXT):	$(binobj) $(archives)
+feff8l_pot$(EXEXT):	$(binobj) $(archives)
 	$(FORTRAN) $(FLINKARGS) $(binobj) $(archives) -o $@
 
 
@@ -215,7 +215,7 @@ wrpot.o:	wrpot.f                       ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *$(SHOBJ) *.o *$(ARCHV) *$(SHOBJ) pot$(EXEXT)
+	$(RM) *$(SHOBJ) *.o *$(ARCHV) *$(SHOBJ) feff8l_pot$(EXEXT)
 
 INSTARCH = @echo "Not installing $(ARCHV) files"
 ifdef INSTALL_ARCHIVES
@@ -223,7 +223,7 @@ INSTARCH = $(COPY) libfeffint$(ARCHV) $(PREFIX)/lib
 endif
 
 install:
-	$(COPY) pot$(EXEXT)           $(BINDIR)
+	$(COPY) feff8l_pot$(EXEXT)           $(BINDIR)
 	$(COPY) libpotph$(SHOBJ)      $(LIBDIR)
 	$(COPY) libfeff8lpotph$(SHOBJ) $(LIBDIR)
 	$(COPY) feffphases.h          $(INCDIR)

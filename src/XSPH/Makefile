@@ -27,9 +27,9 @@ archives = ../json-fortran/libjsonfortran$(ARCHV)		\
 
 otherobj = ../FF2X/xscorr.o ../POT/grids.o ../MATH/terpc.o
 
-all:	otherdirs xsph$(EXEXT)
+all:	otherdirs feff8l_xsph$(EXEXT)
 
-xsph$(EXEXT):	$(objects) $(archives) $(otherobj)
+feff8l_xsph$(EXEXT):	$(objects) $(archives) $(otherobj)
 	$(FORTRAN) $(FLINKARGS) $(objects) $(archives) $(otherobj) -o $@
 
 ../FF2X/xscorr.o:	../FF2X/xscorr.f ../HEADERS/dim.h ../HEADERS/const.h
@@ -63,10 +63,10 @@ xsph.o:		xsph.f    ../HEADERS/dim.h ../HEADERS/const.h
 
 
 clean:
-	$(RM) *.o xsph$(EXEXT)
+	$(RM) *.o feff8l_xsph$(EXEXT)
 
 install:
-	$(COPY) xsph$(EXEXT) $(BINDIR)
+	$(COPY) feff8l_xsph$(EXEXT) $(BINDIR)
 
 otherdirs:
 	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)
