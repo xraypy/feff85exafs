@@ -31,10 +31,10 @@ objects= feff.o rdinp.o chopen.o mkptz.o setgam.o terp.o potph.o rpotph.o \
 
 archives =
 
-all:	feff6l
+all:	feff6l$(EXEXT)
 
-feff6l:	$(objects)
-	$(FORTRAN) $(objects) -o $@
+feff6l$(EXEXT):	$(objects)
+	$(FORTRAN) $(FLINKARGS) $(objects) -o $@
 
 %.o:	%.f
 	$(FORTRAN) $(FCFLAGS) -o $@ $<

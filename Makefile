@@ -1,5 +1,5 @@
 export PREFIX  = /usr/local
-# export PREFIX  = ${HOME}/local
+export PREFIX =  ${CURDIR}/local_install
 
 export BASEDIR = ${CURDIR}
 export BINDIR  = $(PREFIX)/bin		# installation location for programs
@@ -9,15 +9,20 @@ export INCDIR  = $(PREFIX)/include	# installation location for include files
 ###########################################################################################
 # gcc (tested on Ubuntu linux with gcc 5.4.0, darwin with gcc 6.3)                        #
 ###########################################################################################
-export FORTRAN  = gfortran	## compile Feff's Fortran, including the F90 bits
+
+## compile Feff's Fortran, including the F90 bits
+export FORTRAN  = gfortran
 export SHARED   = -shared
 export FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
 export FJSON    = -I$(BASEDIR)/src/json-fortran -J$(BASEDIR)/src/json-fortran
+export FLINKARGS =
 
-export CC       = gcc	 	## compile the C wrappers for phases and paths
+## compile the C wrappers for phases and paths
+export CC       = gcc
 export CCFLAGS  = -c -g -fPIC
 
-export F90      = gfortran	## compile json-fortran, which is F2008
+## compile json-fortran, which is F2008
+export F90      = gfortran
 export F90FLAGS = -std=f2008 -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-uninitialized -pedantic -fPIC
 ###########################################################################################
 
@@ -46,6 +51,7 @@ else
     UNAME := $(shell uname -s)
     ifeq ($(UNAME),Darwin)
         SHOBJ = .dylib
+        FLINKARGS =  -headerpad_max_install_names
     endif
 endif
 ###########################################################################################

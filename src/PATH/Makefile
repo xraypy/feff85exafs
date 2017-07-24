@@ -22,10 +22,10 @@ archives = ../json-fortran/libjsonfortran$(ARCHV)	\
 ../COMMON/libfeffcom$(ARCHV) ../PAR/libfeffpar$(ARCHV)	\
 ../MATH/libfeffmath$(ARCHV) ../JSON/libfeffjson$(ARCHV)
 
-all:	otherdirs pathfinder$(EXEXT)
+all:	otherdirs feff8l_pathfinder$(EXEXT)
 
-pathfinder$(EXEXT):	$(objects)
-	$(FORTRAN) $(objects) $(archives) -o $@
+feff8l_pathfinder$(EXEXT):	$(objects)
+	$(FORTRAN) $(FLINKARGS) $(objects) $(archives) -o $@
 
 
 ccrit.o:	ccrit.f  ../HEADERS/const.h ../HEADERS/dim.h
@@ -49,10 +49,10 @@ timrep.o:	timrep.f ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *.o pathfinder$(EXEXT)
+	$(RM) *.o feff8l_pathfinder$(EXEXT)
 
 install:
-	$(COPY) pathfinder$(EXEXT) $(BINDIR)
+	$(COPY) feff8l_pathfinder$(EXEXT) $(BINDIR)
 
 otherdirs:
 	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)

@@ -23,9 +23,9 @@ archives = ../json-fortran/libjsonfortran$(ARCHV)	\
 ../JSON/libfeffjson$(ARCHV)
 
 
-all:	otherdirs ff2x
+all:	otherdirs feff8l_ff2x$(EXEXT)
 
-ff2x:	$(objects) $(archives)
+feff8l_ff2x$(EXEXT):	$(objects) $(archives)
 	$(FORTRAN) $(objects) $(archives) -o $@
 
 %.o:	%.f
@@ -46,10 +46,10 @@ xscorr.o:	xscorr.f ../HEADERS/const.h ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *.o ff2x$(EXEXT)
+	$(RM) *.o feff8l_ff2x$(EXEXT)
 
 install:
-	$(COPY) ff2x$(EXEXT) $(BINDIR)
+	$(COPY) feff8l_ff2x$(EXEXT) $(BINDIR)
 
 otherdirs:
 	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)

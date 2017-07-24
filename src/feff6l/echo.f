@@ -22,7 +22,7 @@ c TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 c SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 c//////////////////////////////////////////////////////////////////////
 c
-c dump string to standard output 
+c dump string to standard output
        implicit none
        include 'echo.h'
        character*(*) str,form*8
@@ -36,7 +36,7 @@ c end  subroutine echo
 c dump string to screen with "$" format
 c
 c i_echo
-c  0   echo to buffer 
+c  0   echo to buffer
 c  1   echo to screen
 c  2   echo to open echo_file (if open)
 c  3   echo to screen and open echo_file (if open)
@@ -51,7 +51,7 @@ c
        n   = max(1, istrln(out))
        if (i_echo.eq.0) then
           call echo_push(out)
-       else 
+       else
           if (mod(i_echo,2).eq.1) write(*,frm) out(1:n)
           if ((i_echo.ge.2).and.(lun_echo.ge.1))
      $         write(lun_echo, ffrm) out(1:n)
@@ -94,19 +94,19 @@ c initialize echo lines
        implicit none
        include 'echo.h'
        character*(*) s
-       integer  iex, ier, i, istrln
+       integer  iex, ier, istrln
        external istrln
        call close_echofile()
-       
+
        lun_echo = 19
        echo_file = s(1:istrln(s))
        call triml(echo_file)
-       
+
        call openfl(lun_echo, echo_file, 'unknown', iex, ier)
        if (i_echo.eq.0) i_echo = 2
-       if (i_echo.eq.1) i_echo = 3  
+       if (i_echo.eq.1) i_echo = 3
 cc       print*, ' done ' , i_echo
-c        
+c
        return
        end
 
@@ -158,22 +158,22 @@ c  end subroutine echo_pop
 
 c
 c routines to initialize and use a 'stop file'
-c that is, do 
+c that is, do
 c         call fstop_init('stopfile.err')
-c early on, and replace subsequent 
+c early on, and replace subsequent
 c         stop 'problem at line xxx'
 c with
 c         call fstop('problem at line xxx')
 c
-c the error file will contain the error message 
+c the error file will contain the error message
 c and will exist only if fstop() has been called.
 c that is, fstop_init() erases the stop file.
-c  
+c
        subroutine fstop_init(s)
        character*(*) s
        character*32 stopfilename
        common /stop_file/ stopfilename
-       integer istrln,i
+       integer istrln
        external istrln
        stopfilename = s
        call triml(stopfilename)
@@ -212,21 +212,21 @@ c
 
        subroutine warn(i,s)
 c
-c set &status value and write string to echo buffer       
+c set &status value and write string to echo buffer
        integer i
        character*(*) s
        call echo(s)
        call set_status(i)
-       return 
+       return
        end
 
        subroutine set_status(i)
 c
-c set &status value 
-       integer i, ic
+c set &status value
+       integer i
        double precision getsca, xc, xi
        xi = i * 1.d0
        xc = getsca('&status',0)
        if (xi .gt. xc) call setsca('&status',xi)
-       return 
+       return
        end

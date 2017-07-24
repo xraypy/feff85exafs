@@ -21,7 +21,7 @@ SHOBJ   ?= .so
 ARCHV   ?= .a
 EXEXT   ?=
 
-all:	otherdirs libfeffgenfmt$(ARCHV) libonepath$(SHOBJ) libfeff8lpath$(SHOBJ) genfmt$(EXEXT)
+all:	otherdirs libfeffgenfmt$(ARCHV) libonepath$(SHOBJ) libfeff8lpath$(SHOBJ) feff8l_genfmt$(EXEXT)
 
 libobj = genfmt_prep.o fmtrxi.o mmtr.o mmtrxi.o import.o rot3i.o sclmz.o setlam.o snlm.o xstar.o trig.o
 
@@ -64,9 +64,8 @@ archives = ../json-fortran/libjsonfortran$(ARCHV)	\
 ../JSON/libfeffjson$(ARCHV)
 
 
-genfmt$(EXEXT):	$(binobj) libfeffgenfmt$(ARCHV) $(archives)
-	$(FORTRAN) $(binobj) libfeffgenfmt$(ARCHV) $(archives) -o $@
-
+feff8l_genfmt$(EXEXT):	$(binobj) libfeffgenfmt$(ARCHV) $(archives)
+	$(FORTRAN) $(FLINKARGS) $(binobj) libfeffgenfmt$(ARCHV) $(archives) -o $@
 
 feffpath.o:	feffpath.c feffpath.h
 ffmod5.o:	ffmod5.f       ../HEADERS/dim.h                    ../HEADERS/parallel.h
@@ -97,7 +96,7 @@ xstar.o:	xstar.f        ../HEADERS/const.h ../HEADERS/dim.h
 
 
 clean:
-	$(RM) *$(SHOBJ) *.o *$(ARCHV) genfmt$(EXEXT)
+	$(RM) *$(SHOBJ) *.o *$(ARCHV) feff8l_genfmt$(EXEXT)
 
 INSTARCH = @echo "Not installing $(ARCHV) files"
 ifdef INSTALL_ARCHIVES
@@ -105,7 +104,7 @@ INSTARCH = $(COPY) libfeffgenfmt$(ARCHV) $(PREFIX)/lib
 endif
 
 install:
-	$(COPY) genfmt$(EXEXT)      $(BINDIR)
+	$(COPY) feff8l_genfmt$(EXEXT)      $(BINDIR)
 	$(COPY) libonepath$(SHOBJ)  $(LIBDIR)
 	$(COPY) libfeff8lpath$(SHOBJ) $(LIBDIR)
 	$(COPY) feffpath.h          $(INCDIR)

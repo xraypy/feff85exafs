@@ -20,10 +20,10 @@ archives = ../json-fortran/libjsonfortran$(ARCHV)	\
 ../COMMON/libfeffcom$(ARCHV) ../PAR/libfeffpar$(ARCHV)	\
 ../MATH/libfeffmath$(ARCHV) ../JSON/libfeffjson$(ARCHV)
 
-all:	otherdirs rdinp$(EXEXT)
+all:	otherdirs feff8l_rdinp$(EXEXT)
 
-rdinp$(EXEXT):	$(objects) $(archives)
-	$(FORTRAN) $(objects) $(archives) -o $@
+feff8l_rdinp$(EXEXT):	$(objects) $(archives)
+	$(FORTRAN) $(FLINKARGS) $(objects) $(archives) -o $@
 
 ffsort.o:	ffsort.f  allinp.h ../HEADERS/const.h ../HEADERS/dim.h ../HEADERS/vers.h ../HEADERS/parallel.h
 iniall.o:	iniall.f  allinp.h                    ../HEADERS/dim.h
@@ -37,10 +37,10 @@ wrtjsn.o:	wrtjsn.f  allinp.h                    ../HEADERS/dim.h ../HEADERS/vers
 
 
 clean:
-	$(RM) *.o rdinp$(EXEXT)
+	$(RM) *.o feff8l_rdinp$(EXEXT)
 
 install:
-	$(COPY) rdinp$(EXEXT) $(BINDIR)
+	$(COPY) feff8l_rdinp$(EXEXT) $(BINDIR)
 
 otherdirs:
 	$(MAKE) -C ../json-fortran libjsonfortran$(ARCHV)
