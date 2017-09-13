@@ -1,15 +1,43 @@
 import numpy as np
 import ctypes
-from ctypes import POINTER, pointer, c_int, c_long, c_char, c_char_p, c_double
+from ctypes import (POINTER, pointer, c_int, c_long, c_char, c_char_p, c_double,
+                    c_bool, c_byte, c_void_p, Structure)
+
+import six
 
 from matplotlib import pylab
-FLIB = ctypes.cdll.LoadLibrary('../../src/GENFMT/libfeff8lpath.dylib')
+FLIB = ctypes.cdll.LoadLibrary('../../local_install/lib/libfeff8lpath.dylib')
 print("FLIB: ", FLIB)
 
 FEFF_maxpts = 150  # nex
 FEFF_maxpot = 11   # nphx
 FEFF_maxleg = 9    # legtot
 BOHR = 0.5291772490
+
+string_attrs = ('exch', 'version')
+
+def Py2tostr(val):
+    return str(val)
+
+def Py2tostrlist(address, nitems):
+    return [str(i) for i in (nitems*c_char_p).from_address(address)]
+
+def Py3tostr(val):
+    if isinstance(val, str):
+        return val
+    if isinstance(val, bytes):
+        return str(val, 'utf-8')
+    return str(val)
+
+def Py3tostrlist(address, nitems):
+    return [str(i, 'latin_1') for i in (nitems*c_char_p).from_address(address)]
+
+tostr  = Py2tostr
+tostrlist = Py2tostrlist
+if six.PY3:
+    tostr = Py3tostr
+    tostrlist = Py3tostrlist
+
 
 def with_phase_file(fcn):
     """decorator to ensure that the wrapped function either
@@ -33,6 +61,52 @@ def with_phase_file(fcn):
     wrapper.__filename__ = fcn.__code__.co_filename
     wrapper.__dict__.update(fcn.__dict__)
     return wrapper
+
+class Feff8PathStruct(Structure):
+    _fields_  = [
+        # INPUTS:
+        ('phpad', c_char_p),     # path to phase.pad file
+        ('index', c_int),         # path index
+        ('nleg',  c_int),         # number of legs in path
+        ('degen', c_double),      # path degeneracy
+        ('rat',   c_void_p),      # path geometry (array)
+        ('ipot',  c_void_p),      # path ipotentials (array)
+        ('iorder', c_int),        # order of approx in GENFMT (default=2)
+        ('nnnn',   c_byte),       # flag to write feffNNNN.dat
+        ('xdi',    c_byte),       # flag to write feffNNNN.xdi
+        ('verbose',  c_byte),     # flag to write screen messages
+        ('ipol',  c_byte),        # flag for polarized calc
+        ('evec',  c_void_p),      # polarization vector
+        ('elpty',  c_double),     # polarization ellipticity
+        ('xivec',  c_void_p),   # X-ray propagation direction
+
+        # OUTPUTS:
+        ('edge', c_double),       # energy threshold relative to atomic value
+        ('gam_ch', c_double),     # core level energy width
+        ('kf', c_double),         # k value at Fermi level
+        ('mu', c_double),         # Fermi level in eV
+        ('rnorman', c_double),    # Norman radiu
+        ('rs_int', c_double),     # interstitial radius
+        ('vint',  c_double),      # interstitial potential
+        ('exch',  c_char_p),      # description of exchange model
+        ('version', c_char_p),    # Feff version
+        ('iz', c_void_p),         # geom: atomic number for atoms in path (array)
+        ('ri', c_void_p),         # geom: leg lengths (array)
+        ('beta', c_void_p),     # geom: beta angles (array)
+        ('eta', c_void_p),      # geom: eta angles  (array)
+        ('reff', c_double),       # geom: half path length
+        ('ne',  c_int),           # number of energy points
+        ('k',  c_void_p),       # k grid (array)
+        ('real_phc', c_void_p), # central atom phase shifts (array of k)
+        ('mag_feff', c_void_p), # magnitude of Feff (array of k)
+        ('pha_feff', c_void_p), # phase of Feff (array of k)
+        ('red_fact', c_void_p), # reduction factor (array of k)
+        ('lam', c_void_p),      # mean free path (array of k)
+        ('rep', c_void_p),      # real part of complex wavenumber (array of k)
+        ('errorcode', c_int),     # error code
+        ('errormessage', c_char_p), # error string
+        ]
+
 
 class ScatteringPath(object):
     """A Scatering Path for calculating a XAFS signal with Feff
@@ -68,6 +142,7 @@ class ScatteringPath(object):
         self.index   = 9999
         self.degen   = 1.
         self.nnnn_out = False
+        self.xdi_out = False
         self.json_out = False
         self.verbose  = False
         self.ipol   = 0
@@ -146,10 +221,6 @@ class ScatteringPath(object):
 
     @with_phase_file
     def calculate_xafs(self, phase_file=None):
-        print 'calculate xafs ', self.phase_file, self.nleg
-        # print 'Atom  IPOT   X, Y, Z'
-        # for i in range(self.nleg):
-        #    print i, self.ipot[i], self.rat[:,i]
 
         class args: pass
 
@@ -183,16 +254,17 @@ class ScatteringPath(object):
             cdata = arr.ctypes.data_as(POINTER(arr.size*c_double))
             setattr(args, attr, cdata)
 
-        x = FLIB.onepath_(args.phase_file, args.index, args.nleg,
-                          args.degen, args.genfmt_order, args.exch_label,
-                          args.rs, args.vint, args.xmu, args.edge, args.kf,
-                          args.rnorman, args.gamach, args.genfmt_version,
-                          args.ipot, args.rat, args.iz, args.ipol,
-                          args.evec, args.ellip, args.xivec, args.nnnn_out,
-                          args.json_out, args.verbose, args.ri, args.beta,
-                          args.eta, args.nepts, args.kfeff, args.real_phc,
-                          args.mag_feff, args.pha_feff, args.red_fact,
-                          args.lam, args.rep)
+        print(" --> MAKE ONE PATH")
+        x = FLIB.calc_onepath(args.phase_file, args.index, args.nleg,
+                              args.degen, args.genfmt_order, args.exch_label,
+                              args.rs, args.vint, args.xmu, args.edge, args.kf,
+                              args.rnorman, args.gamach, args.genfmt_version,
+                              args.ipot, args.rat, args.iz, args.ipol,
+                              args.evec, args.ellip, args.xivec, args.nnnn_out,
+                              args.json_out, args.verbose, args.ri, args.beta,
+                              args.eta, args.nepts, args.kfeff, args.real_phc,
+                              args.mag_feff, args.pha_feff, args.red_fact,
+                              args.lam, args.rep)
 
         self.exch_label   = args.exch_label.strip()
         self.genfmt_version = args.genfmt_version.strip()
@@ -215,19 +287,26 @@ class ScatteringPath(object):
         self.verbose  = bool(self.verbose)
         self.rat = self.rat.reshape((2+FEFF_maxleg, 3)).transpose()*BOHR
 
-        #print self.index, self.degen, self.xmu, self.kf, self.verbose
-        #print self.ipot
-        #print self.rat
-
-
 
 if __name__ == '__main__':
-    path = ScatteringPath(phase_file='../fortran/phase.pad')
+    path = ScatteringPath(phase_file='phase.pad')
     path.set_absorber(x=0.01, y=0.1, z=0.01)
     path.add_scatterer(x=1.806, y=0.1, z=1.806, ipot=1)
     path.degen = 12
     path.calculate_xafs()
+    print 'calculate xafs ', path.phase_file, path.nleg
+    print 'Atom  IPOT   X, Y, Z'
+    for i in range(path.nleg):
+        print i, path.ipot[i], path.rat[:,i]
 
+    print path.index, path.degen, path.xmu, path.kf, path.verbose
+    print path.ipot
+    print path.rat
+    npts = 1 + max(np.where(path.kfeff > 0)[0])
+    print len(path.kfeff), npts
+    print path.kfeff[:5], path.mag_feff[:5], path.rep[:5]
 
-    pylab.plot(path.kfeff[:path.nepts], path.mag_feff[:path.nepts])
-    pylab.show()
+    print "-----------------------"
+
+    # pylab.plot(path.kfeff[:path.nepts], path.mag_feff[:path.nepts])
+    # pylab.show()
