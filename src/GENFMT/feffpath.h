@@ -39,21 +39,21 @@ typedef struct {
   /* INPUT: path to phase.pad file                                                   */
   char *phpad;
 
-  /* INPUT: structure of path                                                        */
+  /* INPUT: structure of path                                                       */
   int index;         /* path index                                default = 9999    */
   int nleg;          /* number of legs in path                    use add_scatterer */
-  double degen;       /* path degeneracy                           must be supplied  */
-  double **rat;       /* cartesian positions of atoms in path      use add_scatterer */
+  double degen;      /* path degeneracy                           must be supplied  */
+  double **rat;      /* cartesian positions of atoms in path      use add_scatterer */
   int *ipot;         /* unique potentials of atoms in path        use add_scatterer */
   int iorder;        /* order of approximation in genfmt          default = 2       */
 
-  /* INPUT: output flags for saving F_eff to a file                                  */
-  bool nnnn;          /* flag to write feffNNNN.dat file           default = false   */
-  bool xdi;           /* flag to write feffNNNN.xdi file           default = false   */
-  bool verbose;       /* flag to write screen messages             default = false   */
+  /* INPUT: output flags for saving F_eff to a file                                 */
+  int nnnn;          /* flag to write feffNNNN.dat file           default = false   */
+  int xdi;           /* flag to write feffNNNN.xdi file           default = false   */
+  int verbose;       /* flag to write screen messages             default = false   */
 
   /* INPUT: parameters controlling polarization                                      */
-  bool ipol;          /* flag to do polarization calculation       default = false   */
+  int ipol;           /* flag to do polarization calculation       default = false   */
   double *evec;       /* polarization vector                       default = (0,0,0) */
   double elpty;       /* ellipticity                               default = 0       */
   double *xivec;      /* direction of X-ray propagation            default = (0,0,0) */
@@ -70,14 +70,14 @@ typedef struct {
   char *version;      /* Feff version                                                */
 
   /* OUTPUT: geometry information (leg length, beta, eta, Z)                         */
-  int *iz;           /* atomic numbers of atoms in path     obtained from phase.pad */
+  int *iz;            /* atomic numbers of atoms in path     obtained from phase.pad */
   double *ri;         /* leg lengths                                                 */
   double *beta;       /* beta angles                                                 */
   double *eta;        /* eta angles                                                  */
   double reff;        /* half path length                          computed from ri  */
 
   /* OUTPUT: columns of feffNNNN.dat                                                 */
-  int ne;            /* number of energy points actually used by Feff               */
+  int ne;             /* number of energy points actually used by Feff               */
   double *k;          /* k grid for feff path calculation   column 1 in feffNNNN.dat */
   double *real_phc;   /* central atom phase shifts          column 2 in feffNNNN.dat */
   double *mag_feff;   /* magnitude of F_eff                 column 3 in feffNNNN.dat */
@@ -87,7 +87,7 @@ typedef struct {
   double *rep;        /* real part of complex momentum      column 7 in feffNNNN.dat */
 
   /* OUTPUT: error handling                                                          */
-  int errorcode;     /* error code from add_scatterer or make_path                  */
+  int errorcode;      /* error code from add_scatterer or make_path                  */
   char *errormessage; /* error code from add_scatterer or make_path                  */
 } FEFFPATH;
 
@@ -116,41 +116,60 @@ _EXPORT(void) make_path_errorstring(FEFFPATH*);
 _EXPORT(void) make_scatterer_errorstring(FEFFPATH*);
 _EXPORT(double) leglength(FEFFPATH*);
 
-void onepath_(char *,                   /* path to phase.pad file */
-	      int *,                    /* path index */
-	      int *,                    /* nlegs */
-	      double *,                 /* degeneracy */
-	      int *,                    /* iorder */
-	      char *,                   /* exch, potential model description */
-	      double *,                 /* rs, interstitial radius estimate */
-	      double *,                 /* vint, interstitial potential energy */
-	      double *,                 /* mu */
-	      double *,                 /* edge */
-	      double *,                 /* kf */
-	      double *,                 /* rnrmav, average R_norman */
-	      double *,                 /* gamach, chore hole lifetime in eV */
-	      char *,                   /* version, Feff's versioning string */
-	      /* scattering geometry */
-	      int (*)[legtot+1],        /* list of unique potentials */
-	      double (*)[legtot+2][3],  /* list of cartesian coordinates */
-	      int (*)[nphx+1],          /* list of atomic numbers */
-	      /* polarization and ellipticity */
-	      int *,                    /* flag to compute polarization */
-	      double (*)[3],            /* polarization vector */
-	      double *,                 /* ellipticity */
-	      double (*)[3],            /* direction of travel */
-	      /* output flags */
-	      int *,                    /* integer flag for writing feffNNNN.dat */
-	      int *,                    /* integer flag for writing feffNNNN.xdi */
-	      int *,                    /* integer flag for writing screen messages */
-	      /* path geometry */
-	      double (*)[legtot],       /* Ri   */
-	      double (*)[legtot+1],     /* beta */
-	      double (*)[legtot+2],     /* eta  */
-	      int *,                    /* number of points in kgrid */
-	      /* seven columns of feffNNNN.dat file */
-	      double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex], double (*)[nex]);
+_EXPORT(void) calc_onepath(char *,    /* phpad char[257],  path to phase.pad file */
+			   int *,     /* index,            path index */
+			   int *,     /* nlegs,            number of path legs */
+			   double *,  /* degen,            degeneracy */
+			   int *,     /* iorder,           exchange order */
+			   char *,    /* exch char[9],     potential model description */
+			   double *,  /* rs,               interstitial radius estimate */
+			   double *,  /* vint,             interstitial potential energy */
+			   double *,  /* mu,               Fermi level in eV */
+			   double *,  /* edge,             estimate of energy threshold */
+			   double *,  /* kf                k value of Fermi level */
+			   double *,  /* rnorman,          average R_norman */
+			   double *,  /* gamach,           core hole lifetime in eV */
+			   char *,    /* version char[31], versioning string */
 
+			   /* scattering geometry */
+			   int **,    /* iz [nphx+1],      list of unique potentials */
+			   double **, /* rat [legtot+2,3], list of cartesian coordinates */
+			   int **,    /* ipot [legtot+1],  list of atomic numbers */
+
+			   /* polarization and ellipticity */
+			   int *,     /* ipol,             flag to compute polarization */
+			   double **, /* evec [3],         polarization vector */
+			   double *,  /* elpty,            ellipticity */
+			   double **, /* xivec [3].        direction of travel */
+
+			   /* flags controlling output */
+			   int *,     /* nnnn_out,         flag for writing feffNNNN.dat */
+			   int *,     /* xdi_out,          flag for writing feffNNNN.xdi */
+			   int *,     /* verbose,          flag for writing screen messages */
+
+			   /* path geometry */
+			   double **, /* ri [legtot],      ri   */
+			   double **, /* beta [legtot+1],  beta*/
+			   double **, /* eta [legtot+2],   eta */
+			   int *,     /* ne,               number of energy/k points */
+
+			   /* output arrays corresponding to columns of feffNNNN.dat file */
+			   double **, /* k [nex],          k grid for other arrays */
+			   double **, /* real_phc [nex],   central atom phase shifts  */
+			   double **, /* mag_feff [nex],   magnitude of F_eff  */
+			   double **, /* pha_feff [nex],   phase of F_eff  */
+			   double **, /* red_fact [nex],   reduction factor */
+			   double **, /* lam [nex],        mean free path */
+			   double **  /* rep [nex],        real part of complex momentum */
+			   );
+
+/* see calc_onepath for details of arg list */
+void onepath_(char *, int *, int *, double *, int *, char *, double *,
+	      double *, double *, double *, double *, double *, double *,
+	      char *, int **, double **, int **, int *, double **, double *,
+	      double **, int *, int *, int *, double **, double **,
+	      double **, int *, double **, double **, double **, double **,
+	      double **, double **, double **);
 
 /* add_scatterer error codes */
 #define ERR_NEGIPOT           1  /* ipot argument to add_scatterer lt 0 */
