@@ -2,9 +2,10 @@ export PREFIX  = /usr/local
 export PREFIX =  ${CURDIR}/local_install
 
 export BASEDIR = ${CURDIR}
-export BINDIR  = $(PREFIX)/bin		# installation location for programs
-export LIBDIR  = $(PREFIX)/lib		# installation location for libraries
-export INCDIR  = $(PREFIX)/include	# installation location for include files
+# installation location for programs, libraries, and include files:
+export BINDIR  = $(PREFIX)/bin
+export LIBDIR  = $(PREFIX)/lib
+export INCDIR  = $(PREFIX)/include
 
 ###########################################################################################
 # gcc (tested on Ubuntu linux with gcc 5.4.0, darwin with gcc 6.3)                        #
@@ -79,6 +80,7 @@ all:
 
 install:
 	$(MAKEDIR) $(BINDIR) $(LIBDIR) $(INCDIR)
+	$(COPY) bin/feff8l $(BINDIR)
 	$(MAKE) -C src/ATOM   -j4 install
 	$(MAKE) -C src/COMMON -j4 install
 	$(MAKE) -C src/DEBYE  -j4 install
@@ -97,6 +99,7 @@ install:
 	$(MAKE) -C src/XSPH   -j4 install
 	$(MAKE) -C src/json-fortran -j1 install
 	$(MAKE) -C src/feff6l -j4 install
+
 
 clean:
 	$(MAKE) -C src/ATOM   clean
