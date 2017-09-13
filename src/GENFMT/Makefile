@@ -15,11 +15,42 @@ RM      ?= rm
 
 CC      ?= gcc
 CCFLAGS ?= -c -g -fPIC
-
 COPY    ?= cp -v
-SHOBJ   ?= .so
-ARCHV   ?= .a
-EXEXT   ?=
+
+CLINK = gcc -O2 -fPIC -shared
+CLINKARGS = -lgfortran
+
+ARCHV = .a
+SHOBJ = .so
+EXEXT =
+FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FLINKARGS =
+
+##
+
+
+
+ifeq ($(OS),Windows_NT)
+    UNAME = Windows_NT
+    SHOBJ = .dll
+    EXEXT = .exe
+    FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall
+    CLINK = gcc -O2 -shared
+    CLINKARGS = -Wl,--add-stdcall-alias -lgcc -lgfortran -lm -mwindows
+
+else
+    UNAME := $(shell uname -s)
+    ifeq ($(UNAME),Darwin)
+        SHOBJ = .dylib
+        FLINKARGS =  -headerpad_max_install_names
+        FORTRAN = gfortran -arch x86_64
+	CC      = gcc -O2 -arch x86_64
+	CLINK   = gcc -O2 -arch x86_64 -fPIC -shared
+        CLINKARGS = -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin16/6.3.0/ -L/usr/local/gfortran/lib/ -lgfortran
+
+    endif
+endif
+
 
 all:	otherdirs libfeffgenfmt$(ARCHV) libonepath$(SHOBJ) libfeff8lpath$(SHOBJ) feff8l_genfmt$(EXEXT)
 
@@ -54,7 +85,7 @@ libonepath$(SHOBJ):	onepath.o pathgeom.o $(libobj) $(shobjects)
 	$(FORTRAN) $(SHARED) onepath.o pathgeom.o $(libobj) $(shobjects) -o $@
 
 libfeff8lpath$(SHOBJ):	feffpath.o onepath.o pathgeom.o $(libobj) $(shobjects)
-	$(FORTRAN) $(SHARED) feffpath.o onepath.o pathgeom.o $(libobj) $(shobjects) -o $@
+	$(CLINK) -o $@ feffpath.o onepath.o pathgeom.o $(libobj) $(shobjects)  $(CLINKARGS)
 
 
 binobj = ffmod5.o genfmt.o rdpath.o regenf.o
