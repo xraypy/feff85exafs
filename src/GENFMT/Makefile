@@ -26,9 +26,6 @@ EXEXT =
 FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC
 FLINKARGS =
 
-##
-
-
 
 ifeq ($(OS),Windows_NT)
     UNAME = Windows_NT
@@ -37,7 +34,6 @@ ifeq ($(OS),Windows_NT)
     FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall
     CLINK = gcc -O2 -shared
     CLINKARGS = -Wl,--add-stdcall-alias -lgcc -lgfortran -lm -mwindows
-
 else
     UNAME := $(shell uname -s)
     ifeq ($(UNAME),Darwin)
@@ -46,8 +42,7 @@ else
         FORTRAN = gfortran -arch x86_64
 	CC      = gcc -O2 -arch x86_64
 	CLINK   = gcc -O2 -arch x86_64 -fPIC -shared
-        CLINKARGS = -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin16/6.3.0/ -L/usr/local/gfortran/lib/ -lgfortran
-
+        CLINKARGS = -L/usr/local/gfortran/lib/ -lgfortran
     endif
 endif
 
