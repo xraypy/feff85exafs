@@ -1,13 +1,40 @@
-import numpy as np
+from __future__ import print_function
+import os
+import sys
 import ctypes
-from ctypes import (POINTER, pointer, c_int, c_long, c_char, c_char_p, c_double,
-                    c_bool, c_byte, c_void_p, Structure)
+from ctypes import (POINTER, pointer, c_int, c_long, c_char_p,
+                    c_double)
 
 import six
+import numpy as np
+# from matplotlib import pylab
 
-from matplotlib import pylab
-FLIB = ctypes.cdll.LoadLibrary('../../local_install/lib/libfeff8lpath.dylib')
-print("FLIB: ", FLIB)
+def load_feff8lpath():
+    dllform = 'lib{:s}.so'
+    pathsep = ':'
+    loadlib = ctypes.cdll.LoadLibrary
+    if sys.platform.lower().startswith('darwin'):
+        dllform = 'lib{:s}.dylib'
+
+    if os.name == 'nt':
+        dllform = '{:s}.dll'
+        pathsep = ';'
+        loadlib = ctypes.windll.LoadLibrary
+
+    dllname = dllform.format('feff8lpath')
+
+    spath = ['../../local_install/lib/', '../../src/GENFMT/lib']
+    spath.extend(os.environ.get('LD_LIBRARY_PATH','').split(pathsep))
+    spath.extend(os.environ.get('PATH', '').split(pathsep))
+    for dname in spath:
+        fullname = os.path.join(dname, dllname)
+        if os.path.exists(fullname):
+            return loadlib(fullname)
+    return None
+
+
+FLIB = load_feff8lpath()
+
 
 FEFF_maxpts = 150  # nex
 FEFF_maxpot = 11   # nphx
@@ -61,52 +88,6 @@ def with_phase_file(fcn):
     wrapper.__filename__ = fcn.__code__.co_filename
     wrapper.__dict__.update(fcn.__dict__)
     return wrapper
-
-class Feff8PathStruct(Structure):
-    _fields_  = [
-        # INPUTS:
-        ('phpad', c_char_p),     # path to phase.pad file
-        ('index', c_int),         # path index
-        ('nleg',  c_int),         # number of legs in path
-        ('degen', c_double),      # path degeneracy
-        ('rat',   c_void_p),      # path geometry (array)
-        ('ipot',  c_void_p),      # path ipotentials (array)
-        ('iorder', c_int),        # order of approx in GENFMT (default=2)
-        ('nnnn',   c_byte),       # flag to write feffNNNN.dat
-        ('xdi',    c_byte),       # flag to write feffNNNN.xdi
-        ('verbose',  c_byte),     # flag to write screen messages
-        ('ipol',  c_byte),        # flag for polarized calc
-        ('evec',  c_void_p),      # polarization vector
-        ('elpty',  c_double),     # polarization ellipticity
-        ('xivec',  c_void_p),   # X-ray propagation direction
-
-        # OUTPUTS:
-        ('edge', c_double),       # energy threshold relative to atomic value
-        ('gam_ch', c_double),     # core level energy width
-        ('kf', c_double),         # k value at Fermi level
-        ('mu', c_double),         # Fermi level in eV
-        ('rnorman', c_double),    # Norman radiu
-        ('rs_int', c_double),     # interstitial radius
-        ('vint',  c_double),      # interstitial potential
-        ('exch',  c_char_p),      # description of exchange model
-        ('version', c_char_p),    # Feff version
-        ('iz', c_void_p),         # geom: atomic number for atoms in path (array)
-        ('ri', c_void_p),         # geom: leg lengths (array)
-        ('beta', c_void_p),     # geom: beta angles (array)
-        ('eta', c_void_p),      # geom: eta angles  (array)
-        ('reff', c_double),       # geom: half path length
-        ('ne',  c_int),           # number of energy points
-        ('k',  c_void_p),       # k grid (array)
-        ('real_phc', c_void_p), # central atom phase shifts (array of k)
-        ('mag_feff', c_void_p), # magnitude of Feff (array of k)
-        ('pha_feff', c_void_p), # phase of Feff (array of k)
-        ('red_fact', c_void_p), # reduction factor (array of k)
-        ('lam', c_void_p),      # mean free path (array of k)
-        ('rep', c_void_p),      # real part of complex wavenumber (array of k)
-        ('errorcode', c_int),     # error code
-        ('errormessage', c_char_p), # error string
-        ]
-
 
 class ScatteringPath(object):
     """A Scatering Path for calculating a XAFS signal with Feff
@@ -254,19 +235,19 @@ class ScatteringPath(object):
             cdata = arr.ctypes.data_as(POINTER(arr.size*c_double))
             setattr(args, attr, cdata)
 
-        print(" --> MAKE ONE PATH")
         x = FLIB.calc_onepath(args.phase_file, args.index, args.nleg,
-                              args.degen, args.genfmt_order, args.exch_label,
-                              args.rs, args.vint, args.xmu, args.edge, args.kf,
-                              args.rnorman, args.gamach, args.genfmt_version,
-                              args.ipot, args.rat, args.iz, args.ipol,
-                              args.evec, args.ellip, args.xivec, args.nnnn_out,
-                              args.json_out, args.verbose, args.ri, args.beta,
-                              args.eta, args.nepts, args.kfeff, args.real_phc,
-                              args.mag_feff, args.pha_feff, args.red_fact,
-                              args.lam, args.rep)
+                              args.degen, args.genfmt_order,
+                              args.exch_label, args.rs, args.vint,
+                              args.xmu, args.edge, args.kf, args.rnorman,
+                              args.gamach, args.genfmt_version, args.ipot,
+                              args.rat, args.iz, args.ipol, args.evec,
+                              args.ellip, args.xivec, args.nnnn_out,
+                              args.json_out, args.verbose, args.ri,
+                              args.beta, args.eta, args.nepts, args.kfeff,
+                              args.real_phc, args.mag_feff, args.pha_feff,
+                              args.red_fact, args.lam, args.rep)
 
-        self.exch_label   = args.exch_label.strip()
+        self.exch_label = args.exch_label.strip()
         self.genfmt_version = args.genfmt_version.strip()
 
         for attr in ('index', 'nleg', 'genfmt_order', 'degen', 'rs',
@@ -276,10 +257,9 @@ class ScatteringPath(object):
             setattr(self, attr, getattr(args, attr).contents.value)
 
         for attr in ('ipot', 'evec', 'xivec', 'beta', 'eta', 'ri', 'rat',
-                    'iz', 'kfeff', 'mag_feff', 'pha_feff', 'red_fact',
-                    'lam', 'rep'):
-            cdata = getattr(args, attr).contents[:]
-            setattr(self, attr, np.array(cdata))
+                    'iz', 'kfeff', 'real_phc', 'mag_feff', 'pha_feff',
+                    'red_fact', 'lam', 'rep'):
+            setattr(self, attr, np.array(getattr(args, attr).contents[:]))
 
         # some data needs recasting, reformatting
         self.nnnn_out = bool(self.nnnn_out)
@@ -290,23 +270,24 @@ class ScatteringPath(object):
 
 if __name__ == '__main__':
     path = ScatteringPath(phase_file='phase.pad')
-    path.set_absorber(x=0.01, y=0.1, z=0.01)
-    path.add_scatterer(x=1.806, y=0.1, z=1.806, ipot=1)
+    path.set_absorber( x=0.01,   y=0.1,   z=0.01)
+    path.add_scatterer(x=1.8058, y=0.005, z=1.8063, ipot=1)
     path.degen = 12
     path.calculate_xafs()
-    print 'calculate xafs ', path.phase_file, path.nleg
-    print 'Atom  IPOT   X, Y, Z'
+    print('Calculate xafs: ', path.phase_file, path.nleg, path.iz)
+    print('Path Geometry:   IPOT IZ   X, Y, Z')
     for i in range(path.nleg):
-        print i, path.ipot[i], path.rat[:,i]
+        ipot = path.ipot[i]
+        iz   = path.iz[ipot]
+        rat  = path.rat[:,i]
+        print( "   %i  %i  %8.4f %8.4f %8.4f" % (ipot,iz, rat[0], rat[1], rat[2]))
 
-    print path.index, path.degen, path.xmu, path.kf, path.verbose
-    print path.ipot
-    print path.rat
+    print("Path settings:  degen=%10.5f,  xmu=%10.5f, kf=%10.5f" % (path.degen, path.xmu, path.kf))
     npts = 1 + max(np.where(path.kfeff > 0)[0])
-    print len(path.kfeff), npts
-    print path.kfeff[:5], path.mag_feff[:5], path.rep[:5]
-
-    print "-----------------------"
-
-    # pylab.plot(path.kfeff[:path.nepts], path.mag_feff[:path.nepts])
-    # pylab.show()
+    print("# k         rep          real_phc     phase_feff   mag_feff     red_factor   lambda ")
+    fmt = " %6.3f  %11.7f  %11.7f  %11.7f  %11.7f  %11.7f  %11.7f"
+    for i in range(npts):
+        print(fmt % (path.kfeff[i], path.rep[i], path.real_phc[i], path.pha_feff[i],
+              path.mag_feff[i], path.red_fact[i], path.lam[i]))
+        # print(fmt.format(path.kfeff[i], path.rep[i], path.real_phc[i],
+        #                  path.mag_feff[i], path.red_fact[i], path.lam[i]))
