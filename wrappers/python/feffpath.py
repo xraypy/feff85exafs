@@ -1,35 +1,35 @@
+#!/usr/bin/python
+"""
+Feff85L EXAFS Scatternig Path for Python
+"""
 from __future__ import print_function
 import os
 import sys
 import ctypes
-from ctypes import (POINTER, pointer, c_int, c_long, c_char_p,
-                    c_double)
-
-import six
+from ctypes import POINTER, pointer, c_int, c_long, c_char_p, c_double
 import numpy as np
-# from matplotlib import pylab
 
 def load_feff8lpath():
     dllform = 'lib{:s}.so'
     pathsep = ':'
-    loadlib = ctypes.cdll.LoadLibrary
+    loadlib = ctypes.cdll
     if sys.platform.lower().startswith('darwin'):
         dllform = 'lib{:s}.dylib'
 
     if os.name == 'nt':
         dllform = '{:s}.dll'
         pathsep = ';'
-        loadlib = ctypes.windll.LoadLibrary
+        loadlib = ctypes.windll
 
     dllname = dllform.format('feff8lpath')
-
-    spath = ['../../local_install/lib/', '../../src/GENFMT/lib']
+    spath = []
     spath.extend(os.environ.get('LD_LIBRARY_PATH','').split(pathsep))
     spath.extend(os.environ.get('PATH', '').split(pathsep))
+    spath.extend(['../../local_install/lib/', '../../src/GENFMT/lib'])
     for dname in spath:
         fullname = os.path.join(dname, dllname)
         if os.path.exists(fullname):
-            return loadlib(fullname)
+            return loadlib.LoadLibrary(fullname)
     return None
 
 
@@ -41,30 +41,21 @@ FEFF_maxpot = 11   # nphx
 FEFF_maxleg = 9    # legtot
 BOHR = 0.5291772490
 
-string_attrs = ('exch', 'version')
 
-def Py2tostr(val):
-    return str(val)
+# bytes/str conversion
+str2bytes = bytes2str = str
+if sys.version_info[0] == 3:
+    def bytes2str(val):
+        if isinstance(val, str):
+            return val
+        if isinstance(val, bytes):
+            return str(val, 'utf-8')
+        return str(val)
 
-def Py2tostrlist(address, nitems):
-    return [str(i) for i in (nitems*c_char_p).from_address(address)]
-
-def Py3tostr(val):
-    if isinstance(val, str):
-        return val
-    if isinstance(val, bytes):
-        return str(val, 'utf-8')
-    return str(val)
-
-def Py3tostrlist(address, nitems):
-    return [str(i, 'latin_1') for i in (nitems*c_char_p).from_address(address)]
-
-tostr  = Py2tostr
-tostrlist = Py2tostrlist
-if six.PY3:
-    tostr = Py3tostr
-    tostrlist = Py3tostrlist
-
+    def str2bytes(val):
+        if isinstance(val, bytes):
+            return val
+        return bytes(val, 'utf-8')
 
 def with_phase_file(fcn):
     """decorator to ensure that the wrapped function either
@@ -120,10 +111,9 @@ class ScatteringPath(object):
     def clear(self):
         """reset all path data"""
 
-        self.index   = 9999
+        self.index   = 1
         self.degen   = 1.
         self.nnnn_out = False
-        self.xdi_out = False
         self.json_out = False
         self.verbose  = False
         self.ipol   = 0
@@ -207,8 +197,8 @@ class ScatteringPath(object):
 
         # strings / char*.  Note fixed length to match Fortran
         args.phase_file     = (self.phase_file + ' '*256)[:256]
-        args.exch_label     = ' '*8
-        args.genfmt_version = ' '*30
+        args.exch_label     = str2bytes(' '*8)
+        args.genfmt_version = str2bytes(' '*30)
 
         # integers, including booleans
         for attr in ('index', 'nleg', 'genfmt_order', 'ipol', 'nnnn_out',
@@ -247,8 +237,8 @@ class ScatteringPath(object):
                               args.real_phc, args.mag_feff, args.pha_feff,
                               args.red_fact, args.lam, args.rep)
 
-        self.exch_label = args.exch_label.strip()
-        self.genfmt_version = args.genfmt_version.strip()
+        self.exch_label = bytes2str(args.exch_label).strip()
+        self.genfmt_version = bytes2str(args.genfmt_version).strip()
 
         for attr in ('index', 'nleg', 'genfmt_order', 'degen', 'rs',
                      'vint', 'xmu', 'edge', 'kf', 'rnorman', 'gamach',
@@ -274,19 +264,28 @@ if __name__ == '__main__':
     path.add_scatterer(x=1.8058, y=0.005, z=1.8063, ipot=1)
     path.degen = 12
     path.calculate_xafs()
-    print('Calculate xafs: ', path.phase_file, path.nleg, path.iz)
-    print('Path Geometry:   IPOT IZ   X, Y, Z')
+    print('# Calculate EXAFS with PhaseFile: {:s}'.format(path.phase_file))
+    print('# Path Geometry: \n#  IPOT  IZ     X        Y        Z')
     for i in range(path.nleg):
         ipot = path.ipot[i]
         iz   = path.iz[ipot]
         rat  = path.rat[:,i]
-        print( "   %i  %i  %8.4f %8.4f %8.4f" % (ipot,iz, rat[0], rat[1], rat[2]))
+        print("#   %2i   %2i  %8.4f %8.4f %8.4f" % (ipot,iz, rat[0], rat[1], rat[2]))
+
+    print("# Polarization: {:d}, ellipticity={:4f}".format(path.ipol, path.ellip))
+    print("# Polarization E Vector = {:s}".format(", ".join(["%.4f" % a for a in path.evec])))
+    print("# Polarization X Vector = {:s}".format(", ".join(["%.4f" % a for a in path.xivec])))
+    print("# Path Settings")
+    for attr in ('rs', 'vint', 'xmu', 'edge', 'kf', 'rnorman', 'gamach'):
+          print("#   {:8s} = {:+4f} ".format(attr, getattr(path, attr)))
+    for attr in ('exch_label', 'genfmt_version'):
+          print("#   {:8s} = {:s} ".format(attr, getattr(path, attr)))
 
     print("Path settings:  degen=%10.5f,  xmu=%10.5f, kf=%10.5f" % (path.degen, path.xmu, path.kf))
     npts = 1 + max(np.where(path.kfeff > 0)[0])
     print("# k         rep          real_phc     phase_feff   mag_feff     red_factor   lambda ")
     fmt = " %6.3f  %11.7f  %11.7f  %11.7f  %11.7f  %11.7f  %11.7f"
-    for i in range(npts):
+    for i in range(int(npts/3.0)):
         print(fmt % (path.kfeff[i], path.rep[i], path.real_phc[i], path.pha_feff[i],
               path.mag_feff[i], path.red_fact[i], path.lam[i]))
         # print(fmt.format(path.kfeff[i], path.rep[i], path.real_phc[i],
