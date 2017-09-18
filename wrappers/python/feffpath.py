@@ -22,7 +22,7 @@ def load_feff8lpath():
         loadlib = ctypes.windll
 
     dllname = dllform.format('feff8lpath')
-    spath = []
+    spath = ['.']
     spath.extend(os.environ.get('LD_LIBRARY_PATH','').split(pathsep))
     spath.extend(os.environ.get('PATH', '').split(pathsep))
     spath.extend(['../../local_install/lib/', '../../src/GENFMT/lib'])
