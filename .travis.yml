@@ -17,7 +17,6 @@ addons:
 
 
 before_install:
-    - gfortran -v
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
     - bash miniconda.sh -b -p $HOME/miniconda
     - export PATH="$HOME/miniconda/bin:$PATH"
@@ -29,6 +28,8 @@ before_install:
 install:
     - conda create -q -n test_env python=$TRAVIS_PYTHON_VERSION numpy scipy libgfortran nose pytest
     - source activate test_env
+    - find /usr -name "*gfortran*"
+    - gfortran -v
     - make all
     - make install
 
