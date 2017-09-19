@@ -20,6 +20,7 @@ before_install:
 install:
     - conda create -q -n test_env python=$TRAVIS_PYTHON_VERSION numpy scipy libgfortran nose pytest
     - source activate test_env
+    - make all
     - make install
 
 script:
