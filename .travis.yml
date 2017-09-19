@@ -8,7 +8,7 @@ python:
     - 3.6
 
 before_install:
-    - sudo apt-get install gfortran=6
+    - sudo apt-get install gfortran=5
     - gfortran -v
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
     - bash miniconda.sh -b -p $HOME/miniconda
