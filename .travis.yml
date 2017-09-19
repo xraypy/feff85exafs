@@ -29,7 +29,7 @@ install:
     - conda create -q -n test_env python=$TRAVIS_PYTHON_VERSION numpy scipy libgfortran nose pytest
     - source activate test_env
     - find /usr -name "*gfortran*"
-    - gfortran -v
+    - ln -fs /usr/bin/gfortran-6 "$HOME/miniconda/bin/gfortran" && gfortran --version
     - make all
     - make install
 
