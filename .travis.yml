@@ -30,6 +30,7 @@ install:
     - source activate test_env
     - find /usr -name "*gfortran*"
     - ln -fs /usr/bin/gfortran-6 "$HOME/miniconda/bin/gfortran" && gfortran --version
+    - export LD_LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/6:$LD_LIBRARY_PATH
     - make all
     - make install
 
