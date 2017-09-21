@@ -78,7 +78,7 @@ all:
 	$(MAKE) -C src/GENFMT -j4
 	$(MAKE) -C src/feff6l -j4
 
-install:
+install: all
 	$(MAKEDIR) $(BINDIR) $(LIBDIR) $(INCDIR)
 	$(COPY) bin/feff8l $(BINDIR)
 	$(MAKE) -C src/ATOM   -j4 install
