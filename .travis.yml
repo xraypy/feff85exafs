@@ -15,6 +15,10 @@ before_install:
     - sudo apt-get update
     - sudo apt-get install gcc-4.9 gfortran-4.9
     - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-4.9
+    - sudo ln -sf /usr/bin/gcc-4.9 /usr/bin/gcc
+    - sudo ln -sf /usr/bin/gfortran-4.9 /usr/bin/gfortran
+    - /usr/bin/gcc --version
+    - /usr/bin/gfortran --version
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
     - bash miniconda.sh -b -p $HOME/miniconda
     - export PATH="$HOME/miniconda/bin:$PATH"
