@@ -31,10 +31,10 @@ _EXPORT(int) create_path(FEFFPATH *path) {
   path->iorder    = 2;
   path->nleg      = 0;
   path->degen     = 1.0;
-  path->nnnn      = false;
-  path->xdi       = false;
-  path->verbose   = false;
-  path->ipol      = false;
+  path->nnnn      = 0;
+  path->xdi       = 0;
+  path->verbose   = 0;
+  path->ipol      = 0;
   path->elpty     = 0.0;
   path->ne        = 0;
   path->errorcode = 0;
@@ -167,9 +167,12 @@ _EXPORT(int) make_path(FEFFPATH *path) {
   /* scattering and path geometry */
   int index, iorder, nleg;
   double degen;
-  int ipot[legtot+1], iz[nphx+1];
-  double rat[legtot+2][3];
-  double ri[legtot], beta[legtot+1], eta[legtot+2];
+  // int ipot[legtot+1], iz[nphx+1];
+  // double rat[legtot+2][3];
+  // double ri[legtot], beta[legtot+1], eta[legtot+2];
+  int *ipot, *iz;
+  double **rat;
+  double *ri, *beta, *eta;
 
   /* potentials parameters */
   int ixc;
@@ -180,13 +183,15 @@ _EXPORT(int) make_path(FEFFPATH *path) {
 
   /* feffNNNN.dat columns */
   int ne;
-  double k[nex], real_phc[nex], mag_feff[nex], pha_feff[nex], red_fact[nex], lam[nex], rep[nex];
+  // double k[nex], real_phc[nex], mag_feff[nex], pha_feff[nex], red_fact[nex], lam[nex], rep[nex];
+  double *k, *real_phc, *mag_feff, *pha_feff, *red_fact, *lam, *rep;
+  // double k[nex], real_phc[nex], mag_feff[nex], pha_feff[nex], red_fact[nex], lam[nex], rep[nex];
 
   /* polarization and ellipticity */
   int ipol;
   double elpty;
-  double evec[3];
-  double xivec[3];
+  // double evec[3], xivec[3];
+  double *evec, *xivec;
 
   char phpad[257] = {'\0'};
   char exch[9] = {'\0'};
@@ -253,10 +258,10 @@ _EXPORT(int) make_path(FEFFPATH *path) {
   /* printf(">%s<\n", phpad); */
   /* fflush(stdout); */
   onepath_(phpad, &index, &nleg, &degen, &iorder,
-	   exch, &rs, &vint, &mu, &edge, &kf, &rnrmav, &gamach,
-	   version, &ipot, &rat, &iz, &ipol, &evec, &elpty, &xivec,
-	   &nnnn, &xdi, &verbose, &ri, &beta, &eta,
-	   &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
+           exch, &rs, &vint, &mu, &edge, &kf, &rnrmav, &gamach,
+           version, &ipot, rat, &iz, &ipol, &evec, &elpty, &xivec,
+           &nnnn, &xdi, &verbose, &ri, &beta, &eta,
+           &ne, &k, &real_phc, &mag_feff, &pha_feff, &red_fact, &lam, &rep);
   /* printf("after onepath_\n"); */
   /* fflush(stdout); */
 
@@ -476,4 +481,20 @@ _EXPORT(void) make_path_errorstring(FEFFPATH *path) {
     strcat(message, error);
   };
   strcpy(path->errormessage, message);
+}
+
+/* simple wrapper of Fortran onepath for better portability */
+_EXPORT(void) calc_onepath(char *phpad, int *index, int *nlegs, double *degen, int *iorder,
+                           char *exch, double *rs, double *vint, double *mu, double *edge,
+                           double *kf, double *rnorman, double *gamach, char *version,
+                           int **ipot, double **rat, int **iz,
+                           int *ipol, double **evec, double *elpty, double **xivec,
+                           int *nnnn_out, int *xdi_out, int *verbose,
+                           double **ri, double **beta, double **eta, int *nout,
+                           double **a1, double **a2, double **a3,
+                           double **a4, double **a5, double **a6, double **a7) {
+  return onepath_(phpad, index, nlegs, degen, iorder, exch, rs, vint, mu, edge, kf,
+                  rnorman, gamach, version, ipot, rat, iz, ipol, evec, elpty, xivec,
+                  nnnn_out, xdi_out, verbose,
+                  ri, beta, eta, nout, a1, a2, a3, a4, a5, a6, a7);
 }

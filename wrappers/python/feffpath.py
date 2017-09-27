@@ -1,15 +1,61 @@
-import numpy as np
+#!/usr/bin/python
+"""
+Feff85L EXAFS Scatternig Path for Python
+"""
+from __future__ import print_function
+import os
+import sys
 import ctypes
-from ctypes import POINTER, pointer, c_int, c_long, c_char, c_char_p, c_double
+from ctypes import POINTER, pointer, c_int, c_long, c_char_p, c_double
+import numpy as np
 
-from matplotlib import pylab
-FLIB = ctypes.cdll.LoadLibrary('../../src/GENFMT/libfeff8lpath.dylib')
-print("FLIB: ", FLIB)
+def load_feff8lpath():
+    dllform = 'lib{:s}.so'
+    pathsep = ':'
+    loadlib = ctypes.cdll
+    if sys.platform.lower().startswith('darwin'):
+        dllform = 'lib{:s}.dylib'
+
+    if os.name == 'nt':
+        dllform = '{:s}.dll'
+        pathsep = ';'
+        loadlib = ctypes.windll
+
+    dllname = dllform.format('feff8lpath')
+    spath = ['.']
+    spath.extend(os.environ.get('LD_LIBRARY_PATH','').split(pathsep))
+    spath.extend(os.environ.get('PATH', '').split(pathsep))
+    spath.extend(['../../local_install/lib/', '../../src/GENFMT/lib'])
+    for dname in spath:
+        fullname = os.path.join(dname, dllname)
+        if os.path.exists(fullname):
+            return loadlib.LoadLibrary(fullname)
+    return None
+
+
+FLIB = load_feff8lpath()
+
 
 FEFF_maxpts = 150  # nex
 FEFF_maxpot = 11   # nphx
 FEFF_maxleg = 9    # legtot
 BOHR = 0.5291772490
+
+
+# bytes/str conversion
+str2bytes = bytes2str = str
+if sys.version_info[0] == 3:
+    def bytes2str(val):
+        if isinstance(val, str):
+            return val
+        if isinstance(val, bytes):
+            return str(val, 'utf-8')
+        return str(val)
+
+    def str2bytes(val):
+        if isinstance(val, bytes):
+            return val
+        return bytes(val, 'utf-8')
 
 def with_phase_file(fcn):
     """decorator to ensure that the wrapped function either
@@ -65,7 +111,7 @@ class ScatteringPath(object):
     def clear(self):
         """reset all path data"""
 
-        self.index   = 9999
+        self.index   = 1
         self.degen   = 1.
         self.nnnn_out = False
         self.json_out = False
@@ -146,17 +192,13 @@ class ScatteringPath(object):
 
     @with_phase_file
     def calculate_xafs(self, phase_file=None):
-        print 'calculate xafs ', self.phase_file, self.nleg
-        # print 'Atom  IPOT   X, Y, Z'
-        # for i in range(self.nleg):
-        #    print i, self.ipot[i], self.rat[:,i]
 
         class args: pass
 
         # strings / char*.  Note fixed length to match Fortran
         args.phase_file     = (self.phase_file + ' '*256)[:256]
-        args.exch_label     = ' '*8
-        args.genfmt_version = ' '*30
+        args.exch_label     = str2bytes(' '*8)
+        args.genfmt_version = str2bytes(' '*30)
 
         # integers, including booleans
         for attr in ('index', 'nleg', 'genfmt_order', 'ipol', 'nnnn_out',
@@ -183,19 +225,20 @@ class ScatteringPath(object):
             cdata = arr.ctypes.data_as(POINTER(arr.size*c_double))
             setattr(args, attr, cdata)
 
-        x = FLIB.onepath_(args.phase_file, args.index, args.nleg,
-                          args.degen, args.genfmt_order, args.exch_label,
-                          args.rs, args.vint, args.xmu, args.edge, args.kf,
-                          args.rnorman, args.gamach, args.genfmt_version,
-                          args.ipot, args.rat, args.iz, args.ipol,
-                          args.evec, args.ellip, args.xivec, args.nnnn_out,
-                          args.json_out, args.verbose, args.ri, args.beta,
-                          args.eta, args.nepts, args.kfeff, args.real_phc,
-                          args.mag_feff, args.pha_feff, args.red_fact,
-                          args.lam, args.rep)
+        x = FLIB.calc_onepath(args.phase_file, args.index, args.nleg,
+                              args.degen, args.genfmt_order,
+                              args.exch_label, args.rs, args.vint,
+                              args.xmu, args.edge, args.kf, args.rnorman,
+                              args.gamach, args.genfmt_version, args.ipot,
+                              args.rat, args.iz, args.ipol, args.evec,
+                              args.ellip, args.xivec, args.nnnn_out,
+                              args.json_out, args.verbose, args.ri,
+                              args.beta, args.eta, args.nepts, args.kfeff,
+                              args.real_phc, args.mag_feff, args.pha_feff,
+                              args.red_fact, args.lam, args.rep)
 
-        self.exch_label   = args.exch_label.strip()
-        self.genfmt_version = args.genfmt_version.strip()
+        self.exch_label = bytes2str(args.exch_label).strip()
+        self.genfmt_version = bytes2str(args.genfmt_version).strip()
 
         for attr in ('index', 'nleg', 'genfmt_order', 'degen', 'rs',
                      'vint', 'xmu', 'edge', 'kf', 'rnorman', 'gamach',
@@ -204,10 +247,9 @@ class ScatteringPath(object):
             setattr(self, attr, getattr(args, attr).contents.value)
 
         for attr in ('ipot', 'evec', 'xivec', 'beta', 'eta', 'ri', 'rat',
-                    'iz', 'kfeff', 'mag_feff', 'pha_feff', 'red_fact',
-                    'lam', 'rep'):
-            cdata = getattr(args, attr).contents[:]
-            setattr(self, attr, np.array(cdata))
+                    'iz', 'kfeff', 'real_phc', 'mag_feff', 'pha_feff',
+                    'red_fact', 'lam', 'rep'):
+            setattr(self, attr, np.array(getattr(args, attr).contents[:]))
 
         # some data needs recasting, reformatting
         self.nnnn_out = bool(self.nnnn_out)
@@ -215,19 +257,36 @@ class ScatteringPath(object):
         self.verbose  = bool(self.verbose)
         self.rat = self.rat.reshape((2+FEFF_maxleg, 3)).transpose()*BOHR
 
-        #print self.index, self.degen, self.xmu, self.kf, self.verbose
-        #print self.ipot
-        #print self.rat
-
-
 
 if __name__ == '__main__':
-    path = ScatteringPath(phase_file='../fortran/phase.pad')
-    path.set_absorber(x=0.01, y=0.1, z=0.01)
-    path.add_scatterer(x=1.806, y=0.1, z=1.806, ipot=1)
+    path = ScatteringPath(phase_file='phase.pad')
+    path.set_absorber( x=0.01,   y=0.1,   z=0.01)
+    path.add_scatterer(x=1.8058, y=0.005, z=1.8063, ipot=1)
     path.degen = 12
     path.calculate_xafs()
+    print('# Calculate EXAFS with PhaseFile: {:s}'.format(path.phase_file))
+    print('# Path Geometry: \n#  IPOT  IZ     X        Y        Z')
+    for i in range(path.nleg):
+        ipot = path.ipot[i]
+        iz   = path.iz[ipot]
+        rat  = path.rat[:,i]
+        print("#   %2i   %2i  %8.4f %8.4f %8.4f" % (ipot,iz, rat[0], rat[1], rat[2]))
 
+    print("# Polarization: {:d}, ellipticity={:4f}".format(path.ipol, path.ellip))
+    print("# Polarization E Vector = {:s}".format(", ".join(["%.4f" % a for a in path.evec])))
+    print("# Polarization X Vector = {:s}".format(", ".join(["%.4f" % a for a in path.xivec])))
+    print("# Path Settings")
+    for attr in ('rs', 'vint', 'xmu', 'edge', 'kf', 'rnorman', 'gamach'):
+          print("#   {:8s} = {:+4f} ".format(attr, getattr(path, attr)))
+    for attr in ('exch_label', 'genfmt_version'):
+          print("#   {:8s} = {:s} ".format(attr, getattr(path, attr)))
 
-    pylab.plot(path.kfeff[:path.nepts], path.mag_feff[:path.nepts])
-    pylab.show()
+    print("Path settings:  degen=%10.5f,  xmu=%10.5f, kf=%10.5f" % (path.degen, path.xmu, path.kf))
+    npts = 1 + max(np.where(path.kfeff > 0)[0])
+    print("# k         rep          real_phc     phase_feff   mag_feff     red_factor   lambda ")
+    fmt = " %6.3f  %11.7f  %11.7f  %11.7f  %11.7f  %11.7f  %11.7f"
+    for i in range(int(npts/3.0)):
+        print(fmt % (path.kfeff[i], path.rep[i], path.real_phc[i], path.pha_feff[i],
+              path.mag_feff[i], path.red_fact[i], path.lam[i]))
+        # print(fmt.format(path.kfeff[i], path.rep[i], path.real_phc[i],
+        #                  path.mag_feff[i], path.red_fact[i], path.lam[i]))

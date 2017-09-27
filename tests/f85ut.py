@@ -104,7 +104,7 @@ class Feff85exafsUnitTestGroup(Group):
 
         self.path       = realpath(folder)
         self.testrun    = realpath(join(self.path, 'testrun'))
-        self.fefflog    = realpath(join(self.path, 'testrun', 'f85e.log'))
+        self.fefflog    = realpath(join(self.path, 'testrun', 'feff8l.log'))
         self.__testpaths()
         self.repotop    = getcwd()
         if not self.repotop.endswith('feff85exafs'):  self.repotop = realpath(join('..'))

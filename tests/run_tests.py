@@ -41,11 +41,13 @@ class Feff8Test:
         scf = 'without SCF'
         if self.test.doscf:
             scf = 'with SCF'
-        # f85e.log shouldn't be more than a couple thousand lines long
+        # feff8l.log shouldn't be more than a couple thousand lines long
         # (ferrocene w/SCF is 1096)
-        with open(join(self.test.testrun, 'f85e.log'), 'r') as log:
+        with open(join(self.test.testrun, 'feff8l.log'), 'r') as log:
             lines = log.readlines()
-            m = re.search('Done with module 6:', lines[-1])
+            endlines = '_'.join(lines[-5:])
+            m = 'Done with module 6:' in endlines
+
         assert m and self.test.available(1), "feff run on %s (%s) not successful" % (self.folder, scf)
 
 
