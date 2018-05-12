@@ -5,7 +5,7 @@ computation.
 
 This is a ferrocene-based macrocycle, see Dinnebier et al,
 Organometallics 2001, 20, 5642-5647
-[doi:10.1021/om0105066](http://dx.doi.org/10.1021/om0105066).
+[doi:10.1021/om0105066](https://doi.org/10.1021/om0105066).
 Ferrocene is an example of a transition metal carbide with an odd,
 low-symmetry, disordered local coordination environment.  The Fe atom
 is surrounded by 10 carbon atoms at distances ranging from 2.02642

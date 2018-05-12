@@ -3,7 +3,7 @@
 
 This directory contains routines for the many-pole self-energy model
 using the optical constants: atomic approximation model.  See
-[the 2007 Kas, et al. paper](http://dx.doi.org/10.1103/PhysRevB.76.195116).
+[the 2007 Kas, et al. paper](https://doi.org/10.1103/PhysRevB.76.195116).
 
 The original Fortran 77 and Fortran 90 routines in this directory are
 covered by the [LICENSE](../HEADERS/license.h).

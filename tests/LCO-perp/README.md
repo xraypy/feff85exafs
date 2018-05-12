@@ -13,9 +13,9 @@ the LCO-para test which uses the same material to test polarization
 without ellipticipty.
 
 Structure from
-[Radaelli at al.](http://dx.doi.org/10.1103/PhysRevB.49.4163).
+[Radaelli at al.](https://doi.org/10.1103/PhysRevB.49.4163).
 EXAFS analysis from
-[Haskel, et al.](http://dx.doi.org/10.1103/PhysRevB.56.R521)
+[Haskel, et al.](https://doi.org/10.1103/PhysRevB.56.R521)
 
 ![Ball and stick figure of La2CuO4 from Haskel, et al. ](LCO.png)
 
