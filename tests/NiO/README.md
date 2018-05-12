@@ -9,7 +9,7 @@ The XAS data are measured at the Ni K edge.
 
 The NiO sample was kindly provided by Neil Hyatt and Martin Stennett,
 Sheffield University and measured by Bruce at NSLS X23A2.
-See [DOI: 10.1107/S1600577515013521](http://dx.doi.org/10.1107/S1600577515013521).
+See [DOI: 10.1107/S1600577515013521](https://doi.org/10.1107/S1600577515013521).
 
 ![Ball and stick figure of rock-salt NiO](NiO.png)
 

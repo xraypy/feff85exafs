@@ -1,7 +1,7 @@
 Feff8L
 ======
 
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.20629.svg)](http://dx.doi.org/10.5281/zenodo.20629)
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.20629.svg)](https://doi.org/10.5281/zenodo.20629)
 
 
 Feff8L: Open Source theoretical EXAFS calculations

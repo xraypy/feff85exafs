@@ -3,7 +3,7 @@
 
 This directory contains routines for generalized F matrix
 calculations, as described in
-[the 1990 Rehr-Albers paper](http://dx.doi.org/10.1103/PhysRevB.41.8139).
+[the 1990 Rehr-Albers paper](https://doi.org/10.1103/PhysRevB.41.8139).
 
 All routines in this directory are covered by the [LICENSE](../HEADERS/license.h)
 

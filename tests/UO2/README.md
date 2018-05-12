@@ -9,7 +9,7 @@ system.
 
 The nonparticle uraninite data was measured at APS 10ID and kindly
 provided by Shelly Kelly.  The data test follows her fitting model
-from [DOI: 10.1021/es0208409](http://dx.doi.org/10.1021/es0208409).
+from [DOI: 10.1021/es0208409](https://doi.org/10.1021/es0208409).
 
 
 ![Ball and stick figure of uraninite](uraninite.gif)
