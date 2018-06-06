@@ -3,35 +3,25 @@ Feff8L
 
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.20629.svg)](https://doi.org/10.5281/zenodo.20629)
 
-
 Feff8L: Open Source theoretical EXAFS calculations
 
-Based on or developed using Distribution: FEFF8.5L
-Copyright (c) [2013] University of Washington
+Based on or developed using Distribution: FEFF8.5L Copyright (c) [2013] University of Washington
 
-* The
-  [goals](https://github.com/xraypy/feff85exafs/wiki/Goals-of-the-feff85exafs-project)
-  of this project are discussed on the
-  [wiki](https://github.com/xraypy/feff85exafs/wiki).
+ * The [goals](https://github.com/xraypy/feff85exafs/wiki/Goals-of-the-feff85exafs-project) of this
+   project are discussed on the [wiki](https://github.com/xraypy/feff85exafs/wiki).
 
-Compilation uses fairly generic Makefiles.  Testing requires
-[python's nose tool](https://nose.readthedocs.org/en/latest/).
+ * This project is sometimes called Feff8L or Feff85exafs.  The "L" implies "Lite" (as in diluted
+   beer, not illumination), "85" comes from the version of Feff (8.5) that this version is derived
+   from, and "exafs" is because this version is used to calculate EXAFS only -- not XANES or other
+   core-level spectroscopies.  Using either Feff8L or feff85exafs or some combination of these is
+   fine with us.
 
-To set compilation flags, edit the `Makefile`.
+* Build and Installation instructions are given in [`Install.md`](Install.md), with more details in
+ [`src/README.md`](src/README.md) .
 
-To compile, test, and build, do the following in the top directory
+* There are extensive tests for Feff8L in the [`tests`](tests) directory.  To run these, you will
+  need [Larch](https://github.com/xraypy/xraylarch)
 
-```
-	  feff8l> make
-	  feff8l> LD_LIBRARY_PATH='wrappers/python:src/GENFMT' && nosetests --verbosity=3
-	  feff8l> sudo make install
-```
-
-See [`src/README.md`](src/README.md) for details on compiling this
-version of Feff, including compiling against
-[json-fortran](https://github.com/jacobwilliams/json-fortran).
-
-For example programs using the fortran entry point to the stand-alone
-F_eff calculations or programs using the C wrapper see the `wrappers/`
-directory.  There you will also find language bindings to the C
-wrapper, including python and perl.
+* Example programs using the fortran entry point to the stand-alone F_eff calculations or programs
+  using the C wrapper can be found in the `wrappers/` directory.  There you will also find language
+  bindings to the C wrapper, including python and perl.
