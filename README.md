@@ -16,7 +16,7 @@ Based on or developed using Distribution: FEFF8.5L Copyright (c) [2013] Universi
    core-level spectroscopies.  Using either Feff8L or feff85exafs or some combination of these is
    fine with us.
 
-* Build and Installation instructions are given in [`Install.md`](Install.md), with more details in
+* Build and Installation instructions are given in [`INSTALL.md`](INSTALL.md), with more details in
  [`src/README.md`](src/README.md) .
 
 * There are extensive tests for Feff8L in the [`tests`](tests) directory.  To run these, you will
