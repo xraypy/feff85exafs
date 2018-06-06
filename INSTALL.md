@@ -23,7 +23,7 @@ usig wget:
 ```
     wget  https://github.com/xraypy/feff85exafs/archive/0.2.tar.gz
     tar xvf 0.2.tar.gz
-	cd feff85exafs-0.2
+    cd feff85exafs-0.2
 ```
 
 using curl:
@@ -31,14 +31,14 @@ using curl:
 ```
     curl -L https://github.com/xraypy/feff85exafs/archive/0.2.tar.gz
     tar xvf 0.2.tar.gz
-	cd feff85exafs-0.2
+    cd feff85exafs-0.2
 ```
 
 using git:
 
 ```
      git clone https://github.com/xraypy/feff85exafs.git
-	 cd feff85exafs
+     cd feff85exafs
 ```
 
 ## Build and install
@@ -46,7 +46,7 @@ using git:
 It should be possible to build feff8l with
 
 ```
-     make install
+    make install
 ```
 
 By default, this will place the executables in the `local_install` folder
