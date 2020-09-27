@@ -20,7 +20,7 @@
 cc    geom.dat
       integer  nat, iatph(0:nphx), iphat(natx), ibounc(natx)
       double precision  rat(3,natx)
-cc    global.dat 
+cc    global.dat
 c       configuration average
         integer nabs, iphabs
 c       global polarization data
@@ -53,76 +53,6 @@ c  30  format (6f13.5)
       call json_read_global(nabs, iphabs, rclabs, ipol, ispin, le2,
      1                      elpty, angks, evec, xivec, spvec, ptz)
 
-
-c--json--c     Read  geom.dat file
-c--json--      open (file='geom.dat', unit=3, status='old',iostat=ios)
-c--json--c       read header from geom.dat
-c--json--        nhead = nheadx
-c--json--        call rdhead (3, nhead, head, lhead)
-c--json--        nat = 0
-c--json--        nph = 0
-c--json--        do 40 iph = 0, nphx
-c--json--  40    iatph(iph) = 0
-c--json--  50    continue
-c--json--           nat = nat+1
-c--json--           if (nat .gt. natx)  then
-c--json--              write(slog,55) ' nat, natx ', nat, natx
-c--json--              call wlog(slog)
-c--json--  55          format(a, 2i10)
-c--json--              stop 'Bad input'
-c--json--           endif
-c--json--           read(3,*,end=60)  idum, (rat(j,nat),j=1,3), iphat(nat), i1b
-c--json--           if (iphat(nat).gt.nph) nph = iphat(nat)
-c--json--           if ( iatph(iphat(nat)).eq.0) iatph(iphat(nat)) = nat
-c--json--        goto 50
-c--json--  60    continue
-c--json--        nat = nat-1
-c--json--      close(3)
-
-
-cc    global.inp
-c--json--      open (file='global.dat', unit=3, status='unknown',iostat=ios)
-c--json--c       configuration average data
-c--json--        read  (3, 10) slog
-c--json--        read  (3, 65) nabs, iphabs, rclabs
-c--json--  65    format ( 2i8, f13.5)
-c--json--c       global polarization data
-c--json--        read  (3,10)   slog
-c--json--        read  (3, 70)  ipol, ispin, le2, elpty, angks
-c--json--  70    format ( 3i5, 2f12.4)
-c--json--        read  (3, 10) slog
-c--json--        do 80 i = 1,3
-c--json--          read  (3,30) evec(i), xivec(i), spvec(i)
-c--json--  80    continue
-c--json--        read  (3, 10) slog
-c--json--        do 90 i = -1, 1
-c--json--          read (3,30) a1, b1, a2, b2, a3, b3
-c--json--          ptz(-1,i)= dcmplx(a1,b1)
-c--json--          ptz(0,i) = dcmplx(a2,b2)
-c--json--          ptz(1,i) = dcmplx(a3,b3)
-c--json--  90    continue
-c--json--      close(3)
-
-
-c--json--c     read mod2.inp
-c--json--c     Josh - added flag iPl for PLASMON card
-c--json--c     Josh - added flag iGrid for user controlled grids.
-c--json--      open (file='mod2.inp', unit=3, status='old',iostat=ios)
-c--json--        read (3,10)  slog
-c--json--        read (3,20)  mphase,ipr2,ixc,ixc0,ispec,lreal,lfms2,nph,l2lp,
-c--json--     &       iPl,iGrid
-c--json--        read (3,10)  slog
-c--json--        read (3,30)  vr0, vi0
-c--json--        read (3,10)  slog
-c--json--        read (3,20)  (lmaxph(iph),iph=0,nph)
-c--json--        read (3,10)  slog
-c--json--        read (3,170)  (potlbl(iph),iph=0,nph)
-c--json--  170   format (13a6)
-c--json--        read (3,10)  slog
-c--json--        read (3,30)  rgrd, rfms2, gamach, xkstep, xkmax, vixan
-c--json--        read (3,30)  (spinph(iph),iph=0,nph)
-c--json--        read (3,20)  izstd, ifxc, ipmbse, itdlda, nonlocal, ibasis
-c--json--      close(3)
 
       call json%load_file('xsph.json')
       if (json_failed()) then   !if there was an error reading the file
@@ -172,17 +102,17 @@ c--json--      close(3)
                    if (.not. found) call bailout('vixan', 'xsph.json')
 
          call json%get('izstd',   izstd, found)
-                   if (.not. found) call bailout('izstd')
+                   if (.not. found) call bailout('izstd', 'xsph.json')
          call json%get('ifxc',   ifxc, found)
-                   if (.not. found) call bailout('ifxc')
+                   if (.not. found) call bailout('ifxc', 'xsph.json')
          call json%get('ipmbse',   ipmbse, found)
-                   if (.not. found) call bailout('ipmbse')
+                   if (.not. found) call bailout('ipmbse', 'xsph.json')
          call json%get('itdlda',   itdlda, found)
-                   if (.not. found) call bailout('itdlda')
+                   if (.not. found) call bailout('itdlda', 'xsph.json')
          call json%get('nonlocal',   nonlocal, found)
-                   if (.not. found) call bailout('nonlocal')
+                if (.not. found) call bailout('nonlocal', 'xsph.json')
          call json%get('ibasis',   ibasis, found)
-                   if (.not. found) call bailout('ibasis')
+                   if (.not. found) call bailout('ibasis', 'xsph.json')
 
          call json%get('potlbl', strings, found)
                    if (.not. found) call bailout('potlbl', 'xsph.json')
@@ -193,12 +123,12 @@ c            potlbl(itit-1) = strings(itit)
          call json%get('lmaxph', intgs, found)
                    if (.not. found) call bailout('lmaxph', 'xsph.json')
          do 1010 iph = 0, nphx
-            lmaxph(iph) = intgs(iph+1)            
+            lmaxph(iph) = intgs(iph+1)
  1010    continue
          call json%get('spinph', dbpcs, found)
                    if (.not. found) call bailout('spinph', 'xsph.json')
          do 1020 iph = 0, nphx
-            spinph(iph) = dbpcs(iph+1)            
+            spinph(iph) = dbpcs(iph+1)
  1020    continue
 
          call json%destroy()
