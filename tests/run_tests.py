@@ -12,8 +12,8 @@ import nose
 import pytest
 
 import larch
-from larch_plugins.xafs.feffdat import feffpath
-from larch_plugins.io import read_ascii
+from larch.xafs import feffpath
+from larch.io import read_ascii
 
 from f85ut import ut
 
