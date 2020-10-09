@@ -61,7 +61,7 @@ c            index 0 and index nleg both refer to central atom,
 c            which makes special code unnecessary later.
 
       sigtot=0
-      do 800 il=1,nleg
+      do 801 il=1,nleg
       do 800 jl=il,nleg
 
 c        calculate r_i-r_i-1 and r_j-r_j-1
@@ -95,7 +95,8 @@ c        double count i .ne. j  terms
          sig2ij=sig2ij*ridotj
          sigtot=sigtot+sig2ij
 
-  800 continue
+ 800  continue
+ 801  continue
       sig2=sigtot/4
 
 c     sig2 is in bohr**2, just as we wanted for ff2chi
@@ -208,9 +209,10 @@ c     b_n+1=(b_n)/2+deln*sum_0^2**n f([2n-1]deln)
       if(n.gt.nmax) go to 40
       del=del/2
       sum=0.
-      do 20 i=1, itn
-      zi=(2*i-1)*del
- 20   sum=sum+fn2(zi)
+      do i=1, itn
+         zi=(2*i-1)*del
+         sum=sum+fn2(zi)
+      enddo
 c     bnp1=b_n+1 is current value of integral
       bnp1=bn/2+del*sum
 c     cancel leading error terms b=[4b-bn]/3

@@ -93,10 +93,10 @@ c     wp     - estimate of plasmon frequency from rhoint
      1            jumprm, iunf
   30  format(9(1x,i4))
 c     nph and npadx are not passed to calling subroutine
-      do 133  i  = 1, ntitle
+      do i  = 1, ntitle
          read(3,10) title(i)
          call triml(title(i))
-  133 continue
+      enddo
 c     Misc double precision stuff from pot.pad
       call rdpadd(3, npadx, dum(1), 13)
       rnrmav = dum(1)
@@ -140,8 +140,9 @@ c     read inrm
       call rdpadd(3, npadx, dmag(1,0), 251*(nph+1) )
       call rdpadd(3, npadx, xnval(1,0), 30*(nph+1) )
       call rdpadd(3, npadx, eorb(1), 30)
-      do 50 iph=0,nph
- 50   read (3, 60) (iorb(i,iph),i=-4,3)
+      do iph=0,nph
+         read (3, 60) (iorb(i,iph),i=-4,3)
+      enddo
  60   format(8(1x,i2))
       call rdpadd(3, npadx, qnrm(0), nph+1 )
       nn = (lx+1)*(nph+1)

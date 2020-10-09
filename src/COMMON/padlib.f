@@ -267,7 +267,7 @@ c   packed-ascii-data string converted to real array using  unpad
              ipts = ipts + 1
              tmpr = unpad(str(1-np+i*np:-npack+i*np),npack)
              tmpi = unpad(str(1-npack+i*np:i*np),npack)
-             array(ipts) = cmplx(tmpr, tmpi)
+             array(ipts) = cmplx(tmpr, tmpi, 4)
              if (ipts.ge.npts) go to 50
  30       continue 
           go to 10
@@ -310,7 +310,7 @@ c   packed-ascii-data string converted to real array using  unpad
              ipts = ipts + 1
              tmpr = unpad(str(1-np+i*np:-npack+i*np),npack)
              tmpi = unpad(str(1-npack+i*np:i*np),npack)
-             array(ipts) = cmplx(tmpr, tmpi)
+             array(ipts) = cmplx(tmpr, tmpi, 4)
              if (ipts.ge.npts) go to 50
  30       continue 
           go to 10
