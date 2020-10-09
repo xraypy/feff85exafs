@@ -85,52 +85,56 @@ c      print *, istrln(phpad), '--', phpad(1:istrln(phpad)), '--'
 c     call rdpadx(1, npadx, eref(1), ne)
       call rdpadx (1, npadx, temp(1), ne*nsp)
       ii = 0
-      do 60 isp = 1, nsp
-      do 60 ie=1, ne
-        ii = ii + 1
-        eref (ie, isp) = temp(ii)
-  60  continue
+      do isp = 1, nsp
+         do ie=1, ne
+            ii = ii + 1
+            eref(ie, isp) = temp(ii)
+         enddo
+      enddo
 
-      do 80  iph = 0, nph
+
+      do iph = 0, nph
          read(1, 20)  lmax0(iph), iz(iph), potlbl(iph)
   20     format(2(1x,i3), 1x, a6)
-
-         do 75 isp = 1,nsp 
+         do isp = 1,nsp 
             ii = ne * (2*lmax0(iph)+1)
             call rdpadx (1, npadx, temp(1), ii )
             ii = 0
-            do 70  ie = 1, ne
-            do 70  ll = -lmax0(iph), lmax0(iph)
-               ii = ii+ 1
-               ph(ie,ll,isp,iph) = temp(ii)
-   70       continue
-   75    continue
-   80 continue
-
+            do ie = 1, ne
+               do ll = -lmax0(iph), lmax0(iph)
+                  ii = ii+ 1
+                  ph(ie,ll,isp,iph) = temp(ii)
+               enddo
+            enddo
+         enddo
+      enddo
+      
       call rdpadx (1, npadx, temp(1), ne*8*nsp)
       ii = 0
-      do 90 isp = 1,nsp 
-      do 90 kdif = 1, 8
-      do 90 ie=1, ne
-        ii = ii + 1
-        rkk (ie, kdif, isp) = temp(ii)
-  90  continue
-
+      do isp = 1,nsp 
+         do kdif = 1, 8
+            do ie=1, ne
+               ii = ii + 1
+               rkk (ie, kdif, isp) = temp(ii)
+            enddo
+         enddo
+      enddo
       close (unit=1)
 
 c     make additional data for output
       lmaxp1 = 0
-      do 180  iph = 0, nph
-      do 180  ie = 1, ne
-c        Set lmax to include only non-zero phases
-         do 160  il =  lmax0(iph), 0, -1
-            lmax(ie,iph) = il
-            if (abs(sin(ph(ie, il, 1, iph))) .gt. phmin .or.
-     3          abs(sin(ph(ie, il,nsp,iph))) .gt. phmin)  goto 161
-  160    continue
-  161    continue
-         if (lmax(ie,iph)+1 .gt. lmaxp1)  lmaxp1 = lmax(ie,iph)+1
-  180 continue
+      do iph = 0, nph
+         do ie = 1, ne
+c     Set lmax to include only non-zero phases
+            do il = lmax0(iph), 0, -1
+               lmax(ie,iph) = il
+               if (abs(sin(ph(ie, il, 1, iph))) .gt. phmin .or.
+     3              abs(sin(ph(ie, il,nsp,iph))) .gt. phmin)  goto 161
+            enddo
+ 161        continue
+            if (lmax(ie,iph)+1 .gt. lmaxp1)  lmaxp1 = lmax(ie,iph)+1
+         enddo
+      enddo
 
       return
       end

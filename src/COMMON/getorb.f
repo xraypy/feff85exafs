@@ -826,8 +826,10 @@ c        only with s02=0.0. New recipe remedy this deficiency.
 
 c     find where to put screening electron
       index1 = index + 1
-      do 10  i = 1, 29
- 10   if (iscr.eq.0 .and. (iocc(index1,i)-iocc(index,i)).gt.0.5) iscr=i
+      do i = 1, 29
+         if (iscr.eq.0 .and.
+     1        (iocc(index1,i)-iocc(index,i)).gt.0.5) iscr=i
+      enddo
 c     special case of hydrogen like ion
 c     if (index.eq.1) iscr=2
 
@@ -848,9 +850,10 @@ c        except special cases
       endif
 
       norb = 0
-      do 19 i=-4, 3
- 19   iorb(i) = 0
-      do 20  i = 1, 29
+      do i=-4, 3
+         iorb(i) = 0
+      enddo
+      do i = 1, 29
          if (iocc(index,i).gt.0 .or. (i.eq.iscr .and. ihole.gt.0)
      1       .or. (i.eq.iion .and. iocc(index,i)-delion.gt.0))  then
             if (i.ne.ihole .or. iocc(index,i).ge.1) then
@@ -876,11 +879,11 @@ c        except special cases
                if (i.eq.iion)  xnval(norb) = xnval(norb) - delion
             endif
          endif
-   20 continue
+      enddo
       norbco = norb
 
 c     check that all occupation numbers are within limits
-      do 50 i = 1, norb
+      do i = 1, norb
          if ( xnel(i).lt.0 .or.  xnel(i).gt.2*abs(nk(i)) .or.
      1       xnval(i).lt.0 .or. xnval(i).gt.2*abs(nk(i)) ) then
             write (slog,55) i
@@ -889,7 +892,7 @@ c     check that all occupation numbers are within limits
             call wlog(slog)
             call par_stop('GETORB-99')
          endif
-  50  continue
+      enddo
 c      do 60 i=1,norb
 c60    xnval(i) = 0.0d0
 c60    xnval(i) = xnel(i)

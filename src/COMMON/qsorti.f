@@ -47,8 +47,9 @@ C
       NDEEP=0
       U1=N
       L1=1
-      DO 1  I=1,N
-    1 ORD(I)=I
+      DO I=1,N
+         ORD(I)=I
+      enddo
     2 IF (U1.LE.L1) THEN
          RETURN
       END IF
