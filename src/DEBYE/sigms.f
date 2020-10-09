@@ -60,41 +60,43 @@ c            index 0 and index nleg both refer to central atom,
 c            which makes special code unnecessary later.
 
       sigtot=0
-      do 800 il=1,nleg
-      do 800 jl=il,nleg
+      do il=1,nleg
+         do jl=il,nleg
 
-c        calculate r_i-r_i-1 and r_j-r_j-1
+c     calculate r_i-r_i-1 and r_j-r_j-1
 
-         rij = dist (rat(1,il), rat(1,jl))
-         call corrfn (rij, cij, thetad, tk, iz(il), iz(jl), rs)
-         sig2ij=cij
-
-         rimjm = dist (rat(1,il-1), rat(1,jl-1))
-         call corrfn (rimjm, cimjm, thetad, tk, iz(il-1), iz(jl-1), rs)
-         sig2ij=sig2ij+cimjm
-
-         rijm = dist (rat(1,il), rat(1,jl-1))
-         call corrfn (rijm, cijm, thetad, tk, iz(il), iz(jl-1), rs)
-         sig2ij=sig2ij-cijm
-
-         rimj = dist (rat(1,il-1), rat(1,jl))
-         call corrfn (rimj, cimj, thetad, tk, iz(il-1), iz(jl), rs)
-         sig2ij=sig2ij-cimj
-
-         riim = dist (rat(1,il), rat(1,il-1))
-         rjjm = dist (rat(1,jl), rat(1,jl-1))
-
-         ridotj=(rat(1,il)-rat(1,il-1))*(rat(1,jl)-rat(1,jl-1))+
-     1          (rat(2,il)-rat(2,il-1))*(rat(2,jl)-rat(2,jl-1))+
-     2          (rat(3,il)-rat(3,il-1))*(rat(3,jl)-rat(3,jl-1))
-         ridotj=ridotj/(riim*rjjm)
-
-c        double count i .ne. j  terms
-         if(jl.ne.il) sig2ij=2*sig2ij
-         sig2ij=sig2ij*ridotj
-         sigtot=sigtot+sig2ij
-
-  800 continue
+            rij = dist (rat(1,il), rat(1,jl))
+            call corrfn (rij, cij, thetad, tk, iz(il), iz(jl), rs)
+            sig2ij=cij
+            
+            rimjm = dist (rat(1,il-1), rat(1,jl-1))
+            call corrfn (rimjm, cimjm, thetad, tk, iz(il-1),
+     1           iz(jl-1), rs)
+            sig2ij=sig2ij+cimjm
+            
+            rijm = dist (rat(1,il), rat(1,jl-1))
+            call corrfn (rijm, cijm, thetad, tk, iz(il), iz(jl-1), rs)
+            sig2ij=sig2ij-cijm
+            
+            rimj = dist (rat(1,il-1), rat(1,jl))
+            call corrfn (rimj, cimj, thetad, tk, iz(il-1), iz(jl), rs)
+            sig2ij=sig2ij-cimj
+            
+            riim = dist (rat(1,il), rat(1,il-1))
+            rjjm = dist (rat(1,jl), rat(1,jl-1))
+            
+            ridotj=(rat(1,il)-rat(1,il-1))*(rat(1,jl)-rat(1,jl-1))+
+     1           (rat(2,il)-rat(2,il-1))*(rat(2,jl)-rat(2,jl-1))+
+     2           (rat(3,il)-rat(3,il-1))*(rat(3,jl)-rat(3,jl-1))
+            ridotj=ridotj/(riim*rjjm)
+            
+c     double count i .ne. j  terms
+            if(jl.ne.il) sig2ij=2*sig2ij
+            sig2ij=sig2ij*ridotj
+            sigtot=sigtot+sig2ij
+            
+         enddo
+      enddo
       sig2=sigtot/4
 
 c     sig2 is in bohr**2, just as we wanted for ff2chi
@@ -206,9 +208,11 @@ c     b_n+1=(b_n)/2+deln*sum_0^2**n f([2n-1]deln)
       if(n.gt.nmax) go to 40
       del=del/2
       sum=0.
-      do 20 i=1, itn
-      zi=(2*i-1)*del
- 20   sum=sum+fn(zi)
+      do i=1, itn
+         zi=(2*i-1)*del
+         sum=sum+fn(zi)
+      enddo
+      
 c     bnp1=b_n+1 is current value of integral
       bnp1=bn/2+del*sum
 c     cancel leading error terms b=[4b-bn]/3

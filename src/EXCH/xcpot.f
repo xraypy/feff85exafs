@@ -413,22 +413,25 @@ c     perturbation  deltav = v - vmt it cancels out.
 c     ( deltav = vat - igamma - (vatmt-igamma) ).
 
  888  eref = v(jri1)
-      do 910 i = 1, jri1
-  910 v(i) = v(i) - eref
+      do i = 1, jri1
+         v(i) = v(i) - eref
+      enddo
       if (ixc.ge.5) then
-         do 920 i = 1, jri1
-  920    vval(i) = vval(i) - eref
+         do i = 1, jri1
+            vval(i) = vval(i) - eref
+         enddo
       else
-         do 930 i = 1, jri1
-  930    vval(i) = v(i)
+         do i = 1, jri1
+            vval(i) = v(i)
+         enddo
       endif
 
 c     Real self energy, zero imag part
       if (lreal.gt.0)  then
-         do 950  i = 1, jri1
+         do i = 1, jri1
             v(i) = dble(v(i))
             if (ixc.gt.4)  vval(i) = dble(vval(i))
-  950    continue
+         enddo
          eref = dble(eref)
       endif
 

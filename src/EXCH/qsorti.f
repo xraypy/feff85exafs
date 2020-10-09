@@ -47,8 +47,9 @@ C
       NDEEP=0
       U1=N
       L1=1
-      DO 1  I=1,N
-    1 ORD(I)=I
+      DO I=1,N
+        ORD(I)=I
+      enddo
     2 IF (U1.LE.L1) RETURN
 C
     3 L=L1
@@ -67,8 +68,8 @@ C     WHERE "CLE" IS A LOGICAL FUNCTION WHICH RETURNS "TRUE" IF THE
 C     FIRST ARGUMENT IS LESS THAN OR EQUAL TO THE SECOND, BASED ON "LEN"
 C     CHARACTERS.
 C
-      X=A(ORD(P))
-      Z=A(ORD(Q))
+      X=INT(A(ORD(P)))
+      Z=INT(A(ORD(Q)))
       IF (X.LE.Z) GO TO 5
       Y=X
       X=Z
@@ -86,7 +87,7 @@ C LEFT
 C
     6 P=P+1
       IF (P.GE.Q) GO TO 7
-      X=A(ORD(P))
+      X=INT(A(ORD(P)))
       IF (X.GE.XX) GO TO 8
       GO TO 6
     7 P=Q-1
@@ -96,13 +97,13 @@ C RIGHT
 C
     8 Q=Q-1
       IF (Q.LE.P) GO TO 9
-      Z=A(ORD(Q))
+      Z=INT(A(ORD(Q)))
       IF (Z.LE.ZZ) GO TO 10
       GO TO 8
     9 Q=P
       P=P-1
       Z=X
-      X=A(ORD(P))
+      X=INT(A(ORD(P)))
 C
 C DIST
 C

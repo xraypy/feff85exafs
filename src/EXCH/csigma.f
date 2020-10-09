@@ -225,6 +225,7 @@ c     &     Gamma*LOG(Gamma**2 + Wi**2)
 c      Wp = SQRT(Wi*Wp)
       
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+      Sigma1 = (0.d0, 0.d0)
       DO i1 = 1, 1
          IF(i1.eq.2) THEN
             DPPar(1) = 0.d0
@@ -394,6 +395,7 @@ c     HFExc       - Calculates Hartree Fock exchange
       EXTERNAL cgratr, dr1, dr2, dr3, HFExc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc            
 c     Initialization:
+      DSigma = (0.d0, 0.d0)      
       NSing  = 0
       NCalls = 0
       MaxNR  = 0
@@ -815,18 +817,19 @@ c     The singular points just govern the initial placement of the regions.
       xleft(1)=xmin
       xleft(nsing+2)=xmax
       if(nsing.gt.0) then
-         do 9 j=1,nsing
+         do j=1,nsing
             xleft(j+1)=xsing(j)
- 9       continue
+         enddo
       endif
 c     For each region, calculate the function and store at three selected points.
-      do 1 jj=1,nstack
+      do jj=1,nstack
          del=xleft(jj+1)-xleft(jj)
 c     print*, 'fn call j= ,'
-         do 1 j=1,3
+         do j=1,3
 c     print*, 'fn call in cgratr j= ',j
             fval(j,jj)=fn(xleft(jj)+del*dx(j),dppar,cpar)
- 1    continue
+         enddo
+      enddo
 c     print*, 'output of fn call, fval(j,jj)',fval(j,jj)
       numcal = nstack * 3
  6    continue
