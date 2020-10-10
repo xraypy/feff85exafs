@@ -14,7 +14,7 @@ c     NSol = -1 means a and b are zero
 ccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Local Variables
       COMPLEX*16 q, Sqrt
-      DOUBLE PRECISION Sgn
+      DOUBLE PRECISION Sgn, Root
 
       IF(Coef(1).eq.0.d0) THEN
          IF(Coef(2).eq.0.d0) THEN
@@ -26,7 +26,7 @@ c     Local Variables
          END IF
       ELSE
          NSol = 2
-         Root = Sqrt(Coef(2)**2-4.d0*Coef(1)*Coef(3))
+         Root = DBLE(Sqrt(Coef(2)**2-4.d0*Coef(1)*Coef(3)))
          Sgn  = SIGN(DBLE(CONJG(Coef(2))*Root),1.d0)
          q    = -0.5d0*(Coef(2) + Sgn*Root)
 

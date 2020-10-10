@@ -87,17 +87,23 @@ c     total and orbital momenta for 8 possible final kappa
 
       external cwig3j
 
-      do 10 i6 = 1, 8
-      do 10 i5 = 0 ,1
-      do 10 i4 = -lx,lx
-      do 10 i3 = 1, 8
-      do 10 i2 = 0 ,1
-      do 10 i1 = -lx,lx
-         bmat( i1, i2, i3, i4, i5, i6) = 0
-  10  continue
+      do i6 = 1, 8
+         do i5 = 0 ,1
+            do i4 = -lx,lx
+               do i3 = 1, 8
+                  do i2 = 0 ,1
+                     do i1 = -lx,lx
+                        bmat( i1, i2, i3, i4, i5, i6) = 0
+                     enddo
+                  enddo
+               enddo
+            enddo
+         enddo
+      enddo
+
 
 c     3 dipole transitions
-      do 20 k=-1,1
+      do k=-1,1
          kap=kinit+k
          if (k.eq.0) kap=-kap
          jkap = abs(kap)
@@ -113,10 +119,10 @@ c          set final j and l to unphysical values
          jind(k+2) = jkap
          lind(k+2) = lkap
          kind(k+2) = kap
-  20  continue
+      enddo
 
 c     include 5 quadrupole or 3 mag.dipole  transitions
-      do 120 k=-2,2
+      do k=-2,2
          jkap = abs(kinit) + k
          if (jkap.le.0) jkap = 0
          kap= jkap
@@ -134,164 +140,204 @@ c           set unphysical jkap and lkap to make shorter calculations
          jind(k+6) = jkap
          lind(k+6) = lkap
          kind(k+6) = kap
- 120  continue
+      enddo
 
       if (ipol.eq.0) then
 c       polarization average case; bmat is diagonal and simple
-        do 100 k = 1, 8
-        do 100 ms = 0 ,1
-        do 100 ml = -lind(k), lind(k)
-c         i2 = (2*l1+1) , where l1 is defined by multipole moment
-          i2 = 3
-          if (le2.eq.2 .and. k.gt.3) i2 = 5
-          bmat(ml,ms,k, ml,ms,k) = 0.5d0 / (2*lind(k)+1.d0) / i2
-          if (k.le.3) bmat(ml,ms,k, ml,ms,k) = - bmat(ml,ms,k, ml,ms,k)
- 100    continue
+        do k = 1, 8
+           do ms = 0 ,1
+              do ml = -lind(k), lind(k)
+c                i2 = (2*l1+1) , where l1 is defined by multipole moment
+                 i2 = 3
+                 if (le2.eq.2 .and. k.gt.3) i2 = 5
+                 bmat(ml,ms,k, ml,ms,k) = 0.5d0 / (2*lind(k)+1.d0) / i2
+                 if (k.le.3)
+     $                bmat(ml,ms,k, ml,ms,k) = - bmat(ml,ms,k, ml,ms,k)
+              enddo
+           enddo
+        enddo
       else
 c       more complicated bmat for linear(ipol=1) and circular(ipol=2)
 c       polarizations
 c       Put 3j factors in x3j and t3j. t3j are multiplied by
 c       sqrt(2*j'+1) for  further convinience.
-        do 30  mp=-lx,lx+1
-        do 30  ms=0,1
-        do 30  k1=1,8
-  30    t3j(k1,ms,mp) = 0.0d0
-        do 40  mp=-lx,lx+1
-        do 40  ms=-1,1
-        do 40  k1=1,8
-  40      x3j(k1,ms,mp) = 0.0d0
-
-        do 70  k1 = 1,8
-        do 70  mp = -jind(k1)+1,jind(k1)
-          do 50 ms=0,1
-            j1 = 2 * lind(k1)
-            j2 = 1
-            j3 = 2 * jind(k1) - 1
-            m1 = 2*(mp-ms)
-            m2 = 2*ms - 1
-            t3j(k1,ms,mp)=sqrt(j3+1.0d0) * cwig3j(j1,j2,j3,m1,m2,2)
-            if (mod( (j2-j1-m1-m2)/2 , 2) .ne.0)
-     1          t3j(k1,ms,mp) = - t3j(k1,ms,mp)
-c           t3j(m0,i)    are Clebsch-Gordon coefficients
-  50      continue
-          do 60 i=-1,1
-            j1 = 2 * jind(k1) - 1
-            j2 = 2
-            if (k1.gt.3 .and. le2.eq.2) j2 = 4
-            j3 = 2 * abs(kinit) - 1
-            m1 = -2*mp + 1
-            m2 = 2*i
-            x3j(k1,i,mp)= cwig3j(j1,j2,j3,m1,m2,2)
-  60      continue
-  70    continue
+        do mp=-lx,lx+1
+           do ms=0,1
+              do k1=1,8
+                 t3j(k1,ms,mp) = 0.0d0
+              enddo
+           enddo
+        enddo
+        do mp=-lx,lx+1
+           do ms=-1,1
+              do k1=1,8
+                 x3j(k1,ms,mp) = 0.0d0
+              enddo
+           enddo
+        enddo
+        do k1 = 1,8
+           do mp = -jind(k1)+1,jind(k1)
+              do ms=0,1
+                 j1 = 2 * lind(k1)
+                 j2 = 1
+                 j3 = 2 * jind(k1) - 1
+                 m1 = 2*(mp-ms)
+                 m2 = 2*ms - 1
+                 t3j(k1,ms,mp)=sqrt(j3+1.0d0) * cwig3j(j1,j2,j3,m1,m2,2)
+                 if (mod( (j2-j1-m1-m2)/2 , 2) .ne.0)
+     1                t3j(k1,ms,mp) = - t3j(k1,ms,mp)
+c                t3j(m0,i)    are Clebsch-Gordon coefficients
+              enddo
+              do i=-1,1
+                 j1 = 2 * jind(k1) - 1
+                 j2 = 2
+                 if (k1.gt.3 .and. le2.eq.2) j2 = 4
+                 j3 = 2 * abs(kinit) - 1
+                 m1 = -2*mp + 1
+                 m2 = 2*i
+                 x3j(k1,i,mp)= cwig3j(j1,j2,j3,m1,m2,2)
+              enddo
+           enddo
+        enddo
 
 c       calculate qmat
-        do 220 i=1,8
-        do 220 ms=0,1
-        do 220 ml= -lind(i), lind(i)
-        do 220 mj= -jind(i)+1, jind(i)
-          mp = ml+ms
-          jj = 2*jind(i) - 1
-          mmj = 2*mj - 1
-          mmp = 2*mp - 1
-          value = rotwig(angks, jj, mmj, mmp, 2)
-          qmat(mj,ml,ms,i) = value * t3j(i,ms,mp)
- 220    continue
+        do i=1,8
+           do ms=0,1
+              do ml= -lind(i), lind(i)
+                 do mj= -jind(i)+1, jind(i)
+                    mp = ml+ms
+                    jj = 2*jind(i) - 1
+                    mmj = 2*mj - 1
+                    mmp = 2*mp - 1
+                    value = rotwig(angks, jj, mmj, mmp, 2)
+                    qmat(mj,ml,ms,i) = value * t3j(i,ms,mp)
+                 enddo
+              enddo
+           enddo
+        enddo
 
 c       calculate pmat
-        do 240 i2 = 1,8
-        do 240 m2 = -jind(i2)+1, jind(i2)
-        do 240 i1 = 1,8
-        do 240 m1 = -jind(i1)+1, jind(i1)
-          pmat(m1,i1,m2,i2) = 0
-          if (abs(m2-m1).le.2) then
-            do 230 j=-1,1
-            do 230 i=-1,1
-c             check that initial moment is the same
-              if (m1-i.eq.m2-j) then
-                is = 1
-c               (-p) factors for M1 transitions
-                if (le2.eq.1 .and. i.gt.0 .and. i1.gt.3) is = -is
-                if (le2.eq.1 .and. j.gt.0 .and. i2.gt.3) is = -is
-                pmat(m1,i1,m2,i2) = pmat(m1,i1,m2,i2) +
-     1          is * x3j(i1,i,m1) * ptz(i,j) * x3j(i2,j,m2)
-              endif
- 230        continue
-c           multiply by (-)^(j-j'+l2'+1) i**(l'-l) factor
-c           additional (-) is from Eq.10 (-2*ck)
-            is = 1
-            if (mod(jind(i1)-jind(i2), 2) .ne.0) is = -is
-            if (i2.le.3) is = -is
-            pmat(m1,i1,m2,i2) = pmat(m1,i1,m2,i2) * is
-     1           * coni**(lind(i2)-lind(i1))
-          endif
- 240    continue
+        do i2 = 1,8
+           do m2 = -jind(i2)+1, jind(i2)
+              do i1 = 1,8
+                 do m1 = -jind(i1)+1, jind(i1)
+                    pmat(m1,i1,m2,i2) = 0
+                    if (abs(m2-m1).le.2) then
+                       do j=-1,1
+                          do i=-1,1
+c     check that initial moment is the same
+                             if (m1-i.eq.m2-j) then
+                                is = 1
+c     (-p) factors for M1 transitions
+                                if (le2.eq.1 .and. i.gt.0 .and. i1.gt.3)
+     $                               is = -is
+                                if (le2.eq.1 .and. j.gt.0 .and. i2.gt.3)
+     $                               is = -is
+                                pmat(m1,i1,m2,i2) = pmat(m1,i1,m2,i2) +
+     $                       is * x3j(i1,i,m1) * ptz(i,j) * x3j(i2,j,m2)
+                             endif
+                          enddo
+                       enddo
+c     multiply by (-)^(j-j'+l2'+1) i**(l'-l) factor
+c     additional (-) is from Eq.10 (-2*ck)
+                       is = 1
+                       if (mod(jind(i1)-jind(i2), 2) .ne.0) is = -is
+                       if (i2.le.3) is = -is
+                       pmat(m1,i1,m2,i2) = pmat(m1,i1,m2,i2) * is
+     1                      * coni**(lind(i2)-lind(i1))
+                    endif
+                 enddo
+              enddo
+           enddo
+        enddo
 
 c       calculate tmat = pmat*qmat
-        do 270 i1=1,8
-        do 270 ms=0,1
-        do 270 ml=-lind(i1), lind(i1)
-        do 270 i2=1,8
-        do 270 mj=-jind(i2)+1, jind(i2)
-          tmat(mj,i2, ml,ms,i1) = 0
-          do 260 mp = -jind(i1)+1, jind(i1)
-            tmat(mj,i2, ml,ms,i1) = tmat(mj,i2, ml,ms,i1)+
-     1           pmat(mj,i2,mp,i1) * qmat(mp,ml,ms,i1)
- 260      continue
- 270    continue
+        do i1=1,8
+           do ms=0,1
+              do ml=-lind(i1), lind(i1)
+                 do i2=1,8
+                    do mj=-jind(i2)+1, jind(i2)
+                       tmat(mj,i2, ml,ms,i1) = 0
+                       do mp = -jind(i1)+1, jind(i1)
+                          tmat(mj,i2, ml,ms,i1) = tmat(mj,i2, ml,ms,i1)+
+     1                         pmat(mj,i2,mp,i1) * qmat(mp,ml,ms,i1)
+                       enddo
+                    enddo
+                 enddo
+              enddo
+           enddo
+        enddo
 
 c       calculate bmat = qmat^T * tmat
-        do 300 i1=1,8
-        do 300 ms1=0,1
-        do 300 ml1=-lind(i1), lind(i1)
-        do 300 i2=1,8
-        do 300 ms2=0,1
-        do 300 ml2=-lind(i2), lind(i2)
-          bmat(ml2,ms2,i2, ml1,ms1,i1) = 0
-          do 280 mj=-jind(i2)+1, jind(i2)
-            bmat(ml2,ms2,i2, ml1,ms1,i1) = bmat(ml2,ms2,i2, ml1,ms1,i1)+
-     1      qmat(mj,ml2,ms2,i2) * tmat(mj,i2,ml1,ms1,i1)
- 280      continue
- 300    continue
-c       end of ipol=1,2 cases
+        do i1=1,8
+           do ms1=0,1
+              do ml1=-lind(i1), lind(i1)
+                 do i2=1,8
+                    do ms2=0,1
+                       do ml2=-lind(i2), lind(i2)
+                          bmat(ml2,ms2,i2, ml1,ms1,i1) = 0
+                          do mj=-jind(i2)+1, jind(i2)
+                             bmat(ml2,ms2,i2, ml1,ms1,i1) =
+     $                            bmat(ml2,ms2,i2, ml1,ms1,i1)+
+     $                            qmat(mj,ml2,ms2,i2) *
+     $                            tmat(mj,i2,ml1,ms1,i1)
+                          enddo
+                       enddo
+                    enddo
+                 enddo
+              enddo
+           enddo
+        enddo
+
+c     end of ipol=1,2 cases
       endif
 
       if (ltrace) then
-c       need to trace bmat over ml for xsect.f
-        do 390 i1 = 1, 8
-        do 390 ms1 = 0,1
-        do 390 i2 = 1, 8
-        do 390 ms2 = 0,1
-          if (lind(i1).ne.lind(i2) .or. ms1.ne.ms2) then
-               bmat(0,ms2,i2, 0,ms1,i1) = 0
-          else
-             do 360 ml = 1, lind(i1)
-               bmat(0,ms1,i2, 0,ms1,i1) =  bmat(0,ms1,i2, 0,ms1,i1) +
-     1         bmat(-ml,ms1,i2, -ml,ms1,i1) + bmat(ml,ms1,i2, ml,ms1,i1)
- 360         continue
-          endif
- 390    continue
+c        need to trace bmat over ml for xsect.f
+         do i1 = 1, 8
+            do ms1 = 0,1
+               do i2 = 1, 8
+                  do ms2 = 0,1
+                     if (lind(i1).ne.lind(i2) .or. ms1.ne.ms2) then
+                        bmat(0,ms2,i2, 0,ms1,i1) = 0
+                     else
+                        do ml = 1, lind(i1)
+                           bmat(0,ms1,i2, 0,ms1,i1) =
+     $                          bmat(0,ms1,i2, 0,ms1,i1) +
+     $                          bmat(-ml,ms1,i2, -ml,ms1,i1) +
+     $                          bmat(ml,ms1,i2, ml,ms1,i1)
+                        enddo
+                     endif
+                  enddo
+               enddo
+            enddo
+         enddo
       endif
 
       if (ispin .eq. 0) then
 c       G(Ls,L's') is spin diagonal; trace over spin
-        do 480 i1 = 1, 8
-        do 480 i2 = 1, 8
-        do 480 ml1 = -lind(i1), lind(i1)
-        do 480 ml2 = -lind(i2), lind(i2)
-           bmat(ml2,0,i2, ml1,0,i1) =   bmat(ml2,0,i2, ml1,0,i1) +
-     1                                  bmat(ml2,1,i2, ml1,1,i1)
- 480    continue
+         do i1 = 1, 8
+            do i2 = 1, 8
+               do ml1 = -lind(i1), lind(i1)
+                  do ml2 = -lind(i2), lind(i2)
+                     bmat(ml2,0,i2, ml1,0,i1) =
+     $                    bmat(ml2,0,i2, ml1,0,i1) +
+     $                    bmat(ml2,1,i2, ml1,1,i1)
+                  enddo
+               enddo
+            enddo
+         enddo
       elseif (ispin.eq.2 .or. (ispin.eq.1 .and. nspx.eq.1)) then
 c       move spin up part into the position of spin-down
-        do 490 i1 = 1, 8
-        do 490 i2 = 1, 8
-        do 490 ml1 = -lind(i1), lind(i1)
-        do 490 ml2 = -lind(i2), lind(i2)
-           bmat(ml2,0,i2, ml1,0,i1) =   bmat(ml2,1,i2, ml1,1,i1)
- 490    continue
-
+         do i1 = 1, 8
+            do i2 = 1, 8
+               do ml1 = -lind(i1), lind(i1)
+                  do ml2 = -lind(i2), lind(i2)
+                     bmat(ml2,0,i2, ml1,0,i1) = bmat(ml2,1,i2, ml1,1,i1)
+                  enddo
+               enddo
+            enddo
+         enddo
       endif
-
       return
       end

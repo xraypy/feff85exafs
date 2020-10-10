@@ -1647,8 +1647,7 @@
 !
       END
 
-      INTEGER          FUNCTION ILAENV( ISPEC, NAME, OPTS, N1, N2, N3,  &
-     &                 N4 )
+      INTEGER FUNCTION ILAENV( ISPEC, NAME, OPTS, N1, N2, N3, N4)
 !
 !  -- LAPACK auxiliary routine (version 2.0) --
 !     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -7720,7 +7719,7 @@
 !  -- LAPACK auxiliary routine (version 3.0) --
 !     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
 !     Courant Institute, Argonne National Lab, and Rice University
-!     October 31, 1992 
+!     October 31, 1992
 !
 !     .. Scalar Arguments ..
       CHARACTER          CMACH
@@ -7968,7 +7967,7 @@
          QTR = ONE / 4
          SAVEC = C
          C = SLAMC3( C, -A )
-         LBETA = C + QTR
+         LBETA = INT(C + QTR)
 !
 !        Now determine whether rounding or chopping occurs,  by adding a
 !        bit  less  than  beta/2  and a  bit  more  than  beta/2  to  a.
