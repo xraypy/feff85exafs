@@ -33,7 +33,7 @@ export AR      = ar
 export ARFLAGS = rvc
 export RANLIB  = ranlib
 export RM      = rm -f
-export COPY    = cp -v
+export COPY    = cp
 export MAKEDIR = mkdir -p
 ###########################################################################################
 
