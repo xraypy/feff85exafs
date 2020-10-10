@@ -47,16 +47,16 @@ c$$$      close(unit=8)
 
       if (mbconv .gt.0 .or. s02.le.0.1) s02=s02p
       gamach = gamach / hart
-      do 1000 i=1,nxsec
+      do i=1,nxsec
          xsec(i) = col4(i) + coni*col5(i)
          emxs(i) = (er(i) + coni*ei(i)) / hart
          xkxs(i) = getxk (dble(emxs(i)) - edgep)
          omega(i) = dble(emxs(i)) - edgep + emu
          xsnorm(i) = xsn(i)
- 1000 continue
-      do 1010 i=1,ntitle
+      enddo
+      do i=1,ntitle
          ltitle(i) = istrln(title(i))
- 1010 continue
+      enddo
 
       return
       end
@@ -86,13 +86,13 @@ c     add feff verdion to the first line
   310 format (a2, a45, t48, a30)
 
 c     the rest of the title
-      do 330  ihead = 2, nhead
+      do ihead = 2, nhead
          ll = istrln(head(ihead))
          if (ll .gt. 0)  then
             write(iunit,320) coment, head(ihead)(1:ll)
          endif
   320    format (a2, a)
-  330 continue
+      enddo
       if (dwcorr)  then
          write(iunit,340)  coment, s02, tk, thetad, sig2g
   340    format (a2,' S02=', f5.3, '  Temp=', f7.2,'  Debye_temp=',f7.2,
@@ -197,21 +197,23 @@ c     open the files for sigrm and sigem
       if (idwopt.ge.1) then
 c        initialize statistics for max DW for sigrm
          sig2mx=0
-         do 400 iph1=0,nphx
-         do 400 iph2=0,nphx
-  400    sig2x(iph1, iph2) = 0
+         do iph1=0,nphx
+            do iph2=0,nphx
+               sig2x(iph1, iph2) = 0
+            enddo
+         enddo
       endif
 
 
 c     cycle over all paths in the list
-      do 560  ilist = 1, ntotal
+      do ilist = 1, ntotal
 c        find index of path
-         do 410  j = 1, nptot
+         do j = 1, nptot
             if (ip(ilist) .eq. index(j))  then
                ipath = j
                goto 430
             endif
-  410    continue
+         enddo
          write(slog,420)  ilist, ip(ilist)
   420    format (' did not find path i, ip(i) ', 2i10)
          call wlog(slog)
@@ -236,16 +238,16 @@ c           use tmp variables to call it.  tk, thetad and sig2d are
 c           all dp, and therefore OK.  Also note that sigms takes
 c           inputs in angstroms, except for rs which is in bohr.
             rs = rnrmav
-            do 460  ileg = 1, nleg(ipath)
+            do ileg = 1, nleg(ipath)
                iztmp(ileg) = iz(ipot(ileg,ipath))
-               do 450  j = 1, 3
+               do j = 1, 3
                   rattmp(j,ileg) = rat(j,ileg,ipath) * bohr
-  450          continue
-  460       continue
+               enddo
+            enddo
             iztmp(0) = iztmp(nleg(ipath))
-            do 470  j = 1,3
+            do j = 1,3
                rattmp(j,0) = rattmp(j,nleg(ipath))
-  470       continue
+            enddo
             if (idwopt.eq.0) then
 c             use CD model
               call sigms (tk, thetad, rs, legtot, nleg(ipath),
@@ -291,7 +293,7 @@ c            using Morse potential
 c        put the debye-waller factor and other cumulants into
 c        achi and phchi
          if (mbconv .gt. 0) s02 = 1.0
-         do 480  i = 1, ne1
+         do i = 1, ne1
             dw = exp(-2 * sig2 * ck(i)**2)
             dw1 = exp (2 * coni * ck(i) * sig1)
             dw3 = exp ((-4 * coni * ck(i)**3 * sig3) / 3)
@@ -301,17 +303,17 @@ c        achi and phchi
             achi(i,ipath) = achi(i,ipath) *
      1           real(abs(dw) * s02 * deg(ipath))
             phchi(i,ipath) = phchi(i,ipath) + real(phdw)
-  480    continue
+         enddo
 c        make sure no 2pi jumps in phase
-         do 490  i = 2, ne1
+         do i = 2, ne1
 c           phchi is single precision, so use tmp variables
             curr = phchi (i, ipath)
             old = phchi (i-1, ipath)
             call pijump (curr, old)
             phchi (i, ipath) = real(curr)
-  490    continue
+         enddo
 
-         do 500  ik = 1, nkx
+         do ik = 1, nkx
             call terp1 (xk, achi(1,ipath),  ne1, xk0(ik), achi0)
             call terp1 (xk, phchi(1,ipath), ne1, xk0(ik), phchi0)
             ccpath(ik) =
@@ -319,7 +321,7 @@ c           phchi is single precision, so use tmp variables
 c           note that this already includes s02, deg, sig2, etc.
 c           sum total complex chi
             cchi(ik) = cchi(ik) + ccpath(ik)
-  500    continue
+         enddo
          nused = nused + 1
 
          if (iabs.eq.nabs) then
@@ -347,13 +349,13 @@ c           make filename chipnnnn.dat
   520       format('chip', i4.4, '.dat')
             open (unit=9, file=fname, status='unknown',iostat=ios)
             call chopen (ios, fname, 'ff2chi')
-            do 530  ihead = 1, nhead
+            do ihead = 1, nhead
                lhead = istrln(head(ihead))
                if (lhead .gt. 0)  then
                   write(9,320) head(ihead)(1:lhead)
   320             format (a)
                endif
-  530       continue
+            enddo
             if (dwcorr)  then
                write(9,340)  s02, tk, thetad, sig2g
   340          format (' S02', f7.3, '  Temp', f8.2,'  Debye temp',f8.2,
@@ -379,7 +381,7 @@ c           make filename chipnnnn.dat
             write(9,535)
   535       format ('       k         chi           mag          ',
      1              'phase        phase-2kr  @#')
-            do 540  i = 1, nkx
+            do i = 1, nkx
                ckp = sqrt (xkp(i)*abs(xkp(i)) + xkref)
 c              it would be better to use interpolation for ckp
 c              fix later if complaints about chipnnn.dat files, ala
@@ -392,12 +394,11 @@ c              fix later if complaints about chipnnn.dat files, ala
                write(9,630)  xkp(i)/bohr, dimag(ccc), abs(ccc), phase,
      1                       phase-2*xk0(i)*reff(ipath)
   630          format (1x, f10.4, 3x, 4(1pe13.6,1x))
-  540       continue
+            enddo
             close (unit=9)
          endif
-
   550    continue
-  560 continue
+      enddo
 
 c     close files opened for sigem and sigrem
       if (idwopt.eq.1) then

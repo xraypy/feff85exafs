@@ -121,10 +121,10 @@ c     skip a label line
       read(1,*)
       ntotal = 0
 c     ip is index of path, sig2u is debye-waller from user
-      do 100  i = 1, npx
+      do i = 1, npx
          read(1,*,end=110)  ip(i), sig2u(i)
          ntotal = i
-  100 continue
+      enddo
   110 continue
       close (unit=1)
 
@@ -144,8 +144,9 @@ c !KJ but it avoids confusing changes to the code (eg., new variables).
      $      rat, beta, eta, ri, achi, phchi)
 
 c     make combined title
-      do 120 ihead = 1, nhead
-  120 title(ntitle+ihead) = head(ihead)
+      do ihead = 1, nhead
+         title(ntitle+ihead) = head(ihead)
+      enddo
       ntitle = ntitle + nhead
 
 c     write feffnnnn.dat
@@ -158,7 +159,7 @@ c     write feffnnnn.dat
 
       if (iabs.eq.1) then
 c        compare grids in xsect.bin and feff.pad
-         do 680 i = 1, nxsec
+         do i = 1, nxsec
            del = xk(i)**2 - xkxs(i)**2
            if (abs(ispec).ne.3 .and. abs(del) .gt. 10*eps4)  then
              call wlog(' Emesh in feff.pad and xsect.bin different.')
@@ -171,21 +172,21 @@ c        compare grids in xsect.bin and feff.pad
   670        format(i7, 1p, 3e13.5)
              call par_stop('FF2CHI-1')
            endif
-  680    continue
+        enddo
       endif
 
 c     If there is a vicorr, will need a mean free path factor xlam0.
 c     Use it as  chi(ie) * exp (2 * reff * xlam0)
 c     ckp is ck' = ck prime.
       if (abs(vicorr) .ge. eps4) then
-         do 170  ipath = 1, nptot
-            do 180  ie = 1, ne
+         do ipath = 1, nptot
+            do ie = 1, ne
                ckp = sqrt (ck(ie)**2 + coni*2*vicorr)
                xlam0 = aimag(ck(ie)) - dimag(ckp)
                achi(ie,ipath) = achi(ie,ipath) *
      1              real(exp (2 * reff(ipath) * xlam0))
- 180        continue
- 170     continue
+            enddo
+         enddo
       endif
 
 c     Decide on fine grid.  We need two, k' evenly spaced by
@@ -217,7 +218,7 @@ c     Make xkp (k') and xk0 (k0) fine grids
 c     ik0 is index at fermi level
       if (abs(ispec).ne.3) ik0 = 1
       ik0p = 1
-      do 250  i = 1, nfinex
+      do i = 1, nfinex
          xkp(i) = xkmin + delk * (i - 1)
          tmp = sign (one, xkp(i))
          e = tmp * xkp(i)**2 /2 - vrcorr
@@ -225,7 +226,7 @@ c     ik0 is index at fermi level
          if (xk0(i).lt.eps4)  ik0p = i
          if (xk0(i) .gt. xk(ne1)+eps4)  goto 260
          nkx = i
-  250 continue
+      enddo
   260 continue
 
       dwcorr = .false.
@@ -274,9 +275,9 @@ c        also write information on the screen
 
 
 c     make chi and sum it
-      do 400  i = 1, nfinex
+      do i = 1, nfinex
          cchi(i) = 0
-  400 continue
+      enddo
 
 c     add Debye-Waller factors
       call dwadd (ntotal, nptot, idwopt, ip, index, crit, critcw, sig2g,
@@ -287,28 +288,30 @@ c     add Debye-Waller factors
 
 c     read or initialize chia - result of configuration average
       if (iabs.eq.1) then
-         do 635 ie =1, nfinex
+         do ie =1, nfinex
             chia(ie) = 0
-  635    continue
+         enddo
       else
          open (unit=1, file='chia.bin', status='old',
      1   access='sequential', form='unformatted', iostat=ios)
-         do 640 ie = 1,nkx
-  640    read(1) chia(ie)
+         do ie = 1,nkx
+            read(1) chia(ie)
+         enddo
          close (unit=1, status='delete')
       endif
 
 c     add contribution from an absorber iabs
 c     present scheme assumes that xsec is the same for all iabs.
-      do 701 ik = 1, nkx
+      do ik = 1, nkx
          chia(ik)   = chia(ik)   + cchi(ik)/ nabs
-  701 continue
+      enddo
       if (iabs.lt.nabs) then
 c        save chia in chia.bin for averaging
          open (unit=1, file='chia.bin', status='unknown',
      1   access='sequential', form='unformatted', iostat=ios)
-         do 760 ie=1,nkx
-  760    write(1) chia(ie)
+         do ie=1,nkx
+            write(1) chia(ie)
+         enddo
          close(unit=1)
       endif
 
@@ -325,22 +328,22 @@ c        Write it out
   620    format(a2,
      1         '      k          chi          mag           phase @#')
 
-         do 702 ik = 1, nkx
+         do ik = 1, nkx
            if (abs(ispec).ne.3) then
             rchtot(ik) = dimag (chia(ik))
            else
             rchtot(ik) = dble (chia(ik))
            endif
-  702    continue
+        enddo
 c        prepare the output grid omegax
          efermi = edge + omega(1) - dble(emxs(1))
-         do 590  ik = 1, nkx
+         do ik = 1, nkx
             if (xkp(ik) .lt. 0.0) then
                omegax(ik) = - xkp(ik) * xkp(ik) / 2  + efermi
             else
                omegax(ik) = xkp(ik) * xkp(ik) / 2  + efermi
             endif
-  590    continue
+         enddo
 
 c        do convolution with excitation spectrum
 c        it is currently screwed up since xsnorm is rewritten
@@ -355,7 +358,7 @@ c        fix later
 
 
 c        write to 'chi.dat'
-         do 660 ik = 1, nkx
+         do ik = 1, nkx
             ccc = chia(ik)
             phase = 0
             if (abs(ccc) .gt. 0)  then
@@ -369,14 +372,15 @@ c        write to 'chi.dat'
             else
 c             need to report ck into chi.dat for Conradson's program
 c             complex*16 should be used in terpc
-              do 625 i=1,ne
-  625         ckck(i) = dble(real(ck(i))) +coni*dble(aimag(ck(i)))
+              do i=1,ne
+                 ckck(i) = dble(real(ck(i))) +coni*dble(aimag(ck(i)))
+              enddo
               call terpc (xkxs, ckck, ne, 3, xk0(ik), ckp)
               write(3,650)  xkp(ik)/bohr, rchtot(ik), abs(ccc), phase0,
      1        dble(ckp)/bohr, dimag(ckp)/bohr
   650         format (1x, f10.4, 3x, 5(1pe13.6,1x))
             endif
-  660    continue
+         enddo
          close (unit=3)
 
 c        write to 'xmu.dat'
@@ -400,32 +404,34 @@ c        and prepare the output energy grid omegax
          enddo
 
 c        do edge correction and write down results to xmu.dat, chi.dat
-         do 710 ie = 1, ne
-  710    chia(ie) = 0
+         do ie = 1, ne
+            chia(ie) = 0
+         enddo
          if (abs(ispec).eq.3) then
 c          transform from cross section in Angstrom**2 to f"/m*c**2
-           do 697 ie = 1,ne
+           do ie = 1,ne
              energy = dble(emxs(ie)) + efermi
              prefac = 4 * pi * alpinv / energy * bohr**2
 c            add alpha**2 to convert to units for f'
              kxsec(ie) = kxsec(ie) / prefac * alpinv**2   !KJ changed xsec to kxsec  1-06
              xsnorm(ie) = xsnorm(ie) / prefac * alpinv**2
-  697      continue
+          enddo
            ne2 = ne - ne1 - ne3
            call fprime(efermi, emxs, ne1, ne3,ne,ik0, kxsec,xsnorm,chia,
      1       vrcorr, vicorr, cchi)  !KJ changed xsec to kxsec 1-06
-           do 850 ie=1,ne1
+           do ie=1,ne1
              omega(ie) = dble(cchi(ie))
-  850      continue
+          enddo
          else
            call xscorr (ispec, emxs, ne1, ne, ik0, kxsec, xsnorm, chia,
      1       vrcorr, vicorr, cchi) !KJ xsec to kxsec 7/06
 c          omega is not used as energy array, but as xsec array below
-           do 711 ie = 1, ne1
-  711      omega(ie) = dimag(kxsec(ie)+cchi(ie))  !KJ xsec to kxsec 7/06
+           do ie = 1, ne1
+              omega(ie) = dimag(kxsec(ie)+cchi(ie)) !KJ xsec to kxsec 7/06
+           enddo
          endif
 
-         do 750  ik = 1, nkx
+         do ik = 1, nkx
             em0 = omegax(ik) - efermi + edge
             call terp (xkxs, omega,  ne1, 1, xk0(ik), xsec0)
             call terp (xkxs, xsnorm,  ne1, 1, xk0(ik), xsnor0)
@@ -444,7 +450,7 @@ c             signs to comply with Cromer-Liberman notation for f', f"
      1             -(xsec0+chi0), -xsec0, -chi0
             endif
   700       format (1x, 2f11.3, f8.3, 1p, 3e13.5)
-  750    continue
+         enddo
          close (unit=8)
       endif
 c     for if (iabs=abs); or the last absorber

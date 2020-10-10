@@ -67,10 +67,12 @@ c !KJ end my variables
 
 
 c     get gtr - result of FMS
-      do 112 ie =1,nex
-      gtr(ie)= 0
-      do 112 iip =ipmin,ipmax  !KJ I added this variable ip 1-06
-  112 gtrful(iip,ie) = 0
+      do ie =1,nex
+         gtr(ie)= 0
+         do iip =ipmin,ipmax !KJ I added this variable ip 1-06
+            gtrful(iip,ie) = 0
+         enddo
+      enddo
       ntfms = 0
       nip=ipmax-ipmin+1 !KJ 1-06
 
@@ -148,10 +150,10 @@ c     open list.dat and read list of paths we want
 c       skip a label line
         read(1,*)
 c       ip is index of path, sig2u is debye-waller from user
-        do 100  i = 1, npx
+        do i = 1, npx
            read(1,*,end=110)  ip(i), sig2u(i)
            ntotal = i
-  100   continue
+        enddo
   110   continue
       endif
       close (unit=1)
@@ -168,8 +170,9 @@ c     make combined title
         ntitle = ntitle + 1
         title(ntitle) = titfms
       endif
-      do 120 ihead = 1, nhead
- 120  title(ntitle+ihead) = head(ihead)
+      do ihead = 1, nhead
+         title(ntitle+ihead) = head(ihead)
+      enddo
       ntitle = ntitle + nhead
 
 c     write feffnnnn.dat
@@ -184,14 +187,14 @@ c     If there is a vicorr, will need a mean free path factor xlam0.
 c     Use it as  chi(ie) * exp (2 * reff * xlam0)
 c     ckp is ck' = ck prime.
       if (abs(vicorr) .ge. eps4) then
-         do 180  ie = 1, ne
+         do ie = 1, ne
             ckp = sqrt (ck(ie)**2 + coni*2*vicorr)
             xlam0 = aimag(ck(ie)) - dimag(ckp)
-            do 170  ipath = 1, nptot
+            do ipath = 1, nptot
                achi(ie,ipath) = achi(ie,ipath) *
-     1               real(exp (2 * reff(ipath) * xlam0))
-  170       continue
-  180    continue
+     1              real(exp (2 * reff(ipath) * xlam0))
+            enddo
+         enddo
       endif
 
 c     k'**2 = k**2 + vr. If there is no real correction
@@ -205,15 +208,14 @@ c     vrcorr shifts the edge and the k grid
       endif
 
 c     ik0 is index at fermi level
-      do 250  i = 1, ne
+      do i = 1, ne
          temp = xk(i)*abs(xk(i)) + 2*vrcorr
          if (temp.ge. 0) then
            xkp(i) = sqrt(temp)
          else
            xkp(i) = - sqrt(-temp)
          endif
-  250 continue
-
+      enddo
 
       dwcorr = .false.
       if (tk .gt. 1.0e-3)  dwcorr = .true.
@@ -258,13 +260,12 @@ c        also write information on the screen
 
 
 c     make chi and sum it
-      do 400  i = 1, nex
+      do i = 1, nex
          cchi(i) = 0
-  400 continue
-      do 402  ik = 1, ne
+      enddo
+      do ik = 1, ne
          cchi(ik)= s02 * gtr(ik)
-  402 continue
-
+      enddo
 
 c     add Debye-Waller factors
       call dwadd (ntotal, nptot, idwopt, ip, index, crit, critcw, sig2g,
@@ -275,40 +276,42 @@ c     add Debye-Waller factors
 
 c     read or initialize chia - result of configuration average
       if (iabs.eq.1) then
-         do 635 ie =1, nex
+         do ie =1, nex
             chia(ie) = 0
-  635    continue
+         enddo
       else
          open (unit=1, file='chia.bin', status='old',
      1   access='sequential', form='unformatted', iostat=ios)
-         do 640 ie = 1,ne
-  640    read(1) chia(ie)
+         do ie = 1,ne
+            read(1) chia(ie)
+         enddo
          close (unit=1, status='delete')
       endif
 
       if(iabs.eq.1) then
 c        compare grids in xsect.bin and feff.pad
-         do 680 i = 1, nxsec
+         do i = 1, nxsec
             print *, del, xk(i)**2, xkxs(i)**2
            del = xk(i)**2 - xkxs(i)**2
            if (abs(del) .gt.  10*eps4)  then
              call wlog(' Emesh in feff.pad and xsect.bin different.')
              call par_stop('FF2XMU-1')
            endif
-  680    continue
+        enddo
       endif
 
 c     add contribution from an absorber iabs
 c     present scheme assumes that xsec is the same for all iabs.
-      do 701 ik = 1, ne
+      do ik = 1, ne
          chia(ik)   = chia(ik)   + cchi(ik)/ nabs
-  701 continue
+      enddo
       if (iabs.lt.nabs) then
 c        save chia in chia.bin for averaging
          open (unit=1, file='chia.bin', status='unknown',
      1   access='sequential', form='unformatted', iostat=ios)
-         do 760 ie=1,ne
-  760    write(1) chia(ie)
+         do ie=1,ne
+            write(1) chia(ie)
+         enddo
          close(unit=1)
       endif
 
@@ -318,9 +321,9 @@ c        The loop over absorbers is finished. Write out the results.
   600    format ( a2, 1x, i4, '/', i4, ' paths used')
   610    format ( a2, 1x, 71('-'))
 
-         do 702 ik = 1, ne
+         do ik = 1, ne
             rchtot(ik) = dimag (chia(ik))
-  702    continue
+         enddo
 c        prepare the output grid omega
          efermi = edge + omega(1) - dble(emxs(1))
 
@@ -358,18 +361,19 @@ c        do correction using brouder method
          vi0 = 0
          call xscorr(ispec,emxs, ne1, ne, ik0, kxsec,xsnorm,chia,
      1       vrcorr, vi0, cchi) !KJ changed xsec to kxsec  1-06
-         do 850 ie=1,ne1
+         do ie=1,ne1
            rchtot(ie)=dimag( kxsec(ie)+xsnorm(ie)*chia(ie)+cchi(ie)) !KJ id.
-  850    continue
+        enddo
 
 
-         do 855 ie=1,ne
+         do ie=1,ne
            chia(ie) = 0
-  855    continue
+        enddo
          call xscorr(ispec, emxs, ne1, ne, ik0, kxsec,xsnorm,chia,
      1       vrcorr, vi0, cchi) !KJ changed xsec to kxsec  1-06
-         do 856 ie = 1, ne1
- 856     cchi(ie) = dimag(kxsec(ie)+cchi(ie)) * coni+rchtot(ie) !KJ id.
+         do ie = 1, ne1
+            cchi(ie) = dimag(kxsec(ie)+cchi(ie)) * coni+rchtot(ie) !KJ id.
+         enddo
 
          if (vicorr.gt.eps4 .and. ntotal.eq.0) then
 c           add correction due to vicorr
@@ -377,8 +381,7 @@ c           add correction due to vicorr
 c           call conv(omega,xsec,ne1,vicorr)
          endif
 
-
-         do 860 ie = 1, ne1
+         do ie = 1, ne1
             em0 = dble(emxs(ie))
             xsec0 = dimag(cchi(ie))
             rchtot(ie) = dble (cchi(ie))
@@ -391,7 +394,7 @@ c    1          rchtot(ie)*omega(ie)*prefac, xsec0*omega(ie)*prefac, chi0
 c   with        prefac = alpinv / 4 / pi /bohr**2
 
   700       format (1x, 2f11.3, f8.3, 1p, 3e13.5)
-  860    continue
+         enddo
 
          close (unit=8)
          close (unit=3, status='delete')
