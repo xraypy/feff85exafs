@@ -1,0 +1,69 @@
+#!/bin/bash
+
+PREFIX=$(pwd)/local_install
+
+SHOW_HELP=0
+for i in "$@" ; do
+    case "$1" in
+	-p=*|--prefix=*)
+	    PREFIX="${i#*=}"
+	    shift
+	    ;;
+	-h|--help)
+	    SHOW_HELP=1
+	    shift
+	    ;;
+
+	-*|--*=) # unsupported flags
+	echo "Error: Unsupported flag $1" >&2
+	exit 1
+	;;
+    esac
+done
+
+if [[ $SHOW_HELP == 1 ]] ; then
+    echo "configure Feff85 build"
+    echo "arguments:"
+    echo "   --prefix    specify installation prefix [$PREFIX]"
+    echo "   --help      show this message"
+    exit 0
+fi
+
+if [[ -f Makefile ]] ; then
+    cp -pr Makefile Makefile.bak
+fi
+
+cat > Makefile <<EndOfMakefile
+# Makefile for Feff85L
+
+# export PREFIX = \${CURDIR}/local_install
+export PREFIX = $PREFIX
+
+# installation location for programs, libraries, and include files:
+export BINDIR  = \$(PREFIX)/bin
+export LIBDIR  = \$(PREFIX)/lib
+export INCDIR  = \$(PREFIX)/include
+export MAKEDIR = mkdir -p
+export COPY    = cp
+export REMOVE  = rm -rf
+
+all:
+	cd src && \$(MAKE) all
+
+install:
+	\$(MAKEDIR) \$(BINDIR) \$(LIBDIR) \$(INCDIR)
+	\$(COPY) bin/feff8l \$(BINDIR)
+	cd src && \$(MAKE) install
+
+clean:
+	cd src && \$(MAKE) clean
+
+realclean: clean
+	\$(REMOVE) \$(BINDIR) \$(LIBDIR) \$(INCDIR)
+
+test: install
+	cd tests && python run_tests.py
+
+.PHONY:	all install clean test
+#
+EndOfMakefile
