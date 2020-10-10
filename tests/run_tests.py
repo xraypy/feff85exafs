@@ -68,8 +68,8 @@ class Feff8Test:
             basefile = join(self.test.baseline, 'feff%4.4i.dat' % npath)
             if not exists(basefile):
                 continue
-            bl = feffpath(join(self.test.baseline, 'feff%4.4i.dat' % npath), _larch=self.test._larch)
-            tr = feffpath(join(self.test.testrun,  'feff%4.4i.dat' % npath), _larch=self.test._larch)
+            bl = feffpath(join(self.test.baseline, 'feff%4.4i.dat' % npath))
+            tr = feffpath(join(self.test.testrun,  'feff%4.4i.dat' % npath))
             for term in ('edge', 'gam_ch', 'kf', 'mu', 'rs_int', 'vint'):
                 blval = getattr(bl._feffdat, term)
                 trval = getattr(tr._feffdat, term)
@@ -103,6 +103,7 @@ class Feff8Test:
         assert self.test.feffran, "no test results found for %s" % self.folder
 
         test_script = join(self.test.path, self.test.folder+'.py')
+        print("Test " , test_script)
         stat_msg = "statistic %s evaluated inconsistently for %s (%.5f %.5f)"
         param_msg = "%s of fitting parameter %s evaluated inconsistently for %s (%.5f %.5f)"
 
@@ -141,12 +142,10 @@ class Feff8Test:
 
 
 def check_opconsat(folder):
-    orig = read_ascii(join(tests[folder].testrun, "..", "opconsat", "baseline", "exc.dat"), labels='a b c d', _larch=tests[folder]._larch)
+    orig = read_ascii(join(tests[folder].testrun, "..", "opconsat", "baseline", "exc.dat"), labels='a b c d')
     if not isfile(join(tests[folder].testrun, "exc.dat")):
         assert False, 'Failed to run opconsat'
-    new  = read_ascii(join(tests[folder].testrun, "exc.dat"), labels='a b c d', _larch=tests[folder]._larch)
-    #show(orig, _larch=self._larch)
-    #show(new, _larch=self._larch)
+    new  = read_ascii(join(tests[folder].testrun, "exc.dat"), labels='a b c d')
     rf1  = sum((orig.a - new.a)**2) / sum(orig.a**2)
     rf2  = sum((orig.b - new.b)**2) / sum(orig.b**2)
     rf3  = sum((orig.c - new.c)**2) / sum(orig.c**2)

@@ -3,19 +3,21 @@
 ## see HEADERS/license.h for feff's license information
 
 from   os        import makedirs, chdir, getcwd, unlink, listdir
-from   os.path   import realpath, isdir, isfile, join
+from   os.path   import realpath, isdir, isfile, join, exists
+
 from   shutil    import rmtree, copy
-import sys, subprocess, glob, pystache, json, re
+import sys, glob, json, re
+import subprocess as sp
+import chevron
 from   termcolor import colored
 import numpy     as np
 import importlib
-from   distutils.spawn import find_executable
 
 from larch import (Group, Parameter, isParameter, param_value,
                    isNamedClass, Interpreter)
-from larch_plugins.xafs.feffdat import feffpath
-from larch_plugins.xafs.feffrunner import feffrunner
-from larch_plugins.wx import (_newplot, _plot)
+from larch.xafs.feffdat import feffpath
+from larch.xafs.feffrunner import feffrunner
+from larch.wxlib import _newplot, _plot
 
 WRAPPER_AVAILABLE = False
 try:
@@ -80,11 +82,10 @@ class Feff85exafsUnitTestGroup(Group):
        feffcount /
     """
 
-    def __init__(self, folder=None, _larch=None, **kws):
+    def __init__(self, folder=None, **kws):
         kwargs = dict(name='Feff85exafs unit test: %s' % folder)
         kwargs.update(kws)
         Group.__init__(self,  **kwargs)
-        self._larch     = Interpreter()
         self.doplot     = True
         self.doscf      = False # True = use self-consistency
         self.verbose    = True  # True = print Feff's screen messages and other screen messages
@@ -95,6 +96,10 @@ class Feff85exafsUnitTestGroup(Group):
         self.failed     = list()
         if folder[-1] == '/': folder = folder[:-1] # strip trailing /
         self.folder     = folder
+        self.feff8l_exe = realpath(join(getcwd(), '..', 'local_install', 'bin', 'feff8l'))
+        if not exists(self.feff8l_exe):
+            print_error(self.feff8l_exe+ " is not found -- maybe do `make install`?")
+            return None
 
         if not isdir(folder):
             folder = join('tests', folder)
@@ -118,7 +123,7 @@ class Feff85exafsUnitTestGroup(Group):
         self.firstshell = False
         self.fittest    = None
         if WRAPPER_AVAILABLE:
-            self.sp = Feff8L_XAFSPath(_larch=self._larch)
+            self.sp = Feff8L_XAFSPath()
 
     def __repr__(self):
         if not isdir(self.folder):
@@ -173,10 +178,11 @@ class Feff85exafsUnitTestGroup(Group):
         if self.doscf:
             scf = 'with SCF'
             self.json['doscf']=''
-        renderer = pystache.Renderer()
+        input_text = ''
+        with open(join(self.path, self.folder + '.mustache'), 'r') as fh:
+            input_text = chevron.render(fh, self.json)
         with open(join(self.testrun,'feff.inp'), 'w') as inp:
-            inp.write(renderer.render_path( join(self.path, self.folder + '.mustache'), # material/material.mustache
-                                            self.json ))                                # material/material.json
+            inp.write(input_text)
 
         ## run feff with feffrunner
         owd = getcwd()
@@ -185,8 +191,13 @@ class Feff85exafsUnitTestGroup(Group):
             if isfile(self.fefflog):
                 unlink(self.fefflog)
 
-            self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop, _larch=self._larch)
-            self.feffrunner.run()
+            run_args = [self.feff8l_exe]
+            if not self.verbose:
+                run_args.append('-q')
+            output = sp.call(run_args)
+            # self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop)
+            # self.feffrunner.run(exe='feff8l')
+            print(">>RAN FEFF8L ", getcwd() , output, self.verbose, self.testrun, run_args)
             for f in glob.glob("*"):
                 if f.startswith('log'):
                     unlink(f)
@@ -205,7 +216,7 @@ class Feff85exafsUnitTestGroup(Group):
         owd = getcwd()
         try:
             chdir(self.testrun)
-            self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop, _larch=self._larch)
+            self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop)
             copy(join(self.testrun, "..", "opconsat", "baseline", "exc.inp"), self.testrun)
             self.feffrunner.run('opconsat')
         finally:
@@ -239,10 +250,10 @@ class Feff85exafsUnitTestGroup(Group):
         """
         Test whether a path index was included in the test calculation.
 
-           larch> print group.available(1)
+           larch> print(group.available(1))
            True
 
-           larch> print group.available(112)
+           larch> print(group.available(112))
            False
 
         If the argument is 0 or negative, print a list of all available paths files and return None
@@ -255,9 +266,9 @@ class Feff85exafsUnitTestGroup(Group):
             else:
                 return False
         else:
-            print "The following paths are available:"
+            print("The following paths are available:")
             for f in self.paths:
-                print "\t"+f
+                print("\t"+f)
             return None
 
 
@@ -278,7 +289,7 @@ class Feff85exafsUnitTestGroup(Group):
             if len(words) < 5:
                 continue
             elif mode == 'searching':
-                #print '> %s %s' % (line, str(degmatch.match(line)))
+                #print('> %s %s' % (line, str(degmatch.match(line))))
                 if words[5] == 'degeneracy' and line.startswith(str(index)):
                     self.sp.index = index
                     nlegs = int(words[1])
@@ -286,7 +297,7 @@ class Feff85exafsUnitTestGroup(Group):
                     mode = 'parsing'
                     continue
             elif mode == 'parsing':
-                #print '| %s %d %d' % (line, count, nlegs)
+                #print('| %s %d %d' % (line, count, nlegs))
                 if words[5] == 'degeneracy':
                     break
                 elif count == nlegs:
@@ -301,7 +312,7 @@ class Feff85exafsUnitTestGroup(Group):
                                           ipot=int(words[3]))
                     count+=1
 
-    def compare(self, nnnn=1, part='feff', use_wrapper=False, _larch=None):
+    def compare(self, nnnn=1, part='feff', use_wrapper=False):
         """
         Compare a feffNNNN.dat file from the testrun with the same file
         from the baseline calculation
@@ -324,9 +335,6 @@ class Feff85exafsUnitTestGroup(Group):
         Sets self.rfactor (and self.rfactor_2).
 
         """
-        if self._larch is None:
-            raise Warning("cannot do path comparison -- larch broken?")
-
         if not self.feffran:
             print_error("You have not yet run the test Feff calculation")
             return
@@ -338,7 +346,7 @@ class Feff85exafsUnitTestGroup(Group):
         how     = 'wrapper' if use_wrapper else 'executables'
         nnnndat = "feff%4.4d.dat" % nnnn
 
-        blpath = feffpath(join(self.baseline, nnnndat), _larch=self._larch)
+        blpath = feffpath(join(self.baseline, nnnndat))
         if use_wrapper: # make the feffNNNN.dat file on the fly
             self.sp.phase_file = join(self.testrun, 'phase.pad')
             self.sp.nnnn=True
@@ -352,9 +360,9 @@ class Feff85exafsUnitTestGroup(Group):
             finally:
                 chdir(owd)
             n3nndat = "feff%4.4d.dat" % nnnn
-            trpath = feffpath(join(self.testrun,  n3nndat), _larch=self._larch)
+            trpath = feffpath(join(self.testrun,  n3nndat))
         else:                   # the feffNNNN.dat file was made by the monolithic feff run
-            trpath = feffpath(join(self.testrun,  nnnndat), _larch=self._larch)
+            trpath = feffpath(join(self.testrun,  nnnndat))
 
         if part=='feff':
             baseline_1 = getattr(blpath._feffdat, 'mag_feff') # + np.random.uniform(0,1,size=1)
@@ -413,22 +421,22 @@ class Feff85exafsUnitTestGroup(Group):
             print_warn("%s:  %f v %f " % (blpath, sum(baseline_1**2) ,  sum(testrun_1**2)))
 
         if self.verbose:
-            print label + " R-factor = " + test_text("%.9g" % self.rfactor, (self.rfactor < self.epsilon))
+            print(label + " R-factor = " + test_text("%.9g" % self.rfactor, (self.rfactor < self.epsilon)))
         if part=='feff':
             self.rfactor_2 = sum((baseline_2 - testrun_2)**2) / sum(baseline_2**2)
             if self.verbose:
                 print(" -- ",self.epsilon, sum((baseline_2 - testrun_2)**2),  sum(baseline_2**2))
-                print "phase R-factor = " + test_text("%.9g" % self.rfactor_2, self.rfactor_2 < self.epsilon)
+                print("phase R-factor = " + test_text("%.9g" % self.rfactor_2, self.rfactor_2 < self.epsilon))
 
-        if self.verbose: print ""
+        if self.verbose: print("")
 
         if self.doplot:
-            _newplot(blpath._feffdat.k, baseline_1, _larch=self._larch, label=label+' of baseline',
+            _newplot(blpath._feffdat.k, baseline_1, label=label+' of baseline',
                      xlabel='wavenumber $\AA^{-1}$', ylabel=ylabel, title=nnnndat, show_legend=True, legend_loc='best')
-            _plot   (trpath._feffdat.k, testrun_1,  _larch=self._larch, label=label+' of test run')
+            _plot   (trpath._feffdat.k, testrun_1,  label=label+' of test run')
             if part=='feff':
-                _plot(blpath._feffdat.k, np.gradient(baseline_2), _larch=self._larch, label='grad(phase of baseline)')
-                _plot(trpath._feffdat.k, np.gradient(testrun_2),  _larch=self._larch, label='grad(phase of test run)')
+                _plot(blpath._feffdat.k, np.gradient(baseline_2), label='grad(phase of baseline)')
+                _plot(trpath._feffdat.k, np.gradient(testrun_2), label='grad(phase of test run)')
 
         if use_wrapper and WRAPPER_AVAILABLE:
             self.sp.reset()
@@ -444,11 +452,11 @@ class Feff85exafsUnitTestGroup(Group):
         Print out a table showing the scattering geometry of a path
 
         """
-        print "path (reff=%.4f nlegs=%d) geometry:" % (path.reff, path.nleg)
+        print("path (reff=%.4f nlegs=%d) geometry:" % (path.reff, path.nleg))
         for atom in path.geom:
-            print "\t%-2s  %7.4f  %7.4f  %7.4f  %d" % (atom[0], atom[3], atom[4], atom[5], atom[2])
-        print "\t%-2s  %7.4f  %7.4f  %7.4f  %d\n" % (path.geom[0][0], path.geom[0][3], path.geom[0][4],
-                                                     path.geom[0][5], path.geom[0][2])
+            print("\t%-2s  %7.4f  %7.4f  %7.4f  %d" % (atom[0], atom[3], atom[4], atom[5], atom[2]))
+        print("\t%-2s  %7.4f  %7.4f  %7.4f  %d\n" % (path.geom[0][0], path.geom[0][3], path.geom[0][4],
+                                                     path.geom[0][5], path.geom[0][2]))
 
 
 
@@ -503,11 +511,11 @@ class Feff85exafsUnitTestGroup(Group):
 
         """
         if (not self.feffran):
-            #if self.verbose: print colored("You have not yet made the test run of Feff", 'magenta', attrs=['bold'])
+            #if self.verbose: print(colored("You have not yet made the test run of Feff", 'magenta', attrs=['bold']))
             raise Exception("You have not yet made the test run of Feff")
         nnnndat = "feff%4.4d.dat" % nnnn
-        bl      = feffpath(join(self.baseline, nnnndat), _larch=self._larch)
-        tr      = feffpath(join(self.testrun,  nnnndat), _larch=self._larch)
+        bl      = feffpath(join(self.baseline, nnnndat))
+        tr      = feffpath(join(self.testrun,  nnnndat))
 
         termdict = {'edge':   'energy threshold relative to atomic value',
                     'gam_ch': 'core level energy width',
@@ -516,13 +524,13 @@ class Feff85exafsUnitTestGroup(Group):
                     'rs_int': 'interstitial radius',
                     'vint':   'interstitial potential'}
         if self.verbose:
-            print "%-8s %-42s   %10s  %10s  %s" % ('key', 'description', 'baseline', 'testrun', 'same?')
-            print "-----------------------------------------------------------------------------------"
+            print("%-8s %-42s   %10s  %10s  %s" % ('key', 'description', 'baseline', 'testrun', 'same?'))
+            print("-----------------------------------------------------------------------------------")
         ok = True
         for key in termdict:
             same = abs(getattr(bl._feffdat, key) - getattr(tr._feffdat, key))/getattr(bl._feffdat, key) < self.epsilon
-            if self.verbose: print "%-6s   %-42s : %10s  %10s  %s" % (key, termdict[key], getattr(bl._feffdat, key),
-                                                                      getattr(tr._feffdat, key), same)
+            if self.verbose: print("%-6s   %-42s : %10s  %10s  %s" % (key, termdict[key], getattr(bl._feffdat, key),
+                                                                      getattr(tr._feffdat, key), same))
             ok = ok and same
         return ok
 
@@ -541,9 +549,9 @@ class Feff85exafsUnitTestGroup(Group):
         sys.path.append(self.path)
         module = importlib.import_module(self.folder, package=None)
 
-        print "\tfitting %s using %s" % (self.folder, 'baseline')
+        print("\tfitting %s using %s" % (self.folder, 'baseline'))
         self.blfit = module.do_fit(self, 'baseline')
-        print "\tfitting %s using %s" % (self.folder, 'testrun')
+        print("\tfitting %s using %s" % (self.folder, 'testrun'))
         self.trfit = module.do_fit(self, 'testrun')
 
 
@@ -574,7 +582,7 @@ class Feff85exafsUnitTestGroup(Group):
         self.models = []
         for d in sorted(listdir(join(self.folder, self.fittest))):
             if isdir(join(self.folder, self.fittest, d)):
-                print '>>>>>>>>> fitting with model: %s' % d
+                print('>>>>>>>>> fitting with model: %s' % d)
                 self.models.append(d)
                 this = module.do_fit(self, d, firstshell=self.firstshell, fittest=self.fittest)
                 setattr(self, d, this)
@@ -590,15 +598,15 @@ class Feff85exafsUnitTestGroup(Group):
 
 ######################################################################
 
-def ut(folder=None, _larch=None, **kws):
+def ut(folder=None, **kws):
     """
     Make a Feff85exafsUnitTestGroup group given a folder containing a
     baseline calculation
 
     """
-    return Feff85exafsUnitTestGroup(folder=folder, _larch=_larch)
+    return Feff85exafsUnitTestGroup(folder=folder)
 
-def ir(folder=None, _larch=None, **kws):
+def ir(folder=None,  **kws):
     """
     _i_mport and _r_un
 
@@ -607,7 +615,7 @@ def ir(folder=None, _larch=None, **kws):
     utobj.run()
     return utobj
 
-def irc(folder=None, _larch=None, **kws):
+def irc(folder=None, **kws):
     """
     _i_mport, _r_un, and _c_ompare
 
@@ -617,7 +625,7 @@ def irc(folder=None, _larch=None, **kws):
     utobj.compare(1)
     return utobj
 
-def irf(folder=None, _larch=None, **kws):
+def irf(folder=None, **kws):
     """_i_mport, _r_un, and _f_it
 
     """
