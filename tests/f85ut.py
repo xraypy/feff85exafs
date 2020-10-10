@@ -18,14 +18,7 @@ from larch import (Group, Parameter, isParameter, param_value,
 from larch.xafs.feffdat import feffpath
 from larch.xafs.feffrunner import feffrunner
 from larch.wxlib import _newplot, _plot
-
-WRAPPER_AVAILABLE = False
-try:
-    from larch_plugins.xafs.feff8lpath import Feff8L_XAFSPath
-    WRAPPER_AVAILABLE = True
-except:
-    pass
-
+from larch.xafs.feff8lpath import Feff8L_XAFSPath
 
 WARN_COLOR = 'yellow'
 WARN_COLOR = 'blue'
@@ -122,8 +115,7 @@ class Feff85exafsUnitTestGroup(Group):
         self.epserr     = 5.0 * self.epsfit
         self.firstshell = False
         self.fittest    = None
-        if WRAPPER_AVAILABLE:
-            self.sp = Feff8L_XAFSPath()
+        self.sp = Feff8L_XAFSPath()
 
     def __repr__(self):
         if not isdir(self.folder):
@@ -438,7 +430,7 @@ class Feff85exafsUnitTestGroup(Group):
                 _plot(blpath._feffdat.k, np.gradient(baseline_2), label='grad(phase of baseline)')
                 _plot(trpath._feffdat.k, np.gradient(testrun_2), label='grad(phase of test run)')
 
-        if use_wrapper and WRAPPER_AVAILABLE:
+        if use_wrapper:
             self.sp.reset()
 
         if part=='feff':
