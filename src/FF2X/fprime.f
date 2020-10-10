@@ -10,7 +10,7 @@ c      mu(omega) = xsec + xsnorm*chia  + (cchi)
       include '../HEADERS/dim.h'
 
       dimension  xsnorm(nex), omega(nex)
-      complex*16 emxs(nex), xsec(nex), chia(nex), cchi(nex) 
+      complex*16 emxs(nex), xsec(nex), chia(nex), cchi(nex)
       complex*16 xmu(nex), aa, bb, temp
 c      complex*16 c1, ec, x1, x2
       complex*16 xmup(nex)
@@ -38,51 +38,59 @@ c$$$      call json_read_fpf0(nosc, oscstr, enosc)
 
       ient = ient+1
       ifp = 1
-      efermi = dble(emxs(ne1+1)) 
+      efermi = dble(emxs(ne1+1))
       xloss = dimag(emxs(1))
       ne2 = ne-ne1-ne3
       if (ne2.gt.0) then
 c        DANES
-         do 10 ie = 1,ne1
-   10    xmu(ie) = coni*xsnorm(ie) +  xsnorm(ie)*chia(ie)
-         do 11 ie = ne1+1,ne1+ne2
-   11    xmu (ie) = xsnorm(ie)*chia(ie)
-         do 12 ie = ne-ne3+1, ne
-   12    xmu (ie) =  coni*xsnorm(ie)
+         do ie = 1,ne1
+            xmu(ie) = coni*xsnorm(ie) +  xsnorm(ie)*chia(ie)
+         enddo
+         do ie = ne1+1,ne1+ne2
+            xmu (ie) = xsnorm(ie)*chia(ie)
+         enddo
+         do ie = ne-ne3+1, ne
+            xmu (ie) =  coni*xsnorm(ie)
+         enddo
       else
 c        FPRIME
-         do 13 ie = 1,ne
-   13    xmu (ie) = xsec(ie) + xsnorm(ie)*chia(ie)
+         do ie = 1,ne
+            xmu(ie) = xsec(ie) + xsnorm(ie)*chia(ie)
+         enddo
       endif
 
       if (abs(vrcorr).gt.eps4) then
          bb = xmu(ik0)
          efermi = efermi - vrcorr
-         do 20 ie = 1,ne1
-   20    omega(ie) = dble(emxs(ie))
+         do ie = 1,ne1
+            omega(ie) = dble(emxs(ie))
+         enddo
          call terpc(omega, xmu ,ne1, 1, efermi, bb)
-         do 30 ie = 1, ne2
-   30    emxs(ne1+ie) = emxs(ne1+ie) - vrcorr
+         do ie = 1, ne2
+            emxs(ne1+ie) = emxs(ne1+ie) - vrcorr
+         enddo
          if (abs(xmu(ik0)).gt. eps4) bb = bb/xmu(ik0)
 c        rescale values on vertical axis
-         do 60 ie = ne1+1, ne-ne3
-   60    xmu(ie) = xmu (ie) * bb 
+         do ie = ne1+1, ne-ne3
+            xmu(ie) = xmu (ie) * bb
+         enddo
       endif
-              
+
 
       if (vicorr.gt.eps4) then
          xloss = xloss + vicorr
-         do 40 ie=1,ne2
-   40    omega(ie) = dimag(emxs(ne1+ie))
+         do ie=1,ne2
+            omega(ie) = dimag(emxs(ne1+ie))
+         enddo
          call terpc(omega, xmu(ne1+1) ,ne2, 1, xloss, aa)
-         do 50 ie = 1, ne1
+         do ie = 1, ne1
             xx = vicorr**2 /(vicorr**2 + (dble(emxs(ie))-efermi)**2)
             xmu(ie) = xmu(ie)*(1.0d0 - xx) + aa * xx
             emxs(ie) = emxs(ie) + coni*vicorr
-   50    continue
+         enddo
       endif
 
-      do 200 ie = 1, ne1
+      do ie = 1, ne1
 c        cycle over energy points on horizontal grid
 
          dout(1,ie) = dble(emxs(ie)) * hart
@@ -107,17 +115,17 @@ c           matsubara pole
             dout(2,ie)=dble(temp)
 c           sommerfeld correction
             temp = coni*w1**2/ 6*(lorenz(xloss,w3,dele)*xmu(ne1+3)-
-     2      lorenz(xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
+     2      lorenz(xloss,w2,dele)*xmu(ne1+2)) / (w3-w2)
             dout(3,ie)=dble(temp)
 
             cchi(ie) = lorenz(xloss,w1,dele)*xmu(ne1+1) *2*coni*w1
      1      + coni * w1**2 / 6 * (lorenz(xloss,w3,dele)*xmu(ne1+3)-
-     2      lorenz(xloss,w2,dele)*xmu(ne1+2)) / (w3-w2) 
+     2      lorenz(xloss,w2,dele)*xmu(ne1+2)) / (w3-w2)
 c           from negative pole has additional minus sign
-            cchi(ie) = cchi(ie) + 
+            cchi(ie) = cchi(ie) +
      1      lorenz(xloss,w1,delp)*xmu(ne1+1) *2*coni*w1
      1      + coni * w1**2 / 6 * (lorenz(xloss,w3,delp)*xmu(ne1+3)-
-     2      lorenz(xloss,w2,delp)*xmu(ne1+2)) / (w3-w2) 
+     2      lorenz(xloss,w2,delp)*xmu(ne1+2)) / (w3-w2)
 
 c           theta funcion contribution only for positive pole
             if (dele .lt. eps4)    cchi(ie) = cchi(ie) - xmu(ie)
@@ -130,7 +138,7 @@ c           anomalous contribution
             if (abs(dele).lt.eps4) temp = xmu(ie)/2
             temp = temp + xmu(ik0)*  funlog(1,xloss,wp,dele)
 c               xmu(iko) + xsec(ik0)  if n3 >0
-            dout(4,ie)=dble(temp) 
+            dout(4,ie)=dble(temp)
 
 c           integration over vertical axis to final point
             n1 = ne1+2
@@ -142,33 +150,33 @@ c           add contribution from other pole
             call fpint (emxs, xmu, n1, n2, delp, xloss, eps4, efermi,
      1                  value)
             cchi(ie) = cchi(ie) + value
-         endif 
+         endif
 
 c        integration over horizontal axis to final point
          temp = 0
          if (ne2.gt.0) then
 c           DANES
             n1 = ne1-ik0 + 1
-            do 120 i = ik0, ne1
+            do i = ik0, ne1
               emp(i-ik0+1) = dble(emxs(i))
               xmup(i-ik0+1) = coni*xsnorm(i)
-  120       continue
-            do 130 i = 1, ne3
+           enddo
+            do i = 1, ne3
               emp(i+n1) = dble(emxs(i+ne-ne3))
               xmup(i+n1) = xmu(i+ne-ne3)
-  130       continue
+           enddo
             n2 = n1 + ne3
          else
 c           FPRIME
             n1 = 0
-            do 140 i = 1, ne1
-              if (n1.eq.0 .and. dble(emxs(i)).gt. dble(emxs(ne1+1))) 
+            do i = 1, ne1
+              if (n1.eq.0 .and. dble(emxs(i)).gt. dble(emxs(ne1+1)))
      1            n1 = i
-  140       continue
-            do 150 i = 1, ne3
+           enddo
+            do i = 1, ne3
                emp(i) =  dble(emxs(ne1+i))
                xmup(i) =  xmu(ne1+i)
-  150       continue
+            enddo
             n2 = ne3
          endif
          call fpintp (emp, xmup , n2, dele, xloss, efermi, value)
@@ -182,7 +190,7 @@ cc          contribution to fp from poles of the core states
 c           temp=0
 c           do 110  i=2, nosc
 cc             eif = E_f- E_i  in hartrees
-cc             eif = enosc(i)-enosc(1) 
+cc             eif = enosc(i)-enosc(1)
 cc             deltaf = deltaf - oscstr(i)*2*alpinv**2/eif
 c              temp = temp + alpinv**2 * oscstr(i)* (dele -
 c    1      enosc(i)+efermi-1)/ ((dele-enosc(i)+efermi-1)**2+xloss**2)
@@ -198,26 +206,28 @@ c        total contribution (not normalized)
          dout(6,ie) = dble(temp)
 c        (integral w2 to wmax) minus (cusp formula)
          dout (7,ie) = dout(6,ie)-dout(4,ie)
-  200 continue
+      enddo
 
 c     restore the input energy mesh
       if (vicorr.gt.eps4) then
-         do 250 ie = 1, ne1
-  250    emxs(ie) = emxs(ie) - coni*vicorr
+         do ie = 1, ne1
+            emxs(ie) = emxs(ie) - coni*vicorr
+         enddo
       endif
       if (abs(vrcorr).gt.eps4) then
-         do 260 ie = 1, ne2
-  260    emxs(ne1+ie) = emxs(ne1+ie) + vrcorr
+         do ie = 1, ne2
+            emxs(ne1+ie) = emxs(ne1+ie) + vrcorr
+         enddo
       endif
 
 c     if (ient.eq.1) then
       open(unit=3,file='danes.dat', status='unknown', iostat=ios)
       write(3,310) '# E  matsub. sommerf. anomal. tale, total, differ.'
   310 format (a)
-      do 300 ie = 1, ne1
+      do ie = 1, ne1
          write(3,320) (dout(i,ie), i=1,7)
   320    format ( 7(1x,1pe11.4))
-  300 continue
+      enddo
       close(unit=3)
 c     endif
 
@@ -226,20 +236,20 @@ c     endif
 
       complex*16 function funlog (icase, xloss, w, dele)
 c     anomalous fp should have all main features of total fp
-c     except smooth difference 
+c     except smooth difference
 c     analytic expression for anomalous fp (without integral)
 c     is obtained by adding and subtracting G(Ef + i*Gamma) / E-w
 c     and performing integral for Im axis analytically
-c     icase = 1 simplified expression (compared to 2) 
-c     icase=2  use real w 
+c     icase = 1 simplified expression (compared to 2)
+c     icase=2  use real w
 c     icase=3  pure imaginary w (absolute value is input)
       implicit double precision (a-h, o-z)
       include '../HEADERS/const.h'
       parameter (eps4 = 1.0d-4)
       funlog = (0.d0,0.d0)
 
-      if (icase.eq.1) then 
-         if (abs(dele).ge.eps4) then 
+      if (icase.eq.1) then
+         if (abs(dele).ge.eps4) then
             funlog= coni/2/pi*
      1      (log((-xloss+coni*dele)/w)+ log((xloss+coni*dele)/w))
 
@@ -266,7 +276,7 @@ c     icase=3  pure imaginary w (absolute value is input)
           funlog= coni/pi* log(abs(xloss/w))*
      1    (1 + xloss/(w-xloss))
         endif
-      
+
       endif
 
       return
@@ -324,7 +334,7 @@ c     and adds tail to infinity
       complex*16  z1, z2, aa, bb, cc
 
       value = 0
-c     all intervals 
+c     all intervals
       do  300 i = 1, n2-1
          x1 = em(i) - efermi
          x2 = em(i+1) - efermi
