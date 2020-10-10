@@ -69,7 +69,7 @@ or you can edit the first few lines of the Makefile (in this directory) which wi
     export PREFIX =  ${CURDIR}/local_install
 ```
 
-which you can change to
+which you can change to something like
 
 ```
     export PREFIX  = /usr/local
@@ -96,7 +96,6 @@ To run the tests, do:
 ```
    make test
 ```
-
 
 For more example programs using the fortran entry point to the stand-alone
 F_eff calculations or programs using the C wrapper see the `wrappers/`
