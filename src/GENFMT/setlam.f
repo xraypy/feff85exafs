@@ -85,18 +85,18 @@ c     n**2 sort -- can 'improve' to nlog_2(n) if necessary)
       lam = 0
       do in = 1, nmax+1
          n = in - 1
-         do im = 1, mmax+1
+         do  im = 1, mmax+1
             m = im-1
             jord = 2*n+m
-            if (jord .le. iord) goto 20
-            if (lam .ge. lamtot) then
+            if (jord .gt. iord)  goto 20
+            if (lam .ge. lamtot)  then
                call wlog(' Lambda array filled, some order lost')
                goto 21
             endif
             lam = lam+1
             mlam0(lam) = -m
             nlam0(lam) = n
-            if (m .eq. 0) goto 20
+            if (m .eq. 0)  goto 20
             if (lam .ge. lamtot)  then
                call wlog(' Lambda array filled, some order lost')
                goto 21
@@ -107,7 +107,7 @@ c     n**2 sort -- can 'improve' to nlog_2(n) if necessary)
  20         continue
          enddo
       enddo
-   21 continue
+ 21   continue
       lamx=lam
 c     lamx must be less than lamtot
       if (lamx .gt. lamtot) call par_stop('SETLAM lamx > lamtot')
@@ -115,7 +115,7 @@ c     lamx must be less than lamtot
 c     laml0x is biggest lam for non-zero fmatrix, also set mmax and nmax
 c     Sort mlam0 and nlam0 to use min possible laml0x
       lam = 0
-      do lam0 = 1, lamx
+      do  lam0 = 1, lamx
          if ((nlam0(lam0).le.ilinit) .and.
      1       (iabs(mlam0(lam0)).le.ilinit)) then
             lam = lam+1
@@ -135,7 +135,7 @@ c     Sort mlam0 and nlam0 to use min possible laml0x
 
       mmaxp1 = 0
       nmax = 0
-      do lam = 1, lamx
+      do  lam = 1, lamx
          if (mlam(lam)+1 .gt. mmaxp1)  mmaxp1 = mlam(lam)+1
          if (nlam(lam) .gt. nmax)  nmax = nlam(lam)
       enddo
