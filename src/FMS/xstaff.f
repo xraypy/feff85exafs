@@ -13,7 +13,7 @@ c  all the pesky little do loops are for transferring rows
 c  of temp into toss.
 c-------------------------------------------------------------------
 c  alexei ankudinov: needed to avoid unnecessary permutations when atoms
-c  are at the same distance from the central atom, in order to comply 
+c  are at the same distance from the central atom, in order to comply
 c  feff document: the sample atom should be the nearest to absorber or
 c  first in the list among equidistant
 c  Add small contribution 10**-8 * number to the sorting variable ra
@@ -22,19 +22,19 @@ c-------------------------------------------------------------------
 c  natx:   dimension parameter from calling program
 c-------------------------------------------------------------------
       dimension rat(3, nat), toss(3), iphat(nat)
-      double precision ra(nat), dum 
+      double precision ra(nat), dum
 
       if (nat.lt.2) return
 
       l=0
-      do 10 i=1,nat
+      do i=1,nat
          ra(i) = dble( rat(1,i)**2 + rat(2,i)**2 + rat(3,i)**2 ) +
-     1           i*1.d-8
-c        small addition at to prefer the old ordering
+     1        i*1.d-8
+c     small addition at to prefer the old ordering
          if (l.eq.0 .and.i.gt.1) then
-             if (ra(i).lt.ra(i-1)) l=1
+            if (ra(i).lt.ra(i-1)) l=1
          endif
-  10  continue
+      enddo
 c     check if array is already in order
       if (l.eq.0) return
 
@@ -43,27 +43,27 @@ c     check if array is already in order
  110  continue
          if (l.gt.1) then
             l = l-1
-            do 120 index=1,3
+            do index=1,3
                toss(index)=rat(index,l)
- 120        continue
+            enddo
             itoss = iphat(l)
             dum = ra(l)
          else
-            do 130 index=1,3
+            do index=1,3
                toss(index) = rat(index,ir)
- 130        continue
+            enddo
             itoss = iphat(ir)
             dum = ra(ir)
-            do 140 index=1,3
+            do index=1,3
                rat(index,ir) = rat(index,1)
- 140        continue
+            enddo
             iphat(ir) = iphat(1)
             ra(ir) = ra(1)
             ir=ir-1
             if (ir.eq.1) then
-               do 150 index=1,3
+               do index=1,3
                   rat(index,1)=toss(index)
- 150           continue
+               enddo
                iphat(1) = itoss
                ra(1) = dum
 c              sort is finished
@@ -73,7 +73,8 @@ c              sort is finished
          i=l
          j=l+l
 
- 160     if (j.le.ir) then
+ 160     continue
+         if (j.le.ir) then
             if (j.lt.ir) then
                if ( ra(j) .lt. ra(j+1) ) then
                   j  = j + 1
@@ -81,9 +82,9 @@ c              sort is finished
             endif
 
             if ( dum .lt. ra(j) ) then
-               do 170 index=1,3
+               do index=1,3
                   rat(index,i) = rat(index,j)
- 170           continue
+               enddo
                iphat(i) = iphat(j)
                ra(i) = ra(j)
                i=j
@@ -94,9 +95,9 @@ c              sort is finished
             goto 160
          endif
 
-         do 180 index=1,3
+         do index=1,3
             rat(index,i) = toss(index)
- 180     continue
+            enddo
          iphat(i) = itoss
          ra(i) = dum
 
@@ -261,7 +262,7 @@ c      needed for commented out diagnostic file
 c      logical open
       parameter(lxx=24)
       parameter (pi = 3.14159 26535 89793 23846 26433e0)
-      complex coni, dum 
+      complex coni, dum
       parameter (coni = (0,1))
 
 c     dri0 is larger than needed for genfmt, but necessary for
@@ -272,29 +273,34 @@ c     dri arrays (in common) at end of this routine.
 c#mn{
 c  check whether a rotation matrix for this {beta(ileg),lxp1,mxp1} has
 c  been calculated and saved.  If so, just use the saved value
-       do 90 isav = 1, jsav
+       do isav = 1, jsav
           if (betsav(isav).eq.jbmagk) go to 95
           if ((lxp1.eq.ldsav(isav)).and.(mxp1.eq.mdsav(isav)).and.
      $         (abs(betax-betsav(isav)).le.roteps) ) then
 cc             print*, 'using drisav for ', isav, betax, lxp1, mxp1
-             do 85 il = 0, lx
-             do 85 m1 = -il, il
-             do 85 m2 = -il, il
-               drix(m2,m1,il,k,j,i)=cmplx(drisav(m2,m1,il,isav),zero)
- 85          continue
+             do il = 0, lx
+                do m1 = -il, il
+                   do m2 = -il, il
+                      drix(m2,m1,il,k,j,i) =
+     $                     cmplx(drisav(m2,m1,il,isav), zero)
+                   enddo
+                enddo
+             enddo
              go to 770
           end if
- 90    continue
+       enddo
  95    continue
 c#mn}
 
 
 c     initialize dri0
-      do 150 in = 1, 2*lxx+1
-        do 150 im = 1, 2*lxx+1
-          do 150 il = 1, lxx+1
-            dri0(il,im,in) = zero
- 150  continue
+       do in = 1, 2*lxx+1
+          do im = 1, 2*lxx+1
+             do il = 1, lxx+1
+                dri0(il,im,in) = zero
+             enddo
+          enddo
+       enddo
 
       nm  = mxp1
       ndm = lxp1+nm-1
@@ -311,52 +317,55 @@ c     initialize dri0
       dri0(2,3,1) =  dri0(2,1,3)
       dri0(2,3,2) = -dri0(2,2,3)
       dri0(2,3,3) =  dri0(2,1,1)
-      do 230  l = 3, lxp1
-        ln = 2*l - 1
-        lm = 2*l - 3
-        if (ln .gt. ndm)  ln = ndm
-        if (lm .gt. ndm)  lm = ndm
-        do 220  n = 1, ln
-          do 210  m = 1, lm
-            t1   = (2*l-1-n) * (2*l-2-n)
-            t    = (2*l-1-m) * (2*l-2-m)
-            f1   = sqrt(t1/t)
-            f2   = sqrt( (2*l-1-n) * (n-1) / t )
-            t3   = (n-2) * (n-1)
-            f3   = sqrt(t3/t)
-            dlnm = f1 * xc**2 * dri0(l-1,n,m)
-            if (n-1 .gt. 0) dlnm = dlnm - f2*s*dri0(l-1,n-1,m)
-            if (n-2 .gt. 0) dlnm = dlnm + f3*xs**2*dri0(l-1,n-2,m)
-            dri0(l,n,m) = dlnm
-            if (n .gt. (2*l-3))
-     $                  dri0(l,m,n) = (-1)**(n-m) * dri0(l,n,m)
- 210      continue
-          if (n .gt. (2*l-3)) then
-              dri0(l,2*l-2,2*l-2) =  dri0(l,2,2)
-              dri0(l,2*l-1,2*l-2) = -dri0(l,1,2)
-              dri0(l,2*l-2,2*l-1) = -dri0(l,2,1)
-              dri0(l,2*l-1,2*l-1) =  dri0(l,1,1)
-          endif
- 220    continue
- 230  continue
-
+      do l = 3, lxp1
+         ln = 2*l - 1
+         lm = 2*l - 3
+         if (ln .gt. ndm)  ln = ndm
+         if (lm .gt. ndm)  lm = ndm
+         do n = 1, ln
+            do m = 1, lm
+               t1   = (2*l-1-n) * (2*l-2-n)
+               t    = (2*l-1-m) * (2*l-2-m)
+               f1   = sqrt(t1/t)
+               f2   = sqrt( (2*l-1-n) * (n-1) / t )
+               t3   = (n-2) * (n-1)
+               f3   = sqrt(t3/t)
+               dlnm = f1 * xc**2 * dri0(l-1,n,m)
+               if (n-1 .gt. 0) dlnm = dlnm - f2*s*dri0(l-1,n-1,m)
+               if (n-2 .gt. 0) dlnm = dlnm + f3*xs**2*dri0(l-1,n-2,m)
+               dri0(l,n,m) = dlnm
+               if (n .gt. (2*l-3))
+     $              dri0(l,m,n) = (-1)**(n-m) * dri0(l,n,m)
+            enddo
+            if (n .gt. (2*l-3)) then
+               dri0(l,2*l-2,2*l-2) =  dri0(l,2,2)
+               dri0(l,2*l-1,2*l-2) = -dri0(l,1,2)
+               dri0(l,2*l-2,2*l-1) = -dri0(l,2,1)
+               dri0(l,2*l-1,2*l-1) =  dri0(l,1,1)
+            endif
+         enddo
+      enddo
 
 c     initialize drix
-      do 310 il = 0, lx
-      do 310 m1 = -lx, lx
-      do 310 m2 = -lx, lx
-        drix(m2,m1,il,k,j,i) = cmplx(zero,zero)
-        drix(m2,m1,il,k,i,i) = cmplx(zero,zero)
- 310  continue
+      do il = 0, lx
+         do m1 = -lx, lx
+            do m2 = -lx, lx
+               drix(m2,m1,il,k,j,i) = cmplx(zero,zero)
+               drix(m2,m1,il,k,i,i) = cmplx(zero,zero)
+            enddo
+         enddo
+      enddo
 
 c     Copy result into drix(...,k,j,i) in /rotx/
-      do 390  il = 1, lxp1
-        mmx = min (il-1, mxp1-1)
-        do 380  m1 = -mmx, mmx
-        do 380  m2 = -mmx, mmx
-          drix(m2, m1, il-1, k, j, i)=cmplx(dri0(il,m1+il,m2+il),zero)
- 380    continue
- 390  continue
+      do il = 1, lxp1
+         mmx = min (il-1, mxp1-1)
+         do m1 = -mmx, mmx
+            do m2 = -mmx, mmx
+               drix(m2, m1, il-1, k, j, i) =
+     $              cmplx(dri0(il,m1+il,m2+il),zero)
+            enddo
+         enddo
+      enddo
 c#mn{
 c      save dri if there's room
        if (jsav.lt.jsavx) then
@@ -365,11 +374,13 @@ cc          print*, 'saving dri to ',  jsav, betax, lxp1, mxp1
           betsav(jsav) = betax
           ldsav(jsav)  = lxp1
           mdsav(jsav)  = mxp1
-          do 720 il = 0, lx
-          do 720 m1 = -il, il
-          do 720 m2 = -il, il
-            drisav(m2,m1,il,jsav) = real(drix(m2,m1,il,k,j,i))
- 720      continue
+          do il = 0, lx
+             do m1 = -il, il
+                do m2 = -il, il
+                   drisav(m2,m1,il,jsav) = real(drix(m2,m1,il,k,j,i))
+                enddo
+             enddo
+          enddo
        else
 cc          print*, 'not saving dri to ',  betax, lxp1, mxp1
        end if
@@ -404,19 +415,20 @@ c c          close(iun)
 c       endif
 c-----end test------------------------
 
-        do 920 il = 0, lx
-        do 920 m1 = -il, il
-          dum = coni * m1 * (xphi(i,j)-pi)
-          if (k.eq.1) dum = -dum
-          dum = exp( dum )
-          do 910 m2 = -il, il
-            if (k.eq.1) then
-              drix(m2,m1,il,k,j,i) = drix(m2,m1,il,k,j,i) * dum
-            else
-              drix(m1,m2,il,k,j,i) = drix(m1,m2,il,k,j,i) * dum
-            endif
- 910       continue
- 920     continue
+        do il = 0, lx
+           do m1 = -il, il
+              dum = coni * m1 * (xphi(i,j)-pi)
+              if (k.eq.1) dum = -dum
+              dum = exp( dum )
+              do m2 = -il, il
+                 if (k.eq.1) then
+                    drix(m2,m1,il,k,j,i) = drix(m2,m1,il,k,j,i) * dum
+                 else
+                    drix(m1,m2,il,k,j,i) = drix(m1,m2,il,k,j,i) * dum
+                 endif
+              enddo
+           enddo
+        enddo
 
       return
 c  end subroutine rotxan
@@ -474,18 +486,18 @@ c  end of xstruc.h
 c********************************************************************
 c initialize /rotsav/
        jsav = 0
-       do 100 js = 1, jsavx
+       do js = 1, jsavx
           betsav(js) = jbmagk
           ldsav(js)  = 0
           mdsav(js)  = 0
-          do 90 il  = 0, lx
-             do 80 m1 = -lx, lx
-                do 70 m2 = -lx, lx
+          do il  = 0, lx
+             do m1 = -lx, lx
+                do m2 = -lx, lx
                    drisav(m2,m1,il,js) = 0
- 70             continue
- 80          continue
- 90       continue
- 100   continue
+                enddo
+             enddo
+          enddo
+       enddo
        return
 c#mn}
        end
@@ -527,15 +539,15 @@ c--------------------------------------------------------------------
       dimension ipoint(0:nphasx)
       integer iph0, ip, ilast
 
-      do 10 i=0,nphasx
+      do i=0,nphasx
         ipoint(i) = 0
- 10   continue
-      do 30 ic=1,nat
-        iphx(ic) = iphat(ic)
-        do 20 ix=1,3
-          xrat(ix,ic) = rat(ix,ic)
- 20     continue
- 30   continue
+      enddo
+      do ic=1,nat
+         iphx(ic) = iphat(ic)
+         do ix=1,3
+            xrat(ix,ic) = rat(ix,ic)
+         enddo
+      enddo
 
 c     (iph0=0 for absorbing atom as the central atom)
       if (iphx(1).ne.iph0) then
@@ -554,16 +566,16 @@ c --- find the example of each unique potential that is closest to the
 c     central atom.  This will presumably be well within the cluster
 c     that was used to compute the overlapped potentials
       ipoint(iph0) = 1
-      do 150 ip=0,npot
-        if (ip .ne. iph0) then
-          do 130 iat=2,nat
-            if (iphx(iat).eq.ip .and. ipoint(ip).eq.0) then
-                ipoint(ip) = iat
-c                print*,'>>>>> ip, ipoint(ip)', ip, ipoint(ip)
-            endif
- 130      continue
-        endif
- 150  continue
+      do ip=0,npot
+         if (ip .ne. iph0) then
+            do iat=2,nat
+               if (iphx(iat).eq.ip .and. ipoint(ip).eq.0) then
+                  ipoint(ip) = iat
+c     print*,'>>>>> ip, ipoint(ip)', ip, ipoint(ip)
+               endif
+            enddo
+         endif
+      enddo
 
 c --- now swap the first few atoms with the atoms found above
       do 200 ip=0,npot
@@ -592,9 +604,9 @@ c       entries
 c       added by ala
 c       check that substituted atom was not some ip example
 c          ???BR Jan 16 1998???
-        do 190 ipp = ip+1, npot
-          if (ipoint(ipp).eq.ip+1) ipoint(ipp) = ipoint(ip)
-  190   continue
+        do ipp = ip+1, npot
+           if (ipoint(ipp).eq.ip+1) ipoint(ipp) = ipoint(ip)
+        enddo
 c       set the correct pointer to ip example
         ipoint(ip) = ip+1
 
@@ -606,27 +618,27 @@ c     from first npot atoms in the list as an example for ip.
 c     Make more permutaions if necesary.
       ilast = -1
       nmin = min (npot+1, nat)
-      do 210 ip = 0, npot
-        if (ipoint(ip).ne.0) then
-          do 205 iat = 1,nmin
-  205     if (iphx(iat).eq.ip) ilast = iat
+      do ip = 0, npot
+         if (ipoint(ip).ne.0) then
+            do  iat = 1,nmin
+               if (iphx(iat).eq.ip) ilast = iat
+            enddo
+            if (ilast.ne.ipoint(ip)) then
+               xx  = xrat(1,ilast)
+               yy  = xrat(2,ilast)
+               zz  = xrat(3,ilast)
 
-          if (ilast.ne.ipoint(ip)) then
-            xx  = xrat(1,ilast)
-            yy  = xrat(2,ilast)
-            zz  = xrat(3,ilast)
+               xrat(1,ilast)= xrat(1,ipoint(ip))
+               xrat(2,ilast)= xrat(2,ipoint(ip))
+               xrat(3,ilast)= xrat(3,ipoint(ip))
 
-            xrat(1,ilast)= xrat(1,ipoint(ip))
-            xrat(2,ilast)= xrat(2,ipoint(ip))
-            xrat(3,ilast)= xrat(3,ipoint(ip))
-
-            xrat(1,ipoint(ip)) = xx
-            xrat(2,ipoint(ip)) = yy
-            xrat(3,ipoint(ip)) = zz
+               xrat(1,ipoint(ip)) = xx
+               xrat(2,ipoint(ip)) = yy
+               xrat(3,ipoint(ip)) = zz
 c           now ipoint(ip) = ilast, but don't need ipoint anymore
-          endif
-        endif
-  210 continue
+            endif
+         endif
+      enddo
 
 c       if (idbg(4).eq.1) then
 c           do 220 i=1,npot+1
@@ -707,17 +719,16 @@ c      common/afctr/afac,flzero,flg(0:210)
 c      common/afctr/afac,flzero,flg(0:110) vax change
 
       call xfctst
-      do 50 il=1,lmaxp1
-        mmxp1 = min(mmaxp1,il)
-        do 40 im=1,mmxp1
-          l    = il-1
-          m    = im-1
-          cnlm = (2*l+1) * flg(l-m) / flg(l+m)
-          cnlm = sqrt(cnlm) * afac**m
-          xnlm(m,l) = cnlm
-
- 40     continue
- 50   continue
+      do il=1,lmaxp1
+         mmxp1 = min(mmaxp1,il)
+         do im=1,mmxp1
+            l    = il-1
+            m    = im-1
+            cnlm = (2*l+1) * flg(l-m) / flg(l+m)
+            cnlm = sqrt(cnlm) * afac**m
+            xnlm(m,l) = cnlm
+         enddo
+      enddo
       return
 c  end subroutine xlm
       end
@@ -740,15 +751,13 @@ c--------------------------------------------------------------------
 c      common /afctr/ a, flzero, flg(0:210)
       a=0.03125
 c     a=0.015625
-      flzero = 1.0
-      flg(0) = 1.0
+      flzero = 1.d0
+      flg(0) = 1.d0
       flg(1) = a
-      do 10 i=2,50
-        flg(i) = flg(i-1) * i * a
- 10   continue
+      do i=2,50
+         flg(i) = flg(i-1) * i * a
+      enddo
       return
       end
-
-
 
 c====================================================================

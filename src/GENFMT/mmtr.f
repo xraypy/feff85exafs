@@ -13,7 +13,7 @@ c        rotation matrix for ilegp
 c        path data, eta(ilegp) and ipot(ilegp)
 c        mtot,l0
 c        polarization data : ipol, ispin, ptz
-c     Output:  bmati(...) 
+c     Output:  bmati(...)
 
       include '../HEADERS/const.h'
       include '../HEADERS/dim.h'
@@ -33,12 +33,15 @@ c     include 'pdata.h'
       dimension kind(8), lind(8)
       logical ltrace
 
-      do 10 i = 1,8
-      do 10 k = -mtot,mtot
-      do 10 j = 1,8
-      do 10 l = -mtot,mtot
-         bmati(l,j,k,i)=0.0d0
-  10  continue
+      do i = 1,8
+         do k = -mtot,mtot
+            do j = 1,8
+               do l = -mtot,mtot
+                  bmati(l,j,k,i)=0.0d0
+               enddo
+            enddo
+         enddo
+      enddo
 
       ltrace = .false.
       call bcoef (kinit, ipol, ptz, le2, ltrace, ispin, angks,
@@ -46,48 +49,53 @@ c     include 'pdata.h'
       is = 0
       if (ispin.eq.1) is = nspx - 1
 
-c     ilinit = initial orb. momentum + 1. 
+c     ilinit = initial orb. momentum + 1.
       lxx = min(mtot,ilinit)
 
 c     set indices for bmati (no indentation)
-      do 60 mu1 = -lxx,lxx
-      mu1d = mu1+mtot+1
-      do 50 mu2 = -lxx,lxx
-      mu2d = mu2+mtot+1
-      if (ipol.ne.0) then
-        do 40 k1 = 1,8
-        do 40 k2=  1,8
-          l1 = lind(k1) + 1
-          l2 = lind(k2) + 1
-          do 35 m1 = -lind(k1), lind(k1)
-          do 35 m2 = -lind(k2), lind(k2)
-            m1d = m1 + mtot+1
-            m2d = m2 + mtot+1
-            bmati(mu1,k1, mu2,k2) =bmati(mu1,k1, mu2,k2) +
-     1      bmat(m1,is,k1,m2,is,k2)*exp(-coni*(eta(nsc+2)*m2+eta(0)*m1))
-     1        * dri(l1,mu1d,m1d,nsc+2) * dri(l2,m2d,mu2d,nleg)
+      do mu1 = -lxx,lxx
+         mu1d = mu1+mtot+1
+         do mu2 = -lxx,lxx
+            mu2d = mu2+mtot+1
+            if (ipol.ne.0) then
+               do k1 = 1,8
+                  do k2=  1,8
+                     l1 = lind(k1) + 1
+                     l2 = lind(k2) + 1
+                     do m1 = -lind(k1), lind(k1)
+                        do m2 = -lind(k2), lind(k2)
+                           m1d = m1 + mtot+1
+                           m2d = m2 + mtot+1
+                           bmati(mu1,k1, mu2,k2) = bmati(mu1,k1, mu2,k2)
+     $                          +  bmat(m1,is,k1,m2,is,k2)
+     $                          * exp(-coni*(eta(nsc+2)*m2+eta(0)*m1))
+     $                          * dri(l1,mu1d,m1d,nsc+2)
+     $                          * dri(l2,m2d,mu2d,nleg)
 c           dri(nsc+2)  is angle between z and leg1
 c           dri(nsc+1)  is angle between last leg and z
 c           eta(0)      is gamma between eps and rho1,
 c           eta(nsc+2)  is alpha between last leg and eps
-   35     continue
-   40   continue
-      else
+                        enddo
+                     enddo
+                  enddo
+               enddo
+            else
 c       ipol=0 and bmat is diagonal in k1,k2 and LS L'S'
 c       and 2 rotation matrices can be combined to 1
-        do 140 k1 = 1,8
-          l1 = lind(k1) + 1
-          if (l1.gt.0) then
-            m1 = 0
-            m1d = m1 + mtot+1
-            bmati(mu1,k1, mu2,k1) =bmati(mu1,k1, mu2,k1) +
-     1        bmat(m1,is,k1,m1,is,k1) * dri( l1, mu1d, mu2d, nsc+1)
-c           dri(nsc+1)  is angle between last leg and first leg
-          endif
-  140   continue
-      endif
-   50 continue
-   60 continue
+               do k1 = 1,8
+                  l1 = lind(k1) + 1
+                  if (l1.gt.0) then
+                     m1 = 0
+                     m1d = m1 + mtot+1
+                     bmati(mu1,k1, mu2,k1) = bmati(mu1,k1, mu2,k1)
+     $                    + bmat(m1,is,k1,m1,is,k1)
+     $                    * dri( l1, mu1d, mu2d, nsc+1)
+c     dri(nsc+1)  is angle between last leg and first leg
+                  endif
+               enddo
+            endif
+         enddo
+      enddo
 
       return
       end

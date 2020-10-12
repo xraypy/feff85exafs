@@ -42,33 +42,34 @@ c     since t is tri-diagonal, this product can be computed in n^2 time
 c     also fill up some work matrices for use in eigenvalue and
 c     determinant calculations and elsewhere
 c     cycle over dimensions of matrix g0t
-      do 10 icol = 1,istatx
-      do 10 irow = 1,istatx
- 10   g0t(irow,icol) = 0
-
-      do 30 icol = 1,istate
-        do 20 irow = 1,istate
-c         T diagonal contribution T(irow, irow)
-          if ( abs( g0(irow, icol)) .gt. toler2 )
-     1    g0t(irow,icol)=g0t(irow,icol) - tmatrx(1,irow) * g0(irow,icol) 
+      do icol = 1,istatx
+         do irow = 1,istatx
+            g0t(irow,icol) = 0
+         enddo
+      enddo
+      do icol = 1,istate
+        do irow = 1,istate
+c     T diagonal contribution T(irow, irow)
+           if ( abs( g0(irow, icol)) .gt. toler2 )
+     1          g0t(irow,icol)=g0t(irow,icol) -
+     $          tmatrx(1,irow) * g0(irow,icol)
 
 c         T off-diagonal contribution T(ist2, irow) in tmatr(2,irow)
 c         T off-diagonal contribution T(irow, ist2) in tmatr(2,ist2)
-          l1   = lrstat(2,irow)
-          m1   = lrstat(3,irow)
-          isp1 = lrstat(4,irow)
-          m2 = m1+isp1
-          if (nsp.eq.2 .and. m2.gt.-l1+1 .and. m2.lt.l1+2) then
+           l1   = lrstat(2,irow)
+           m1   = lrstat(3,irow)
+           isp1 = lrstat(4,irow)
+           m2 = m1+isp1
+           if (nsp.eq.2 .and. m2.gt.-l1+1 .and. m2.lt.l1+2) then
 c            spin-flip contribution
-             ist2 = irow + (-1)**isp1
-             if ( abs( g0(ist2, icol)) .gt. toler2)
-     1       g0t(irow, icol) = g0t(irow, icol)
-     2                   - tmatrx(nsp, ist2) * g0(ist2, icol) 
-          endif
- 20     continue
-
+              ist2 = irow + (-1)**isp1
+              if ( abs( g0(ist2, icol)) .gt. toler2)
+     1             g0t(irow, icol) = g0t(irow, icol)
+     2             - tmatrx(nsp, ist2) * g0(ist2, icol)
+           endif
+        enddo
         g0t(icol, icol) = g0t(icol, icol) + one
- 30   continue
+      enddo
 
       do 920 ip=ipi, ipf
         ipart = nsp*(lipotx(ip)+1)**2
@@ -80,9 +81,10 @@ c            spin-flip contribution
 c         start first tier with xvec=0
           istart = -1
           msord=0
-          do 40 is = 1, istate
-          rvec(is) = 0
-  40      xvec(is) = 0
+          do is = 1, istate
+             rvec(is) = 0
+             xvec(is) = 0
+          enddo
 
 c         RESTART here if necessary
   50      continue
@@ -91,14 +93,16 @@ c         RESTART here if necessary
           if (istart.gt.0) call matvec( istatx,istate,g0t,xvec,rvec,1)
 c         rvec = g0t*xvec - bvec, in our case bvec(is) = delta_{is,is2}
           rvec(is2) = rvec(is2) - 1
-          do 90 is = 1,istate
- 90       xket(is) = - rvec(is)
+          do is = 1,istate
+             xket(is) = - rvec(is)
+          enddo
           call cdot( istatx, istate, xket, xket, bb)
           if (abs(bb).eq.0) goto 700
 
           xfnorm = 1.e0 / real(dble(bb))
-          do 91 is = 1, istate
- 91       xbra(is) = xket(is) * xfnorm
+          do is = 1, istate
+             xbra(is) = xket(is) * xfnorm
+          enddo
 c         |t> = A |n> ; |n> - xket, |n-1> - xketp
           call matvec ( istatx, istate, g0t, xket, tket, 1)
           msord = msord + 1
@@ -109,73 +113,79 @@ c         |t> = A |n> ; |n> - xket, |n-1> - xketp
           betac = aa
           yy = 1
 c         initialize vectors
-          do 110 is = 1,istate
+          do is = 1,istate
             xketp(is) = 0
             xbrap(is) = 0
             zvec(is) = xket(is)
             xvec(is) = xvec(is) + zvec(is)/betac
- 110      continue
+         enddo
 
-          do 120 is = 1, istate
- 120      svec(is) = tket(is)
-          do 130 is = 1, istate
- 130      rvec(is) = rvec(is) + svec(is) / betac
-
+          do is = 1, istate
+             svec(is) = tket(is)
+          enddo
+          do is = 1, istate
+             rvec(is) = rvec(is) + svec(is) / betac
+          enddo
 c         it seems ran out of precision for nit>150
           nitx = 100
           do 300 nit = 1, nitx
 c           use recursion method to calculate a_n+1, b_n, |n+1>, <n+1|
-            do 140 is = 1, istate
- 140        tket(is) = tket(is) - aa*xket(is) - bb*xketp(is)
+            do is = 1, istate
+               tket(is) = tket(is) - aa*xket(is) - bb*xketp(is)
+            enddo
             call matvec ( istatx, istate, g0t, xbra, tbra, 2)
-            do 150 is = 1, istate
- 150        tbra(is) = tbra(is) - aac*xbra(is) - bbc*xbrap(is)
+            do is = 1, istate
+               tbra(is) = tbra(is) - aac*xbra(is) - bbc*xbrap(is)
+            enddo
             call cdot( istatx, istate, tbra, tket, bb)
             if (abs(bb).eq.0) goto 700
 
             bb = sqrt (bb)
             bbc = real(bb) - coni*aimag(bb)
-            do 160 is = 1, istate
+            do is = 1, istate
               xketp(is) = xket(is)
               xbrap(is) = xbra(is)
- 160        continue
-            do 170 is = 1, istate
+           enddo
+            do is = 1, istate
               xket(is) = tket(is) / bb
               xbra(is) = tbra(is) / bbc
- 170        continue
+           enddo
             call matvec ( istatx, istate, g0t, xket, tket, 1)
             msord = msord + 1
             call cdot( istatx, istate, xbra, tket, aa)
             aac = real(aa) - coni*aimag(aa)
-            
-c           update iterative solution xvec, 
+
+c           update iterative solution xvec,
 c           and residual rvec = g0t*xvec - |1>
             alphac = bb / betac
-            do 210 is = 1, istate
- 210        zvec(is) = xket(is) - alphac * zvec(is)
-            do 220 is = 1, istate
- 220        svec(is) = tket(is) - alphac * svec(is)
+            do is = 1, istate
+               zvec(is) = xket(is) - alphac * zvec(is)
+            enddo
+            do is = 1, istate
+               svec(is) = tket(is) - alphac * svec(is)
+            enddo
 
             betac = aa - alphac*bb
             yy = - alphac * yy
             gamma = yy / betac
-            do 230 is = 1, istate
- 230        xvec(is) = xvec(is) + gamma * zvec(is)
-            do 240 is = 1, istate
- 240        rvec(is) = rvec(is) + gamma * svec(is)
-
+            do is = 1, istate
+               xvec(is) = xvec(is) + gamma * zvec(is)
+            enddo
+            do is = 1, istate
+               rvec(is) = rvec(is) + gamma * svec(is)
+            enddo
 cc          Check convergence criteria: | rvec | < tol
 c           call vecvec( istatx, istate, rvec, rvec, dum2)
 c           if (dum2.le.tol) goto 700
 cc          Check convergence criteria: | rvec | < tol
             ipass = 1
-            do 250 is = 1, istate
-              if ( abs(real(rvec(is))).gt.toler1) goto 260
-              if ( abs(aimag(rvec(is))).gt.toler1) goto 260
- 250        continue
-            ipass = 0
- 260        continue
-            if (ipass.eq.0) goto 700
+            do is = 1, istate
+               if ( abs(real(rvec(is))).gt.toler1) goto 260
+               if ( abs(aimag(rvec(is))).gt.toler1) goto 260
+           enddo
+           ipass = 0
+ 260       continue
+           if (ipass.eq.0) goto 700
 
  300      continue
 c         restart since ran out of iterations
@@ -186,15 +196,15 @@ c         exit if tolerance has been achieved
 c         end of RM iterations
 
 c         at this point xvec = (1-tG)**-1 * bvec  with chosen tolerance
-c         pack FMS matrix into an nsp*(lx+1)^2 x nsp*(lx+1)^2 matrix 
+c         pack FMS matrix into an nsp*(lx+1)^2 x nsp*(lx+1)^2 matrix
 c         for each ipot
-          do 800 is2=1,ipart
-            gg( is2, is1, ip) = zero
-            do 790 is = 1,istate
-              gg( is2, is1, ip) = gg( is2, is1, ip) +
-     1        g0( is2+i0(ip), is) * xvec(is)
- 790        continue
- 800      continue
+          do is2=1,ipart
+             gg( is2, is1, ip) = zero
+             do is = 1,istate
+                gg( is2, is1, ip) = gg( is2, is1, ip) +
+     1               g0( is2+i0(ip), is) * xvec(is)
+             enddo
+          enddo
 
  910    continue
  920  continue
@@ -214,10 +224,10 @@ c     thus need to conjugate abra here
       dimension abra(istatx), aket(istatx)
 
       cc = 0
-      do 10 is = 1,istate
-        aa = real(abra(is)) - coni*aimag(abra(is))
-        cc = cc + aa * aket(is)
- 10   continue
+      do is = 1,istate
+         aa = real(abra(is)) - coni*aimag(abra(is))
+         cc = cc + aa * aket(is)
+      enddo
       return
       end
 
@@ -230,11 +240,11 @@ c     dot product of two vectors
       dimension avec(istatx), bvec(istatx)
 
       cc = 0
-      do 10 is = 1,istate
-        aa = dble(real(avec(is))) * dble(real(bvec(is)))
-        bb = dble(aimag(avec(is))) * dble(aimag(bvec(is)))
-        cc = cc + aa + bb
- 10   continue
+      do is = 1,istate
+         aa = dble(real(avec(is))) * dble(real(bvec(is)))
+         bb = dble(aimag(avec(is))) * dble(aimag(bvec(is)))
+         cc = cc + aa + bb
+      enddo
       return
       end
 
@@ -250,21 +260,24 @@ c     itrans = 3  cvec = amat^T * bvec
       dimension amat(istatx, istatx), bvec(istatx), cvec(istatx)
 
 c     initialize cvec
-      do 10 is = 1,istatx
- 10   cvec(is) = 0
+      do is = 1,istatx
+         cvec(is) = 0
+      enddo
 
 c     cycle over dimensions of amat
-      do 20 icol = 1,istate
-      do 20 irow = 1,istate
-        if (itrans.eq.1) then
-          cvec(irow) = cvec(irow) + amat(irow, icol) * bvec(icol)
-        elseif(itrans.eq.2) then
-          aa = real(amat(irow, icol)) - coni*aimag(amat(irow, icol))
-          cvec(icol) = cvec(icol) + aa * bvec(irow)
-        else
-          cvec(icol) = cvec(icol) + amat(irow, icol) * bvec(irow)
-        endif
- 20   continue
+      do icol = 1,istate
+         do irow = 1,istate
+            if (itrans.eq.1) then
+               cvec(irow) = cvec(irow) + amat(irow, icol) * bvec(icol)
+            elseif(itrans.eq.2) then
+               aa = real(amat(irow, icol)) -
+     $              coni*aimag(amat(irow, icol))
+               cvec(icol) = cvec(icol) + aa * bvec(irow)
+            else
+               cvec(icol) = cvec(icol) + amat(irow, icol) * bvec(irow)
+            endif
+         enddo
+      enddo
 
       return
       end

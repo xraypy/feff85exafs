@@ -176,7 +176,7 @@ c     initialize gg to zero
       do 20 i = 0, nphasx
         do 18 j = 1, nspx*(lx+1)**2
           do 16 k = 1, nspx*(lx+1)**2
-            gg( k, j, i) = cmplx( zero, zero)
+            gg( k, j, i) = cmplx(0, 0)
  16       continue
  18     continue
  20   continue
@@ -240,7 +240,7 @@ c            xclm(i,j) = xclm(j,i) by symmetry
              do 120 ll = 0,lx
                do 110 mm = 0,lx
                  if (i.eq.j) then
-                     xclm(mm,ll,j,i,isp) = cmplx(zero,zero)
+                     xclm(mm,ll,j,i,isp) = cmplx(0,0)
                  else
                      xclm(mm,ll,j,i,isp) = clm(ll+1,mm+1)
                      xclm(mm,ll,i,j,isp) = clm(ll+1,mm+1)
@@ -274,15 +274,15 @@ c                               <LR| G |L'R'>
 
           if (iat1.eq.iat2) then
 c             same atom: G=0, calculate T-matrix
-              g0(ist1,ist2)     = cmplx(zero,zero)
+              g0(ist1,ist2)     = cmplx(0, 0)
 c             notice that T is tri-diagonal, due to conservation of
 c             total momentum.(will be broken by nonspherical potential)
 c             --- potential index for this atom
               iph = iphx(iat1)
             if (nsp.eq.1.and.ispin.eq.0) then
-              if (ist1.eq.ist2) tmatrx(1, ist1) =
+              if (ist1.eq.ist2) tmatrx(1, ist1) = cmplx(
      $                    ( exp(2*coni*xphase(isp1,l1,iph)) - one )
-     $                    / (2*coni)
+     $                    / (2*coni))
             else
               if (ist1.eq.ist2) then
 c                set spin index for t3jm and t3jp
@@ -294,27 +294,27 @@ c                  special case
                  endif
 
 c                diagonal matrix element
-                 tmatrx(1, ist1) =
+                 tmatrx(1, ist1) = cmplx(
      $                    ( exp(2*coni*xphase(isp1,l1,iph)) - one )
      $                    / (2*coni) * t3jm (l1, m1, is)**2  +
      $                    ( exp(2*coni*xphase(isp1,-l1,iph)) - one )
-     $                    / (2*coni) * t3jp (l1, m1, is)**2
+     $                    / (2*coni) * t3jp (l1, m1, is)**2)
               elseif (nsp.eq.2.and.l1.eq.l2.and.m1+isp1.eq.m2+isp2) then
 c                same orb. mom. and total momentum projections conserved
 c                calculate off-diagonal T-matrix element
 c                tmatrx(2, ist1) = here only if nspx equal to 2
-                 tmatrx(nsp, ist1) =
+                 tmatrx(nsp, ist1) = cmplx(
      $             ( exp(2*coni*xphase(isp1, l1,iph)) - one +
      $               exp(2*coni*xphase(isp2, l1,iph)) - one ) / (4*coni) 
      1             * t3jm (l1, m1, isp1) * t3jm (l1, m2, isp2)  +
      $             ( exp(2*coni*xphase(isp1,-l1,iph)) - one +
      $               exp(2*coni*xphase(isp2,-l1,iph)) - one ) / (4*coni) 
-     1             * t3jp (l1, m1, isp1) * t3jp (l1, m2, isp2)
+     1             * t3jp (l1, m1, isp1) * t3jp (l1, m2, isp2))
               endif
             endif
           elseif (isp1.eq.isp2 .and. rr.le.rdir2) then
 c           different atoms, same spin: T=0, calculate G
-            g0(ist1,ist2) = cmplx(zero,zero)
+            g0(ist1,ist2) = cmplx(0, 0)
             do 200 mu=-l1,l1
 c             --- third arg in drix: 0==>beta, 1==>-beta
               muabs = abs(mu)
@@ -324,15 +324,15 @@ c             --- third arg in drix: 0==>beta, 1==>-beta
      2             drix(mu,m1,l1,1,iat2,iat1) *  gllmz *
      3             drix(m2,mu,l2,0,iat2,iat1)
  200        continue
-            prefac = exp(coni*xrho(iat1,iat2,isp1)) /
-     $                  xrho(iat1,iat2,isp1)
+            prefac = cmplx(exp(coni*xrho(iat1,iat2,isp1)) /
+     $                  xrho(iat1,iat2,isp1))
 c           use correlated debye model, sigsqr is in AA^2
-            prefac = prefac * exp(-1 * sigsqr(iat1,iat2) *
-     $                  ck(isp1)**2 / bohr**2)
+            prefac = cmplx(prefac * exp(-1 * sigsqr(iat1,iat2) *
+     $           ck(isp1)**2 / bohr**2))
             g0(ist1,ist2) = prefac * g0(ist1,ist2)
           else
 c           different atoms, different spins:T=G=0
-            g0(ist1,ist2) = cmplx(zero,zero)
+             g0(ist1,ist2) = cmplx(0, 0)
           endif
 
 c -----   end of loops over states
@@ -395,28 +395,29 @@ c**** array of state kets at current energy
       integer   lipotx(0:nphasx), iphx(nclusx), i0(0:nphx)
 
       istate = 0
-      do 120 iat=1,nat
-        ip = iphx(iat)
+      do iat=1,nat
+         ip = iphx(iat)
 c       i0(ip) - index for the ip-representative atom
 c       need for simple find of states for ip-representative.
-        if (i0(ip).lt.0) i0(ip) = istate
-        lim = min(lx, lipotx(ip))
-        do 110 l=0,lim
-          do 100 m = -l, l
-          do 100 isp = 1, nsp
-            istate = istate + 1
-            if (istate.gt.istatx) then
-                call wlog('Exceeded maximum number of LR states.'//
+         if (i0(ip).lt.0) i0(ip) = istate
+         lim = min(lx, lipotx(ip))
+         do l=0,lim
+            do  m = -l, l
+               do  isp = 1, nsp
+                  istate = istate + 1
+                  if (istate.gt.istatx) then
+                     call wlog('Exceeded maximum number of LR states.'//
      $                      '  Stopping')
-                call par_stop('GETKTS-1')
-            endif
-            lrstat(1,istate) = iat
-            lrstat(2,istate) = l
-            lrstat(3,istate) = m
-            lrstat(4,istate) = isp
- 100      continue
- 110    continue
- 120  continue
+                     call par_stop('GETKTS-1')
+                  endif
+                  lrstat(1,istate) = iat
+                  lrstat(2,istate) = l
+                  lrstat(3,istate) = m
+                  lrstat(4,istate) = isp
+               enddo
+            enddo
+         enddo
+      enddo
 
       return
 c end subroutine kets
@@ -445,10 +446,10 @@ c    clm(lx+1,lx+1):  Hankle-like polynomials from RA
       parameter (ltotb=lx+1,mtotb=ltotb,ntotb=ltotb,mntot=mtotb+ntotb)
       complex z, cmm, clm(ltotb+1,mntot+1), rho
 
-      cmm  = cmplx(one, zero)
+      cmm  = cmplx(1, 0)
       z    = (-coni)/rho
 
-      clm(1,1) = cmplx(one,zero)
+      clm(1,1) = cmplx(1, 0)
       clm(2,1) = clm(1,1) - z
 
       lmax = lmaxp1-1

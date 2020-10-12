@@ -52,14 +52,14 @@ c     include 'pdata.h'
 c     calculate factors gam and gamtl
       iln = 1
       ilx = lmax(ie,ipot(ilegp)) + 1
-      do 30  il = iln, ilx
+      do il = iln, ilx
          ll = il - 1
 c        do j-average t-matrix
          tl = (exp(2*coni*ph(ie,-ll,ipot(ilegp))) - 1) / (2*coni)
          tltl = (exp(2*coni*ph(ie,ll,ipot(ilegp))) - 1) / (2*coni)
          tltl = tl * (ll+1) + tltl * ll
          lam12x = max (lam1x, lam2x)
-         do 20  lam = 1, lam12x
+         do lam = 1, lam12x
             m = mlam(lam)
             if (m .lt. 0)  goto 20
             im = m+1
@@ -73,21 +73,22 @@ c        do j-average t-matrix
    10       if (lam .gt. lam2x) goto 20
             camt = tltl / xnlm(il,im)
             gamtl(il,im,in) = camt * clmi(il,in,ilegp)
-   20    continue
-   30 continue
+ 20         continue
+         enddo
+      enddo
 
-      do 60 lam1 = 1,lam1x
+      do lam1 = 1,lam1x
          m1 = mlam(lam1)
          in1 = nlam(lam1) + 1
          iam1 = abs(m1) + 1
-         do 60  lam2 = 1, lam2x
+         do lam2 = 1, lam2x
             m2 = mlam(lam2)
             in2 = nlam(lam2) + 1
             iam2 = iabs(m2) + 1
             imn1 = iam1 + in1 - 1
             cterm = 0
             ilmin = max (iam1, iam2, imn1, in2, iln)
-            do 40  il = ilmin, ilx
+            do il = ilmin, ilx
 c              skip terms with mu > l (NB il=l+1, so mu=il is mu>l)
                if (abs(m1).ge.il .or. abs(m2).ge.il)  goto 40
                m1d = m1 + mtot+1
@@ -96,7 +97,8 @@ c              skip terms with mu > l (NB il=l+1, so mu=il is mu>l)
                cterm = cterm + gam(il,iam1,in1)*gamtl(il,iam2,in2)
      1                         *dri(il,m1d,m2d,ilegp)
 
-   40       continue
+ 40            continue
+            enddo
             if (eta(ileg) .ne. 0.0) then
                m1 = mlam(lam1)
                cterm = cterm * exp(-coni*eta(ileg)*m1)
@@ -111,7 +113,8 @@ c              m1 = mlam(lam1)
 c              cterm = cterm * exp(-coni*eta(ilegp)*m1)
 c           endif
             fmati(lam1,lam2,ilegp) = cterm
-   60 continue
+         enddo
+      enddo
 
 c     test of fmati(lam,lam',ileg)
 c     plot fmat(lam,lam') = csqrt((z/2)**(m1-m2))*fmat

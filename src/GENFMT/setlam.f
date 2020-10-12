@@ -59,12 +59,12 @@ c        decode it and do what user wants
 c        do cute algorithm
 c        set mmax = L0 if straight line path, otherwise set mmax = 3
          mmax = ilinit
-         do 10  ileg = 1, nleg
+         do ileg = 1, nleg
             mag1 = int(abs(beta(ileg)))
             mag2 = int(abs(mag1 - pi))
 c           if beta is not 0 or pi, path is non-linear
             if (mag1.gt.onedeg .and. mag2.gt.onedeg) mmax = 3
-   10    continue
+         enddo
 c        Set nmax based on ie and l0.
 c        k <= 12 invA (ie=41)  nmax = L0
 c        k >= 13 invA (ie=42)  nmax =  9
@@ -83,20 +83,20 @@ c     Use ...0 for making indices, then sort into arrays with no
 c     trailing 0 so laml0x is minimimized. (note: this is a crude
 c     n**2 sort -- can 'improve' to nlog_2(n) if necessary)
       lam = 0
-      do 20 in = 1, nmax+1
+      do in = 1, nmax+1
          n = in - 1
-         do 20  im = 1, mmax+1
+         do im = 1, mmax+1
             m = im-1
             jord = 2*n+m
-            if (jord .gt. iord)  goto 20
-            if (lam .ge. lamtot)  then
+            if (jord .le. iord) goto 20
+            if (lam .ge. lamtot) then
                call wlog(' Lambda array filled, some order lost')
                goto 21
             endif
             lam = lam+1
             mlam0(lam) = -m
             nlam0(lam) = n
-            if (m .eq. 0)  goto 20
+            if (m .eq. 0) goto 20
             if (lam .ge. lamtot)  then
                call wlog(' Lambda array filled, some order lost')
                goto 21
@@ -104,7 +104,9 @@ c     n**2 sort -- can 'improve' to nlog_2(n) if necessary)
             lam = lam+1
             mlam0(lam) = m
             nlam0(lam) = n
-   20 continue
+ 20         continue
+         enddo
+      enddo
    21 continue
       lamx=lam
 c     lamx must be less than lamtot
@@ -113,7 +115,7 @@ c     lamx must be less than lamtot
 c     laml0x is biggest lam for non-zero fmatrix, also set mmax and nmax
 c     Sort mlam0 and nlam0 to use min possible laml0x
       lam = 0
-      do 30  lam0 = 1, lamx
+      do lam0 = 1, lamx
          if ((nlam0(lam0).le.ilinit) .and.
      1       (iabs(mlam0(lam0)).le.ilinit)) then
             lam = lam+1
@@ -121,22 +123,22 @@ c     Sort mlam0 and nlam0 to use min possible laml0x
             mlam(lam) = mlam0(lam0)
             nlam0(lam0) = -1
          endif
-   30 continue
+      enddo
       laml0x = lam
-      do 40  lam0 = 1, lamx
+      do lam0 = 1, lamx
          if (nlam0(lam0) .ge. 0)  then
             lam = lam+1
             nlam(lam) = nlam0(lam0)
             mlam(lam) = mlam0(lam0)
          endif
-   40 continue
+      enddo
 
       mmaxp1 = 0
       nmax = 0
-      do 50  lam = 1, lamx
+      do lam = 1, lamx
          if (mlam(lam)+1 .gt. mmaxp1)  mmaxp1 = mlam(lam)+1
          if (nlam(lam) .gt. nmax)  nmax = nlam(lam)
-   50 continue
+      enddo
 
       if (nmax.gt.ntot .or. mmaxp1.gt.mtot+1)  then
    52    format (a, 4i8)

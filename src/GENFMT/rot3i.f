@@ -42,11 +42,13 @@ c     dri arrays at end of this routine.
       dimension  dri0 (ltot+1, 2*ltot+1, 2*ltot+1)
 
 c     initialize dri0
-      do 200 il = 1, ltot+1
-         do 200 im = 1, 2*ltot+1
-            do 200 in = 1, 2*ltot+1
+      do il = 1, ltot+1
+         do im = 1, 2*ltot+1
+            do in = 1, 2*ltot+1
                dri0(il,im,in) = 0
-  200 continue
+            enddo
+         enddo
+      enddo
 
       nm = mxp1
       ndm = lxp1+nm-1
@@ -63,13 +65,13 @@ c     initialize dri0
       dri0(2,3,1) = dri0(2,1,3)
       dri0(2,3,2) = -dri0(2,2,3)
       dri0(2,3,3) = dri0(2,1,1)
-      do 30  l = 3, lxp1
+      do  l = 3, lxp1
          ln = 2*l - 1
          lm = 2*l - 3
          if (ln .gt. ndm)  ln = ndm
          if (lm .gt. ndm)  lm = ndm
-         do 20  n = 1, ln
-            do 10  m = 1, lm
+         do n = 1, ln
+            do m = 1, lm
                t1 = (2*l-1-n) * (2*l-2-n)
                t = (2*l-1-m) * (2*l-2-m)
                f1 = sqrt (t1/t)
@@ -82,15 +84,15 @@ c     initialize dri0
                dri0(l,n,m) = dlnm
                if (n .gt. (2*l-3))
      1            dri0(l,m,n) = (-1)**(n-m) * dri0(l,n,m)
-   10       continue
+            enddo
             if (n .gt. (2*l-3)) then
                dri0(l,2*l-2,2*l-2) = dri0(l,2,2)
                dri0(l,2*l-1,2*l-2) = -dri0(l,1,2)
                dri0(l,2*l-2,2*l-1) = -dri0(l,2,1)
                dri0(l,2*l-1,2*l-1) = dri0(l,1,1)
             endif
-   20    continue
-   30 continue
+         enddo
+      enddo
 c   40 continue
 
 c-----test sum rule on d
@@ -116,20 +118,21 @@ c     close(19)
 c-----end test------------------------
 
 c     Copy result into dri(...ileg) in /rotmat/ (zero it first...)
-      do 90  il = 1, ltot+1
-         do 90  m1 = 1, 2*mtot+1
-            do 90  m2 = 1, 2*mtot+1
+      do il = 1, ltot+1
+         do m1 = 1, 2*mtot+1
+            do m2 = 1, 2*mtot+1
                dri(il,m1,m2,ileg) = 0
-   90 continue
+            enddo
+         enddo
+      enddo
 
-      do 120  il = 1, lxp1
+      do il = 1, lxp1
          mx = min (il-1, mxp1-1)
-         do 110  m1 = -mx, mx
-            do 100  m2 = -mx, mx
+         do m1 = -mx, mx
+            do m2 = -mx, mx
                dri(il,m1+mtot+1,m2+mtot+1,ileg)=dri0(il,m1+il,m2+il)
-  100       continue
-  110    continue
-  120 continue
-
+            enddo
+         enddo
+      enddo
       return
       end

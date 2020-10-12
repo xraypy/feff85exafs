@@ -16,20 +16,22 @@ c     flg(i) = i! * afac**i, set in factst
       call factst (afac, flg)
 
 c     initialize xnlm explicitly
-      do 5  il = 1, ltot+1
-      do 5  im = 1, mtot+1
-         xnlm(il,im) = 0
-    5 continue
+      do il = 1, ltot+1
+         do im = 1, mtot+1
+            xnlm(il,im) = 0
+         enddo
+      enddo
 
-      do 10  il = 1, lmaxp1
+      do il = 1, lmaxp1
          mmxp1 = min (mmaxp1, il)
-         do 10  im = 1, mmxp1
+         do im = 1, mmxp1
             l = il-1
             m = im-1
             cnlm = (2*l+1) * flg(l-m) / flg(l+m)
             cnlm = sqrt(cnlm) * afac**m
             xnlm(il,im) = cnlm
-   10 continue
+         enddo
+      enddo
 
       return
       end
@@ -45,8 +47,8 @@ c     afac = 1/64 works with double precision on a VAX
       flg(0) = 1
       flg(1) = afac
 
-      do 10  i = 2, 210
-   10 flg(i) = flg(i-1) * i * afac
-
+      do i = 2, 210
+         flg(i) = flg(i-1) * i * afac
+      enddo
       return
       end

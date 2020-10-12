@@ -41,37 +41,39 @@ c     since t is tri-diagonal, this product can be computed in n^2 time
 c     also fill up some work matrices for use in eigenvalue and
 c     determinant calculations and elsewhere
 c     cycle over dimensions of matrix g0t
-      do 10 icol = 1,istatx
-      do 10 irow = 1,istatx
- 10   g0t(irow,icol) = 0
+      do icol = 1,istatx
+         do irow = 1,istatx
+            g0t(irow,icol) = 0
+         enddo
+      enddo
 
-      do 30 icol = 1,istate
-        do 20 irow = 1,istate
-c         T diagonal contribution T(irow, irow)
-          if ( abs( g0(irow, icol)) .gt. toler2 )
-     1    g0t(irow,icol)=g0t(irow,icol) + tmatrx(1,irow) * g0(irow,icol) 
+      do icol = 1,istate
+         do irow = 1,istate
+c     T diagonal contribution T(irow, irow)
+            if ( abs( g0(irow, icol)) .gt. toler2 )
+     1           g0t(irow,icol)=g0t(irow,icol) +
+     $           tmatrx(1,irow) * g0(irow,icol)
 
 c         T off-diagonal contribution T(ist2, irow) in tmatr(2,irow)
 c         T off-diagonal contribution T(irow, ist2) in tmatr(2,ist2)
-          l1   = lrstat(2,irow)
-          m1   = lrstat(3,irow)
-          isp1 = lrstat(4,irow)
-          m2 = m1+isp1
-          if (nsp.eq.2 .and. m2.gt.-l1+1 .and. m2.lt.l1+2) then
-c            spin-flip contribution
-             ist2 = irow + (-1)**isp1
-             if ( abs( g0(ist2, icol)) .gt. toler2)
-     1       g0t(irow, icol) = g0t(irow, icol)
-     2                   + tmatrx(nsp, ist2) * g0(ist2, icol) 
-          endif
- 20     continue
-
+            l1   = lrstat(2,irow)
+            m1   = lrstat(3,irow)
+            isp1 = lrstat(4,irow)
+            m2 = m1+isp1
+            if (nsp.eq.2 .and. m2.gt.-l1+1 .and. m2.lt.l1+2) then
+c     spin-flip contribution
+               ist2 = irow + (-1)**isp1
+               if ( abs( g0(ist2, icol)) .gt. toler2)
+     1              g0t(irow, icol) = g0t(irow, icol)
+     2              + tmatrx(nsp, ist2) * g0(ist2, icol)
+            endif
+         enddo
 c       g0t(icol, icol) = g0t(icol, icol) + one
- 30   continue
+      enddo
 
-      do 920 ip=ipi, ipf
+      do ip=ipi, ipf
         ipart = nsp*(lipotx(ip)+1)**2
-        do 910 is1 = 1, ipart
+        do is1 = 1, ipart
           is2 = is1+i0(ip)
           l1   = lrstat(2,is2)
           if (.not.lcalc(l1)) goto 910
@@ -79,9 +81,10 @@ c       g0t(icol, icol) = g0t(icol, icol) + one
 c         start first tier with xvec=0
           istart = -1
           msord = 0
-          do 40 is = 1, istate
-          bvec(is) = 0
-  40      xvec(is) = 0
+          do is = 1, istate
+             bvec(is) = 0
+             xvec(is) = 0
+          enddo
 c         rvec = bvec - A*xvec , in our case bvec(is) = delta_{is,is2}
           bvec(is2) = 1
 
@@ -90,19 +93,24 @@ c         RESTART here if necessary
           istart = istart+1
 
           if (istart.gt.0) then
-            do 60 is = 1, istate
-  60        xvec(is) = xvec(is) + x0(is) / q0
+            do is = 1, istate
+               xvec(is) = xvec(is) + x0(is) / q0
+            enddo
             call matvec( istatx,istate,g0t,xvec,avec,1)
-            do 70 is = 1, istate
-  70        bvec(is) = avec(is) - xvec(is)
+            do is = 1, istate
+               bvec(is) = avec(is) - xvec(is)
+            enddo
             bvec(is2) = bvec(is2) + 1
           endif
-          do 80 is = 1,istate
- 80       r0(is) = bvec(is)
-          do 90 is = 1,istate
- 90       x0(is) = 0
-          do 95 is = 1, istate
- 95       x1(is) = bvec(is)
+          do is = 1,istate
+             r0(is) = bvec(is)
+          enddo
+          do is = 1,istate
+             x0(is) = 0
+          enddo
+          do is = 1, istate
+             x1(is) = bvec(is)
+          enddo
           call matvec( istatx,istate,g0t,bvec,r1,1)
           msord = msord + 1
 
@@ -113,13 +121,15 @@ c         choose wvec that del and delp close to one
           aw = real(wa) - coni* aimag(wa)
           dd = aa*ww - aw*wa
           if (abs(dd/aa/ww) .lt.1.e-8) then
-            do 96 is = 1,istate
-  96        wvec(is) = r0(is) / ww
+            do is = 1,istate
+               wvec(is) = r0(is) / ww
+            enddo
           else
             ww = ( ww - aw ) / dd
             aa = ( wa - aa) / dd
-            do 97 is = 1,istate
-  97        wvec(is) = r0(is) * aa + r1(is) * ww
+            do is = 1,istate
+               wvec(is) = r0(is) * aa + r1(is) * ww
+            enddo
           endif
 c         update dot products to avoid round off errors
           call cdot( istatx, istate, wvec, r0, e0)
@@ -129,26 +139,28 @@ c         update dot products to avoid round off errors
 
 c         it seems ran out of precision for nit>150
           nitx = 10
-          do 500 nit = 1, nitx
+          do nit = 1, nitx
             tol = toler1 * abs(q1) /10
 cc          Check convergence criteria: |r1| < tol / 10
 cc          so mostly code will not exit here
             ipass = 1
-            do 98 is = 1, istate
-              if ( abs(real(r1(is))).gt.tol) goto 99
-              if ( abs(aimag(r1(is))).gt.tol) goto 99
-  98        continue
+            do is = 1, istate
+               if ( abs(real(r1(is))).gt.tol) goto 99
+               if ( abs(aimag(r1(is))).gt.tol) goto 99
+            enddo
             ipass = 0
   99        continue
             if (ipass.eq.0) then
-              do 100 is = 1, istate
- 100          xvec(is) = xvec(is) + x1(is) / q1
+              do is = 1, istate
+                 xvec(is) = xvec(is) + x1(is) / q1
+              enddo
               goto 700
             endif
 
             alpha = e1 / e0
-            do 130 is = 1, istate
- 130        t0(is) = r1(is) - alpha* r0(is)
+            do is = 1, istate
+               t0(is) = r1(is) - alpha* r0(is)
+            enddo
             call matvec( istatx,istate,g0t,t0,t1,1)
             msord = msord + 1
 
@@ -158,45 +170,51 @@ cc          so mostly code will not exit here
             aw = real(wa) - coni* aimag(wa)
             theta = (wa - aa) / (ww - aw)
 
-            do 145 is = 1, istate
- 145        r0(is) = t1(is) - theta * t0(is)
+            do is = 1, istate
+               r0(is) = t1(is) - theta * t0(is)
+            enddo
             dd = 1- theta
-            do 150 is = 1, istate
- 150        x0(is) = t0(is) + dd * (x1(is) - alpha*x0(is))
+            do is = 1, istate
+               x0(is) = t0(is) + dd * (x1(is) - alpha*x0(is))
+            enddo
             q0 = dd * (q1 - alpha*q0)
             tol = toler1 * abs(q0)
 
 cc          Check convergence criteria: |r0| < tol
             ipass = 1
-            do 370 is = 1, istate
-              if ( abs(real(r0(is))).gt.tol) goto 380
-              if ( abs(aimag(r0(is))).gt.tol) goto 380
- 370        continue
+            do is = 1, istate
+               if ( abs(real(r0(is))).gt.tol) goto 380
+               if ( abs(aimag(r0(is))).gt.tol) goto 380
+            enddo
             ipass = 0
  380        continue
-            if (ipass.eq.0) then 
-              do 390 is = 1, istate
- 390          xvec(is) = xvec(is) + x0(is) / q0
+            if (ipass.eq.0) then
+              do is = 1, istate
+                 xvec(is) = xvec(is) + x0(is) / q0
+              enddo
               goto 700
             endif
 
 c           prepare for next iteration
             call cdot( istatx, istate, wvec, r0, e0)
             beta = e0 / e1
-            do 255 is = 1, istate
- 255        t0(is) = r0(is) - beta * r1(is)
+            do is = 1, istate
+               t0(is) = r0(is) - beta * r1(is)
+            enddo
             call matvec( istatx,istate,g0t,t0,avec,1)
             msord = msord + 1
             dd = beta * theta
-            do 260 is = 1, istate
- 260        r1(is) = avec(is) + dd * r1(is)
+            do is = 1, istate
+               r1(is) = avec(is) + dd * r1(is)
+            enddo
             call cdot( istatx, istate, wvec, r1, e1)
 
             dd = beta * (1-theta)
-            do 270 is = 1, istate
- 270        x1(is) = x0(is) - dd * x1(is) + t0(is)
+            do is = 1, istate
+               x1(is) = x0(is) - dd * x1(is) + t0(is)
+            enddo
             q1 = q0 - (1-theta) * beta * q1
- 500      continue
+         enddo
 c         restart since ran out of iterations
           goto 50
 
@@ -205,18 +223,18 @@ c         exit if tolerance has been achieved
 c         end of GM iterations
 
 c         at this point xvec = (1-tG)**-1 * bvec  with chosen tolerance
-c         pack FMS matrix into an nsp*(lx+1)^2 x nsp*(lx+1)^2 matrix 
+c         pack FMS matrix into an nsp*(lx+1)^2 x nsp*(lx+1)^2 matrix
 c         for each ipot
-          do 800 is2=1,ipart
-            gg( is2, is1, ip) = zero
-            do 790 is = 1,istate
-              gg( is2, is1, ip) = gg( is2, is1, ip) +
-     1        g0( is2+i0(ip), is) * xvec(is)
- 790        continue
- 800      continue
-
- 910    continue
- 920  continue
+          do is2=1,ipart
+             gg( is2, is1, ip) = zero
+             do is = 1,istate
+                gg( is2, is1, ip) = gg( is2, is1, ip) +
+     1               g0( is2+i0(ip), is) * xvec(is)
+             enddo
+          enddo
+ 910   continue
+       enddo
+      enddo
 
       return
       end

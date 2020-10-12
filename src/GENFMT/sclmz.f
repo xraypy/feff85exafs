@@ -34,17 +34,18 @@ c      include 'clmz.h'
      1           clmi(il-1,1,ileg) - z*(2*il-1)*clmi(il,1,ileg)
    10 continue
       mmxp1 = min (mmaxp1, lmaxp1)
-      do 20  im = 2, mmxp1
+      do im = 2, mmxp1
          m = im-1
          imp1 = im+1
          cmm = -cmm * (2*m-1) * z
          clmi(im,im,ileg) = cmm
          clmi(imp1,im,ileg) = cmm * (2*m+1) * (1-im*z)
-         do 20  il = imp1, lmax
+         do il = imp1, lmax
             l = il-1
             clmi(il+1,im,ileg) = clmi(l,im,ileg) -
      1          (2*l+1) * z * (clmi(il,im,ileg) + clmi(il,m,ileg))
-   20 continue
+         enddo
+      enddo
 
       return
       end

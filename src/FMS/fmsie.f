@@ -46,10 +46,11 @@ c     set default (LU) inv method
       toler1 = 0.e0
       toler2 = 0.e0
 
-      do 30 iat=1,nat
-      do 30 j=1,3
-   30 rat(j,iat) = real (rath(j,iat))
-
+      do iat=1,nat
+         do j=1,3
+            rat(j,iat) = real (rath(j,iat))
+         enddo
+      enddo
 c     transform to single precision
       temper =0.0e0
       thetax =0.0e0
@@ -74,36 +75,37 @@ cc     call fms for a cluster around central atom
        rpart  = real(dble(dck))
        aipart = real(dimag(dck))
        ck(1) = cmplx(rpart, aipart)
-       do 1020 ipp = 0,nph
-         do 1010 ill = -lipotx(ipp), lipotx(ipp)
-           rpart  = real(dble (ph( 1+abs(ill), ipp)))
-           aipart = real(dimag(ph( 1+abs(ill), ipp)))
-           xphase(1, ill, ipp) = cmplx(rpart, aipart)
- 1010    continue
- 1020  continue
+       do ipp = 0,nph
+          do ill = -lipotx(ipp), lipotx(ipp)
+             rpart  = real(dble (ph( 1+abs(ill), ipp)))
+             aipart = real(dimag(ph( 1+abs(ill), ipp)))
+             xphase(1, ill, ipp) = cmplx(rpart, aipart)
+          enddo
+       enddo
        iverb=0
        if (ie.eq.1) iverb = 1
        if (.not. verbse) iverb = 0
        nsp = 1
        ispin = 0
-       do 1011 ill = 0,lx
- 1011  lcalc(ill) = .true.
+       do ill = 0,lx
+          lcalc(ill) = .true.
+       enddo
        call fms(lfms, nsp, ispin, inclus, nph, ck, lipotx, xphase, ie,
      1  iverb, minv, rdirec, toler1, toler2, lcalc, gg)
 
 c      make ck= i, since coni is c*16
-       do 1030 ip=0,nph
-         if (lfms.ne.0 .or. ip.eq.iph0) then
-           do 1040 il=0,lipotx(ip)
-             ix = il**2
-             do 1050 im=1,2*il+1
-               gtr(il, ip) = gtr(il, ip) + gg(ix+im,ix+im,ip)
- 1050        continue
-             gtr(il,ip)= gtr(il,ip)*
-     1            exp(2*conis*xphase(1,il,ip))/(2*il+1)
- 1040      continue
-         endif
- 1030  continue
+       do ip=0,nph
+          if (lfms.ne.0 .or. ip.eq.iph0) then
+             do il=0,lipotx(ip)
+                ix = il**2
+                do im=1,2*il+1
+                   gtr(il, ip) = gtr(il, ip) + gg(ix+im,ix+im,ip)
+                enddo
+                gtr(il,ip)= gtr(il,ip)*
+     1               exp(2*conis*xphase(1,il,ip))/(2*il+1)
+             enddo
+          endif
+       enddo
       endif
 
  900  continue
