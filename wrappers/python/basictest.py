@@ -1,8 +1,11 @@
+import os
 import numpy as np
 from feffpath import ScatteringPath
 
 path = ScatteringPath(phase_file='phase.pad')
 assert(path is not None)
+assert(os.path.exists(path.phase_file))
+
 
 path.set_absorber( x=0.01,   y=0.1,   z=0.01)
 path.add_scatterer(x=1.8058, y=0.005, z=1.8063, ipot=1)
