@@ -4,7 +4,7 @@ LIBDIR  ?= $(PREFIX)/lib
 
 FORTRAN ?= gfortran
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FCFLAGS_SEQ ?= -c -O3 -ffree-line-length-none -g -Waliasing -Wampersand -Wconversion -Wc-binding-type -Wintrinsics-std -Wline-truncation -Winteger-division -fPIC
+FCFLAGS_SEQ ?= -c -O3 -ffree-line-length-none -g -Waliasing -Wampersand -Wconversion -Wc-binding-type -Wintrinsics-std -Wline-truncation -fPIC
 AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
