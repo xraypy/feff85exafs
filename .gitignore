@@ -17,6 +17,7 @@ log*.dat
 global.dat
 *.pad
 !wrappers/fortran/phase_orig.pad
+!wrappers/python/phase.pad
 
 ## nonsense that Athena writes out
 .gnuplot*
