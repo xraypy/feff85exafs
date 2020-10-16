@@ -1,7 +1,7 @@
 c      subroutine vlda(ia, xnval,srho, srhovl,vtrho, ilast, idfock)
       subroutine vlda(xnval,srho, srhovl,vtrho, ilast, idfock)
 c    this program calculates xc potential, using core-vlaence separation
-c    discussed in ankuodinov's thesis.  
+c    discussed in ankuodinov's thesis.
 c    written by alexei ankoudinov. 11.07.96
       implicit double precision (a-h,o-z)
       include '../HEADERS/const.h'
@@ -14,22 +14,23 @@ c    written by alexei ankoudinov. 11.07.96
       common/ratom1/xnel(30),en(30),scc(30),scw(30),sce(30),
      1nq(30),kap(30),nmax(30)
       common/tabtes/hx,dr(251),test1,test2,ndor,np,nes,method,idim
- 
-      do 10 i = 1, 251
+
+      do i = 1, 251
         srho(i)   = zero
         srhovl(i) = zero
- 10   continue 
+      enddo
 c  find total and valence densities. Remove self-interaction if SIC
-      do 50 j = 1, norb
+      do j = 1, norb
          a = xnel(j)
          b = xnval(j)
 c     use to test SIC
 c       if (j .eq. ia) a=a-1.0d0
 c       if (j .eq. ia) b=b-1.0d0
-         do 50 i = 1, nmax(j)
+         do i = 1, nmax(j)
             srho(i)   = srho(i)   + a * (cg(i,j)**2+cp(i,j)**2)
             srhovl(i) = srhovl(i) + b * (cg(i,j)**2+cp(i,j)**2)
- 50   continue 
+         enddo
+      enddo
 
 c  constract lda potential. Put your favorite model into vbh.f.
 c  exch=5,6 correspond to 2 ways of core-valence separation of V_xc.

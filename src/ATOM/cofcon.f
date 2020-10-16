@@ -11,13 +11,12 @@ c     ** at the end makes q=p
 c
       implicit double precision (a-h,o-z)
 
-      if (p*q)  11,31,21
- 11   if (b .ge. 0.2) b = b - 0.1
-      go to 31
-
- 21   if (b .le. 0.8) b = b + 0.1
-
- 31   a = 1.0 - b
+      if (p*q .lt. 0)  then
+         if (b .ge. 0.2) b = b - 0.1
+      else if (p*q .gt. 0) then
+         if (b .le. 0.8) b = b + 0.1
+      endif
+      a = 1.0 - b
       q=p
       return
       end

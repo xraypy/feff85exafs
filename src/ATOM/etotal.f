@@ -34,13 +34,14 @@ c        fdrocc fdrirk bkmrdf
       external akeato, bkeato, fdrirk, fdmocc
       data iner/'coul','ech.','mag.','ret.'/
 
-      do 10 i = 1,4
- 10   ener(i)=0.0d 00
+      do i = 1,4
+         ener(i)=0.0d0
+      enddo
       iv=0
 c       fk  integrales
-      do 40 i=1,norb
+      do i=1,norb
          l= abs(kap(i))-1
-         do 40 j=1,i
+         do j=1,i
             a=1.0d 00
             if (j.eq.i) a=a+a
             m= abs(kap(j))-1
@@ -54,38 +55,42 @@ c       fk  integrales
             iv=0
  30         k=k+2
             if (k.le.kmi) go to 20
- 40   continue
+         enddo
+      enddo
+
       iv=0
       if (norb.gt.1) then
 c       gk  integrales
-      do 70 i=2,norb
-         a = 1.0d0
-         if (xnval(i) .gt. 0.0d0) a=0.5d0
-         i1=i-1
-         do 70 j=1,i1
-            if (xnval(j) .gt. 0.0d0) goto 70
-            l= abs(kap(i))
-            m= abs(kap(j))
-            k= abs(l-m)
-            if ((kap(i)*kap(j)).lt.0) k=k+1
-            kmi=l+m-1
- 50         iv=iv+1
-            cer(iv)=fdrirk(i,j,i,j,k)
-            ener(2) = ener(2) - cer(iv) * bkeato(i,j,k) * a
-            mk(iv)=k
-            if (iv.lt.3) go to 60
-            iv=0
- 60         k=k+2
-            if (k.le.kmi) go to 50
- 70   continue
+         do i=2,norb
+            a = 1.0d0
+            if (xnval(i) .gt. 0.0d0) a=0.5d0
+            i1=i-1
+            do j=1,i1
+               if (xnval(j) .gt. 0.0d0) goto 70
+               l= abs(kap(i))
+               m= abs(kap(j))
+               k= abs(l-m)
+               if ((kap(i)*kap(j)).lt.0) k=k+1
+               kmi=l+m-1
+ 50            iv=iv+1
+               cer(iv)=fdrirk(i,j,i,j,k)
+               ener(2) = ener(2) - cer(iv) * bkeato(i,j,k) * a
+               mk(iv)=k
+               if (iv.lt.3) go to 60
+               iv=0
+ 60            k=k+2
+               if (k.le.kmi) go to 50
+ 70            continue
+            enddo
+         enddo
       endif
 c
       nem=1
 c       direct  integrals
       ik=0
-      do 140 j=1,norb
+      do j=1,norb
          jj=2* abs(kap(j))-1
-         do 140 i=1,j
+         do i=1,j
             ji=2* abs(kap(i))-1
             k=1
             kma= min(ji,jj)
@@ -102,60 +107,64 @@ c       direct  integrals
             ik=0
  130        k=k+2
             if (k.le.kma) go to 110
- 140  continue
+         enddo
+      enddo
       if (norb.gt.1) then
 c       echange  integrals
-      do 201 j=2,norb
-         lj= abs(kap(j))
-         na=-1
-         if (kap(j).gt.0) go to 121
-         na=-na
-         lj=lj-1
- 121     jp=j-1
-         do 201 l=1,jp
-            ll= abs(kap(l))
-            nb=-1
-            if (kap(l).gt.0) go to 131
-            nb=-nb
-            ll=ll-1
- 131        b=fdmocc(j,l)
-            nm1= abs(lj+na-ll)
-            nmp1=ll+lj+nb
-            nmm1=ll+lj+na
-            np1= abs(ll+nb-lj)
-            k= min(nm1,np1)
-            kma=max(nmp1,nmm1)
-            if (mod(k+ll+lj,2).eq.0) k=k+1
-            nb= abs(kap(j))+ abs(kap(l))
- 141        call bkmrdf (j,l,k)
-            do 151 i=1,3
- 151           cer(i)=0.0d 00
-            if (nb.le.k.and.kap(l).lt.0.and.kap(j).gt.0) go to 161
-            cer(1)=fdrirk(l,j,l,j,k)
-            cer(2)=fdrirk(0,0,j,l,k)
- 161        if (nb.le.k.and.kap(l).gt.0.and.kap(j).lt.0) go to 171
-            cer(3)=fdrirk(j,l,j,l,k)
-            if (cer(2).ne.0.0d 00) go to 171
-            cer(2)=fdrirk(0,0,l,j,k)
- 171        do 185 i = 1, 3
-               ener(3) = ener(3) + cmag(i) * cer(i) * b
-               ener(4) = ener(4) + cret(i) * cer(i) * b
- 185        continue
-            k=k+2
-            if (k.le.kma) go to 141
- 201  continue
+         do j=2,norb
+            lj= abs(kap(j))
+            na=-1
+            if (kap(j).gt.0) go to 121
+            na=-na
+            lj=lj-1
+ 121        jp=j-1
+            do l=1,jp
+               ll= abs(kap(l))
+               nb=-1
+               if (kap(l).gt.0) go to 131
+               nb=-nb
+               ll=ll-1
+ 131           b=fdmocc(j,l)
+               nm1= abs(lj+na-ll)
+               nmp1=ll+lj+nb
+               nmm1=ll+lj+na
+               np1= abs(ll+nb-lj)
+               k= min(nm1,np1)
+               kma=max(nmp1,nmm1)
+               if (mod(k+ll+lj,2).eq.0) k=k+1
+               nb= abs(kap(j))+ abs(kap(l))
+ 141           call bkmrdf (j,l,k)
+               do i=1,3
+                  cer(i)=0.0d 00
+               enddo
+               if (nb.le.k.and.kap(l).lt.0.and.kap(j).gt.0) go to 161
+               cer(1)=fdrirk(l,j,l,j,k)
+               cer(2)=fdrirk(0,0,j,l,k)
+ 161           if (nb.le.k.and.kap(l).gt.0.and.kap(j).lt.0) go to 171
+               cer(3)=fdrirk(j,l,j,l,k)
+               if (cer(2).ne.0.0d 00) go to 171
+               cer(2)=fdrirk(0,0,l,j,k)
+ 171           do i = 1, 3
+                  ener(3) = ener(3) + cmag(i) * cer(i) * b
+                  ener(4) = ener(4) + cret(i) * cer(i) * b
+               enddo
+               k=k+2
+               if (k.le.kma) go to 141
+            enddo
+         enddo
       endif
 
 c     total   energy
       eatom = - (ener(1) + ener(2)) + ener(3) + ener(4)
-      do 212 j = 1, norb
- 212     eatom = eatom + en(j) * xnel(j)
+      do j = 1, norb
+         eatom = eatom + en(j) * xnel(j)
+      enddo
       inquire(unit=io,opened=io_open)
       if (iprint .ge. 5 .and. io_open)
      .  write (io, '(a,1pd18.7)') 'etot', eatom*hart
-      do 215 i = 1, 4
+      do i = 1, 4
         if (iprint.ge.5 .and. io_open)
      .    write(io, '(a4,1pd18.7)') iner(i), ener(i)*hart
- 215  continue
+      enddo
       return
       end

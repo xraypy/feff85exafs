@@ -3,7 +3,7 @@ PREFIX  ?= /usr/local
 LIBDIR  ?= $(PREFIX)/lib
 
 FORTRAN ?= gfortran
-FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC -fno-automatic
 FJSON   ?= -I../json-fortran -J../json-fortran
 AR      ?= ar
 ARFLAGS ?= rvc

@@ -2,7 +2,7 @@
 c     calculate initial orbiatls from integration of dirac equation
 c cg (cp) large (small) radial components
 c bg (bp) development coefficients at the origin of cg (cp)
-c en one-electron energies 
+c en one-electron energies
 c fl power of the first term of development at the origin
 c ch ionicity (nuclear charge - number of electrons)
 c nq principal quantum number
@@ -10,7 +10,7 @@ c kap quantum number "kappa"
 c nmax number of tabulation points for the orbitals
 c ibgp first dimension of the arrays bg and bp
 c        this programmes utilises nucdev,dentfa,soldir et messer
- 
+
       implicit double precision (a-h,o-z)
       common cg(251,30), cp(251,30), bg(10,30), bp(10,30),
      1         fl(30), fix(30), ibgp
@@ -36,27 +36,31 @@ c dr1 first tabulation point multiplied by nz
       hx=5.0d-02
       dr1= nz*exp(-8.8)
       call nucdev (anoy,dr,dvn,dz,hx,nuc,idim,ndor,dr1)
-c notice that here nuc=1, 
+c notice that here nuc=1,
 c unless you specify nuclear mass and thickness in nucdev.f
 
       a=(dz/cl)**2
       if (nuc.gt.1) a=0.0d 00
-      do 11 j=1,norb
+      do j=1,norb
          b=kap(j)*kap(j)-a
          fl(j)= sqrt(b)
 c        quick fix of development coefficients. ala
- 11      fix(j) = dr(1)**(fl(j)-abs(kap(j)))
+         fix(j) = dr(1)**(fl(j)-abs(kap(j)))
+      enddo
 c calculate potential from thomas-fermi model
-      do 21 i=1,idim
- 21   dv(i)=(dentfa(dr(i),dz,ch)+dvn(i))/cl
+      do i=1,idim
+         dv(i)=(dentfa(dr(i),dz,ch)+dvn(i))/cl
+      enddo
       if (numerr.ne.0) return
-      do 51 i=1,idim
+      do i=1,idim
          eg(i)=0.0d 00
- 51      ep(i)=0.0d 00
-      do 61 i=1,ibgp
+         ep(i)=0.0d 00
+      enddo
+      do i=1,ibgp
          ceg(i)=0.0d 00
          cep(i)=0.0d 00
- 61      av(i)=anoy(i)/cl
+         av(i)=anoy(i)/cl
+      enddo
       av(2)=av(2)+dentfa(dr(nuc),dz,ch)/cl
       test1=testy/rap(1)
       b=test1
@@ -67,39 +71,43 @@ c resolution of the dirac equation to get initial orbitals
          ido = 1
       endif
 c  here was a piece to read orbitals from cards
-      do 281 j=1,norb
+      do j=1,norb
          bg(1,j)=1.0d 00
          i=nq(j)- abs(kap(j))
          if (kap(j).lt.0) i=i-1
          if (mod(i,2).eq.0) bg(1,j)=-bg(1,j)
-         if (kap(j).lt.0) go to 201
-         bp(1,j)=bg(1,j)*cl*(kap(j)+fl(j))/dz
-         if (nuc.gt.1) bg(1,j)=0.0d 00
-         go to 211
-
- 201     bp(1,j)=bg(1,j)*dz/(cl*(kap(j)-fl(j)))
+         if (kap(j).ge.0) then
+            bp(1,j)=bg(1,j)*cl*(kap(j)+fl(j))/dz
+            if (nuc.gt.1) bg(1,j)=0.0d 00
+            go to 211
+         endif
+         bp(1,j)=bg(1,j)*dz/(cl*(kap(j)-fl(j)))
          if (nuc.gt.1) bp(1,j)=0.0d 00
- 211     np=idim
+ 211     continue
+         np=idim
          en(j)=-dz*dz/nq(j)*nq(j)
          method=0
          ifail = 0
          call soldir
      1     (en(j),fl(j),bg(1,j),bp(1,j),b,nq(j),kap(j),nmax(j),ifail)
 
-         if (numerr.eq.0) go to 251
-         call messer
-         write(slog,'(a,2i3)') 
-     1   'soldir failed in wfirdf for orbital nq,kappa ',nq(j),kap(j)
-         call wlog(slog)
-         go to 281
+         if (numerr.ne.0) then
+            call messer
+            write(slog,'(a,2i3)')
+     1  'soldir failed in wfirdf for orbital nq,kappa ',nq(j),kap(j)
+            call wlog(slog)
+         else
+            do i=1,ibgp
+               bg(i,j)=ag(i)
+               bp(i,j)=ap(i)
+            enddo
+            do i=1,np
+               cg(i,j)=dg(i)
+               cp(i,j)=dp(i)
+            enddo
+         endif
+      enddo
 
- 251     do 261 i=1,ibgp
-            bg(i,j)=ag(i)
- 261        bp(i,j)=ap(i)
-         do 271 i=1,np
-            cg(i,j)=dg(i)
- 271        cp(i,j)=dp(i)
- 281  continue
       nem=0
       return
       end

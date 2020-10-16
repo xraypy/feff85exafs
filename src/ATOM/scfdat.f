@@ -16,13 +16,13 @@ c     save central atom dirac components, see comments below.
       dimension adgc(10, 30, 0:nphx), adpc(10, 30, 0:nphx)
       dimension xntot(0:lx), xnval(30), eorb(30), kappa(30)
       dimension xmag(30)
- 
+
       dimension vcoul(251)
       dimension srho(251), dmag(251), srhovl(251)
 c     temporary do not use core-valence separation
       dimension xnvalp(30), indorb(-4:3)
       logical open_16
-     
+
       dimension ovpint(30, 30)
       character*30 fname
 c#mn:
@@ -30,7 +30,7 @@ c#mn:
 
 c muatco programm to calculate angular coefficients
 c        this programm uses cofcon cofdat dsordf ictime iowrdf
-c        lagdat messer nucdev ortdat potrdf soldir 
+c        lagdat messer nucdev ortdat potrdf soldir
       common cg(251,30), cp(251,30), bg(10,30), bp(10,30),
      1         fl(30), fix(30), ibgp
 c cg (cp) large (small) components
@@ -54,7 +54,7 @@ cXX      dimension afgk(30, 30, 0:3)
       common/tabtes/ hx, dr(251), test1, test2, ndor, np, nes, method,
      1 idim
       data dprlab /'  scfdat'/
- 
+
       if (ipr1 .ge. 3 .and. iph.le.nph)  then
 c        do not want to have extra file
 c        prepare file for atom output
@@ -85,16 +85,19 @@ c     idfock=1  --  pure Dirac-Fock.
 c     idfock=2  --  pure LDA
 c     idfock=5  --  exchange 5 model.
 c     idfock=6  --  exchange 6 model.
-      if (idfock.eq.1) then 
-         do 42 i=1,30
-  42     xnvalp(i) = 0.0d0
+      if (idfock.eq.1) then
+         do i=1,30
+            xnvalp(i) = 0.0d0
+         enddo
       elseif (idfock.eq.2) then
-         do 44 i=1,30
-  44     xnvalp(i) = xnel(i)
+         do i=1,30
+            xnvalp(i) = xnel(i)
+         enddo
       else
 c        use core-valence separation. also change vlda.f
-         do 43 i=1,30
-  43     xnvalp(i) = xnval(i)
+         do i=1,30
+            xnvalp(i) = xnval(i)
+         enddo
       endif
 
 c     iholep is the index for core hole orbital in all arrays
@@ -117,8 +120,9 @@ c n3 is the number of iterations per orbital
       j = 1
       ind = 1
       nter = 0
-      do 41 i = 1, norb
- 41   scw(i) = 0.
+      do i = 1, norb
+         scw(i) = 0.d0
+      enddo
       test1 = testy / rap(1)
       test2 = testy / rap(2)
       netir = abs(niter) * norb
@@ -137,8 +141,8 @@ c n3 is the number of iterations per orbital
          if (nuc .gt. 1)  write(16,250)
   250    format (1h0, 30x,'finite nucleus case used'/)
       endif
- 
-c     angular coefficients 
+
+c     angular coefficients
 c     corrected for valence model. ala
       call muatco(xnvalp)
       if (numerr .ne. 0) go to 711
@@ -171,22 +175,25 @@ c        resolution of the dirac equation
          iort = 1
          go to 104
 
- 111     sce(j) = abs ((e - en(j)) / en(j))
+ 111     continue
+         sce(j) = abs ((e - en(j)) / en(j))
 c        variation of the wave function using two iterations
          k = nmax(j)
          pr = 0.
-         do 121 i = 1, k
+         do i = 1, k
             w = cg(i,j) - gg(i)
-            if (abs(w) .le. abs(pr)) go to 115
-            pr = w
-            a = cg(i,j)
-            b = gg(i)
- 115        w = cp(i,j) - gp(i)
-            if (abs(w) .le. abs(pr)) go to 121
-            pr = w
-            a = cp(i,j)
-            b = gp(i)
- 121     continue
+            if (abs(w) .gt. abs(pr)) then
+               pr = w
+               a = cg(i,j)
+               b = gg(i)
+            endif
+            w = cp(i,j) - gp(i)
+            if (abs(w) .gt. abs(pr)) then
+               pr = w
+               a = cp(i,j)
+               b = gp(i)
+            endif
+         enddo
 c        write original Desclaux output on screen and into the logfile
 c        write (slog,'(i4, i3, 2(1pe11.2), 2(1pd16.6), 4x, a, i2)')
 c    1   nter, j, sce(j), pr, a, b, 'method', method
@@ -196,21 +203,25 @@ c        acceleration of the convergence
          b = scc(j)
          call cofcon (a, b, pr, scw(j))
          scc(j) = b
-         do 151 i = 1, k
+         do i = 1, k
             gg(i) = b * gg(i) + a * cg(i,j)
- 151        gp(i) = b * gp(i) + a * cp(i,j)
-         do 155 i = 1, ndor
+            gp(i) = b * gp(i) + a * cp(i,j)
+         enddo
+         do i = 1, ndor
             ag(i) = b * ag(i) + a * bg(i,j)
- 155        ap(i) = b * ap(i) + a * bp(i,j)
+            ap(i) = b * ap(i) + a * bp(i,j)
+         enddo
 c        normalization of the wave function
          a = dsordf (j, k, 0, 4, fl(j))
          a = sqrt(a)
-         do 171 i = 1, np
+         do i = 1, np
             cg(i,j) = gg(i) / a
- 171        cp(i,j) = gp(i) / a
-         do 175 i = 1, ndor
+            cp(i,j) = gp(i) / a
+         enddo
+         do i = 1, ndor
             bg(i,j) = ag(i) / a
- 175        bp(i,j) = ap(i) / a
+            bp(i,j) = ap(i) / a
+         enddo
 c        determination of the next orbital to calculate
          if (nter.lt.norbsc .or. (ind.lt.0 .and. j.lt.norbsc)) then
             j = j + 1
@@ -218,23 +229,23 @@ c        determination of the next orbital to calculate
          endif
             j = j + 1
          pr = 0.
-         do 301 i = 1, norbsc
+         do i = 1, norbsc
             w = abs (scw(i))
             if (w .gt. pr) then
                pr = w
                j = i
             endif
- 301     continue
+         enddo
          if (j .gt. norbsc) j = 1
          if (pr .gt. testy) go to 421
          pr = 0.
-         do 321 i = 1, norbsc
+         do i = 1, norbsc
             w = abs (sce(i))
             if (w .gt. pr) then
                pr = w
                j = i
             endif
- 321     continue
+         enddo
          if (pr .ge. teste) go to 421
          if (ind .lt. 0) go to 999
          ind = -1
@@ -257,8 +268,9 @@ c           stop
 c        tabulation of the results
          if (ipr1 .ge. 5 .and. iph.le.nph)  call tabrat
          call etotal (16, kap, xnel, xnvalp, en, eatom)
-         do 504 ix = 1,251 
- 504       dmag(ix)=0.0d0 
+         do ix = 1,251
+            dmag(ix)=0.0d0
+         enddo
          ilast = 1
          iorb = 0
 c        use to test SIC
@@ -268,53 +280,59 @@ c         call vlda (iorb, xnval, srho, srhovl, dmag, ilast, idfock)
 c 505       call vlda (iorb, xnval, srho, srhovl, dmag, ilast, idfock)
          ecorr =2.0
          call somm(dr,dmag,dmag,hx, ecorr,0,idim)
-         eatom = (eatom-ecorr/4.0) 
+         eatom = (eatom-ecorr/4.0)
 
 c        jcore = 1
 
 c        prepare information for SCMT and core-valence separation
          norbp = norb
-         do 499 i = 0,lx
-  499    xntot(i)=0.0d0
-         do 500 j = 1, norb
-           eorb(j) = en(j) 
+         do i = 0,lx
+            xntot(i)=0.0d0
+         enddo
+         do j = 1, norb
+           eorb(j) = en(j)
            kappa(j) = kap(j)
            i = kap(j)
            if (kap(j) .lt.0) i=-kap(j)-1
            if (i.le.lx) xntot(i)=xntot(i)+xnval(j)
-  500    continue
+        enddo
 c 500     if (xnel(j).gt.xnval(j) .and. nmax(j).gt.jcore) jcore=nmax(j)
 
-c  get difference in spin-up and -down densities per spin 
+c  get difference in spin-up and -down densities per spin
 c  the spin - polarizable orbitals are specified in subroutine getorb
 c  The spin amplitude and directions are taken care of in subroutine ovrlp
 c  and specified in feff.inp file
          spin = 0
-         do 530 i = 1, idim
-  530    dmag(i) = 0.0
-         do 536 iorb = 1, norb
-           spin = spin + xmag(iorb)
-           do 535 i = 1, np
-  535      dmag(i)= dmag(i)+ xmag(iorb)* (cg(i,iorb)**2 + cp(i,iorb)**2)
-  536    continue
+         do i = 1, idim
+            dmag(i) = 0.0
+         enddo
+         do iorb = 1, norb
+            spin = spin + xmag(iorb)
+            do i = 1, np
+               dmag(i)= dmag(i)+ xmag(iorb)*
+     $              (cg(i,iorb)**2 + cp(i,iorb)**2)
+            enddo
+         enddo
          if (spin.gt.0.d0) then
 c          normalize dmag per  spin
-           do 537 i = 1, np
-  537      dmag(i) = dmag(i) / spin
+           do i = 1, np
+              dmag(i) = dmag(i) / spin
+           enddo
          endif
 
 c  return coulomb potential
 c  fix later: can be replaced by potrdf
          call potslw (vcoul, srho, dr, hx, idim)
-         do 510 i = 1, 251
-  510      vcoul(i) = (vcoul(i) - nz / dr(i)) 
+         do i = 1, 251
+            vcoul(i) = (vcoul(i) - nz / dr(i))
+         enddo
 
 c        return srho as 4*pi*density instead of 4*pi*density*r**2
-         do 560  i = 1, 251
+         do i = 1, 251
             srho(i) = srho(i) / (dr(i)**2)
             dmag(i) = dmag(i) / (dr(i)**2)
             srhovl(i) = srhovl(i) / (dr(i)**2)
-  560    continue
+         enddo
 
          if (ipr1 .ge. 3 .and. iph.le.nph)  close(unit=16)
 
@@ -323,30 +341,30 @@ c        need kap(i) for central atom without core hole, all output of
 c        getorb is dummy, except iholep and kap(i) which is put in nq(i)
             call getorb (iz, ispinr, xion, iunf, i, j, indorb,
      1                   iholep, nre, nq, scw, sce, eps)
-            do 552  i = 1, nmax(iholep)
+            do i = 1, nmax(iholep)
                dgc0(i) = cg(i,iholep)
                dpc0(i) = cp(i,iholep)
-  552       continue
-            do 553  i = nmax(iholep) + 1, 251
+            enddo
+            do i = nmax(iholep) + 1, 251
                dgc0(i) = 0.0d0
                dpc0(i) = 0.0d0
-  553       continue
+            enddo
          endif
 
-         do 590 j = 1, 30
-            do 570 i = 1, nmax(j)
+         do j = 1, 30
+            do i = 1, nmax(j)
                dgc(i,j,iph) = cg(i,j)
                dpc(i,j,iph) = cp(i,j)
-  570       continue
-            do 575 i = nmax(j) + 1, 251
+            enddo
+            do i = nmax(j) + 1, 251
                dgc(i,j,iph) = 0.0d 00
                dpc(i,j,iph) = 0.0d 00
-  575       continue
-            do 580 i = 1, 10
+            enddo
+            do i = 1, 10
                adgc(i,j,iph) = bg(i,j)
                adpc(i,j,iph) = bp(i,j)
-  580       continue
-  590    continue
+            enddo
+         enddo
       endif
 
 c     calc. overlap integrals for the final and initial state orbitals
@@ -354,8 +372,8 @@ c     of the central atom
       if (iholep .gt. 0 .and. iholep.lt.30 .and. ihole.le.0) then
 c        this logic is fulfilled only in the last call of scfdat
 c        in subroutine pot ( ihole=0 and iholep=ispinr.neq.0)
-         efrozn = en(iholep) 
-         do 790 i = 1, norb
+         efrozn = en(iholep)
+         do i = 1, norb
 c          to handle special case when electron added to new orbital
            if (nq(i) .eq. kap(i)) then
               itr = 0
@@ -365,29 +383,33 @@ c          to handle special case when electron added to new orbital
               call wlog
      1        ('  If it is not la, gd or np, please, give us a call')
               call wlog('  s02 is overestimated')
-              do 710 j = 1, i - 1
-  710            ovpint(j,i) = 0.0
+              do j = 1, i - 1
+                 ovpint(j,i) = 0.0
+              enddo
               ovpint(i,i) = 1.0
               goto 780
            endif
            i0 = i + itr
            iph1 = 0
            if (iph.eq.0) iph1 = nph + 1
-           do 720 ir = 1, idim
+           do ir = 1, idim
              gg(ir) = dgc(ir, i0, iph1)
-  720        gp(ir) = dpc(ir, i0, iph1)
-           do 730 ir = 1, ndor
+             gp(ir) = dpc(ir, i0, iph1)
+          enddo
+           do ir = 1, ndor
               ag(ir) = adgc(ir, i0, iph1)
-  730         ap(ir) = adpc(ir, i0, iph1)
-           do 770 j = 1, norb
-             if (kap(i) .ne. kap(j)) go to 770
-             ovpint(i,j) = dsordf ( j, j, 0, 3, fl(i))
-  770      continue
-  780      continue
-  790    continue
-         do 810 j=1,norb
-             xnel(j) = xnel(j)-xnval(j)
- 810     continue
+              ap(ir) = adpc(ir, i0, iph1)
+           enddo
+           do j = 1, norb
+              if (kap(i) .ne. kap(j)) go to 770
+              ovpint(i,j) = dsordf ( j, j, 0, 3, fl(i))
+ 770          continue
+           enddo
+ 780       continue
+        enddo
+        do j=1,norb
+           xnel(j) = xnel(j)-xnval(j)
+        enddo
 
 c        need better control here. for now always print fpf0.dat
 c        if (ipr1.ge.3) call  fpf0 ( iz, iholep, srho, dr, hx,
