@@ -24,9 +24,9 @@ c     note that beta is cos(beta)
       call mrb (npat, ipat, ri, beta)
 
       rpath = 0
-      do 300  i = 1, npat+1
+      do i = 1, npat+1
          rpath = rpath + ri(i)
-  300 continue
+      enddo
 
 c     If we can decide only on rpath, do it here...
       if (rpath .gt. rmax)  then
@@ -45,14 +45,14 @@ c     as an actual path at output
 
 c     Make index into fbetac array (this is nearest cos(beta) grid 
 c     point, code is a bit cute [sorry!], see prcrit for grid).
-      do 290  i = 1, npat+1
+      do i = 1, npat+1
          tmp = abs(beta(i))
          n = int(tmp / 0.025)
          del = tmp - n*0.025
          if (del .gt. 0.0125)  n = n+1
          if (beta(i) .lt. 0)  n = -n
          indbet(i) = n
-  290 continue
+      enddo
 
 c     Decide if we want the path added to the heap if necessary.
 c     (Not necessary if no pcrith in use.)
@@ -95,9 +95,12 @@ c     if xout is too small
       if (xout .ge. pcritk)  lkeep = .true.
 
 c     If path is entirely inside a cluster do not keep it
-  999 nclus=0
-      do 700 i=1,npat
-  700 nclus=nclus+iclus(ipat(i))
+ 999  continue
+      nclus=0
+      do i=1,npat
+         nclus=nclus+iclus(ipat(i))
+      enddo
+        
       if (nclus.eq.0) lkeep = .false.
 
       return

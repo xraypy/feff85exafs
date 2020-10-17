@@ -48,15 +48,15 @@ c     Read atoms info
      1      form='unformatted', status='old', iostat=ios)
       call chopen (ios, 'paths.bin', 'pathsd')
       read(3) nhead
-      do 40  ihead = 1, nhead
+      do ihead = 1, nhead
          read(3)  head(ihead)
-   40 continue
+      enddo
 c     Header lines above include carriage control
       read(3)  nat
 c     rat and ipot could be permuted by paths.f
-      do 50  i = 0, nat
+      do i = 0, nat
          read(3) (rat(j,i),j=1,3), ipot(i), i1b(i)
-   50 continue
+      enddo
 
 c     Initialize stuff...
 c     nptot  number of total paths, incl all degeneracies
@@ -74,11 +74,11 @@ c     write output to paths.dat
       if (ipr2 .ne. 5)  then
          open (unit=1, file='paths.dat', status='unknown', iostat=ios)
          call chopen (ios, 'paths.dat', 'pathsd')
-         do 60  ihead = 1, nhead
+         do ihead = 1, nhead
             ii = istrln(head(ihead))
             write(1,58)  head(ihead)(1:ii)
    58       format(a)
-   60    continue
+         enddo
 c        write(1,61)  critpw
    61    format (' Plane wave chi amplitude filter', f7.2, '%')
          write(1,62)
@@ -89,10 +89,10 @@ c     Write crit.dat (criteria information)
       if (ipr2 .ge. 1)  then
          open (unit=4, file='crit.dat', status='unknown', iostat=ios)
          call chopen (ios, 'crit.dat', 'pathsd')
-         do 65  ihead = 1, nhead
-              ii = istrln(head(ihead))
+         do ihead = 1, nhead
+            ii = istrln(head(ihead))
             write(4,58)  head(ihead)(1:ii)
-   65    continue
+         enddo
          write(4,61)  critpw
          write(4,62)
          write(4,80)
@@ -111,10 +111,11 @@ c     Begin next total path length range
       ngs = ngs+1
       rcurr = r0
       np = 1
-      do 110  i = 1,3
+      do i = 1,3
          iout(i,np) = iout0(i)
-  110 continue
-  120 read(3,end=140)  r0, iout0
+      enddo
+ 120  continue
+      read(3,end=140)  r0, iout0
          if (abs(r0-rcurr) .lt. eps3)  then
             np = np+1
             if (np .gt. np1x) then
@@ -123,9 +124,9 @@ c     Begin next total path length range
   122          format (a, 2i15)
                call par_stop('np > np1x')
             endif
-            do 130  i = 1, 3
+            do i = 1, 3
                iout(i,np) = iout0(i)
-  130       continue
+            enddo
          else
 c           r0 is the rtot for the next set
 c           iout0 is the packed atom list for the first path of the
@@ -145,7 +146,7 @@ c     variable nuprtt was nuprtot, changed to be six chars, SIZ 12/93
 
 c     Hash each path into an integer
       iscale = 1000
-      do 230  ip = 1, np
+      do ip = 1, np
 
          npat = npatx
          call upack (iout(1,ip), npat, ipat)
@@ -158,7 +159,7 @@ c        if it's the other-way-around, we time-reverse here.
          call timrep (npat, ipat, rx, ry, rz, dhash(ip),
      1            ipol, ispin, evec, xivec,eels)  !KJ added eels 5/06
 
-  230 continue
+      enddo
 
 c     Do a heap sort on these things
       call sortid (np, index, dhash)
@@ -170,13 +171,13 @@ c     i0 is beginning of hash range, i1 is end of the range
   300 continue
          i1 = np + 1
          dcurr = dhash(index(i0))
-         do 310  ip = i0+1, np
+         do ip = i0+1, np
             if (dhash(index(ip)) .ne. dcurr)  then
 c              end of a hash range
                i1 = ip
                goto 311
             endif
-  310    continue
+         enddo
   311    continue
          i1 = i1-1
 
@@ -192,7 +193,7 @@ c        degenerate.  Make sure time-ordering is standard.
      1            ipol, ispin, evec, xivec,eels) !KJ added eels 5/06
 
          ndeg = 0
-         do 430  ii = i0, i1
+         do ii = i0, i1
             npat = npatx
             call upack (iout(1,index(ii)), npat, ipat)
 c           Note that if path gets time-reversed, we lose 1st bounce 
@@ -208,20 +209,20 @@ c           Check for hash collisons begins here.
                ldiff = .true.
                goto 430
             endif
-            do 320  iat = 1, npat
+            do iat = 1, npat
                if (ipot(ipat(iat)) .ne. ipot(ipat0(iat)))  then
                   ldiff = .true.
                   goto 400
                endif
-  320       continue
-            do 330  ileg = 1, npat
+            enddo
+            do ileg = 1, npat
                if (abs(rx(ileg)-rx0(ileg)) .gt. eps3  .or.
      1             abs(ry(ileg)-ry0(ileg)) .gt. eps3  .or.
      2             abs(rz(ileg)-rz0(ileg)) .gt. eps3)  then
                   ldiff = .true.
                   goto 400
                endif
-  330       continue
+            enddo
   400       continue
             if (ldiff)  then
                call wlog(' WARNING!!  Two non-degenerate paths,' //
@@ -233,14 +234,14 @@ c           Check for hash collisons begins here.
                write(slog,404) npat0, npat, '  npat0, npat'
                call wlog(slog)
                call wlog(' iat, ipot0, ipot, ipat0, ipat')
-               do 410  iat = 1, npat
+               do iat = 1, npat
   406             format (5i10)
                   write(slog,406) iat, ipot(ipat0(iat)), 
      1               ipot(ipat(iat)), ipat0(iat), ipat(iat)
                   call wlog(slog)
-  410          continue
+               enddo
                call wlog(' ileg, rx0,ry0,rz0,  rx1,ry1,rz1')
-               do 420  ileg = 1, npat
+               do ileg = 1, npat
   412             format(i6, 1p, 3e18.10)
                   write(slog,412) ileg, rx0(ileg), rx(ileg)
                   call wlog(slog)
@@ -248,10 +249,11 @@ c           Check for hash collisons begins here.
                   call wlog(slog)
                   write(slog,412) ileg, rz0(ileg), rz(ileg)
                   call wlog(slog)
-  420          continue
+               enddo
                call par_stop('hash error')
             endif
-  430    continue
+ 430        continue 
+         enddo
 
 c        Find path pw importance factors, and recalculate 
 c        pathfinder crits for output
@@ -292,13 +294,13 @@ c           skip paths.dat if not necessary
             write(1,502)
   502       format ('      x           y           z     ipot  ',
      1              'label      rleg      beta        eta')
-            do 510  i = 1, npat0
+            do i = 1, npat0
                iat = ipat0(i)
                write(1,506)  rat(1,iat), rat(2,iat),
      1                  rat(3,iat), ipot(iat), potlbl(ipot(iat)),
      1                  rid(i), betad(i)*raddeg, etad(i)*raddeg
   506          format (3f12.6, i4, 1x, '''', a6, '''', 1x, 3f10.4)
-  510       continue
+            enddo
             write(1,506)  rat(1,0), rat(2,0), rat(3,0), ipot(0), 
      1         potlbl(ipot(0)),
      1         rid(npat0+1), betad(npat0+1)*raddeg, etad(npat0+1)*raddeg

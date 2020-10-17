@@ -98,50 +98,53 @@ c        logical lez answers whether evec is a vector along z at most
 
 
 c     initialize staff
-      do 10 j = 1, npatx
+      do j = 1, npatx
          xp(j) = 0
          yp(j) = 0
          zp(j) = 0
          xp1(j) = 0
          yp1(j) = 0
          zp1(j) = 0
-   10 continue
+      enddo
       nleg = npat + 1
-      do 20  j = 1, npat
-      do 20  i = 1, 3
-         ri(i,j) = rat(i,ipat(j)) - rat(i,0)
-   20 continue
-      do 30  j = nleg, npatx
-      do 30  i = 1, 3
-         ri(i,j) = 0
-   30 continue
-      do 40 i =1, 3
+      do j = 1, npat
+         do i = 1, 3
+            ri(i,j) = rat(i,ipat(j)) - rat(i,0)
+         enddo
+      enddo
+      do j = nleg, npatx
+         do i = 1, 3
+            ri(i,j) = 0
+         enddo
+      enddo
+      do i =1, 3
          xvec(i) = 0
          yvec(i) = 0
          zvec(i) = 0
-   40 continue
+      enddo
 
       if (icase.eq.1) then
 c        z-axis along first leg
          norm = ri(1,1)*ri(1,1)+ri(2,1)*ri(2,1)+ri(3,1)*ri(3,1)
          norm = sqrt(norm)
-         do 140 i = 1, 3
+         do i = 1, 3
            zvec(i) = ri(i,1)/norm
-  140    continue
+        enddo
       elseif (icase.eq.2 .or. icase.eq.3) then
 c        z-axis in direction of polarization
-         do 120 i = 1, 3
+         do i = 1, 3
            zvec(i) = evec(i)
-  120    continue
+        enddo
       else 
 c        keep z-axis
          zvec(3) = 1.d0
       endif
 
-      do 160 j = 1,npat
-      do 160 i = 1, 3
-        zp1(j) = zp1(j) + zvec(i)*ri(i,j)
-  160 continue
+      do j = 1,npat
+         do i = 1, 3
+            zp1(j) = zp1(j) + zvec(i)*ri(i,j)
+         enddo
+      enddo
 c     if no symmetries, don't waste time
       if (icase.eq.7) then
          xvec(1) = 1.d0
@@ -157,12 +160,12 @@ c     use z-->-z symmetry
          if (zp1(num) .lt. 0) then
 c           inverse all z-coordinates and zvec, if 
 c           first nonzero z-coordinate is negative 
-            do 210 j = 1, 3
+            do j = 1, 3
                zvec(j) = - zvec(j)
-  210       continue
-            do 220 j = 1, npat
+            enddo
+            do j = 1, npat
                zp1(j) = - zp1(j)
-  220       continue
+            enddo
          endif
          goto 240
       endif
@@ -177,9 +180,9 @@ c     use rotations around z and reflections containing z
       num = 1
   300 continue
       ro2 = 0
-      do 310 i =1, 3
+      do i =1, 3
          ro2 = ro2 + ri(i,num)*ri(i,num)
-  310 continue
+      enddo
 c     looking for first atom which is not on z-axis
       ro2 = ro2 - zp1(num)*zp1(num)
       ro2 = sqrt(abs(ro2))
@@ -188,18 +191,18 @@ c     if atom not on the z-axis then
          if (icase.eq.1.or.icase.eq.2.or.icase.eq.4.or.icase.eq.5) then
 c           any rotation around z is allowed
 c           choose x-axis so that x-coord. positive and y=0.
-            do 320 i = 1, 3
+            do i = 1, 3
                xvec(i) = ri(i,num) - zvec(i)*zp1(num)
-  320       continue
-            do 330 i = 1, 3
+            enddo
+            do i = 1, 3
                xvec(i) = xvec(i)/ro2
-  330       continue
+            enddo
          elseif (icase.eq.3) then
 c           if elliptical polarization then
 c           choose x-axis along incident beam
-            do 350 i =1, 3
+            do i =1, 3
                xvec(i) = xivec(i)
-  350       continue
+            enddo
          else
 c           icase.eq.6 choose x-axis so that x-coord is positive
             xvec(1) = 1.d0
@@ -218,11 +221,12 @@ c           icase.eq.6 choose x-axis so that x-coord is positive
   390 continue
 
 c     calculate x,y coord for each atom in chosen frame of reference
-      do 400 j = 1, npat
-      do 400 i =1,3
-         xp1(j) = xp1(j) + xvec(i)*ri(i,j)
-         yp1(j) = yp1(j) + yvec(i)*ri(i,j)
-  400 continue
+      do j = 1, npat
+         do i =1,3
+            xp1(j) = xp1(j) + xvec(i)*ri(i,j)
+            yp1(j) = yp1(j) + yvec(i)*ri(i,j)
+         enddo
+      enddo
 
       if (icase.eq.3) then
 c        check that first nonzero  x-coordinate is positive,
@@ -231,9 +235,9 @@ c        no need to check it in other cases.
   500    continue
          if (abs(xp1(num)) .ge. eps4) then
             if (xp1(num) .lt. 0) then
-               do 510 j = 1, npat
+               do j = 1, npat
                   xp1(j) = - xp1(j)
-  510          continue
+               enddo
             endif
             goto 520
          endif
@@ -250,9 +254,9 @@ c        no need to check it in other cases.
 c     inverse all y-coordinates if first nonzero y-coord is negative
       if (abs(yp1(num)) .ge. eps4) then
          if (yp1(num) .lt. 0) then
-            do 580 j = 1, npat
+            do j = 1, npat
                yp1(j) = - yp1(j)
-  580       continue
+            enddo
          endif
          goto 590
       endif
@@ -262,11 +266,11 @@ c     inverse all y-coordinates if first nonzero y-coord is negative
       endif
   590 continue
 
-      do 595 j = 1, npat
+      do j = 1, npat
         xp(j) = real(xp1(j))
         yp(j) = real(yp1(j))
         zp(j) = real(zp1(j))
-  595 continue
+      enddo
 c     now xp,yp,zp represent the path in standard order
       return
       end

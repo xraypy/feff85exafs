@@ -57,53 +57,58 @@ c     Read phase calculation input, data returned via commons
      1     rnrmav, xmu, edge, ik0, ixc, rs, vint,
      2     em, eref2, iz, potlbl, ph4, rkk, lmax, lmaxp1  )
  
-      do 10 ie = 1, ne
-  10  eref(ie) = eref2(ie,1)
-      do 20 iph = 0, npot
-      do 20 ie = 1, ne
-      do 20 il = 0, lmax(ie, iph)
-  20  ph(ie,il+1, iph) = ph4(ie, -il, 1, iph)
+      do ie = 1, ne
+         eref(ie) = eref2(ie,1)
+      enddo
+      do iph = 0, npot
+         do ie = 1, ne
+            do il = 0, lmax(ie, iph)
+               ph(ie,il+1, iph) = ph4(ie, -il, 1, iph)
+            enddo
+         enddo
+      enddo
+
 
       neout = ne1
       ik0out = ik0
-      do 40  i = 0, nphx
+      do i = 0, nphx
          potlb0(i) = potlbl(i)
-   40 continue
+      enddo
 
 c     |p| at each energy point (path finder uses invA, convert here)
 c     Also make mfp (xlam) in Ang
-      do 100  ie = 1, ne
+      do ie = 1, ne
          cktmp = sqrt (2*(em(ie) - eref(ie)))
          cksp(ie) = real(dble (cktmp) / bohr)
 c        xlam code lifted from genfmt
          xlam(ie) = 1.0e10
          if (abs(dimag(cktmp)) .gt. eps) xlam(ie) = real(1/dimag(cktmp))
          xlam(ie) = xlam(ie) * real(bohr)
-  100 continue
+      enddo
 
 c     Make the cos(beta)'s
 c     Grid is from -40 to 40, 81 points from -1 to 1, spaced .025
-      do 200  ibeta = -nbeta, nbeta
+      do ibeta = -nbeta, nbeta
          dcosb(ibeta) = 0.025 * ibeta
-  200 continue
+      enddo
 c     watch out for round-off error
       dcosb(-nbeta) = -1
       dcosb(nbeta)  =  1
 
 c     make fbeta (f(beta) for all energy points
-      do 280  ibeta = -nbeta, nbeta
+      do ibeta = -nbeta, nbeta
          call cpl0 (dcosb(ibeta), pl, lmaxp1)
-         do 260  iii = 0, npot
-            do 250  ie = 1, ne
+         do iii = 0, npot
+            do ie = 1, ne
                cfbeta = 0
-               do 245  il = 1, lmax(ie,iii)+1
+               do il = 1, lmax(ie,iii)+1
                   tl = (exp (2*coni*ph(ie,il,iii)) - 1) / (2*coni)
                   cfbeta = cfbeta + tl*pl(il)*(2*il-1)
-  245          continue
+               enddo
                fbeta(ibeta,iii,ie) = real( abs(cfbeta) )
-  250       continue
-  260    continue
-  280 continue
+            enddo
+         enddo
+      enddo
 
 c     Make similar arrays for only the icrit points
 
@@ -125,24 +130,24 @@ c     is small and increased safety seems to be worth it.
 c     make sure that we have enough energy grid points to use all
 c     9 iecrits
       nncrit = 0
-      do 290  ie = 1, necrit
+      do ie = 1, necrit
          if (iecrit(ie) .gt. ne)  goto 295
          nncrit = ie
-  290 continue
+      enddo
   295 continue
       if (nncrit .eq. 0) call par_stop('bad nncrit in prcrit')
             
 
-      do 320  icrit = 1, nncrit
+      do icrit = 1, nncrit
          ie = iecrit(icrit)
          ckspc(icrit) = cksp(ie)
          xlamc(icrit) = xlam(ie)
-         do 310  ibeta = -nbeta, nbeta
-            do 300  iii = 0, npot
+         do ibeta = -nbeta, nbeta
+            do iii = 0, npot
                fbetac(ibeta,iii,icrit) = fbeta(ibeta,iii,ie)
-  300       continue
-  310    continue
-  320 continue
+            enddo
+         enddo
+      enddo
 
       return
       end
