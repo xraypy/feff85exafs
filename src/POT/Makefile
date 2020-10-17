@@ -7,7 +7,7 @@ INCDIR  ?= $(PREFIX)/include
 
 FORTRAN ?= gfortran
 SHARED  ?= -shared
-FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
+FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC -fno-automatic
 FJSON   ?= -I../json-fortran -J../json-fortran
 AR      ?= ar
 ARFLAGS ?= rvc
