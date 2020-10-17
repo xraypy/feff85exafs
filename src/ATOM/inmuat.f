@@ -32,16 +32,18 @@ c teste precision for the one-electron energies
       rap(1)=100.
       rap(2)=10.
 c rap tests of precision for soldir
-      do 10 i = 1, 30
-        en(i) = 0.d0
-        xmag(i) = 0
-  10  xnval(i) = 0
+      do i = 1, 30
+         en(i) = 0.d0
+         xmag(i) = 0
+         xnval(i) = 0
+      enddo
 
       call getorb (nz, ihole, xionin, iunf, norb, norbsc, iorb,
      1             iholep, nq, kap, xnel, xnval, xmag)
       xk=0
-      do 411 i=1,norb
- 411  xk=xk+xnel(i)
+      do i=1,norb
+         xk=xk+xnel(i)
+      enddo
       if ( abs(nz-xionin-xk) .gt. 0.001) then
          call par_stop('check number of electrons in getorb.f')
 c        stop
@@ -58,8 +60,9 @@ c or otherwise are the values obtained from solving dirac equation
 c nes number of attempts in program soldir
       nuc=nucm
 c nuc number of points inside nucleus (11 by default)
-      do 171 i=1,ideps
- 171  eps(i)=0.0d 00
+      do i=1,ideps
+         eps(i)=0.0d 00
+      enddo
 
       idim = 251
       if (mod(idim,2) .eq. 0) idim=idim-1
@@ -67,7 +70,7 @@ c nuc number of points inside nucleus (11 by default)
       ipl=0
 c if ipl non null, it permits a repartition of tabulation points
 c and certain precision tests.
-      do 401 i=1,norb
+      do i=1,norb
          nre(i)=-1
          llq= abs(kap(i))
          l=llq+llq
@@ -80,10 +83,11 @@ c           stop
          scc(i)=0.3
          if (xnel(i) .lt. l)  nre(i)=1
          if (xnel(i) .lt. 0.5)  scc(i)=1.0
-         do 385 j=1,i-1
-            if (kap(j).ne.kap(i)) go to 385
-            if (nre(j).gt.0.or.nre(i).gt.0) ipl=ipl+1
- 385     continue
- 401  continue
+         do j=1,i-1
+            if (kap(j).eq.kap(i)) then
+               if (nre(j).gt.0.or.nre(i).gt.0) ipl=ipl+1
+            endif
+         enddo
+      enddo
       return
       end

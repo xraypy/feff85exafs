@@ -27,30 +27,35 @@ c        this programm uses aprdev and yzkteg
 c#mn
        external aprdev
  
-      if (i.le.0) go to 51
+       if (i.le.0) then
+          ap(1)=k+2
+          id=j
+       else
 c     construction of the function f
-      do  5 l= 1,ibgp
-        bgi(l) = bg(l,i)
-        bgj(l) = bg(l,j)
-        bpi(l) = bp(l,i)
-  5     bpj(l) = bp(l,j)
-      id= min(nmax(i),nmax(j))
-      ap(1)=fl(i)+fl(j)
-      if (nem.ne.0) go to 31
-      do 11 l=1,id
- 11   dg(l)=cg(l,i)*cg(l,j)+cp(l,i)*cp(l,j)
-      do 21 l=1,ndor
- 21   ag(l)=aprdev(bgi,bgj,l)+aprdev(bpi,bpj,l)
-      go to 55
-
- 31   do 35 l=1,id
- 35   dg(l)=cg(l,i)*cp(l,j)
-      do 41 l=1,ndor
- 41   ag(l)=aprdev(bgi,bpj,l)
-      go to 55
-
- 51   ap(1)=k+2
-      id=j
- 55   call yzkteg (dg,ag,dp,chg,dr,ap(1),hx,k,ndor,id,idim)
+          do l= 1,ibgp
+             bgi(l) = bg(l,i)
+             bgj(l) = bg(l,j)
+             bpi(l) = bp(l,i)
+             bpj(l) = bp(l,j)
+          enddo
+          id= min(nmax(i),nmax(j))
+          ap(1)=fl(i)+fl(j)
+          if (nem.eq.0) then
+             do l=1,id
+                dg(l)=cg(l,i)*cg(l,j)+cp(l,i)*cp(l,j)
+             enddo
+             do l=1,ndor
+                ag(l)=aprdev(bgi,bgj,l)+aprdev(bpi,bpj,l)
+             enddo
+          else
+             do l=1,id
+                dg(l)=cg(l,i)*cp(l,j)
+             enddo
+             do l=1,ndor
+                ag(l)=aprdev(bgi,bpj,l)
+             enddo
+          endif
+       endif
+      call yzkteg (dg,ag,dp,chg,dr,ap(1),hx,k,ndor,id,idim)
       return
       end
