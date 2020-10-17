@@ -231,14 +231,16 @@ c     transform to code units (bohrs and hartrees - atomic unuts)
       gamach = gamach / hart
       ecv   = ecv   / hart
       totvol = totvol / bohr**3
-      do 210 iat = 1, nat
-      do 210 i = 1,3
-        rat(i,iat) = rat (i, iat) / bohr
-  210 continue
-      do 220 iph = 0, nph
-      do 220 iovr = 1, novr(iph)
-         rovr(iovr,iph) = rovr(iovr,iph) / bohr
-  220 continue
+      do iat = 1, nat
+         do i = 1,3
+            rat(i,iat) = rat (i, iat) / bohr
+         enddo
+      enddo
+      do iph = 0, nph
+         do iovr = 1, novr(iph)
+            rovr(iovr,iph) = rovr(iovr,iph) / bohr
+         enddo
+      enddo
 
 c     add lines to the title
       if (mpot.eq.1) then

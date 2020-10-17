@@ -76,15 +76,18 @@ c     Following passed to pathfinder, which is single precision.
       endif
 
 c     initialize staff
-      do 15 i= 1,251
-        dmag0(i) = 0.d0
-  15  ri05(i) = exp (-8.8d0+0.05d0*(i-1))
-      do 20 iph = 0, nphx
-      do 20 il = 0, lx
-         eldos(il, iph) = 0
-         iiorb(il, iph) = 0
-         ival(il, iph) = 0
-  20  continue
+      do i= 1,251
+         dmag0(i) = 0.d0
+         ri05(i) = exp (-8.8d0+0.05d0*(i-1))
+      enddo
+      do iph = 0, nphx
+         do il = 0, lx
+            eldos(il, iph) = 0
+            iiorb(il, iph) = 0
+            ival(il, iph) = 0
+         enddo
+      enddo
+
 
       tol = 5.0d0/hart
       if (vint - ecv.lt.tol) ecv = vint - tol
@@ -96,22 +99,26 @@ c     make energy step about 0.5 eV
       de = (ehigh-elow)/(ne-1)
 
 c     find out problematic energies for core-valence separation
-      do 100 iph = 0, nph
-      do 100 iorb = 1, norb(iph)
-        if (eorb(iorb,iph).lt.ehigh-tol.and.eorb(iorb,iph).gt.elow) then
-          lll = -kappa(iorb,iph) - 1
-          if (lll.lt.0) lll = kappa(iorb,iph)
+      do iph = 0, nph
+         do iorb = 1, norb(iph)
+            if (eorb(iorb,iph).lt.ehigh-tol.and.eorb(iorb,iph).gt.elow)
+     $           then
+               lll = -kappa(iorb,iph) - 1
+               if (lll.lt.0) lll = kappa(iorb,iph)
 c        skip in special case for Hf,Lu,Ta; treat f-electrons as valence
 c        or as core according to UNFREEZEF
-          if((iz(iph).ge.71.and.iz(iph).le.73) .and. lll.eq.3) goto 100
-          if(iunf.eq.0 .and. lll.eq.3) goto 100
+               if((iz(iph).ge.71.and.iz(iph).le.73) .and. lll.eq.3)
+     $              goto 100
+               if(iunf.eq.0 .and. lll.eq.3) goto 100
 
-          eldos(lll,iph) = eorb(iorb,iph)
-          ival(lll,iph) = 1
-          if (xnval(iorb,iph).lt. 0.1d0) ival(lll,iph)=-1
-          iiorb(lll,iph) = iorb
-        endif
-  100 continue
+               eldos(lll,iph) = eorb(iorb,iph)
+               ival(lll,iph) = 1
+               if (xnval(iorb,iph).lt. 0.1d0) ival(lll,iph)=-1
+               iiorb(lll,iph) = iorb
+            endif
+ 100        continue
+         enddo
+      enddo
 
       do 500  iph = 0, nph
          call fixvar (rmt(iph),edens(1,iph),vtot(1,iph),dmag0,
@@ -129,27 +136,30 @@ c        or as core according to UNFREEZEF
          jri = int((log(rmt(iph)) + x0) / rgrd) + 2
          jri1 = jri+1
          eref = vtotph(jri1)
-         do 40 i = 1, jri1
-  40     vtotph(i) = vtotph(i) - dble(eref)
+         do i = 1, jri1
+            vtotph(i) = vtotph(i) - dble(eref)
+         enddo
          if (ixc.ge.5) then
-           do 50 i = 1, jri1
-  50       vvalph(i) = vvalph(i) - dble(eref)
+            do i = 1, jri1
+               vvalph(i) = vvalph(i) - dble(eref)
+            enddo
          else
-           do 60 i = 1, jri1
-  60       vvalph(i) = vtotph(i)
+           do i = 1, jri1
+              vvalph(i) = vtotph(i)
+           enddo
          endif
          itmp = 0
          if (iph.eq.0 .and. nohole.lt.0) itmp = ihole
 
          xx = dimag(eimag)
          nfound = 0
-         do 80 il = 0,lx
-           xpeak(il) = (2*il+1.d0)/(6*xx*pi)
-           xp(il) = 0
-           ifound(il) = 1
-           if (ival(il,iph).ne.0) ifound(il) = 0
-           nfound = nfound + ifound(il)
-  80     continue
+         do il = 0,lx
+            xpeak(il) = (2*il+1.d0)/(6*xx*pi)
+            xp(il) = 0
+            ifound(il) = 1
+            if (ival(il,iph).ne.0) ifound(il) = 0
+            nfound = nfound + ifound(il)
+         enddo
          if (nfound .eq. lx+1) goto 500
 
 c        start the search for suspicious maxima in LDOS for iph
@@ -165,7 +175,7 @@ c        start the search for suspicious maxima in LDOS for iph
 
 c           find the suspicious peaks on ldos and correct the energy
             nfound = 0
-            do 400 il = 0, lx
+            do il = 0, lx
                if (ival(il,iph).ne.0 .and. ifound(il).eq.0) then
 c                suspicious ldos; find the first peak in ldos that
 c                contains more than 1 electron is not found yet
@@ -180,7 +190,7 @@ c      print*,iph,' approx count is ',xp(il)*pi*dimag(eimag),' in l=',il
                  endif
                endif
                nfound = nfound + ifound(il)
-  400       continue
+            enddo
          if (nfound.lt.lx+1 .and. ie.lt.ne) goto 200
 
          if (nfound.lt.lx+1) then 
@@ -193,27 +203,29 @@ c      print*,iph,' approx count is ',xp(il)*pi*dimag(eimag),' in l=',il
 
 c     arrange suspicious levels in order
       ne = 0
-      do 600 iph = 0,nph
-      do 600  il = 0, lx
-         if (eldos(il,iph) .lt. 0) then
-            ne = ne + 1
-c           find in which position to put the new energy
-            inew = ne
-            do 580 ie = 1,ne-1
-               if (en(ie).gt.eldos(il,iph) .and. inew.eq.ne) inew = ie
-  580       continue
-            do 590 ie = ne-1,inew, -1
-               en(ie+1) = en(ie)
-               icv(ie+1) = icv(ie)
-               ll(ie+1) = ll(ie)
-               ip(ie+1) = ip(ie)
-  590       continue
-            en(inew) = eldos(il,iph)
-            icv(inew) = ival(il,iph)
-            ll(inew) = il
-            ip(inew) = iph
-         endif
-  600 continue
+      do iph = 0,nph
+         do il = 0, lx
+            if (eldos(il,iph) .lt. 0) then
+               ne = ne + 1
+c     find in which position to put the new energy
+               inew = ne
+               do ie = 1,ne-1
+                  if (en(ie).gt.eldos(il,iph) .and. inew.eq.ne)
+     $                 inew = ie
+               enddo
+               do ie = ne-1,inew, -1
+                  en(ie+1) = en(ie)
+                  icv(ie+1) = icv(ie)
+                  ll(ie+1) = ll(ie)
+                  ip(ie+1) = ip(ie)
+               enddo
+               en(inew) = eldos(il,iph)
+               icv(inew) = ival(il,iph)
+               ll(inew) = il
+               ip(inew) = iph
+            endif
+         enddo
+      enddo
 
 c     goto exit if there is no suspicious points
       if (ne.eq.0) goto 999
@@ -221,36 +233,37 @@ c     goto exit if there is no suspicious points
 c     find the highest core and lowest valence energies
       ic = 0
       iv = ne + 1
-      do 700 ie = 1,ne
+      do ie = 1,ne
          if (icv(ie).eq.-1) then
             ic = ie
          else
             if (ie.lt.iv) iv = ie
          endif
-  700 continue
+      enddo
 
 c     change assignment from core to valence, if core state above lowest
 c     valence
-      do 720 ie=iv+1,ic
-        if (icv(ie).lt.0) then
-           iph = ip(ie)
-           icv(ie) = 1
-           ival(ll(ie),iph) = 1
-c          update occupation number
-           xnvmu(ll(ie), iph) = xnvmu(ll(ie), iph) + 4*ll(ie)+2
+      do ie=iv+1,ic
+         if (icv(ie).lt.0) then
+            iph = ip(ie)
+            icv(ie) = 1
+            ival(ll(ie),iph) = 1
+c     update occupation number
+            xnvmu(ll(ie), iph) = xnvmu(ll(ie), iph) + 4*ll(ie)+2
 c          update valence density
-           iorb = iiorb(ll(ie),iph)
-
-           do 710 ir = 1,251
-             edenvl(ir,iph) =  edenvl(ir,iph) + 2*(ll(ie)+1)*
-     1       (dgc(ir,iorb,iph)**2 + dpc(ir,iorb,iph)**2)/ri05(ir)**2
-             if (ll(ie).ne.0) then
-               edenvl(ir,iph) =  edenvl(ir,iph) + 2*ll(ie)*
-     1         (dgc(ir,iorb-1,iph)**2+dpc(ir,iorb-1,iph)**2)/ri05(ir)**2
-             endif
-  710      continue
-        endif
-  720 continue
+            iorb = iiorb(ll(ie),iph)
+            
+            do ir = 1,251
+               edenvl(ir,iph) =  edenvl(ir,iph) + 2*(ll(ie)+1)*
+     $          (dgc(ir,iorb,iph)**2 + dpc(ir,iorb,iph)**2)/ri05(ir)**2
+               if (ll(ie).ne.0) then
+                  edenvl(ir,iph) =  edenvl(ir,iph) + 2*ll(ie)*
+     $                 (dgc(ir,iorb-1,iph)**2+dpc(ir,iorb-1,iph)**2)/
+     $                 ri05(ir)**2
+               endif
+            enddo
+         endif
+      enddo
       ic = iv - 1
 
 c     check if suggested ecv is between core and valence
@@ -268,7 +281,8 @@ c     check if suggested ecv is between core and valence
       endif
       if (ok) goto 999
 
-  800 ecv = vint - tol
+ 800  continue
+      ecv = vint - tol
       if (iv.le.ne) ecv = min(ecv,en(iv)-tol)
       if (ic.eq.0) goto 899
       if (ecv-en(ic).gt.tol) goto 899
@@ -282,20 +296,21 @@ c     need to reassign the last core state to valence
 c     update valence density
       iph = ip(iv)
       iorb = iiorb(ll(iv),iph)
-      do 810 ir = 1,251
-        edenvl(ir,iph) =  edenvl(ir,iph)+ 2*(ll(iv)+1)*
-     1  (dgc(ir,iorb,iph)**2 + dpc(ir,iorb,iph)**2)/ri05(ir)**2
-        if (ll(iv).ne.0) then
-          edenvl(ir,iph) =  edenvl(ir,iph)+ 2*ll(iv)*
-     1    (dgc(ir,iorb-1,iph)**2+dpc(ir,iorb-1,iph)**2)/ri05(ir)**2
-        endif
-  810 continue
+      do ir = 1,251
+         edenvl(ir,iph) =  edenvl(ir,iph)+ 2*(ll(iv)+1)*
+     1        (dgc(ir,iorb,iph)**2 + dpc(ir,iorb,iph)**2)/ri05(ir)**2
+         if (ll(iv).ne.0) then
+            edenvl(ir,iph) =  edenvl(ir,iph)+ 2*ll(iv)*
+     1           (dgc(ir,iorb-1,iph)**2+dpc(ir,iorb-1,iph)**2)/
+     $           ri05(ir)**2
+         endif
+      enddo
       go to 800
 
 899   continue
 c     update the core valence separation in array xnval
 c     need to do that for second call of 'corval' and for ixc=5,6
-      do 900  ie = iv, ne
+      do ie = iv, ne
          iph = ip(ie)
          lll = ll(ie)
          iorb = iiorb(lll,iph)
@@ -303,7 +318,7 @@ c     need to do that for second call of 'corval' and for ixc=5,6
             xnval(iorb,iph) = 2*lll+2
             if (lll.gt.0) xnval(iorb-1,iph) = 2*lll
          endif
-  900 continue
+      enddo
 
 999   continue
       return

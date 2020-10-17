@@ -47,14 +47,15 @@ c      get ipot and irav from inters
       irav = (inters-ipot) / 2
 c     prepare cvovp and bvec from vtot
       ncp=0
-      do 25 ip1=0,nph
-      do 25 i=1,novp
-        ncp = ncp + 1
-        ix1 = imt(ip1)-novp + i
-        cvovp(ncp)= real( vtot(ix1,ip1) )
-       if (lrewr.eq.2) cvovp(ncp) = cvovp(ncp) - real(vint)
-  25  continue
-      do 27 ip1=0,nph
+      do ip1=0,nph
+         do i=1,novp
+            ncp = ncp + 1
+            ix1 = imt(ip1)-novp + i
+            cvovp(ncp)= real( vtot(ix1,ip1) )
+            if (lrewr.eq.2) cvovp(ncp) = cvovp(ncp) - real(vint)
+         enddo
+      enddo
+      do ip1=0,nph
          if (irav .eq. 1) then
            rav = (rmt(ip1) + rnrm(ip1)) / 2
          elseif(irav.eq.0) then
@@ -64,7 +65,7 @@ c     prepare cvovp and bvec from vtot
          endif
          if (lnear(ip1)) rav = ri(imt(ip1)+1)
          call terp(ri,vtot(1,ip1),inrm(ip1)+2,3,rav,vtotav(ip1))
-  27  continue
+      enddo
       istatx=novp*(nphx+1)+1
       trans = 'NotTransposed'
       nrhs = 1
@@ -80,10 +81,10 @@ c           additional equation to find vint
 c           switch from average equation for vint to the local one
             nphlst = 0
             if (ipot .eq. 0) nphlst = nph
-            do 430 iph=0,nphlst
+            do iph=0,nphlst
                cvovp(ncp) = cvovp(ncp) + real(vtotav(iph)*xnatph(iph))
                bsum = bsum + xnatph(iph)
-  430       continue
+            enddo
             cvovp(ncp) = cvovp(ncp) / real(bsum)
          endif
 
@@ -97,33 +98,19 @@ c            stop
          if (lrewr.eq.1) vint = dble(real(cvovp(ncp))) /100.0d0
 
 c        rewrite vtot
-         do 550 iph=0,nph
- 
-cpot  to write out ovp tot pot and it's mt approxim, comment out cpot
-cpot         write(fname,172)  iph
-cpot  172    format('potp', i2.2, '.dat')
-cpot         open (unit=1, file=fname, status='unknown', iostat=ios)
-cpot         call chopen (ios, fname, 'wpot')
-
-            do 500 i=1,novp
-              index1=imt(iph)-novp + i
-              index2=i+novp*iph
-
-cpot            write(1,176) i, ri(index1), 
-cpot     1             vtot(index1,iph),  dble(real(cvovp(index2)))+vint
-cpot  176       format (1x, i4, 1p, 3e12.4)
-
-              vtot(index1,iph) = dble(real(cvovp(index2)))+vint
-  500       continue
-
-cpot         close (unit=1)
-
+         do iph=0,nph
+            do i=1,novp
+               index1=imt(iph)-novp + i
+               index2=i+novp*iph
+               vtot(index1,iph) = dble(real(cvovp(index2)))+vint
+           enddo
 c           use second order extrapolation
             j=imt(iph)+1
             call terp (ri,vtot(1,iph),imt(iph),2,ri(j),vtot(j,iph))
-            do 505 j=imt(iph)+2, 251
-  505       vtot(j,iph) = vint
-  550    continue
+            do j=imt(iph)+2, 251
+               vtot(j,iph) = vint
+            enddo
+         enddo
       else
 c        dealing with  density calculations. vint  is the total
 c        charge inside mt spheres.
@@ -137,8 +124,8 @@ c            stop
          endif
 
          vint = 0
-         do 450 iph=0,nph
-            do 440 i=1,imt(iph)+2
+         do iph=0,nph
+            do i=1,imt(iph)+2
                if (i.lt.imt(iph)-novp+1) then
                  crho(i) =  vtot(i,iph)*ri(i)**2
                elseif (i.le. imt(iph)) then
@@ -148,13 +135,13 @@ c                crho(i) =  vtot(i,iph)*ri(i)**2
                else
                  call terp(ri,crho,imt(iph),2,ri(i), crho(i) )
                endif
-  440       continue
+            enddo
             np = imt(iph) + 2
             cdum = 0
             dpas = 0.05d0
             call somm2 (ri,crho,dpas,cdum,rmt(iph),0,np)
             vint = vint + xnatph(iph) * cdum
-  450    continue
+         enddo
          vint=qtot-vint
       endif
 

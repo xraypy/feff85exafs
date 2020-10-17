@@ -26,11 +26,11 @@ c     never do calculations on real axis.
       eim = eimmin 
       de = dimag(eim)/4
 
-      do 10 i =1, neg1
+      do i =1, neg1
 c        step linearly increases as one get farther from real axis
          eim = eimmin *i**2
          emg(i) = ecv +eim
-  10  continue
+      enddo
       step(nflrx) = dimag(eim)/4
 
 c     set energy step for integration eim above real axis
@@ -39,16 +39,17 @@ c     set energy step for integration eim above real axis
       if (neg2.gt.neg2mx) neg2=neg2mx
       if (neg2.lt.neg1) neg2 = neg1
       de = (xmu-ecv) / neg2
-      do 20 i = neg1+1,neg1+neg2
-  20  emg(i) = emg(i-1) + de
+      do i = neg1+1,neg1+neg2
+         emg(i) = emg(i-1) + de
+      enddo
 
       neg = neg1 + neg2 + neg3
-      do 30 i =1, neg3
+      do i =1, neg3
 c        step linearly increases as one get farther from real axis
          eim = eimmin *(i+1)**2 /4.d0
          if (i.le.nflrx) step(i) = dimag(eim)/4
          emg(neg-i+1) = xmu + eim
-  30  continue
+      enddo
 
       return
       end

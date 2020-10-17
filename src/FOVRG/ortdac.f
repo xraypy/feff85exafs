@@ -17,15 +17,18 @@ c        this program uses dsordc
       common/tabtec/hx,dr(nrptx),test1,test2,ndor,np,nes,method,idim
       complex*16 a
  
-      do 51 j=1,norb-1
-         if (kap(j).ne.ikap .or. xnel(j).le.0) go to 51
-         a = dsordc(j,fl(norb),ps,qs,aps,aqs)
-         do 41 i=1,idim
-            ps(i)=ps(i)-a*cg(i,j)
- 41         qs(i)=qs(i)-a*cp(i,j)
-         do 42 i=1,ndor
-            aps(i)=aps(i)-a*bg(i,j)
- 42         aqs(i)=aqs(i)-a*bp(i,j)
- 51   continue
+      do j=1,norb-1
+         if (kap(j).eq.ikap .and. xnel(j).gt.0) then
+            a = dsordc(j,fl(norb),ps,qs,aps,aqs)
+            do i=1,idim
+               ps(i)=ps(i)-a*cg(i,j)
+               qs(i)=qs(i)-a*cp(i,j)
+            enddo
+            do i=1,ndor
+               aps(i)=aps(i)-a*bg(i,j)
+               aqs(i)=aqs(i)-a*bp(i,j)
+            enddo
+         endif
+      enddo
       return
       end

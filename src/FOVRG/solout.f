@@ -52,9 +52,10 @@ c#mn}
       ec=en/cl
       ag(1)=agi
       ap(1)=api
-      do 115 i=2,ndor
+      do i=2,ndor
          ag(i)=ceg(i-1)
- 115     ap(i)=cep(i-1)
+         ap(i)=cep(i-1)
+      enddo
 c     integration of the inhomogenious system
 c     no need in normalization, since we can use 
 c     normalization agi=ag(1)=const
@@ -70,28 +71,31 @@ c at the origin of a large (small) component
 c     initial values for the outward integration
       if (ic3.eq.0) then
 c       Desclaux power expansion
-         do 35 j=2,ndor
+         do j=2,ndor
             k=j-1
             a=fl+kap+k
             b=fl-kap+k
             eph=a*b+av(1)*av(1)
             f=(ec+ccl)*ap(k)+ap(j)
             g=ec*ag(k)+ag(j)
-            do 31 i=1,k
+            do i=1,k
                f=f-av(i+1)*ap(j-i)
- 31            g=g-av(i+1)*ag(j-i)
+               g=g-av(i+1)*ag(j-i)
+            enddo
  
             ag(j)=(b*f+av(1)*g)/eph
- 35         ap(j)=(av(1)*f-a*g)/eph
-
-         do  41 i = 1,1
+            ap(j)=(av(1)*f-a*g)/eph
+         enddo
+         do i = 1,1
             gg(i)=0.0d 00
             gp(i)=0.0d 00
-         do 41 j=1,ndor
-            a=fl+j-1
-            b=dr(i)**a
-            gg(i)=gg(i)+b*ag(j)
- 41         gp(i)=gp(i)+b*ap(j)
+            do j=1,ndor
+               a=fl+j-1
+               b=dr(i)**a
+               gg(i)=gg(i)+b*ag(j)
+               gp(i)=gp(i)+b*ap(j)
+            enddo
+         enddo
       else
 c        see fovrg.f in feff6, be aware of different units
          twoz = -dble(av(1)) * 2.0*cl
@@ -131,7 +135,7 @@ c        see fovrg.f in feff6, be aware of different units
       iflat = min ( jri, iwkb)
       call intout (en, i0, kap, iflat, ic3, vm)
 
-      do 100 i = iflat, max0-1
+      do i = iflat, max0-1
          if (i.eq.iwkb) then
             eph = cl* ( 3*dv(iwkb+1) - dv(iwkb+2)) /2
             if (iwkb.eq.jri-1) eph=  cl* (dv(i) + dv(i+1)) /2
@@ -145,7 +149,7 @@ c        see fovrg.f in feff6, be aware of different units
          endif
          call flatv( dr(i), dr(i+1), gg(i), gp(i), en, eph, kap,
      1               gg(i+1), gp(i+1))
-  100 continue
+      enddo
 
       return
       end

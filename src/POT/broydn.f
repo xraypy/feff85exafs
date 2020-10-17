@@ -37,103 +37,118 @@ c     work space for Broyden algorithm
 c     make  radial grid with 0.05 step
       dx05=0.05d0
       if(iscmt.eq.1) then
-        do 10 i=1,251
+        do i=1,251
            ri05(i) = exp(-8.8d0+dx05*(i-1))
            wt(i) = ri05(i)**3
-  10    continue
+        enddo
       endif
 
 c     record F(\rho_i)
-      do 30 iph = 0, nph
-      do 30 ir = 1, ilast(iph)
-        frho(ir,iph,iscmt)=rhoval(ir,iph)*ri05(ir)-edenvl(ir,iph)*wt(ir)
-  30  continue
+      do iph = 0, nph
+         do ir = 1, ilast(iph)
+            frho(ir,iph,iscmt)=rhoval(ir,iph)*ri05(ir)-
+     $           edenvl(ir,iph)*wt(ir)
+         enddo
+      enddo
 
 c     dq here is set to the total number of valence electron for
 c     the initial (atomic overlap) density inside corresponding
 c     norman sphere, and xnferm is  the total number for the cluster.
       xnferm = 0
-      do 330 ip= 0,nph
-        dq(ip) = 0
-        do 320 il = 0,lx
-         dq(ip) = dq(ip) + xnvmu(il, ip)
- 320    continue
-        xnferm = xnferm + dq(ip)*xnatph(ip)
- 330  continue 
+      do ip= 0,nph
+         dq(ip) = 0
+         do il = 0,lx
+            dq(ip) = dq(ip) + xnvmu(il, ip)
+         enddo
+         xnferm = xnferm + dq(ip)*xnatph(ip)
+      enddo
 
       if (iscmt.gt.1) then
 c       get normalization factor
         xnorm(iscmt) = 0
-        do 510 iph = 0, nph
-        do 510 ir = 1,ilast(iph)
-          xnorm(iscmt) = xnorm(iscmt) +
-     1    (frho(ir,iph,iscmt)-frho(ir,iph,iscmt-1))**2
-  510   continue
+        do iph = 0, nph
+           do ir = 1,ilast(iph)
+              xnorm(iscmt) = xnorm(iscmt) +
+     1             (frho(ir,iph,iscmt)-frho(ir,iph,iscmt-1))**2
+           enddo
+        enddo
 
 c       calculate c_m,i
-        do 530 j = 2, iscmt
+        do j = 2, iscmt
           cmi(iscmt,j) = 0
-          do 520 iph = 0, nph
-          do 520 ir = 1,ilast(iph)
-            cmi(iscmt,j) = cmi(iscmt,j) + frho(ir,iph,iscmt) *
-     1      (frho(ir,iph,j)-frho(ir,iph,j-1))
-  520     continue
+          do iph = 0, nph
+             do ir = 1,ilast(iph)
+                cmi(iscmt,j) = cmi(iscmt,j) + frho(ir,iph,iscmt) *
+     1               (frho(ir,iph,j)-frho(ir,iph,j-1))
+             enddo
+          enddo
           cmi(iscmt,j) = cmi(iscmt,j)/xnorm(j)
-  530   continue
+       enddo
 
 c       calculate U_i - vector of lagrange multipliers
-        do 550 iph = 0, nph
-        do 550 ir = 1,ilast(iph)
-         urho(ir,iph,iscmt)=ca*(frho(ir,iph,iscmt)-frho(ir,iph,iscmt-1))
-     1     + (edenvl(ir,iph) - rhoold(ir,iph))*wt(ir)
-  550   continue
+        do iph = 0, nph
+           do ir = 1,ilast(iph)
+              urho(ir,iph,iscmt)=ca*(frho(ir,iph,iscmt)-
+     $             frho(ir,iph,iscmt-1)) + (edenvl(ir,iph)
+     $             - rhoold(ir,iph))*wt(ir)
+           enddo
+        enddo
 
-        do 570 j = 2, iscmt-1
-        do 570 iph = 0, nph
-        do 570 ir = 1,ilast(iph)
-          urho(ir,iph,iscmt)= urho(ir,iph,iscmt) - urho(ir,iph,j) *
-     1      (cmi(iscmt,j)-cmi(iscmt-1,j))
-  570   continue
+        do j = 2, iscmt-1
+           do iph = 0, nph
+              do ir = 1,ilast(iph)
+                 urho(ir,iph,iscmt)= urho(ir,iph,iscmt)
+     $                - urho(ir,iph,j) * (cmi(iscmt,j)-cmi(iscmt-1,j))
+              enddo
+           enddo          
+        enddo          
       endif
 
 c     construct new density, finally
-      do 600 iph = 0, nph
-      do 600 ir = 1, ilast(iph)
-        rhoold(ir,iph) = edenvl(ir,iph)
-        rhoval(ir,iph) = edenvl(ir,iph) + ca*frho(ir,iph,iscmt)/wt(ir)
-        do 610 j = 2, iscmt
-  610   rhoval(ir,iph)=rhoval(ir,iph)-cmi(iscmt,j)*urho(ir,iph,j)/wt(ir)
-  600 continue
+      do iph = 0, nph
+         do ir = 1, ilast(iph)
+            rhoold(ir,iph) = edenvl(ir,iph)
+            rhoval(ir,iph) = edenvl(ir,iph) +
+     $           ca*frho(ir,iph,iscmt)/wt(ir)
+            do j = 2, iscmt
+               rhoval(ir,iph)=rhoval(ir,iph)-cmi(iscmt,j)*
+     $              urho(ir,iph,j)/wt(ir)
+            enddo
+         enddo
+      enddo
+
 
 c     calculate e charge inside norman sphere
 c     dq - extra number of e (charge transfer) 
       x0 = 8.8d0
       dqav=0.0d0
       xnat = 0.d0
-      do 700 iph = 0, nph
-        jnrm =  int((log(rnrm(iph)) + x0) / dx05)  +  2
-        i0=jnrm+1
-        xirf = 2
-        do 710 ir = 1, ilast(iph)
-           xpc(ir) = rhoval(ir,iph)*ri05(ir)**2
-  710   continue
-        call somm2 (ri05, xpc, dx05, xirf, rnrm(iph),0,i0)
-c       dq is how many new electrons are within norman sphere
-        dq(iph) = xirf - qnrm(iph) - dq(iph)
-        dqav=dqav+xnatph(iph)*dq(iph)
-        xnat = xnat + xnatph(iph)
-  700 continue
+      do iph = 0, nph
+         jnrm =  int((log(rnrm(iph)) + x0) / dx05)  +  2
+         i0=jnrm+1
+         xirf = 2
+         do ir = 1, ilast(iph)
+            xpc(ir) = rhoval(ir,iph)*ri05(ir)**2
+         enddo
+         
+         call somm2 (ri05, xpc, dx05, xirf, rnrm(iph),0,i0)
+c     dq is how many new electrons are within norman sphere
+         dq(iph) = xirf - qnrm(iph) - dq(iph)
+         dqav=dqav+xnatph(iph)*dq(iph)
+         xnat = xnat + xnatph(iph)
+      enddo
 
 
 c     to keep charge neutrality add/subtract part of previous density
       aa = dqav/xnferm
       dqav=dqav/xnat
-      do 800 iph = 0, nph
-        dq(iph) = dq(iph) - dqav
-        qnrm(iph) = qnrm(iph) + dq(iph)
-        do 810 ir = 1, ilast(iph)
-  810   rhoval(ir,iph) = rhoval(ir,iph) - aa*edenvl(ir,iph)
-  800 continue
+      do iph = 0, nph
+         dq(iph) = dq(iph) - dqav
+         qnrm(iph) = qnrm(iph) + dq(iph)
+         do ir = 1, ilast(iph)
+            rhoval(ir,iph) = rhoval(ir,iph) - aa*edenvl(ir,iph)
+         enddo
+      enddo
 
       return
       end

@@ -9,7 +9,8 @@ c     are in rows a and b
       dimension bla(10)
  
       aprdec = (0.0d0, 0.0d0)
-      do 11 m = 1, lla
- 11      aprdec = aprdec + ala(m) * bla(lla+1-m)
+      do m = 1, lla
+         aprdec = aprdec + ala(m) * bla(lla+1-m)
+      enddo
       return
       end

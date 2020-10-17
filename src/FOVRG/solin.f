@@ -48,9 +48,10 @@ c idim dimension of the block dr
       ccl=cl+cl
       ihard = 0
       ec=en/cl
-      do 115 i=2,ndor
+      do i=2,ndor
          ag(i)=0.0d0
- 115     ap(i)=0.0d0
+         ap(i)=0.0d0
+      enddo
 c     integration of the inhomogenious system
 c     no need in normalization, since we can use 
 c     normalization agi=ag(1)=const
@@ -130,7 +131,7 @@ c     integration of the inhomogenious system
       a5 = hx * 64.0/45.0
       a6 = hx * 24.0/45.0
 c     do 55 i = jri - npi + 1 , 2, -1
-      do 55 i = iflat, 2, -1
+      do i = iflat, 2, -1
          nit = 0
 c        predictor
          acp=gg(i+5)+a1*(dg(npi)+dg(npi-4))+a2*(dg(npi-1)+dg(npi-3))
@@ -140,13 +141,15 @@ c        predictor
 c        ac,bc -corrector w/o contribution from derivatives at i+1
          ac=gg(i+3)+a4*dg(npi-3)+a5*(dg(npi)+dg(npi-2))+a6*dg(npi-1)
          bc=gp(i+3)+a4*dp(npi-3)+a5*(dp(npi)+dp(npi-2))+a6*dp(npi-1)
-         do 61 j=1,npi-1
+         do j=1,npi-1
             dg(j)=dg(j+1)
- 61         dp(j)=dp(j+1)
+            dp(j)=dp(j+1)
+         enddo
          f=(ec-dv(i-1))*dr(i-1)
          g=f+ccl*dr(i-1)
          c3 = ic3*vm(i-1)/g**2
- 64      dg(npi)= -( g*bcp-kap*acp+ep(i-1) )
+ 64      continue
+         dg(npi)= -( g*bcp-kap*acp+ep(i-1) )
          dp(npi)= -( kap*bcp-(f-c3)*acp-eg(i-1) )
 c        corrected values
          gg(i-1)=ac+a4*dg(npi)
@@ -163,11 +166,12 @@ c           test failed
                ihard = ihard+1
             endif
          endif
- 55   continue
+      enddo
 
-      do 741 i=imax+1,np
+      do i=imax+1,np
          gg(i)=0.0d 00
- 741     gp(i)=0.0d 00
+         gp(i)=0.0d 00
+      enddo
       ag(1)=gg(1)* dr(1)**(-fl)
       ap(1)=gp(1)* dr(1)**(-fl)
 

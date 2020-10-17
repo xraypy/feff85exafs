@@ -75,14 +75,15 @@ c        for irregular solution
          ndor=2
          aps(1) =  pu
          aqs(1) =  qu
-         do 5 i=1, jri
+         do i=1, jri
            gg(i) = ps(i)
            gp(i) = qs(i)
- 5       continue
+        enddo
       endif
-      do 9 i = jri+1,nrptx
+      do i = jri+1,nrptx
          vxc(i)=vxc(jri+1)
- 9       vxcval(i)=vxc(jri+1)
+         vxcval(i)=vxc(jri+1)
+      enddo
       ibgp=10
       numerr = 0
       nz = iz
@@ -103,15 +104,18 @@ c     if (irr.gt.0) aa = 0.05
       if (iwkb.lt. 10) iwkb = 10
       
 c     copy information into common's of atomic code
-      do 13 j=1,30
-      do 13 i=1,10
-         bg(i,j)=adgc(i,j) 
- 13      bp(i,j)=adpc(i,j) 
-      do 15 j=1,30
-      do 15 i=1,idim
-         cg(i,j)=dgcn(i,j) 
- 15      cp(i,j)=dpcn(i,j) 
-
+      do j=1,30
+         do i=1,10
+            bg(i,j)=adgc(i,j) 
+            bp(i,j)=adpc(i,j)
+         enddo
+      enddo
+      do j=1,30
+         do i=1,idim
+            cg(i,j)=dgcn(i,j) 
+            cp(i,j)=dpcn(i,j) 
+         enddo
+      enddo
       call inmuac (ihole, xion, iunf, ikap)
       nmax(norb)=jlast
       if (iwkb.ge. jlast-1) iwkb = idim
@@ -119,10 +123,11 @@ c     note that here norb correspond to photoelectron
 
 c     calculate initial photoelectron orbital using lda
       call diff (vxc,ri,ikap,cl,hx,jri,vm)
-      do 18 i = jri, nrptx
-  18  vm(i)=0.0d0
+      do i = jri, nrptx
+         vm(i)=0.0d0
+      enddo
       call wfirdc (p2,kap,nmax,vxc,ps,qs,aps,aqs,irr,ic3,vm,
-     1             jri, iwkb)
+     1     jri, iwkb)
 c     1             rmt,jri, iwkb)
 
       if (numerr .ne. 0) call par_stop('error in wfirdc')
@@ -133,12 +138,14 @@ c     in general it should not be orthogonolized. Use for testing only
 c     ala
 
 c     further need only core electrons for exchange term
-      do 40 i=1, norb-1
-  40  xnel(i) = xnel(i) - xnval(i)
+      do i=1, norb-1
+         xnel(i) = xnel(i) - xnval(i)
+      enddo
 c     take vxcval at the origin as vxcval=vcoul +const1 + i*const2
       av(2)=av(2)+(vxcval(1)-vxc(1))/cl
-      do 50 i=1,iwkb
-  50  dv(i)=vxcval(i)/cl
+      do i=1,iwkb
+         dv(i)=vxcval(i)/cl
+      enddo
 c     keep dv=vxc/cl above iwkb
 
       nter=0
@@ -178,13 +185,14 @@ c        if (ipl.ne.0) call ortdac (ikap,gg,gp,ag,ap)
 
 c        acceleration of the convergence 
          scc(norb)=1.0d0
-         do 151 i=1,idim
+         do i=1,idim
             ps(i)=gg(i)
- 151        qs(i)=gp(i)
-         do 155 i=1,ndor
+            qs(i)=gp(i)
+         enddo
+         do i=1,ndor
             aps(i) =ag(i) 
- 155        aqs(i) =ap(i) 
-
+            aqs(i) =ap(i) 
+         enddo
       if (nter.le.ncycle) go to 101
 
  999  if (numerr .eq. 0) then

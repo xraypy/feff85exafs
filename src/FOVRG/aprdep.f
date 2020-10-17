@@ -8,7 +8,8 @@ c     are in rows a and b
       dimension a(10),b(10)
  
       aprdep=0.0d 00
-      do 11 m=1,l
- 11      aprdep=aprdep+a(m)*b(l+1-m)
+      do m=1,l
+         aprdep=aprdep+a(m)*b(l+1-m)
+      enddo
       return
       end

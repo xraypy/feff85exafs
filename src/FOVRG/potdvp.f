@@ -18,44 +18,51 @@ c     dg,dp to get data from yzkrdf, dv,eg,ep -output for soldir
 c#mn
        external aprdep
 
-      do 9 i=1,10
- 9       av(i)=anoy(i)
- 
+      do i=1,10
+         av(i)=anoy(i)
+      enddo
 c     calculate density development coefficients
-      do 31 i=1,ndor
- 31   ag(i)=0.0d 00
-      do 51 j=1,norb-1
-         do 33 i = 1,10
+      do i=1,ndor
+         ag(i)=0.0d 00
+      enddo
+      do j=1,norb-1
+         do i = 1,10
             bgj(i) = bg(i,j)
- 33         bpj(i) = bp(i,j)
+            bpj(i) = bp(i,j)
+         enddo
          n=2* abs(kap(j))
          l=ndor+2-n
-         if (l.le.0) go to 51
-         do 41 i=1,l
-            m=n-2+i
- 41         ag(m)=ag(m)+xnel(j)*(aprdep(bgj,bgj,i)+
-     1            aprdep(bpj,bpj,i))*fix(j)**2
- 51   continue
+         if (l.gt.0) then
+            do i=1,l
+               m=n-2+i
+               ag(m)=ag(m)+xnel(j)*(aprdep(bgj,bgj,i)+
+     $              aprdep(bpj,bpj,i))*fix(j)**2
+            enddo
+         endif
+      enddo
 
 c     transform density coefficients into ones for potential
       ap(1)=0.0d 00 
-      do 15 i=1,ndor
+      do i=1,ndor
          ag(i)=ag(i)/(i+2)/(i+1)
          ap(1)=ap(1)+ag(i)*dr(1)**(i+1)
- 15   continue
+      enddo
 
-      do 61 i=1,ndor
+      do i=1,ndor
          l=i+3
-         if (l.gt.ndor) go to 61
-         av(l)=av(l)-ag(i)
- 61   continue
+         if (l.le.ndor) then
+            av(l)=av(l)-ag(i)
+         endif
+      enddo
+
 c     av(2)=avoy(2) + ap(1)+(vxcvzl(1)-dvn(1)) in order 
 c     to have sum av(i)*dr(1)**(i-2)=vxcval(1)
       av(2)=av(2)+ap(1)
  
 c addition of nuclear potential and division of potentials and
 c       their development limits by speed of light
-      do 527 i=1,10
- 527     av(i)=av(i)/cl
+      do i=1,10
+         av(i)=av(i)/cl
+      enddo
       return
       end

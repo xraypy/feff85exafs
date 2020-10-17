@@ -41,22 +41,25 @@ c#mn
 c     get ipot and irav from inters
       ipot = mod(inters,2)
       irav = (inters-ipot) / 2
-      do 20 i=1,251
-  20  ri(i)=exp(-8.8d0+(i-1)*0.05d0)
+      do i=1,251
+         ri(i)=exp(-8.8d0+(i-1)*0.05d0)
+      enddo
       exphx=exp(0.025d0)
 
 c     initiallly cmovp is a unit matrix up to ncp
       ncp = novp*(nph+1)+1
-      do 30 i2=1,ncp
-      do 30 i1=1,ncp
-        cmovp(i1,i2) = 0.
-        if ( i1.eq.i2 ) cmovp(i1,i2) = 1.
-        if (i2.eq.ncp) cmovp(i1,i2) = 0.01
-  30  continue
-      do 40 i2=1,ncp-1
-      do 40 i1=1,nph+1
-        bmat (i1,i2) = 0.e0
-  40  continue
+      do i2=1,ncp
+         do i1=1,ncp
+            cmovp(i1,i2) = 0.
+            if ( i1.eq.i2 ) cmovp(i1,i2) = 1.
+            if (i2.eq.ncp) cmovp(i1,i2) = 0.01
+         enddo
+      enddo
+      do i2=1,ncp-1
+         do i1=1,nph+1
+            bmat (i1,i2) = 0.e0
+         enddo
+      enddo
       xn = 0.d0
 
       do 200 ip1=0,nph
@@ -206,18 +209,20 @@ c     using matrix bmat fill in the last row of matrix cmvovp
 c     this is additional equation to find Vint.
 c     switch to local equation from average over all atoms
       if (ipot .eq. 0) then
-         do 260 iph=0, nph
+         do iph=0, nph
 c          xn may differ from nat, if atom list have more natx atoms
 c          see rdinp.f
-           aa = xnatph(iph)/xn
-           do 250 ix1 = 1, ncp-1
-  250      cmovp(ncp,ix1) = cmovp(ncp, ix1) +
-     &             cmplx(real(aa)*bmat(iph+1,ix1))
-  260    continue
+            aa = xnatph(iph)/xn
+            do ix1 = 1, ncp-1
+               cmovp(ncp,ix1) = cmovp(ncp, ix1) +
+     &              cmplx(real(aa)*bmat(iph+1,ix1))
+            enddo
+         enddo
       else  
          iph=0
-         do 270 ix1 = 1, ncp-1
-  270    cmovp(ncp,ix1) = cmovp(ncp, ix1) + bmat(iph+1,ix1)
+         do ix1 = 1, ncp-1
+            cmovp(ncp,ix1) = cmovp(ncp, ix1) + bmat(iph+1,ix1)
+         enddo
       endif
 
 c --- invert matrices by LU decomposition

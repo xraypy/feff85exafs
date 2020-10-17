@@ -19,15 +19,15 @@ c     in yrhoce, which at the input are only embedded atom quantities
       dimension xnmues(0:lx), rhoval(251)
 
 c     chi from fms is contained in gtr
-      do 200  j = 0, lx
+      do j = 0, lx
          cchi(j) =  dble( real( gtr(j) )) + coni* dble(aimag( gtr(j) ))
-  200 continue
+      enddo
 
-      do 730 il = 0,lx
-        xrhoce(il, iph)=xrhoce(il, iph)+
-     1                       cchi(il)*xrhole(il) 
-        if (ie.eq.1) xrhocp(il,iph) = xrhoce(il,iph)
-  730 continue
+      do il = 0,lx
+         xrhoce(il, iph)=xrhoce(il, iph)+
+     $        cchi(il)*xrhole(il) 
+         if (ie.eq.1) xrhocp(il,iph) = xrhoce(il,iph)
+      enddo
 
       del = ee-ep
       der = del
@@ -35,28 +35,29 @@ c     if iflr=1 add/subtract integral from point to real axis
 c     factor 2 below comes from spin degeneracy
       if (iflr.eq.1) der = der - coni * 2 * dimag(ee)
       if (iflrp.eq.1) del = del + coni * 2 * dimag(ep)
-      do 750 il = 0, lx
-        if (il.le.2 .or. iunf.ne.0) then
-         fl = fl + 2 * xrhocp(il,iph) * xnatph
-         fr = fr + 2 * xrhoce(il,iph) * xnatph
-         xnmues(il) = xnmues(il) + 
-     1        dimag( xrhoce(il,iph) * der + xrhocp(il,iph) * del )
-         xntot = xntot + xnmues(il) * xnatph
-        endif
-  750 continue
+      do il = 0, lx
+         if (il.le.2 .or. iunf.ne.0) then
+            fl = fl + 2 * xrhocp(il,iph) * xnatph
+            fr = fr + 2 * xrhoce(il,iph) * xnatph
+            xnmues(il) = xnmues(il) + 
+     $           dimag( xrhoce(il,iph) * der + xrhocp(il,iph) * del)
+            xntot = xntot + xnmues(il) * xnatph
+         endif
+      enddo
 
 cc    calculate r-dependent l-dos for later use
-      do 840 il = 0,lx
-      do 840 ir = 1,ilast
-       if (il.le.2 .or. iunf.ne.0) then
-        yrhoce(ir) = yrhoce(ir) + cchi(il)*yrhole(ir,il)
-        if (ie.eq.1) yrhocp(ir) = yrhoce(ir)
-       endif
-  840 continue
+      do il = 0,lx
+         do ir = 1,ilast
+            if (il.le.2 .or. iunf.ne.0) then
+               yrhoce(ir) = yrhoce(ir) + cchi(il)*yrhole(ir,il)
+               if (ie.eq.1) yrhocp(ir) = yrhoce(ir)
+            endif
+         enddo
+      enddo
 
-      do 850 ir = 1, ilast
+      do ir = 1, ilast
          rhoval(ir) = rhoval(ir) + dimag(yrhoce(ir)*der+yrhocp(ir)*del)
-  850 continue
+      enddo
 
       return
       end

@@ -8,27 +8,35 @@ c     initialize values of arrays to zero
       dimension edenvl(251,0:nphx), vvalgs (251,0:nphx)
       dimension xnmues(0:lx,0:nphx)
 
-      do 10 iph  = 0,nphx+1
-      do 10 iorb = 1,30
-      do 10 i = 1,251
-   10    dgc(i,iorb,iph) = zero
+      do iph  = 0,nphx+1
+         do iorb = 1,30
+            do i = 1,251
+               dgc(i,iorb,iph) = zero
+            enddo
+         enddo
+      enddo
 
-      do 20 iph  = 0,nphx+1
-      do 20 iorb = 1,30
-      do 20 i = 1,251
-   20    dpc(i,iorb,iph) = zero
-
-      do 30 iph = 0, nphx
-      do 30 i = 1, 251
-   30    edenvl(i, iph) = zero
-
-      do 40 iph = 0, nphx
-      do 40 i = 1, 251
-   40    vvalgs(i, iph) = zero
-
-      do 50 iph = 0, nphx
-      do 50 ll = 0, lx
-   50    xnmues (ll, iph) = zero
-
+      do iph  = 0,nphx+1
+         do iorb = 1,30
+            do i = 1,251
+               dpc(i,iorb,iph) = zero
+            enddo
+         enddo
+      enddo
+      do iph = 0, nphx
+         do i = 1, 251
+            edenvl(i, iph) = zero
+         enddo
+      enddo
+      do iph = 0, nphx
+         do i = 1, 251
+            vvalgs(i, iph) = zero
+         enddo
+      enddo
+      do iph = 0, nphx
+         do ll = 0, lx
+            xnmues (ll, iph) = zero
+         enddo
+      enddo
       return
       end

@@ -23,19 +23,20 @@ c     work space
 
 c     make  radial grid with 0.05 step
       dx05=0.05d0
-      do 10 i=1,251
+      do i=1,251
          ri05(i) = exp(-8.8d0+dx05*(i-1))
-  10  continue
+      enddo
 
-      do 600 ip=0,npot
-        do 550 ir=1, ilast(ip)
-           drho(ir)= (rhoval(ir,ip)-edenvl(ir,ip))*ri05(ir)**2
-  550   continue
+      do ip=0,npot
+         do ir=1, ilast(ip)
+            drho(ir)= (rhoval(ir,ip)-edenvl(ir,ip))*ri05(ir)**2
+         enddo
+
         call potslw(dvcl,drho, ri05,dx05, ilast(ip))
 
-        do 560 ir = ilast(ip)+1, 251
+        do ir = ilast(ip)+1, 251
            dvcl(ir) = 0.0d0
-  560   continue
+        enddo
 
         if (icoul.eq. 1) then
 c         find the change of coulomb potential at norman radius for
@@ -43,13 +44,13 @@ c         each type of iph
           jnrm = int((log(rnrm(ip)) + 8.8d0) / 0.05d0)  +  2
           dvnrm = dq(ip) / rnrm(ip)
           iat0 = iatph(ip)
-          do 570 iat=1,nat
+          do iat=1,nat
              if (iat.ne.iat0) then
                rr = dist( rat(1,iat), rat(1,iat0))
                if (rr.lt.rnrm(ip)) rr=rnrm(ip)
                dvnrm = dvnrm + dq(iphat(iat)) / rr
-             endif
-  570     continue
+            endif
+         enddo
 
 c         transfer condition to r(jnrm) instead of r_nrm.
           dr = ri05(jnrm) - rnrm(ip)
@@ -79,8 +80,9 @@ c         probably better fix will be to use Ewald summation to figure
 c         out the Madelung constants (icoul=2 optinon to be done later).
 
           call frnrm (edens(1,ip), iz(ip), rnrm1)
-          do 710 i = 1,251
-  710     drho(i) = edens(i,ip) - edenvl (i,ip) +rhoval(i,ip)
+          do i = 1,251
+             drho(i) = edens(i,ip) - edenvl (i,ip) +rhoval(i,ip)
+          enddo
           call frnrm (drho, iz(ip), rnrm2)
           rmin = min (rnrm1, rnrm2)
           inrm = int((log(rmin) + 8.8d0) / 0.05d0)  +  1
@@ -105,12 +107,13 @@ c         out the Madelung constants (icoul=2 optinon to be done later).
           dvnrm = delv - dvcl(inrm)
         endif
 
-        do 580 ir=1,ilast(ip)
+        do ir=1,ilast(ip)
            vclap(ir,ip) = vclap(ir,ip) + dvcl(ir) + dvnrm 
-  580   continue
-        do 590 ir=ilast(ip)+1,251
-  590   vclap(ir,ip)=0.0d0
-  600 continue
+        enddo
+        do ir=ilast(ip)+1,251
+           vclap(ir,ip)=0.0d0
+        enddo
+      enddo
 
       return
       end

@@ -63,9 +63,10 @@ c xl_i = (rnrm_i**2 - rnrm_j**2 + rnn**2) / (2*rnn)
 
 c     find rmt from rnrm only on first call of istprm (rmt(0)=-1)
       if (rmt(0).le.0.0d0) then
-      do 10 iph=0,nph
-  10  lnear(iph)=.false.
-      do 140  iph = 0, nph
+      do iph=0,nph
+         lnear(iph)=.false.
+      enddo
+      do iph = 0, nph
          voltot = 0
          rmtavg = 0
          inrm(iph) = ii(rnrm(iph))
@@ -75,7 +76,7 @@ c           Overlap explicitly defined by overlap card
             inters = mod(inters,6)
 c           use Norman prescription only in this case
 
-            do 124  iovr = 1, novr(iph)
+            do iovr = 1, novr(iph)
                rnn  = rovr(iovr,iph)
                inph = iphovr(iovr,iph)
                if (rnn .le. rnear) then
@@ -84,57 +85,61 @@ c           use Norman prescription only in this case
                   inn(iph) = inph
                endif
 c              Don't avg if norman spheres don't overlap
-               if (rnrm(iph)+rnrm(inph) .le. rnn)  goto 124
-               voltmp = calcvl (rnrm(iph), rnrm(inph), rnn)
-               voltmp = voltmp + calcvl (rnrm(inph), rnrm(iph), rnn)
-               rmttmp = rnn * folp(iph) * rnrm(iph) /
-     1                  (rnrm(iph) + rnrm(inph))
-               ntmp = nnovr(iovr,iph)
-               rmtavg = rmtavg + rmttmp*voltmp*ntmp
-               voltot = voltot + voltmp*ntmp
-  124       continue
+               if (rnrm(iph)+rnrm(inph) .gt. rnn)  then
+                  voltmp = calcvl (rnrm(iph), rnrm(inph), rnn)
+                  voltmp = voltmp + calcvl (rnrm(inph), rnrm(iph), rnn)
+                  rmttmp = rnn * folp(iph) * rnrm(iph) /
+     1                 (rnrm(iph) + rnrm(inph))
+                  ntmp = nnovr(iovr,iph)
+                  rmtavg = rmtavg + rmttmp*voltmp*ntmp
+                  voltot = voltot + voltmp*ntmp
+               endif
+            enddo
          else
             iat = iatph(iph)
             rnear = big
             rmt(iph) = big
-            do 130  inat = 1, nat
-               if (inat .eq. iat)  goto 130
-               rnn = dist (rat(1,inat), rat(1,iat))
-               inph = iphat(inat)
-               if (rnn .le. rnear) then
-                  rnear = rnn
-                  rnnmin(iph) = rnn
-                  inn(iph) = inph
-               endif
+            do inat = 1, nat
+               if (inat .ne. iat) then
+                  rnn = dist (rat(1,inat), rat(1,iat))
+                  inph = iphat(inat)
+                  if (rnn .le. rnear) then
+                     rnear = rnn
+                     rnnmin(iph) = rnn
+                     inn(iph) = inph
+                  endif
 c              Don't avg if norman spheres don't overlap
-               if (rnrm(iph)+rnrm(inph) .lt. rnn)  goto 130
-
-               if (inters.lt.6) then
-c                Norman prescription
-                 voltmp = calcvl (rnrm(iph), rnrm(inph), rnn)
-                 voltmp = voltmp + calcvl (rnrm(inph), rnrm(iph), rnn)
-                 rmttmp = rnn * folp(iph) * rnrm(iph) /
-     1                  (rnrm(iph) + rnrm(inph))
-                 rmtavg = rmtavg + rmttmp*voltmp
-                 voltot = voltot + voltmp
-               else
+                  if (rnrm(iph)+rnrm(inph) .ge. rnn)  then
+                     if (inters.lt.6) then
+c     Norman prescription
+                        voltmp = calcvl (rnrm(iph), rnrm(inph), rnn)
+                        voltmp = voltmp +
+     $                       calcvl (rnrm(inph), rnrm(iph), rnn)
+                        rmttmp = rnn * folp(iph) * rnrm(iph) /
+     1                       (rnrm(iph) + rnrm(inph))
+                        rmtavg = rmtavg + rmttmp*voltmp
+                        voltot = voltot + voltmp
+                     else
 c                Matching point prescription
-                 do 125 i=inrm(iph),1,-1
-                   j=ii(rnn-rnrm(iph))
-                   if (vclap(i,iph).le.vclap(j,inph)) then
-                     d1 = (vclap(i+1,iph)-vclap(i,iph))/(rr(i+1)-rr(i))
-                     d2 =(vclap(j,inph)-vclap(j-1,inph))/(rr(j)-rr(j-1))
-                     rmtavg = rr(i) + 
-     1               (vclap(j,inph)+d2*(rnn-rr(i)-rr(j))-vclap(i,iph))
-     2               /(d1+d2)
-                     goto 127
-c                    exit from the loop
-                   endif
-  125            continue
-  127            continue
-                 if (rmtavg.lt.rmt(iph)) rmt(iph) = rmtavg
+                        do i=inrm(iph),1,-1
+                           j=ii(rnn-rnrm(iph))
+                           if (vclap(i,iph).le.vclap(j,inph)) then
+                              d1 = (vclap(i+1,iph)-vclap(i,iph))/
+     $                             (rr(i+1)-rr(i))
+                              d2 = (vclap(j,inph)-vclap(j-1,inph))/
+     $                             (rr(j)-rr(j-1))
+                              rmtavg = rr(i) + 
+     $                             (vclap(j,inph)+d2*(rnn-rr(i)-rr(j))
+     $                             -vclap(i,iph))/(d1+d2)
+                              goto 127
+                           endif
+                        enddo
+ 127                    continue
+                        if (rmtavg.lt.rmt(iph)) rmt(iph) = rmtavg
+                     endif
+                  endif
                endif
-  130       continue
+            enddo
          endif
 
 c        special situation if rnrm is too close or larger than
@@ -162,16 +167,16 @@ c              print*,iph, rmt(iph), rnear
             if (rnrm(iph) .ge. rnear) then
               imax = ii(rnear) - 1
 c             begin until loop
- 133            if (vclap(imax,iph).lt.vclap(imax+1,iph)) goto 134
-                imax = imax-1
-                goto 133
-c             end of until loop
+ 133          continue
+              if (vclap(imax,iph).lt.vclap(imax+1,iph)) goto 134
+              imax = imax-1
+              goto 133
+c     end of until loop
  134          continue
               rmt(iph) = exp(xx(imax)) - 0.0001d0
             endif
          endif
-
-  140 continue
+      enddo
 
 c     set maximum value for folp(iph) if AFOLP is in use
 c     LMTO lore says no more than 15% overlap
@@ -179,7 +184,7 @@ c     do 144 iph = 0, nph
 c 144 folpx(iph) = 1.15
 c     already done in pot.f
 
-      do 145 iph = 0, nph
+      do iph = 0, nph
          if (iafolp. gt. 0 ) then
             temp = 0.2d0 + 0.8d0 * rnrm(iph) / rmt(iph)
          else
@@ -202,16 +207,17 @@ c           matrix calculations will not fail
             temp = (rnnmin(iph) - rnrm(iph))/ (temp*rmt(inn(iph)))
             if (temp.lt.folpx(inn(iph))) folpx(inn(iph)) = temp
          endif
-  145 continue
+      enddo
+
 
       endif
 c     end of finding rmt from rnrm on first call of istprm.
 
 c     Need potential with ground state xc, put it into vtot
-      do 160  iph = 0, nph
+      do iph = 0, nph
          call sidx (edens(1,iph), 250, rmt(iph), rnrm(iph),
      1              imax, imt(iph), inrm(iph))
-         do 150  i = 1, imax
+         do i = 1, imax
             if (edens(i,iph).le.0) then
              if(mod(i,10).eq.0) then
                write(slog, 149) 'negative dens ', i,iph
@@ -255,9 +261,9 @@ c           vvbh from Von Barth Hedin paper, 1971
               vvalgs(i,iph) = vclap(i,iph) + vvbh - vrdh
             else
               vvalgs(i,iph) = 0.d0
-            endif
-  150    continue
-  160 continue
+           endif
+        enddo
+      enddo
 
 c     What to do about interstitial values?
 c     Calculate'em for all atoms, print'em out for all unique pots along
@@ -271,11 +277,11 @@ c     in problem
       xn = 0
 c     volint is total interstitial volume
       volint = 0
-      do 180  iph = 0, nph
+      do iph = 0, nph
          rnrmav = rnrmav + xnatph(iph) * rnrm(iph)**3
          volint=volint-xnatph(iph) * rmt(iph)**3
          xn = xn + xnatph(iph)
-  180 continue
+      enddo
       if (totvol.le.0.0d0) then
          volint=4*pi/3 *(volint+rnrmav)
       else

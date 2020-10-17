@@ -24,15 +24,17 @@ c#mn
  
 c     ia=norb
       jia=2* abs(kap(norb))-1
-      do 9 i=1,10
+      do i=1,10
          cep(i)=0.0d 00
- 9       ceg(i)=0.0d 00
-      do 11 i=1,idim
+         ceg(i)=0.0d 00
+      enddo
+      do i=1,idim
          ep(i)=0.0d 00
- 11      eg(i)=0.0d 00
+         eg(i)=0.0d 00
+      enddo
  
 c     exchange terms
-      do 201 j=1,norb-1
+      do j=1,norb-1
          jj=2* abs(kap(j))-1
          kma=(jj+jia)/2
          k= abs(jj-kma)
@@ -42,44 +44,56 @@ c        kma=min(kma,15)
 c        if (k.lt.kma) goto 201
 
 c111     a=bkeato(j,ia,k)/xnel(ia)
- 111     a=afgkc(kap(norb),j,(k-kmin)/2)
-         if (a.eq.0.0d 00) go to 151
+ 111     continue
+         a=afgkc(kap(norb),j,(k-kmin)/2)
+         if (a.ne.0.0d 00) then
 c         call yzkrdc (j,k,fl(norb),ps,qs,aps,aqs, p2, norb)
-         call yzkrdc (j,k,fl(norb),ps,qs,aps,aqs)
-         do 121 i=1,idim
-            eg(i)=eg(i)+a*dg(i)*cg(i,j)
- 121        ep(i)=ep(i)+a*dg(i)*cp(i,j)
-         n=k+1+ abs(kap(j))- abs(kap(norb))
+            call yzkrdc (j,k,fl(norb),ps,qs,aps,aqs)
+            do i=1,idim
+               eg(i)=eg(i)+a*dg(i)*cg(i,j)
+               ep(i)=ep(i)+a*dg(i)*cp(i,j)
+            enddo
+            n=k+1+ abs(kap(j))- abs(kap(norb))
 c         differrent for irregular solution
-         if (fl(norb) .lt.0.0) n=k+1+ abs(kap(j)) + abs(kap(norb))
-         if (n.gt.ndor) go to 141
-         do 135 i=n,ndor
-            ceg(i)=ceg(i)+bg(i+1-n,j)*a*ap(1)*fix(j)/fix(norb)
- 135        cep(i)=cep(i)+bp(i+1-n,j)*a*ap(1)*fix(j)/fix(norb)
- 141     i=2* abs(kap(j))+1
-         if (i.gt.ndor) go to 151
-         do 143 ix = 1,10
-            bgj(ix) = bg(ix,j)
- 143        bpj(ix) = bp(ix,j)
-         do 145 n=i,ndor
-            nx = n + 1 - i
-            ceg(n) = ceg(n) - a * aprdec(ag,bgj,nx)*fix(j)**2
- 145        cep(n) = cep(n) - a * aprdec(ag,bpj,nx)*fix(j)**2
- 151     k=k+2
+            if (fl(norb) .lt.0.0) n=k+1+ abs(kap(j)) + abs(kap(norb))
+            if (n.le.ndor) then
+               do i=n,ndor
+                  ceg(i)=ceg(i)+bg(i+1-n,j)*a*ap(1)*fix(j)/fix(norb)
+                  cep(i)=cep(i)+bp(i+1-n,j)*a*ap(1)*fix(j)/fix(norb)
+               enddo
+            endif
+            i=2* abs(kap(j))+1
+            if (i.le.ndor) then
+               do ix = 1,10
+                  bgj(ix) = bg(ix,j)
+                  bpj(ix) = bp(ix,j)
+               enddo
+               do n=i,ndor
+                  nx = n + 1 - i
+                  ceg(n) = ceg(n) - a * aprdec(ag,bgj,nx)*fix(j)**2
+                  cep(n) = cep(n) - a * aprdec(ag,bpj,nx)*fix(j)**2
+               enddo
+            endif
+         endif
+         k=k+2
          if (k.le.kma) go to 111
- 201  continue
+      enddo
+
  
 c    division of potentials and
 c    their development limits by speed of light
-      do 527 i=1,ndor
+      do i=1,ndor
          cep(i)=cep(i)/cl
- 527     ceg(i)=ceg(i)/cl
-      do 531 i=1,jri
+         ceg(i)=ceg(i)/cl
+      enddo
+      do i=1,jri
          ep(i)=ep(i)/cl
- 531     eg(i)=eg(i)/cl
-      do 532 i=jri+1,nrptx
+         eg(i)=eg(i)/cl
+      enddo
+      do i=jri+1,nrptx
          ep(i)=0.0d0
- 532     eg(i)=0.0d0
+         eg(i)=0.0d0
+      enddo
 
       return
       end

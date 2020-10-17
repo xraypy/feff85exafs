@@ -42,11 +42,12 @@ c     unless you specify nuclear mass and thickness in nucdec.f
 
       a=(dz/cl)**2
       if (nuc.gt.1) a=0.0d 00
-      do 11 j=1,norb
+      do j=1,norb
          b=kap(j)*kap(j)-a
          if (j.eq.norb) b=b+(kap(j)+1)*ic3
          fl(j)= sqrt(b)
- 11      fix(j) = dr(1)**(fl(j)-abs(kap(j)))
+         fix(j) = dr(1)**(fl(j)-abs(kap(j)))
+      enddo
 c     if irregular solution
       if (irr.gt.0) then
          fl(norb) = -fl(norb)
@@ -54,18 +55,21 @@ c     if irregular solution
       endif
 
 c     use lda potential to calculate initial w.f.
-      do 21 i=1,jri-1
- 21   dv(i)= vxc(i)/cl
+      do i=1,jri-1
+         dv(i)= vxc(i)/cl
+      enddo
       do  i=jri,idim
         dv(i)= vxc(jri+1)/cl
       enddo
       if (numerr.ne.0) return
-      do 51 i=1,idim
+      do i=1,idim
          eg(i)=0.0d 00
- 51      ep(i)=0.0d 00
-      do 61 i=1,ibgp
+         ep(i)=0.0d 00
+      enddo
+      do i=1,ibgp
          ceg(i)=0.0d 00
- 61      cep(i)=0.0d 00
+         cep(i)=0.0d 00
+      enddo
       call potdvp
       av(2)=av(2)+(vxc(nuc)-dvn(nuc))/cl
 
@@ -106,11 +110,13 @@ c     1              jri, nmax(norb), ic3, vm, iwkb)
      1              jri, nmax(norb), ic3, vm, iwkb)
       endif
          
-      do 261 i=1,10
+      do i=1,10
          aps(i)=ag(i)
- 261     aqs(i)=ap(i)
-      do 271 i=1,idim
+         aqs(i)=ap(i)
+      enddo
+      do i=1,idim
          ps(i)=dg(i)
- 271     qs(i)=dp(i)
+         qs(i)=dp(i)
+      enddo
       return
       end

@@ -65,8 +65,9 @@ c     save staff from rdinp, so no need to call it again
       idir = 1
       ient = ient + 1
       if (ient.eq.1) then
-         do 15 i= 1,251
-  15     ri05(i) = exp (-8.8d0+0.05d0*(i-1))
+         do i= 1,251
+            ri05(i) = exp (-8.8d0+0.05d0*(i-1))
+         enddo
       endif
 
       if (verbse) then
@@ -79,9 +80,11 @@ c     save staff from rdinp, so no need to call it again
       endif
 
 c     initialize new valence density
-      do 16 iph=0,nphx
-      do 16 ir=1,251
-  16  rhoval(ir,iph) = 0
+      do iph=0,nphx
+         do ir=1,251
+            rhoval(ir,iph) = 0
+         enddo
+      enddo
 
 c     polarization average in scmt and ldos
 
@@ -93,14 +96,17 @@ c     ie - is number of energy points calculated
       xndif  = 0
       ee = emg(1)
       ep = dble(ee)
-      do 22 iph=0,nphx
-      do 22 il=0,lx
-        xrhoce(il,iph) = 0
-        xnmues(il,iph) = 0
-  22  continue
-      do 23 iph=0,nphx
-      do 23  ir = 1,251
-  23  yrhoce(ir,iph) = 0
+      do iph=0,nphx
+         do il=0,lx
+            xrhoce(il,iph) = 0
+            xnmues(il,iph) = 0
+         enddo
+      enddo
+      do iph=0,nphx
+         do ir = 1,251
+            yrhoce(ir,iph) = 0
+         enddo
+      enddo
       iflr = nflrx
       iflrp = nflrx
 
@@ -108,12 +114,14 @@ c     Start the cycle over energy points (ie)
   25  continue
       ie = ie + 1
 
-      do 29 iph = 0,nph
-        do 860 il = 0,lx
-  860     xrhocp(il,iph) = xrhoce(il,iph)
-        do 870 i = 1,251
-  870     yrhocp(i,iph) = yrhoce(i,iph)
-  29  continue
+      do iph = 0,nph
+         do il = 0,lx
+            xrhocp(il,iph) = xrhoce(il,iph)
+         enddo
+         do i = 1,251
+            yrhocp(i,iph) = yrhoce(i,iph)
+         enddo
+      enddo
 
       if (ie.eq.1 .or. mod(ie,20).eq.0) then
          if (verbse) then
@@ -125,8 +133,9 @@ c     Start the cycle over energy points (ie)
 
       do 100  iph = 0, nph
 
-         do 35 i=1, 251
-  35     dmag0(i) = 0.d0
+         do i=1, 251
+            dmag0(i) = 0.d0
+         enddo
 cc       use spin-unpolarized case to get SCF. set dmagx to zero
 cc       may want to replace dmag0 with dmag(1,iph) for spin-dependent
 cc       extension of SCF procedure.
@@ -145,16 +154,19 @@ cc       extension of SCF procedure.
         jri = int((log(rmt(iph)) + x0) / rgrd) + 2
         jri1 = jri+1
         eref = vtotph(jri1)
-        do 40 i = 1, jri1
-  40    vtotph(i) = vtotph(i) - dble(eref)
+        do i = 1, jri1
+           vtotph(i) = vtotph(i) - dble(eref)
+        enddo
         if (ixc.ge.5) then
-           do 50 i = 1, jri1
-  50       vvalph(i) = vvalph(i) - dble(eref)
+           do i = 1, jri1
+              vvalph(i) = vvalph(i) - dble(eref)
+           enddo
         else
-           do 60 i = 1, jri1
-  60       vvalph(i) = vtotph(i)
+           do i = 1, jri1
+              vvalph(i) = vtotph(i)
+           enddo
         endif
-
+        
          itmp = 0
          if (iph.eq.0 .and. nohole.lt.0) itmp = ihole
          call rholie( ri05, nr05(iph), rgrd, x0, ri, ee,
@@ -171,32 +183,35 @@ c     transform neg,emg to em,ne,eref first
        eref=dble(eref)-coni*dimag(ee)
 
 cc    call fms for a cluster around central atom
-       do 195 iph0 = 0,nph
-       do 195 il = 0, lx
-  195  gtr(il,iph0) = 0
+       do iph0 = 0,nph
+          do il = 0, lx
+             gtr(il,iph0) = 0
+          enddo
+       enddo
       if (rfms1 .gt. 0) then
         if (lfms1 .ne. 0) then
           iph0 = 0
           call fmsie(verbse, iph0, nph, lmaxsc, ie,  em, eref, ph,
      1                rfms1, lfms1, nat, iphat, rat, gtr)
         else
-          do 190 iph0 = 0, nph
-  190     call fmsie(verbse, iph0, nph, lmaxsc, ie, em, eref, ph,
-     1                rfms1, lfms1, nat, iphat, rat, gtr)
+          do iph0 = 0, nph
+             call fmsie(verbse, iph0, nph, lmaxsc, ie, em, eref, ph,
+     1            rfms1, lfms1, nat, iphat, rat, gtr)
+          enddo
         endif
       endif
 
       xntot = 0
       fl = 0
       fr = 0
-      do 300 iph = 0,nph
+      do iph = 0,nph
 c       calculate density and integrated number of electrons in each
 c       channel for each type of atoms density, etc., find xntot.
         call ff2g (gtr(0,iph), iph, ie, nr05(iph), xrhoce,
      1     xrhole(0,iph), xrhocp, ee, ep,
      2     yrhole(1,0,iph), yrhoce(1,iph), yrhocp(1,iph), rhoval(1,iph),
      3     xnmues(0,iph), xnatph(iph), xntot, iflr, iflrp, fl, fr, iunf)
-  300 continue
+      enddo
 
       if (ie.ne.1) xndifp = xndif
       xndif = xntot - xnferm
@@ -325,26 +340,27 @@ c     report configuration; repeat iteration if found bad counts.
          call wlog('   iph    il      N_el')
       endif
  310  format (2i6, f9.3)
-      do 320 ip= 0,nph
-      do 320 il = 0,lx
-         if (verbse) then
-            write (slog,310) ip,il,xnmues(il,ip)
-            call wlog(slog)
-         endif
+      do ip= 0,nph
+         do il = 0,lx
+            if (verbse) then
+               write (slog,310) ip,il,xnmues(il,ip)
+               call wlog(slog)
+            endif
 c        check that occupation numbers are consistent with those
 c        set in getorb.f
-         diff = abs(xnmues(il,ip) - xnvmu(il,ip))
-         if (diff.gt.13.1d0 .or. (il.eq.2 .and. diff.gt. 9.1d0) .or.
-     1   (il.eq.1 .and. diff.gt.5.1d0) .or.
-     2   (il.eq.0 .and. diff.gt.1.95d0)) then
-            call wlog (' Found bad counts.')
-            write (slog,311) xnvmu(il,ip)
-  311       format('  Occupation number in getorb is ', f9.3)
-            call wlog(slog)
-            call wlog ('  Will repeat this iteration ')
-c            if (ient.gt.1) ok = .false.
-         endif
- 320  continue
+            diff = abs(xnmues(il,ip) - xnvmu(il,ip))
+            if (diff.gt.13.1d0 .or. (il.eq.2 .and. diff.gt. 9.1d0).or.
+     1           (il.eq.1 .and. diff.gt.5.1d0) .or.
+     2           (il.eq.0 .and. diff.gt.1.95d0)) then
+               call wlog (' Found bad counts.')
+               write (slog,311) xnvmu(il,ip)
+ 311           format('  Occupation number in getorb is ', f9.3)
+               call wlog(slog)
+               call wlog ('  Will repeat this iteration ')
+c     if (ient.gt.1) ok = .false.
+            endif
+         enddo
+      enddo
 
 c     if (.not. ok) then will restart SCF loop
       if (ok) then
@@ -358,15 +374,15 @@ c        calculate new vclap - overlap coulomb potential
      2     nat, rat, iatph, iphat, rnrm, dq, iz, vclap)
 
 c       update array edens
-        do 350 ip=0,nph
-           do 330 ir=1,nr05 (ip)
-             edens(ir,ip)=edens(ir,ip)-edenvl(ir,ip)+rhoval(ir,ip)
-  330      continue
-           do 340 ir=nr05 (ip)+1,251
-             edens(ir,ip)=0.0d0
-             edenvl(ir,ip)=0.0d0
-  340      continue
-  350   continue
+        do ip=0,nph
+           do ir=1,nr05 (ip)
+              edens(ir,ip)=edens(ir,ip)-edenvl(ir,ip)+rhoval(ir,ip)
+           enddo
+           do ir=nr05 (ip)+1,251
+              edens(ir,ip)=0.0d0
+              edenvl(ir,ip)=0.0d0
+           enddo
+        enddo
       endif
 
       return

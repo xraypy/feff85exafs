@@ -247,12 +247,12 @@ c       criteria for self-consistency
 c     Josh use nhtmp to save nohole value
       integer nhtmp
 
-      do 4 i=1,30
-         do 2 j=0,nphx+1
+      do i=1,30
+         do j=0,nphx+1
             kappa(i,j) = 0
             eorb(i,j) = 0
- 2       continue
- 4    continue
+         enddo
+      enddo
 
    10 format (4x, a, i5)
 
@@ -266,8 +266,9 @@ c     variables ecv0 and folp0 serve as input only; do not change them
 c     since it will change file feff.ior content
 c     ecv and folp are passed through pot.pad to next modules.
       ecv = ecv0
-      do 12 i = 0, nph
-   12 folp(i) = folp0(i)
+      do i = 0, nph
+         folp(i) = folp0(i)
+      enddo
 
       call inipot (dgc, dpc, edenvl, vvalgs, xnmues)
 
@@ -275,9 +276,9 @@ c     increase the length of hydrogen bonds for potential only
       call moveh (nat, iphat, iz, rat)
 
       nfree = 1
-      do 17 i=0,nph
+      do i=0,nph
         if (abs(xion(i)) .gt. 1.d-3) nfree = 2
-  17  continue
+      enddo
 
 c     Free atom potentials and densities
 c     Final state is (usually) with a core hole, initial state is 
@@ -292,7 +293,7 @@ c     rnrm)
 
       ispinr = 0
       etfin  = 0
-      do 20  iph = 0, nph
+      do iph = 0, nph
          if (verbse) then
             write(slog,10) 
      1             'free atom potential and density for atom type', iph
@@ -326,7 +327,7 @@ c        Include corehole if absorber (unless user says nohole)
 c        etfin is absorbing atom final state total energy, see nohole
 c           case below
          if (iph .eq. 0) etfin = et
-   20 continue
+      enddo
 
       if (verbse) then
          write(slog,10) 'initial state energy'
@@ -362,28 +363,30 @@ c     testing new potential for the final state. ala
       x0 = -8.8d0
       if (nohole.gt.0) then
          idim = 251
-         do 30 i = 1,idim
-  30     dr(i) = exp(x0+hx*(i-1))
+         do i = 1,idim
+            dr(i) = exp(x0+hx*(i-1))
+         enddo
          if (nohole.eq.1) then
-            do 40 i = 1,idim
-  40        drho(i) = dgc0(i)**2 + dpc0(i)**2
+            do i = 1,idim
+               drho(i) = dgc0(i)**2 + dpc0(i)**2
+            enddo
          else
-            do 50 i = 1,idim
+            do i = 1,idim
                drho(i)=dr(i)**2 *
      1         (rho(i,0)-rhoval(i,0)-rho(i,nph+1)+rhoval(i,nph+1))
-  50        continue
+            enddo
          endif
          call potslw ( dvcoul, drho, dr, hx,idim)
-         do 60 i=1,idim
+         do i=1,idim
 c           drho(i) = drho(i)/ dr(i)**2
 c           use 1/2 of core-hole as in transition state
             drho(i) = drho(i)/2.0d0/ dr(i)**2
-  60     continue
+         enddo
       else
-         do 70 i=1,251
+         do i=1,251
             drho(i) = 0
             dvcoul(i) = 0
-  70     continue
+         enddo
       endif
 
 c     etinit is absorbing atom initial state (no hole)
@@ -394,7 +397,7 @@ c     etfin-etinit is ionization energy in adiabatic approximation
       emu = etfin - etinit
 
 c     Overlap potentials and densitites
-      do 90  iph = 0, nph
+      do iph = 0, nph
          if (verbse) then
             write(slog,10)
      1      'overlapped potential and density for unique potential', iph
@@ -404,12 +407,13 @@ c     Overlap potentials and densitites
      1               nnovr, rovr, iz, nat, rho, dmag,
      2               rhoval, vcoul, edens, edenvl, vclap, qnrm)
          if (iph.eq.0) emu = emu - vclap(1,0)+vcoul(1,0)
-   90 continue
+      enddo
 
       if (ifree.eq.1) then
 c       Set the Norman radii 
-        do 92 iph =0, nph
-   92   rnrm(iph) = qnrm(iph)
+        do iph =0, nph
+           rnrm(iph) = qnrm(iph)
+        enddo
       endif
 
    99 continue
@@ -430,9 +434,9 @@ cc end new patch
 c     Find total charges for istprm
 c     qtotel - total number of e in a cluster
       qtotel = 0
-      do 80 iph = 0,nph
+      do iph = 0,nph
          qtotel = qtotel + (iz(iph)-xion(iph)) * xnatph(iph)
-  80  continue
+      enddo
 c     photoelectron moves out of the system
 c     do not remove now since we are putting screening electron back
 
@@ -447,10 +451,10 @@ c     interstitial parameters
       rmt(0) = -1
       xmu = 100.d0
       if (iafolp.ge.0) then
-        do 101 iph=0,nph
-          folpx(iph) = folp(iph)
-          folp(iph) = 1
-  101   continue
+         do iph=0,nph
+            folpx(iph) = folp(iph)
+            folp(iph) = 1
+         enddo
       endif
         
       idmag = 0
@@ -482,10 +486,10 @@ c     Atom r grid
       x0 = 8.8d0
 
 c     Find self-consistent muffin-tin potential.
-      do 105 iph=0,nph
+      do iph=0,nph
          qnrm(iph) = 0
          qold(iph) = 0
-  105 continue
+      enddo
 
   100 continue
       if (nscmt.gt.0 .or. (ispec.ne.0 .and. ispec.lt.4)) call corval
@@ -502,13 +506,14 @@ c     xntot - required number of valence electrons below fermi level
 c     xnvmu(iph) = xnvmu(iph)-xion(iph)
 c     xnvmu - number of valence electron within norman sphere
       xntot=0.0d0
-      do 120 iph=0,nph
+      do iph=0,nph
          xnvmup = 0
-         do 110  i = 0,lx
-  110    xnvmup = xnvmup + xnvmu(i,iph)
+         do i = 0,lx
+            xnvmup = xnvmup + xnvmu(i,iph)
+         enddo
 c x35 and earlier   xntot = xntot + xnatph(iph)*(xnvmup+xion(iph))
          xntot = xntot + xnatph(iph) * xnvmup
-  120 continue
+      enddo
 
 c     need to update vxcval in case if the core-valence separation was
 c     made in subroutine corval. Need vxcval only for nonlocal exchange.
@@ -535,10 +540,11 @@ c     number of processors for parallel execution
       npr = numprocs
       do 200 iscmt =1,nscmt
 c        need to store coulomb potential
-         do 145 ip=0,nph
-         do 145 ir=1,251
-  145    vclapp(ir,ip) = vclap(ir,ip)
-
+         do ip=0,nph
+            do ir=1,251
+               vclapp(ir,ip) = vclap(ir,ip)
+            enddo
+         enddo
          if (npr.le.1) then
            call scmt (verbse, iscmt, ecv, nph, nat, vclap, edens,
      1                edenvl, vtot, vvalgs, rmt, rnrm, qnrm,
@@ -577,7 +583,7 @@ c        and do tests of self-consistency
          xmu = xmunew
 c        print out charge 
          if (verbse) call wlog(' Charge transfer:  iph  charge(iph) ')
-         do 170 iph=0,nph
+         do iph=0,nph
             if (verbse) then
                write (slog,180) iph, -qnrm(iph) + xion(iph)
                call wlog(slog)
@@ -587,10 +593,11 @@ c        print out charge
 
 c           check self-consistency of charges
             sum = -qnrm(iph)
-            do 160 il=0,lx
-  160       sum = sum + xnmues(il,iph) - xnvmu(il,iph)
+            do il=0,lx
+               sum = sum + xnmues(il,iph) - xnvmu(il,iph)
+            enddo
             if (abs(sum).gt.0.05d0) lpass = .false.
-  170    continue
+         enddo
   180    format('     ',i3, 2f9.3)
 
 c        recalculate core density (edens) here. fix later. ala
@@ -598,24 +605,25 @@ c        call scfdat
 c        for now use the old core density
          if (iscmt.eq.nscmt .or. lpass) then
 c           restore  total density from previous iteration
-            do 190 ip=0,nph
-              do 185 ir=1,251
+            do ip=0,nph
+              do ir=1,251
 c                need total density for istprm
                  edens(ir,ip) = edens(ir,ip)-rhoval(ir,ip)+edenvl(ir,ip)
                  vclap(ir,ip) = vclapp(ir,ip)
-  185         continue
+              enddo
 c             remember the reported charge transfer
               qnrm(ip) = -qnrm(ip) + xion(ip)
-  190       continue
+           enddo
 c           exit self-consistency loop
             goto 210
          else
 c           update valence density
-            do 195 ip=0,nph
-            do 195 ir=1,251
-c              need total density for istprm
-               edenvl(ir,ip) = rhoval(ir,ip)
-  195       continue
+            do ip=0,nph
+               do ir=1,251
+c     need total density for istprm
+                  edenvl(ir,ip) = rhoval(ir,ip)
+               enddo
+            enddo
          endif
 
          call  istprm (nph, nat, iphat, rat, iatph, xnatph,
@@ -636,14 +644,15 @@ c     right exit from the loop: self-consistency is achieved
 
       if (nohole.gt.0) then
 c        testing new final state potential
-         do 220 j = 1,251
-  220    edens(j,0) = edens(j,0) - drho(j)
-         
+         do j = 1,251
+            edens(j,0) = edens(j,0) - drho(j)
+         enddo
 c        notice that vclap is actually for the next iteration
 c        in SCMT loop, thus vclap may be wrong if self-consistency
 c        has not been reached
-         do 230 j = 1,251
-  230    vclap(j,0) = vclap(j,0) - dvcoul(j)
+         do j = 1,251
+            vclap(j,0) = vclap(j,0) - dvcoul(j)
+         enddo
 
          call  istprm (nph, nat, iphat, rat, iatph, xnatph,
      1      novr, iphovr, nnovr, rovr, folp, folpx, iafolp,

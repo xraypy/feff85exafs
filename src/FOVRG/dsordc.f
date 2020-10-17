@@ -23,26 +23,32 @@ c    1   nq(30),kap(30),nmax(30)
       dimension bgj(10),bpj(10)
 
 c        construction of the array hg
-      do  15 l= 1,ibgp
+      do l= 1,ibgp
         bgj(l) = bg(l,j)
- 15     bpj(l) = bp(l,j)
+        bpj(l) = bp(l,j)
+      enddo
 
-      do 221 l=1,idim
- 221  hg(l)=dg(l)*cg(l,j)+dp(l)*cp(l,j)
+      do l=1,idim
+         hg(l)=dg(l)*cg(l,j)+dp(l)*cp(l,j)
+      enddo
       b=a+fl(j)
-      do 241 l=1,ndor
- 241     chg(l) = aprdec(ag,bgj,l) + aprdec(ap,bpj,l)
- 
+      do l=1,ndor
+         chg(l) = aprdec(ag,bgj,l) + aprdec(ap,bpj,l)
+      enddo
+      
 c        integration of the hg
       dsordc = (0.0d0, 0.0d0)
-      do 305 l=1,idim
- 305     hg(l)=hg(l)*dr(l)
-      do 311 l=2,idim,2
- 311     dsordc=dsordc+hg(l)+hg(l)+hg(l+1)
+      do l=1,idim
+         hg(l)=hg(l)*dr(l)
+      enddo
+      do l=2,idim,2
+         dsordc=dsordc+hg(l)+hg(l)+hg(l+1)
+      enddo
       dsordc=hx*(dsordc+dsordc+hg(1)-hg(idim))/3.0d0
 c        integral from 0 to dr(1)
-      do 331 l=1,ndor
+      do l=1,ndor
          b=b+1.0d 00
- 331     dsordc=dsordc+chg(l)*(dr(1)**b)/b
+         dsordc=dsordc+chg(l)*(dr(1)**b)/b
+      enddo
       return
       end

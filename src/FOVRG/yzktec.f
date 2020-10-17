@@ -27,7 +27,7 @@ c    initialisation and development coefficients of yk
       b = dble(ap)
       ap=0.0d 00
       g(1)=0.0d 00
-      do 15 i=1,nd
+      do i=1,nd
          b=b+1.0d 00
          ag(i)=af(i)/(b+k)
          if (af(i).ne.0.0d 00) then
@@ -42,9 +42,10 @@ c         for irregular solution b-k-1 can become zero
             endif
             ap=ap+af(i)*c
          endif
- 15   continue
-      do 21 i=1,np
- 21   f(i)=f(i)*dr(i)
+      enddo
+      do i=1,np
+         f(i)=f(i)*dr(i)
+      enddo
 
 c     calcualation of zk
       hk=h*k
@@ -58,9 +59,9 @@ c     calcualation of zk
       endif
 
       b0 = h-(1.0+hk)*b1
-      do 51 i=1,np
- 51      g(i+1)=g(i)*ehk+b0*f(i)+f(i+1)*b1
- 
+      do i=1,np
+         g(i+1)=g(i)*ehk+b0*f(i)+f(i+1)*b1
+      enddo
 c     calculation of yk
       f(np+1)=g(np+1) + dyzk
       ehk=ehk*e
@@ -68,8 +69,9 @@ c     calculation of yk
       hk=hk+h
       b1 = i*(ehk-1.0d0 +hk) / (hk*(k+1))
       b0 = i*h-(1.0+hk)*b1
-      do 75  i=np,1,-1
- 75      f(i) = f(i+1)*ehk+b0*g(i+1)+b1*g(i)
+      do i=np,1,-1
+         f(i) = f(i+1)*ehk+b0*g(i+1)+b1*g(i)
+      enddo
 
       ap=(ap+f(1))/(dr(1)**(k+1))
       return
