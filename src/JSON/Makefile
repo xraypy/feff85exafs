@@ -4,7 +4,8 @@ LIBDIR  ?= $(PREFIX)/lib
 
 FORTRAN ?= gfortran
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC
-FJSON   ?= -I../json-fortran -J../json-fortran
+## FJSON   ?= -I../json-fortran -J../json-fortran
+FJSON   ?= -I../json-fortran 
 AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib

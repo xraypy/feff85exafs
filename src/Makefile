@@ -16,6 +16,7 @@ export FORTRAN  = gfortran
 export SHARED   = -shared
 export FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC -fno-automatic
 export FJSON    = -I${CURDIR}/json-fortran -J${CURDIR}/json-fortran
+export FJSON    = -I${CURDIR}/json-fortran
 export FLINKARGS =
 
 ## compile the C wrappers for phases and paths
@@ -116,6 +117,6 @@ clean:
 	$(MAKE) -C RDINP  clean
 	$(MAKE) -C XSPH   clean
 	$(MAKE) -C json-fortran clean
-	$(MAKE) -C feff6l clean
+##	$(MAKE) -C feff6l clean
 
 .PHONEY: 	all install clean
