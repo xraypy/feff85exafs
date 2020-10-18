@@ -9,6 +9,7 @@ FORTRAN ?= gfortran
 SHARED  ?= -shared
 FCFLAGS ?= -c -O3 -ffree-line-length-none -g -Wall -fPIC -fno-automatic
 FJSON   ?= -I../json-fortran -J../json-fortran
+FJSON   ?= -I../json-fortran 
 AR      ?= ar
 ARFLAGS ?= rvc
 RANLIB  ?= ranlib
