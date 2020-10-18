@@ -117,6 +117,6 @@ clean:
 	$(MAKE) -C RDINP  clean
 	$(MAKE) -C XSPH   clean
 	$(MAKE) -C json-fortran clean
-##	$(MAKE) -C feff6l clean
+	$(MAKE) -C feff6l clean
 
 .PHONEY: 	all install clean
