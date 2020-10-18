@@ -27,57 +27,72 @@ c     alex ankudinov, january 1999.
       np = ne1 - ik0
       ef = emu
 
-      do 10 ie = 1, np
-        ee(ie) = dble(em(ik0+ie)-em(ik0)) +emu
-        xmu(ie) = dimag(xsec(ik0+ie)) * ee(ie)**xn
-  10  continue
-      do 20 ie = 1, np
-        if (ie.eq.1) then
-          wt(ie) = (ee(ie+1)-ef) * (abs(ee(ie)-ef))**mm
-        elseif (ie.eq.np) then
-          wt(ie) = (ee(ie)-ee(ie-1)) * (ee(ie)-ef)**mm
-        else
+      do ie = 1, np
+         ee(ie) = dble(em(ik0+ie)-em(ik0)) +emu
+         xmu(ie) = dimag(xsec(ik0+ie)) * ee(ie)**xn
+      enddo
+      do ie = 1, np
+         if (ie.eq.1) then
+            wt(ie) = (ee(ie+1)-ef) * (abs(ee(ie)-ef))**mm
+         elseif (ie.eq.np) then
+            wt(ie) = (ee(ie)-ee(ie-1)) * (ee(ie)-ef)**mm
+         else
           wt(ie) = (ee(ie+1)-ee(ie-1)) * (ee(ie)-ef)**mm
-        endif
-  20  continue
-      do 30 i = 0, 4
-  30  xx(i) = 0
-      do 40 i = 0, 2
-  40  yy(i) = 0
+       endif
+      enddo
+      do i = 0, 4
+         xx(i) = 0
+      enddo
+      do i = 0, 2
+         yy(i) = 0
+      enddo
 
-      do 100 ie = 1, np
-         do 80 i = 0,4
-  80     xx(i) = xx(i) + wt(ie)*ee(ie)**i
-         do 90 i = 0,2
-  90     yy(i) = yy(i) + wt(ie)*xmu(ie)*ee(ie)**i
- 100  continue
+      do ie = 1, np
+         do i = 0,4
+            xx(i) = xx(i) + wt(ie)*ee(ie)**i
+         enddo
+         do i = 0,2
+            yy(i) = yy(i) + wt(ie)*xmu(ie)*ee(ie)**i
+         enddo
+      enddo
 
-      do 105 i=1,3
-      do 105 j=1,3
- 105  xm(i,j) = xx(i+j-2)
+      do i=1,3
+         do j=1,3
+            xm(i,j) = xx(i+j-2)
+         enddo
+      enddo
       denom = determ (xm, 3, 3)
 
-      do 110 i=1,3
-      do 110 j=1,3
- 110  xm(i,j) = xx(i+j-2)
-      do 120 i=1,3
- 120  xm(i,1) = yy (i-1)
+      do i=1,3
+         do j=1,3
+            xm(i,j) = xx(i+j-2)
+         enddo
+      enddo
+      do i=1,3
+         xm(i,1) = yy (i-1)
+      enddo
       aa = determ (xm,3,3)
       aa = aa / denom
 
-      do 210 i=1,3
-      do 210 j=1,3
- 210  xm(i,j) = xx(i+j-2)
-      do 220 i=1,3
- 220  xm(i,2) = yy (i-1)
+      do i=1,3
+         do j=1,3
+            xm(i,j) = xx(i+j-2)
+         enddo
+      enddo
+      do i=1,3
+         xm(i,2) = yy (i-1)
+      enddo
       bb = determ (xm,3,3)
       bb = bb / denom
 
-      do 310 i=1,3
-      do 310 j=1,3
- 310  xm(i,j) = xx(i+j-2)
-      do 320 i=1,3
- 320  xm(i,3) = yy (i-1)
+      do i=1,3
+         do j=1,3
+            xm(i,j) = xx(i+j-2)
+         enddo
+      enddo
+      do i=1,3
+         xm(i,3) = yy (i-1)
+      enddo
       cc = determ (xm,3,3)
       cc = cc / denom
 
@@ -91,7 +106,7 @@ c     find normalization at edge+100 eV
      1 '#--------------------------------------------------------------'
       write(1,*) '#  e, e(wrt edge), k,',
      1           ' mu_at=(1+chi_at)*mu0_at, mu0_at, chi_at @#'
-      do 400 ie = 1, np
+      do ie = 1, np
         xmu(ie) = dimag(xsec(ie+ik0))
         xmu0 = (aa+bb*ee(ie)+cc*ee(ie)**2) / ee(ie)**xn
         chiat = (xmu(ie) - xmu0) / xmu0
@@ -104,7 +119,7 @@ c     find normalization at edge+100 eV
         write (1, 410) ee(ie)*hart, (ee(ie)-emu)*hart, xk,
      1              xmu(ie)/xnorm, xmu0/xnorm, chiat
  410    format (1x, 2f11.3, f8.3, 1p, 3e13.5)
- 400  continue
+      enddo
       close (unit=1)
 
       return

@@ -94,25 +94,26 @@ c     radial integrals depending on case
       if (ia.eq.1) then
 c       single radial integral for rkk - reduced matrix elements
 c       xirf = <f |p| i> relativistic version of dipole m.e.
-        do 10  i = 1, ilast
-          xnc(i) = 0.0d0
-          if (is.gt.0) then
-           call xrci(mult,xm,dgc0(i),dpc0(i),p(i),q(i),bf(0,i),xrc(i))
-          else
-c          nonrelativistic case 
-           if (mult.eq.0) then
-             temp = xm(1)*bf(0,i)+ xm(3)*bf(2,i)
-           elseif (mult.eq.2) then
-             temp = xm(1)*bf(1,i)
+        do i = 1, ilast
+           xnc(i) = 0.0d0
+           if (is.gt.0) then
+              call xrci(mult,xm,dgc0(i),dpc0(i),p(i),q(i),
+     $             bf(0,i),xrc(i))
+           else
+c     nonrelativistic case 
+              if (mult.eq.0) then
+                 temp = xm(1)*bf(0,i)+ xm(3)*bf(2,i)
+              elseif (mult.eq.2) then
+                 temp = xm(1)*bf(1,i)
+              endif
+              temp = temp *coni
+              xrc(i) = ri(i) * (dgc0(i)*p(i) + dpc0(i)*q(i)) *temp
+c     xrc(i) = ri(i) * (dgc0(i)*p(i) ) *temp
            endif
-           temp = temp *coni
-           xrc(i) = ri(i) * (dgc0(i)*p(i) + dpc0(i)*q(i)) *temp
-c          xrc(i) = ri(i) * (dgc0(i)*p(i) ) *temp
-          endif
 
 c         store xrc if needed
-          if (iold.eq.1) xrcold(i) = xrc(i)
-  10    continue
+           if (iold.eq.1) xrcold(i) = xrc(i)
+        enddo
         xirf=lfin+linit+2
         if (mult.gt.0) xirf = xirf + 1
         call csomm (ri, xrc, xnc, dx, xirf, 0, ilast)
@@ -122,42 +123,46 @@ c       need to perform double radial integral in all cases below
 c         combine regular(kdif) and irregular(kdif) solution into
 c         the central atom absorption coefficient xsec (mu = dimag(xsec))
 c         thus for real energy dimag(xsec)=xsnorm
-          do 20  i = 1, ilast
-           if (is.gt.0) then
-           call xrci(mult,xm,dgc0(i),dpc0(i),pn(i),qn(i),bf(0,i),xnc(i))
-           call xrci(mult,xm,dgc0(i),dpc0(i),p(i),q(i),bf(0,i),xrc(i))
-           else
-c            nonrelativistic case 
-             if (mult.eq.0) then
-               temp = xm(1)*bf(0,i)+ xm(3)*bf(2,i)
-             elseif (mult.eq.2) then
-               temp = xm(1)*bf(1,i)
-             endif
-             temp = temp*coni
-             xrc(i) = ri(i) * (dgc0(i)*p(i) + dpc0(i)*q(i)) *temp
-             xnc(i) = ri(i) * (dgc0(i)*pn(i) + dpc0(i)*qn(i)) *temp
+           do i = 1, ilast
+              if (is.gt.0) then
+                 call xrci(mult,xm,dgc0(i),dpc0(i),pn(i),
+     $                qn(i),bf(0,i),xnc(i))
+                 call xrci(mult,xm,dgc0(i),dpc0(i),p(i),
+     $                q(i),bf(0,i),xrc(i))
+              else
+c     nonrelativistic case 
+                 if (mult.eq.0) then
+                    temp = xm(1)*bf(0,i)+ xm(3)*bf(2,i)
+                 elseif (mult.eq.2) then
+                    temp = xm(1)*bf(1,i)
+                 endif
+                 temp = temp*coni
+                 xrc(i) = ri(i) * (dgc0(i)*p(i) + dpc0(i)*q(i)) *temp
+                 xnc(i) = ri(i) * (dgc0(i)*pn(i) + dpc0(i)*qn(i)) *temp
 c            xrc(i) = ri(i) * (dgc0(i)*p(i) ) *temp
-c            xnc(i) = ri(i) * (dgc0(i)*pn(i) ) *temp
-           endif
-c           store irregular contribution for later use
-            if (iold.eq.1) xncold(i) = xnc(i)
-  20      continue
+c     xnc(i) = ri(i) * (dgc0(i)*pn(i) ) *temp
+              endif
+c     store irregular contribution for later use
+              if (iold.eq.1) xncold(i) = xnc(i)
+           enddo
         elseif (ifl.eq.3 .and. iold.eq.2) then
 c         combine regular(k1) and irregular (kdif) solutions into the
 c         central atom absorption coefficient xsec (mu = dimag(xsec))
 c         nonzero only for |ispin=1| and same angular momenta in k1,kdif
-          do 30  i = 1, ilast
-            xrc(i)= xrcold(i)
-           call xrci(mult,xm,dgc0(i),dpc0(i),pn(i),qn(i),bf(0,i),xnc(i))
-  30      continue
+          do i = 1, ilast
+             xrc(i)= xrcold(i)
+             call xrci(mult,xm,dgc0(i),dpc0(i),pn(i),qn(i),
+     $            bf(0,i),xnc(i))
+          enddo
         elseif(ifl.eq.4 .and. iold.eq.2) then
 c         combine regular(kdif) and irregular (k1) solutions into the
 c         central atom absorption coefficient xsec (mu = dimag(xsec))
 c         nonzero only for |ispin=1| and same angular momenta in k1,kdif
-          do 40  i = 1, ilast
-            call xrci( mult,xm,dgc0(i),dpc0(i),p(i),q(i),bf(0,i),xrc(i))
-            xnc(i) = xncold(i)
-  40      continue
+          do i = 1, ilast
+             call xrci(mult,xm,dgc0(i),dpc0(i),p(i),q(i),
+     $            bf(0,i),xrc(i))
+             xnc(i) = xncold(i)
+          enddo
         endif
 
 c       same staff for all double integrals
@@ -168,12 +173,13 @@ c          power of xrc near zero
 c          factor 2 since integral(r<r')=integral(r>r')
            xirf = 2 * xrc(1) * ri(1) /(lpwr+1)
            xnc(1) = xnc(1) * xirf
-           do 70 i = 2, ilast
+           do i = 2, ilast
              xirf = xirf + (xrc(i-1)+xrc(i)) * (ri(i)-ri(i-1))
              xnc(i) = xnc(i) * xirf
-  70       continue
-           do 80 i = 1,ilast
-  80       xrc(i) = 0
+          enddo
+           do i = 1,ilast
+              xrc(i) = 0
+           enddo
            xirf = lpwr+1+linit+1-lfin
 c          ready for second integral over r from 0 to \infty
            call csomm (ri, xrc, xnc, dx, xirf, 0, ilast)

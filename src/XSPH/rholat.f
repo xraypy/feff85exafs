@@ -71,10 +71,10 @@ c     initialize
       if (lmax.gt.lx) lmax = lx
       if (iz.le.4) lmax=2
       if (iz.le.2) lmax=1
-      do 20 i = 1, nrptx
+      do i = 1, nrptx
          vtotc(i)=vtot(i)
          vvalc(i)= vvalgs(i)
-  20  continue
+      enddo
 c     set imt and jri (use general Loucks grid)
 c     rmt is between imt and jri (see function ii(r) in file xx.f)
       imt  = int((log(rmt) + x0) / dx)  +  1
@@ -93,31 +93,31 @@ c     define ilast1,rlast
 cc    nesvi
 cc    dgcn and dpcn should be normalized <n|n>=1, check this here
      
-      do 440 j = -4, 3
+      do j = -4, 3
         jj = iorb(j)
-        if (jj.le.0) goto 440
-
-        do 420  i = 1, jlast1
-         xp(i) = dpcn(i,jj)**2 + dgcn(i,jj)**2
-         xq(i) = 0
-  420   continue
+        if (jj.gt.0) then
+           do i = 1, jlast1
+              xp(i) = dpcn(i,jj)**2 + dgcn(i,jj)**2
+              xq(i) = 0
+           enddo
 cc      nb, xinorm is used for exponent on input to somm
-        lfin = j
-        if (j.lt.0) lfin = -j - 1
-        xinorm = 2*lfin + 2
-        i0 = jnrm + 1
-        call somm2 (ri, xp, dx, xinorm, rnrm, 0, i0)
-        if (xinorm.lt.0.99 .and. icount.eq.2) then
-           call wlog
-     1     ('  WARNING: small overlap integral for Mulliken count')
-        endif
+           lfin = j
+           if (j.lt.0) lfin = -j - 1
+           xinorm = 2*lfin + 2
+           i0 = jnrm + 1
+           call somm2 (ri, xp, dx, xinorm, rnrm, 0, i0)
+           if (xinorm.lt.0.99 .and. icount.eq.2) then
+              call wlog
+     1      ('  WARNING: small overlap integral for Mulliken count')
+           endif
     
-        xinorm = 1.d0 / sqrt(xinorm)
-        do 430 i=1,nrptx
-          dpcn(i,jj)=dpcn(i,jj) * xinorm
-          dgcn(i,jj)=dgcn(i,jj) * xinorm
-  430   continue
-  440 continue
+           xinorm = 1.d0 / sqrt(xinorm)
+           do i=1,nrptx
+              dpcn(i,jj)=dpcn(i,jj) * xinorm
+              dgcn(i,jj)=dgcn(i,jj) * xinorm
+           enddo
+        endif
+      enddo
 
 c     set limits for tabulations
       nr05= int((log(rnrm) + x0) / 0.05d0) + 5
@@ -129,13 +129,15 @@ c     it is larger than jnrm for better interpolations
 
       if (ilast1.gt.nrptx) ilast1=nrptx
 
-      do 10 i = -4,3
-      do 10 j = -4,3
-         xrhole(i,j) = 0
-         xrhoce(i,j) = 0
-  10  continue
-      do 15 i=1,lx+1
-  15  ph(i) = 0
+      do i = -4,3
+         do j = -4,3
+            xrhole(i,j) = 0
+            xrhoce(i,j) = 0
+         enddo
+      enddo
+      do i=1,lx+1
+         ph(i) = 0
+      enddo
 
 c     p2 is 0.5*(complex momentum)**2 referenced to energy dep xc
 c     need hartree units for dfovrg
@@ -178,10 +180,10 @@ c           Normalize final state  at rmt to
 c           rmt*(jl*cos(delta) - nl*sin(delta))
             xfnorm = 1 / temp
 c           normalize regular solution
-            do 133  i = 1,ilast1
-              pr(i,im,j)=pn(i,im,j)*xfnorm
-              qr(i,im,j)=qn(i,im,j)*xfnorm
-  133       continue
+            do i = 1,ilast1
+               pr(i,im,j)=pn(i,im,j)*xfnorm
+               qr(i,im,j)=qn(i,im,j)*xfnorm
+            enddo
 
 c-----------------------
 c           nesvi            
@@ -200,26 +202,25 @@ c             Project on corresponding atomic states.
 
 c             make corresponding atomic functions
               if (jj.eq.0) then
-                do 397 i=1,nrptx
-                  pat(i,im,j)=0
-                  qat(i,im,j)=0
-  397           continue
+                 do i=1,nrptx
+                    pat(i,im,j)=0
+                    qat(i,im,j)=0
+                 enddo
               else
-                do 398 i=1,nrptx
-                  pat(i,im,j)=dgcn(i,jj)
-                  qat(i,im,j)=dpcn(i,jj)    
-  398           continue
+                 do i=1,nrptx
+                    pat(i,im,j)=dgcn(i,jj)
+                    qat(i,im,j)=dpcn(i,jj)    
+                 enddo
               endif
 
             open(unit=3,file='wfat.dat',status='unknown')    
 
 c         only central atom contribution needs irregular solution
-            do 194  i = 1, ilast1           
-                write(3,1019) ri(i)/rnrm, dgcn(i,6),dgcn(i,8),
-     1          dgcn(i,10),dgcn(i,12)
- 1019           format(f10.5,1x,e10.4,1x,e10.4,1x,e10.4,1x,e10.4)
-
- 194         continue
+            do i = 1, ilast1           
+               write(3,1019) ri(i)/rnrm, dgcn(i,6),dgcn(i,8),
+     1              dgcn(i,10),dgcn(i,12)
+ 1019          format(f10.5,1x,e10.4,1x,e10.4,1x,e10.4,1x,e10.4)
+            enddo
 
             close(3)
 
@@ -232,19 +233,19 @@ c             intr(i) is that overlap integral. Later it
 c             will be multiplied by pr(i)*Psi_at(r') and integrated till
 c             r=infinity (ideal case), but actually till rlast.
 
-              do 400 i=1,ilast1
-                var(i)=pat(i,im,j)*pr(i,im,j)+qat(i,im,j)*qr(i,im,j)
+              do i=1,ilast1
+                 var(i)=pat(i,im,j)*pr(i,im,j)+qat(i,im,j)*qr(i,im,j)
 c             factor of 2 -integration r< r>  -->2 r r'
-  400         continue
+              enddo
 
 c             integration by trapezoid method
               
               intr(1,im,j)=var(1)*ri(1)
    
-              do 410 i=2,ilast1
-                intr(i,im,j)=intr(i-1,im,j)+
-     1                       (var(i)+var(i-1))*(ri(i)-ri(i-1))
-  410         continue 
+              do i=2,ilast1
+                 intr(i,im,j)=intr(i-1,im,j)+
+     1                (var(i)+var(i-1))*(ri(i)-ri(i-1))
+              enddo
 
 cc              old way, no double integration 
 c              do 415 i=1,ilast1
@@ -275,8 +276,8 @@ cc            N=(nlp1*cos(ph0)+jlp1*sin(ph0))*factor *rmt * dum1
 cc            N = i*R - H*exp(i*ph0)
               temp = exp(coni*phx)
               do i = 1, ilast
-                pn(i,im,j) = coni * pr(i,im,j) - temp * pn(i,im,j)
-                qn(i,im,j) = coni * qr(i,im,j) - temp * qn(i,im,j)
+                 pn(i,im,j) = coni * pr(i,im,j) - temp * pn(i,im,j)
+                 qn(i,im,j) = coni * qr(i,im,j) - temp * qn(i,im,j)
               enddo
 
  150      continue
@@ -297,9 +298,9 @@ c          open(unit=2,file='wfunc1.dat',status='unknown')
 c         ic3 = 0, j= ic3+1
           j = 1
 c         calculate diagonal radial integrals R(k1,k1) - xrhoce and xrhole
-            do 190  i = 1, ilast1
-              xpc(i) = pr(i,im,j)*pat(i,im,j)*intr(i,im,j)+ 
-     1              qr(i,im,j)*qat(i,im,j)*intr(i,im,j)
+          do i = 1, ilast1
+             xpc(i) = pr(i,im,j)*pat(i,im,j)*intr(i,im,j)+ 
+     1            qr(i,im,j)*qat(i,im,j)*intr(i,im,j)
 
 c            if (ikap .eq. -3 .and. (dble(em) +12.0/hart)
 c     1          .le. 1.0/hart) then
@@ -308,37 +309,30 @@ c     1          pat(i,im,j), dble(intr(i,im,j)),dble(xpc(i))
 c 1015           format(f10.6,1x,e10.4,1x,e10.4,1x,e10.4,1x,e10.4)
 c             endif
 
- 190        continue
-            xirf = lll*2 + 2
-            i0=jlast1+1
-            call csomm2 (ri, xpc, dx, xirf, rlast, i0)
-            xrhole(ikap,ikap) =xirf*temp*exp(coni*(phm(im,j)+phm(im,j)))
+          enddo
+          xirf = lll*2 + 2
+          i0=jlast1+1
+          call csomm2 (ri, xpc, dx, xirf, rlast, i0)
+          xrhole(ikap,ikap) =xirf*temp*exp(coni*(phm(im,j)+phm(im,j)))
 
 c            close(2)
-            open(unit=2,file='wfunc.dat',status='unknown')    
+          open(unit=2,file='wfunc.dat',status='unknown')    
 
 c         only central atom contribution needs irregular solution
-            do 195  i = 1, ilast1
-              xpc(i) = pn(i,im,j)*pat(i,im,j)*intr(i,im,j)+ 
-     1              qn(i,im,j)*qat(i,im,j)*intr(i,im,j)
-              xpc(i) = xpc(i) - 
-     1              coni*(pr(i,im,j)*pat(i,im,j)*intr(i,im,j) + 
-     2              qr(i,im,j)*qat(i,im,j)*intr(i,im,j))
+          do i = 1, ilast1
+             xpc(i) = pn(i,im,j)*pat(i,im,j)*intr(i,im,j)+ 
+     1            qn(i,im,j)*qat(i,im,j)*intr(i,im,j)
+             xpc(i) = xpc(i) - 
+     1            coni*(pr(i,im,j)*pat(i,im,j)*intr(i,im,j) + 
+     2            qr(i,im,j)*qat(i,im,j)*intr(i,im,j))
 
-c         for test purposes
- 
-c           do 195  i = 1, ilast1
-c              xpc(i) = pn(i,im,j)*pat(i,im,j)*intr(i,im,j)
-c            xpc(i) = -1.0*coni*(pr(i,im,j)*pat(i,im,j)*intr(i,im,j))
-           
              if (ikap .eq. 1 .and. (dble(em) +12.0/hart)
-     1          .lt. 1.0/hart) then
+     1            .lt. 1.0/hart) then
                 write(2,1016) ri(i)/rnrm, dble(pr(i,im,j)),
-     1          pat(i,im,j), dble(intr(i,im,j)),-dimag(xpc(i))
+     1               pat(i,im,j), dble(intr(i,im,j)),-dimag(xpc(i))
  1016           format(f10.4,1x,e10.4,1x,e10.4,1x,e10.4,1x,e10.4)
              endif
-
- 195        continue
+          enddo
 
             close(2)
 
@@ -349,24 +343,24 @@ c            xpc(i) = -1.0*coni*(pr(i,im,j)*pat(i,im,j)*intr(i,im,j))
 c         calculate cross terms
           if (ikap.lt.-1) then
             k1 = ikap + 2*lll + 1
-            do 290  i = 1, ilast1
-              xpc(i) = pr(i,1,j)*pat(i,1,j)*intr(i,2,j) +
-     1                 qr(i,1,j)*qat(i,1,j)*intr(i,2,j) 
- 290        continue
-            xirf = lll*2 + 2
+            do i = 1, ilast1
+               xpc(i) = pr(i,1,j)*pat(i,1,j)*intr(i,2,j) +
+     1              qr(i,1,j)*qat(i,1,j)*intr(i,2,j) 
+            enddo
+           xirf = lll*2 + 2
 c           i0 should be less or equal to  ilast
-            i0=jlast1+1
-            call csomm2 (ri, xpc, dx, xirf, rlast, i0)
-c            xrhole (ikap, k1) = xirf*temp* exp(coni*(phm(1,j)+phm(2,j)))
-c             xrhoce(ikap,k1)=0.0d0           
-             xrhole (k1, ikap) = xrhole (ikap, k1)
-c            nesvi: checked that cross-terms are not important for N_h 
+           i0=jlast1+1
+           call csomm2 (ri, xpc, dx, xirf, rlast, i0)
+c          xrhole (ikap, k1) = xirf*temp* exp(coni*(phm(1,j)+phm(2,j)))
+c          xrhoce(ikap,k1)=0.0d0           
+           xrhole (k1, ikap) = xrhole (ikap, k1)
+c          nesvi: checked that cross-terms are not important for N_h 
             
-c           ic3 = 1, j= ic3+1
-            j = 2
-            xpm =  exp(coni*(phm(1,j)-phm(2,j))) / 2
-            xmp =  exp(coni*(phm(2,j)-phm(1,j))) / 2
-            do 295  i = 1, ilast1
+c          ic3 = 1, j= ic3+1
+           j = 2
+           xpm =  exp(coni*(phm(1,j)-phm(2,j))) / 2
+           xmp =  exp(coni*(phm(2,j)-phm(1,j))) / 2
+           do i = 1, ilast1
               xpc(i) = (pn(i,1,j)*pat(i,1,j)*intr(i,2,j)+ 
      1                  qn(i,1,j)*qat(i,1,j)*intr(i,2,j)) * xmp +
      2                 (pn(i,2,j)*pat(i,2,j)*intr(i,1,j)+ 
@@ -374,26 +368,27 @@ c           ic3 = 1, j= ic3+1
               xpc(i) = xpc(i) - coni*(xpm+xmp) *
      1                 (pr(i,1,j)*pat(i,1,j)*intr(i,2,j) +
      2                  qr(i,1,j)*qat(i,1,j)*intr(i,2,j))
- 295        continue
-            xirf =  1
-            call csomm2 (ri, xpc, dx, xirf, rlast, i0)
-            xrhoce(ikap,k1) = - xirf * temp
+           enddo
+           xirf =  1
+           call csomm2 (ri, xpc, dx, xirf, rlast, i0)
+           xrhoce(ikap,k1) = - xirf * temp
 c        cross term not important for N_h
-c            xrhoce(ikap,k1)=0.0d0
-            xrhoce(k1,ikap) =  xrhoce(ikap,k1)
-          endif
- 199    continue 
+c          xrhoce(ikap,k1)=0.0d0
+           xrhoce(k1,ikap) =  xrhoce(ikap,k1)
+        endif
+ 199  continue 
  200  continue 
 
 
            
           if ((dble(em) +12.0/hart) .lt. 1.0/hart) then
           open(unit=4,file='xrhocet.dat',status='unknown')  
-          do 1195  i=-4,3
-              do 1195 j=-4,3
+          do i=-4,3
+             do j=-4,3
                 write(4,1018) i,j,dimag(xrhoce(i,j))
  1018           format(i3,1x,i3,1x,f10.4)
- 1195        continue
+             enddo
+          enddo
           close(4)
           endif
          
@@ -402,7 +397,7 @@ c            xrhoce(ikap,k1)=0.0d0
 
 c     calculate phase shift in old way (ic3=1) test new one
 c     which is commented out above later
-      do 300 lll = 1,lmax
+      do lll = 1,lmax
           im = 1
           ikap = -lll-1
           irr = -1
@@ -417,7 +412,7 @@ c     which is commented out above later
           call phamp (rmt, pu, qu, ck,  jl, nl, jlp1, nlp1, ikap,
      1                  phx, temp)
           ph(1+lll)=phx
- 300  continue
+       enddo
 
       return
       end

@@ -169,8 +169,9 @@ c      lopt=true for the Rivas code of optical constants
          call wlog(slog)
        endif
 
-       do 15 iph = 0, nph
- 15    novr(iph) = 0
+       do iph = 0, nph
+          novr(iph) = 0
+       enddo
 
 c  update header, since e.g. one may use diff ixc for the same potential
         call sthead (ntitle, title, nph, iz, rmt, rnrm,
@@ -266,17 +267,18 @@ c        call meshlda (xkstep, ne, ne1, em, ik0)
 
       if (itdlda.eq.1) then
 c       to get the mesh only
-        do 93  i = 1, ne1
-          write(3,94) dble(em(i))*hart
- 94       format (7f10.5)
- 93     continue
+        do i = 1, ne1
+           write(3,94) dble(em(i))*hart
+ 94        format (7f10.5)
+        enddo
         stop 'TDLDA energy mesh is written out'
 c       end of itdlda=1 calculations
       endif
 
 c     Make old grid to report distances in xsect.bin
-      do 95 i = 1, 251
- 95   ri(i) = exp(-x0+dx*(i-1))
+      do i = 1, 251
+         ri(i) = exp(-x0+dx*(i-1))
+      enddo
 
 c     open xsect.bin and write the header
 c--json--      open (unit=1, file='xsect.bin', status='unknown', iostat=ios)
@@ -419,28 +421,29 @@ c                frac = 1.00
             call fixvar (rmt(0), edens(1,0), vch, dmag(1,0),
      1             vint, rhoint, dx, dxnew, jumprm,
      2             vjump, ri, vchp, rhoph, dmagx)
-            do 333 i = 1, nrptx
+            do i = 1, nrptx
                if (ri(i).lt.rmt(0)) then
-                 if (nonlocal.eq.1) then
-                   vchp(i) = vchp(i) - vtotph(i)
-                 endif
+                  if (nonlocal.eq.1) then
+                     vchp(i) = vchp(i) - vtotph(i)
+                  endif
                elseif (ri(i).lt.40.d0) then
-c                 assume const/r behaviour
+c     assume const/r behaviour
                   vchp(i) = vchp(i-1) * ri(i-1) / ri(i) 
                else
                   vchp(i) = 0
                endif
 c           testing: write core-hole potential in fort.17
                if (ri(i).lt.40.d0) write(17,332) ri(i), vchp(i)
- 332            format(2f30.5)
- 333        continue
+ 332           format(2f30.5)
+            enddo
            
             close (unit=17)
 c           itest = 2
 c           if (itest.eq.2) stop
           else
-            do 334 i =1, nrptx
- 334        vchp(i) = 0
+            do i =1, nrptx
+               vchp(i) = 0
+            enddo
           endif
           
 c         Josh - added argument iPl to control many pole self energy
@@ -455,7 +458,7 @@ c     7       iorb(-4,iph), l2lp, ipol, ispinp, le2, angks,ptz, itdlda)
         endif
 
 
-        do 60 iph = 0, nph
+        do iph = 0, nph
            if (verbse) then
               write(slog,10) 'phase shifts for unique potential', iph
               call wlog(slog)
@@ -490,7 +493,7 @@ c     2            gamach, vtotph, vvalph, rhoph, dmagx, rhphvl,
 c     3            dgcn, dpcn, adgc(1,1,iph), adpc(1,1,iph), eref(1,isp),
 c     4            ph(1,-ltot,isp,iph), lmax(iph), iz(iph), itmp,
 c     5            xion(iph), iunf, xnval(1,iph), ispinp)
- 60     continue
+       enddo
 
  300  continue
 
@@ -508,7 +511,7 @@ c--json--     1                 xsnorm(ie,1), dble(xsec(ie,1)), dimag(xsec(ie,1)
   350   continue
       else
 c       nspx = 2
-        do 380  ie = 1, ne
+        do ie = 1, ne
 c--json--           write(1,340) dble(em(ie))*hart, dimag(em(ie))*hart,
 c--json--     1             (xsnorm(ie,1) + xsnorm(ie,nspx)) / 2.d0 ,
 c--json--     2           dble( (xsec(ie,1) + xsec(ie,nspx)) ),
@@ -521,24 +524,24 @@ c--json--     3          dimag( (xsec(ie,1) + xsec(ie,nspx)) )
 c          Normalize rkk to the average over up/down spin
 c          nsp=2
            xnorm1 = sqrt( 2*xsnorm(ie,1) /
-     1                         (xsnorm(ie,1) + xsnorm(ie,nspx)) )
+     1          (xsnorm(ie,1) + xsnorm(ie,nspx)) )
            xnorm2 = sqrt( 2*xsnorm(ie,nspx) /
-     1                         (xsnorm(ie,1) + xsnorm(ie,nspx)) )
-           do 360 kdif = 1,8
-             rkk (ie, kdif, 1) = rkk (ie, kdif, 1) * xnorm1
-             rkk (ie, kdif, nspx) = rkk (ie, kdif, nspx) * xnorm2
-  360      continue
-  380   continue
+     1          (xsnorm(ie,1) + xsnorm(ie,nspx)) )
+           do kdif = 1,8
+              rkk (ie, kdif, 1) = rkk (ie, kdif, 1) * xnorm1
+              rkk (ie, kdif, nspx) = rkk (ie, kdif, nspx) * xnorm2
+           enddo
+        enddo
       endif
 c--json--      close (unit=1)
 
 c     using opconsat resulted in NaNs in these array in one case
 c     a.ne.a is an idiom for testing NaN-ness     
-      do 390  ie = 1, ne
+      do ie = 1, ne
          if (col3(ie) .ne. col3(ie)) col3(ie) = 0.d0
          if (col4(ie) .ne. col4(ie)) col4(ie) = 0.d0
          if (col5(ie) .ne. col5(ie)) col5(ie) = 0.d0
- 390  continue
+      enddo
       
       if (wrxsec) call json_xsect(ntitle, title, s02, erelax,
      -       wp, edge, emu,

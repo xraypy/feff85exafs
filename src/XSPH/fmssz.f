@@ -31,9 +31,11 @@ c     fms staff
       save
 
       if (rfms .gt. 0) then
-        do 25 iat=1,nat
-        do 25 j=1,3
-   25   rat(j,iat) = real (rath(j,iat))
+        do iat=1,nat
+           do j=1,3
+              rat(j,iat) = real (rath(j,iat))
+           enddo
+        enddo
 
 c       transform to single precision
         minv = 0
@@ -60,45 +62,51 @@ cc        call fms for a cluster around central atom
           rpart  = real(dble(dck))
           aipart = real(dimag(dck))
           ck(1) = cmplx(rpart, aipart)
-          do 50 ipp = 0,nph
-            do 40 ill = -lipotx(ipp), lipotx(ipp)
-              rpart  = real(dble( ph(abs(ill)+1,ipp)))
-              aipart = real(dimag(ph(abs(ill)+1,ipp)))
-              xphase(1, ill, ipp) = cmplx(rpart, aipart)
-  40        continue
-  50      continue
+          do  ipp = 0,nph
+             do  ill = -lipotx(ipp), lipotx(ipp)
+                rpart  = real(dble( ph(abs(ill)+1,ipp)))
+                aipart = real(dimag(ph(abs(ill)+1,ipp)))
+                xphase(1, ill, ipp) = cmplx(rpart, aipart)
+             enddo
+          enddo
           iverb=0
           if (ie.eq.1) iverb = 1
 c         neglect spin-flip processes (fix later for ispin=1)
           nsp = 1
           ispin = 0
-          do 55 ill = 0, lx
-  55      lcalc(ill) = .true.
+          do ill = 0, lx
+             lcalc(ill) = .true.
+          enddo
           call fms(lfms, nsp, ispin, inclus, nph, ck, lipotx, xphase,ie,
      1     iverb, minv, rdirec, toler1, toler2, lcalc,gg)
         endif
       endif
 
-      do 200 ip=0,nph
-
-        if (lfms.ne.0 .or. ip.eq.iph0) then
-          do 190 lpp =0,lipotx(ip)
-             ix1 = lpp**2 
-             do 170 im=1,2*lpp+1
-c              now cycle over gtr dimensions
-               do 100 iop = 1,3
-               do 100 i2 = 1,2
-               do 100 i1 = 1,2
-                 if (rfms.gt.0 .and. inclus.gt.0) gtr(i1,i2,iop,lpp,ip)= 
-     1             gtr(i1,i2,iop,lpp,ip) + amat(im-lpp-1,i1,i2,iop,lpp)
-     2             * gg(ix1+im,ix1+im,ip)
-                 gctr(i1, i2, iop,lpp,ip)= gctr(i1, i2, iop,lpp,ip)
-     1             + amat(im-lpp-1,i1,i2,iop,lpp)
- 100           continue
- 170         continue
- 190      continue
-        endif
- 200  continue
+      do ip=0,nph
+         if (lfms.ne.0 .or. ip.eq.iph0) then
+            do lpp =0,lipotx(ip)
+               ix1 = lpp**2 
+               do im=1,2*lpp+1
+c     now cycle over gtr dimensions
+                  do iop = 1,3
+                     do i2 = 1,2
+                        do i1 = 1,2
+                           if (rfms.gt.0 .and. inclus.gt.0) then
+                              gtr(i1,i2,iop,lpp,ip)=
+     $                             gtr(i1,i2,iop,lpp,ip) +
+     $                             amat(im-lpp-1,i1,i2,iop,lpp)
+     2                             * gg(ix1+im,ix1+im,ip)
+                              gctr(i1, i2, iop,lpp,ip)=
+     $                             gctr(i1, i2, iop,lpp,ip)
+     1                             + amat(im-lpp-1,i1,i2,iop,lpp)
+                           endif
+                        enddo
+                     enddo
+                  enddo
+               enddo
+            enddo
+         endif
+      enddo
 
       return
       end

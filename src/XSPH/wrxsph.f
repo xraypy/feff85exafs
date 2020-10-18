@@ -49,9 +49,9 @@ c     use temp to write ph, rkk, since ne < nex
 
       
 c     intialize temp to all 0+i0
-      do 5 i = 1, nex*(2*ltot+1)
+      do i = 1, nex*(2*ltot+1)
          temp(i) = dcmplx(0.0,0.0)
- 5    continue
+      enddo
 
 c      print *, '>', phpad(1:istrln(phpad)), '<'
       open (unit=1, file=phpad, status='unknown', iostat=ios)
@@ -68,34 +68,39 @@ c      print *, '>', phpad(1:istrln(phpad)), '<'
 
       call wrpadx(1, npadx, em(1), ne)
       ii = 0
-      do 60 isp = 1, nsp
-      do 60 ie=1, ne
-        ii = ii + 1
-        temp(ii) = eref (ie, isp)
-  60  continue
+      do isp = 1, nsp
+         do ie=1, ne
+            ii = ii + 1
+            temp(ii) = eref (ie, isp)
+         enddo
+      enddo
+      
       call wrpadx (1, npadx, temp(1), ii)
 
-      do 80  iph = 0, nph
+      do iph = 0, nph
          write(1, 20) lmax(iph), iz(iph), potlbl(iph)
   20     format(2(1x,i3), 1x, a6)
-         do 75  isp = 1, nsp
+         do isp = 1, nsp
             ii = 0
-            do 70  ie = 1, ne
-            do 70  ll = -lmax(iph), lmax(iph)
-               ii = ii+ 1
-               temp(ii) = ph(ie, ll, isp, iph)
-   70       continue
+            do ie = 1, ne
+               do  ll = -lmax(iph), lmax(iph)
+                  ii = ii+ 1
+                  temp(ii) = ph(ie, ll, isp, iph)
+               enddo
+            enddo
             call wrpadx (1, npadx, temp(1), ii )
-   75    continue
-   80 continue
+         enddo
+      enddo
 
       ii = 0
-      do 90 isp = 1, nsp
-      do 90 kdif = 1, 8
-      do 90 ie=1, ne
-        ii = ii + 1
-        temp(ii) = rkk (ie, kdif, isp)
-  90  continue
+      do isp = 1, nsp
+         do kdif = 1, 8
+            do ie=1, ne
+               ii = ii + 1
+               temp(ii) = rkk (ie, kdif, isp)
+            enddo
+         enddo
+      enddo
       call wrpadx (1, npadx, temp(1), ii)
 
       close (unit=1)

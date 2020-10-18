@@ -65,10 +65,10 @@ c     initialize
       if (lmax.gt.lx) lmax = lx
       if (iz.le.4) lmax=2
       if (iz.le.2) lmax=1
-      do 20 i = 1, nrptx
+      do i = 1, nrptx
          vtotc(i)=vtot(i)
          vvalc(i)= vvalgs(i)
-  20  continue
+      enddo
 c     set imt and jri (use general Loucks grid)
 c     rmt is between imt and jri (see function ii(r) in file xx.f)
       imt  = int((log(rmt) + x0) / dx)  +  1
@@ -85,13 +85,15 @@ c     it is larger than jnrm for better interpolations
       ilast = nint( (nr05-1) *0.05d0 / dx ) + 1
       if (ilast.gt.nrptx) ilast=nrptx
 
-      do 10 i = -4,3
-      do 10 j = -4,3
-         xrhole(i,j) = 0
-         xrhoce(i,j) = 0
-  10  continue
-      do 15 i=1,lx+1
-  15  ph(i) = 0
+      do i = -4,3
+         do j = -4,3
+            xrhole(i,j) = 0
+            xrhoce(i,j) = 0
+         enddo
+      enddo
+      do i=1,lx+1
+         ph(i) = 0
+      enddo
 
 c     p2 is 0.5*(complex momentum)**2 referenced to energy dep xc
 c     need hartree units for dfovrg
@@ -172,9 +174,9 @@ c         add relativistic correction to normaliz. and factor 2*lll+1
 c         ic3 = 0, j= ic3+1
           j = 1
 c         calculate diagonal radial integrals R(k1,k1) - xrhoce and xrhole
-            do 190  i = 1, ilast
-              xpc(i) = pr(i,im,j) **2 + qr(i,im,j) **2
- 190        continue
+            do i = 1, ilast
+               xpc(i) = pr(i,im,j) **2 + qr(i,im,j) **2
+           enddo
             xirf = lll*2 + 2
 c           i0 should be less or equal to  ilast
             i0=jnrm+1
@@ -182,10 +184,10 @@ c           i0 should be less or equal to  ilast
             xrhole(ikap,ikap) =xirf*temp*exp(coni*(phm(im,j)+phm(im,j)))
 
 c         only central atom contribution needs irregular solution
-            do 195  i = 1, ilast
-              xpc(i) = pn(i,im,j)*pr(i,im,j)+ qn(i,im,j) *qr(i,im,j)
-              xpc(i) = xpc(i) - coni*(pr(i,im,j)**2 + qr(i,im,j)**2)
- 195        continue
+            do i = 1, ilast
+               xpc(i) = pn(i,im,j)*pr(i,im,j)+ qn(i,im,j) *qr(i,im,j)
+               xpc(i) = xpc(i) - coni*(pr(i,im,j)**2 + qr(i,im,j)**2)
+            enddo
             xirf =  1
             call csomm2 (ri, xpc, dx, xirf, rnrm, i0)
             xrhoce(ikap,ikap) = - xirf * temp
@@ -193,9 +195,9 @@ c         only central atom contribution needs irregular solution
 c         calculate cross terms
           if (ikap.lt.-1) then
             k1 = ikap + 2*lll + 1
-            do 290  i = 1, ilast
-              xpc(i) = pr(i,1,j) * pr(i,2,j) + qr(i,1,j) * qr(i,2,j) 
- 290        continue
+            do i = 1, ilast
+               xpc(i) = pr(i,1,j) * pr(i,2,j) + qr(i,1,j) * qr(i,2,j)
+            enddo
             xirf = lll*2 + 2
 c           i0 should be less or equal to  ilast
             i0=jnrm+1
@@ -207,12 +209,13 @@ c           ic3 = 1, j= ic3+1
             j = 2
             xpm =  exp(coni*(phm(1,j)-phm(2,j))) / 2
             xmp =  exp(coni*(phm(2,j)-phm(1,j))) / 2
-            do 295  i = 1, ilast
-              xpc(i) = (pn(i,1,j)*pr(i,2,j)+ qn(i,1,j) *qr(i,2,j)) * xmp
-     1               + (pn(i,2,j)*pr(i,1,j)+ qn(i,2,j) *qr(i,1,j)) * xpm
-              xpc(i) = xpc(i) - coni*(xpm+xmp) *
-     1                 (pr(i,1,j)*pr(i,2,j) + qr(i,1,j)*qr(i,2,j))
- 295        continue
+            do i = 1, ilast
+               xpc(i) = (pn(i,1,j)*pr(i,2,j)+
+     $              qn(i,1,j) *qr(i,2,j)) * xmp +
+     $              (pn(i,2,j)*pr(i,1,j)+ qn(i,2,j) *qr(i,1,j))*xpm
+               xpc(i) = xpc(i) - coni*(xpm+xmp) *
+     1              (pr(i,1,j)*pr(i,2,j) + qr(i,1,j)*qr(i,2,j))
+            enddo
             xirf =  1
             call csomm2 (ri, xpc, dx, xirf, rnrm, i0)
             xrhoce(ikap,k1) = - xirf * temp
@@ -223,7 +226,7 @@ c           ic3 = 1, j= ic3+1
 
 c     calculate phase shift in old way (ic3=1) test new one
 c     which is commented out above later
-      do 300 lll = 1,lmax
+      do lll = 1,lmax
           im = 1
           ikap = -lll-1
           irr = -1
@@ -238,7 +241,7 @@ c     which is commented out above later
           call phamp (rmt, pu, qu, ck,  jl, nl, jlp1, nlp1, ikap,
      1                  phx, temp)
           ph(1+lll)=phx
- 300  continue
+       enddo
 
       return
       end

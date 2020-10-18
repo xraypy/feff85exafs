@@ -39,11 +39,13 @@ c        dk = 0.14*bohr
          n2 = int ( sqrt(n1*2*xim) / dk )
          if ( (dk*(n2+1))**2 .gt. (n1+1)*2*xim ) n1 = n1+1
          n1 = min (n1,nemax)
-         do 10 i = 1, n1
-  10     em(nemax+1-i) = -xim*i + edge + coni*xloss
+         do i = 1, n1
+            em(nemax+1-i) = -xim*i + edge + coni*xloss
+         enddo
          nb = nemax-n1
-         do 20 i = 1, nb
-  20     em(nb + 1 -i) = -(dk*(n2+i))**2/2 + edge + coni*xloss
+         do i = 1, nb
+            em(nb + 1 -i) = -(dk*(n2+i))**2/2 + edge + coni*xloss
+         enddo
          nmin = nemax
          ik0 = nemax+1
       endif
@@ -65,8 +67,9 @@ c        90 points above Fermi level
             nb = int (abs(edge - xkmax/bohr/hart) /xim) + 1
          endif
          if (nb .le. n1) n1 = nb
-         do 30 i = 1, n1
-  30     em(nmin+i) = xim*(i-1)
+         do i = 1, n1
+            em(nmin+i) = xim*(i-1)
+         enddo
          if (ispec.ne.2) then
             nb = int( xkmax / xkstep)  - n2
          else
@@ -74,11 +77,13 @@ c        90 points above Fermi level
          endif
          nb = min(nb, nemax-n1)
          nb = max(nb,0)
-         do 40 i = 1, nb
-  40     em(nmin+n1+i) = (xkstep*(n2+i))**2 /2
+         do i = 1, nb
+            em(nmin+n1+i) = (xkstep*(n2+i))**2 /2
+         enddo
          ne1 = nmin+n1+nb
-         do 50 i = ik0, ne1
-  50     em(i) = em(i) + edge + coni*xloss
+         do i = ik0, ne1
+            em(i) = em(i) + edge + coni*xloss
+         enddo
 
       elseif (ispec.eq.4) then
 c        grid for atomic f' calculation regular in energy
@@ -92,7 +97,8 @@ c        grid for atomic f' calculation regular in energy
          if (emin .lt. emax) then
             if (vixan.le.0.d0) vixan = (emax-emin) / (nemax-1)
 
-  85        ne = ne + 1
+ 85         continue
+            ne = ne + 1
             em(ne) = em(ne-1) + vixan
             if ( ne.lt.nemax .and. dble(em(ne)).lt.emax) goto 85
          endif
@@ -109,14 +115,14 @@ c        grid for atomic f' calculation regular in energy
          ne3 = nemax
          ne = ne1+ne2+ne3
          em(ne1+1) = edge
-         do 88 i = 1,ne3-1
+         do i = 1,ne3-1
             dep = 0
             if (dble(em(ne1+i)).gt.0) 
      1             dep=dble(em(ne1+i) * 
      2             (exp( log( elimit/em(ne1+i) ) / (ne3-i) ) -1))
             if (dep.lt.de) dep = de
             em(ne1+i+1) = em(ne1+i) + dep
-  88     continue
+         enddo
       else
 c        energy mesh for EXAFS or XANES without FMS
 c        20 pts (0 le k le 1.9, delk=0.1 ang(-1) )
@@ -127,34 +133,35 @@ c        10 pts (11 le k le 20.0, delk=1.0 ang(-1) )
          if (ispec.lt.0) ne = 10
          nemax = 100
          delk = bohr/10
-         do 111 i=1,20
+         do i=1,20
             tempk=(i-1)*delk
             ne = ne+1
             em(ne)=tempk**2/2 +edge + coni*xloss
             if (i.eq.1)  ik0 = ne
-  111    continue
+         enddo
          delk = bohr/5
          n2 = 20
-         do 112 i=1,n2
+         do i=1,n2
             tempk=2*bohr + (i-1)*delk
             ne = ne+1
             em(ne)=tempk**2/2 +edge + coni*xloss
-  112    continue
+         enddo
          delk = bohr/2
-         do 113 i=1,9
+         do i=1,9
             tempk=6*bohr + (i-1)*delk
             ne = ne+1
             em(ne)=tempk**2/2 +edge + coni*xloss
-  113    continue
+         enddo
          delk=bohr
-         do 114 i=1,10
+         do i=1,10
             tempk=11*bohr + (i-1)*delk
             ne = ne+1
             em(ne)=tempk**2/2 +edge + coni*xloss
-  114    continue
+         enddo
 
 c        while loop
-  115    if (tempk. lt.xkmax) then
+ 115     continue
+         if (tempk. lt.xkmax) then
             tempk = tempk + delk
             ne = ne+1
             em(ne)=tempk**2/2 +edge + coni*xloss
@@ -190,8 +197,9 @@ c        n1 = nint( log(50/hart/aa) / delk )
          ee = min(50.d0/hart,20.d0*xloss)
 c         print*, ee, aa, xloss, n1
          n1 = nint( log(ee/aa) / delk )
-         do 60 i = 0, n1
-  60     em(ne1+3+i) = edge +coni*aa*exp(delk*i)
+         do i = 0, n1
+            em(ne1+3+i) = edge +coni*aa*exp(delk*i)
+         enddo
          ne = ne1 + n1 + 3
 
 c        for DANES need additional points
@@ -200,26 +208,28 @@ c        for DANES need additional points
             em(ne+1) = dble(2*em(ne1)-em(ne1-1))
             dk = log(7.d4/dble(em(ne+1))) / (ne3-1)
             dk = exp(dk)
-            do 80 i = 1, ne3-1
-  80        em(ne+i+1)= em(ne+i)*dk
-            do 90 i = 1, ne3
-  90        em(ne+i)= em(ne+i)+coni*1.d-8
+            do i = 1, ne3-1
+               em(ne+i+1)= em(ne+i)*dk
+            enddo
+            do i = 1, ne3
+               em(ne+i)= em(ne+i)+coni*1.d-8
+            enddo
             ne = ne + ne3
             
          endif
       endif
-
 c     need to reverse order for horizontal grid for XES
       if (ispec.eq.2) then
-         do 150 ie = 1, ne1
-  150    em(ie) = 2*(edge + coni*xloss) - em(ie)
+         do ie = 1, ne1
+            em(ie) = 2*(edge + coni*xloss) - em(ie)
+         enddo
          np = ne1 / 2
-         do 160 ie=1,np
+         do ie=1,np
             ip = ne1+1-ie
             tempc = em(ie)
             em(ie) = em(ip)
             em(ip) = tempc
-  160    continue
+         enddo
          ik0 = ne1+1-ik0
       endif
 
@@ -228,11 +238,11 @@ c     need to reverse order for horizontal grid for XES
          write(44,*) 'edge, bohr, edge*hart ', edge, bohr, edge*hart
          write(44,*) 'ispec, ik0 ', ispec, ik0
          write(44,*) 'ie, em(ie)*hart, xk(ie)'
-         do 230  ie = 1, ne
-           write(44,220) ie, dble(em(ie))*hart,
-     1                   getxk(dble(em(ie))-edge)/bohr
-  220      format (i5, 3f20.5)
-  230    continue
+         do ie = 1, ne
+            write(44,220) ie, dble(em(ie))*hart,
+     1           getxk(dble(em(ie))-edge)/bohr
+ 220        format (i5, 3f20.5)
+         enddo
          close (unit=44)
       endif
 

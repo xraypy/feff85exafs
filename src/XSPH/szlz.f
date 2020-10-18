@@ -75,11 +75,13 @@ c     ie - is number of energy points calculated
       ie = 0
       ee = emg(1)
       ep = dble(ee)
-      do 22 iph=0,nphx
-      do 22 il=0,lx
-      do 22 i=1,3
-        xnmues(i, il,iph) = 0
-  22  continue
+      do iph=0,nphx
+         do il=0,lx
+            do i=1,3
+               xnmues(i, il,iph) = 0
+            enddo
+         enddo
+      enddo
 
 c     Start the cycle over energy points (ie)
   25  continue
@@ -91,7 +93,7 @@ c     Start the cycle over energy points (ie)
          call wlog(slog)
       endif
 
-      do 100  iph = 0, nph
+      do iph = 0, nph
 
          call fixvar (rmt(iph),edens(1,iph),vtot(1,iph),dmag(1,iph),
      1                vint, rhoint, dx, rgrd, jumprm,
@@ -108,14 +110,17 @@ c     Start the cycle over energy points (ie)
         jri = int((log(rmt(iph)) + x0) / rgrd) + 2
         jri1 = jri+1
         eref = vtotph(jri1)
-        do 40 i = 1, jri1
-  40    vtotph(i) = vtotph(i) - dble(eref)
+        do i = 1, jri1
+           vtotph(i) = vtotph(i) - dble(eref)
+        enddo
         if (ixc.ge.5) then
-           do 50 i = 1, jri1
-  50       vvalph(i) = vvalph(i) - dble(eref)
+           do i = 1, jri1
+              vvalph(i) = vvalph(i) - dble(eref)
+           enddo
         else
-           do 60 i = 1, jri1
-  60       vvalph(i) = vtotph(i)
+           do i = 1, jri1
+              vvalph(i) = vtotph(i)
+           enddo
         endif
 
          itmp = 0
@@ -139,7 +144,7 @@ c        icount=2 for Mulliken counts
      5           xrhoce(-4,-4,iph), ph(1,iph),
      6           iz(iph), xion(iph), iunf, itmp,3)
          endif
-  100 continue
+      enddo
 
 c     Write out phases for fmssz
 c     transform neg,emg to em,ne,eref first
@@ -147,14 +152,18 @@ c     transform neg,emg to em,ne,eref first
       eref=dble(eref)-coni*dimag(ee)
 
 cc    call fms for a cluster around central atom
-      do 195 iph0 = 0,nph
-      do 195 il = 0, lx
-      do 195 i = 1, 3
-      do 195 i2= 1, 2
-      do 195 i1= 1, 2
-         gtr( i1,i2, i, il, iph0) = 0
-         gctr(i1,i2, i, il, iph0) = 0
-  195 continue
+      do iph0 = 0,nph
+         do il = 0, lx
+            do i = 1, 3
+               do i2= 1, 2
+                  do i1= 1, 2
+                     gtr( i1,i2, i, il, iph0) = 0
+                     gctr(i1,i2, i, il, iph0) = 0
+                  enddo
+               enddo
+            enddo
+         enddo
+      enddo
 
       rfms = 0
 c     only central atom contribution for ispin = 0
@@ -166,62 +175,74 @@ ctemp if (ispin.ne.0)  rfms = rfms2
         call fmssz(verbse, iph0, ie,  em, eref, ph, nph,
      1        rfms, lfms2, nat, iphat, rat, amat, lmaxph, gctr, gtr)
       else
-        do 190 iph0 = 0, nph 
-  190   call fmssz(verbse, iph0,  ie, em, eref, ph, nph,
-     1        rfms, lfms2, nat, iphat, rat, amat, lmaxph, gctr, gtr)
+        do iph0 = 0, nph 
+           call fmssz(verbse, iph0,  ie, em, eref, ph, nph,
+     1          rfms, lfms2, nat, iphat, rat, amat, lmaxph, gctr, gtr)
+        enddo
       endif
 
       de = ee-ep
-      do 300 iph = 0,nph
-      do 300 lpp = 0,lx
-      do 300 iop = 1,3
+      do iph = 0,nph
+         do lpp = 0,lx
+            do iop = 1,3
 c       calculate density and integrated number of electrons in each
 c       channel for each type of atoms density, etc.
-        if (ie.gt.1) fl(iop,lpp,iph) = fr( iop,lpp,iph)
-        fr( iop,lpp,iph) = 0
-        call kfromi (1, lpp, j1, kk1)
-        call kfromi (2, lpp, j1, kk2)
-        do 200 i1=1,2
-        do 200 i2=1,2
-          call kfromi (i1, lpp, j1, k1)
-          call kfromi (i2, lpp, j1, k2)
-          if (k1.eq.0 .or. k2.eq.0) goto 200
-
-          cchi =  dble( real( gtr(i1,i2, iop,lpp,iph) )) + 
-     1           coni* dble(aimag( gtr(i1,i2, iop,lpp,iph) ))
+               if (ie.gt.1) fl(iop,lpp,iph) = fr( iop,lpp,iph)
+               fr( iop,lpp,iph) = 0
+               call kfromi (1, lpp, j1, kk1)
+               call kfromi (2, lpp, j1, kk2)
+               do i1=1,2
+                  do i2=1,2
+                     call kfromi (i1, lpp, j1, k1)
+                     call kfromi (i2, lpp, j1, k2)
+                     if (k1.eq.0 .or. k2.eq.0) goto 200
+              
+                     cchi =  dble( real( gtr(i1,i2, iop,lpp,iph) )) + 
+     1                    coni* dble(aimag( gtr(i1,i2, iop,lpp,iph) ))
 c         fr( iop,lpp,iph) = fr( iop,lpp,iph) + cchi * xrhole(k1,k2,iph)
 c         use above kk1,kk1 for j- value, kk2,kk2 for j+ value
-          if (ispin.ne.0 .or. iop.eq.1) then
-            fr( iop,lpp,iph) = fr( iop,lpp,iph) + cchi*xrhole(k1,k2,iph)
-          elseif(iop.eq.2) then
-            fr( iop,lpp,iph) = fr( iop,lpp,iph)+cchi*xrhole(kk1,kk1,iph)
-          elseif(iop.eq.3) then
-            fr( iop,lpp,iph) = fr( iop,lpp,iph)+cchi*xrhole(kk2,kk2,iph)
-          endif
-
+                     if (ispin.ne.0 .or. iop.eq.1) then
+                        fr( iop,lpp,iph) = fr( iop,lpp,iph) +
+     $                       cchi*xrhole(k1,k2,iph)
+                     elseif(iop.eq.2) then
+                        fr( iop,lpp,iph) = fr( iop,lpp,iph) +
+     $                       cchi*xrhole(kk1,kk1,iph)
+                     elseif(iop.eq.3) then
+                        fr( iop,lpp,iph) = fr( iop,lpp,iph) +
+     $                       cchi*xrhole(kk2,kk2,iph)
+                     endif
+                     
 c         add central atom part
-          cchi =  dble(  gctr(i1,i2, iop,lpp,iph) ) 
-          if (ispin.ne.0 .or. iop.eq.1) then
-            fr( iop,lpp,iph) = fr( iop,lpp,iph) + cchi*xrhoce(k1,k2,iph)
-c           use above k1,k1 for j- value, k2,k2 for j+ value
-          elseif(iop.eq.2) then
-            fr( iop,lpp,iph) = fr( iop,lpp,iph)+cchi*xrhoce(kk1,kk1,iph)
-          elseif(iop.eq.3) then
-            fr( iop,lpp,iph) = fr( iop,lpp,iph)+cchi*xrhoce(kk2,kk2,iph)
-          endif
- 200    continue
+                     cchi =  dble(  gctr(i1,i2, iop,lpp,iph) ) 
+                     if (ispin.ne.0 .or. iop.eq.1) then
+                        fr( iop,lpp,iph) = fr( iop,lpp,iph) +
+     $                       cchi*xrhoce(k1,k2,iph)
+c     use above k1,k1 for j- value, k2,k2 for j+ value
+                     elseif(iop.eq.2) then
+                        fr( iop,lpp,iph) = fr( iop,lpp,iph) +
+     $                       cchi*xrhoce(kk1,kk1,iph)
+                     elseif(iop.eq.3) then
+                        fr( iop,lpp,iph) = fr( iop,lpp,iph) +
+     $                       cchi*xrhoce(kk2,kk2,iph)
+                     endif
+ 200                 continue 
+                  enddo
+               enddo
+
 
 c       do integral over energy with trapezoidal rule
-        if (ie.eq.1)  fl( iop,lpp,iph) = fr( iop,lpp,iph)
-        xnmues(iop,lpp,iph) =  xnmues(iop,lpp,iph) +
-     1  dimag((fl(iop,lpp,iph) + fr(iop,lpp,iph)) * de /2)
-        if (ie.eq.neg) then
-c          end point correction
-           xnmues(iop,lpp,iph) =  xnmues(iop,lpp,iph) +
-     1     dimag( fr(iop,lpp,iph) * (dble(ee)-ee) )
-        endif
+               if (ie.eq.1)  fl( iop,lpp,iph) = fr( iop,lpp,iph)
+               xnmues(iop,lpp,iph) =  xnmues(iop,lpp,iph) +
+     1              dimag((fl(iop,lpp,iph) + fr(iop,lpp,iph)) * de /2)
+               if (ie.eq.neg) then
+c     end point correction
+                  xnmues(iop,lpp,iph) =  xnmues(iop,lpp,iph) +
+     1                 dimag( fr(iop,lpp,iph) * (dble(ee)-ee) )
+               endif
+            enddo
+         enddo
+      enddo
 
-  300 continue
 
 c     next energy point
       if (ie.lt.neg) then
@@ -241,11 +262,12 @@ c     report configuration; repeat iteration if found bad counts.
          call wlog('   iph    il      S_z   N_l   N_j')
       endif
  310  format (2i6, 3f9.4)
-      do 320 ip= 0,nph
-      do 320 il = 0,lx
-         write (slog,310) ip,il,(xnmues(i,il,ip), i=1,3)
-         call wlog(slog)
- 320  continue
+      do ip= 0,nph
+         do il = 0,lx
+            write (slog,310) ip,il,(xnmues(i,il,ip), i=1,3)
+            call wlog(slog)
+         enddo
+      enddo
       corr = 1.d0
       if (ispin.eq.0 .and. kinit.ne.-1) then
 c       calculation  changes in counts due to spin-orbit interaction

@@ -116,20 +116,20 @@ c  30  format (6f13.5)
 
          call json%get('potlbl', strings, found)
                    if (.not. found) call bailout('potlbl', 'xsph.json')
-         do 1000 itit = 1, nphx
+         do itit = 1, nphx
 c            potlbl(itit-1) = strings(itit)
             potlbl(itit-1) = strings(itit)(1:6)
- 1000    continue
+         enddo
          call json%get('lmaxph', intgs, found)
                    if (.not. found) call bailout('lmaxph', 'xsph.json')
-         do 1010 iph = 0, nphx
+         do iph = 0, nphx
             lmaxph(iph) = intgs(iph+1)
- 1010    continue
+         enddo
          call json%get('spinph', dbpcs, found)
                    if (.not. found) call bailout('spinph', 'xsph.json')
-         do 1020 iph = 0, nphx
+         do iph = 0, nphx
             spinph(iph) = dbpcs(iph+1)
- 1020    continue
+         enddo
 
          call json%destroy()
       end if
@@ -143,10 +143,11 @@ c     transform to code units (bohrs and hartrees - atomic unuts)
       vixan = vixan / hart
       xkstep = xkstep * bohr
       xkmax  = xkmax  * bohr
-      do 210 i = 1,3
-      do 210 iat = 1, nat
-        rat(i,iat) = rat(i,iat) / bohr
- 210  continue
+      do i = 1,3
+         do iat = 1, nat
+            rat(i,iat) = rat(i,iat) / bohr
+         enddo
+      enddo
 
       return
       end

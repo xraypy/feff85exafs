@@ -115,9 +115,9 @@ c     explicitly intialize some things
       rkk1  = (0.,0.)
       phold = (0.,0.)
       
-      do 5 i=1,MxPole
+      do i=1,MxPole
          WpCorr(1) = -1.d30
- 5    continue
+      enddo
 
       call setkap(ihole, kinit, linit)
 c      PRINT*, 'dx=',dx
@@ -138,10 +138,10 @@ c     get integral  psi**2 r**2 dr.
 c     Square the dgc0 and dpc0 arrays before integrating.
 c     <i|i> == xinorm.
 c     dgc and dpc should be normalized <i|i>=1, check this here
-      do 10  i = 1, nrptx
+      do i = 1, nrptx
          xp(i) = dpc0(i)**2
          xq(i) = dgc0(i)**2
-  10  continue
+      enddo
 c     nb, xinorm is used for exponent on input to somm
       xinorm = 2*linit + 2
       call somm (ri, xp, xq, dx, xinorm, 0, jnrm)
@@ -174,11 +174,14 @@ c     set spin index to use bmat
       if (ispin.eq.1) isp = nspx - 1
 
 c     zero rkk and phx
-      do 20 ie = 1,nex
-      do 20 k1 = 1,8
- 20   rkk(ie,k1) = 0
-      do 30 k1 = 1,8
- 30   phx(k1) = 0
+      do ie = 1,nex
+         do k1 = 1,8
+            rkk(ie,k1) = 0
+         enddo
+      enddo
+      do k1 = 1,8
+         phx(k1) = 0
+      enddo
 
       ifirst = 0
 c     Josh - if PLASMON card is set, and using HL exc,
@@ -248,24 +251,24 @@ c       remember the bessel functions for multipole matrix elements
         ilast = jnrm+6
         if (ilast.lt.jnew) ilast = jnew
         if (ilast.gt.nrptx) ilast = nrptx
-        do 50 i = 1, ilast
-          temp = xk0 * ri(i)
-          if (abs(temp).lt.1.d0) then
+        do i = 1, ilast
+           temp = xk0 * ri(i)
+           if (abs(temp).lt.1.d0) then
 c           use series expansion
-            do 40 ll = 0,2
-              call bjnser(temp,ll, xirf, dum1,1)
-              bf(ll,i) = dble(xirf)
- 40         continue
-          else
+              do ll = 0,2
+                 call bjnser(temp,ll, xirf, dum1,1)
+                 bf(ll,i) = dble(xirf)
+              enddo
+           else
 c           use formula
-            x = dble(temp)
-            sinx = sin(x)
-            cosx = cos(x)
-            bf(0,i) = sinx/x
-            bf(1,i) = sinx/x**2 - cosx/x
-            bf(2,i) = sinx*(3/x**3-1/x) - 3*cosx/x**2
-          endif
- 50     continue
+              x = dble(temp)
+              sinx = sin(x)
+              cosx = cos(x)
+              bf(0,i) = sinx/x
+              bf(1,i) = sinx/x**2 - cosx/x
+              bf(2,i) = sinx*(3/x**3-1/x) - 3*cosx/x**2
+           endif
+        enddo
 
 c       notice for spin-dep case xsnorm and xsec are spin-dep
 c       and kept separately (see call to xsect in subroutine xsph)
@@ -313,8 +316,9 @@ c     2                  iz, ihole, neg, eng, rhoj,kappa, norbp, fscf,
 c     3                  yvec, maxsize, matsize, sfun)
             wse = dble(p2-eng(1,ihole))
           else
-            do 159 i = 1, nrptx 
-  159       fscf(i) = 1.d0
+            do i = 1, nrptx 
+               fscf(i) = 1.d0
+            enddo
             wse = ww
           endif
       
@@ -367,23 +371,23 @@ c           normalization factor
 c           xfnorm = dum1*rmt*(jl*cos(delta) - nl*sin(delta))/ Rl(rmt)
 c           dum1 is relativistic correction to normalization
 c           normalize regular solution
-            do 130  i = 1,ilast
+            do i = 1,ilast
               p(i)=p(i)*xfnorm
               q(i)=q(i)*xfnorm
-  130       continue
+           enddo
 
 cc          calculate xirf including fscf - TDLDA result
-            do 140 id = 1, 2
-              if (id.eq.1) then
-                do 121 j = 1,ilast 
-                  pp(j)  = p(j)*dble(fscf(j))
-                  qp(j)  = q(j)*dble(fscf(j))
-  121           continue
-              else
-                do 122 j = 1,ilast
-                  pp(j)  = p(j)*dimag(fscf(j))
-                  qp(j)  = q(j)*dimag(fscf(j))
-  122           continue
+           do id = 1, 2
+               if (id.eq.1) then
+                  do j = 1,ilast 
+                     pp(j)  = p(j)*dble(fscf(j))
+                     qp(j)  = q(j)*dble(fscf(j))
+                  enddo
+               else
+                  do j = 1,ilast
+                     pp(j)  = p(j)*dimag(fscf(j))
+                     qp(j)  = q(j)*dimag(fscf(j))
+                  enddo
               endif
               ifl = 1
               if (izstd.gt.0) ifl = -1
@@ -393,21 +397,21 @@ cc          calculate xirf including fscf - TDLDA result
 c             if (ifl.lt.0) xirf1 = xirf1 * xk0 * ww
               if (ifl.lt.0) xirf1 = xirf1 * xk0 
               if (id.eq.1) then
-                xirf = xirf1
+                 xirf = xirf1
               else
-                if (abs(xirf) .eq. 0.d0) then
-                  xirf = xirf1
-                elseif (abs(xirf1) .eq. 0.d0) then
-                  xirf = xirf
-                elseif (abs(xirf1) .lt. abs(xirf)) then
-                  dum = abs(xirf1) / abs(xirf)
-                  xirf = xirf * sqrt(1.d0 + dum**2)
-                else
-                  dum = abs(xirf) / abs(xirf1)
-                  xirf = xirf1 * sqrt(1.d0 + dum**2)
-                endif
+                 if (abs(xirf) .eq. 0.d0) then
+                    xirf = xirf1
+                 elseif (abs(xirf1) .eq. 0.d0) then
+                    xirf = xirf
+                 elseif (abs(xirf1) .lt. abs(xirf)) then
+                    dum = abs(xirf1) / abs(xirf)
+                    xirf = xirf * sqrt(1.d0 + dum**2)
+                 else
+                    dum = abs(xirf) / abs(xirf1)
+                    xirf = xirf1 * sqrt(1.d0 + dum**2)
+                 endif
               endif
-  140       continue
+           enddo
 
 c           note that for real potential  xirf is real or reduced matrix
 c           element for dipole transition is pure imaginary.
@@ -455,10 +459,10 @@ cc            N = i*R - H*exp(i*ph0)
                 qn(i) = coni * q(i) - temp * qn(i)
               enddo
             else
-              do 150 i = 1, ilast
-                pn(i) = 0
-                qn(i) = 0
-  150         continue
+              do i = 1, ilast
+                 pn(i) = 0
+                 qn(i) = 0
+              enddo
             endif
 
 c           combine regular and irregular solution into the
@@ -466,51 +470,51 @@ c           central atom absorption coefficient xsec (mu = dimag(xsec))
 c           thus for real energy dimag(xsec)=xsnorm
 
 c           also include TDLDA effects
-            do 170 id = 1, 2
-              if (id.eq.1) then
-                do 131 j = 1,ilast
-                  pp(j)  = p(j)*dble(fscf(j))
-                  qp(j)  = q(j)*dble(fscf(j))
-                  pnp(j)  = pn(j)*dble(fscf(j))
-                  qnp(j)  = qn(j)*dble(fscf(j))
-  131           continue
-              else
-                do 132 j = 1,ilast
-                  pp(j)  = p(j)*dimag(fscf(j))
-                  qp(j)  = q(j)*dimag(fscf(j))
-                  pnp(j)  = pn(j)*dimag(fscf(j))
-                  qnp(j)  = qn(j)*dimag(fscf(j))
-  132           continue
-              endif
+            do id = 1, 2
+               if (id.eq.1) then
+                  do j = 1,ilast
+                     pp(j)  = p(j)*dble(fscf(j))
+                     qp(j)  = q(j)*dble(fscf(j))
+                     pnp(j)  = pn(j)*dble(fscf(j))
+                     qnp(j)  = qn(j)*dble(fscf(j))
+                  enddo
+               else
+                  do j = 1,ilast
+                     pp(j)  = p(j)*dimag(fscf(j))
+                     qp(j)  = q(j)*dimag(fscf(j))
+                     pnp(j)  = pn(j)*dimag(fscf(j))
+                     qnp(j)  = qn(j)*dimag(fscf(j))
+                  enddo
+               endif
 
 c           TDLDA theory is written for the r-form of matrix elements
 c           so one might want to use ifl=-1,-2 for these calculations
 c           on the other hand want ifl=1,2 for DANES calculations
 c           since it is more reliable at high energies and gives
 c           better results for Cu test.
-              ifl = 2
-              if (izstd.gt.0) ifl = -2
+               ifl = 2
+               if (izstd.gt.0) ifl = -2
 
-              call radint(ifl,mult, bf, kinit, dgc0, dpc0, ikap, pp, qp,
-     1            pnp, qnp, ri,dx, ilast,iold, xrc, xnc, xrcold, xncold,
-     2            xirf1)
-              if (ifl.lt.0) xirf1 = xirf1 * xk0**2 * ww**2
-              if (id.eq.1) then
-                xirf = xirf1
-              else
-                if (abs(xirf) .eq. 0.d0) then
+               call radint(ifl,mult, bf, kinit, dgc0, dpc0, ikap, pp,
+     $              qp, pnp, qnp, ri,dx, ilast,iold, xrc, xnc,
+     $              xrcold, xncold, xirf1)
+               if (ifl.lt.0) xirf1 = xirf1 * xk0**2 * ww**2
+               if (id.eq.1) then
                   xirf = xirf1
-                elseif (abs(xirf1) .eq. 0.d0) then
-                  xirf = xirf
-                elseif (abs(xirf1) .lt. abs(xirf)) then
-                  dum = abs(xirf1) / abs(xirf)
-                  xirf = xirf * sqrt(1.d0 + dum**2)
-                else
-                  dum = abs(xirf) / abs(xirf1)
-                  xirf = xirf1 * sqrt(1.d0 + dum**2)
-                endif
-              endif
-  170       continue
+               else
+                  if (abs(xirf) .eq. 0.d0) then
+                     xirf = xirf1
+                  elseif (abs(xirf1) .eq. 0.d0) then
+                     xirf = xirf
+                  elseif (abs(xirf1) .lt. abs(xirf)) then
+                     dum = abs(xirf1) / abs(xirf)
+                     xirf = xirf * sqrt(1.d0 + dum**2)
+                  else
+                     dum = abs(xirf) / abs(xirf1)
+                     xirf = xirf1 * sqrt(1.d0 + dum**2)
+                  endif
+               endif
+            enddo
 
             if (ic3.eq.0) then
                xsec(ie) = xsec(ie) - xirf * bmat(0,isp,ind, 0,isp,ind)
@@ -539,10 +543,10 @@ c           with the wave function's tails above Rnm.
 c              calculate rhoc00 (rho_0)
 
                temp = (2*lfin+1.0d0) / (1+factor**2) /pi *4*ck /hart
-               do 500 i = 1, ilast
-                 xrc(i) = pn(i)*p(i) - coni*p(i)*p(i) 
-     1                   + qn(i)*q(i) - coni*q(i)*q(i)
-  500          continue    
+               do i = 1, ilast
+                  xrc(i) = pn(i)*p(i) - coni*p(i)*p(i) 
+     1                 + qn(i)*q(i) - coni*q(i)*q(i)
+               enddo
                xirf = 1
 c              integration is till Norman radius, not Rmt as in xsect
                i0 = jnrm + 1
@@ -552,28 +556,28 @@ c              integration is till Norman radius, not Rmt as in xsect
 c              calculate rho_projected:              
 
 c              pat, qat - atomic functions that we make projection on.
-               do 510 i=1,nrptx
-                 pat(i) = dgcn(i,jproj)
-                 qat(i) = dpcn(i,jproj)
-  510          continue
+               do i=1,nrptx
+                  pat(i) = dgcn(i,jproj)
+                  qat(i) = dpcn(i,jproj)
+               enddo
 
 c     normalize pat and qat in the Norman radius sphere: <n|n>=1,
 c     (renormalized atomic sphere method)
      
-               do 520  i = 1, ilast
+               do i = 1, ilast
                   xp(i) = pat(i)**2 + qat(i)**2
                   xq(i) = 0
-  520          continue
+               enddo
 c     nb, xinorm is used for exponent on input to somm 
                xinorm = 2*lfin + 2
                call somm2 (ri, xp, dx, xinorm, rnrm, 0, i0)
 c              call somm (ri, xp, xq, dx, xinorm, 0, jnrm)
       
                xinorm = sqrt(xinorm)
-               do 530 i=1,nrptx
+               do i=1,nrptx
                   pat(i) = pat(i) / xinorm
                   qat(i) = qat(i) / xinorm
-  530          continue
+               enddo
   
 c              calculate overlap integral between f and atomic function
 c              (integral Rl(r)*Psi_at(r)dr from 0 till r') 
@@ -581,27 +585,27 @@ c              intr(i) is that overlap integral. Later it
 c              will be multiplied by pr(i)*Psi_at(r') and integrated 
 c              till Norman radius.
 
-               do 540 i=1,ilast
+               do i=1,ilast
                   var(i)=pat(i)*p(i)+qat(i)*q(i)
 c                 factor of 2 -integration r< r>  -->2 r r'
-  540          continue
+               enddo
 
 c              integration by trapezoid method
                intr(1)=var(1)*ri(1)
-               do 550 i=2,ilast
+               do i=2,ilast
                   intr(i)=intr(i-1)+ (var(i)+var(i-1))*(ri(i)-ri(i-1))
-  550          continue 
+               enddo
 
 
 c         now calculate rho_projected - xrhopr
                temp = (2*lfin+1.0d0) / (1+factor**2) /pi *4*ck /hart
 c              temp = abs(ikap) / (1+factor**2) /pi *4*ck /hart
-               do 560  i = 1, ilast
-                 xrc(i) = pn(i)*pat(i)*intr(i)+ 
-     1                    qn(i)*qat(i)*intr(i)
-                 xrc(i) = xrc(i) - coni*(p(i)*pat(i)*intr(i) + 
-     1                    q(i)*qat(i)*intr(i))
-  560          continue
+               do i = 1, ilast
+                  xrc(i) = pn(i)*pat(i)*intr(i)+ 
+     1                 qn(i)*qat(i)*intr(i)
+                  xrc(i) = xrc(i) - coni*(p(i)*pat(i)*intr(i) + 
+     1                 q(i)*qat(i)*intr(i))
+               enddo
 
                xirf =  1
                call csomm2 (ri, xrc, dx, xirf, rnrm, i0)
@@ -677,8 +681,9 @@ c         put complex sqrt(prefactor) into reduced matrix elements rkk
 c         guarantee that we have the right root
           if (dimag(ck) .lt. 0) ck = -ck
 c         add central atom phase shift here. 
-          do 360 kdif = 1 , 8
- 360      rkk(ie,kdif)= rkk(ie,kdif) * ck/xnorm * exp(coni*phx(kdif))
+          do kdif = 1 , 8
+             rkk(ie,kdif)= rkk(ie,kdif) * ck/xnorm * exp(coni*phx(kdif))
+          enddo
         endif
  400  continue
 c     end of energy cycle
@@ -689,27 +694,27 @@ c     Josh END
 
       if (ipr2.ge.3) then
 c       calculate mu_0/rho_0 for XMCD normalization.
-        do 410 ie=1,ne
+        do ie=1,ne
            chia(ie) = 0
-  410   continue
+        enddo
         vrcorr = 0
         vicorr = 0
         call xscorr(1, em, ne1, ne, ik0, xrhoce,xsnorm,chia,
      1     vrcorr, vicorr, cchi)
-        do 420 ie = 1, ne1
+        do ie = 1, ne1
             xrhoce(ie)  = coni* dimag(xrhoce(ie)+cchi(ie))
-  420   continue
+         enddo
         call xscorr(1, em, ne1, ne, ik0, xrhopr,xsnorm,chia,
      1     vrcorr, vicorr, cchi)
-        do 425 ie = 1, ne1
-            xrhopr(ie)  = coni* dimag(xrhopr(ie)+cchi(ie))
-  425   continue    
+        do ie = 1, ne1
+           xrhopr(ie)  = coni* dimag(xrhopr(ie)+cchi(ie))
+        enddo
         call xscorr(1, em, ne1, ne, ik0, xsec,xsnorm,chia,
      1     vrcorr, vicorr, cchi)
-        do 430 ie = 1, ne1
-            cchi(ie)  = coni* dimag(xsec(ie)+cchi(ie))
-  430   continue
-
+        do ie = 1, ne1
+           cchi(ie)  = coni* dimag(xsec(ie)+cchi(ie))
+        enddo
+        
         open(unit=3,file='ratio.dat',status='unknown', iostat=ios)
         open(unit=4,file='ratiop.dat',status='unknown', iostat=ios)
 c       normalize to xsec at 50 ev above edge
@@ -726,7 +731,7 @@ c       normalize to xsec at 50 ev above edge
   455   format ('#   Energy      rho_proj      mu_0      rho_proj/mu_0',
      1   '    mu_deloc ')
 
-        do 470 ie=1,ne1 
+        do ie=1,ne1 
            if (dimag(cchi(ie)).eq.0.d0 .and. ie.lt.ik0) then
               cchi(ie)=cchi(ik0)
               xrhoce(ie)=xrhoce(ik0)
@@ -747,7 +752,7 @@ c     also write contribution to mu_0 from delocalized states defined as
 c     (rho-rho_proj)/ratio 
   465      format(f12.6, 2x, e12.6,2x,e12.6,2x,e12.6,1x,e12.6,2x,e12.6)    
       
-  470   continue    
+        enddo
         close(unit=3)
         close(unit=4)
       endif 

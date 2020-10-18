@@ -74,9 +74,9 @@ c      so besjn should be declared  external
          external besjn
 c#mn}
 
-      do 5 i=1,MxPole
+      do i=1,MxPole
          WpCorr(1) = -1.d30
- 5    continue
+      enddo
 
 
       clz = 0.d0
@@ -84,12 +84,12 @@ c#mn}
 c     zero phase shifts (some may not be set below)
       xkmax = 0
       ne12 = ne - ne3
-      do 100  ie = 1, ne
-         do 90  il = -ltot, ltot
+      do ie = 1, ne
+         do il = -ltot, ltot
             ph(ie,il) = 0
-   90    continue
+         enddo
          if (ie.le.ne12 .and. xkmax.lt.dble(em(ie))) xkmax= dble(em(ie))
-  100 continue
+      enddo
       xkmax = sqrt(xkmax * 2)
 
 c     Use kmax to find accurate l-points
@@ -225,10 +225,10 @@ c OPC for U for LS coupling
             if (abs(ll).eq.3 .and. iph.eq.1 .and. ispin.eq.1) then
                clz = -0.0d0 / hart
                if (ikap.lt.0) clz = -clz
-               do 180 i = 1, jri
+               do i = 1, jri
                   v(i) = v(i) + clz
                   vval(i) = vval(i) + clz
- 180           continue
+               enddo
             endif
 
 c           never use irr=0, only positive or negative
@@ -263,8 +263,9 @@ c     Josh - Close sigma.dat
       close(45)
 c     Josh END
 
-      do 230 ie = ne12+1, ne
-  230 eref(ie) = eref(ne1)
+      do ie = ne12+1, ne
+         eref(ie) = eref(ne1)
+      enddo
 
       return
       end
