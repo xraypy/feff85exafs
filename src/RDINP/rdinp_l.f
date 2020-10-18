@@ -74,14 +74,15 @@ c     initialize local staff
       s02h = 1.0d0
       natt = 0
       nss = 0
-      do 90  iss = 1, nssx
+      do iss = 1, nssx
          indss(iss) = 0
          iphss(iss) = 0
          degss(iss) = 0
          rss(iss) = 0
-  90  continue
-      do 95 iph = 0, nphx
-  95  iatph(iph) = 0
+      enddo
+      do iph = 0, nphx
+         iatph(iph) = 0
+      enddo
 
 c     tokens  0 if not a token
 c             1 if ATOM (ATOMS)
@@ -875,12 +876,12 @@ c     Do not use ihole .le. 0
 c     Find out how many unique potentials we have
 c     in POTENTIAL card
       nph = 0
-      do 300  iph = nphx, 0, -1
+      do iph = nphx, 0, -1
          if (iz(iph) .gt. 0)  then
             nph = iph
             goto 301
          endif
-  300 continue
+      enddo
   301 continue
 
 c     cannot use OVERLAP and ATOMS cards together
@@ -915,7 +916,7 @@ c           central atom is of the iphabs type
 c     No gaps allowed in unique pots.  Make sure we have enough
 c     to overlap all unique pots 0 to nph.
       if (iphabs.gt.0 .and. iatph(0).le.0)   iatph(0) = iatph(iphabs)
-      do 340  iph = 0, nph
+      do iph = 0, nph
          if (iatph(iph) .le. 0  .and.  novr(iph) .le. 0)  then
 c           No model atom, no overlap cards, can't do this unique pot
             write(slog,'(a,i8)') 
@@ -926,16 +927,16 @@ c           No model atom, no overlap cards, can't do this unique pot
          endif
 c        by default freeze f-electrons and reset lmaxsc=2
          if (iunf.eq.0 .and. lmaxsc(iph).gt.2) lmaxsc(iph)=2
-  340 continue
+      enddo
 
 c     Need number of atoms of each unique pot, count them.  If none,
 c     set to one. Do statistics for all atoms in feff.inp.
-      do 350  iph = 0, nph
+      do iph = 0, nph
         if (lxnat.eq.0) then 
           xnatph(iph) = 0
-          do 346  iat = 1, natt
-              if (iphatx(iat) .eq. iph)  xnatph(iph) = xnatph(iph)+1
-  346     continue
+          do iat = 1, natt
+             if (iphatx(iat) .eq. iph)  xnatph(iph) = xnatph(iph)+1
+          enddo
           if (iph.gt.0 .and. iph.eq.iphabs) xnatph(iph) = xnatph(iph)-1
         else
           if (xnatph(iph).le. 0.01) then
@@ -950,16 +951,18 @@ c     set to one. Do statistics for all atoms in feff.inp.
           endif
         endif
         if (xnatph(iph) .le. 0)  xnatph(iph) = 1
-  350 continue
+      enddo
       if (lxnat.ne.0) then
 c        normalize statistics to hav one absorber
-         do 351 iph = 1, nph
-  351    xnatph(iph) = xnatph(iph) /xnatph(0)
+         do iph = 1, nph
+            xnatph(iph) = xnatph(iph) /xnatph(0)
+         enddo
          xnatph(0) = 1
       endif
       xnat = 0
-      do 352 iph = 0,nph
-  352 xnat = xnat + xnatph(iph)
+      do iph = 0,nph
+         xnat = xnat + xnatph(iph)
+      enddo
 
 c     Find distance to nearest and most distant atom (use overlap card
 c     if no atoms specified.)
@@ -974,16 +977,16 @@ c     if no atoms specified.)
          if (iatabs.le.0) iatabs = iatph( iphabs)
          if (iatabs.le.0) call par_stop('RDINP fatal error: iatabs=NaN')
 
-         do 412  iat = 1, natt
-           if (iphatx(iat) .eq. iphabs .or. iphatx(iat).eq.0)
-     1        icount = icount +1
-           if (iat.ne.iatabs) then
+         do iat = 1, natt
+            if (iphatx(iat) .eq. iphabs .or. iphatx(iat).eq.0)
+     1           icount = icount +1
+            if (iat.ne.iatabs) then
 c           skip absorbing atom
-            tmp = dist (ratx(1,iat), ratx(1,iatabs))
-            if (tmp .gt. ratmax)  ratmax = tmp
-            if (tmp .lt. ratmin)  ratmin = tmp
-           endif
-  412    continue
+               tmp = dist (ratx(1,iat), ratx(1,iatabs))
+               if (tmp .gt. ratmax)  ratmax = tmp
+               if (tmp .lt. ratmin)  ratmin = tmp
+            endif
+         enddo
          if (nabs.le.0) nabs = icount
       endif
 
@@ -1017,20 +1020,20 @@ c     rmax is for pathfinder, so leave it in Ang.
       rfms2 = rfms2 * rmult 
       totvol = totvol * rmult**3
 c     Use rmult factor.  Leave distances in Ang.
-      do 430  iat = 1, natt
-         do 420  i = 1, 3
+      do iat = 1, natt
+         do i = 1, 3
             ratx(i,iat) = ratx(i,iat) * rmult
-  420    continue
-  430 continue
-      do 460  iph = 0, nph
-         do 450  iovr = 1, novr(iph)
+         enddo
+      enddo
+      do iph = 0, nph
+         do iovr = 1, novr(iph)
             rovr(iovr,iph) = rovr(iovr,iph) * rmult
-  450    continue
-  460 continue
-      do 462  iss = 1, nss
+         enddo
+      enddo
+      do iss = 1, nss
 c        rss used only to make paths.dat, so leave it in Angstroms.
          rss(iss) = rss(iss) * rmult
-  462 continue
+      enddo
 
 c     Clean up control flags
       if (mpot .ne. 0)  mpot = 1
@@ -1048,23 +1051,24 @@ c       Overalp geometry
         ms = 0
 c       no SCF loop
         nscmt = 0
-        do 464 iph = 0, nph
-          if (novr(iph).le.0) call par_stop('Bad OVERLAP cards.')
-  464   continue
+        do iph = 0, nph
+           if (novr(iph).le.0) call par_stop('Bad OVERLAP cards.')
+        enddo
       endif
 
       if (iafolp .ge. 0) then
-         do 485 i = 0, nphx
-  485    folp(i) = folpx
+         do i = 0, nphx
+            folp(i) = folpx
+         enddo
       endif
 
       if (ntitle .le. 0)  then
          ntitle = 1
          title(1) = 'Null title'
       endif
-      do 490  i = 1, ntitle
+      do i = 1, ntitle
          ltit(i) = istrln (title(i))
-  490 continue
+      enddo
       nttl = ntitle
 
 c     write atoms.dat, global.inp, modN.inp and ldos.inp
@@ -1076,16 +1080,16 @@ c     without invoking the pathfinder. Single scattering paths only.
       if (nss .gt. 0  .and.  mpath .eq. 1)  then
          open (unit=1, file='paths.dat', status='unknown', iostat=ios)
          call chopen (ios, 'paths.dat', 'rdinp')
-         do 750  i = 1, ntitle
+         do i = 1, ntitle
             write(1,748)  title(i)(1:ltit(i))
   748       format (1x, a)
-  750    continue
+         enddo
          write(1,751)
   751    format (' Single scattering paths from ss lines cards',
      1           ' in feff input')
          write(1,706)
   706    format (1x, 71('-'))
-         do 760  iss = 1, nss
+         do iss = 1, nss
             if (rmax.le.0  .or.  rss(iss).le.rmax)  then
 c              NB, rmax and rss are in angstroms
                write(1,752) indss(iss), 2, degss(iss),
@@ -1100,13 +1104,13 @@ c              NB, rmax and rss are in angstroms
   753          format (3f12.6, i4,  1x, '''', a6, '''', '  x,y,z,ipot')
   754          format (3f12.6, i4,  1x, '''', a6, '''')
             endif
-  760    continue
+         enddo
          close (unit=1)
       endif
 
-      do 120  i = 1, ntitle
+      do i = 1, ntitle
          call wlog(' ' // title(i)(1:ltit(i)))
-  120 continue
+      enddo
 
 c     if user does not want geom.dat, don't do it
       if (nogeom)  then

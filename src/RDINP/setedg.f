@@ -15,8 +15,9 @@
      6            '24','25','26','27','28','29' /
 
       ihole  = -1
-      do 10 i = 0,29
-  10     if (a2 .eq. edglbl(i) .or. a2 .eq. edglbp(i) ) ihole  = i
+      do i = 0,29
+         if (a2 .eq. edglbl(i) .or. a2 .eq. edglbp(i) ) ihole  = i
+      enddo
       if (ihole  .lt. 0) call par_stop('unknown EDGE')
 
       return

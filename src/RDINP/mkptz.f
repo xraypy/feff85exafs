@@ -58,8 +58,9 @@ c         leave only E1 contribution
 c         for polarization average of circular dichroizm
           if (ispin.ne.0) then
 c           spin-dependent case
-            do 10 i = 1,3
-  10        xivec(i) = spvec(i)
+            do i = 1,3
+               xivec(i) = spvec(i)
+            enddo
             rr = xivec(1)**2 + xivec(2)**2 + xivec(3)**2
           endif
         endif
@@ -84,8 +85,9 @@ c            rotation is defined by angles theta and fi
              snf = xivec(2) / rr
            endif
 c          rotate all vectors
-           do 20 i = 1, nat
- 20        call rotate (rat(1,i), cst, snt, csf, snf)
+           do i = 1, nat
+              call rotate (rat(1,i), cst, snt, csf, snf)
+           enddo
            call rotate (evec, cst, snt, csf, snf)
            call rotate (xivec, cst, snt, csf, snf)
            call rotate (spvec, cst, snt, csf, snf)
@@ -94,14 +96,17 @@ c          rotate all vectors
 
 
 c     initialize ptz
-      do 30 i=-1,1
-      do 30 j=-1,1
- 30   ptz(j,i) = 0
+      do i=-1,1
+         do j=-1,1
+            ptz(j,i) = 0
+         enddo
+      enddo
 
 c     make ptz in the frame when z is along xivec, except ipol=0
       if (ipol .eq. 0) then
-         do 40 i=-1,1
- 40      ptz(i,i) = 1.d0 /3.d0
+         do i=-1,1
+            ptz(i,i) = 1.d0 /3.d0
+         enddo
       elseif (ipol .eq. 2) then
          ptz( 1, 1) =  1.d0
          ptz(-1,-1) = -1.d0
@@ -113,15 +118,15 @@ c       Normalize polarization vector
          call wlog(' Correct POLARIZATION card')
          call par_stop('MKPTZ-1')
         endif
-        do 50  i = 1, 3
+        do i = 1, 3
          evec(i) = evec(i) / x
-  50    continue
+      enddo
         x = sqrt (xivec(1)**2 + xivec(2)**2 + xivec(3)**2)
         if (x .gt. 0) then
 c         run elliptical polarization code
-          do 60  i = 1, 3
+          do i = 1, 3
             xivec(i) = xivec(i) / x
-  60      continue
+         enddo
           x = evec(1)*xivec(1)+evec(2)*xivec(2)+evec(3)*xivec(3)
           if (abs(x) .gt. 0.9) then
             call wlog(' polarization')
@@ -145,13 +150,13 @@ c           plane based on two vectors
             call wlog(' Changing polarization vector!')
             call wlog(' Incidence is not normal to polarization.')
             call wlog(' Check your input for errors. Run continues.')
-            do 70  i = 1,3
+            do i = 1,3
               evec(i) = evec(i) - x*xivec(i)
-  70        continue
+           enddo
             x = sqrt (evec(1)**2 + evec(2)**2 + evec(3)**2)
-            do 80   i = 1, 3
+            do i = 1, 3
                evec(i) = evec(i) / x
-  80        continue
+            enddo
           endif
         else
 c         elpty cannot be used with xivec=0
@@ -161,27 +166,28 @@ c         elpty cannot be used with xivec=0
         e2(1) = xivec(2)*evec(3)-xivec(3)*evec(2)
         e2(2) = xivec(3)*evec(1)-xivec(1)*evec(3)
         e2(3) = xivec(1)*evec(2)-xivec(2)*evec(1)
-        do 90   i = 1,3
-          e(i) = (evec(i)+elpty*e2(i)*coni)
-  90    continue 
+        do  i = 1,3
+           e(i) = (evec(i)+elpty*e2(i)*coni)
+       enddo
         eps(-1) =  (e(1)-coni*e(2))/sqrt(2.0)
         eps(0)  =   e(3)
         eps(1)  = -(e(1)+coni*e(2))/sqrt(2.0)
-        do 100  i = 1,3
-          e(i) = (evec(i)-elpty*e2(i)*coni)
-  100   continue 
+        do i = 1,3
+           e(i) = (evec(i)-elpty*e2(i)*coni)
+        enddo
         epc(-1) =  (e(1)-coni*e(2))/sqrt(2.0)
         epc(0)  =   e(3)
         epc(1)  = -(e(1)+coni*e(2))/sqrt(2.0)
-        do 110 i = -1,1
-        do 110 j = -1,1
+        do i = -1,1
+           do j = -1,1
 c         ptz(j,i) = (-1.0)**i * epc(i)*eps(-j) / (1+elpty**2)
 c         above - true polarization tensor for given ellipticity, 
 c         below - average over left and right in order to have
 c         path reversal simmetry
-          ptz(j,i) = ((-1.0)**i)*(epc(i)*eps(-j)+eps(i)*epc(-j))
-     1               /(1+elpty**2)/2.0
-  110   continue
+              ptz(j,i) = ((-1.0)**i)*(epc(i)*eps(-j)+eps(i)*epc(-j))
+     1             /(1+elpty**2)/2.0
+           enddo
+        enddo
       endif
 c     end of making polarization tensor
 
@@ -212,8 +218,9 @@ c            rotation is defined by angles theta and fi
              angks = acos( cst)
            endif
 c          rotate all vectors
-           do 120 i = 1, nat
- 120       call rotate (rat(1,i), cst, snt, csf, snf)
+           do i = 1, nat
+              call rotate (rat(1,i), cst, snt, csf, snf)
+           enddo
            call rotate (evec, cst, snt, csf, snf)
            call rotate (xivec, cst, snt, csf, snf)
          endif
@@ -231,8 +238,9 @@ c     Euler angles: alpha=phi, beta=theta, gamma=0
       temp(1) = vec(1)*cst*csf + vec(2)*cst*snf - vec(3)*snt
       temp(2) = -vec(1)*snf + vec(2)*csf
       temp(3) = vec(1)*csf*snt + vec(2)*snt*snf + vec(3)*cst
-      do 10 i = 1,3
-  10  vec(i) = temp(i)
+      do i = 1,3
+         vec(i) = temp(i)
+      enddo
 
       return
       end

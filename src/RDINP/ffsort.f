@@ -92,7 +92,7 @@ c     or find iabs-th atom in the list of type iphabs (iabs.gt.0)
       iatabs = 0
       icount = 0
       ifound = 0
-      do 305 iat = 1, natt
+      do iat = 1, natt
          if (iphatx(iat) .eq. 0) iphatx(iat) = iphabs
          if (iphatx(iat) .eq. iphabs) icount = icount +1
          if (ifound.eq.0 .and. icount.gt.0 .and. (icount.eq.iabs .or.
@@ -100,7 +100,7 @@ c     or find iabs-th atom in the list of type iphabs (iabs.gt.0)
             iatabs = iat
             ifound =1
          endif
-  305 continue
+      enddo
 
 c     Make several sanity checks
       if (iatabs.eq.0 .and. natt.gt.1) then
@@ -129,7 +129,7 @@ c     Make absorbing atom first in the short list
           
 c     make a smaller list of atoms from a big one
       nat = 1
-      do 309 iat = 1,natt
+      do iat = 1,natt
          if (iat.ne.iatabs) then
             tmp = dist (ratx(1,iat), ratx(1,iatabs))
             if (tmp.gt.0.1 .and. tmp.le.rclabs) then
@@ -149,25 +149,25 @@ c     make a smaller list of atoms from a big one
                index(nat) = iat
             endif
          endif
- 309  continue
+      enddo
 c     sort atoms by distance
-      do 315 iat = 1,nat-1
+      do iat = 1,nat-1
         r2min = rat(1,iat)**2 + rat(2,iat)**2 + rat(3,iat)**2
         imin = iat
-        do 310 i = iat+1,nat
+        do i = iat+1,nat
           r2 = rat(1,i)**2 + rat(2,i)**2 + rat(3,i)**2
           if (r2.lt.r2min) then
             r2min = r2
             imin = i
           endif
- 310    continue
+       enddo
         if (imin.ne.iat) then
 c         permute coordinates for atoms iat and imin
-          do 311 i = 1,3
+          do i = 1,3
             r2 = rat(i,iat)
             rat(i,iat) = rat(i,imin)
             rat(i,imin) = r2
- 311      continue
+         enddo
           i = iphat(iat)
           iphat(iat) = iphat(imin)
           iphat(imin) = i
@@ -175,7 +175,7 @@ c         permute coordinates for atoms iat and imin
           index(iat) = index(imin)
           index(imin) = i
         endif
- 315  enddo
+      enddo
 
 c     rotate xyz frame for the most convinience and make
 c     polarization tensor
@@ -207,14 +207,15 @@ c--json--      close(3)
 
 c     Find model atoms for unique pots that have them
 c     Use atom closest to absorber for model
-      do 316  iph = 1, nphx
- 316  iatph(iph) = 0
+      do iph = 1, nphx
+         iatph(iph) = 0
+      enddo
 c     By construction absorbing atom is first in the list
       iatph(0) = 1
       nph = 0
-      do 330  iph = 1, nphx
+      do iph = 1, nphx
          rabs = big
-         do 320  iat = 2, nat
+         do iat = 2, nat
             if (iph .eq. iphat(iat))  then
                tmp = dist (rat(1,iat), rat(1,1))
                if (tmp .lt. rabs)  then
@@ -223,15 +224,15 @@ c                 this is the closest so far
                   iatph(iph) = iat
                endif
             endif
-  320    continue
+         enddo
          if (iatph(iph).gt.0) nph = iph
-  330 continue
+      enddo
 c     if iatph > 0, a model atom has been found.
 
 c     Check if 2 atoms are closer together than 1.75 bohr (~.93 Ang)
       ratmin = 1.0e20
-      do 480  iat = 1, nat
-         do 470  jat = iat+1, nat
+      do iat = 1, nat
+         do jat = iat+1, nat
             rtmp = dist(rat(1,iat),rat(1,jat))
             if (rtmp .lt. ratmin)  ratmin = rtmp
             if (rtmp .lt. 1.75 * bohr)  then
@@ -247,8 +248,9 @@ c     Check if 2 atoms are closer together than 1.75 bohr (~.93 Ang)
                call wlog(slog)
                call wlog(' Run continues in case you really meant it.')
             endif
-  470    continue
-  480 continue
+         enddo
+      enddo
+      
 
 c--json--c     Write output geom.dat
 c--json--      open (file='geom.dat', unit=3, status='unknown',iostat=ios)

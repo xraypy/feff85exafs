@@ -13,9 +13,9 @@ c     following the suggested by Bruce Ravel subroutine iorini
       include '../RDINP/allinp.h'
 
 c     initialize character string arrays
-      do 10 i=1,nheadx
-        title(i) = ' '
- 10   continue
+      do i=1,nheadx
+         title(i) = ' '
+      enddo
 
 c  initialize integer scalars
       iGrid = 0 ! Josh Kas
@@ -111,7 +111,7 @@ cc initialize logicals
 
 
 c  initialize loops of number of potentials
-      do 110 i=0,nphx
+      do i=0,nphx
         xnatph(i) = dzero
         spinph(i) = dzero
         iz(i) = 0
@@ -121,16 +121,15 @@ c  initialize loops of number of potentials
         lmaxsc(i) = 0
         lmaxph(i) = 0
         potlbl(i) = ' '
- 110  continue
+      enddo
 
-      do 114 i=0,nphx
-         do 112 j=1,novrx
+      do i=0,nphx
+         do j=1,novrx
             iphovr(j,i)=0
             nnovr(j,i)=0
             rovr(j,i)=dzero
- 112     continue
- 114  continue
-
+         enddo
+      enddo
 c  initialize polarization data
       ipol = 0
       ispin = 0
@@ -138,47 +137,48 @@ c  initialize polarization data
       l2lp = 0
       elpty = dzero
       angks = dzero
-      do 130 i=1,3
+      do i=1,3
         evec(i) = dzero
         xivec(i) = dzero
         spvec(i) = dzero
- 130  continue
-      do 150 i=-1,1
-        do 140 j=-1,1
+      enddo
+      do i=-1,1
+        do j=-1,1
           ptz(j,i) = dcmplx(dzero,dzero)
- 140    continue
- 150  continue
+       enddo
+      enddo
 
 c  initialize atom list data
-      do 170 i=1,nattx
- 170  iphatx(i) = -1
+      do i=1,nattx
+         iphatx(i) = -1
+      enddo
 
 c  initialize character strings - Josh Kas
       cfname = 'NULL'
       
-c  initialize EELS variables !KJ 1-06
+c     initialize EELS variables !KJ 1-06
       ebeam=dzero
-        aconv=dzero
-        acoll=dzero
-        nqr=0
-        nqf=0
-        magic=0
-        emagic=dzero
-        eels=0
-        relat=1
-        cross=1
-        aver=0
+      aconv=dzero
+      acoll=dzero
+      nqr=0
+      nqf=0
+      magic=0
+      emagic=dzero
+      eels=0
+      relat=1
+      cross=1
+      aver=0
       thetax=dzero
-        thetay=dzero
-        ipmin=1
-        ipmax=9
-        ipstep=1
-        iinput=1  !5/6
-       spcol=4
+      thetay=dzero
+      ipmin=1
+      ipmax=9
+      ipstep=1
+      iinput=1                  !5/6
+      spcol=4
 c KJ 
 
 c for ABSOLUTE card  !KJ 3-06
-        absolu=0  !KJ 3-06
+      absolu=0                  !KJ 3-06
 
       return
       end

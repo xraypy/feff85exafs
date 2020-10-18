@@ -27,10 +27,10 @@ cc    that will write smaller geom.dat file
         write (3, 35) natt
   35    format ('natx =  ', i7)
         write (3, 10) '    x       y        z       iph  '
-        do 40  iat = 1, natt
-          write(3,36) ratx(1,iat), ratx(2,iat), ratx(3,iat), iphatx(iat)
-  36      format( 3f13.5, i4)
-  40    continue
+        do iat = 1, natt
+           write(3,36) ratx(1,iat), ratx(2,iat),ratx(3,iat),iphatx(iat)
+ 36        format( 3f13.5, i4)
+       enddo
       close(3)
 
 cc    global.inp
@@ -44,14 +44,14 @@ c       global polarization data
         write (3, 50)  ipol, ispin, le2, elpty, angks
   50    format ( 3i5, 2f12.4)
         write (3, 10) 'evec         xivec        spvec'
-        do 60 i = 1,3
-          write (3,30) evec(i), xivec(i), spvec(i)
-  60    continue
+        do i = 1,3
+           write (3,30) evec(i), xivec(i), spvec(i)
+        enddo
         write (3, 10) ' polarization tensor '
-        do 70 i = -1, 1
-          write(3,30) dble(ptz(-1,i)), dimag(ptz(-1,i)), dble(ptz(0,i)),
-     1                dimag(ptz(0,i)),  dble(ptz(1,i)), dimag(ptz(1,i))
-  70    continue
+        do i = -1, 1
+           write(3,30) dble(ptz(-1,i)), dimag(ptz(-1,i)),dble(ptz(0,i)),
+     1          dimag(ptz(0,i)),  dble(ptz(1,i)), dimag(ptz(1,i))
+        enddo
       close(3)
         
 cc    mod1.inp
@@ -62,22 +62,28 @@ cc    mod1.inp
      1  'nmix, nohole, jumprm, inters, nscmt, icoul, lfms1, iunf'
         write(3,20)  nmix, nohole, jumprm, inters, nscmt, icoul, lfms1,
      1   iunf
-        do 110 ititle = 1, ntitle
-  110   write(3,10) title(ititle)
+        do ititle = 1, ntitle
+           write(3,10) title(ititle)
+        enddo
         write(3,10) 'gamach, rgrd, ca1, ecv, totvol, rfms1'
         write(3,30)  gamach, rgrd, ca1, ecv, totvol, rfms1
         write(3,10) ' iz, lmaxsc, xnatph, xion, folp'
   120   format ( 2i5, 4f13.5)
-        do 130 ip = 0, nph
-  130   write(3,120) iz(ip), lmaxsc(ip), xnatph(ip), xion(ip), folp(ip)
+        do ip = 0, nph
+           write(3,120) iz(ip), lmaxsc(ip), xnatph(ip),
+     $          xion(ip), folp(ip)
+        enddo
 c       for OVERLAP option
         write(3,10) 'OVERLAP option: novr(iph)'
         write(3,20) ( novr(iph), iph=0,nph)
         write(3,10) ' iphovr  nnovr rovr '
   140   format ( 2i5, f13.5)
-        do 150 iph = 0, nph
-        do 150 iovr = 1, novr(iph)
-  150   write(3,140) iphovr(iovr, iph), nnovr(iovr,iph), rovr(iovr,iph)
+        do iph = 0, nph
+           do iovr = 1, novr(iph)
+              write(3,140) iphovr(iovr, iph),
+     $             nnovr(iovr,iph), rovr(iovr,iph)
+           enddo
+        enddo
       close(3)
 
 cc    mod2.inp
