@@ -99,7 +99,7 @@
 !
 !     Determine the block size for this environment.
 !
-      NB = ILAENV( 1, 'CGETRF', ' ', M, N, -1, -1 )
+      NB = ILAENV( 1, 'CGETRF', M, N, -1 )
       IF( NB.LE.1 .OR. NB.GE.MIN( M, N ) ) THEN
 !
 !        Use unblocked code.
@@ -1647,7 +1647,7 @@
 !
       END
 
-      INTEGER FUNCTION ILAENV( ISPEC, NAME, OPTS, N1, N2, N3, N4)
+      INTEGER FUNCTION ILAENV( ISPEC, NAME, N1, N2,N4)
 !
 !  -- LAPACK auxiliary routine (version 2.0) --
 !     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -1655,8 +1655,8 @@
 !     September 30, 1994
 !
 !     .. Scalar Arguments ..
-      CHARACTER*( * )    NAME, OPTS
-      INTEGER            ISPEC, N1, N2, N3, N4
+      CHARACTER*( * )    NAME
+      INTEGER            ISPEC, N1, N2, N4
 !     ..
 !
 !  Purpose
@@ -5961,7 +5961,7 @@
 !
 !     Determine the block size for this environment
 !
-      NB = ILAENV( 1, 'ZGBTRF', ' ', M, N, KL, KU )
+      NB = ILAENV( 1, 'ZGBTRF', M, N, KU )
 !
 !     The block size must not exceed the limit set by the size of the
 !     local arrays WORK13 and WORK31.
@@ -6494,7 +6494,7 @@
 !
 !     Determine the block size for this environment.
 !
-      NB = ILAENV( 1, 'ZGETRF', ' ', M, N, -1, -1 )
+      NB = ILAENV( 1, 'ZGETRF', M, N, -1 )
       IF( NB.LE.1 .OR. NB.GE.MIN( M, N ) ) THEN
 !
 !        Use unblocked code.
@@ -7059,7 +7059,7 @@
 !
 !     Determine the block size for this environment.
 !
-      NB = ILAENV( 1, 'DGETRF', ' ', M, N, -1, -1 )
+      NB = ILAENV( 1, 'DGETRF',  M, N, -1 )
       IF( NB.LE.1 .OR. NB.GE.MIN( M, N ) ) THEN
 !
 !        Use unblocked code.
