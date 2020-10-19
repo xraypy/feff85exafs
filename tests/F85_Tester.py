@@ -75,14 +75,14 @@ class Feff85exafsUnitTestGroup(Group):
        feffcount /
     """
 
-    def __init__(self, folder=None, **kws):
+    def __init__(self, folder=None, verbose=True, doplot=False, doscf=False, **kws):
         kwargs = dict(name='Feff85exafs unit test: %s' % folder)
         kwargs.update(kws)
         Group.__init__(self,  **kwargs)
-        self.doplot     = True
-        self.doscf      = False # True = use self-consistency
-        self.verbose    = True  # True = print Feff's screen messages and other screen messages
-        self.feffran    = False # True = Feff calculation has been run
+        self.doplot     = doplot
+        self.doscf      = doscf    # True = use self-consistency
+        self.verbose    = verbose  # True = print Feff's screen messages and other screen messages
+        self.feffran    = False    # True = Feff calculation has been run
         self.count      = 0
         self.feffcount  = 0
         self.datacount  = 0
@@ -304,6 +304,39 @@ class Feff85exafsUnitTestGroup(Group):
                                           ipot=int(words[3]))
                     count+=1
 
+    def compare_path_results(self):
+        """compare all columns of all feffNNNN.dat files and
+        terms of the first 10 available paths
+        
+        """
+        assert self.feffran, "no test results found for %s" % self.folder
+        for path in self.paths:
+            index = int(path[4:8])
+            for part in ('feff', 'amp', 'phase', 'lam',
+                         'phc', 'red_fact', 'rep'):
+                result = self.compare(index, part=part)
+                assert result, "comparison of %s for path %d in %s" % (part, index, self.folder)
+
+        for npath in range(1, 10):
+            basefile = join(self.baseline, 'feff%4.4i.dat' % npath)
+            if not exists(basefile):
+                continue
+            bl = feffpath(join(self.baseline, 'feff%4.4i.dat' % npath))
+            tr = feffpath(join(self.testrun,  'feff%4.4i.dat' % npath))
+            for term in ('edge', 'gam_ch', 'kf', 'mu', 'rs_int', 'vint'):
+                blval = getattr(bl._feffdat, term)
+                trval = getattr(tr._feffdat, term)
+                tdiff = blval - trval
+                assert abs(tdiff) < 2.0e-4, "feff term %s not close enough for %s: %g %g" % (term, self.folder, blval, trval)
+
+        for radius in ('muffintin', 'norman'):
+            bl = self.radii('baseline', radius)
+            tr = self.radii('testrun',  radius)
+            assert bl == tr, "list of %s radii are different for %s" % (radius, self.folder)
+        assert self.s02() == self.s02('baseline'), "s02 calculated incorrectly for %s" % self.folder
+
+        
+        
     def compare(self, nnnn=1, part='feff', use_wrapper=False):
         """
         Compare a feffNNNN.dat file from the testrun with the same file
@@ -626,5 +659,5 @@ def irf(folder=None, **kws):
     utobj.fit()
     return utobj
 
-def registerLarchPlugin(): # must have a function with this name!
-    return ('f85ut', { 'ut': ut, 'ir': ir, 'irc': irc, 'irf': irf })
+#def registerLarchPlugin(): # must have a function with this name!
+#     return ('f85ut', { 'ut': ut, 'ir': ir, 'irc': irc, 'irf': irf })
