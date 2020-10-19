@@ -4,18 +4,8 @@
 import os
 import sys
 from os.path import isfile, isdir, join, exists
-import re
 
-from math import isnan
-
-import nose
-import pytest
-
-import larch
-from larch.xafs import feffpath
-from larch.io import read_ascii
-
-from f85ut import ut
+from F85_Tester import Feff85exafsUnitTestGroup
 
 ALL_FOLDERS = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene',
                'bromoadamantane', 'LCO-para', 'LCO-perp')
@@ -30,10 +20,9 @@ class Feff8Test:
             doscf = envar.lower() in ("yes", "true", "on", "y", "t", "1")
 
         self.folder = folder
-        self.test = ut(folder)
-        self.test.verbose = verbose
-        self.test.doplot = doplot
-        self.test.doscf = doscf
+        self.test = Feff85exafsUnitTestGroup(folder, verbose=verbose,
+                                             doplot=doplot, doscf=doscf)
+
 
     def test_feffrun(self):
         "run feff"
@@ -50,37 +39,9 @@ class Feff8Test:
 
         assert m and self.test.available(1), "feff run on %s (%s) not successful" % (self.folder, scf)
 
-
-    def test_feff(self):
+    def test_feffresults(self):
         """check F_eff for each path"""
-        assert self.test.feffran, "no test results found for %s" % self.folder
-        for path in self.test.paths:
-            index = int(path[4:8])
-            for part in ('feff', 'amp', 'phase',
-                         'lam', 'phc', 'red_fact', 'rep'):
-                result = self.test.compare(index, part=part)
-                assert result, "comparison of %s for path %d in %s" % (part, index, self.folder)
-
-    def test_terms(self):
-        "check various quantities computed by feff"
-        assert self.test.feffran, "no test results found for %s" % self.folder
-        for npath in range(1, 10):
-            basefile = join(self.test.baseline, 'feff%4.4i.dat' % npath)
-            if not exists(basefile):
-                continue
-            bl = feffpath(join(self.test.baseline, 'feff%4.4i.dat' % npath))
-            tr = feffpath(join(self.test.testrun,  'feff%4.4i.dat' % npath))
-            for term in ('edge', 'gam_ch', 'kf', 'mu', 'rs_int', 'vint'):
-                blval = getattr(bl._feffdat, term)
-                trval = getattr(tr._feffdat, term)
-                tdiff = blval - trval
-                assert abs(tdiff) < 2.0e-4, "feff term %s not close enough for %s" % (term, self.folder)
-
-        for radius in ('muffintin', 'norman'):
-            bl = self.test.radii('baseline', radius)
-            tr = self.test.radii('testrun',  radius)
-            assert bl == tr, "list of %s radii are different for %s" % (radius, self.folder)
-        assert self.test.s02() == self.test.s02('baseline'), "s02 calculated incorrectly for %s" % self.folder
+        self.test.compare_path_results()
 
     def test_clean(self):
         """remove the test run"""
@@ -103,7 +64,6 @@ class Feff8Test:
         assert self.test.feffran, "no test results found for %s" % self.folder
 
         test_script = join(self.test.path, self.test.folder+'.py')
-        print("Test " , test_script)
         stat_msg = "statistic %s evaluated inconsistently for %s (%.5f %.5f)"
         param_msg = "%s of fitting parameter %s evaluated inconsistently for %s (%.5f %.5f)"
 
@@ -125,72 +85,17 @@ class Feff8Test:
                     assert close, param_msg % (part, par, self.folder, bl, tr)
 
 
-    @pytest.mark.skip(reason="not testing opconsat")
-    def test_feffrun_opconsat(self):
-        oca_ok = self.test.run_opconsat()
-        assert oca_ok, "opconsat run on %s not successful" % folder
-
-    @pytest.mark.skip(reason="not testing opconsat")
-    def test_opconsat(self):
-        check_skip("not checking opconstat")
-        self.test.run_opconsat()
-        for f in self.tests:
-            pass # check_opconsat(f)
-
 
 ################################################################################
 
-
-def check_opconsat(folder):
-    orig = read_ascii(join(tests[folder].testrun, "..", "opconsat", "baseline", "exc.dat"), labels='a b c d')
-    if not isfile(join(tests[folder].testrun, "exc.dat")):
-        assert False, 'Failed to run opconsat'
-    new  = read_ascii(join(tests[folder].testrun, "exc.dat"), labels='a b c d')
-    rf1  = sum((orig.a - new.a)**2) / sum(orig.a**2)
-    rf2  = sum((orig.b - new.b)**2) / sum(orig.b**2)
-    rf3  = sum((orig.c - new.c)**2) / sum(orig.c**2)
-    rf4  = sum((orig.d - new.d)**2) / sum(orig.d**2)
-    which = []
-    failed = False
-    if isnan(rf1):
-        which.append('1')
-        failed = True
-    if isnan(rf2):
-        which.append('2')
-        failed = True
-    if isnan(rf3):
-        which.append('3')
-        failed = True
-    if isnan(rf4):
-        which.append('4')
-        failed = True
-    if failed:
-        assert False, "columns of exc.dat are not a number: %s" % ', '.join(which)
-
-    which = []
-    failed = False
-    if rf1 < tests[folder].epsfit:
-        which.append('1')
-        failed = True
-    if rf2 < tests[folder].epsfit:
-        which.append('2')
-        failed = True
-    if rf3 < tests[folder].epsfit:
-        which.append('3')
-        failed = True
-    if rf4 < tests[folder].epsfit:
-        which.append('4')
-        failed = True
-    assert failed, "columns of exc.dat are not equal to baseline: %s" % ', '.join(which)
-
 if __name__ == '__main__':
     TEST_FOLDERS = ('Copper', 'NiO', 'Zircon', 'ferrocene', 'LCO-para', 'LCO-perp')
-    # TEST_FOLDERS = ALL_FOLDERS
+    scfopts = (False, True)
     for folder in TEST_FOLDERS:
-        t =  Feff8Test(folder)
-        t.test_feffrun()
-        t.test_feff()
-        t.test_terms()
-        t.test_columns_wrapper()
-        t.test_fit()
-        t.test_clean()
+        for doscf in scfopts:
+            t =  Feff8Test(folder, doscf=doscf)
+            t.test_feffrun()
+            t.test_feffresults()
+            t.test_columns_wrapper()
+            t.test_fit()
+            t.test_clean()
