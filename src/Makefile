@@ -31,7 +31,7 @@ export F90FLAGS = -std=f2008 -c -O2 -fbacktrace -g -Wall -Wextra -Wno-maybe-unin
 ###########################################################################################
 ## gnu tools on linux
 export AR      = ar
-export ARFLAGS = rvc
+export ARFLAGS = -rc
 export RANLIB  = ranlib
 export RM      = rm -f
 export COPY    = cp
