@@ -30,7 +30,6 @@ c     head0 is header from potph.dat, include carriage control
 
       dimension em(nex)
       dimension dgc0(251), dpc0(251)
-      dimension xsec(nex), xsatan(nex)
 
 c     nrx = max number of r points for phase r grid
       parameter (nrx = 250)
@@ -47,9 +46,9 @@ c     Read input from file potph.inp
       nhead0 = nheadx
       call rpotph (1, nhead0, head0, lhead0, nat, nph,
      1             nfr, ihole, gamach, iafolp, intclc,
-     1             ixc, vr0, vi0, rs0, iphat, rat, iatph, ifrph, 
+     1             ixc, vr0, vi0, rs0, iphat, rat, iatph, ifrph,
      1             xnatph, novr,
-     2             iphovr, nnovr, rovr, folp, ion, iz, iprint, 
+     2             iphovr, nnovr, rovr, folp, ion, iz, iprint,
      2             ixanes, nemax, xkmin, xkmax, potlbl)
       close (unit=1)
 
@@ -94,7 +93,7 @@ c        K hole
 
 c     Overlap potentials and densitites
       do 40  iph = 0, nph
-         write(messag,10) 
+         write(messag,10)
      1    'overlapped potential and density for unique potential', iph
          call echo(messag)
          call ovrlp (iph, iphat, rat, iatph, ifrph, novr,
@@ -204,7 +203,7 @@ c     May need stuff for use with headers only
       close (unit=1)
 
 cc
-cc optionally, write phase.pad 
+cc optionally, write phase.pad
 cc
 
       if (do_pad_io) then
@@ -229,7 +228,7 @@ cc
             do 410  l = 1, lmax(iph)+1
                call wrpadx(lun,npack,ph(1,l,iph),ne)
  410        continue
- 420     continue 
+ 420     continue
          close(lun)
       endif
 

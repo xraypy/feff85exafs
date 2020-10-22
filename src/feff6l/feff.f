@@ -11,11 +11,11 @@ c
 
        integer ntitx
        parameter (ntitx = 16)
-       character*128  title(ntitx), tmpstr*32, fname*64
+       character*128  title(ntitx), fname*64
        integer       ltit(ntitx)
 
-       integer ibeta, ipotn, ik0, ipot, ios, ne, ie
-       integer nlegx, nncrit, isporb, ipotnn, i, nlegxx
+       integer ibeta, ik0, ipot, ios, ne, ie
+       integer nncrit, isporb, ipotnn, i, nlegxx
        integer ipr2, ipr3, ipr4,  iorder, icsig
        integer mphase, mpath, mfeff, mchi, ms, ntitle
        double precision s02, tk, thetad, sig2g, critcw
@@ -28,15 +28,15 @@ c     Be careful to always declare these!
       real fbeta(-nbeta:nbeta,0:npotx,nex), cksp(nex)
       real rmax, critpw, pcritk, pcrith
       character*6  potlbl(0:npotx)
-      character*128 inpfil, lfile
+      character*128 inpfil
 
       character*10 shole(0:9)
       character*8 sout(0:6)
 
-      integer istat, il, iox, istrln
+      integer istat, istrln
       external istrln
 
-   10 format (1x, a)
+      
 ccc      vfeff = 'Feff 6L.02'
 
 

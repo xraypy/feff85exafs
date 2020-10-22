@@ -226,7 +226,7 @@ c set &status value
        integer i
        double precision getsca, xc, xi
        xi = i * 1.d0
-       xc = getsca('&status',0)
+       xc = getsca('&status')
        if (xi .gt. xc) call setsca('&status',xi)
        return
        end

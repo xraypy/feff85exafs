@@ -17,7 +17,7 @@ c  write feffNNNN.dat file for NNNN=ipath
       double precision deg, reff, rnrmav, edge, getxk
       double precision rat(3, 0:legtot+1)
       double precision xlam, redfac, phff, phffo, cdelt, cdelto
-      double precision xk(nex), ckmag(nex)
+      double precision xk(nex)
 
       complex*16 ph(nex, ltot+1, 0:npotx)
       complex*16 cchi(nex), ck(nex), cfms
@@ -28,7 +28,6 @@ c  write feffNNNN.dat file for NNNN=ipath
 
       external istrln, getxk
 
- 50   format (a)
  60   format (1x, a)
  70   format (1x, 79('-'))
 

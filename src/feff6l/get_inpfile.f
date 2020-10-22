@@ -10,8 +10,8 @@ c      istat    output status      (integer)   output only
 c        = 0 for success,  = 1 for failure
 
        character*(*) defval, fname
-       integer  n_args, istat, jstat
-       character*512 cl_args(3), f
+       integer  n_args, istat
+       character*512 f
 c
 c g77 version
        istat = 1 

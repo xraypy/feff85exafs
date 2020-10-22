@@ -22,17 +22,16 @@ c     Max number of points on fine k grid for chi output
       dimension xk(nex), cdelta(nex), afeff(nex), phfeff(nex),
      1          redfac(nex), xlam(nex), rep(nex)
 
-      dimension emxs(nex), omega(nex), xkxs(nex), xsec(nex)
-
       complex*16 p2, pp2
       complex*16 ck(nex), dw
       complex*16 cchi(nfinex), ccc, ccpath(nfinex)
 
 c     head is headers from files.dat, hdxs is headers from xsect.bin
       parameter (nheadx = 30)
-      character*80 head(nheadx), hdxs(nheadx)
-      dimension lhead(nheadx), lhdxs(nheadx)
-
+      character*80 head(nheadx)
+      dimension lhead(nheadx)
+      double precision xkmin
+      integer nkx
       parameter (nlegx = 10)
       dimension rat(3,0:nlegx), iz(0:nlegx)
 
@@ -52,6 +51,7 @@ c     NB: code units for this module are Ang, Ang**-1, eV, etc.
       vrcorr = vrcorr * ryd
       vicorr = vicorr * ryd
 
+      nkx = nfinex
       do 22  i = 1, nfinex
          cchi(i) = 0
    22 continue
@@ -270,17 +270,16 @@ c        make sure no 2pi jumps in phase
             call pijump (achix(i), achix(i-1))
   310    continue
 
-c        Decide on fine grid -- need k' if vrcorr /= 0
+c     Decide on fine grid -- need k' if vrcorr /= 0
+c     assyum unmodified grid
+         xkmin = xk(1)
          if (abs(vrcorr) .gt. eps4)  then
             xkpmin = xk2xkp (xk(1), vrcorr)
-            n = xkpmin / delk
+            n = int(xkpmin / delk)
 c           need 1st int ABOVE xkpmin/delk
             if (xkpmin .gt. 0)  n = n+1
 c           First k grid point moved by vrcorr
             xkmin = n * delk
-         else
-c           Use unmodified grid
-            xkmin = xk(1)
          endif
 
 c        sum chi on fine k grid

@@ -18,9 +18,10 @@ c **********************************************************************
      1 *dep(2)+2774.0*dep(4)))
       dqr=dq+dm*((251.0*deq(1)+2616.0*deq(3)+1901.0*deq(5))-(1274.0
      1 *deq(2)+2774.0*deq(4)))
-      do 10 i=2,5
-      dep(i-1)=dep(i)
-   10 deq(i-1)=deq(i)
+      do i=2,5
+         dep(i-1)=dep(i)
+         deq(i-1)=deq(i)
+      enddo
       dsum=(db-dv/dvc)*dr
       dep(5)=-dk*dpr+(dsal*dr+dsum)*dqr
       deq(5)=dk*dqr-dsum*dpr

@@ -60,8 +60,8 @@ c            which makes special code unnecessary later.
       ntot = 0
 
       sigtot=0
-      do 800 il=1,nleg
-      do 800 jl=il,nleg
+      do il=1,nleg
+      do jl=il,nleg
 
 c        calculate r_i-r_i-1 and r_j-r_j-1
 
@@ -94,7 +94,8 @@ c        double count i .ne. j  terms
          sig2ij=sig2ij*ridotj
          sigtot=sigtot+sig2ij
 
-  800 continue
+      enddo
+      enddo
       sig2=sigtot/4
 
 c     sig2 is in bohr**2, just as we wanted for ff2chi
@@ -205,9 +206,10 @@ c     b_n+1=(b_n)/2+deln*sum_0^2**n f([2n-1]deln)
       if(n.gt.nmax) go to 40
       del=del/2
       sum=0.
-      do 20 i=1, itn
-      zi=(2*i-1)*del
- 20   sum=sum+fn(zi)
+      do i=1, itn
+         zi=(2*i-1)*del
+         sum=sum+fn(zi)
+      enddo
 c     bnp1=b_n+1 is current value of integral
       bnp1=bn/2+del*sum
 c     cancel leading error terms b=[4b-bn]/3

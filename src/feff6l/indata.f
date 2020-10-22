@@ -312,20 +312,21 @@ c     End of block above
 
 
       if (norb .ne. 1)  then
-         do 620 i=2,norb
+         do i=2,norb
             k=i-1
-            do 620 j=1,k
-            if (nqn(i).eq.nqn(j)  .and. nk(i).eq.nk(j))   then
-               write(messag,610)
-               call echo(messag)
-               if (iprint .ge. 5)  write(16,610)
-  610          format (' standard configuration')
-               goto 999
-            endif
-  620    continue
+            do j=1,k
+               if (nqn(i).eq.nqn(j)  .and. nk(i).eq.nk(j))   then
+                  write(messag,610)
+                  call echo(messag)
+                  if (iprint .ge. 5)  write(16,610)
+ 610              format (' standard configuration')
+                  goto 999
+               endif
+            enddo
+         enddo
       endif
 
-  630 iz1=iz
+      iz1=iz
       ion1=ion
       nuc1=nuc
       do 660 i=1,norb

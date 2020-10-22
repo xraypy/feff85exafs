@@ -17,7 +17,7 @@ c     atsym(iz)  character*2 fn, returns atomic symbol
       double precision weight
       save /atwtco/
       common /atwtco/ weight(103)
-      atwts = weight(iz)
+      atwts = real(weight(iz))
       return
       end
 

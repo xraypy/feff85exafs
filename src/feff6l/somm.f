@@ -12,22 +12,25 @@ c **********************************************************************
       d1=da+mm
       da=0.0
       db=0.0
-      do 70 i=1,np
-      dl=dr(i)**mm
-      if (i.eq.1.or.i.eq.np) go to 10
-      dl=dl+dl
-      if ((i-2*(i/2)).eq.0) dl=dl+dl
-   10 dc=dp(i)*dl
-      if (dc) 20,40,30
-   20 db=db+dc
-      go to 40
-   30 da=da+dc
-   40 dc=dq(i)*dl
-      if (dc) 50,70,60
-   50 db=db+dc
-      go to 70
-   60 da=da+dc
-   70 continue
+      do i=1,np
+         dl=dr(i)**mm
+         if (i.ne.1.and.i.ne.np) then
+            dl=dl+dl
+            if ((i-2*(i/2)).eq.0) dl=dl+dl
+         endif
+         dc=dp(i)*dl
+         if (dc.lt.0) then
+            db=db+dc
+         elseif(dc.gt.0) then
+            da=da+dc
+         endif
+         dc=dq(i)*dl
+         if (dc.lt.0) then
+            db=db+dc
+         elseif (dc.gt.0) then
+            da=da+dc
+         endif
+      enddo
       da=dpas*(da+db)/3.0
       dc=exp(dpas)-1.0
       db=d1*(d1+1.0)*dc*exp((d1-1.0)*dpas)

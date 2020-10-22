@@ -21,6 +21,6 @@ c     index of grid point immediately below postion r
       parameter (delta = 0.050 000 000 000 000)
       parameter (c88   = 8.800 000 000 000 000)
 c     ii = (log(r) + 8.8) / 0.05 + 1
-      ii = (log(r) + c88) / delta + 1
+      ii = int((log(r) + c88) / delta + 1)
       return
       end

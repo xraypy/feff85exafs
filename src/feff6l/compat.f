@@ -63,10 +63,10 @@ c
        return
        end
 
-       double precision function getsca(str,iwarn)
+       double precision function getsca(str)
        implicit none
        character*(*) str
-       integer i, ilen, istrln, iwarn
+       integer i, ilen, istrln
 
        include 'compat.h'
        external istrln

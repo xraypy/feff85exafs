@@ -3,7 +3,7 @@ c     modified desclaux code -- partially translated from the french
 c
 c     modified by: r. c. albers (from previously modified code from
 c                  j. e. muller who in turn got it from the danes)
-c                  j. j. rehr and s. i. zabinsky for inclusion in feff 
+c                  j. j. rehr and s. i. zabinsky for inclusion in feff
 c
 c     special features:  renormalizes charge density at wigner-seitz
 c                        radius
@@ -117,11 +117,12 @@ c        call head (16)
 
       call indata (iz, ihole, rws, ionin)
       iter=1
-      do 30 i=1,np
-      do 30 j=1,norb
-         dgc(i,j)=0.0
-         dpc(i,j)=0.0
-   30 continue
+      do i=1,np
+         do j=1,norb
+            dgc(i,j)=0.0
+            dpc(i,j)=0.0
+         enddo
+      enddo
 
       if (iprint .ge. 3)  write(16,40) ttl
    40 format (1h1,40x,a40)
@@ -153,7 +154,7 @@ c resolution of the dirac equation for each orbital
   110    val=abs((den(j)-de)/de)
          if (val.gt.emax) emax=val
          nmax(j)=imax
-         do 140 i=1,np
+         do i=1,np
             val=dgc(i,j)-dp(i)
             if (abs(dp(i)).gt.1.0) val=val/dp(i)
             if (abs(val).lt.abs(ymax)) go to 120
@@ -168,7 +169,8 @@ c resolution of the dirac equation for each orbital
                yn=dpc(i,j)
   130       dgc(i,j)=dp(i)
             dpc(i,j)=dq(i)
-  140    d(i)=d(i)+nel(j)*(dp(i)*dp(i)+dq(i)*dq(i))
+            d(i)=d(i)+nel(j)*(dp(i)*dp(i)+dq(i)*dq(i))
+         enddo
   150 continue
 
 c     dgc and dpc are set in loop above, only referenced in remainder
@@ -187,8 +189,9 @@ c                     dpc0 is small
 c  This is case mark .ne. 0
 c  d is the core electron density resulting from the renormalized pot.
       dval=0.0
-      do 160 j=1,norb
-  160    dval=dval+nel(j)*den(j)
+      do j=1,norb
+         dval=dval+nel(j)*den(j)
+      enddo
 
       dval=dval*2.0
 c jm-- core charge density commented away in unit 6 appears in unit 3--
@@ -252,18 +255,20 @@ c potential for the following iteration
       if (iter.eq.2) go to 350
       if (iprat) 350,390,350
   350 dval=1.0-dcop
-      do 360 i=1,np
-      dvn(i)=dv(i)
-      dvf(i)=dc(i)
-  360 dv(i)=dval*dv(i)+dcop*dc(i)
+      do i=1,np
+         dvn(i)=dv(i)
+         dvf(i)=dc(i)
+         dv(i)=dval*dv(i)+dcop*dc(i)
+      enddo
       go to 60
 
   390 continue
-      do 400 i=1,np
-      dval=dalp(dvn(i),dvf(i),dv(i),dc(i))
-      dvn(i)=dv(i)
-      dvf(i)=dc(i)
-  400 dv(i)=dval*dv(i)+(1.0-dval)*dc(i)
+      do i=1,np
+         dval=dalp(dvn(i),dvf(i),dv(i),dc(i))
+         dvn(i)=dv(i)
+         dvf(i)=dc(i)
+         dv(i)=dval*dv(i)+(1.0-dval)*dc(i)
+      enddo
       go to 60
 
   430 if (iprint .ge. 3)  write(16,40) ttl
@@ -272,52 +277,60 @@ c potential for the following iteration
      1 13x,'(r-3)'/)
 
 c valeurs moyennes de r
-      do 470 i=1,np
-      dvf(i)=dc(i)
-  470 dq(i)=0.0
+      do i=1,np
+         dvf(i)=dc(i)
+         dq(i)=0.0
+      enddo
       dval=0.0
-      do 560 i=1,norb
-      im=nmax(i)
-      dval=dval+nel(i)*den(i)
-      do 480 j=1,im
-  480 dc(j)=dgc(j,i)*dgc(j,i)+dpc(j,i)*dpc(j,i)
-      l=5
-      if (iabs(nk(i)).eq.1) l=l-1
-      do 550 j=1,l
-      dp(j)=dfl(i)+dfl(i)
-      if (j-2) 490,500,510
-  490 n=4
-      go to 550
-  500 n=2
-      go to 550
-  510 if (j-4) 520,530,540
-  520 n=1
-      go to 550
-  530 n=-1
-      go to 550
-  540 n=-3
-  550 call somm (dr,dc,dq,dpas,dp(j),n,im)
-  560 if (iprint .ge. 3)  write(16,570) nqn(i),titre(i),
-     1                                   den(i),(dp(j),j=1,l)
+      do i=1,norb
+         im=nmax(i)
+         dval=dval+nel(i)*den(i)
+         do j=1,im
+            dc(j)=dgc(j,i)*dgc(j,i)+dpc(j,i)*dpc(j,i)
+         enddo
+         l=5
+         if (iabs(nk(i)).eq.1) l=l-1
+         do j=1,l
+            dp(j)=dfl(i)+dfl(i)
+            if (j-2) 490,500,510
+ 490        n=4
+            go to 550
+ 500        n=2
+            go to 550
+ 510        if (j-4) 520,530,540
+ 520        n=1
+            go to 550
+ 530        n=-1
+            go to 550
+ 540        n=-3
+ 550        call somm (dr,dc,dq,dpas,dp(j),n,im)
+         enddo
+         if (iprint .ge. 3)  write(16,570) nqn(i),titre(i),
+     1        den(i),(dp(j),j=1,l)
+      enddo
   570 format (i3,a2,6(1pe18.7))
 
       if (dexv.eq.0.0) go to 650
 
 c energie totale en moyenne spherique
-      do 580 i=1,norb
-  580 tden(i)=-2.0*den(i)
-
+      do i=1,norb
+         tden(i)=-2.0*den(i)
+      enddo
       dc(1)=1
-      do 600 i=1,np
-  600 dp(i)=d(i)/dr(i)
+      do i=1,np
+         dp(i)=d(i)/dr(i)
+      enddo
       if (nuc.le.0) go to 620
-      do 610 i=1,nuc
-  610 dp(i)=d(i)*(3.0-dr(i)*dr(i)/(dr(nuc)*dr(nuc)))/(dr(nuc)+dr(nuc))
+      do i=1,nuc
+         dp(i)=d(i)*(3.0-dr(i)*dr(i)/(dr(nuc)*dr(nuc)))/
+     $        (dr(nuc)+dr(nuc))
+      enddo
       dc(1)=4
   620 call somm (dr,dp,dq,dpas,dc(1),0,np)
-      do 630 i=1,np
-      dp(i)=d(i)*dvf(i)
-  630 d(i)=d(i)*((d(i)*dr(i))**(1.0/3.0))
+      do i=1,np
+         dp(i)=d(i)*dvf(i)
+         d(i)=d(i)*((d(i)*dr(i))**(1.0/3.0))
+      enddo
       dc(2)=3
       dc(3)=1
       if (nuc.ne.0) dc(3)=4
@@ -346,29 +359,32 @@ c     rydberg units)
   670 format (1h0,47x,'overlap integrals         '/)
 
 c overlap integrals
-      do 700 i=2,norb
-      k=i-1
-      do 700 j=1,k
-      if (nql(i).ne.nql(j).or.nk(i).ne.nk(j)) go to 700
-      im=nmax(j)
-      if (nmax(i).lt.im) im=nmax(i)
-      do 680 l=1,im
-      dq(l)=dpc(l,i)*dpc(l,j)
-  680 dc(l)=dgc(l,i)*dgc(l,j)
-      dval=dfl(i)+dfl(j)
-      call somm (dr,dc,dq,dpas,dval,0,im)
-      if (iprint .ge. 3)  write(16,690) nqn(i),titre(i),
-     1                                   nqn(j),titre(j),dval
-  690 format (34x,i1,a2,i3,a2,f19.7)
-  700 continue
+      do i=2,norb
+         k=i-1
+         do j=1,k
+            if (nql(i).ne.nql(j).or.nk(i).ne.nk(j)) go to 700
+            im=nmax(j)
+            if (nmax(i).lt.im) im=nmax(i)
+            do  l=1,im
+               dq(l)=dpc(l,i)*dpc(l,j)
+               dc(l)=dgc(l,i)*dgc(l,j)
+            enddo
+            dval=dfl(i)+dfl(j)
+            call somm (dr,dc,dq,dpas,dval,0,im)
+            if (iprint .ge. 3)  write(16,690) nqn(i),titre(i),
+     1           nqn(j),titre(j),dval
+ 690        format (34x,i1,a2,i3,a2,f19.7)
+ 700        continue
+         enddo
+      enddo
   710 call cdsld
-
 
       if (irnorm.eq.1) then
          call renorm (dexv, vcoul, srho)
       endif
-      do 720 i=1,np
-  720 dc(i)=harryd*dv(i)*dr(i)**2
+      do i=1,np
+         dc(i)=harryd*dv(i)*dr(i)**2
+      enddo
       if (irnorm.ne.1) call fstop(' at ATOM-0')
       norb=norbco
       if (norbco.eq.0) go to 750

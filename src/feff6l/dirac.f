@@ -70,16 +70,17 @@ c     nstop=45
 c the expansion at the origin does not converge
 c **********************************************************************
    90 nd=1
-      do 110 i=1,5
-      dval=dr(i)**dfl
-      if (i.eq.1) go to 100
-      if (dp(i-1).eq.0.0) go to 100
-      if ((dp(i)/dp(i-1)).gt.0.0) go to 100
-      nd=nd+1
-  100 dp(i)=dp(i)*dval
-      dq(i)=dq(i)*dval
-      dep(i)=dep(i)*dval
-  110 deq(i)=deq(i)*dval
+      do i=1,5
+         dval=dr(i)**dfl
+         if (i.eq.1) go to 100
+         if (dp(i-1).eq.0.0) go to 100
+         if ((dp(i)/dp(i-1)).gt.0.0) go to 100
+         nd=nd+1
+ 100     dp(i)=dp(i)*dval
+         dq(i)=dq(i)*dval
+         dep(i)=dep(i)*dval
+         deq(i)=deq(i)*dval
+      enddo
       k=-1+2*(noeud-2*(noeud/2))
       if ((dp(1)*k).gt.0.0) go to 130
   120 nstop=53
@@ -117,27 +118,29 @@ c **********************************************************************
   160 dqm=dq(imat)
       dpm=dp(imat)
       if (imm.eq.1) go to 180
-      do 170 i=1,np,2
-      imax=np+1-i
-      if(((dv(imax)-de)*dr(imax)*dr(imax)).le.300.0) go to 180
-  170 continue
+      do i=1,np,2
+         imax=np+1-i
+         if(((dv(imax)-de)*dr(imax)*dr(imax)).le.300.0) go to 180
+      enddo
   180 dd=sqrt(-de*(2.0+db/dvc))
       dpq=-dd/(dsal+db)
       dm=-dm
-      do 190 i=1,5
-      j=imax+1-i
-      dp(j)=exp(-dd*dr(j))
-      dep(i)=-dd*dp(j)*dr(j)
-      dq(j)=dpq*dp(j)
-  190 deq(i)=dpq*dep(i)
+      do i=1,5
+         j=imax+1-i
+         dp(j)=exp(-dd*dr(j))
+         dep(i)=-dd*dp(j)*dr(j)
+         dq(j)=dpq*dp(j)
+         deq(i)=dpq*dep(i)
+      enddo
       m=imax-5
 c inward integration
 c***********************************************************************
-      do 200 i=imat,m
-      j=m+imat-i
-      dp(j)=dp(j+1)
-      dq(j)=dq(j+1)
-  200 call inth (dp(j),dq(j),dv(j),dr(j))
+      do i=imat,m
+         j=m+imat-i
+         dp(j)=dp(j+1)
+         dq(j)=dq(j+1)
+         call inth (dp(j),dq(j),dv(j),dr(j))
+      enddo
 c joining of the large components
 c **********************************************************************
       dval=dpm/dp(imat)
@@ -146,15 +149,17 @@ c **********************************************************************
 c error in the sign of the large component
 c **********************************************************************
       return
-  210 do 220 i=imat,imax
-      dp(i)=dp(i)*dval
-  220 dq(i)=dq(i)*dval
+  210 do i=imat,imax
+         dp(i)=dp(i)*dval
+         dq(i)=dq(i)*dval
+      enddo
 c calculation of the norm
 c **********************************************************************
       dsum=3.0*dr(1)*(dp(1)**2+dq(1)**2)/(dpas*(dfl+dfl+1.0))
-      do 230 i=3,imax,2
-  230 dsum=dsum+dr(i)*(dp(i)**2+dq(i)**2)+4.0*dr(i-1)*(dp(i-1)**2+dq(i-
-     1 1)**2)+dr(i-2)*(dp(i-2)**2+dq(i-2)**2)
+      do i=3,imax,2
+         dsum=dsum+dr(i)*(dp(i)**2+dq(i)**2)+4.0*dr(i-1)*(dp(i-1)**2+
+     $        dq(i-1)**2)+dr(i-2)*(dp(i-2)**2+dq(i-2)**2)
+      enddo
       dsum=dpas*(dsum+dr(imat)*(dqm*dqm-dq(imat)*dq(imat)))*0.3333333333
      1 333333
 c modification of the energy
@@ -182,17 +187,20 @@ c **********************************************************************
       return
   260 dsum=sqrt(dsum)
       dq1=dq1/dsum
-      do 270 i=1,imax
-      dp(i)=dp(i)/dsum
-  270 dq(i)=dq(i)/dsum
-      do 280 i=1,4
-      dpno(i,jc)=dpno(i,jc)/dsum
-  280 dqno(i,jc)=dqno(i,jc)/dsum
+      do  i=1,imax
+         dp(i)=dp(i)/dsum
+         dq(i)=dq(i)/dsum
+      enddo
+      do i=1,4
+         dpno(i,jc)=dpno(i,jc)/dsum
+         dqno(i,jc)=dqno(i,jc)/dsum
+      enddo
       if (imax.eq.np) go to 300
       j=imax+1
-      do 290 i=j,np
-      dp(i)=0.0
-  290 dq(i)=0.0
+      do i=j,np
+         dp(i)=0.0
+         dq(i)=0.0
+      enddo
   300 nstop=0
   310 return
       end

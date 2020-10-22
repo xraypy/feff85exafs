@@ -327,7 +327,7 @@ c --padlib--
        subroutine pad(xreal,npack,str)
 c  convert dp number *xreal* to packed-ascii-data string *str*
        include 'padlib.h'
-       integer  iexp, itmp, isgn, i, npack, iok, j
+       integer  iexp, itmp, isgn, i, npack, j
        double precision xreal, xwork, xsave
        double precision tenth, tenmm, half, small
        parameter (tenth = 0.1d0, tenmm = 0.099999999994d0)

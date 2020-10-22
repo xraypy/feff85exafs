@@ -1,4 +1,4 @@
-      subroutine rdinp (finp, 
+      subroutine rdinp (finp,
      1                  mphase, mpath, mfeff, mchi, ms,
      1                  ntitle, title, ltit,
      2                  critcw,
@@ -50,7 +50,7 @@ c     Local stuff
       dimension degss(nssx), rss(nssx)
       logical nogeom
 
-   10 format (a)
+
    20 format (bn, i15)
    30 format (bn, f15.0)
 
@@ -98,10 +98,10 @@ c     initialize things
 c     average over polarization by default
       pola = .false.
       elpty = 0
-      do 50 i = 1, 3 
+      do 50 i = 1, 3
          evec(i) = 0
          ivec(i) = 0
-  50  continue 
+  50  continue
 
 c     nncrit is number of necrit points to use.  necrit is
 c     currently 9, this was at once an input used for testing.
@@ -172,7 +172,7 @@ c            26 if AFOL (AFOLP)
 c            27 if NEMA (NEMAX)
 c            28 if INTCALC
 c            29 if POLA (POLARIZATION)
-c            30 if ELLI (ELLIPTICITY) 
+c            30 if ELLI (ELLIPTICITY)
 c            31 if ISPO (ISPORB)
 c            -1 if END  (end)
 c     mode flag  0 ready to read a keyword card
@@ -404,7 +404,7 @@ c              1  use current experimental method 1
 c              2  use current experimental method 2
 c              read(words(2),20,err=900)  intclc
                call echo(' Warning: INTCALC not available,'//
-     $              ' run continues.')            
+     $              ' run continues.')
                mode = 0
             elseif (itok .eq. 29)  then
 c              POLARIZATION  X Y Z
@@ -487,7 +487,7 @@ c              Change mode and process current card.
                write(messag,'(1x,a,i3,a,i3)')
      $              'Unique potential ', iph,
      $              ' not allowed. Must be between 0 and ', nphx
-               
+
                call echo(messag)
                call echo(line)
                call fstop('at RDINP')
@@ -628,7 +628,7 @@ c           skip absorbing atom
 c     Set rmax if necessary
       if (rmax.le.0 .and. nss.le.0)  then
 c        set to min (2+ times ratmin, ratmax)
-         rmax = min (2.001 * ratmin, ratmax)
+         rmax = real(min(2.001 * ratmin, ratmax))
       endif
 
 c     Set core hole lifetime (central atom quantity)
@@ -641,7 +641,7 @@ c     Set s02 if necessary
 
 c     Convert everything to code units, and use rmult factor
 c     rmax is for pathfinder, so leave it in Ang.
-      rmax = rmax * rmult
+      rmax = real(rmax * rmult)
       vr0 = vr0 / ryd
       vi0 = vi0 / ryd
       vrcorr = vrcorr / ryd
@@ -717,12 +717,12 @@ c     For potph...
          write(1,706)
   706    format (1x, 79('-'))
          write(1,709) ihole, gamach, ipr1, iafolp, intclc
-  709    format(i5, 1p, e14.6, 3i4, 
+  709    format(i5, 1p, e14.6, 3i4,
      1         ' ihole, gamach, iprint, iafolp, intclc')
          write(1,702)  ixc, vr0, vi0, rs0
   702    format (i5, 1p, 3e14.6, ' ixc, vr0, vi0, rs0')
          write(1,701)  ixanes, nemax, xkmin, xkmax
-  701    format (2i5, 1p, 2e14.6, 
+  701    format (2i5, 1p, 2e14.6,
      1           ' ixanes, nemax, xkmin, xkmax (inv bohr)')
          write(1,707) nfr, '  nfr'
   707    format (i5, a)
@@ -820,7 +820,7 @@ c        Rest of the atoms (skip central atom)
        call echo(' Error reading input, bad line follows:')
        call echo(line)
        call fstop(' at RDINP')
-       
+
       end
 
       function itoken (word)
