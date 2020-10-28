@@ -11,6 +11,10 @@
 *.pyc
 *.exe
 
+!dist/linux64/*.so
+!dist/darwin64/*.dylib
+!dist/win64/*.dll
+
 ## nonsense that Feff writes out
 fort.*
 log*.dat
