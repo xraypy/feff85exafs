@@ -27,9 +27,22 @@ realclean: clean
 test: install
 	cd tests && python run_tests.py
 
+ifeq ($(OS),Windows_NT)
+    DISTDIR = win64
+    MAKEDIST =
+else
+    DISTDIR = linux64
+    MAKEDIST = sh ./makedist.sh
+
+    UNAME := $(shell uname -s)
+    ifeq ($(UNAME),Darwin)
+        DISTDIR = darwin64
+        MAKEDIST = sh ./makedist.sh
+    endif
+endif
+
 dist: install
-	cd dist && $(COPY) $(BINDIR)/* .  && $(COPY) $(LIBDIR)/* .
-	cd dist && sh ./makedist.sh
+	cd dist/$(DISTDIR) && $(MAKEDIST) $(PREFIX)
 
 .PHONY:	all install clean test
 #
