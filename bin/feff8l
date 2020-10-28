@@ -21,15 +21,12 @@ from subprocess import Popen, PIPE
 from optparse import OptionParser
 import pkg_resources
 
-bytes2str = str
-if sys.version[0] == '3':
-    def bytes2str(s):
-        if isinstance(s, str):
-            return s
-        elif isinstance(s, bytes):
-            return s.decode(sys.stdout.encoding)
-        return str(s, sys.stdout.encoding)
-
+def bytes2str(s):
+    if isinstance(s, str):
+        return s
+    elif isinstance(s, bytes):
+        return s.decode(sys.stdout.encoding)
+    return str(s, sys.stdout.encoding)
 
 usage = """usage: %prog [options] folder(s)
 
