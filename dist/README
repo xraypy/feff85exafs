@@ -1,0 +1,6 @@
+The files in these folders are meant to be portable binaries for feff8l and
+feff6l. The intention is that binaries for Linux, Windows, and Darwin (64
+bit only) will be provided.
+
+
+28-Oct-2020 M Newville

@@ -1,0 +1,31 @@
+These binaries for Feff8l and Feff6l were built on Centos 7.8.2003 using 
+gcc and gfortran from gcc 4.9.2 and glibc 2.17.  
+
+   ~> gcc -v 
+   Using built-in specs.
+   COLLECT_GCC=gcc
+   COLLECT_LTO_WRAPPER=/usr/local/libexec/gcc/x86_64-unknown-linux-gnu/4.9.2/lto-wrapper
+   Target: x86_64-unknown-linux-gnu
+   Configured with: ./configure --disable-multilib --enable-languages=c,c++,fortran
+   Thread model: posix
+   gcc version 4.9.2 (GCC) 
+
+The makedist.sh script was used to copy the shared libraries for
+libgcc_s, libquadmath, and libgfortran from gcc 4.9.2 to this folder,
+then rename to have '_f8' in their names to distinguish from local
+system library files for gcc, gfortran, etc.  The patchelf utility is
+then used to modify all of the shared libraries and executables to use
+thes '_f8' libraries.
+
+The shared libraries and executables will depend on libc.so, libm.so
+from glibc, and also on the linux x86_64 libraries linux-vdso.so.1 and
+/lib64/ld-linux-x86_64.so.2.  These binaries should work on any system
+built with glibc 2.17 or higher.  This version of glibc was released
+in 2012, and so should work with:
+ 
+   Debian 8  or higher
+   Centos 7  or higher
+   Ubuntu 14 or higher
+   Fedora 20 or higher
+
+28-Oct-2020  M Newville
