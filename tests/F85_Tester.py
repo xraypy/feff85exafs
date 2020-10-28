@@ -15,6 +15,7 @@ import importlib
 
 from larch import (Group, Parameter, isParameter, param_value,
                    isNamedClass, Interpreter)
+from larch.site_config import uname
 from larch.xafs.feffdat import feffpath
 from larch.xafs.feffrunner import feffrunner
 from larch.wxlib import _newplot, _plot
@@ -58,6 +59,7 @@ class Feff85exafsUnitTestGroup(Group):
        doscf     :  boolean, True = use self-consistency when running feff for unit tests
        verbose   :  boolean, True = write screen messages when running feff and performing tests
        feffran   :  boolean, True = feff has been run and testrun folder holds the output
+       exedir    :  string,  name of folder with feff8l: 'local' or 'dist' ['local']
        folder    :  string,  name of folder containing test materials
        testrun   :  string,  name of folder containing output of feff test run
        fefflog   :  string,  name of log file from feff run
@@ -74,8 +76,7 @@ class Feff85exafsUnitTestGroup(Group):
        datacount  > integers, used to count number of tests run
        feffcount /
     """
-
-    def __init__(self, folder=None, verbose=True, doplot=False, doscf=False, **kws):
+    def __init__(self, folder=None, verbose=True, doplot=False, doscf=False, exedir='local', **kws):
         kwargs = dict(name='Feff85exafs unit test: %s' % folder)
         kwargs.update(kws)
         Group.__init__(self,  **kwargs)
@@ -89,7 +90,13 @@ class Feff85exafsUnitTestGroup(Group):
         self.failed     = list()
         if folder[-1] == '/': folder = folder[:-1] # strip trailing /
         self.folder     = folder
-        self.feff8l_exe = realpath(join(getcwd(), '..', 'local_install', 'bin', 'feff8l'))
+        exe_path = [getcwd(), '..', 'local_install', 'bin', 'feff8l']
+        if exedir.startswith('dist'):
+            exe_path[2] = 'dist'
+            exe_path[3] = '%s64' % uname
+
+        self.feff8l_exe = realpath(join(*exe_path))
+
         if not exists(self.feff8l_exe):
             print_error(self.feff8l_exe+ " is not found -- maybe do `make install`?")
             return None
@@ -307,7 +314,7 @@ class Feff85exafsUnitTestGroup(Group):
     def compare_path_results(self):
         """compare all columns of all feffNNNN.dat files and
         terms of the first 10 available paths
-        
+
         """
         assert self.feffran, "no test results found for %s" % self.folder
         for path in self.paths:
@@ -335,8 +342,8 @@ class Feff85exafsUnitTestGroup(Group):
             assert bl == tr, "list of %s radii are different for %s" % (radius, self.folder)
         assert self.s02() == self.s02('baseline'), "s02 calculated incorrectly for %s" % self.folder
 
-        
-        
+
+
     def compare(self, nnnn=1, part='feff', use_wrapper=False):
         """
         Compare a feffNNNN.dat file from the testrun with the same file
@@ -553,9 +560,15 @@ class Feff85exafsUnitTestGroup(Group):
             print("-----------------------------------------------------------------------------------")
         ok = True
         for key in termdict:
-            same = abs(getattr(bl._feffdat, key) - getattr(tr._feffdat, key))/getattr(bl._feffdat, key) < self.epsilon
-            if self.verbose: print("%-6s   %-42s : %10s  %10s  %s" % (key, termdict[key], getattr(bl._feffdat, key),
-                                                                      getattr(tr._feffdat, key), same))
+            base_val = getattr(bl._feffdat, key)
+            test_val = getattr(tr._feffdat, key)
+            same = (abs(base_val - test_val)/base_val) < self.epsilon
+            if self.verbose:
+                print("%-6s %-42s : %10s %10s %s" % (key, termdict[key],
+                                                     getattr(bl._feffdat, key),
+                                                     getattr(tr._feffdat, key),
+                                                     same))
+
             ok = ok and same
         return ok
 
@@ -619,45 +632,3 @@ class Feff85exafsUnitTestGroup(Group):
         """
         if isdir(self.testrun): rmtree(self.testrun)
         self.feffran = False
-
-
-######################################################################
-
-def ut(folder=None, **kws):
-    """
-    Make a Feff85exafsUnitTestGroup group given a folder containing a
-    baseline calculation
-
-    """
-    return Feff85exafsUnitTestGroup(folder=folder)
-
-def ir(folder=None,  **kws):
-    """
-    _i_mport and _r_un
-
-    """
-    utobj=ut(folder)
-    utobj.run()
-    return utobj
-
-def irc(folder=None, **kws):
-    """
-    _i_mport, _r_un, and _c_ompare
-
-    """
-    utobj=ut(folder)
-    utobj.run()
-    utobj.compare(1)
-    return utobj
-
-def irf(folder=None, **kws):
-    """_i_mport, _r_un, and _f_it
-
-    """
-    utobj=ut(folder)
-    utobj.run()
-    utobj.fit()
-    return utobj
-
-#def registerLarchPlugin(): # must have a function with this name!
-#     return ('f85ut', { 'ut': ut, 'ir': ir, 'irc': irc, 'irf': irf })
