@@ -13,6 +13,7 @@
 
 !dist/linux64/*.so
 !dist/linux64/*.a
+!dist/linux64/*.mod
 !dist/darwin64/*.dylib
 !dist/win64/*.dll
 
