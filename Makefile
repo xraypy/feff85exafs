@@ -27,5 +27,9 @@ realclean: clean
 test: install
 	cd tests && python run_tests.py
 
+dist: install
+	cd dist && $(COPY) $(BINDIR)/* .  && $(COPY) $(LIBDIR)/* .
+	cd dist && sh ./makedist.sh
+
 .PHONY:	all install clean test
 #
