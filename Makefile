@@ -10,6 +10,18 @@ export MAKEDIR = mkdir -p
 export COPY    = cp
 export REMOVE  = rm -rf
 
+ifeq ($(OS),Windows_NT)
+    MAKEDIST = makedist.bat
+    DISTDIR = win64
+else
+    MAKEDIST = sh ./makedist.sh
+    DISTDIR = linux64
+    UNAME := $(shell uname -s)
+    ifeq ($(UNAME),Darwin)
+        DISTDIR = darwin64
+    endif
+endif
+
 all:
 	cd src && $(MAKE) all
 
@@ -26,20 +38,6 @@ realclean: clean
 
 test: install
 	cd tests && python run_tests.py
-
-ifeq ($(OS),Windows_NT)
-    DISTDIR = win64
-    MAKEDIST =
-else
-    DISTDIR = linux64
-    MAKEDIST = sh ./makedist.sh
-
-    UNAME := $(shell uname -s)
-    ifeq ($(UNAME),Darwin)
-        DISTDIR = darwin64
-        MAKEDIST = sh ./makedist.sh
-    endif
-endif
 
 dist: install
 	cd dist/$(DISTDIR) && $(MAKEDIST) $(PREFIX)
