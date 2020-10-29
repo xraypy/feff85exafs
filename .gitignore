@@ -15,6 +15,7 @@
 !dist/linux64/*.a
 !dist/linux64/*.mod
 !dist/darwin64/*.dylib
+!dist/darwin64/*.a
 !dist/win64/*.dll
 
 ## nonsense that Feff writes out
