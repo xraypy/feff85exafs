@@ -1,0 +1,13 @@
+These binaries for Feff8l and Feff6l were built on MacOS 10.15.7 (Catalina) using
+gcc and gfortran from gcc 10.2, from Homebrew.  They will work only for X86_64.
+
+The makedist.sh script was used to copy the shared libraries for libgcc_s,
+libquadmath, and libgfortran.  The `install_name_tool` utility from Xcode
+was used to point the feff executables and libraries to the local versions
+of these libraries in the current folder.
+
+That is, the files in this folder should be portable to any supported macOS
+machine (possibly earlier than 10.14, but not tested).
+
+
+28-Oct-2020  M Newville
