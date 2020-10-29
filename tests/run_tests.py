@@ -4,6 +4,7 @@
 import os
 import sys
 from os.path import isfile, isdir, join, exists
+from argparse import ArgumentParser
 
 from F85_Tester import Feff85exafsUnitTestGroup
 
@@ -11,7 +12,7 @@ ALL_FOLDERS = ('Copper', 'NiO', 'UO2', 'Zircon', 'ferrocene',
                'bromoadamantane', 'LCO-para', 'LCO-perp')
 
 class Feff8Test:
-    def __init__(self, folder, verbose=True, doplot=False, doscf=None):
+    def __init__(self, folder, verbose=True, doplot=False, doscf=None, exedir='local'):
         if folder not in ALL_FOLDERS:
             raise ValueError("Must choose one of the available tests:\n  %s\n" % repr(ALL_FOLDERS))
 
@@ -21,8 +22,7 @@ class Feff8Test:
 
         self.folder = folder
         self.test = Feff85exafsUnitTestGroup(folder, verbose=verbose,
-                                             doplot=doplot, doscf=doscf)
-
+                                             doplot=doplot, doscf=doscf, exedir=exedir)
 
     def test_feffrun(self):
         "run feff"
@@ -88,14 +88,51 @@ class Feff8Test:
 
 ################################################################################
 
-if __name__ == '__main__':
-    TEST_FOLDERS = ('Copper', 'NiO', 'Zircon', 'ferrocene', 'LCO-para', 'LCO-perp')
-    scfopts = (False, True)
-    for folder in TEST_FOLDERS:
-        for doscf in scfopts:
-            t =  Feff8Test(folder, doscf=doscf)
+def run_tests():
+    usage = "usage: %prog [options] file(s)"
+    parser = ArgumentParser(prog='test_feff85', add_help=True,
+                            description='run feff8l test suite')
+
+    parser.add_argument("-l", "--list", dest="dolist", action="store_true",
+                        default=False, help="list available tests and exit")
+
+    parser.add_argument('-d', '--dist', dest='use_dist', action="store_true",
+                        default=False,
+                        help="use pre-built (instead of locally-built) feff8l [False]")
+
+    parser.add_argument("-s", "--scf", dest="doscf", action="store_true",
+                        default=False, help="test SCF as well as non-SCF [False]")
+
+    parser.add_argument("-c", "--clean", dest="doclean", action="store_true",
+                        default=True, help="clean test after running [True]")
+
+    parser.add_argument('tests', nargs='*',
+                        help='name of tests to run [blank or "all" to run all tests]')
+
+    args = parser.parse_args()
+
+    if args.dolist:
+        print("Available tests (use blank or 'all' to run all tests)")
+        print("  " + " ".join(ALL_FOLDERS))
+        return
+
+    exedir = 'dist' if args.use_dist else 'local'
+    scfvals = [False, True] if args.doscf else [False]
+
+    if len(args.tests) < 1 or 'all' in args.tests:
+        tests = ALL_FOLDERS
+    else:
+        tests = args.tests
+
+    for folder in tests:
+        for doscf in scfvals:
+            t = Feff8Test(folder, doscf=doscf, exedir=exedir)
             t.test_feffrun()
             t.test_feffresults()
             t.test_columns_wrapper()
             t.test_fit()
-            t.test_clean()
+            if args.doclean:
+                t.test_clean()
+
+if __name__ == '__main__':
+    run_tests()
