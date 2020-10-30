@@ -125,6 +125,8 @@ def run_tests():
         tests = args.tests
 
     for folder in tests:
+        if folder.endswith('/'):
+            folder = folder[:-1]
         for doscf in scfvals:
             t = Feff8Test(folder, doscf=doscf, exedir=exedir)
             t.test_feffrun()
