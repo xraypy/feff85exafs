@@ -98,7 +98,7 @@ class Feff85exafsUnitTestGroup(Group):
         self.failed     = list()
         if folder[-1] == '/': folder = folder[:-1] # strip trailing /
         self.folder     = folder
-        exe_path = [getcwd(), '..', 'local_install', 'bin', 'feff8l']
+        exe_path = [getcwd(), '..', 'local_install', 'bin', 'feff8l.py']
         if exedir.startswith('dist'):
             exe_path[2] = 'dist'
             exe_path[3] = '%s64' % uname
