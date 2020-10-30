@@ -1,6 +1,15 @@
 The files in these folders are meant to be portable binaries for feff8l and
 feff6l. The intention is that binaries for Linux, Windows, and Darwin (64
-bit only) will be provided.
+bit only) will be provided and that the contents of the folders
+   linux64
+   win64
+   darwin64
 
+should contain complete and working versions of Feff8 and Feff6l.
+Note that the feff8l.py script is written in python nad will need a
+python interpreter to run.  This script can run selected modules from
+the set of feff8l executables.  Alternatively, a feff8l shell script
+(and, for Windows, feff8l.bat batch script) file is provided that will
+run all of the Feff8l modules in order.
 
-28-Oct-2020 M Newville
+30-Oct-2020 M Newville
