@@ -17,7 +17,7 @@ CC      ?= gcc
 CCFLAGS ?= -c -g -fPIC
 COPY    ?= cp -v
 
-CLINK = gcc -O2 -fPIC -shared
+CLINK     = gcc -O2 -fPIC -shared
 CLINKARGS = -lgfortran
 
 ARCHV = .a
@@ -26,13 +26,12 @@ EXEXT =
 FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC -fno-automatic
 FLINKARGS =
 
-
 ifeq ($(OS),Windows_NT)
     UNAME = Windows_NT
     SHOBJ = .dll
     EXEXT = .exe
-    FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall
-    CLINK = gcc -O2 -shared
+    FCFLAGS  = -c -O3 -ffree-line-length-none -g -Wall -fPIC -fno-automatic
+    CLINK = gcc -O2 -fPIC -shared
     CLINKARGS = -Wl,--add-stdcall-alias -lgcc -lgfortran -lm -mwindows
 else
     UNAME := $(shell uname -s)
