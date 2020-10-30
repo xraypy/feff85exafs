@@ -25,17 +25,25 @@ WARN_COLOR = 'yellow'
 WARN_COLOR = 'blue'
 
 def print_error(text):
-    print(colored(text, 'magenta', attrs=['bold']))
+    if not uname.startswith('win'):
+        text = colored(text, 'magenta', attrs=['bold'])
+    print(text)
 
 def print_warn(text):
-    print(colored(text, WARN_COLOR, attrs=['bold']))
+    if not uname.startswith('win'):
+        text = colored(text, WARN_COLOR, attrs=['bold'])
+    print(text)
 
 def print_good(text):
-    print(colored(text, 'green', attrs=['bold']))
+    if not uname.startswith('win'):
+        text = colored(text, 'green', attrs=['bold'])
+    print(text)
 
 def test_text(text, cond):
     color = 'green' if cond else 'magenta'
-    return colored(text, color, attrs=['bold'])
+    if not uname.startswith('win'):
+        text = colored(text, color, attrs=['bold'])
+    return text
 
 class Feff85exafsUnitTestGroup(Group):
     """
@@ -96,7 +104,7 @@ class Feff85exafsUnitTestGroup(Group):
             exe_path[3] = '%s64' % uname
 
         self.feff8l_exe = realpath(join(*exe_path))
-
+        print("FEFF 8l " , self.feff8l_exe, exe_path)
         if not exists(self.feff8l_exe):
             print_error(self.feff8l_exe+ " is not found -- maybe do `make install`?")
             return None
@@ -190,9 +198,10 @@ class Feff85exafsUnitTestGroup(Group):
             if isfile(self.fefflog):
                 unlink(self.fefflog)
 
-            run_args = [self.feff8l_exe]
+            run_args = [sys.executable, self.feff8l_exe]
             if not self.verbose:
                 run_args.append('-q')
+
             output = sp.call(run_args)
             # self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop)
             # self.feffrunner.run(exe='feff8l')
