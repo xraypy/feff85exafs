@@ -11,11 +11,13 @@ export COPY    = cp
 export REMOVE  = rm -rf
 
 ifeq ($(OS),Windows_NT)
-    MAKEDIST = makedist.bat
+    MAKEDIST = sh ./makedist.sh
     DISTDIR = win64
+    CMDEXT = bat
 else
     MAKEDIST = sh ./makedist.sh
     DISTDIR = linux64
+    CMDEXT = sh
     UNAME := $(shell uname -s)
     ifeq ($(UNAME),Darwin)
         DISTDIR = darwin64
@@ -27,7 +29,8 @@ all:
 
 install:
 	$(MAKEDIR) $(BINDIR) $(LIBDIR) $(INCDIR)
-	$(COPY) bin/feff8l $(BINDIR)
+	$(COPY) bin/feff8l.py $(BINDIR)/.
+	$(COPY) bin/feff8l.$(CMDEXT) $(BINDIR)/.
 	cd src && $(MAKE) install
 
 clean:
