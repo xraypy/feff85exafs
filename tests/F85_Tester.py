@@ -104,7 +104,6 @@ class Feff85exafsUnitTestGroup(Group):
             exe_path[3] = '%s64' % uname
 
         self.feff8l_exe = realpath(join(*exe_path))
-        print("FEFF 8l " , self.feff8l_exe, exe_path)
         if not exists(self.feff8l_exe):
             print_error(self.feff8l_exe+ " is not found -- maybe do `make install`?")
             return None
@@ -205,7 +204,6 @@ class Feff85exafsUnitTestGroup(Group):
             output = sp.call(run_args)
             # self.feffrunner=feffrunner(feffinp=join(self.testrun,'feff.inp'), verbose=self.verbose, repo=self.repotop)
             # self.feffrunner.run(exe='feff8l')
-            print(">>RAN FEFF8L ", getcwd() , output, self.verbose, self.testrun, run_args)
             for f in glob.glob("*"):
                 if f.startswith('log'):
                     unlink(f)
