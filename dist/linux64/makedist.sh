@@ -30,6 +30,7 @@ fi
 # copy binaries and shared libraries from install location
 cp -pr $install_dir/bin/* .
 cp -pr $install_dir/lib/* .
+mv feff8l.sh feff8l
 
 if test -f ./feff6l ; then
     echo "copied feff binaries and shared libaries"

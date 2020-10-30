@@ -33,7 +33,7 @@ fi
 
 cp -pr $install_dir/bin/* .
 cp -pr $install_dir/lib/* .
-
+mv feff8l.sh feff8l
 
 for fname in libgfortran.5.dylib libquadmath.0.dylib libgcc_s.1.dylib \
 				 libfeff8lpath.dylib libpotph.dylib \
