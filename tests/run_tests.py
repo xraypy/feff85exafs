@@ -103,8 +103,8 @@ def run_tests():
     parser.add_argument("-s", "--scf", dest="doscf", action="store_true",
                         default=False, help="test SCF as well as non-SCF [False]")
 
-    parser.add_argument("-c", "--clean", dest="doclean", action="store_true",
-                        default=True, help="clean test after running [True]")
+    parser.add_argument("-n", "--noclean", dest="noclean", action="store_true",
+                        default=True, help="do not clean test after running [False]")
 
     parser.add_argument('tests', nargs='*',
                         help='name of tests to run [blank or "all" to run all tests]')
@@ -133,7 +133,7 @@ def run_tests():
             t.test_feffresults()
             t.test_columns_wrapper()
             t.test_fit()
-            if args.doclean:
+            if not args.noclean:
                 t.test_clean()
 
 if __name__ == '__main__':
