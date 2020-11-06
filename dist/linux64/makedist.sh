@@ -64,8 +64,7 @@ for F in libpotph.so libonepath.so libfeff8lpotph.so libfeff8lpath.so; do
 done
 
 echo 'fixing Feff8 binaries'
-for F in (feff6l feff8l_ff2x feff8l_genfmt feff8l_pathfinder
-	  feff8l_pot feff8l_rdinp feff8l_xsph); do
+for F in feff6l feff8l_ff2x feff8l_genfmt feff8l_pathfinder feff8l_pot feff8l_rdinp feff8l_xsph; do
   patchelf --set-rpath '$ORIGIN' $F
   patchelf --replace-needed libgcc_s.so.1 libgcc_s_f8.so $F
   patchelf --replace-needed libquadmath.so.0 libquadmath_f8.so $F
